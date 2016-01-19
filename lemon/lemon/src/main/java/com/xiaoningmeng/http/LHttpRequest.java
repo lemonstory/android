@@ -60,6 +60,14 @@ public class LHttpRequest {
 				handler);
 	}
 
+	//UC登录同步
+	public void UCSyncLoginRequest(Context context, String url,
+								   LHttpHandler<UserInfo> handler) {
+		HashMap<String, String> params = new HashMap<>();
+		LClient.getInstance().get(context, url, params,
+				handler);
+	}
+
 	// weChat联合
 	public void WechatLoginRequest(Context context, String accessToken,
 			String openId, LHttpHandler<UserInfo> handler) {
