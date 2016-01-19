@@ -32,6 +32,7 @@ import com.xiaoningmeng.http.LHttpHandler;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.utils.DebugUtils;
 
+
 public class LoginActivity extends BaseActivity implements OnClickListener {
 
 	private UMSocialService mController;
@@ -48,14 +49,14 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void requestData() {
-		
+
 		LHttpRequest.getInstance().loginRequest(this,
 				new LHttpHandler<UserInfo>(this, this) {
 
 					@Override
 					public void onGetDataSuccess(UserInfo data) {
 						UserAuth.getInstance().login(mContext, data);
-						startActivityForNew(new Intent(LoginActivity.this,HomeActivity.class));
+						startActivityForNew(new Intent(LoginActivity.this, HomeActivity.class));
 						oldFinish();
 					}
 				});
@@ -64,24 +65,24 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.tv_login_agreement:
-			WebViewActivity.openWebView(this, ConstantURL.Service);
-			break;
-		case R.id.tv_login_visitor:
-			startActivityForNew(new Intent(this, HomeActivity.class));
-			finish();
-			break;
-		case R.id.tv_login_weixin:
-			setLoadingTip("正在登录");
-			requestData();
-			// loginByWeixin();
-			break;
-		case R.id.tv_login_qq:
-			setLoadingTip("正在登录");
-			loginByQQ();
-			break;
-		default:
-			break;
+			case R.id.tv_login_agreement:
+				WebViewActivity.openWebView(this, ConstantURL.Service);
+				break;
+			case R.id.tv_login_visitor:
+				startActivityForNew(new Intent(this, HomeActivity.class));
+				finish();
+				break;
+			case R.id.tv_login_weixin:
+				setLoadingTip("正在登录");
+				requestData();
+				// loginByWeixin();
+				break;
+			case R.id.tv_login_qq:
+				setLoadingTip("正在登录");
+				loginByQQ();
+				break;
+			default:
+				break;
 		}
 
 	}
@@ -108,8 +109,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
 					@Override
 					public void onError(SocializeException e,
-							SHARE_MEDIA platform) {
-						Toast.makeText(LoginActivity.this,"无法授权",Toast.LENGTH_SHORT).show();
+										SHARE_MEDIA platform) {
+						Toast.makeText(LoginActivity.this, "无法授权", Toast.LENGTH_SHORT).show();
 
 					}
 
@@ -123,17 +124,17 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 								SHARE_MEDIA.QQ, new UMDataListener() {
 									@Override
 									public void onStart() {
-										
+
 									}
 
 									@Override
 									public void onComplete(int status,
-											Map<String, Object> info) {
+														   Map<String, Object> info) {
 										startLoading();
 										if (status == 200 && info != null) {
 											final String nickName = (String) info
 													.get("screen_name");
-											
+
 											loginQQ(accessToken, openId,
 													nickName);
 										}
@@ -152,12 +153,14 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void loginQQ(final String accessToken, final String openId,
-			final String nickName) {
+						 final String nickName) {
+
 		LHttpRequest.getInstance().QQLoginRequest(this, accessToken, openId,
 				new LHttpHandler<UserInfo>(this) {
 
 					@Override
 					public void onGetDataSuccess(UserInfo data) {
+
 						UserAuth.getInstance().login(mContext, data);
 						if(ActivityManager.getScreenManager().getActivity(HomeActivity.class)== null){
 							startActivityForNew(new Intent(LoginActivity.this,
@@ -168,7 +171,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
 					@Override
 					public void onFailure(int statusCode, Header[] headers,
-							String responseString, Throwable throwable) {
+										  String responseString, Throwable throwable) {
 						if (statusCode == 100302) {
 							loginRegQQ(accessToken, openId, nickName);
 						} else {
@@ -180,19 +183,20 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void loginRegQQ(String accessToken, String openId, String nickName) {
+
 		DebugUtils.e("QQ accessToken:" + accessToken + " openId" + openId
 				+ " nickName" + nickName);
+
 		LHttpRequest.getInstance().QQLoginRegRequest(this, accessToken, openId,
 				nickName, new LHttpHandler<UserInfo>(this, this) {
 
 					@Override
 					public void onGetDataSuccess(UserInfo data) {
+
 						UserAuth.getInstance().login(mContext, data);
-						
 						startActivityForNew(new Intent(LoginActivity.this,
 								GuideActivity.class));
 						finish();
-
 					}
 				});
 	}
@@ -208,10 +212,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
 					@Override
 					public void onError(SocializeException e,
-							SHARE_MEDIA platform) {
+										SHARE_MEDIA platform) {
 						Toast.makeText(mContext, "授权错误", Toast.LENGTH_SHORT)
 								.show();
-						
+
 					}
 
 					@Override
@@ -225,7 +229,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
 									@Override
 									public void onComplete(int status,
-											Map<String, Object> info) {
+														   Map<String, Object> info) {
 										startLoading();
 										if (status == 200 && info != null) {
 											StringBuilder sb = new StringBuilder();
@@ -234,7 +238,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 												sb.append(key
 														+ "="
 														+ info.get(key)
-																.toString()
+														.toString()
 														+ "\r\n");
 											}
 											Log.d("TestData", sb.toString());
@@ -252,16 +256,16 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 					}
 				});
 	}
-	
+
 	private void loginWechat(final String accessToken, final String openId,
-			final String nickName) {
+							 final String nickName) {
 		LHttpRequest.getInstance().WechatLoginRequest(this, accessToken, openId,
 				new LHttpHandler<UserInfo>(this, this) {
 
 					@Override
 					public void onGetDataSuccess(UserInfo data) {
 						UserAuth.getInstance().login(mContext, data);
-						if(ActivityManager.getScreenManager().getActivity(HomeActivity.class)== null){
+						if (ActivityManager.getScreenManager().getActivity(HomeActivity.class) == null) {
 							startActivityForNew(new Intent(LoginActivity.this,
 									HomeActivity.class));
 						}
@@ -270,7 +274,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
 					@Override
 					public void onFailure(int statusCode, Header[] headers,
-							String responseString, Throwable throwable) {
+										  String responseString, Throwable throwable) {
 						if (statusCode == 100302) {
 							loginRegWechat(accessToken, openId, nickName);
 						} else {
@@ -290,13 +294,13 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 					@Override
 					public void onGetDataSuccess(UserInfo data) {
 						UserAuth.getInstance().login(mContext, data);
-						startActivityForNew(new Intent(LoginActivity.this,GuideActivity.class));
+						startActivityForNew(new Intent(LoginActivity.this, GuideActivity.class));
 						finish();
 
 					}
 				});
 	}
-	
+
 	@Override
 	public void finish() {
 		stopLoading();
@@ -304,4 +308,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 		animationForOTop();
 	}
 
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+//
+	}
 }
