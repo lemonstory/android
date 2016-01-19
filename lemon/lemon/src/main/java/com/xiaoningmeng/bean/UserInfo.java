@@ -15,6 +15,7 @@ public class UserInfo extends DataSupport {
 	private String gender;
 	private String avatartime;
 	protected String listennum;
+	private String uc_callback;
 
 	public UserInfo() {
 
@@ -108,6 +109,9 @@ public class UserInfo extends DataSupport {
 		this.listennum = listennum;
 	}
 
+	public void setUcCallback(String uc_callback) {this.uc_callback = uc_callback;}
+
+	public String getUcCallback() { return  uc_callback;}
 
 
 }
