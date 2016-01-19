@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name" translatable="false">小柠檬 - 听故事儿歌</string>
+
+    <!-- time -->
+    <string name="duration" translatable="false">300</string>
+    <string name="play_anim_duration" translatable="false">50</string>
+
+    <!-- error -->
+    <string name="net_connect_error" translatable="false">网络不给力，请检查网络后重新试试！</string>
+
+    <!-- tip -->
+    <string name="unkown" translatable="false">未知</string>
+    <string name="end_app_tip" translatable="false">再按一次退出柠檬故事</string>
+    <!--
+    <string name="xlistview_header_hint_normal">下拉刷新...</string>
+    <string name="xlistview_header_hint_ready">松开刷新数据</string>
+    <string name="xlistview_header_hint_loading">正在加载...</string>
+    <string name="xlistview_footer_hint_normal">查看更多</string>
+    <string name="xlistview_footer_hint_ready">松开载入更多</string>
+    <string name="xlistview_footer_hint_no_more">没有更多了</string> -->
+    
+      <string name="sd_disable" translatable="false">SD卡不可用</string>
+    <string name="pic_count_on_add" translatable="false">选择图片数量已达到上限</string>
+	<string name="please_select_one_pic" translatable="false">请选择一张图片...</string>
+	<string name="search_hint" translatable="false">名称、作者</string>
+	
+	<string name="remider_tip" translatable="false">建一个提醒吧，和宝宝一起养成规律学习的好习惯哟.</string>
+    <string name="account_login">立即登录</string>
+    <string name="account_rank">学霸排行榜</string>
+    <string name="account_shop">商城</string>
+    <string name="account_recommend">应用推荐</string>
+    <string name="account_setting">设置</string>
+    <string name="album_comment">发表评论</string>
+    <string name="share_other_str">喜欢小柠檬，把Ta分享给你的好朋友们，就是对我们最大的支持，么么哒~</string>
+
+    <string-array name="reminder">
+        <item>一直放，不限时</item>
+        <item>10分钟</item>
+        <item>20分钟</item>
+        <item>30分钟</item>
+        <item>60分钟</item>
+        <item>90分钟</item>
+        <item>1首</item>
+        <item>3首</item>
+        <item>5首</item>
+        <item>10首</item>
+    </string-array>
+	<integer-array name="reminder_int">
+	      <item>0</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>60</item>
+        <item>90</item>
+        <item>-1</item>
+        <item>-3</item>
+        <item>-5</item>
+        <item>-10</item>
+	</integer-array>
+	
+	<string-array name="music_cover_name">
+	    <item>可爱宝宝</item>
+        <item>瞄</item>
+        <item>More Than Light</item>
+        <item>黄手帕</item>
+        <item>自然律动</item>
+        <item>夜空的星星</item>
+        <item>悠扬轻音乐</item>
+        <item>小小粉刷匠</item>
+        <item>小草</item>
+        <item>彩虹的约定</item>
+	</string-array>
+    <string-array name="classification_name">
+        <item>故事</item>
+        <item>儿歌</item>
+        <item>国学</item>
+        <item>英语</item>
+        <item>胎教</item>
+        <item>绘本</item>
+        <item>音乐</item>
+        <item>百科</item>
+    </string-array>
+
+    <string name="check_update_ing">正在检查更新...</string>
+    <string name="already_new_version">已经是最新版本</string>
+    <string name="no_wifi">没有wifi连接， 只在wifi下更新</string>
+    <string name="connect_time_out">超时</string>
+</resources>

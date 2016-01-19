@@ -1,0 +1,37 @@
+<com.xiaoningmeng.view.SquareRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="2dp" >
+
+    <RelativeLayout
+        android:id="@+id/main_photo_wall_item_rl"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <ImageView
+            android:id="@+id/photo_wall_item_photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop"
+             />
+
+        <View
+            android:id="@+id/selected_back_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#4Dffffff" />
+
+        <ImageView
+            android:id="@+id/selected_status_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/base_rect_corners"
+            android:layout_marginRight="@dimen/base_rect_corners"
+            android:src="@drawable/item_selected" />
+    </RelativeLayout>
+
+</com.xiaoningmeng.view.SquareRelativeLayout>

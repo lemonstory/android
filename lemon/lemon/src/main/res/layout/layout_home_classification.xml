@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/base_radius_size"
+    android:paddingTop="@dimen/dialog_icon_margin_top">
+
+    <LinearLayout
+        android:id="@+id/ll_classify1"
+        style="@style/classification_ll">
+
+        <ImageView
+            android:id="@+id/img_classify1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/home_baike_normal" />
+
+        <TextView
+            android:id="@+id/tv_classify1"
+            style="@style/home_classtification_item_style"
+            android:layout_marginTop="@dimen/base_radius_size"
+            android:text="故事" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_classify2"
+        style="@style/classification_ll">
+
+        <ImageView
+            android:id="@+id/img_classify2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/home_baike_normal" />
+
+        <TextView
+            android:id="@+id/tv_classify2"
+            style="@style/home_classtification_item_style"
+            android:layout_marginTop="@dimen/base_radius_size"
+            android:text="故事" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_classify3"
+        style="@style/classification_ll">
+
+        <ImageView
+            android:id="@+id/img_classify3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/home_baike_normal" />
+
+        <TextView
+            android:id="@+id/tv_classify3"
+            style="@style/home_classtification_item_style"
+            android:layout_marginTop="@dimen/base_radius_size"
+            android:text="故事" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_classify4"
+        style="@style/classification_ll">
+
+        <ImageView
+            android:id="@+id/img_classify4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/home_baike_normal" />
+
+        <TextView
+            android:id="@+id/tv_classify4"
+            style="@style/home_classtification_item_style"
+            android:layout_marginTop="@dimen/base_radius_size"
+            android:text="故事" />
+
+    </LinearLayout>
+</LinearLayout>

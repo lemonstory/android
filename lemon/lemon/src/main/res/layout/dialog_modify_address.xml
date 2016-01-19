@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/guide_input_height"
+        android:background="@color/action_bar_bg" >
+
+        <TextView
+            android:id="@+id/tv_dialog_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/rating_item_padding"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:text="取消"
+            android:textColor="@color/white"
+            android:textSize="@dimen/title_content_text_size" />
+
+        <TextView
+            android:id="@+id/tv_dialog_select"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/perasonal_head_padding"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:text="完成"
+            android:textColor="@color/white"
+            android:textSize="@dimen/title_content_text_size" />
+    </RelativeLayout>
+
+    <com.xiaoningmeng.view.picker.AreaPicker
+        android:id="@+id/areaPicker"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/home_discover_cover_height"
+        android:layout_marginTop="@dimen/home_discover_cover_height" />
+
+</LinearLayout>

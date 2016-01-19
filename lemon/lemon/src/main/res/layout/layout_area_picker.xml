@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" 
+    android:focusable="false" 
+    android:clickable="false"
+    android:gravity="center_vertical"
+    android:paddingLeft="@dimen/setting_magin_left"
+    android:paddingRight="@dimen/setting_magin_left"
+    android:orientation="horizontal" >
+
+    <com.xiaoningmeng.view.picker.NumberPicker
+        android:id="@+id/province" 
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="wrap_content" />
+
+    <com.xiaoningmeng.view.picker.NumberPicker
+        android:id="@+id/city"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"/>
+
+    <com.xiaoningmeng.view.picker.NumberPicker
+        android:id="@+id/zone"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="wrap_content" />
+</LinearLayout>

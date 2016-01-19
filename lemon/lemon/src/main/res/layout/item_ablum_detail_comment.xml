@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <com.xiaoningmeng.view.CircleImageView
+            android:id="@+id/img_comment_cover"
+            android:layout_width="@dimen/ablum_comment_item_cover_height"
+            android:layout_height="@dimen/ablum_comment_item_cover_height"
+            android:layout_marginLeft="@dimen/ablum_comment_item_margin_left"
+            android:layout_marginRight="@dimen/ablum_comment_item_margin_bottom"
+            android:layout_marginTop="@dimen/ablum_comment_item_margin_left" />
+
+        <TextView
+            android:id="@+id/tv_comment_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ablum_comment_item_margin_bottom"
+            android:layout_toRightOf="@id/img_comment_cover"
+            android:textColor="@color/base_date_color"
+            android:textSize="@dimen/content_text_size" />
+
+        <TextView
+            android:id="@+id/tv_comment_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/bar_margin"
+            android:layout_marginTop="@dimen/ablum_comment_item_margin_bottom"
+            android:textColor="#c6cdd3"
+            android:textSize="@dimen/content_text_size" />
+
+        <com.xiaoningmeng.view.RatingBar
+            android:id="@+id/rb_comment_rate"
+            style="@style/AlbumCommentRatingBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_comment_name"
+            android:layout_marginTop="@dimen/ablum_comment_item_padding"
+            android:layout_toRightOf="@id/img_comment_cover" />
+
+        <TextView
+            android:id="@+id/tv_comment_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rb_comment_rate"
+            android:layout_marginTop="@dimen/ablum_comment_item_padding"
+
+            android:lineSpacingMultiplier="1.3" 
+            android:layout_toRightOf="@id/img_comment_cover"
+            android:layout_alignRight="@id/tv_comment_time"
+            android:gravity="center_vertical|left"
+            android:textColor="@color/base_text_color" />
+
+        <View
+            android:id="@+id/v_comment_divider"
+            style="@style/dividerStyle"
+            android:layout_below="@id/tv_comment_content"
+            android:layout_marginTop="@dimen/ablum_comment_item_margin_bottom"
+            android:layout_toRightOf="@id/img_comment_cover" />
+    </RelativeLayout>
+
+</FrameLayout>

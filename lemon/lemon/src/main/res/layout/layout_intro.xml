@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fl_detail_intro"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:showIn="@layout/fragment_ablum_detail_intro">
+
+    <com.xiaoningmeng.view.CollapsibleTextView
+        android:id="@+id/wv_album_detail_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/album_intro_margin_left"
+        android:layout_marginRight="@dimen/album_intro_margin_left"
+        android:layout_marginTop="@dimen/ablum_bar_radius"
+        android:layout_marginBottom="@dimen/album_intro_margin" />
+    <FrameLayout
+        android:id="@+id/fl_ad"
+        android:layout_below="@id/wv_album_detail_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    </FrameLayout>
+    <TextView
+        android:id="@+id/tv_album_mark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/mark_tip"
+        android:text="标签"
+        android:layout_below="@id/fl_ad"
+        android:drawablePadding="@dimen/base_radius_size"
+        android:textColor="@color/home_discover_item_title"
+        android:textSize="@dimen/content_text_size"
+        android:layout_marginTop="@dimen/album_mark_margin_top"
+        android:layout_marginBottom="@dimen/album_mark_margin_bottom"
+        android:layout_marginLeft="@dimen/base_margin" />
+
+    <com.xiaoningmeng.view.FlowLayout
+        android:id="@+id/fl_album_mark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_album_mark"
+        android:layout_marginBottom="@dimen/album_mark_margin_bottom"
+        android:layout_marginLeft="@dimen/base_margin"/>
+
+    <TextView
+        android:id="@+id/tv_album_recommend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/recommend_tip"
+        android:text="相关推荐"
+        android:layout_below="@id/fl_album_mark"
+        android:drawablePadding="@dimen/base_radius_size"
+        android:textColor="@color/home_discover_item_title"
+        android:textSize="@dimen/content_text_size"
+        android:layout_marginTop="@dimen/album_mark_margin_top"
+        android:layout_marginLeft="@dimen/base_margin"
+        android:layout_marginBottom="@dimen/album_mark_margin_bottom"/>
+
+    <include
+        layout="@layout/item_recommend"
+        android:id="@+id/ll_recommend1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_album_recommend" />
+
+    <include
+        layout="@layout/item_recommend"
+        android:id="@+id/ll_recommend2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_recommend1"
+        android:layout_marginLeft="@dimen/base_radius_size"
+        android:layout_marginRight="@dimen/base_radius_size" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_below="@id/ll_recommend2"
+        android:layout_height="@dimen/ablum_play_height" />
+</RelativeLayout>

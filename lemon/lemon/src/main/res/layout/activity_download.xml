@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     android:fitsSystemWindows="true"
+    android:clipToPadding="false" >
+
+    <include
+        android:id="@+id/action_bar"
+        layout="@layout/layout_base_header" />
+
+    <LinearLayout
+        android:id="@+id/ll_download_tab"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/download_tab_height"
+        android:layout_below="@id/action_bar"
+        android:background="@drawable/big_divider_bg"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:id="@+id/ll_download_tab_has"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_download_tab_has"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="已下载"
+                android:textColor="@color/download_tab_color_selector"
+                android:textSize="@dimen/text_size_eightteen" />
+
+            <View
+                android:id="@+id/v_download_tab_has"
+                android:layout_width="wrap_content"
+              android:layout_height="@dimen/download_tab_divider"
+                android:layout_marginBottom="1px"
+                android:background="@drawable/tab_indicator_drawable" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_download_tab_ing"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_download_tab_ing"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="下载中"
+                android:textColor="@color/download_tab_color_selector"
+                android:textSize="@dimen/text_size_eightteen" />
+
+            <View
+                 android:id="@+id/v_download_tab_ing"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/download_tab_divider"
+                 android:layout_marginBottom="1px"
+                android:background="@drawable/tab_indicator_drawable" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/ll_download_tab"
+        android:background="@color/home_bg" />
+
+</RelativeLayout>

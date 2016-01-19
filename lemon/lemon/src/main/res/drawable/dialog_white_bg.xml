@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+    <corners
+        android:topRightRadius="@dimen/home_discover_margin"
+        android:bottomRightRadius="@dimen/home_discover_margin"
+        android:topLeftRadius="@dimen/home_discover_margin"
+        android:bottomLeftRadius="@dimen/home_discover_margin"
+        />
+	<solid android:color="@color/white_dialog_bg"/>
+</shape>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/home_bg"
+    android:orientation="vertical" >
+    
+    <TextView 
+        android:textColor="@color/base_date_color"
+        android:textSize="@dimen/content_text_size"
+        android:text="全部"
+        android:gravity="bottom|left"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/download_tab_height"
+        android:layout_marginLeft="@dimen/ablum_comment_head_margin_left"
+        android:paddingBottom="@dimen/base_radius_size"
+        />
+    <View 
+        style="@style/dividerStyle"
+        />
+ 
+</LinearLayout>
+

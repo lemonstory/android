@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:gravity="center_vertical"
+    android:layout_height="wrap_content"
+    android:background="@drawable/base_item_bg_selector"
+    >
+
+    <ImageView
+        android:id="@+id/select_img_gridView_img"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        android:layout_marginRight="13dp"
+        android:layout_marginLeft="13dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="13dp"
+        android:src="@drawable/ic_launcher" />
+    
+    
+    
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:layout_weight="1"
+        >
+
+    <TextView
+        android:id="@+id/select_img_gridView_path"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="我的照片流"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        
+       />
+    
+    <TextView 
+        android:id="@+id/file_count_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="216"
+        android:layout_marginTop="5dip"
+        />
+    
+    </LinearLayout>
+    
+    
+    <ImageView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/tab_right_back"
+        android:padding="13dp"
+        />
+
+</LinearLayout>

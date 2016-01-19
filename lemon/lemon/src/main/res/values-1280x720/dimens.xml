@@ -1,0 +1,235 @@
+<resources>
+
+    <!-- 字体大小 -->
+    <dimen name="title_text_size">20sp</dimen>
+    <dimen name="text_size_eightteen">17sp</dimen>
+    <dimen name="title_content_text_size">16sp</dimen>
+    <dimen name="content_text_size">14sp</dimen>
+     <dimen name="home_tab_size">13sp</dimen>
+    <dimen name="date_text_size">12sp</dimen>
+    <dimen name="small_text_size">10sp</dimen>
+    <dimen name="min_text_size">8sp</dimen>
+    <!-- base -->
+    <dimen name="refresh_progress_size">30dp</dimen>
+    <dimen name="base_rect_button_height">44dp</dimen>
+    <dimen name="base_margin">11dp</dimen>
+    <dimen name="base_radius_size">5dp</dimen>
+
+    <!-- dividerLine -->
+    <dimen name="divider_line_height">0.6dp</dimen>
+    <dimen name="home_inc_height">42dp</dimen>
+
+    <!-- dialog -->
+    <dimen name="dialog_padding">18dp</dimen>
+    <dimen name="dialog_icon_margin_top">19dp</dimen>
+    <dimen name="dialog_icon_margin_bottom">12dp</dimen>
+    <dimen name="dialog_content_margin_bottom">16dp</dimen>
+    <dimen name="dialog_btn_size">38dp</dimen>
+    <dimen name="dialog_margin_top">54dp</dimen>
+    <dimen name="dialog_margin_bottom">44dp</dimen>
+    <dimen name="dialog_btn_height">42dp</dimen>
+    <dimen name="dialog_margin">32dp</dimen>
+    <dimen name="dialog_loading_width">135dp</dimen>
+    <dimen name="dialog_loading_height">115dp</dimen>
+    <dimen name="dialog_small_margin">54dp</dimen>
+    <dimen name="dialog_prompt_height">190dp</dimen>
+    <dimen name="dialog_support_height">37dp</dimen>
+
+    <!-- home -->
+    <dimen name="action_bar_height">50dp</dimen>
+    <dimen name="bar_margin">14dp</dimen>
+    <dimen name="home_discover_icon">40dp</dimen>
+    <dimen name="home_banner_height">149dp</dimen>
+    <dimen name="home_discover_head_margin_bootom">17dp</dimen>
+    <dimen name="home_discover_margin">10dp</dimen>
+    <dimen name="home_discover_item_height">135dp</dimen>
+    <dimen name="home_discover_item_img_height">107dp</dimen>
+    <dimen name="home_discover_item_title_height">27dp</dimen>
+    <dimen name="home_discover_item_tip_height">15dp</dimen>
+    <dimen name="home_discover_btn">37dp</dimen>
+    <dimen name="home_tab_height">55dp</dimen>
+    <dimen name="home_discover_cover_width">31dp</dimen>
+    <dimen name="home_discover_cover_height">27dp</dimen>
+
+    <!-- home mine -->
+    <dimen name="mine_head_img_width">70dp</dimen>
+    <dimen name="mine_head_height">50dp</dimen>
+    <dimen name="mine_magin_right">11dp</dimen>
+    <dimen name="mine_center_divider_height">15dp</dimen>
+    <dimen name="mine_item_cover_margin">10dp</dimen>
+    <dimen name="mine_item_cover_margin_left">7dp</dimen>
+    <dimen name="mine_item_cover_height">45dp</dimen>
+    <dimen name="mine_item_small_height">38dp</dimen>
+    <dimen name="mine_item_small_margin_top">16dp</dimen>
+    <!-- home account -->
+    <dimen name="account_perasonal_height">90dp</dimen>
+    <dimen name="account_perasonal_icon_height">59dp</dimen>
+    <dimen name="account_perasonal_padding">15dp</dimen>
+    <dimen name="account_item_height">50dp</dimen>
+    <dimen name="account_item_inv">25dp</dimen>
+    <dimen name="account_item_margin_left">17dp</dimen>
+    <dimen name="account_item_margin_right">15dp</dimen>
+    <dimen name="account_item_padding">21dp</dimen>
+
+    <!-- home search -->
+    <dimen name="search_item_margin_left">11dp</dimen>
+    <dimen name="search_item_cover_height">57dp</dimen>
+    <dimen name="search_item_height">68dp</dimen>
+    <dimen name="search_et_height">31dp</dimen>
+    <dimen name="search_et_corner">18dp</dimen>
+    <dimen name="search_et_margin_right">4dp</dimen>
+    <dimen name="search_et_margin_bottom">9dp</dimen>
+
+    <!-- ablum detail -->
+    <dimen name="ablum_cover_margin">10dp</dimen>
+    <dimen name="ablum_cover_height">130dp</dimen>
+    <dimen name="ablun_play_btn_height">44dp</dimen>
+    <dimen name="ablum_play_height">73dp</dimen>
+    <dimen name="ablum_play_icon_height">75dp</dimen>
+    <dimen name="ablum_padding">13dp</dimen>
+    <dimen name="ablum_tab_height">45dp</dimen>
+    <dimen name="ablum_tip_margin_top">8dp</dimen>
+    <dimen name="ablum_download_height">25dp</dimen>
+    <dimen name="ablum_download_width">77dp</dimen>
+    <dimen name="ablum_bar_width">90dp</dimen>
+    <dimen name="ablum_bar_height">34dp</dimen>
+    <dimen name="ablum_bar_radius">17dp</dimen>
+    <dimen name="ablum_play_item_height">68dp</dimen>
+    <dimen name="ablum_play_item_time_height">18dp</dimen>
+    <dimen name="ablum_play_item_margin_left">14dp</dimen>
+    <dimen name="ablum_play_item_margin_right">11dp</dimen>
+    <dimen name="ablum_play_item_padding">9dp</dimen>
+    <dimen name="ablum_play_item_icon_size">28dp</dimen>
+    <dimen name="ablum_comment_head_margin_top">17dp</dimen>
+    <dimen name="ablum_comment_head_margin_bottom">12dp</dimen>
+    <dimen name="ablum_comment_head_margin_left">15dp</dimen>
+    <dimen name="ablum_comment_item_margin_bottom">8dp</dimen>
+    <dimen name="ablum_comment_item_padding">4dp</dimen>
+    <dimen name="ablum_comment_item_cover_height">46dp</dimen>
+    <dimen name="ablum_comment_item_height">67dp</dimen>
+    <dimen name="ablum_comment_item_margin_left">11dp</dimen>
+    <dimen name="ablum_comment_item_margin_right">11dp</dimen>
+
+    <dimen name="album_intro_margin_left">16dp</dimen>
+    <dimen name="album_intro_open">11dp</dimen>
+    <dimen name="album_intro_margin">18dp</dimen>
+    <dimen name="album_mark_margin_top">15dp</dimen>
+    <dimen name="album_mark_margin_bottom">9dp</dimen>
+    <dimen name="album_mark_padding">8dp</dimen>
+    <dimen name="album_recommend_padding">6dp</dimen>
+
+    <!-- download -->
+    <dimen name="download_tab_height">44dp</dimen>
+    <dimen name="download_item_cover_height">56dp</dimen>
+    <dimen name="download_item_margin_left">12dp</dimen>
+    <dimen name="download_item_margin_right">14dp</dimen>
+    <dimen name="download_item_padding">11dp</dimen>
+    <dimen name="download_item_height">68dp</dimen>
+    <dimen name="download_child_margin_left">30dp</dimen>
+    <dimen name="download_child_margin_bottom">7dp</dimen>
+    <dimen name="download_tab_divider">3dp</dimen>
+    <!-- rate -->
+    <dimen name="rate_margin">15dp</dimen>
+    <dimen name="rate_star_margin_bottom">8dp</dimen>
+    <dimen name="rate_tip_margin_bottom">5dp</dimen>
+    <dimen name="rate_divider_margin_bottom">18dp</dimen>
+    <dimen name="rate_edit_height">213dp</dimen>
+    <dimen name="rate_btn_margin">12dp</dimen>
+    <dimen name="rate_btn_height">49dp</dimen>
+
+    <!-- setting -->
+    <dimen name="setting_logout_btn_height">45dp</dimen>
+
+    <!-- perasonal -->
+    <dimen name="perasonal_head_height">91dp</dimen>
+    <dimen name="perasonal_margin_left">12dp</dimen>
+    <dimen name="perasonal_margin_right">16dp</dimen>
+    <dimen name="perasonal_head_icon_height">58dp</dimen>
+    <dimen name="perasonal_head_padding">10dp</dimen>
+    <dimen name="perasonal_head_margin_top">14dp</dimen>
+    <dimen name="perasonal_item_cover_height">56dp</dimen>
+    <dimen name="perasonal_item_height">68dp</dimen>
+    <dimen name="perasonal_item_head_margin_left">19dp</dimen>
+    <dimen name="perasonal_item_head_height">41dp</dimen>
+    <!-- rating -->
+    <dimen name="rating_icon_margin_left">16dp</dimen>
+    <dimen name="rating_cover_height">48dp</dimen>
+    <dimen name="rating_item_margin_left">24dp</dimen>
+    <dimen name="rating_item_height">68dp</dimen>
+    <dimen name="rating_item_padding">7dp</dimen>
+    <!-- play -->
+    <dimen name="play_cover_margin_top">84dp</dimen>
+    <dimen name="play_cover_height">200dp</dimen>
+    <dimen name="play_cover_padding">4dp</dimen>
+    <dimen name="play_tab_height">50dp</dimen>
+    <dimen name="play_tab_margin_top">38dp</dimen>
+    <dimen name="play_seekbar_height">4dp</dimen>
+    <dimen name="play_seekbar_margin">23dp</dimen>
+    <dimen name="play_seekbar_margin_top">18dp</dimen>
+    <dimen name="play_seekbar_margin_bottom">23dp</dimen>
+    
+    <dimen name="play_bottom_height">148dp</dimen>
+    
+    <dimen name="play_center_margin">33dp</dimen>
+      <dimen name="play_center_margin_bottom">17dp</dimen>
+       <dimen name="play_center_margin_top">17dp</dimen>
+       <dimen name="play_cover_width">250dp</dimen>
+        <dimen name="play_cover_new_margin_top">10dp</dimen>
+        
+         <dimen name="play_bottom_height2">135dp</dimen>
+      <dimen name="play_center_margin_bottom2">10dp</dimen>
+       <dimen name="play_center_margin_top2">8dp</dimen>
+       <dimen name="play_cover_width2">235dp</dimen>
+        <dimen name="play_cover_new_margin_top2">8dp</dimen>
+    <!-- dialog -->
+    <dimen name="home_info_pic_size">36dp</dimen>
+
+    <!-- 分享 -->
+    <dimen name="share_item_size">67dp</dimen>
+    <dimen name="share_title_margin_top">8dp</dimen>
+    <dimen name="share_title_margin_bottom">12dp</dimen>
+    <dimen name="share_item_title_margin">12dp</dimen>
+    <dimen name="share_cancle_btn_height">50dp</dimen>
+    <dimen name="share_item_margin">16dp</dimen>
+    <dimen name="share_new_title_margin_top">30dp</dimen>
+    <dimen name="share_new_title_margin_bottom">22dp</dimen>
+      <dimen name="share_new_item_margin">6dp</dimen>
+       <dimen name="share_new_item_margin_bottom">36dp</dimen>
+        <dimen name="share_new_btn_margin_bottom">6dp</dimen>
+         <dimen name="share_new_btn_margin_left">22dp</dimen>
+            <dimen name="share_new_margin_bottom">12dp</dimen>
+    <!-- login -->
+
+    <dimen name="login_btn_margin_bottom">56dp</dimen>
+    <dimen name="login_tip_margin_bottom">27dp</dimen>
+    <dimen name="login_margin_top">77dp</dimen>
+    <dimen name="login_margin_bottom">36dp</dimen>
+    <dimen name="login_bottom_text_margin">17dp</dimen>
+    <dimen name="login_margin_left">27dp</dimen>
+    <dimen name="login_btn_height">46dp</dimen>
+    <dimen name="login_btn_padding">13dp</dimen>
+    <dimen name="login_text_padding">5dp</dimen>
+    <dimen name="login_corner">11dp</dimen>
+    <!-- guide -->
+    <dimen name="guide_margin_top">83dp</dimen>
+    <dimen name="guide_margin_bottom">121dp</dimen>
+    <dimen name="guide_margin_left">12dp</dimen>
+    <dimen name="guide_padding_top">67dp</dimen>
+    <dimen name="guide_text_padding">13dp</dimen>
+    <dimen name="guide_padding_left">27dp</dimen>
+    <dimen name="guide_padding_bottom">58dp</dimen>
+    <dimen name="guide_cover_margin_top">44dp</dimen>
+    <dimen name="guide_cover_margin_bottom">36dp</dimen>
+    <dimen name="guide_input_height">40dp</dimen>
+    <!-- widget -->
+    <dimen name="widget_height">66dp</dimen>
+    <dimen name="widget_margin_right">13dp</dimen>
+    <dimen name="widget_margin_left">7dp</dimen>
+    <dimen name="widget_icon_margin_left">10dp</dimen>
+    <dimen name="widget_icon_margin_center">8dp</dimen>
+    <dimen name="widget_pause_margin">22dp</dimen>
+    <!-- alarm -->
+    <dimen name="alarm_width">266dp</dimen>
+    <dimen name="switch_btn_width">60dp</dimen>
+    <dimen name="switch_btn_hieght">30dp</dimen>
+</resources>

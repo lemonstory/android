@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xiaoningmeng.view.ReboundScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/home_bg"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rl_account_perasonal"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/account_perasonal_height"
+            android:layout_marginTop="@dimen/account_item_margin_right"
+            android:background="@drawable/base_item_bg_selector">
+
+            <View style="@style/dividerStyle" />
+
+            <com.xiaoningmeng.view.CircleImageView
+                android:id="@+id/img_account_perasonal"
+                android:layout_width="@dimen/account_perasonal_icon_height"
+                android:layout_height="@dimen/account_perasonal_icon_height"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/account_item_margin_left"
+                android:layout_marginRight="@dimen/account_perasonal_padding"
+                android:src="@drawable/default_cover" />
+
+            <ImageView
+                android:id="@+id/img_to_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/account_item_margin_right"
+                android:src="@drawable/tab_right_back" />
+
+            <TextView
+                android:id="@+id/tv_account_unlogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/img_account_perasonal"
+                android:text="@string/account_login"
+                android:textColor="@color/base_title_color"
+                android:textSize="@dimen/title_content_text_size" />
+
+            <LinearLayout
+                android:id="@+id/ll_account_head"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/img_to_right"
+                android:layout_toRightOf="@id/img_account_perasonal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_account_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textColor="@color/base_black_title_color"
+                    android:textSize="@dimen/text_size_eightteen" />
+
+                <TextView
+                    android:id="@+id/tv_account_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/perasonal_head_padding"
+                    android:textColor="@color/base_text_color"
+                    android:textSize="@dimen/content_text_size" />
+            </LinearLayout>
+
+            <View
+                style="@style/dividerStyle"
+                android:layout_alignParentBottom="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_account_Ranking"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/account_item_height"
+            android:layout_marginTop="@dimen/account_item_inv"
+            android:background="@drawable/base_item_bg_selector">
+
+            <View style="@style/dividerStyle" />
+
+            <ImageView
+                android:id="@+id/img_account_Ranking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/account_item_margin_left"
+                android:layout_marginRight="@dimen/account_item_padding"
+                android:src="@drawable/account_rating" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/img_account_Ranking"
+                android:text="@string/account_rank"
+                android:textColor="@color/base_black_title_color"
+                android:textSize="@dimen/title_content_text_size" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/account_item_margin_right"
+                android:src="@drawable/tab_right_back" />
+
+            <View
+                style="@style/dividerStyle"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="@dimen/account_item_margin_left" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_account_shop"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/account_item_height"
+            android:background="@drawable/base_item_bg_selector">
+
+            <ImageView
+                android:id="@+id/img_account_shop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/account_item_margin_left"
+                android:layout_marginRight="@dimen/account_item_padding"
+                android:src="@drawable/account_shop" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/img_account_shop"
+                android:text="@string/account_shop"
+                android:textColor="@color/base_black_title_color"
+                android:textSize="@dimen/title_content_text_size" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/account_item_margin_right"
+                android:src="@drawable/tab_right_back" />
+
+            <View
+                style="@style/dividerStyle"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="@dimen/account_item_margin_left" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_account_Recommend"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/account_item_height"
+            android:background="@drawable/base_item_bg_selector">
+
+            <ImageView
+                android:id="@+id/img_account_Recommend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/account_item_margin_left"
+                android:layout_marginRight="@dimen/account_item_padding"
+                android:src="@drawable/account_recommend" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/img_account_Recommend"
+                android:text="@string/account_recommend"
+                android:textColor="@color/base_black_title_color"
+                android:textSize="@dimen/title_content_text_size" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/account_item_margin_right"
+                android:src="@drawable/tab_right_back" />
+
+            <View
+                style="@style/dividerStyle"
+                android:layout_alignParentBottom="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_account_setting"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/account_item_height"
+            android:layout_marginTop="@dimen/account_item_inv"
+            android:background="@drawable/base_item_bg_selector">
+
+            <View style="@style/dividerStyle" />
+
+            <ImageView
+                android:id="@+id/img_account_setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/account_item_margin_left"
+                android:layout_marginRight="@dimen/account_item_padding"
+                android:src="@drawable/account_setting" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/img_account_setting"
+                android:text="@string/account_setting"
+                android:textColor="@color/base_black_title_color"
+                android:textSize="@dimen/title_content_text_size" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/account_item_margin_right"
+                android:src="@drawable/tab_right_back" />
+
+            <View
+                style="@style/dividerStyle"
+                android:layout_alignParentBottom="true" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</com.xiaoningmeng.view.ReboundScrollView>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <corners
+        android:bottomLeftRadius="@dimen/ablum_bar_radius"
+        android:bottomRightRadius="0dp"
+        android:topLeftRadius="0dp"
+        android:topRightRadius="@dimen/ablum_bar_radius" >
+    </corners>
+
+    <stroke
+        android:width="1px"
+        android:color="@color/setting_divider_color" >
+    </stroke>
+<solid android:color="@color/white"/>
+</shape>

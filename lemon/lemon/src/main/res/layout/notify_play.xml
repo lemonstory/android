@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/widget_height"
+        android:background="@color/white" >
+
+         <ImageView
+            android:id="@+id/notify_logo"
+            android:layout_width="@dimen/mine_head_height"
+            android:layout_height="@dimen/mine_head_height"
+            android:layout_centerVertical="true"
+            android:scaleType="centerCrop" 
+            android:layout_marginLeft="@dimen/widget_margin_left"/>
+
+        <LinearLayout
+            android:id="@+id/ll_notify_paly"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="#ffc96d"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/widget_margin_right"
+            android:paddingRight="@dimen/widget_margin_right" >
+
+            <ImageView
+                android:id="@+id/notify_per"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/notice_play_previous_song" />
+
+            <ImageView
+                android:id="@+id/notify_pause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/widget_pause_margin"
+                android:layout_marginRight="@dimen/widget_pause_margin"
+                android:src="@drawable/notice_play_pause" />
+
+            <ImageView
+                android:id="@+id/notify_resume"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/widget_pause_margin"
+                android:layout_marginRight="@dimen/widget_pause_margin"
+                android:src="@drawable/notice_play"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/notify_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/notice_play_next_song" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/widget_icon_margin_left"
+            android:layout_marginRight="@dimen/widget_icon_margin_left"
+            android:layout_toLeftOf="@id/ll_notify_paly"
+            android:layout_toRightOf="@id/notify_logo"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/notify_album"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/widget_icon_margin_center"
+                android:ellipsize="end"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:textColor="@color/base_black_title_color"
+                android:textSize="@dimen/title_content_text_size" />
+
+            <TextView
+                android:id="@+id/notify_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:text="下雨的兔子"
+                android:textColor="@color/base_text_color"
+                android:textSize="@dimen/date_text_size" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</FrameLayout>

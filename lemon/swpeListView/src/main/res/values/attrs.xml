@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+      <declare-styleable name="xListView">
+        <attr name="seniorScroll" format="boolean" />
+        <attr name="footViewMarginBootom" format="dimension"/>
+    </declare-styleable>
+</resources>

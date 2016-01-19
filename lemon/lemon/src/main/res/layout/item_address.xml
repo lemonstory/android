@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="@dimen/account_item_height"
+    android:background="@drawable/base_item_bg_selector" >
+
+    <TextView
+        android:id="@+id/tv_address_title"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/account_item_height"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="@dimen/account_item_margin_left"
+        android:gravity="center_vertical|left"
+        android:textColor="@color/base_black_title_color"
+        android:textSize="@dimen/title_content_text_size" />
+
+    <ImageView
+        android:id="@+id/img_address_selected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/base_margin"
+        android:padding="5dp"
+        android:src="@drawable/perasonal_info" />
+
+    <TextView
+        android:id="@+id/tv_address_name"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/account_item_height"
+        android:layout_marginLeft="@dimen/base_margin"
+        android:layout_marginRight="@dimen/base_margin"
+        android:layout_toLeftOf="@id/img_address_selected"
+        android:layout_toRightOf="@id/tv_address_title"
+        android:gravity="center_vertical|left"
+        android:textColor="@color/base_text_color"
+        android:textSize="@dimen/content_text_size" />
+
+    <View style="@style/dividerStyle" />
+
+</RelativeLayout>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="false">
+
+    <RelativeLayout
+        android:id="@+id/action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_bar_height"
+        android:background="@color/action_bar_bg"
+        >
+
+        <ImageView
+            android:id="@+id/img_home_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:clickable="true"
+            android:onClick="back"
+            android:paddingLeft="@dimen/bar_margin"
+            android:paddingRight="@dimen/base_margin"
+            android:src="@drawable/bar_back_selector" />
+        <View
+            android:id="@+id/v_head_divider"
+            style="@style/verticalDividerStyle"
+            android:layout_width="1dp"
+            android:layout_toRightOf="@id/img_home_back"
+            android:layout_marginTop="@dimen/bar_margin"
+            android:layout_marginBottom="@dimen/bar_margin"></View>
+        <TextView
+            android:id="@+id/tv_head_classify"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/bar_margin"
+            android:paddingRight="@dimen/base_radius_size"
+            android:gravity="center"
+            android:text="故事"
+            android:onClick="onClick"
+            android:clickable="true"
+            android:textSize="@dimen/title_content_text_size"
+            android:textColor="@color/white"
+            android:layout_toRightOf="@id/v_head_divider"/>
+        <ImageView
+            android:id="@+id/img_head_drop"
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/classification_drop"
+            android:layout_toRightOf="@id/tv_head_classify"
+            android:onClick="onClick"
+            android:clickable="true"
+            android:layout_height="match_parent" />
+
+
+        <ImageView
+            android:id="@+id/img_head_right"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/base_margin"
+            android:paddingRight="@dimen/bar_margin"
+            android:src="@drawable/play_flag_wave_01"
+            android:visibility="visible" />
+        <ImageView
+            android:id="@+id/img_head_search"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:src="@drawable/search_icon"
+            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/bar_margin"
+            android:paddingRight="@dimen/base_margin"
+            android:onClick="onClick"
+            android:clickable="true"
+            android:layout_toLeftOf="@id/img_head_right"
+            android:visibility="visible" />
+
+
+    </RelativeLayout>
+
+
+
+    <com.xiaoningmeng.view.PagerSlidingTabStrip
+        android:id="@+id/tab_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/home_inc_height"
+        android:gravity="center_vertical"
+        style="@style/page_sliding_tab_style"
+        android:layout_below="@id/action_bar" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/tab_indicator"
+        android:background="@color/white"/>
+
+
+</RelativeLayout>

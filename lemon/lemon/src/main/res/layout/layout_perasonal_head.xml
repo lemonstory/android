@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/perasonal_head_margin_top"
+        android:background="@color/home_bg" />
+
+    <View style="@style/dividerStyle" />
+
+    <RelativeLayout
+         android:id="@+id/ll_perasonal_head"
+        android:layout_width="match_parent"
+        android:onClick="onClick"
+        android:clickable="true"
+        android:layout_height="@dimen/perasonal_head_height"
+        android:background="@drawable/base_item_bg_selector" >
+
+        <com.xiaoningmeng.view.CircleImageView
+            android:id="@+id/img_perasonal_icon"
+            android:layout_width="@dimen/perasonal_head_icon_height"
+            android:layout_height="@dimen/perasonal_head_icon_height"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/perasonal_margin_left"
+            android:layout_marginRight="@dimen/perasonal_margin_right"
+            android:src="@drawable/default_cover" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+              android:layout_marginRight="@dimen/perasonal_margin_right"
+            android:layout_toRightOf="@id/img_perasonal_icon"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_account_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/base_black_title_color"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textSize="@dimen/text_size_eightteen" />
+
+            <TextView
+                android:id="@+id/tv_account_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/perasonal_head_padding"
+                android:textColor="@color/base_text_color"
+                android:textSize="@dimen/content_text_size" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View style="@style/dividerStyle" />
+    <TextView 
+     android:background="@color/mine_history_unSelect"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:paddingTop="@dimen/perasonal_item_head_margin_left"
+      android:paddingBottom="@dimen/bar_margin"
+      android:text="收听历史"
+      android:drawableLeft="@drawable/mine_history"
+      android:drawablePadding="3dp"
+      android:textColor="#8b96a1"
+      android:paddingLeft="@dimen/ablum_play_item_padding"
+      android:textSize="@dimen/content_text_size"
+    />
+
+</LinearLayout>

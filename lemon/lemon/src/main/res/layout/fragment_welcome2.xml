@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_bg" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/action_bar"
+        android:layout_marginBottom="@dimen/guide_margin_bottom"
+        android:layout_marginLeft="@dimen/guide_margin_left"
+        android:layout_marginRight="@dimen/guide_margin_left"
+        android:layout_marginTop="@dimen/guide_margin_top"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/guide_padding_left"
+        android:paddingRight="@dimen/guide_padding_left" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/guide_padding_top"
+            android:gravity="center_horizontal"
+            android:text="选择宝宝的性别"
+            android:textColor="#494949"
+            android:textSize="@dimen/text_size_eightteen" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/rating_icon_margin_left"
+            android:gravity="center_horizontal"
+            android:text="点击下方按钮选择宝宝的性别"
+            android:textColor="#9b9b9b"
+            android:textSize="@dimen/text_size_eightteen" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/guide_cover_margin_top"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:id="@+id/ll_login_male"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                 android:layout_marginRight="@dimen/guide_padding_left"
+                android:gravity="center_horizontal"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    
+                    android:scaleType="centerInside"
+                    android:src="@drawable/login_male_selector" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="男"
+                    android:textColor="@color/mine_history_story_color_selector"
+                    android:textSize="@dimen/title_content_text_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_login_female"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                   
+                   android:scaleType="centerInside"
+                    android:src="@drawable/login_female_selector" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                       android:gravity="center"
+                    android:text="女"
+                    android:textColor="@color/mine_history_story_color_selector"
+                    android:textSize="@dimen/title_content_text_size" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

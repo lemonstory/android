@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AiTheme" parent="android:Theme.Light.NoTitleBar">
+        <item name="numberPickerUpButtonStyle">@style/AiWidget.ImageButton.NumberPickerUpButton</item>
+        <item name="numberPickerDownButtonStyle">@style/AiWidget.ImageButton.NumberPickerDownButton</item>
+        <item name="numberPickerInputTextStyle">@style/AiWidget.EditText.NumberPickerInputText</item>
+        <item name="numberPickerStyle">@style/AiWidget.NumberPicker</item>
+         <item name="android:windowIsTranslucent">true</item>  
+		<item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="AppTheme" parent="android:Theme.Light.NoTitleBar"></style>
+
+    <!-- Dialog弹框样式 -->
+    <style name="shareTheme" parent="@android:style/Theme.Dialog">
+       <!-- <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>-->
+      <!--  <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+
+
+
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>-->
+
+    </style>
+</resources>

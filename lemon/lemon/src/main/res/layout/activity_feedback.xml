@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/home_bg"
+    android:orientation="vertical" 
+     android:fitsSystemWindows="true"
+    android:clipToPadding="false">
+
+    <include
+        android:id="@+id/rl_modify_info_head"
+        layout="@layout/layout_base_header" />
+
+    <com.xiaoningmeng.view.ReboundScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/et_feedback"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:background="@color/white"
+                android:clickable="false"
+                android:gravity="left|top"
+                android:hint="填写您的意见反馈"
+                android:paddingBottom="@dimen/share_title_margin_top"
+                android:paddingLeft="@dimen/bar_margin"
+                android:paddingRight="@dimen/bar_margin"
+                android:paddingTop="@dimen/login_bottom_text_margin"
+                android:textColor="@color/base_title_color"
+                android:textColorHint="#aeb6bd"
+                android:textSize="@dimen/content_text_size" />
+
+            <View style="@style/dividerStyle" />
+
+            <View
+                style="@style/dividerStyle"
+                android:layout_marginTop="@dimen/search_et_margin_bottom" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/account_item_height"
+                android:background="@color/white"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/tv_feedback_tel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/account_item_margin_left"
+                    android:text="联系电话："
+                    android:textColor="@color/base_black_title_color"
+                    android:textSize="@dimen/title_content_text_size" />
+
+                <EditText
+                    android:id="@+id/et_feedback_tel"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/bar_margin"
+                    android:layout_marginRight="@dimen/account_item_margin_right"
+                    android:layout_toRightOf="@id/tv_feedback_tel"
+                    android:background="@null"
+                    android:hint="选填，便于我们与您联系"
+                    android:textColor="@color/base_title_color"
+                    android:textSize="@dimen/title_content_text_size" />
+
+                <View
+                    style="@style/dividerStyle"
+                    android:layout_alignLeft="@id/tv_feedback_tel"
+                    android:layout_alignParentBottom="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/account_item_height"
+                android:background="@color/white"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/tv_feedback_qq"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/account_item_margin_left"
+                    android:text="QQ："
+                    android:textColor="@color/base_black_title_color"
+                    android:textSize="@dimen/title_content_text_size" />
+
+                <EditText
+                    android:id="@+id/et_feedback_qq"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/bar_margin"
+                    android:layout_marginRight="@dimen/account_item_margin_right"
+                    android:layout_toRightOf="@id/tv_feedback_qq"
+                    android:background="@null"
+                    android:hint="选填，便于我们与您联系"
+                    android:textColor="@color/base_title_color"
+                    android:textSize="@dimen/title_content_text_size" />
+
+                <View
+                    style="@style/dividerStyle"
+                    android:layout_alignParentBottom="true" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_feedback_submit"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/rate_btn_height"
+                android:layout_marginLeft="@dimen/rate_btn_margin"
+                android:layout_marginRight="@dimen/rate_btn_margin"
+                android:layout_marginTop="@dimen/search_et_margin_bottom"
+                android:background="@drawable/rate_btn_bg_selector"
+                android:clickable="true"
+                android:gravity="center"
+                android:onClick="onClick"
+                android:text="提交反馈"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_eightteen" />
+        </LinearLayout>
+    </com.xiaoningmeng.view.ReboundScrollView>
+
+</LinearLayout>

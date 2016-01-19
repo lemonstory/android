@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <RelativeLayout
+         xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/rl_classify_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+         android:paddingLeft="@dimen/bar_margin"
+        android:paddingRight="@dimen/bar_margin"
+   		 android:background="@null"
+   		  >
+
+        <TextView
+            android:id="@+id/tv_classify_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/home_discover_margin"
+            android:paddingTop="@dimen/home_discover_margin"
+            android:text="热门推荐"
+            android:drawablePadding="@dimen/base_radius_size"
+            android:textColor="@color/discover_more_color_selector"
+            android:textSize="@dimen/home_tab_size" />
+
+        <TextView
+            android:id="@+id/tv_classify_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:paddingBottom="@dimen/home_discover_margin"
+            android:paddingLeft="@dimen/home_discover_margin"
+            android:paddingTop="@dimen/home_discover_margin"
+            android:drawableRight="@drawable/home_item_more"
+            android:drawablePadding="@dimen/base_radius_size"
+            android:text="更多"
+            android:textColor="@color/discover_more_color_selector"
+            android:textSize="@dimen/home_tab_size" />
+    </RelativeLayout>

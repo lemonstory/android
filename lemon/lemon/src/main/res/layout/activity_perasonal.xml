@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+     android:fitsSystemWindows="true"
+    android:clipToPadding="false">
+
+    <include
+        android:id="@+id/action_bar"
+        layout="@layout/layout_base_header" />
+
+    <com.xiaoningmeng.view.ReboundScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/action_bar"
+        android:background="@color/home_bg"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:id="@+id/rl_perasonal_icon"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/account_perasonal_height"
+                android:layout_marginTop="@dimen/account_item_margin_right"
+                android:background="@drawable/base_item_bg_selector"
+                android:clickable="true"
+                android:onClick="onClick" >
+
+                <View style="@style/dividerStyle" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/account_item_margin_left"
+                    android:text="头像"
+                    android:textColor="@color/base_black_title_color"
+                    android:textSize="@dimen/title_content_text_size" />
+
+                <ImageView
+                    android:id="@+id/img_setting_reminder_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/account_item_margin_right"
+                    android:src="@drawable/tab_right_back" />
+                <FrameLayout 
+                     android:layout_width="@dimen/ablum_play_item_height"
+                    android:layout_height="@dimen/ablum_play_item_height"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/account_item_margin_right"
+                    android:layout_toLeftOf="@id/img_setting_reminder_right"
+                    >
+
+                <com.xiaoningmeng.view.PhotoRoundedImageView
+                    android:id="@+id/img_perasonal_icon"
+                    style="@style/roundImageViewStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:src="@drawable/default_cover" />
+
+                <ProgressBar
+                     android:id="@+id/pb_perasonal_progress"
+                    android:layout_width="@dimen/dialog_padding"
+                    android:layout_height="@dimen/dialog_padding" 
+                    android:indeterminate="false"
+                      android:layout_gravity="center"
+                    android:indeterminateDrawable="@drawable/loading_progress_bg"
+                    android:visibility="invisible" />
+                </FrameLayout>
+
+                <View
+                    style="@style/dividerStyle"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/account_item_margin_left" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_perasonal_name"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/account_item_height"
+                android:background="@drawable/base_item_bg_selector"
+                android:clickable="true"
+                android:onClick="onClick" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/account_item_margin_left"
+                    android:text="宝宝名字"
+                    android:textColor="@color/base_black_title_color"
+                    android:textSize="@dimen/title_content_text_size" />
+
+                <ImageView
+                    android:id="@+id/img_personal_name_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/account_item_margin_right"
+                    android:src="@drawable/tab_right_back" />
+
+                <TextView
+                    android:id="@+id/tv_perasonal_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/account_perasonal_padding"
+                    android:layout_toLeftOf="@id/img_personal_name_right"
+                    android:textColor="@color/base_text_color"
+                    android:textSize="@dimen/content_text_size" />
+
+                <View
+                    style="@style/dividerStyle"
+                    android:layout_alignParentBottom="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_perasonal_sex"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/account_item_height"
+                android:layout_marginTop="@dimen/account_item_inv"
+                android:background="@drawable/base_item_bg_selector"
+                android:clickable="true"
+                android:onClick="onClick" >
+
+                <View style="@style/dividerStyle" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/account_item_margin_left"
+                    android:text="宝宝性别"
+                    android:textColor="@color/base_black_title_color"
+                    android:textSize="@dimen/title_content_text_size" />
+
+                <ImageView
+                    android:id="@+id/img_personal_sex_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/account_item_margin_right"
+                    android:src="@drawable/tab_right_back" />
+
+                <TextView
+                    android:id="@+id/tv_perasonal_sex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/account_perasonal_padding"
+                    android:layout_toLeftOf="@id/img_personal_sex_right"
+                    android:textColor="@color/base_text_color"
+                    android:textSize="@dimen/content_text_size" />
+
+                <View
+                    style="@style/dividerStyle"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/account_item_margin_left" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_perasonal_age"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/account_item_height"
+                android:background="@drawable/base_item_bg_selector"
+                android:clickable="true"
+                android:onClick="onClick" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/account_item_margin_left"
+                    android:text="宝宝年龄"
+                    android:textColor="@color/base_black_title_color"
+                    android:textSize="@dimen/title_content_text_size" />
+
+                <ImageView
+                    android:id="@+id/img_personal_age_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/account_item_margin_right"
+                    android:src="@drawable/tab_right_back" />
+
+                <TextView
+                    android:id="@+id/tv_perasonal_age"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/account_perasonal_padding"
+                    android:layout_toLeftOf="@id/img_personal_age_right"
+                    android:textColor="@color/base_text_color"
+                    android:textSize="@dimen/content_text_size" />
+
+                <View
+                    style="@style/dividerStyle"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/account_item_margin_left" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_perasonal_address"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/account_item_height"
+                android:background="@drawable/base_item_bg_selector"
+                android:clickable="true"
+                android:onClick="onClick" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/account_item_margin_left"
+                    android:text="地址"
+                    android:textColor="@color/base_black_title_color"
+                    android:textSize="@dimen/title_content_text_size" />
+
+                <ImageView
+                    android:id="@+id/img_personal_address_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/account_item_margin_right"
+                    android:src="@drawable/tab_right_back" />
+
+                <TextView
+                    android:id="@+id/tv_perasonal_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/account_perasonal_padding"
+                    android:layout_toLeftOf="@id/img_personal_address_right"
+                    android:textColor="@color/base_text_color"
+                    android:textSize="@dimen/content_text_size" />
+
+                <View
+                    style="@style/dividerStyle"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/account_item_margin_left" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_perasonal_phone"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/account_item_height"
+                android:background="@drawable/base_item_bg_selector"
+                android:clickable="true"
+                android:onClick="onClick" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/account_item_margin_left"
+                    android:text="手机号码"
+                    android:textColor="@color/base_black_title_color"
+                    android:textSize="@dimen/title_content_text_size" />
+
+                <ImageView
+                    android:id="@+id/img_personal_phone_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/account_item_margin_right"
+                    android:src="@drawable/tab_right_back" />
+
+                <TextView
+                    android:id="@+id/tv_perasonal_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/account_perasonal_padding"
+                    android:layout_toLeftOf="@id/img_personal_phone_right"
+                    android:textColor="@color/base_text_color"
+                    android:textSize="@dimen/content_text_size" />
+
+                <View
+                    style="@style/dividerStyle"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/account_item_margin_left" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_perasonal_goods_address"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/account_item_height"
+                android:background="@drawable/base_item_bg_selector"
+                android:clickable="true"
+                android:onClick="onClick" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/account_item_margin_left"
+                    android:text="收货地址"
+                    android:textColor="@color/base_black_title_color"
+                    android:textSize="@dimen/title_content_text_size" />
+
+                <ImageView
+                    android:id="@+id/img_personal_goods_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/account_item_margin_right"
+                    android:src="@drawable/tab_right_back" />
+
+                <TextView
+                    android:id="@+id/tv_perasonal_goods_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/account_perasonal_padding"
+                    android:layout_toLeftOf="@id/img_personal_goods_right"
+                    android:textColor="@color/base_text_color"
+                    android:textSize="@dimen/content_text_size" />
+
+                <View
+                    style="@style/dividerStyle"
+                    android:layout_alignParentBottom="true" />
+            </RelativeLayout>
+        </LinearLayout>
+    </com.xiaoningmeng.view.ReboundScrollView>
+    
+    <FrameLayout
+        android:id="@+id/parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/img_perasonal_photo_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ff000000" />
+
+        <com.xiaoningmeng.view.PhotoView
+            android:id="@+id/pv_perasonal_photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </FrameLayout>
+
+</RelativeLayout>

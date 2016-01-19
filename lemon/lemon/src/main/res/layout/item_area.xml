@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/account_item_height"
+    android:background="@drawable/base_item_bg_selector" >
+
+    <TextView
+        android:id="@+id/tv_area_name"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/search_item_height"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/search_item_margin_left"
+        android:gravity="center_vertical|left"
+        android:text="北京"
+        android:textColor="@color/base_title_color"
+        android:textSize="@dimen/title_content_text_size" />
+
+    <ImageView
+        android:id="@+id/img_area_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/account_item_margin_right"
+        android:src="@drawable/tab_right_back" />
+
+    <TextView
+        android:id="@+id/tv_area_selected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/mine_magin_right"
+        android:layout_toLeftOf="@id/img_area_right"
+        android:text="已选择地区"
+        android:textColor="@color/base_date_color"
+        android:textSize="@dimen/content_text_size" />
+
+    <View
+        style="@style/dividerStyle"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/search_item_margin_left" />
+
+</RelativeLayout>

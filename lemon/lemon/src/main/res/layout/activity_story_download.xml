@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     android:fitsSystemWindows="true"
+    android:clipToPadding="false" >
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:id="@+id/ll_download_head"
+	    android:orientation="vertical"
+	    >
+    <include layout="@layout/layout_base_header" />
+
+    <LinearLayout
+        android:id="@+id/ll_download_tab"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/download_tab_height"
+        android:background="@drawable/big_divider_bg"
+        android:orientation="horizontal" >
+
+        <com.xiaoningmeng.view.DrawableCenterTextView
+            android:id="@+id/tv_batch_start"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:onClick="onClick"
+            android:text="全部开始"
+            android:textColor="@color/download_tab_color_selector"
+            android:drawableLeft="@drawable/download_start_download_selector"
+            android:drawablePadding="@dimen/base_radius_size"
+            android:textSize="@dimen/text_size_eightteen" />
+
+        <View
+            style="@style/verticalDividerStyle"
+            android:layout_margin="@dimen/ablum_tip_margin_top" />
+
+      <com.xiaoningmeng.view.DrawableCenterTextView
+            android:id="@+id/tv_batch_delete"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:onClick="onClick"
+            android:text="批量删除"
+              android:drawableLeft="@drawable/download_del_selector"
+            android:drawablePadding="@dimen/base_radius_size"
+            android:textColor="@color/download_tab_color_selector"
+            android:textSize="@dimen/text_size_eightteen" />
+    </LinearLayout>
+   
+
+    <RelativeLayout
+        android:id="@+id/rl_history_tab"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/download_item_cover_height"
+        android:background="@drawable/big_divider_bg"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/tv_download_play_all"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/mine_magin_right"
+            android:clickable="true"
+            android:drawableLeft="@drawable/download_play"
+            android:drawablePadding="@dimen/mine_magin_right"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:text="播放全部"
+            android:textColor="@color/download_tab_color_selector"
+            android:textSize="@dimen/text_size_eightteen" />
+
+        <ImageView
+            android:id="@+id/tv_download_more"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:layout_marginRight="@dimen/base_radius_size"
+            android:src="@drawable/download_more" />
+    </RelativeLayout>
+     </LinearLayout>
+     
+	 <FrameLayout 
+         android:id="@+id/fl_bttom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+         android:layout_alignParentBottom="true"
+        >
+    <com.xiaoningmeng.view.DrawableCenterTextView
+        android:id="@+id/tv_download_del_do"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/download_item_cover_height"
+        android:text="删除选中"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_eightteen"
+        android:background="@drawable/logout_bg_selector"
+        android:gravity="center_vertical"
+        android:drawablePadding="@dimen/base_radius_size"
+        android:onClick="onClick"
+        android:clickable="true"
+		android:drawableLeft="@drawable/download_del_tip"
+        />
+    </FrameLayout>
+
+    <com.baoyz.swipemenulistview.SwipeMenuListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/ll_download_head"
+        android:layout_above="@id/fl_bttom_bar"
+        android:background="@color/home_bg"
+        android:divider="@null"
+        android:scrollbars="none" />
+
+</RelativeLayout>

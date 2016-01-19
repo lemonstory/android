@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/home_bg"
+    
+    android:fitsSystemWindows="true"
+    android:clipToPadding="false"
+    android:orientation="vertical" >
+
+    <include layout="@layout/layout_base_header" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white" >
+
+        <com.xiaoningmeng.view.picker.TimePicker
+            android:id="@+id/timePicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/home_discover_cover_height"
+            android:layout_marginLeft="@dimen/home_discover_btn"
+            android:layout_marginRight="@dimen/home_discover_btn"
+            android:layout_marginTop="@dimen/home_discover_cover_height" />
+    </FrameLayout>
+
+    <View style="@style/dividerStyle" />
+
+    <RelativeLayout
+        android:id="@+id/rl_alarm_switch"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/account_item_height"
+        android:layout_marginTop="@dimen/account_item_inv"
+        android:background="@drawable/base_item_bg_selector"
+        android:clickable="true"
+        android:onClick="onClick" >
+
+        <View style="@style/dividerStyle" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/account_item_margin_right"
+            android:text="开启"
+            android:textColor="@color/base_black_title_color"
+            android:textSize="@dimen/title_content_text_size" />
+
+        <com.xiaoningmeng.view.SwitchButton
+            android:id="@+id/sb_alarm_switch"
+            android:layout_width="@dimen/switch_btn_width"
+            android:layout_height="@dimen/switch_btn_hieght"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/account_item_margin_right"
+            android:src="@drawable/tab_right_back" />
+
+        <View
+            style="@style/dividerStyle"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/account_item_margin_right" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_alarm_repeat"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/account_item_height"
+        android:background="@drawable/base_item_bg_selector"
+        android:clickable="true"
+        android:onClick="onClick" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/account_item_margin_right"
+            android:text="重复"
+            android:textColor="@color/base_black_title_color"
+            android:textSize="@dimen/title_content_text_size" />
+
+        <ImageView
+            android:id="@+id/img_alarm_repeat_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/account_item_margin_right"
+            android:src="@drawable/tab_right_back" />
+
+        <TextView
+            android:id="@+id/tv_alarm_repeat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/account_perasonal_padding"
+            android:layout_toLeftOf="@id/img_alarm_repeat_right"
+            android:textColor="@color/base_text_color"
+            android:textSize="@dimen/content_text_size" />
+
+        <View
+            style="@style/dividerStyle"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/account_item_margin_right" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_alarm_ring"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/account_item_height"
+        android:background="@drawable/base_item_bg_selector"
+        android:clickable="true"
+        android:onClick="onClick" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/account_item_margin_right"
+            android:text="铃声"
+            android:textColor="@color/base_black_title_color"
+            android:textSize="@dimen/title_content_text_size" />
+
+        <ImageView
+            android:id="@+id/img_alarm_ring_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/account_item_margin_right"
+            android:src="@drawable/tab_right_back" />
+
+        <TextView
+            android:id="@+id/tv_alarm_ring"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/account_perasonal_padding"
+            android:layout_toLeftOf="@id/img_alarm_ring_right"
+            android:textColor="@color/base_text_color"
+            android:textSize="@dimen/content_text_size" />
+
+        <View
+            style="@style/dividerStyle"
+            android:layout_alignParentBottom="true" />
+    </RelativeLayout>
+
+</LinearLayout>

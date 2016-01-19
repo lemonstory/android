@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/search_item_height"
+        android:background="@drawable/base_item_bg_selector" >
+
+
+        <com.xiaoningmeng.view.SelectableRoundedImageView
+            android:id="@+id/img_mine_item_cover"
+            style="@style/roundImageViewStyle"
+            android:layout_width="@dimen/search_item_cover_height"
+            android:layout_height="@dimen/search_item_cover_height"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/base_margin" />
+
+        <LinearLayout
+            android:id="@+id/ll_history_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/mine_item_cover_margin_left"
+            android:layout_marginLeft="@dimen/ablum_padding"
+            android:layout_toRightOf="@id/img_mine_item_cover"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tv_listener"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/ablum_comment_head_margin_top"
+                android:drawableLeft="@drawable/album_listener"
+                android:drawablePadding="@dimen/base_radius_size"
+                android:textColor="@color/base_date_color"
+                android:textSize="@dimen/content_text_size" />
+
+            <TextView
+                 android:id="@+id/tv_fav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/ablum_comment_head_margin_top"
+                android:drawableLeft="@drawable/album_item_fav_selector"
+                android:drawablePadding="@dimen/base_radius_size"
+                android:textColor="@color/base_date_color"
+                android:textSize="@dimen/content_text_size" />
+
+            <TextView
+                 android:id="@+id/tv_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/album_comment"
+                android:drawablePadding="@dimen/base_radius_size"
+                android:textColor="@color/base_date_color"
+                android:textSize="@dimen/content_text_size" />
+        </LinearLayout>
+        
+       
+         <ImageView 
+             android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/mine_center_divider_height"
+            android:layout_alignParentRight="true"
+             android:src="@drawable/tab_right_back"
+            android:layout_above="@id/ll_history_bottom"
+            />
+
+        <TextView
+            android:id="@+id/tv_fav_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/ll_history_bottom"
+            android:layout_alignLeft="@id/ll_history_bottom"
+            android:layout_toLeftOf="@id/img_back"
+            android:layout_marginBottom="@dimen/base_radius_size"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textColor="@color/base_black_title_color"
+            android:textSize="@dimen/text_size_eightteen" />
+       
+        <View 
+            android:id="@+id/v_album_divider"
+            style="@style/dividerStyle"
+            android:layout_alignParentBottom="true"
+            android:layout_alignLeft="@id/ll_history_bottom"/>
+    </RelativeLayout>
+
+</FrameLayout>

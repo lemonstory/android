@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+<View
+        android:id="@+id/v_top_history_divider"
+        style="@style/dividerStyle" />
+    <TextView
+        android:id="@+id/tv_history_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/home_bg"
+        android:paddingBottom="@dimen/ablum_comment_head_margin_bottom"
+        android:paddingLeft="@dimen/ablum_comment_head_margin_left"
+        android:paddingTop="@dimen/ablum_comment_head_margin_top"
+        android:text="13 八月"
+        android:textColor="@color/base_black_title_color"
+        android:textSize="@dimen/title_content_text_size" />
+
+    <View
+        android:id="@+id/v_history_top_divider"
+        style="@style/dividerStyle" />
+
+    <RelativeLayout
+        android:id="@+id/rl_history"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/search_item_height"
+        android:background="@drawable/base_item_bg_selector" >
+
+        <View
+            android:id="@+id/v_mine_header"
+            style="@style/verticalDividerStyle"
+            android:layout_marginLeft="@dimen/mine_item_cover_margin" />
+
+        <View
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="6dp"
+            android:background="@drawable/mine_item_point" />
+
+        <com.xiaoningmeng.view.SelectableRoundedImageView
+            android:id="@+id/img_mine_item_cover"
+            style="@style/roundImageViewStyle"
+            android:layout_width="@dimen/search_item_cover_height"
+            android:layout_height="@dimen/search_item_cover_height"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/mine_item_small_margin_top"
+            android:layout_toRightOf="@id/v_mine_header" />
+
+
+
+
+        <TextView
+            android:id="@+id/tv_add_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/mine_item_cover_margin_left"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/mine_center_divider_height"
+            android:layout_alignParentBottom="true"
+            android:textSize="@dimen/date_text_size"
+            android:textColor="#C6CDD3" />
+        <TextView
+            android:id="@+id/tv_mine_story"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/base_date_color"
+            android:textSize="@dimen/home_tab_size"
+            android:layout_alignBottom="@id/tv_add_time"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:layout_marginTop="2dp"
+            android:layout_toLeftOf="@id/tv_add_time"
+            android:layout_marginLeft="@dimen/ablum_padding"
+            android:layout_toRightOf="@id/img_mine_item_cover"/>
+
+          <TextView
+            android:id="@+id/tv_fav_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/tv_mine_story"
+            android:layout_alignLeft="@id/tv_mine_story"
+            android:layout_toLeftOf="@id/tv_add_time"
+            android:layout_marginBottom="@dimen/base_radius_size"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:text="下雨的兔子"
+            android:textColor="@color/base_black_title_color"
+            android:textSize="@dimen/content_text_size" />
+        <View
+            android:id="@+id/v_history_bottom_divider"
+            style="@style/dividerStyle"
+            android:layout_alignParentBottom="true" />
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <corners
+        android:bottomLeftRadius="0dp"
+        android:bottomRightRadius="@dimen/ablum_bar_radius"
+        android:topLeftRadius="0dp"
+        android:topRightRadius="@dimen/ablum_bar_radius" >
+    </corners>
+
+
+    <solid android:color="@color/action_bar_bg" />
+
+</shape>

@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/progress"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="false"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <include
+        android:id="@+id/action_bar"
+        layout="@layout/layout_album_header" />
+
+    <com.xiaoningmeng.view.DrawableCenterTextView
+        android:id="@+id/tv_album_detail_comment"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/download_item_cover_height"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/aciton_bar_bg_selector"
+        android:clickable="true"
+        android:drawableLeft="@drawable/album_comment_tip"
+        android:drawablePadding="@dimen/base_radius_size"
+        android:gravity="center_vertical"
+        android:onClick="onClick"
+        android:text="@string/album_comment"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_eightteen" />
+
+    <com.xiaoningmeng.view.StickyNavLayout
+        android:id="@+id/StickyNavLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/tv_album_detail_comment"
+        android:layout_below="@id/action_bar"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@id/id_stickynavlayout_topview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white" >
+
+            <com.xiaoningmeng.view.SelectableRoundedImageView
+                android:id="@+id/img_ablum_detail_cover"
+                style="@style/roundImageViewStyle"
+                android:layout_width="@dimen/ablum_cover_height"
+                android:layout_height="@dimen/ablum_cover_height"
+                android:layout_margin="@dimen/ablum_cover_margin"
+                android:src="@drawable/album_default" />
+
+            <TextView
+                android:id="@+id/tv_ablum_detail_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/img_ablum_detail_cover"
+                android:layout_alignTop="@id/img_ablum_detail_cover"
+                android:layout_marginTop="@dimen/ablum_tip_margin_top"
+                android:background="@drawable/album_detail_tip_bg"
+                android:drawableLeft="@drawable/discover_item_listener_tip"
+                android:drawablePadding="4dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:text="    "
+                android:textColor="@color/white"
+                android:textSize="@dimen/date_text_size" />
+
+            <TextView
+                android:id="@+id/tv_ablum_detail_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/img_ablum_detail_cover"
+                android:layout_marginRight="@dimen/ablum_cover_margin"
+                android:layout_marginTop="@dimen/ablum_cover_margin"
+                android:layout_toRightOf="@id/img_ablum_detail_cover"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="@color/black"
+                android:textSize="@dimen/title_content_text_size" />
+            <TextView
+                android:id="@+id/tv_ablum_detail_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_ablum_detail_title"
+                android:layout_marginTop="@dimen/base_radius_size"
+                android:layout_toRightOf="@id/img_ablum_detail_cover"
+                android:text="评级："
+                android:textColor="@color/base_text_color"
+                android:textSize="@dimen/content_text_size" />
+
+
+            <ImageView
+                android:id="@+id/img_ablum_detail_btn"
+                android:layout_width="@dimen/ablum_play_icon_height"
+                android:layout_height="@dimen/ablum_play_icon_height"
+                android:layout_alignBottom="@id/img_ablum_detail_cover"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/account_item_padding"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:src="@drawable/album_play" />
+
+            <com.xiaoningmeng.view.CircleProgressBar
+                android:id="@+id/circleProgressBar"
+                android:layout_width="@dimen/ablum_play_height"
+                android:layout_height="@dimen/ablum_play_height"
+                android:layout_alignBottom="@id/img_ablum_detail_cover"
+                android:layout_alignRight="@id/img_ablum_detail_btn"
+                android:layout_marginBottom="1dp"
+                android:layout_marginRight="1dp"
+                app:roundColor2="@color/transparent"
+                app:roundWidth2="3dp"
+                app:style2="STROKE" />
+
+
+
+            <com.xiaoningmeng.view.RatingBar
+                android:id="@+id/rb_ablum_detail_rate"
+                style="@style/AlbumRatingBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/tv_ablum_detail_rate"
+                android:layout_below="@id/tv_ablum_detail_rate"
+                android:layout_marginTop="@dimen/base_radius_size" />
+
+            <View
+                android:id="@+id/v_ablum_detail"
+                style="@style/dividerStyle"
+                android:layout_below="@id/img_ablum_detail_cover" />
+
+            <LinearLayout
+                android:id="@+id/ll_ablum_detail_tab"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ablum_tab_height"
+                android:layout_below="@id/v_ablum_detail"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/tv_fav"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/base_item_bg_selector"
+                    android:clickable="true"
+                    android:drawablePadding="2dp"
+                    android:drawableTop="@drawable/album_detail_fav_selector"
+                    android:gravity="center"
+                    android:onClick="onClick"
+                    android:paddingTop="@dimen/base_radius_size"
+                    android:text="收藏"
+                    android:textColor="@color/base_date_color"
+                    android:textSize="@dimen/content_text_size" />
+
+                <View
+                    android:layout_width="@dimen/divider_line_height"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/setting_divider_color" />
+
+                <TextView
+                    android:id="@+id/tv_share"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/base_item_bg_selector"
+                    android:clickable="true"
+                    android:drawablePadding="2dp"
+                    android:drawableTop="@drawable/album_share"
+                    android:gravity="center"
+                    android:onClick="onClick"
+                    android:paddingTop="@dimen/base_radius_size"
+                    android:text="分享"
+                    android:textColor="@color/base_date_color"
+                    android:textSize="@dimen/content_text_size" />
+
+                <View
+                    android:layout_width="@dimen/divider_line_height"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/setting_divider_color" />
+
+                <TextView
+                    android:id="@+id/tv_batch_download"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/base_item_bg_selector"
+                    android:clickable="true"
+                    android:drawablePadding="2dp"
+                    android:drawableTop="@drawable/album_download"
+                    android:gravity="center"
+                    android:onClick="onClick"
+                    android:paddingTop="@dimen/base_radius_size"
+                    android:text="批量下载"
+                    android:textColor="@color/base_date_color"
+                    android:textSize="@dimen/content_text_size" />
+            </LinearLayout>
+
+            <View
+                style="@style/dividerStyle"
+                android:layout_below="@id/ll_ablum_detail_tab" />
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@id/id_stickynavlayout_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@color/home_bg"
+            android:paddingBottom="5dp"
+            android:paddingTop="@dimen/ablum_play_item_margin_right" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/ablum_bar_height"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/tv_ablum_detail_play_list"
+                    android:layout_width="@dimen/ablum_bar_width"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/album_detail_bar_left_selector"
+                    android:gravity="center"
+                    android:text="列表"
+                    android:textColor="@color/mine_history_resume_color_selector" />
+
+                <TextView
+                    android:id="@+id/tv_ablum_detail_info"
+                    android:layout_width="@dimen/ablum_bar_width"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/album_detail_bar_center_selector"
+                    android:gravity="center"
+                    android:text="简介"
+                    android:textColor="@color/mine_history_resume_color_selector" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_ablum_detail_comment"
+                    android:layout_width="@dimen/ablum_bar_width"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/album_detail_bar_right_selector" >
+					<LinearLayout 
+					     android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                         android:layout_centerInParent="true"
+                         android:orientation="horizontal"
+					    >
+                    <TextView
+                        android:id="@+id/tv_ablum_detail_comment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="评论"
+                        android:textColor="@color/mine_history_resume_color_selector" />
+
+                    <TextView
+                        android:id="@+id/tv_ablum_detail_comment_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:background="@drawable/album_comment_count_selector"
+                        android:paddingLeft="@dimen/base_radius_size"
+                        android:paddingRight="@dimen/base_radius_size"
+                        android:visibility="invisible"
+                        android:textColor="@color/album_comment_count_color_selector"
+                        android:textSize="@dimen/date_text_size" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
+        </FrameLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/id_stickynavlayout_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/home_bg" />
+    </com.xiaoningmeng.view.StickyNavLayout>
+
+</RelativeLayout>

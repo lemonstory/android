@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/home_bg"
+    android:orientation="vertical" 
+     android:fitsSystemWindows="true"
+    android:clipToPadding="false">
+
+    <include layout="@layout/layout_base_header" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <com.xiaoningmeng.view.RatingBar
+            android:id="@+id/rb_ablum_detail_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/rate_star_margin_bottom"
+            android:layout_marginTop="@dimen/rate_btn_margin"
+       		style="@style/CommentRatingBarStyle"
+        />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/rate_tip_margin_bottom"
+            android:text="轻按星星来评分"
+            android:textColor="#e5e9ee"
+            android:textSize="@dimen/date_text_size" />
+
+        <View
+            style="@style/dividerStyle"
+            android:layout_marginBottom="@dimen/rate_divider_margin_bottom"
+            android:layout_marginLeft="@dimen/rate_margin"
+            android:layout_marginRight="@dimen/rate_margin" />
+
+        <EditText
+            android:id="@+id/et_rating"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/rate_edit_height"
+            android:layout_marginLeft="@dimen/rate_margin"
+            android:layout_marginRight="@dimen/rate_margin"
+            android:background="@null"
+            android:gravity="top|left"
+            android:hint="撰写评论"
+            android:inputType="text"
+            android:textColor="@color/base_text_color"
+            android:textColorHint="#e5e9ee"
+            android:textSize="@dimen/title_content_text_size" />
+    </LinearLayout>
+
+    <View style="@style/dividerStyle" />
+
+    <TextView
+        android:id="@+id/tv_rating_submit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/rate_btn_height"
+        android:layout_margin="@dimen/rate_btn_margin"
+        android:background="@drawable/rate_btn_bg_selector"
+        android:gravity="center"
+        android:text="提交评论"
+        android:onClick="onClick"
+        android:clickable="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_eightteen" />
+
+</LinearLayout>
