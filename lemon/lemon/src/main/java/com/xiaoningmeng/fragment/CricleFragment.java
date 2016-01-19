@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.http.cookie.Cookie;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.base.BaseFragmentActivity;
 import com.xiaoningmeng.bean.AppInfo;
 import com.xiaoningmeng.constant.Constant;
+import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.utils.NetUtils;
 
 public class CricleFragment extends BaseFragment{
@@ -38,12 +40,13 @@ public class CricleFragment extends BaseFragment{
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+							 Bundle savedInstanceState) {
 		mContext = (BaseFragmentActivity) getActivity();
 		View contentView = View.inflate(mContext,R.layout.fragment_circle, null);
 		webView = (WebView) contentView.findViewById(R.id.webView);
 		settingWebView();
 		reRequestLoading(contentView);
+		synCookies(mContext, Constant.Cricle_URL);
 		webView.loadUrl(Constant.Cricle_URL, headers);
 		return contentView;
 	}
@@ -53,7 +56,7 @@ public class CricleFragment extends BaseFragment{
 		WebSettings webseting = webView.getSettings();
 		webseting.setJavaScriptEnabled(true);
 		webseting.setAllowFileAccess(true);
-		webseting.setAppCacheEnabled(true);
+		webseting.setAppCacheEnabled(false);
 		webseting.setDomStorageEnabled(true);
 		// 增加缓存文件路径
 		webseting.setAppCacheMaxSize(1024 * 1024 * 8);// 设置缓冲大小 8M
@@ -62,7 +65,7 @@ public class CricleFragment extends BaseFragment{
 		webseting.setAppCachePath(appCacheDir);
 		headers = new HashMap<>();
 		headers.put("FROM", "mobile");
-		headers.put("userAgent", AppInfo.getInstance().getUAStr());
+		headers.put("User-Agent", AppInfo.getInstance().getUAStr());
 		// 如果有网则先从网络上获取缓存
 		if (NetUtils.isNetworkConnected(mContext)) {
 			webseting.setCacheMode(WebSettings.LOAD_DEFAULT);
@@ -78,8 +81,8 @@ public class CricleFragment extends BaseFragment{
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
 
 				synCookies(mContext, url);
-				//view.loadUrl(url, headers);
-				WebViewActivity.openWebView(mContext,url);
+				view.loadUrl(url, headers);
+				WebViewActivity.openWebView(mContext, url);
 				return true;
 			}
 
@@ -131,23 +134,27 @@ public class CricleFragment extends BaseFragment{
 			try {
 				List<Cookie> cookies = MyApplication.getInstance().getCookies();
 				for (int i = 0; i < cookies.size(); i++) { //
-					cookieManager.setCookie(url, cookies.get(i).getName() + "="
+					cookieManager.setCookie(url, ""
+							+ cookies.get(i).getName() + "="
 							+ cookies.get(i).getValue()
-							+ "; Domain=.xiaoningmeng.net; ");
+							+ "; Domain=xiaoningmeng.net; ");
+//					DebugUtils.e("cookie -> " + cookies.get(i).getName() + "="
+//							+ cookies.get(i).getValue());
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+
 		} else {
 			CookieManager cookieManager = CookieManager.getInstance();
 			cookieManager.removeAllCookie();
 		}
-
 	}
+
 
 	private void reRequestLoading(View contentView){
 
-		if(loadingView == null){
+		if(loadingView == null) {
 			loadingView = (ViewGroup) (contentView == null?getView():contentView).findViewById(R.id.rl_loading);
 		}
 		loadingView.setClickable(false);
@@ -167,10 +174,10 @@ public class CricleFragment extends BaseFragment{
 			return;
 		}
 		if(loadingView == null){
-			loadingView = (ViewGroup)getView().findViewById(R.id.rl_loading);
+			loadingView = (ViewGroup) getView().findViewById(R.id.rl_loading);
 		}
 		loadingView.setVisibility(View.VISIBLE);
-		((TextView)loadingView.getChildAt(0)).setText("请连接网络后点击屏幕重试");
+		((TextView) loadingView.getChildAt(0)).setText("请连接网络后点击屏幕重试");
 		loadingView.getChildAt(1).setVisibility(View.INVISIBLE);
 		loadingView.setClickable(true);
 		loadingView.setOnClickListener(new View.OnClickListener() {
