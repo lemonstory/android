@@ -76,7 +76,7 @@ public class UserAuth {
 
 	/**
 	 * 登录
-	 * 
+	 *
 	 * @param context
 	 * @param userInfo
 	 */
@@ -90,16 +90,14 @@ public class UserAuth {
 		DataSupport.deleteAll(UserInfo.class);
 		userInfo.save();
 		loadUserInfo(userInfo, store);
-		EventBus.getDefault().post(userInfo);
-		EventBus.getDefault().post(new LoginEvent());
-
+		EventBus.getDefault().post(new LoginEvent(userInfo));
 	}
 
 
 
 	/**
 	 * 强制用户身份失效
-	 * 
+	 *
 	 * @param context
 	 */
 	public void invinvalidateUserIdentity(Context context) {
@@ -117,13 +115,13 @@ public class UserAuth {
 
 	/**
 	 * 检查cookie
-	 * 
+	 *
 	 * @param context
 	 * @param authToken
 	 * @return
 	 */
 	private boolean checkAuthTokenValid(Context context,
-			final UserInfo userinfo, String authToken) {
+										final UserInfo userinfo, String authToken) {
 
 		try {
 			CookieStore store = CookieParser.pareseJson2Cookies(authToken);
@@ -156,7 +154,7 @@ public class UserAuth {
 
 	/**
 	 * 加载用户信息
-	 * 
+	 *
 	 * @param userInfo
 	 */
 	private void loadUserInfo(UserInfo userInfo, CookieStore cookieStore) {
@@ -191,13 +189,13 @@ public class UserAuth {
 								public void onClick(DialogPlus dialog, View view) {
 									switch (view.getId()) {
 									case R.id.tv_dialog_enter:*/
-										Intent intent = new Intent(context,
-												LoginActivity.class);
-										intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-										((Activity) context)
-												.startActivity(intent);
-										((Activity)context).overridePendingTransition(R.anim.main_translatey100to0,
-												R.anim.main_translatey0tof100);
+			Intent intent = new Intent(context,
+					LoginActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			((Activity) context)
+					.startActivity(intent);
+			((Activity)context).overridePendingTransition(R.anim.main_translatey100to0,
+					R.anim.main_translatey0tof100);
 										/*dialog.dismiss();
 										break;
 									case R.id.tv_dialog_cancel:
