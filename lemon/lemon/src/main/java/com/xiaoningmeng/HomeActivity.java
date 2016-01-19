@@ -4,19 +4,26 @@ import com.orhanobut.dialogplus.DialogPlus;
 import com.umeng.onlineconfig.OnlineConfigAgent;
 import com.umeng.socialize.controller.UMSocialService;
 import com.umeng.socialize.sso.UMSsoHandler;
+import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.base.BaseFragmentActivity;
 import com.xiaoningmeng.bean.PlayingStory;
+import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.constant.Constant;
+import com.xiaoningmeng.event.LoginEvent;
 import com.xiaoningmeng.fragment.AccountFragment;
 import com.xiaoningmeng.fragment.DiscoverFragment;
 import com.xiaoningmeng.fragment.MineFragment;
 import com.xiaoningmeng.fragment.CricleFragment;
+import com.xiaoningmeng.http.LHttpHandler;
+import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.MusicService;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
+import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.utils.PreferenceUtil;
 import com.xiaoningmeng.view.dialog.TipDialog;
+import com.ypy.eventbus.EventBus;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,6 +35,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.apache.http.Header;
+import org.apache.http.client.CookieStore;
 
 public class HomeActivity extends BaseFragmentActivity implements
 		OnClickListener, PlayObserver {
@@ -57,6 +67,7 @@ public class HomeActivity extends BaseFragmentActivity implements
 		OnlineConfigAgent.getInstance().updateOnlineConfig(this);
 		initView();
 		PlayerManager.getInstance().register(this);
+		EventBus.getDefault().register(this);
 
 	}
 
@@ -122,7 +133,7 @@ public class HomeActivity extends BaseFragmentActivity implements
 		}
 	}
 
-	
+
 
 	public void setTabSelect(int i) {
 
@@ -130,71 +141,71 @@ public class HomeActivity extends BaseFragmentActivity implements
 		FragmentTransaction transaction = manager.beginTransaction();
 		resetTab();
 		switch (i) {
-		case 0:
-			mTitleTv.setVisibility(View.INVISIBLE);
-			mTitleImg.setVisibility(View.VISIBLE);
-			mDiscoverFragment = (DiscoverFragment) manager.findFragmentByTag(FRAG_DISCOVER);
-			hideTab(transaction);
-			if (mDiscoverFragment == null) {
-				mDiscoverFragment = new DiscoverFragment();
-				transaction.add(R.id.fl_fragment, mDiscoverFragment,
-						FRAG_DISCOVER);
-			} else {
-				transaction.show(mDiscoverFragment);
-			}
-			mDisCoverTabTv.setSelected(true);
-			transaction.commitAllowingStateLoss();
-			break;
-		case 1:
-			mTitleTv.setText("我的故事");
-			mTitleTv.setVisibility(View.VISIBLE);
-			mTitleImg.setVisibility(View.INVISIBLE);
-			mMineFragment = (MineFragment) manager.findFragmentByTag(FRAG_MINE);
-			hideTab(transaction);
-			if (mMineFragment == null) {
-				mMineFragment = new MineFragment();
-				transaction.add(R.id.fl_fragment, mMineFragment, FRAG_MINE);
-			} else {
-				transaction.show(mMineFragment);
-			}
-			mMineTabTv.setSelected(true);
-			transaction.commitAllowingStateLoss();
-			break;
-		case 2:
-			mTitleImg.setVisibility(View.INVISIBLE);
-			mTitleTv.setVisibility(View.VISIBLE);
-			mTitleTv.setText("圈子");
-			mSearchFragment = (CricleFragment) manager
-					.findFragmentByTag(FRAG_SEARCH);
-			hideTab(transaction);
-			if (mSearchFragment == null) {
-				mSearchFragment = new CricleFragment();
-				transaction.add(R.id.fl_fragment, mSearchFragment, FRAG_SEARCH);
-			} else {
-				transaction.show(mSearchFragment);
-			}
-			mSearchTabTv.setSelected(true);
-			transaction.commitAllowingStateLoss();
-			break;
-		case 3:
-			mTitleImg.setVisibility(View.INVISIBLE);
-			mTitleTv.setVisibility(View.VISIBLE);
-			mTitleTv.setText("账号");
-			mAccountFragment = (AccountFragment) manager
-					.findFragmentByTag(FRAG_ACCOUNT);
-			hideTab(transaction);
-			if (mAccountFragment == null) {
-				mAccountFragment = new AccountFragment();
-				transaction.add(R.id.fl_fragment, mAccountFragment,FRAG_ACCOUNT);
-			} else {
-				transaction.show(mAccountFragment);
-			}
-			mPerasonTabTv.setSelected(true);
-			transaction.commitAllowingStateLoss();
-			break;
-		default:
+			case 0:
+				mTitleTv.setVisibility(View.INVISIBLE);
+				mTitleImg.setVisibility(View.VISIBLE);
+				mDiscoverFragment = (DiscoverFragment) manager.findFragmentByTag(FRAG_DISCOVER);
+				hideTab(transaction);
+				if (mDiscoverFragment == null) {
+					mDiscoverFragment = new DiscoverFragment();
+					transaction.add(R.id.fl_fragment, mDiscoverFragment,
+							FRAG_DISCOVER);
+				} else {
+					transaction.show(mDiscoverFragment);
+				}
+				mDisCoverTabTv.setSelected(true);
+				transaction.commitAllowingStateLoss();
+				break;
+			case 1:
+				mTitleTv.setText("我的故事");
+				mTitleTv.setVisibility(View.VISIBLE);
+				mTitleImg.setVisibility(View.INVISIBLE);
+				mMineFragment = (MineFragment) manager.findFragmentByTag(FRAG_MINE);
+				hideTab(transaction);
+				if (mMineFragment == null) {
+					mMineFragment = new MineFragment();
+					transaction.add(R.id.fl_fragment, mMineFragment, FRAG_MINE);
+				} else {
+					transaction.show(mMineFragment);
+				}
+				mMineTabTv.setSelected(true);
+				transaction.commitAllowingStateLoss();
+				break;
+			case 2:
+				mTitleImg.setVisibility(View.INVISIBLE);
+				mTitleTv.setVisibility(View.VISIBLE);
+				mTitleTv.setText("圈子");
+				mSearchFragment = (CricleFragment) manager
+						.findFragmentByTag(FRAG_SEARCH);
+				hideTab(transaction);
+				if (mSearchFragment == null) {
+					mSearchFragment = new CricleFragment();
+					transaction.add(R.id.fl_fragment, mSearchFragment, FRAG_SEARCH);
+				} else {
+					transaction.show(mSearchFragment);
+				}
+				mSearchTabTv.setSelected(true);
+				transaction.commitAllowingStateLoss();
+				break;
+			case 3:
+				mTitleImg.setVisibility(View.INVISIBLE);
+				mTitleTv.setVisibility(View.VISIBLE);
+				mTitleTv.setText("账号");
+				mAccountFragment = (AccountFragment) manager
+						.findFragmentByTag(FRAG_ACCOUNT);
+				hideTab(transaction);
+				if (mAccountFragment == null) {
+					mAccountFragment = new AccountFragment();
+					transaction.add(R.id.fl_fragment, mAccountFragment,FRAG_ACCOUNT);
+				} else {
+					transaction.show(mAccountFragment);
+				}
+				mPerasonTabTv.setSelected(true);
+				transaction.commitAllowingStateLoss();
+				break;
+			default:
 
-			break;
+				break;
 		}
 	}
 
@@ -236,25 +247,25 @@ public class HomeActivity extends BaseFragmentActivity implements
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.tv_home_discover:
-			setTabSelect(0);
-			break;
-		case R.id.tv_home_mine:
-			setTabSelect(1);
-			break;
-		case R.id.tv_home_search:
-			setTabSelect(2);
-			break;
-		case R.id.tv_home_account:
-			setTabSelect(3);
-			break;
-		case R.id.img_head_search:
-			startActivity(new Intent(this,SearchActivity.class));
-			overridePendingTransition(R.anim.search_translatey100to0,
-					R.anim.search_translatey0tof100);
-			break;
-		default:
-			break;
+			case R.id.tv_home_discover:
+				setTabSelect(0);
+				break;
+			case R.id.tv_home_mine:
+				setTabSelect(1);
+				break;
+			case R.id.tv_home_search:
+				setTabSelect(2);
+				break;
+			case R.id.tv_home_account:
+				setTabSelect(3);
+				break;
+			case R.id.img_head_search:
+				startActivity(new Intent(this,SearchActivity.class));
+				overridePendingTransition(R.anim.search_translatey100to0,
+						R.anim.search_translatey0tof100);
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -274,30 +285,30 @@ public class HomeActivity extends BaseFragmentActivity implements
 	//显示退出应用的dialog
 	private void showCancelAppDialog() {
 		new TipDialog.Builder(this)
-					.setHasBtn(true)
-					.setTipText("确定退出小柠檬？")
-					.setShieldActionUp(true)
-					.setLayoutId(R.layout.dialog_cancel_tip)
-					.setAutoDismiss(false)
-					.setOnClickListener(
-							new com.orhanobut.dialogplus.OnClickListener() {
+				.setHasBtn(true)
+				.setTipText("确定退出小柠檬？")
+				.setShieldActionUp(true)
+				.setLayoutId(R.layout.dialog_cancel_tip)
+				.setAutoDismiss(false)
+				.setOnClickListener(
+						new com.orhanobut.dialogplus.OnClickListener() {
 
-								@Override
-								public void onClick(DialogPlus dialog, View view) {
-									dialog.dismiss();
-									switch (view.getId()) {
+							@Override
+							public void onClick(DialogPlus dialog, View view) {
+								dialog.dismiss();
+								switch (view.getId()) {
 									case R.id.tv_dialog_enter:
 										MusicService.stopService(HomeActivity.this);
 										oldFinish();
-										
+
 										break;
 									case R.id.tv_dialog_min:
 										oldFinish();
 										break;
-									}
-
 								}
-							}).create().show();
+
+							}
+						}).create().show();
 	}
 
 	@Override
@@ -305,9 +316,31 @@ public class HomeActivity extends BaseFragmentActivity implements
 		PlayWaveManager.getInstance().notify(music);
 	}
 
+	//向uc同步用户登录信息
+	public void onEventAsync(LoginEvent event) {
+
+		UserInfo userinfo = event.userInfo;
+		String uc_callback = userinfo.getUcCallback();
+		LHttpRequest.getInstance().UCSyncLoginRequest(HomeActivity.this, uc_callback, new LHttpHandler<UserInfo>(HomeActivity.this) {
+
+			@Override
+			public void onGetDataSuccess(UserInfo data) {
+				//
+			}
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers,
+								  String responseString, Throwable throwable) {
+				//DebugUtils.e("UCSyncLoginRequest onFailure callback is run");
+				//TODO:uc_callback的接口返回，不是项目接口的标准规范，所以会进入到这个回调里面
+			}
+		});
+	}
+
 	@Override
 	public void onDestroy() {
 		PlayerManager.getInstance().unRegister(this);
 		super.onDestroy();
+		EventBus.getDefault().unregister(this);
 	}
 }
