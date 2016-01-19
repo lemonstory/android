@@ -22,6 +22,7 @@ import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.base.BaseFragmentActivity;
 import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.constant.Constant;
+import com.xiaoningmeng.event.LoginEvent;
 import com.xiaoningmeng.utils.AvatarUtils;
 import com.ypy.eventbus.EventBus;
 
@@ -130,8 +131,8 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
 		}
 	}
 	
-	public void onEventMainThread(UserInfo userInfo){
-		this.mUserInfo = userInfo;
+	public void onEventMainThread(LoginEvent event){
+		this.mUserInfo = event.userInfo;
 		setUserInfo();
 	}
 	
