@@ -109,6 +109,7 @@
     <dimen name="ablum_comment_item_height">67dp</dimen>
     <dimen name="ablum_comment_item_margin_left">11dp</dimen>
     <dimen name="ablum_comment_item_margin_right">11dp</dimen>
+    <dimen name="classifiction_item_height">59dp</dimen>
 
     <dimen name="album_intro_margin_left">16dp</dimen>
     <dimen name="album_intro_open">11dp</dimen>

@@ -32,6 +32,10 @@ proguard/
 captures/
 
 # About Project
+.idea/
+libraries/
+*.iml
+gradlew
 Constant.java
 ConstantURL.java
 build.gradle

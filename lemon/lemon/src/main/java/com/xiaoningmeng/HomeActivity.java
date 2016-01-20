@@ -2,9 +2,6 @@ package com.xiaoningmeng;
 
 import com.orhanobut.dialogplus.DialogPlus;
 import com.umeng.onlineconfig.OnlineConfigAgent;
-import com.umeng.socialize.controller.UMSocialService;
-import com.umeng.socialize.sso.UMSsoHandler;
-import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.base.BaseFragmentActivity;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.UserInfo;
@@ -20,7 +17,6 @@ import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.MusicService;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
-import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.utils.PreferenceUtil;
 import com.xiaoningmeng.view.dialog.TipDialog;
 import com.ypy.eventbus.EventBus;
@@ -37,7 +33,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.apache.http.Header;
-import org.apache.http.client.CookieStore;
 
 public class HomeActivity extends BaseFragmentActivity implements
 		OnClickListener, PlayObserver {

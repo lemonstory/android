@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.baidu.mobads.AdView;
+import com.baidu.mobads.AdViewListener;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xiaoningmeng.AblumDetailActivity;
 import com.xiaoningmeng.ClassificationActivity;
@@ -20,6 +21,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,9 +29,12 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import org.json.JSONObject;
 
 public class DiscoverStoryAdapter extends BaseAdapter implements
 		OnClickListener {
@@ -56,7 +61,7 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 		mDiscover = discover;
 		mInflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		mImgHeight = (int)(UiUtils.getInstance(mContext).getmScreenWidth()*0.3f);
+		mImgHeight = (int)(UiUtils.getInstance(mContext).getmScreenWidth()*0.25f);
 		map = new SparseArray<>();
 		removeList(mDiscover.getHotrecommend());
 		removeList(mDiscover.getSamgeage());
@@ -421,6 +426,12 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 					break;
 				case AD_TYPE:
 					AdView adView = null;
+					if(convertView == null) {
+						convertView = mInflater.inflate(
+								R.layout.item_album_ad, null);
+					}
+					FrameLayout adFl = (FrameLayout) convertView;
+					adFl.removeAllViews();
 					if (map.get(typePostion) != null) {
 						adView = map.get(typePostion);
 					} else{
@@ -442,13 +453,17 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 								ViewGroup.LayoutParams.WRAP_CONTENT));
 						map.put(typePostion,adView);
 					}
-					convertView = adView;
+					adView.setVisibility(View.GONE);
+					adView.setListener(new MyAdListener(adView));
+					adFl.addView(adView);
 
 				break;
 
 			}
 		return convertView;
 	}
+
+
 
 	static class HeadViewHolder{
 		TextView classify1Tv;
@@ -518,6 +533,42 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 			((BaseFragmentActivity) mContext).startActivityForNew(ii);
 			break;
 		}
+	}
 
+	public static class MyAdListener implements  AdViewListener{
+		private AdView adView;
+
+		public MyAdListener(AdView adView){
+			this.adView = adView;
+		}
+
+		@Override
+		public void onAdReady(AdView adView) {
+
+		}
+
+		@Override
+		public void onAdShow(JSONObject jsonObject) {
+			if(adView != null){
+				adView.setVisibility(View.VISIBLE);
+			}
+		}
+
+		@Override
+		public void onAdClick(JSONObject jsonObject) {
+
+		}
+
+		@Override
+		public void onAdFailed(String s) {
+			if(adView != null){
+				adView.setVisibility(View.GONE);
+			}
+		}
+
+		@Override
+		public void onAdSwitch() {
+
+		}
 	}
 }

@@ -13,6 +13,7 @@ import com.ypy.eventbus.EventBus;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.util.Log;
 
 public class HistoryDao {
 
@@ -44,7 +45,7 @@ public class HistoryDao {
 			}else{
 					addHistoryAlbum(uid,albumId,albumInfo, storyId,0,uploadTime);
 					addHistoryStory(albumId, albumInfo.getStoryinfo());
-				}
+			}
 			EventBus.getDefault().post(new HistoryEvent(listenerAlbum, albumId, storyId));
 		}
 	

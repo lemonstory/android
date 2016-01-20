@@ -16,9 +16,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.baidu.mobads.AdView;
+import com.baidu.mobads.AdViewListener;
 import com.xiaoningmeng.ClassificationActivity;
 import com.xiaoningmeng.MoreActivity;
 import com.xiaoningmeng.R;
+import com.xiaoningmeng.adapter.DiscoverStoryAdapter;
 import com.xiaoningmeng.adapter.RecommendStoryAdapter;
 import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.base.BaseFragmentActivity;
@@ -32,6 +34,8 @@ import com.xiaoningmeng.view.CollapsibleTextView;
 import com.xiaoningmeng.view.FlowLayout;
 
 import android.view.ViewGroup.MarginLayoutParams;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +82,8 @@ public class AblumDetailIntroFragment extends BaseFragment implements View.OnCli
 					final FrameLayout adFl = (FrameLayout) mContentView.findViewById(R.id.fl_ad);
 					AdView adView = new AdView(mContext, Constant.BAIDU_DETAIL_ID);
 					adView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
+					adView.setVisibility(View.GONE);
+					adView.setListener(new DiscoverStoryAdapter.MyAdListener(adView));
 					adFl.addView(adView);
 					if (intro != null && !"".equals(intro)) {
 						introTv.setDesc(intro, introTv, TextView.BufferType.NORMAL);
@@ -102,7 +108,7 @@ public class AblumDetailIntroFragment extends BaseFragment implements View.OnCli
 		MarginLayoutParams lp = new ViewGroup.MarginLayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, mContext.getResources()
 				.getDimensionPixelOffset(R.dimen.search_et_height));
 		lp.rightMargin = mContext.getResources().getDimensionPixelOffset(R.dimen.base_margin);
-		lp.topMargin = mContext.getResources().getDimensionPixelOffset(R.dimen.base_margin);
+		lp.topMargin = mContext.getResources().getDimensionPixelOffset(R.dimen.base_radius_size);
 		int allSize = tagList.size();
 		int minWidth = getResources().getDimensionPixelOffset(R.dimen.home_discover_btn);
 		int childCount = mFlowLayout.getChildCount();

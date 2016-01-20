@@ -159,10 +159,10 @@
             <View
                 style="@style/dividerStyle"
                 android:layout_alignParentBottom="true"
-                android:layout_marginLeft="@dimen/account_item_margin_left" />
+                 />
         </RelativeLayout>
 
-        <RelativeLayout
+       <!-- <RelativeLayout
             android:id="@+id/rl_account_Recommend"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/account_item_height"
@@ -198,7 +198,7 @@
             <View
                 style="@style/dividerStyle"
                 android:layout_alignParentBottom="true" />
-        </RelativeLayout>
+        </RelativeLayout>-->
 
         <RelativeLayout
             android:id="@+id/rl_account_setting"
