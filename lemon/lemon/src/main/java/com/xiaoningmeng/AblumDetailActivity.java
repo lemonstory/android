@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.socialize.controller.UMSocialService;
 import com.umeng.socialize.sso.UMSsoHandler;
+import com.xiaoningmeng.application.ActivityManager;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseFragmentActivity;
@@ -511,5 +512,13 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 		}
 		mFavTv.setText(albumInfo.getFavnum()+"");
 		}
+	}
+
+	@Override
+	public void finish() {
+		if(ActivityManager.getScreenManager().getActivity(HomeActivity.class) == null){
+			startActivityForNew(new Intent(this,HomeActivity.class));
+		}
+		super.finish();
 	}
 }

@@ -84,3 +84,4 @@
 -keep class com.orhanobut.dialogplus.**{*;}
 -keep class com.baoyz.**{*;}
 -keep class com.xiaoningmeng.bean.** { *; }
+-keep class com.xiaoningmeng.reminder.LMessageReceiver {*;}

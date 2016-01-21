@@ -21,6 +21,7 @@ import android.webkit.WebStorage.QuotaUpdater;
 import android.widget.TextView;
 
 //import com.r0adkll.slidr.Slidr;
+import com.xiaoningmeng.application.ActivityManager;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.AppInfo;
@@ -49,6 +50,15 @@ public class WebViewActivity extends BaseActivity {
 
 		Intent i = new Intent(context, WebViewActivity.class);
 		i.putExtra("web_url", url);
+		context.startActivity(i);
+	}
+
+	// 调用此方法打开webView
+	public static void openNotifyWebView(Context context, String url) {
+
+		Intent i = new Intent(context, WebViewActivity.class);
+		i.putExtra("web_url", url);
+		i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		context.startActivity(i);
 	}
 
@@ -196,4 +206,12 @@ public class WebViewActivity extends BaseActivity {
 		return super.onKeyDown(keyCode,event);
 	}
 
+
+	@Override
+	public void finish() {
+		if(ActivityManager.getScreenManager().getActivity(HomeActivity.class) == null){
+			startActivityForNew(new Intent(this,HomeActivity.class));
+		}
+		super.finish();
+	}
 }

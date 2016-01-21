@@ -127,7 +127,7 @@ public class DiscoverFragment extends BaseFragment {
 				public void onClick(View view) {
 					String linkUrl = data.getLinkurl();
 					if(linkUrl != null){
-						if(linkUrl.startsWith("http:")){
+						if(linkUrl.startsWith("http:")||linkUrl.startsWith("https:")){
 							WebViewActivity.openWebView(context, data.getLinkurl());
 						}else if(linkUrl.startsWith("xnm:")){
 							if(linkUrl.contains("albumid")){

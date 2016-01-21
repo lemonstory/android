@@ -1,5 +1,6 @@
 package com.xiaoningmeng.fragment;
 
+import com.xiaoningmeng.GuideActivity;
 import com.xiaoningmeng.HomeActivity;
 import com.xiaoningmeng.LoginActivity;
 import com.xiaoningmeng.PerasonalActivity;
@@ -31,8 +32,7 @@ public class WeclomeFragment extends BaseFragment implements OnClickListener {
 	private BaseDialog mDialog;
 	private View mAgeView;
 	private BaseFragmentActivity mContext;
-	private  static boolean isBrithEdit;
-	public static boolean isGenderEdit;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -105,8 +105,8 @@ public class WeclomeFragment extends BaseFragment implements OnClickListener {
 								@Override
 								public void onGetDataSuccess(String data) {
 									MyApplication.getInstance().userInfo.setAge(age+"");
-									isBrithEdit = true;
-									goHomeActivity();
+									((GuideActivity)getActivity()).setisGenderEdit();
+									//goHomeActivity();
 								}
 							});
 
@@ -131,8 +131,8 @@ public class WeclomeFragment extends BaseFragment implements OnClickListener {
 			@Override
 			public void onGetDataSuccess(String data) {
 				MyApplication.getInstance().userInfo.setGender(sex+"");
-				isGenderEdit = true;
-				goHomeActivity();
+				((GuideActivity)getActivity()).setisBrithEdit();
+				//goHomeActivity();
 				
 			}
 			
@@ -140,12 +140,5 @@ public class WeclomeFragment extends BaseFragment implements OnClickListener {
 		
 	}
 	
-	private void goHomeActivity(){
-		
-		if(isBrithEdit && isGenderEdit){
-			
-			startActivityForNew(new Intent(mContext, HomeActivity.class));
-			mContext.oldFinish();
-		}
-	}
+
 }

@@ -19,6 +19,9 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v4.widget.EdgeEffectCompat;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 public class GuideActivity extends BaseFragmentActivity implements
 		OnClickListener {
@@ -27,6 +30,12 @@ public class GuideActivity extends BaseFragmentActivity implements
 	private CricleIndicator indicator;
 	public static final int PAGE_COUNT = 2; // 页数
 	private EdgeEffectCompat rightEdge;
+	private TextView mRightTv;
+	private boolean isBrithEdit;
+	public  boolean isGenderEdit;
+	private int pageArg0 =0;
+
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +45,7 @@ public class GuideActivity extends BaseFragmentActivity implements
 		setTinitColor(Color.parseColor("#f0f0f0"));
 		indicator = (CricleIndicator) findViewById(R.id.indicator);
 		mViewPager = (ViewPager) findViewById(R.id.pager);
+		mRightTv = (TextView) findViewById(R.id.tv_head_right);
 		mViewPager.setOnPageChangeListener(listener);
 		setTitleName("设置生日");
 		try {
@@ -59,6 +69,8 @@ public class GuideActivity extends BaseFragmentActivity implements
 			indicator.setCurrentPosition(arg0 % PAGE_COUNT);
 			indicator.setVisibility(arg0 == 2 ? View.INVISIBLE : View.VISIBLE);
 			setTitleName(arg0 == 0 ? "设置生日" : "设置性别");
+			pageArg0  = arg0;
+			setRightTvStatus();
 		}
 
 		@Override
@@ -116,11 +128,17 @@ public class GuideActivity extends BaseFragmentActivity implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.tv_head_right:
-			if(ActivityManager.getScreenManager().getActivity(HomeActivity.class)== null){
+			if(pageArg0 == 0 && isBrithEdit){
+				mViewPager.setCurrentItem(1);
+			}else if(pageArg0 == 1 && isGenderEdit){
 				startActivityForNew(new Intent(GuideActivity.this,
 						HomeActivity.class));
+				oldFinish();
+			}else{
+				startActivityForNew(new Intent(GuideActivity.this,
+						HomeActivity.class));
+				oldFinish();
 			}
-			oldFinish();
 			break;
 		default:
 			break;
@@ -128,4 +146,29 @@ public class GuideActivity extends BaseFragmentActivity implements
 
 	}
 
+
+	public  void setisBrithEdit(){
+		isBrithEdit = true;
+		setRightTvStatus();
+	}
+
+	public  void setisGenderEdit(){
+		isGenderEdit = true;
+		setRightTvStatus();
+	}
+
+
+	private void setRightTvStatus(){
+		if(pageArg0 == 0 && isBrithEdit){
+			mRightTv.setText("下一步");
+			mRightTv.setTextColor(getResources().getColor(R.color.orage_color));
+		}else if(pageArg0 == 1 && isGenderEdit){
+			mRightTv.setText("完成");
+			mRightTv.setTextColor(getResources().getColor(R.color.orage_color));
+		}else{
+			mRightTv.setText("跳过");
+			mRightTv.setTextColor(getResources().getColor(R.color.base_black_title_color));
+		}
+
+	}
 }

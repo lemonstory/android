@@ -82,7 +82,7 @@ public class LoadingActivity extends BaseActivity {
 	public boolean waitingOnRestart=false;
 	private void jumpWhenCanClick() {
 		if(this.hasWindowFocus()||waitingOnRestart){
-			Intent i = new Intent(LoadingActivity.this,UserAuth.getInstance().isFirst() ?GuideActivity.class:HomeActivity.class);
+			Intent i = new Intent(LoadingActivity.this,/*UserAuth.getInstance().isFirst() ?GuideActivity.class:*/HomeActivity.class);
 			startActivity(i);
 			oldFinish();
 			overridePendingTransition(R.anim.fade_in,R.anim.fade_out);

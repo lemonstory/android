@@ -125,7 +125,7 @@
     <dimen name="album_mark_margin_bottom">11dp</dimen>
     <dimen name="album_mark_padding">10dp</dimen>
     <dimen name="album_recommend_padding">8dp</dimen>
-    <dimen name="classifiction_item_height">54dp</dimen>
+    <dimen name="classifiction_item_height">41dp</dimen>
 
     <!--cardView-->
     <dimen name="album_card_margin_top">1dp</dimen>
