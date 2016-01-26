@@ -98,7 +98,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener,
 			Logout();
 			break;
 		case R.id.rl_setting_share:
-			mController = new ShareDialog().show(this,new ShareBean("小柠檬", "", "http://www.xiaoningmeng.net/"));
+			mController = new ShareDialog().show(this,new ShareBean("小柠檬",null, "http://app.mi.com/detail/120187"));
 			break;
 		case R.id.rl_setting_check:
 			checkVersion();

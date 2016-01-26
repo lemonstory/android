@@ -76,12 +76,15 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 	private ImageView mCoverImg;
 	private ImageView mWaveImg;
 	private TextView mCommentTv;
+
 	private RatingBar mRatingBar;
 	private AlbumInfo albumInfo;
 	private List<Story> storyList;
 	private List<Comment> commentList;
 	private boolean isFirst = true;
-
+	private int mPlayTime;
+	private String mPlayStoryId;
+	private int mPlayStoryPosition;
 	private String mAlbumId;
 	private Handler mHandler = new Handler(){
 		public void handleMessage(Message msg) {
@@ -93,13 +96,14 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 		}
 	};
 
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mAlbumId = getIntent().getStringExtra("albumId");
 		boolean isScroll = getIntent().getBooleanExtra("isScroll", false);
 		int pager = getIntent().getIntExtra("pager", 0);
+		mPlayTime = getIntent().getIntExtra("playtimes",0);
+		mPlayStoryId = getIntent().getStringExtra("playstoryid");
 		setContentView(R.layout.activity_ablum_detail);
 		mViewPager = (ViewPager) findViewById(R.id.id_stickynavlayout_viewpager);
 		mPlayListTabTv = (TextView) findViewById(R.id.tv_ablum_detail_play_list);
@@ -176,7 +180,7 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 						storyList = data.getStorylist();
 						commentList = data.getCommentlist();
 						fillAlbumInfoView(albumInfo);
-						mPlayListFragment.setStoryList(albumInfo, storyList);
+						mPlayListFragment.setStoryList(albumInfo, storyList,mPlayStoryId,mPlayTime);
 						mIntroFragment.setIntro(albumInfo.getIntro(),data.getTaglist(),data.getRecommendalbumlist());
 						if(albumInfo.getCommentnum()==0){
 							mCommentCountTv.setVisibility(View.INVISIBLE);
@@ -184,6 +188,7 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 							mCommentCountTv.setVisibility(View.VISIBLE);
 							mCommentCountTv.setText(albumInfo.getCommentnum()+"");
 						}
+						recoveryPlayedPosition();
 						mCommentFragment.setComments(albumInfo.getAlbumid(),commentList);
 						AblumDetailActivity.this.notify(PlayerManager.getInstance().getPlayingStory());
 					}
@@ -201,6 +206,26 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 						}, 500);
 					}
 				});
+	}
+
+	//恢复到上次播放的位置
+	private void recoveryPlayedPosition(){
+		if(mPlayStoryId != null && mPlayTime > 0 && storyList != null ){
+			mPlayProgressBar.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					for(int i = 0; i<storyList.size();i++){
+						if(mPlayStoryId.equals(storyList.get(i).getStoryId())){
+							Story s = storyList.get(i);
+							mPlayStoryPosition = i;
+							mPlayProgressBar.setMax(Integer.parseInt(s.getTimes()));
+							mPlayProgressBar.setProgress(mPlayTime);
+							setTitleName(s.getTitle());
+						}
+					}
+				}
+			},100);
+		}
 	}
 
 	private void fillAlbumInfoView(AlbumInfo albumInfo) {
@@ -263,6 +288,8 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 			} else {
 				PlayerManager.getInstance().resumePlay();
 			}
+		}else if(mPlayStoryId != null) {
+			PlayerManager.getInstance().playStory(albumInfo, storyList, mPlayStoryPosition,mPlayTime,AlbumSource.ALBUM_DETAIL);
 		} else {
 			PlayerManager.getInstance().playStory(albumInfo, storyList, 0,	AlbumSource.ALBUM_DETAIL);
 

@@ -40,6 +40,7 @@ import com.xiaoningmeng.bean.FocusPic;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.LHttpHandler;
 import com.xiaoningmeng.http.LHttpRequest;
+import com.xiaoningmeng.manager.DownloadApkManager;
 
 public class DiscoverFragment extends BaseFragment {
 
@@ -128,7 +129,11 @@ public class DiscoverFragment extends BaseFragment {
 					String linkUrl = data.getLinkurl();
 					if(linkUrl != null){
 						if(linkUrl.startsWith("http:")||linkUrl.startsWith("https:")){
-							WebViewActivity.openWebView(context, data.getLinkurl());
+							if(linkUrl.endsWith(".apk")){
+								DownloadApkManager.getInstance().showDownloadDialog(getActivity(),linkUrl);
+							}else {
+								WebViewActivity.openWebView(context, data.getLinkurl());
+							}
 						}else if(linkUrl.startsWith("xnm:")){
 							if(linkUrl.contains("albumid")){
 								String ablumId = linkUrl.substring(linkUrl.lastIndexOf("=")+1,linkUrl.length());

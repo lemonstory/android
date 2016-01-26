@@ -296,6 +296,11 @@ public class DownloadStoryActivity extends BaseActivity implements
 				}
 			}
 			break;
+		case START:
+			if (type == HISTORY_TYPE&& albumId.equals(PlayerManager.getInstance().getPlayingStory().albumid)) {
+				mAdapter.notifyDataSetChanged();
+			}
+			break;
 		default:
 			break;
 		}

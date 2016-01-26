@@ -232,6 +232,11 @@
           <item name="android:maxHeight">@dimen/ablum_download_height</item>
           <item name="android:minHeight">@dimen/ablum_download_height</item>
     </style>
+    <style name="downloadApkProgressBarStyle" parent="@android:style/Widget.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/download_apk_progress_bg</item>
+        <item name="android:maxHeight">@dimen/ablum_download_height</item>
+        <item name="android:minHeight">@dimen/ablum_download_height</item>
+    </style>
     <style name="notifyProgressBarStyle" parent="@android:style/Widget.ProgressBar.Horizontal">
           <item name="android:progressDrawable">@drawable/notify_progress_bg</item>
           <item name="android:maxHeight">4dp</item>
@@ -324,6 +329,23 @@
         <item name="android:layout_marginLeft">@dimen/album_card_margin_left</item>
         <item name="android:layout_marginRight">@dimen/album_card_margin_right</item>
 
+    </style>
+
+    <style name="NumberProgressBar_Default">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+
+        <item name="max3">100</item>
+        <item name="progress">0</item>
+
+        <item name="progress_unreached_color">#F8F4F5</item>
+        <item name="progress_reached_color">@color/action_bar_bg</item>
+
+        <item name="progress_text_size">10sp</item>
+        <item name="progress_text_color">@color/orage_color</item>
+
+        <item name="progress_reached_bar_height">@dimen/ablum_download_height</item>
+        <item name="progress_unreached_bar_height">@dimen/ablum_download_height</item>
     </style>
 
 </resources>

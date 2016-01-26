@@ -13,6 +13,7 @@ import com.xiaoningmeng.fragment.MineFragment;
 import com.xiaoningmeng.fragment.CricleFragment;
 import com.xiaoningmeng.http.LHttpHandler;
 import com.xiaoningmeng.http.LHttpRequest;
+import com.xiaoningmeng.manager.DownloadApkManager;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.MusicService;
 import com.xiaoningmeng.player.PlayObserver;
@@ -127,6 +128,8 @@ public class HomeActivity extends BaseFragmentActivity implements
 			PreferenceUtil.putInt("Share_countdown", remindCountDown);
 		}
 	}
+
+
 
 
 
@@ -255,6 +258,7 @@ public class HomeActivity extends BaseFragmentActivity implements
 				setTabSelect(3);
 				break;
 			case R.id.img_head_search:
+
 				startActivity(new Intent(this,SearchActivity.class));
 				overridePendingTransition(R.anim.search_translatey100to0,
 						R.anim.search_translatey0tof100);

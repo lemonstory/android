@@ -45,8 +45,8 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
 				this);
 		contentView.findViewById(R.id.rl_account_perasonal).setOnClickListener(
 				this);
-		/*contentView.findViewById(R.id.rl_account_Ranking).setOnClickListener(
-				this);*/
+		contentView.findViewById(R.id.rl_account_Ranking).setOnClickListener(
+				this);
 		contentView.findViewById(R.id.rl_account_shop).setOnClickListener(this);
 		//recommendView =  contentView.findViewById(R.id.rl_account_Recommend);
 		//recommendView.setOnClickListener(this);
@@ -58,7 +58,6 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
 		mUserInfo = MyApplication.getInstance().userInfo;
 		setUserInfo();
 		EventBus.getDefault().register(this);
-		//loadRemmend();
 		return contentView;
 	}
 

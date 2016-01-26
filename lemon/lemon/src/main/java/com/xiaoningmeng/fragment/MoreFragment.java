@@ -64,13 +64,13 @@ public class MoreFragment extends BaseFragment implements XListView.IXListViewLi
 						responseAlbumList = data.getSameagelist();
 					}
 					if(responseAlbumList != null){
-						mListView.setPullLoadEnable(true);
-						mAlbumInfos.addAll(responseAlbumList);
-						p++;
-
 						if(responseAlbumList.size() == 0){
 							mListView.setPullLoadEnable(false);
+						}else {
+							mListView.setPullLoadEnable(true);
+							mAlbumInfos.addAll(responseAlbumList);
 						}
+						p++;
 						mAdapter.notifyDataSetChanged();
 					}
 				}

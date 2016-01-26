@@ -76,7 +76,7 @@ public class ClassificationFragment extends BaseFragment implements XListView.IX
 					if(Constant.DOWN.equals(direction) && data.getTagalbumlist().size() == 0){
 						mListView.setFootViewNoMore(true);
 					}
-					if(Constant.FRIST == direction && data.getTagalbumlist().size() == 0){
+					if(Constant.FRIST == direction && data.getTagalbumlist().size() < 12){
 						mListView.setPullLoadEnable(false);
 					}else{
 						mListView.setPullLoadEnable(true);

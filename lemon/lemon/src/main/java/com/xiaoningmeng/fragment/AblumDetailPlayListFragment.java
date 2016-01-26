@@ -31,6 +31,8 @@ public class AblumDetailPlayListFragment extends BaseFragment {
 	private List<Story> stories;
 	private ViewGroup loadingView;
 	private AlbumInfo albumInfo;
+	private String playStoryId;
+	private int current;
 	
 
 	@Override
@@ -44,25 +46,27 @@ public class AblumDetailPlayListFragment extends BaseFragment {
 		mListView.setPullLoadEnable(false);
 		mListView.setPullRefreshEnable(false);
 		if(stories != null){
-			loadingData(albumInfo, stories);
+			loadingData(albumInfo, stories,playStoryId,current);
 		}
 		return contentView;
 	}
 
-	public void setStoryList(final AlbumInfo albumInfo, List<Story> storys) {
-		loadingData(albumInfo, storys);
+	public void setStoryList(final AlbumInfo albumInfo, List<Story> storys,String playStoryId,int current) {
+		loadingData(albumInfo, storys,playStoryId,current);
 	}
 	
 
-	private void loadingData(final AlbumInfo albumInfo, List<Story> storys) {
+	private void loadingData(final AlbumInfo albumInfo, List<Story> storys,String playStoryId,int current) {
 		this.stories = storys;
 		this.albumInfo = albumInfo;
+		this.playStoryId = playStoryId;
+		this.current = current;
 		if(loadingView == null){
 			return;
 		}
 		loadingView.setVisibility(View.INVISIBLE);
 		loadingView.setClickable(false);
-		mAdapter = new AblumPlayListAdapter(getActivity(), stories, this.albumInfo);
+		mAdapter = new AblumPlayListAdapter(getActivity(), stories, this.albumInfo,playStoryId);
 		mListView.setAdapter(mAdapter);
 		mListView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -73,14 +77,20 @@ public class AblumDetailPlayListFragment extends BaseFragment {
 				if(stories.size() > pos){
 					Story story = stories.get(pos);
 					PlayingStory playingStory = PlayerManager.getInstance().getPlayingStory();
-					if (story.getAlbum_id().equals(albumInfo.getAlbumid()) && story.getMediapath().equals(playingStory.mediapath)){
-						if(playingStory.playState == PlayState.RESUME ||playingStory.playState == PlayState.START||playingStory.playState == PlayState.PLAY){
-							PlayerManager.getInstance().pausePlay();
+					if (story.getAlbum_id().equals(albumInfo.getAlbumid())){
+						if(story.getMediapath().equals(playingStory.mediapath)) {
+							if (playingStory.playState == PlayState.RESUME || playingStory.playState == PlayState.START || playingStory.playState == PlayState.PLAY) {
+								PlayerManager.getInstance().pausePlay();
+							} else {
+								PlayerManager.getInstance().resumePlay();
+							}
 						}else{
-							PlayerManager.getInstance().resumePlay();
+							PlayerManager.getInstance().playStory(albumInfo, stories, pos,AlbumSource.ALBUM_DETAIL);
 						}
-					}else{
+					}else if(story.getStoryId().equals(AblumDetailPlayListFragment.this.playStoryId)){
 						PlayerManager.getInstance().playStory(albumInfo, stories, pos,AlbumSource.ALBUM_DETAIL);
+					}else{
+						PlayerManager.getInstance().playStory(albumInfo, stories, pos,AblumDetailPlayListFragment.this.current,AlbumSource.ALBUM_DETAIL);
 					}
 				}
 			}

@@ -3,6 +3,8 @@ package com.xiaoningmeng.view;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.view.Gravity;
 import android.view.View;
@@ -59,7 +61,13 @@ public class ShareDialog implements View.OnClickListener{
         mController.setShareContent("来自小柠檬客户端");
         mController.getConfig().setSinaCallbackUrl("http://sns.whalecloud.com/sina2/callback");
         // 设置分享图片, 参数2为图片的url地址
-        mController.setShareMedia(new UMImage(mContext,mShareBean.getIconUrl()));
+        if(mShareBean.getIconUrl() == null) {
+            BitmapDrawable bd = (BitmapDrawable) mContext.getResources().getDrawable(R.drawable.logo);
+            Bitmap mbitmap = bd.getBitmap();
+            mController.setShareMedia(new UMImage(mContext, mbitmap));
+        }else{
+            mController.setShareMedia(new UMImage(mContext,mShareBean.getIconUrl()));
+        }
         // 添加微信平台
         UMWXHandler wxHandler = new UMWXHandler(mContext, Constant.WEI_XIN_APP_ID,
                 Constant.WEIN_XIN_APP_SECRET);
