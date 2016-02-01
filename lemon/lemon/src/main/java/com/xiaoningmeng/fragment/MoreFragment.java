@@ -2,6 +2,7 @@ package com.xiaoningmeng.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,6 +15,7 @@ import com.xiaoningmeng.adapter.RecommendStoryAdapter;
 import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.MoreAblum;
+import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.LHttpHandler;
 import com.xiaoningmeng.http.LHttpRequest;
 import org.apache.http.Header;
@@ -49,8 +51,7 @@ public class MoreFragment extends BaseFragment implements XListView.IXListViewLi
 
 
 	private  void requestData(){
-
-		LHttpRequest.getInstance().getMoreList(getActivity(), mMoreParams.moreType, p, 12, 0, mMoreParams.firstTagId, new LHttpHandler<MoreAblum>(getActivity()) {
+		LHttpRequest.getInstance().getMoreList(getActivity(), mMoreParams.moreType, p, Constant.GRID_REQ_LEN, 0, mMoreParams.firstTagId, new LHttpHandler<MoreAblum>(getActivity()) {
 			@Override
 			public void onGetDataSuccess(MoreAblum data) {
 				hideLoadingTip();

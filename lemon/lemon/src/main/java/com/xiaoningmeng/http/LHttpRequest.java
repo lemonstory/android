@@ -424,12 +424,12 @@ public class LHttpRequest {
 	 * 1.3版本接口
 	 */
 	//得到标签专辑列表
-	public void getTagAblumListReq(Context ctx,String tagId,int isGetTag, String direction,String ablumId,String specialtag,int len,LHttpHandler<TagDetail> handler){
+	public void getTagAblumListReq(Context ctx,String tagId,int isGetTag, String direction,String relationId,String specialtag,int len,LHttpHandler<TagDetail> handler){
 		HashMap<String, String> params = new HashMap<>();
 		params.put("currenttagid", tagId);
 		params.put("isgettag",isGetTag+"");
 		params.put("direction",direction);
-		params.put("startalbumid",ablumId);
+		params.put("startrelationid",relationId);
 		params.put("len",len+"");
 		if(specialtag != null) {
 			params.put(specialtag, 1+"");

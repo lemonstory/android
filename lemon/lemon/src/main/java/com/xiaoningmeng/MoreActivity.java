@@ -86,7 +86,6 @@ public class MoreActivity extends BaseFragmentActivity implements View.OnClickLi
 						}
 					}
 					mMoreFragments = new MoreFragment[mMoreParams.size()];
-					mViewPager.setOffscreenPageLimit(2);
 					mViewPager.setAdapter(new TabFragmentPagerAdapter(getSupportFragmentManager()));
 					mIndicator.setViewPager(mViewPager);
 				}

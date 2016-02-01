@@ -37,11 +37,10 @@
             style="@style/discover_story_title"
             android:layout_below="@id/img_story_cover1"
             android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
-            android:text="下雨的小兔子" />
+            android:layout_marginRight="3dp" />
         <TextView
             android:id="@+id/tv_story_recommend1"
-            android:text="推荐语:讲述小象和他的朋友在丛林快乐生活的故事"
+            android:text="暂无推荐语"
             android:layout_below="@id/tv_story_cover1"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
@@ -79,11 +78,10 @@
             style="@style/discover_story_title"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
-            android:layout_below="@id/img_story_cover2"
-            android:text="下雨的小兔子" />
+            android:layout_below="@id/img_story_cover2" />
         <TextView
             android:id="@+id/tv_story_recommend2"
-            android:text="推荐语:讲述小象和他的朋友在丛林快乐生活的故事"
+            android:text="暂无推荐语"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
             android:layout_marginBottom="3dp"

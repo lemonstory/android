@@ -36,7 +36,7 @@
             android:paddingLeft="@dimen/bar_margin"
             android:paddingRight="@dimen/base_radius_size"
             android:gravity="center"
-            android:text="故事"
+            android:text="  "
             android:onClick="onClick"
             android:clickable="true"
             android:textSize="@dimen/title_content_text_size"

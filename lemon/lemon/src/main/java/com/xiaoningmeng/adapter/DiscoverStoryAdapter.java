@@ -53,7 +53,6 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 			R.drawable.home_same_tip, R.drawable.home_new_tip,
 			R.drawable.home_private_tip };
 	public SparseArray<AdView> map;
-	
 
 	public DiscoverStoryAdapter(Context context, Discover discover) {
 
@@ -63,10 +62,6 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mImgHeight = (int)(UiUtils.getInstance(mContext).getmScreenWidth()*0.25f);
 		map = new SparseArray<>();
-		removeList(mDiscover.getHotrecommend());
-		removeList(mDiscover.getSamgeage());
-		removeList(mDiscover.getNewalbum());
-		removeList(mDiscover.getPrivatecustom());
 	}
 
 	private void removeList(List<AlbumInfo> albumInfos){
@@ -280,6 +275,7 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 						headViewHolder.classify1Ll.setVisibility(View.INVISIBLE);
 					}
 					if (classifitionSize > position * 4 + 1) {
+
 						tag = mDiscover.getFirsttag().get(position * 4 + 1);
 						ImageLoader.getInstance().displayImage(tag.getCover(), headViewHolder.classify2Img, Constant.ClASSIFICATION_OPTIONS);
 						headViewHolder.classify2Tv.setText(tag.getName());
@@ -349,13 +345,16 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 						centerViewHolder.tipTv1 = (TextView) convertView
 								.findViewById(R.id.tv_story_tip1);
 						centerViewHolder.storyRl1 = convertView.findViewById(R.id.rl_story1);
-
+						centerViewHolder.recommendTv1 = (TextView) convertView
+								.findViewById(R.id.tv_story_recommend1);
 						centerViewHolder.coverImg2 = (ImageView) convertView
 								.findViewById(R.id.img_story_cover2);
 						centerViewHolder.titleTv2 = (TextView) convertView
 								.findViewById(R.id.tv_story_cover2);
 						centerViewHolder.tipTv2 = (TextView) convertView
 								.findViewById(R.id.tv_story_tip2);
+						centerViewHolder.recommendTv2 = (TextView) convertView
+								.findViewById(R.id.tv_story_recommend2);
 						centerViewHolder.storyRl2 = convertView.findViewById(R.id.rl_story2);
 						RelativeLayout.LayoutParams lp1 = (RelativeLayout.LayoutParams) centerViewHolder.coverImg1.getLayoutParams();
 						lp1.height = mImgHeight;
@@ -388,9 +387,14 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 						AlbumInfo albumInfo = albumInfos.get(coverPos);
 						centerViewHolder.storyRl1.setVisibility(View.VISIBLE);
 						centerViewHolder.titleTv1.setText(albumInfo.getTitle());
-						centerViewHolder.tipTv1.setText(albumInfo.getListennum() + "");
+						centerViewHolder.tipTv1.setText(albumInfo.getListennum() == 0 ?"" :albumInfo.getListennum() + "");
 						ImageLoader.getInstance().displayImage(albumInfo.getCover(),
 								centerViewHolder.coverImg1, Constant.getSmallAlbumOptions(coverPos));
+						if(albumInfo.getRecommenddesc() != null&& !"".equals(albumInfo.getRecommenddesc())) {
+							centerViewHolder.recommendTv1.setText(albumInfo.getRecommenddesc());
+						}else{
+							centerViewHolder.recommendTv1.setText(" ");
+						}
 						centerViewHolder.storyRl1.setTag(albumInfo);
 						centerViewHolder.storyRl1.setOnClickListener(this);
 					} else {
@@ -400,7 +404,12 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 						AlbumInfo albumInfo = albumInfos.get(coverPos + 1);
 						centerViewHolder.storyRl2.setVisibility(View.VISIBLE);
 						centerViewHolder.titleTv2.setText(albumInfo.getTitle());
-						centerViewHolder.tipTv2.setText(albumInfo.getListennum() + "");
+						centerViewHolder.tipTv2.setText(albumInfo.getListennum() == 0 ?"" :albumInfo.getListennum() + "");
+						if(albumInfo.getRecommenddesc() != null&& !"".equals(albumInfo.getRecommenddesc())) {
+							centerViewHolder.recommendTv2.setText(albumInfo.getRecommenddesc());
+						}else{
+							centerViewHolder.recommendTv2.setText(" ");
+						}
 						ImageLoader.getInstance().displayImage(albumInfo.getCover(),
 								centerViewHolder.coverImg2, Constant.getSmallAlbumOptions(coverPos + 1));
 						centerViewHolder.storyRl2.setTag(albumInfo);
@@ -489,11 +498,13 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 	static class CenterViewHolder {
 
 		TextView titleTv1;
+		TextView recommendTv1;
 		TextView tipTv1;
 		ImageView coverImg1;
 		View storyRl1;
 		TextView titleTv2;
 		TextView tipTv2;
+		TextView recommendTv2;
 		ImageView coverImg2;
 		View storyRl2;
 	}
@@ -530,6 +541,7 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 			Tag tag = (Tag) v.getTag();
 			Intent ii = new Intent(mContext,ClassificationActivity.class);
 			ii.putExtra("classification",tag);
+			ii.putExtra("classification_name",tag.getName());
 			((BaseFragmentActivity) mContext).startActivityForNew(ii);
 			break;
 		}

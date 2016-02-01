@@ -11,7 +11,7 @@ public class TagDetail {
     private String selectsecondtagid;
     private List<Tag> firsttaglist;
     private List<Tag> secondtaglist;
-    private List<AlbumInfo> tagalbumlist;
+    private List<TagAlbum> tagalbumlist;
     private List<Special> specialtaglist;
 
     public String getSelectfirsttagid() {
@@ -46,11 +46,11 @@ public class TagDetail {
         this.secondtaglist = secondtaglist;
     }
 
-    public List<AlbumInfo> getTagalbumlist() {
+    public List<TagAlbum> getTagalbumlist() {
         return tagalbumlist;
     }
 
-    public void setTagalbumlist(List<AlbumInfo> tagalbumlist) {
+    public void setTagalbumlist(List<TagAlbum> tagalbumlist) {
         this.tagalbumlist = tagalbumlist;
     }
 

@@ -102,7 +102,13 @@ public class RecommendStoryAdapter extends BaseAdapter implements OnClickListene
 				AlbumInfo albumInfo = albumInfos.get(coverPos);
 				holder.storyRl1.setVisibility(View.VISIBLE);
 				holder.titleTv1.setText(albumInfo.getTitle());
-				holder.tipTv1.setText(albumInfo.getListennum()+"");
+				int listenerAlbumCount = albumInfo.getListennum();
+				if(listenerAlbumCount !=0) {
+					holder.tipTv1.setText(albumInfo.getListennum() + "");
+					holder.tipTv1.setVisibility(View.VISIBLE);
+				}else{
+					holder.tipTv1.setVisibility(View.INVISIBLE);
+				}
 				ImageLoader.getInstance().displayImage(albumInfo.getCover(), holder.coverImg1,Constant.getSmallAlbumOptions(coverPos));
 				RelativeLayout.LayoutParams lp1= (RelativeLayout.LayoutParams) holder.coverImg1.getLayoutParams();
 				lp1.height = mImgHeight;
@@ -117,7 +123,13 @@ public class RecommendStoryAdapter extends BaseAdapter implements OnClickListene
 				AlbumInfo albumInfo = albumInfos.get(coverPos+1);
 				holder.storyRl2.setVisibility(View.VISIBLE);
 				holder.titleTv2.setText(albumInfo.getTitle());
-				holder.tipTv2.setText(albumInfo.getListennum()+"");
+				int listenerAlbumCount = albumInfo.getListennum();
+				if(listenerAlbumCount !=0) {
+					holder.tipTv2.setText(albumInfo.getListennum() + "");
+					holder.tipTv2.setVisibility(View.VISIBLE);
+				}else{
+					holder.tipTv2.setVisibility(View.INVISIBLE);
+				}
 				ImageLoader.getInstance().displayImage(albumInfo.getCover(), holder.coverImg2,Constant.getSmallAlbumOptions(coverPos+1));
 				RelativeLayout.LayoutParams lp1= (RelativeLayout.LayoutParams) holder.coverImg2.getLayoutParams();
 				lp1.height = mImgHeight;
@@ -131,7 +143,13 @@ public class RecommendStoryAdapter extends BaseAdapter implements OnClickListene
 				AlbumInfo albumInfo = albumInfos.get(coverPos+2);
 				holder.storyRl3.setVisibility(View.VISIBLE);
 				holder.titleTv3.setText(albumInfo.getTitle());
-				holder.tipTv3.setText(albumInfo.getListennum()+"");
+				int listenerAlbumCount = albumInfo.getListennum();
+				if(listenerAlbumCount !=0) {
+					holder.tipTv3.setText(albumInfo.getListennum() + "");
+					holder.tipTv3.setVisibility(View.VISIBLE);
+				}else{
+					holder.tipTv3.setVisibility(View.INVISIBLE);
+				}
 				ImageLoader.getInstance().displayImage(albumInfo.getCover(), holder.coverImg3,Constant.getSmallAlbumOptions(coverPos+2));
 				RelativeLayout.LayoutParams lp1= (RelativeLayout.LayoutParams) holder.coverImg3.getLayoutParams();
 				lp1.height = mImgHeight;

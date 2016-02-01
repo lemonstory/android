@@ -26,7 +26,8 @@ public class AlbumInfo extends DataSupport implements Parcelable {
     private int favnum;
     private int commentnum;
     protected List<Story> storylist = new ArrayList<>();
-	protected  Story storyinfo;
+	protected Story storyinfo;
+	protected String recommenddesc;
 
 	public AlbumInfo() {
 	}
@@ -192,6 +193,14 @@ public class AlbumInfo extends DataSupport implements Parcelable {
 
 	public void setStoryinfo(Story storyinfo) {
 		this.storyinfo = storyinfo;
+	}
+
+	public String getRecommenddesc() {
+		return recommenddesc;
+	}
+
+	public void setRecommenddesc(String recommenddesc) {
+		this.recommenddesc = recommenddesc;
 	}
 
 	@Override

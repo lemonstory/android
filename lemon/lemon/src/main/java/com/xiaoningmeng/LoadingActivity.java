@@ -110,4 +110,8 @@ public class LoadingActivity extends BaseActivity {
 		}
 	}
 
+	@Override
+	public void onBackPressed() {
+		oldFinish();
+	}
 }
