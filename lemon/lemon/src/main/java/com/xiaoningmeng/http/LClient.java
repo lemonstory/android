@@ -3,6 +3,7 @@ package com.xiaoningmeng.http;
 import android.content.Context;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Cache.Entry;
+import com.android.volley.Request;
 import com.android.volley.Request.Method;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
@@ -115,6 +116,9 @@ public class LClient {
 					context.getString(R.string.net_connect_error), null);
 		}
 	}
+
+
+
 
 	/**
 	 * get请求

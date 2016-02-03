@@ -163,6 +163,10 @@ public class SearchDefaultAdapter2 extends BaseAdapter implements OnClickListene
 		if(content != null){
 			if(mContext instanceof SearchActivity) {
 				((SearchActivity) mContext).search1(content);
+			}else if(mContext instanceof  HomeActivity){
+				if(content != null){
+					((HomeActivity)mContext).search(content);
+				}
 			}
 		}
 	}

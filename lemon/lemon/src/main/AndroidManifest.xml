@@ -274,9 +274,6 @@
         </meta-data>
         <meta-data android:name="BaiduMobAd_APP_ID"
             android:value="dc0666d1"/>
-        <!--<meta-data
-            android:name="BaiduMobAd_APP_ID"
-            android:value="dc0666d1" />-->
 
         <meta-data
             android:name="UMENG_CHANNEL"

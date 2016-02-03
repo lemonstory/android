@@ -9,15 +9,17 @@ import com.xiaoningmeng.download.DownLoadClientImpl;
 import com.xiaoningmeng.download.DownloadNotificationManager;
 import com.xiaoningmeng.manager.UploadManager;
 import com.xiaoningmeng.player.PlayerManager;
+import com.xiaoningmeng.utils.PreferenceUtil;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.RelativeLayout;
 
 public class LoadingActivity extends BaseActivity {
 
-	//private Handler mHandler = new Handler();
-	//public static final int LOGIN_TIME = 800;
+	private Handler mHandler = new Handler();
+	public static final int LOGIN_TIME = 800;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,21 +33,21 @@ public class LoadingActivity extends BaseActivity {
 		PlayerManager.getInstance(); // 初始化音乐播放器
 		DownloadNotificationManager.getInstance();//初始化下载通知栏
 		UploadManager.getInstance().uploadRecord();
-		/*if (UserAuth.getInstance().authUser(LoadingActivity.this)) {*/
-			loadAd();
-		/*} else {
-			Intent i = new Intent(LoadingActivity.this,LoginActivity.class);
-			startActivity(i);
-			oldFinish();
-			overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-		}*/
-		/*mHandler.postDelayed(new Runnable() {
-			@Override
-			public void run() {
-		
+		int loadCountDown = PreferenceUtil.getInt("load_countdown");
+		if(loadCountDown <3){
+			PreferenceUtil.putInt("load_countdown",loadCountDown+1);
+			mHandler.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					Intent i = new Intent(LoadingActivity.this,HomeActivity.class);
+					startActivity(i);
+					oldFinish();
+					overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
 				}
-		}, LOGIN_TIME);*/
-
+			}, LOGIN_TIME);
+		}else{
+			loadAd();
+		}
 	}
 
 	private void loadAd() {

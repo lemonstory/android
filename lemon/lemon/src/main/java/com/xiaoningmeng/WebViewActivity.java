@@ -43,6 +43,19 @@ public class WebViewActivity extends BaseActivity {
 		String webUrl = getIntent().getStringExtra("web_url");
 		reRequestLoading();
 		webView.loadUrl(webUrl/*, headers*/);
+		/*webView.setOnKeyListener(new View.OnKeyListener(){
+
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				if (event.getAction() == KeyEvent.ACTION_DOWN) {
+					if(keyCode == KeyEvent.KEYCODE_BACK &&webView.canGoBack()){
+						webView.goBack();
+						return true;
+					}
+				}
+				return false;
+			}
+		});*/
 	}
 
 	// 调用此方法打开webView

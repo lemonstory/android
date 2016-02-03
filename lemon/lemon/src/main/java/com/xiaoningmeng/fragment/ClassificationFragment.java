@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
 import com.baoyz.swipemenu.xlistview.XListView;
 import com.bigkoo.convenientbanner.CBPageAdapter;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -31,6 +32,7 @@ import com.xiaoningmeng.bean.Tag;
 import com.xiaoningmeng.bean.TagAlbum;
 import com.xiaoningmeng.bean.TagDetail;
 import com.xiaoningmeng.constant.Constant;
+import com.xiaoningmeng.http.LClient;
 import com.xiaoningmeng.http.LHttpHandler;
 import com.xiaoningmeng.http.LHttpRequest;
 
@@ -67,7 +69,7 @@ public class ClassificationFragment extends BaseFragment implements XListView.IX
 	}
 
 
-	private  void requestData(final String direction, String relationId){
+	public void requestData(final String direction, String relationId){
 
 		LHttpRequest.getInstance().getTagAblumListReq(getActivity(), mTagParam.tag, 0,direction, relationId,
 				mTagParam.special,  Constant.GRID_REQ_LEN, new LHttpHandler<TagDetail>(getActivity()) {
@@ -119,7 +121,9 @@ public class ClassificationFragment extends BaseFragment implements XListView.IX
 	public void onRefresh() {
 		if(mTagAlbums.size() > 0){
 			String relationId = mTagAlbums.get(0).getId();
-			requestData(Constant.UP,relationId);
+			if(relationId != null) {
+				requestData(Constant.UP, relationId);
+			}
 		}else{
 			requestData(Constant.FRIST,Constant.FRIST_ID);
 		}
@@ -131,7 +135,9 @@ public class ClassificationFragment extends BaseFragment implements XListView.IX
 		int size = mTagAlbums.size();
 		if(size > 0){
 			String  relationId = mTagAlbums.get(size-1).getId();
-			requestData(Constant.DOWN,relationId);
+			if(relationId != null) {
+				requestData(Constant.DOWN, relationId);
+			}
 		}else{
 			requestData(Constant.FRIST,Constant.FRIST_ID);
 		}

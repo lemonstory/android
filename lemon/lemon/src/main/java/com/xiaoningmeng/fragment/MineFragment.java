@@ -87,14 +87,16 @@ public class MineFragment extends BaseFragment implements OnClickListener,XListV
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				int pos = position -2;
-				ListenerAlbum listenerAlbum = mAlbumList.get(pos);
-				AlbumInfo albumInfo =listenerAlbum.getAlbuminfo();
-				Intent intent = new Intent(mContext, AblumDetailActivity.class);
-				intent.putExtra("albumId", albumInfo.getAlbumid());
-				intent.putExtra("albumInfo",albumInfo);
-				intent.putExtra("playstoryid",listenerAlbum.getPlaystoryid());
-				intent.putExtra("playtimes",listenerAlbum.getPlaytimes());
-				((BaseFragmentActivity) mContext).startActivityForNew(intent);
+				if(pos >=0) {
+					ListenerAlbum listenerAlbum = mAlbumList.get(pos);
+					AlbumInfo albumInfo = listenerAlbum.getAlbuminfo();
+					Intent intent = new Intent(mContext, AblumDetailActivity.class);
+					intent.putExtra("albumId", albumInfo.getAlbumid());
+					intent.putExtra("albumInfo", albumInfo);
+					intent.putExtra("playstoryid", listenerAlbum.getPlaystoryid());
+					intent.putExtra("playtimes", listenerAlbum.getPlaytimes());
+					((BaseFragmentActivity) mContext).startActivityForNew(intent);
+				}
 			}
 		});
 	}

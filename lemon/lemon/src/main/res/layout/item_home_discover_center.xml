@@ -40,7 +40,6 @@
             android:layout_marginRight="3dp" />
         <TextView
             android:id="@+id/tv_story_recommend1"
-            android:text="暂无推荐语"
             android:layout_below="@id/tv_story_cover1"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
@@ -81,7 +80,6 @@
             android:layout_below="@id/img_story_cover2" />
         <TextView
             android:id="@+id/tv_story_recommend2"
-            android:text="暂无推荐语"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
             android:layout_marginBottom="3dp"

@@ -28,6 +28,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.utils.StorageUtils;
+import com.squareup.okhttp.Cache;
+import com.squareup.okhttp.OkHttpClient;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.xiaomi.channel.commonutils.logger.LoggerInterface;
 import com.xiaomi.mipush.sdk.Logger;
@@ -36,6 +38,7 @@ import com.xiaoningmeng.bean.AppInfo;
 import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.OSSAuth;
+import com.xiaoningmeng.http.OkHttpStack;
 import com.xiaoningmeng.manager.LImageDownaloder;
 
 
@@ -76,7 +79,7 @@ public class MyApplication extends LitePalApplication {
 		writeMILog();
 	}
 
-	private void initRequestQueue() {
+/*	private void initRequestQueue() {
 
 		if (mRequestQueue == null) {
 			DefaultHttpClient mDefaultHttpClient = new DefaultHttpClient();
@@ -88,6 +91,31 @@ public class MyApplication extends LitePalApplication {
 			mHttpClient = new DefaultHttpClient(mThreadSafeClientConnManager,
 					mHttpParams);
 			final HttpStack httpStack = new HttpClientStack(mHttpClient);
+			this.mRequestQueue = Volley.newRequestQueue(
+					this.getApplicationContext(), httpStack);
+		}
+	}*/
+
+	private void initRequestQueue() {
+
+		if (mRequestQueue == null) {
+			DefaultHttpClient mDefaultHttpClient = new DefaultHttpClient();
+			final ClientConnectionManager mClientConnectionManager = mDefaultHttpClient
+					.getConnectionManager();
+			final HttpParams mHttpParams = mDefaultHttpClient.getParams();
+			final ThreadSafeClientConnManager mThreadSafeClientConnManager = new ThreadSafeClientConnManager(
+					mHttpParams, mClientConnectionManager.getSchemeRegistry());
+
+			mHttpClient = new DefaultHttpClient(mThreadSafeClientConnManager,
+					mHttpParams);
+
+			File httpCacheDirectory = new File(this.getCacheDir(), "responses");
+			int cacheSize = 10 * 1024 * 1024; // 10 MiB
+			Cache cache = new Cache(httpCacheDirectory, cacheSize);
+			OkHttpClient client = new OkHttpClient();
+			client.setCache(cache);
+
+			final HttpStack httpStack = new OkHttpStack(client);
 			this.mRequestQueue = Volley.newRequestQueue(
 					this.getApplicationContext(), httpStack);
 		}
@@ -120,7 +148,7 @@ public class MyApplication extends LitePalApplication {
 				.denyCacheImageMultipleSizesInMemory().diskCache(discCache)
 				.diskCacheFileNameGenerator(new Md5FileNameGenerator())
 				.diskCacheSize(50 * 1024 * 1024)
-				.imageDownloader(new LImageDownaloder(this))
+				/*.imageDownloader(new LImageDownaloder(this))*/
 				.tasksProcessingOrder(QueueProcessingType.LIFO)
 				.defaultDisplayImageOptions(displayImageOptions)
 				.writeDebugLogs().build();

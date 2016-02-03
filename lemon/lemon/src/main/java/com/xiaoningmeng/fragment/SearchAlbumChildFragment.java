@@ -13,6 +13,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.baoyz.swipemenu.xlistview.XListView;
 import com.baoyz.swipemenu.xlistview.XListView.IXListViewListener;
 import com.xiaoningmeng.AblumDetailActivity;
+import com.xiaoningmeng.HomeActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.SearchActivity;
 import com.xiaoningmeng.adapter.SearchAdapter;
@@ -82,7 +83,11 @@ public class SearchAlbumChildFragment extends BaseFragment implements IXListView
 
 	@Override
 	public void onLoadMore() {
-		((SearchActivity)getActivity()).moreSearch("album");
+		if(getActivity() instanceof  SearchActivity) {
+			((SearchActivity) getActivity()).moreSearch("album");
+		}else if(getActivity() instanceof HomeActivity){
+			((HomeActivity) getActivity()).mSearchFragment.moreSearch("album");
+		}
 		
 	}
 
