@@ -33,7 +33,7 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
 	private TextView mAccountContentTv;
 	private TextView mAccountUnloginTv;
 	private ImageView mAccountAvatarView;
-	private View recommendView;
+	//private View recommendView;
 	private UserInfo mUserInfo;
 	//private RecommendAd recommendAd;
 
@@ -48,7 +48,7 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
 		contentView.findViewById(R.id.rl_account_Ranking).setOnClickListener(
 				this);
 		contentView.findViewById(R.id.rl_account_shop).setOnClickListener(this);
-		recommendView =  contentView.findViewById(R.id.rl_account_Recommend);
+		//recommendView =  contentView.findViewById(R.id.rl_account_Recommend);
 		//recommendView.setOnClickListener(this);
 		mAccountHeadView = contentView.findViewById(R.id.ll_account_head);
 		mAccountAvatarView = (ImageView) contentView.findViewById(R.id.img_account_perasonal);
@@ -58,7 +58,6 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
 		mUserInfo = MyApplication.getInstance().userInfo;
 		setUserInfo();
 		EventBus.getDefault().register(this);
-		//loadRemmend();
 		return contentView;
 	}
 
@@ -123,9 +122,9 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
 		case R.id.rl_account_Ranking:
 			((BaseFragmentActivity) getActivity()).startActivityForNew(new Intent(getActivity(),RankActivity.class));
 			break;
-		case R.id.rl_account_Recommend:
+		/*case R.id.rl_account_Recommend:
 			//((BaseFragmentActivity) getActivity()).startActivityForNew(new Intent(getActivity(),RecommendAdActivity.class));
-			break;
+			break;*/
 		default:
 			break;
 		}

@@ -33,6 +33,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.PowerManager;
+import android.util.Log;
 
 public class PlayerManager extends PlayerObservable implements
 		OnCompletionListener, OnBufferingUpdateListener, OnErrorListener,OnSeekCompleteListener,
@@ -117,9 +118,9 @@ public class PlayerManager extends PlayerObservable implements
 					notifyDataChanged(mPlayingStory);
 					Message msg = mHandler.obtainMessage(1);
 					mHandler.sendMessageDelayed(msg, 50);
-					recordHistoryData();
 					String playUrl = searchStoryFile(story.getMediapath());
 					play(playUrl,current);
+					recordHistoryData();
 				} else {
 					nextPlay();
 				}
@@ -343,10 +344,16 @@ public class PlayerManager extends PlayerObservable implements
 	}
 
 	public void playStory(AlbumInfo albumInfo, List<Story> stories,
+						  int position,int albumSource) {
+		playStory(albumInfo, stories, position, 0,albumSource);
+	}
+
+	public void playStory(AlbumInfo albumInfo, List<Story> stories,
 			int position,int current,int albumSource) {
 		if (albumInfo == null || stories == null || stories.size() == 0) {
 			return;
 		}
+		recordHistoryData();
 		mErrorMonitor.clearError();
 		if (!albumInfo.getAlbumid().equals(mPlayingStory.albumid)
 				|| albumSource != mPlayingStory.albumSource) {
@@ -365,15 +372,13 @@ public class PlayerManager extends PlayerObservable implements
 		if (stories == null || stories.size() == 0) {
 			return;
 		}
+		recordHistoryData();
 		mErrorMonitor.clearError();
 		mPlayingStory.albumSource = AlbumSource.SEARCH;
 		newStoryList(null, stories, position,0);
 	}
 	
-	public void playStory(AlbumInfo albumInfo, List<Story> stories,
-			int position,int albumSource) {
-		playStory(albumInfo, stories, position, 0,albumSource);
-	}
+
 
 	private void newStoryList(final AlbumInfo albumInfo, List<Story> stories, int pos,int current) {
 		playStories.clear();
@@ -464,31 +469,25 @@ public class PlayerManager extends PlayerObservable implements
 	}
 
 	private void recordHistoryData() {
-		
-		pool.execute(new Runnable() {
-			
-			@Override
-			public void run() {
-				if(mPlayingStory.albumSource != AlbumSource.SEARCH) {
-					mPlayingStory.albumInfo.setStoryinfo(mPlayingStory.getStory());
-					mHistoryDao.add(mPlayingStory.albumInfo, mPlayingStory.storyId,
-							mPlayingStory.current);
-				}
-			}
-		});
+		final PlayingStory playingStory = mPlayingStory;
+		if(playingStory.albumSource != AlbumSource.SEARCH && playingStory.albumInfo!= null) {
+			playingStory.albumInfo.setStoryinfo(playingStory.getStory());
+			mHistoryDao.add(playingStory.albumInfo, playingStory.storyId,
+					playingStory.current);
+		}
 	}
 
 	// 恢复
 	public void recovery() {
 
-		new Thread(new Runnable() {
+		pool.execute(new Runnable() {
 
 			@Override
 			public void run() {
 				recoveryPlayingData();
 				recoveryPlayData();
 			}
-		}).start();
+		});
 	}
 
 	private void recoveryPlayingData() {
@@ -571,9 +570,6 @@ public class PlayerManager extends PlayerObservable implements
 		
 		public void notifyDownload();
 	}
-
-
-
 
 	@Override
 	public void onSeekComplete(MediaPlayer mp) {

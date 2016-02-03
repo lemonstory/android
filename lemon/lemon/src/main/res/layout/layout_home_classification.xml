@@ -5,7 +5,7 @@
     android:background="@null"
     android:orientation="horizontal"
     android:paddingBottom="@dimen/base_radius_size"
-    android:paddingTop="@dimen/dialog_icon_margin_top">
+    android:paddingTop="@dimen/dialog_icon_margin_bottom">
 
     <LinearLayout
         android:id="@+id/ll_classify1"
@@ -13,9 +13,8 @@
 
         <ImageView
             android:id="@+id/img_classify1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/home_baike_normal" />
+            android:layout_width="@dimen/classifiction_item_height"
+            android:layout_height="@dimen/classifiction_item_height" />
 
         <TextView
             android:id="@+id/tv_classify1"
@@ -31,9 +30,8 @@
 
         <ImageView
             android:id="@+id/img_classify2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/home_baike_normal" />
+            android:layout_width="@dimen/classifiction_item_height"
+            android:layout_height="@dimen/classifiction_item_height"/>
 
         <TextView
             android:id="@+id/tv_classify2"
@@ -49,9 +47,8 @@
 
         <ImageView
             android:id="@+id/img_classify3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/home_baike_normal" />
+            android:layout_width="@dimen/classifiction_item_height"
+            android:layout_height="@dimen/classifiction_item_height" />
 
         <TextView
             android:id="@+id/tv_classify3"
@@ -67,9 +64,8 @@
 
         <ImageView
             android:id="@+id/img_classify4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/home_baike_normal" />
+            android:layout_width="@dimen/classifiction_item_height"
+            android:layout_height="@dimen/classifiction_item_height" />
 
         <TextView
             android:id="@+id/tv_classify4"

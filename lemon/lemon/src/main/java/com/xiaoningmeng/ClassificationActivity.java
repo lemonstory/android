@@ -62,12 +62,16 @@ public class ClassificationActivity extends BaseFragmentActivity implements View
         super.onCreate(arg0);
         setContentView(R.layout.activity_classification);
         Tag selectTag = getIntent().getParcelableExtra("classification");
+        String classificationName = getIntent().getStringExtra("classification_name");
         mIndicator = (PagerSlidingTabStrip) findViewById(R.id.tab_indicator);
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         mClassifyTv = (TextView) findViewById(R.id.tv_head_classify);
         mDropImg = (ImageView)findViewById(R.id.img_head_drop);
         mSearchImg = (ImageView)findViewById(R.id.img_head_search);
         mCoverImg = (ImageView) findViewById(R.id.img_head_right);
+        if(classificationName != null){
+            mClassifyTv.setText(classificationName);
+        }
         mTagParams = new ArrayList<>();
         PlayerManager.getInstance().register(this);
         requestData(selectTag.getId());
@@ -109,7 +113,6 @@ public class ClassificationActivity extends BaseFragmentActivity implements View
                     mHomeFragment = new ClassificationFragment[mTagParams.size()];
                     mViewPager.setAdapter(new TabFragmentPagerAdapter(getSupportFragmentManager()));
                     mIndicator.setViewPager(mViewPager);
-                    mViewPager.setOffscreenPageLimit(3);
                     mViewPager.setCurrentItem(selectTabPos);
                 }
             }

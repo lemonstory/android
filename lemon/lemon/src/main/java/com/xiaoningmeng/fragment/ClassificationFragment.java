@@ -28,6 +28,7 @@ import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.FocusPic;
 import com.xiaoningmeng.bean.Special;
 import com.xiaoningmeng.bean.Tag;
+import com.xiaoningmeng.bean.TagAlbum;
 import com.xiaoningmeng.bean.TagDetail;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.LHttpHandler;
@@ -43,6 +44,7 @@ public class ClassificationFragment extends BaseFragment implements XListView.IX
 	private XListView mListView;
 	private RecommendStoryAdapter mAdapter;
 	private List<AlbumInfo> mAlbumInfos;
+	private List<TagAlbum> mTagAlbums;
 	private ClassificationActivity.TagParam mTagParam;
 
 	@Override
@@ -55,6 +57,7 @@ public class ClassificationFragment extends BaseFragment implements XListView.IX
 		mListView.setPullLoadEnable(false);
 		mListView.setPullRefreshEnable(true);
 		mAlbumInfos = new ArrayList<>();
+		mTagAlbums = new ArrayList<>();
 		mAdapter = new RecommendStoryAdapter(getActivity(),mAlbumInfos,true);
 		showLoadingTip();
 		requestData(Constant.FRIST,Constant.FRIST_ID);
@@ -64,19 +67,23 @@ public class ClassificationFragment extends BaseFragment implements XListView.IX
 	}
 
 
-	private  void requestData(final String direction, String startAlbumId){
+	private  void requestData(final String direction, String relationId){
 
-		LHttpRequest.getInstance().getTagAblumListReq(getActivity(), mTagParam.tag, 0,direction, startAlbumId, mTagParam.special, 12, new LHttpHandler<TagDetail>(getActivity()) {
+		LHttpRequest.getInstance().getTagAblumListReq(getActivity(), mTagParam.tag, 0,direction, relationId,
+				mTagParam.special,  Constant.GRID_REQ_LEN, new LHttpHandler<TagDetail>(getActivity()) {
 			@Override
 			public void onGetDataSuccess(TagDetail data) {
 				hideLoadingTip();
 				if(data != null && data.getTagalbumlist() != null){
-					mAlbumInfos.addAll(data.getTagalbumlist());
-
-					if(Constant.DOWN.equals(direction) && data.getTagalbumlist().size() == 0){
+					List<TagAlbum> tagAlbumList = data.getTagalbumlist();
+					for(TagAlbum tagAlbum : tagAlbumList){
+						mAlbumInfos.add(tagAlbum.getAlbuminfo());
+					}
+					mTagAlbums.addAll(tagAlbumList);
+					if(Constant.DOWN.equals(direction) && tagAlbumList.size() == 0){
 						mListView.setFootViewNoMore(true);
 					}
-					if(Constant.FRIST == direction && data.getTagalbumlist().size() == 0){
+					if(Constant.FRIST == direction && tagAlbumList.size() < Constant.GRID_REQ_LEN){
 						mListView.setPullLoadEnable(false);
 					}else{
 						mListView.setPullLoadEnable(true);
@@ -110,9 +117,9 @@ public class ClassificationFragment extends BaseFragment implements XListView.IX
 
 	@Override
 	public void onRefresh() {
-		if(mAlbumInfos.size() > 0){
-			String startAlbumId = mAlbumInfos.get(0).getId();
-			requestData(Constant.UP,startAlbumId);
+		if(mTagAlbums.size() > 0){
+			String relationId = mTagAlbums.get(0).getId();
+			requestData(Constant.UP,relationId);
 		}else{
 			requestData(Constant.FRIST,Constant.FRIST_ID);
 		}
@@ -121,10 +128,10 @@ public class ClassificationFragment extends BaseFragment implements XListView.IX
 
 	@Override
 	public void onLoadMore() {
-		int size = mAlbumInfos.size();
+		int size = mTagAlbums.size();
 		if(size > 0){
-			String  startAlbumId = mAlbumInfos.get(size-1).getId();
-			requestData(Constant.DOWN,startAlbumId);
+			String  relationId = mTagAlbums.get(size-1).getId();
+			requestData(Constant.DOWN,relationId);
 		}else{
 			requestData(Constant.FRIST,Constant.FRIST_ID);
 		}

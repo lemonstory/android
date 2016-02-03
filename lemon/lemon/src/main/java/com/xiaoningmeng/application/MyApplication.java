@@ -14,7 +14,8 @@ import org.litepal.LitePalApplication;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.os.Build;
-
+import android.util.Log;
+import android.os.Process;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.HttpClientStack;
 import com.android.volley.toolbox.HttpStack;
@@ -28,10 +29,15 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.xiaomi.channel.commonutils.logger.LoggerInterface;
+import com.xiaomi.mipush.sdk.Logger;
+import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xiaoningmeng.bean.AppInfo;
 import com.xiaoningmeng.bean.UserInfo;
+import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.OSSAuth;
 import com.xiaoningmeng.manager.LImageDownaloder;
+
 
 /**
  * 
@@ -59,11 +65,15 @@ public class MyApplication extends LitePalApplication {
 	public void onCreate() {
 		super.onCreate();
 		mApplication = this;
-		AppInfo.getInstance();
-		OSSAuth.getInstance().init(this);
-		initImageLoaderConfig(this);
-		CrashReport.initCrashReport(this, "900008353", false);
-		initRequestQueue();
+		if(shouldInit()) {
+			MiPushClient.registerPush(this, Constant.MI_APP_ID,Constant.MI_APP_KEY);
+			AppInfo.getInstance();
+			OSSAuth.getInstance().init(this);
+			initImageLoaderConfig(this);
+			CrashReport.initCrashReport(this, "900008353", false);
+			initRequestQueue();
+		}
+		writeMILog();
 	}
 
 	private void initRequestQueue() {
@@ -115,6 +125,41 @@ public class MyApplication extends LitePalApplication {
 				.defaultDisplayImageOptions(displayImageOptions)
 				.writeDebugLogs().build();
 		ImageLoader.getInstance().init(config);
+	}
+
+	private void writeMILog(){
+		//打开Log
+		LoggerInterface newLogger = new LoggerInterface() {
+
+			@Override
+			public void setTag(String tag) {
+				// ignore
+			}
+
+			@Override
+			public void log(String content, Throwable t) {
+				Log.d("huang", content, t);
+			}
+
+			@Override
+			public void log(String content) {
+				Log.d("huang", content);
+			}
+		};
+		Logger.setLogger(this, newLogger);
+	}
+
+	private boolean shouldInit() {
+		ActivityManager am = ((ActivityManager) getSystemService(Context.ACTIVITY_SERVICE));
+		List<ActivityManager.RunningAppProcessInfo> processInfos = am.getRunningAppProcesses();
+		String mainProcessName = getPackageName();
+		int myPid = Process.myPid();
+		for (ActivityManager.RunningAppProcessInfo info : processInfos) {
+			if (info.pid == myPid && mainProcessName.equals(info.processName)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**

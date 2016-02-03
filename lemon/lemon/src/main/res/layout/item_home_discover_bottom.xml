@@ -13,7 +13,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:foreground="?android:attr/selectableItemBackground"
-    android:layout_margin="@dimen/ablum_comment_item_margin_bottom">
+    android:layout_marginLeft="@dimen/album_card_more_margin"
+    android:layout_marginRight="@dimen/album_card_more_margin"
+    android:layout_marginBottom="@dimen/album_card_margin_bottom"
+    android:layout_marginTop="@dimen/album_card_margin_top">
 
     <TextView
         android:layout_width="wrap_content"

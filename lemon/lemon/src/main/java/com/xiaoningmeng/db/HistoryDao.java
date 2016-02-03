@@ -13,6 +13,7 @@ import com.ypy.eventbus.EventBus;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.util.Log;
 
 public class HistoryDao {
 
@@ -40,11 +41,14 @@ public class HistoryDao {
 			long uploadTime = System.currentTimeMillis()/1000;
 			ListenerAlbum listenerAlbum = new ListenerAlbum(uid, storyId, albumInfo.getAlbumid(), uploadTime+"",current,albumInfo);
 			if(findHistoryAlbum(albumId)){
+					deleteAlbumStory(albumId);
 					updateAlbum(listenerAlbum);
 			}else{
 					addHistoryAlbum(uid,albumId,albumInfo, storyId,0,uploadTime);
-					addHistoryStory(albumId, albumInfo.getStoryinfo());
-				}
+			}
+			if(albumInfo != null && albumInfo.getStoryinfo() !=null) {
+				addHistoryStory(albumId, albumInfo.getStoryinfo());
+			}
 			EventBus.getDefault().post(new HistoryEvent(listenerAlbum, albumId, storyId));
 		}
 	
@@ -63,7 +67,21 @@ public class HistoryDao {
 		}
 		return false;
 	}
-	
+
+	//删除专辑上次播放的故事信息
+	private void deleteAlbumStory(String albumId){
+		try{
+			if (dbhelper.open()) {
+				dbhelper.sdb.rawQuery("delete from " + DBHelper.TAB_STORY + " where albumid=?", new String[] {albumId});
+			}
+		} catch (Exception e) {
+			DebugUtils.exception(e);
+		} finally {
+			dbhelper.close();
+		}
+	}
+
+
 	//更新数据
 	private void updateAlbum(ListenerAlbum listenerAlbum){
 		try {
@@ -81,33 +99,7 @@ public class HistoryDao {
 			dbhelper.close();
 		}
 	}
-	
-/*	//更新数据
-	public void updateAlbum(final String albumId,final String storyId,final int current){
-		android.util.Log.e("huang", "updateAlbum2");
-		pool.execute(new Runnable() {
 
-			@Override
-			public void run() {
-				try {
-					if (dbhelper.open()) {
-						ContentValues values=new ContentValues();
-						values.put("storyid", storyId);
-						values.put("uptime", System.currentTimeMillis()/1000);
-						values.put("upload", 0);
-						values.put("current", current);
-						dbhelper.sdb.update(DBHelper.TAB_HISTORY, values, "albumid=?", new String[]{albumId});
-						ListenerAlbum listenerAlbum = getHistoryAlbumById(albumId);
-						EventBus.getDefault().post(new HistoryEvent(listenerAlbum,albumId, storyId));
-					}
-				} catch (Exception e) {
-					DebugUtils.exception(e);
-				} finally {
-					dbhelper.close();
-				}
-			}
-		});
-	}*/
 	
 	//上传之后修改数据库的数据
 	public void uploadRecord(String albumId){
@@ -277,6 +269,7 @@ public class HistoryDao {
 		story.setMediapath(cursor.getString(cursor.getColumnIndex("mediapath")));
 		story.setCover(cursor.getString(cursor.getColumnIndex("cover")));
 		story.setPlaycover(cursor.getString(cursor.getColumnIndex("playcover")));
+
 		return story;
 	}
 	

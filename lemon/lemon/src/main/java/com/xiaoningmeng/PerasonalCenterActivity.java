@@ -96,7 +96,7 @@ public class PerasonalCenterActivity extends BaseActivity implements
 		if(uid == null || uid.equals(MyApplication.getInstance().getUid())){
 			uid = MyApplication.getInstance().getUid();
 		}
-		LHttpRequest.getInstance().getHomeInfoReq(this,uid, direction, startStroyId, Constant.REQ_LEN, new LHttpHandler<HomeInfo>(this) {
+		LHttpRequest.getInstance().getHomeInfoReq(this,uid, direction, startStroyId, Constant.MAX_REQ_LEN, new LHttpHandler<HomeInfo>(this) {
 
 			@Override
 			public void onGetDataSuccess(HomeInfo data) {
@@ -114,7 +114,7 @@ public class PerasonalCenterActivity extends BaseActivity implements
 				}
 				if(albums != null && albums.size() > 0){
 					if(direction == Constant.FRIST){
-						if(albums.size() == Constant.REQ_LEN){
+						if(albums.size() == Constant.MAX_REQ_LEN){
 							mListView.setPullLoadEnable(true);
 						}else{
 							mListView.setPullLoadEnable(false);

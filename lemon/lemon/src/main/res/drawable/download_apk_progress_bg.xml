@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!-- android:drawable="@drawable/play_activity_progress_outline" -->
+    <item android:id="@android:id/background">
+            <shape android:shape="rectangle" >
+                <corners android:radius="@dimen/perasonal_margin_left" />
+
+                <solid android:color="#F8F4F5" />
+            </shape>
+
+    </item>
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape android:shape="rectangle" >
+                <corners android:radius="@dimen/perasonal_margin_left" />
+
+                <solid android:color="@color/action_bar_bg" />
+            </shape>
+        </clip>
+    </item>
+
+</layer-list>

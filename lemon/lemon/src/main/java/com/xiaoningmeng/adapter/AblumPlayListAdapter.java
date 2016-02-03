@@ -35,14 +35,16 @@ public class AblumPlayListAdapter extends BaseAdapter implements
 	private List<Story> storys;
 	private AlbumInfo albumInfo;
 	private PlayingStory mPlayingStory;
+	private String playStoryId;
 
 	public AblumPlayListAdapter(Context context, List<Story> storys,
-			AlbumInfo albumInfo) {
+			AlbumInfo albumInfo,String playStoryId) {
 
 		mContext = context;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.storys = storys;
 		this.albumInfo = albumInfo;
+		this.playStoryId = playStoryId;
 		mPlayingStory = PlayerManager.getInstance().getPlayingStory();
 	}
 
@@ -116,10 +118,20 @@ public class AblumPlayListAdapter extends BaseAdapter implements
 	}
 
 	private void getPlayView(ViewHolder holder, Story story) {
-		if (story.getAlbum_id().equals(mPlayingStory.albumid) && story.getMediapath().equals(mPlayingStory.mediapath)) {
+		if (story.getAlbum_id().equals(mPlayingStory.albumid)) {
+			if(story.getMediapath().equals(mPlayingStory.mediapath)){
+				holder.numberTv.setVisibility(View.INVISIBLE);
+				holder.statusImg.setVisibility(View.VISIBLE);
+				holder.titleTv.setSelected(mPlayingStory.playState == PlayState.RESUME || mPlayingStory.playState == PlayState.START || mPlayingStory.playState == PlayState.PLAY);
+			}else{
+				holder.numberTv.setVisibility(View.VISIBLE);
+				holder.statusImg.setVisibility(View.INVISIBLE);
+				holder.titleTv.setSelected(false);
+			}
+		}else if(story.getStoryId().equals(playStoryId)){
 			holder.numberTv.setVisibility(View.INVISIBLE);
 			holder.statusImg.setVisibility(View.VISIBLE);
-			holder.titleTv.setSelected(mPlayingStory.playState == PlayState.RESUME ||mPlayingStory.playState == PlayState.START||mPlayingStory.playState == PlayState.PLAY);
+			holder.titleTv.setSelected(false);
 		} else {
 			holder.numberTv.setVisibility(View.VISIBLE);
 			holder.statusImg.setVisibility(View.INVISIBLE);
