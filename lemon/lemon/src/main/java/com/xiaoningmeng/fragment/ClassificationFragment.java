@@ -48,13 +48,17 @@ public class ClassificationFragment extends BaseFragment implements XListView.IX
 	private List<AlbumInfo> mAlbumInfos;
 	private List<TagAlbum> mTagAlbums;
 	private ClassificationActivity.TagParam mTagParam;
+	private boolean isAttach;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View contentView = View.inflate(getActivity(),
 				R.layout.fragment_discover, null);
-		mTagParam = getArguments().getParcelable(ClassificationActivity.Fragment_Tag);
+		if(!isAttach) {
+			mTagParam = getArguments().getParcelable(ClassificationActivity.Fragment_Tag);
+		}
+		isAttach = false;
 		mListView = (XListView) contentView.findViewById(R.id.lv_home_discover);
 		mListView.setPullLoadEnable(false);
 		mListView.setPullRefreshEnable(true);
@@ -62,20 +66,24 @@ public class ClassificationFragment extends BaseFragment implements XListView.IX
 		mTagAlbums = new ArrayList<>();
 		mAdapter = new RecommendStoryAdapter(getActivity(),mAlbumInfos,true);
 		showLoadingTip();
-		requestData(Constant.FRIST,Constant.FRIST_ID);
+		requestData(Constant.FRIST,Constant.FRIST_ID,false);
 		mListView.setAdapter(mAdapter);
 		mListView.setXListViewListener(this);
 		return contentView;
 	}
 
 
-	public void requestData(final String direction, String relationId){
+	public void requestData(final String direction, String relationId,final boolean isReafresh){
 
 		LHttpRequest.getInstance().getTagAblumListReq(getActivity(), mTagParam.tag, 0,direction, relationId,
 				mTagParam.special,  Constant.GRID_REQ_LEN, new LHttpHandler<TagDetail>(getActivity()) {
 			@Override
 			public void onGetDataSuccess(TagDetail data) {
 				hideLoadingTip();
+				if(isReafresh){
+					mAlbumInfos.clear();
+					mTagAlbums.clear();
+				}
 				if(data != null && data.getTagalbumlist() != null){
 					List<TagAlbum> tagAlbumList = data.getTagalbumlist();
 					for(TagAlbum tagAlbum : tagAlbumList){
@@ -117,15 +125,21 @@ public class ClassificationFragment extends BaseFragment implements XListView.IX
 	}
 
 
+	public void refreshData(ClassificationActivity.TagParam tagParam){
+		isAttach = true;
+		mTagParam = tagParam;
+	}
+
+
 	@Override
 	public void onRefresh() {
 		if(mTagAlbums.size() > 0){
 			String relationId = mTagAlbums.get(0).getId();
 			if(relationId != null) {
-				requestData(Constant.UP, relationId);
+				requestData(Constant.UP, relationId,false);
 			}
 		}else{
-			requestData(Constant.FRIST,Constant.FRIST_ID);
+			requestData(Constant.FRIST,Constant.FRIST_ID,false);
 		}
 
 	}
@@ -136,10 +150,10 @@ public class ClassificationFragment extends BaseFragment implements XListView.IX
 		if(size > 0){
 			String  relationId = mTagAlbums.get(size-1).getId();
 			if(relationId != null) {
-				requestData(Constant.DOWN, relationId);
+				requestData(Constant.DOWN, relationId,false);
 			}
 		}else{
-			requestData(Constant.FRIST,Constant.FRIST_ID);
+			requestData(Constant.FRIST,Constant.FRIST_ID,false);
 		}
 	}
 
@@ -171,8 +185,9 @@ public class ClassificationFragment extends BaseFragment implements XListView.IX
 	
 	TextView emptyView;
 	public void showEmptyTip() {
+
 		if(mListView.getHeaderViewsCount() == 1){
-			if(emptyView == null){
+			if(emptyView == null && getActivity() != null){
 				LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE); 
 			     if (inflater != null) { 
 			    	 emptyView = (TextView)inflater.inflate(R.layout.fragment_empty, null);
@@ -187,7 +202,7 @@ public class ClassificationFragment extends BaseFragment implements XListView.IX
 				@Override
 				public void onClick(View v) {
 					hideEmptyTip();
-					requestData(Constant.FRIST,Constant.FRIST_ID);
+					requestData(Constant.FRIST,Constant.FRIST_ID,false);
 				}
 			});
 			}

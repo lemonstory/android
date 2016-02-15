@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
- * OkHttp backed {@link com.android.volley.toolbox.HttpStack HttpStack} that does not
+ * OkHttp backed {@link HttpStack HttpStack} that does not
  * use okhttp-urlconnection
  */
 public class OkHttpStack implements HttpStack

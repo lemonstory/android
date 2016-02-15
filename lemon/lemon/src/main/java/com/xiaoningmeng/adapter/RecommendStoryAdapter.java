@@ -110,9 +110,9 @@ public class RecommendStoryAdapter extends BaseAdapter implements OnClickListene
 					holder.tipTv1.setVisibility(View.INVISIBLE);
 				}
 				ImageLoader.getInstance().displayImage(albumInfo.getCover(), holder.coverImg1,Constant.getSmallAlbumOptions(coverPos));
-			/*	RelativeLayout.LayoutParams lp1= (RelativeLayout.LayoutParams) holder.coverImg1.getLayoutParams();
+				RelativeLayout.LayoutParams lp1= (RelativeLayout.LayoutParams) holder.coverImg1.getLayoutParams();
 				lp1.height = mImgHeight;
-				holder.coverImg1.setLayoutParams(lp1);*/
+				holder.coverImg1.setLayoutParams(lp1);
 
 				holder.storyRl1.setTag(albumInfo);
 				holder.storyRl1.setOnClickListener(this);

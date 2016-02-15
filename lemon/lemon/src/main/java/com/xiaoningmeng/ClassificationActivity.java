@@ -48,7 +48,7 @@ public class ClassificationActivity extends BaseFragmentActivity implements View
     private ImageView mSearchImg;
     private ImageView mCoverImg;
     private ImageView mDropImg;
-    private ClassificationFragment[] mHomeFragment;
+    private ClassificationFragment[] mClassificationFragments;
     private String mSelectFristTag;
     private String mSelectSecondTag;
     private List<Tag> mFristTagList;
@@ -56,8 +56,8 @@ public class ClassificationActivity extends BaseFragmentActivity implements View
     private List<Special> mSpecialList;
     public static final String Fragment_Tag ="Fragment_Tag";
     private List<TagParam> mTagParams;
-
-
+    private TabFragmentPagerAdapter mPagerAdapter;
+    private boolean isFirst = true;
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
@@ -111,10 +111,22 @@ public class ClassificationActivity extends BaseFragmentActivity implements View
                             mClassifyTv.setText(tag.getName());
                         }
                     }
-                    mHomeFragment = new ClassificationFragment[mTagParams.size()];
-                    mViewPager.setAdapter(new TabFragmentPagerAdapter(getSupportFragmentManager()));
-                    mIndicator.setViewPager(mViewPager);
+                    mClassificationFragments = new ClassificationFragment[mTagParams.size()];
+                    if(isFirst) {
+                        mPagerAdapter = new TabFragmentPagerAdapter(getSupportFragmentManager());
+                        mViewPager.setAdapter(mPagerAdapter);
+                        mIndicator.setViewPager(mViewPager);
+                    }else{
+                        for(int i = 0; i < mPagerAdapter.getCount();i++){
+                            ClassificationFragment fragment = (ClassificationFragment) mPagerAdapter.instantiateItem(mViewPager,i);
+                            if(fragment != null && mTagParams.size() > i){
+                                fragment.refreshData(mTagParams.get(i));
+                            }
+                        }
+                        mPagerAdapter.notifyDataSetChanged();
+                    }
                     mViewPager.setCurrentItem(selectTabPos);
+                    isFirst = false;
                 }
             }
         });
@@ -183,26 +195,29 @@ public class ClassificationActivity extends BaseFragmentActivity implements View
 
         public  class TabFragmentPagerAdapter extends FragmentPagerAdapter {
 
-        public TabFragmentPagerAdapter(FragmentManager fm) {
-            super(fm);
+
+            public TabFragmentPagerAdapter(FragmentManager fm) {
+                super(fm);
+
+
         }
 
         @Override
         public Fragment getItem(int arg0) {
 
-            if(mHomeFragment[arg0] == null){
-                mHomeFragment[arg0] = new ClassificationFragment();
+            if(mClassificationFragments[arg0] == null){
+                mClassificationFragments[arg0] = new ClassificationFragment();
             }
             Bundle bundle = new Bundle();
             bundle.putParcelable(Fragment_Tag,mTagParams.get(arg0));
-            mHomeFragment[arg0].setArguments(bundle);
-            return mHomeFragment[arg0];
+            mClassificationFragments[arg0].setArguments(bundle);
+            return mClassificationFragments[arg0];
         }
 
         @Override
         public int getCount() {
 
-            return mHomeFragment.length;
+            return mClassificationFragments.length;
         }
         @Override
         public int getItemPosition(Object object) {

@@ -232,9 +232,7 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 
 		mAlbumTitleTv.setText(albumInfo.getTitle());
 		setTitleName(albumInfo.getTitle());
-		if(albumInfo.getStar_level() != null) {
-			mRatingBar.setStar(Integer.parseInt(albumInfo.getStar_level()));
-		}
+		mRatingBar.setStar(Integer.parseInt(albumInfo.getStar_level()));
 		mFavTv.setSelected(albumInfo.getFav()== 1);
 		mFavTv.setText(albumInfo.getFavnum() == 0?"收藏":(albumInfo.getFavnum()+""));
 		mListenerTv.setText(albumInfo.getListennum()+"");
