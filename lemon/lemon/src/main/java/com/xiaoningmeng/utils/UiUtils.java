@@ -8,6 +8,8 @@ package com.xiaoningmeng.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
@@ -167,5 +169,57 @@ public class UiUtils {
 		double y = Math.pow(hi, 2);
 		return Math.sqrt(x + y);
 	}
+
+	public static int getKeyboardHeight(Activity activity) {
+		int height = UiUtils.getInstance(activity).getmScreenHeight() - UiUtils.getStatusBarHeight(activity)
+				- UiUtils.getAppVisibleHeight(activity);
+
+		if (height == 0) {
+			height = PreferenceUtil.getInt("KeyboardHeight", 785);//默认软键盘高度
+		}else{
+			PreferenceUtil.putInt("KeyboardHeight", height);
+		}
+
+		return height;
+	}
+
+
+
+
+	public static int getStatusBarHeight(Activity activity) {
+		Rect localRect = new Rect();
+		activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(localRect);
+		return localRect.top;
+
+	}
+
+	public static int getAppVisibleHeight(Activity activity) {
+		Rect localRect = new Rect();
+		activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(localRect);
+		return localRect.height();
+	}
+
+	// below actionbar, above softkeyboard
+	public static int getAppContentHeight(Activity activity) {
+		return UiUtils.getInstance(activity).getmScreenHeight() - UiUtils.getStatusBarHeight(activity)
+				- UiUtils.getActionBarHeight(activity) - UiUtils.getKeyboardHeight(activity);
+	}
+	/**获取actiobar高度**/
+	public static int getActionBarHeight(Activity activity) {
+		if (true) {
+			return UiUtils.getInstance(activity).DipToPixels(56);
+		}
+		int[] attrs = new int[] { android.R.attr.actionBarSize };
+		TypedArray ta = activity.obtainStyledAttributes(attrs);
+		return ta.getDimensionPixelSize(0, UiUtils.getInstance(activity).DipToPixels(56));
+	}
+//
+//	/**键盘是否在显示**/
+//	public static boolean isKeyBoardShow(Activity paramActivity) {
+//		int height = AppUtils.getScreenHeight(paramActivity) - AppUtils.getStatusBarHeight(paramActivity)
+//				- AppUtils.getAppHeight(paramActivity);
+//		return height != 0;
+//	}
+
 
 }

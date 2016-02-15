@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/base_item_bg_selector">
+    <RelativeLayout
+        android:id="@+id/rl_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/forum_item_margin_left"
+        android:layout_marginRight="@dimen/forum_item_margin_left"
+        android:orientation="vertical">
+
+        <com.xiaoningmeng.view.CircleImageView
+            android:id="@+id/cv_avatar"
+            android:layout_width="@dimen/post_item_anthor_icon_height"
+            android:layout_height="@dimen/post_item_anthor_icon_height"
+            android:layout_marginTop="@dimen/forum_item_margin_bottom"
+            android:src="@drawable/logo"/>
+        <TextView
+            android:id="@+id/tv_author"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/forum_item_icon_height"
+            android:layout_toRightOf="@id/cv_avatar"
+            android:textColor="#999999"
+            android:textSize="@dimen/content_text_size"
+            android:text="作者的名字"
+            android:paddingTop="6dp"
+            android:layout_marginLeft="7dp" />
+
+        <TextView
+            android:id="@+id/tv_dateline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="37分钟前"
+            android:textColor="#999999"
+            android:textSize="@dimen/date_text_size"
+            android:layout_alignBottom="@+id/tv_author"
+            android:layout_alignLeft="@+id/tv_author"
+            android:layout_alignStart="@+id/tv_author"
+            android:paddingTop="3dp" />
+
+        <!--回帖图标-->
+        <ImageView
+            android:id="@+id/iv_post_icon"
+            android:layout_width="@dimen/forum_item_post_icon_height"
+            android:layout_height="@dimen/forum_item_post_icon_height"
+            android:src="@drawable/ic_launcher"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/tv_replies"
+            android:layout_toStartOf="@+id/tv_replies" />
+
+        <TextView
+            android:id="@+id/tv_replies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="8"
+            android:textColor="#999999"
+            android:textSize="@dimen/content_text_size"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_quote_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/forum_item_margin_bottom"
+        android:layout_marginLeft="@dimen/forum_item_margin_left"
+        android:layout_marginRight="@dimen/forum_item_margin_left"
+        android:background="@drawable/view_thread_quote_border">
+
+        <TextView
+            android:id="@+id/tv_quote_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/forum_item_margin_bottom"
+            android:layout_marginLeft="@dimen/forum_item_margin_bottom"
+            android:orientation="vertical"
+            android:textColor="#999999"
+            android:textSize="@dimen/date_text_size"
+            android:text="引用"/>
+
+        <TextView
+            android:id="@+id/tv_quote_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/forum_item_padding"
+            android:layout_marginTop="@dimen/forum_item_margin_bottom"
+            android:layout_toRightOf="@+id/tv_quote_text"
+            android:layout_toEndOf="@+id/tv_quote_text"
+            android:textColor="@color/base_black_title_color"
+            android:textSize="@dimen/home_tab_size"
+            android:text="被引用作者"/>
+
+        <TextView
+            android:id="@+id/tv_quote_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#999999"
+            android:textSize="@dimen/home_tab_size"
+            android:text="被引用文章正文"
+            android:layout_below="@+id/tv_quote_text"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="@dimen/forum_item_margin_bottom"
+            android:layout_marginLeft="@dimen/forum_item_margin_bottom"
+            android:layout_marginBottom="@dimen/forum_item_margin_bottom"/>
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/forum_item_margin_left"
+        android:layout_marginRight="@dimen/forum_item_margin_left"
+        android:orientation="horizontal">
+        <!--有图图标-->
+        <ImageView
+            android:id="@+id/iv_img_icon"
+            android:layout_width="@dimen/forum_item_post_icon_height"
+            android:layout_height="@dimen/forum_item_post_icon_height"
+            android:src="@drawable/ic_launcher"/>
+        <!--精华图标-->
+        <ImageView
+            android:id="@+id/iv_digest_icon"
+            android:layout_width="@dimen/forum_item_post_icon_height"
+            android:layout_height="@dimen/forum_item_post_icon_height"
+            android:src="@drawable/ic_launcher"/>
+        <!--热帖图标-->
+        <ImageView
+            android:id="@+id/iv_hot_icon"
+            android:layout_width="@dimen/forum_item_post_icon_height"
+            android:layout_height="@dimen/forum_item_post_icon_height"
+            android:src="@drawable/ic_launcher"/>
+
+        <TextView
+            android:id="@+id/tv_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/forum_item_margin_bottom"
+            android:orientation="vertical"
+            android:textColor="@color/base_black_title_color"
+            android:textSize="@dimen/title_content_text_size"
+            android:text="这是文章正文"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_images_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/forum_item_margin_left"
+        android:layout_marginRight="@dimen/forum_item_margin_left"
+        android:orientation="vertical">
+    </LinearLayout>
+    <View
+        android:id="@+id/v_forum_divider"
+        style="@style/dividerStyle"
+        android:layout_marginTop="@dimen/forum_item_margin_bottom"/>
+</LinearLayout>

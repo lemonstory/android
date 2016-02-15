@@ -39,7 +39,7 @@
             android:text="我的故事" />
 
         <TextView
-            android:id="@+id/tv_home_search"
+            android:id="@+id/tv_home_forum"
             style="@style/home_tab_style"
             android:drawableTop="@drawable/tab_cricle_selector"
             android:text="圈子" />

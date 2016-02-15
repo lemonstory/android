@@ -1,14 +1,9 @@
 package com.xiaoningmeng.auth;
 
-import java.util.Date;
-import java.util.List;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 
-import org.apache.http.client.CookieStore;
-import org.apache.http.cookie.Cookie;
-import org.json.JSONException;
-import org.litepal.crud.DataSupport;
-
-import com.orhanobut.dialogplus.DialogPlus;
 import com.xiaoningmeng.LoginActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.application.ActivityManager;
@@ -16,13 +11,15 @@ import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.event.LoginEvent;
 import com.xiaoningmeng.utils.PreferenceUtil;
-import com.xiaoningmeng.view.dialog.TipDialog;
 import com.ypy.eventbus.EventBus;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.view.View;
+import org.apache.http.client.CookieStore;
+import org.apache.http.cookie.Cookie;
+import org.json.JSONException;
+import org.litepal.crud.DataSupport;
+
+import java.util.Date;
+import java.util.List;
 
 public class UserAuth {
 

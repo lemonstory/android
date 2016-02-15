@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fl_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/base_item_bg_selector" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom">
+
+        <com.xiaoningmeng.view.CircleImageView
+            android:id="@+id/img_forum_icon"
+            android:layout_width="@dimen/forum_item_icon_height"
+            android:layout_height="@dimen/forum_item_icon_height"
+            android:layout_marginLeft="@dimen/forum_item_margin_left"
+            android:layout_marginRight="@dimen/forum_item_margin_left"
+            android:layout_marginTop="@dimen/forum_item_margin_left" />
+
+        <TextView
+            android:id="@+id/tv_forum_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/forum_item_margin_left"
+            android:layout_toRightOf="@id/img_forum_icon"
+            android:textColor="@color/base_black_title_color"
+            android:textSize="@dimen/title_content_text_size"/>
+
+        <TextView
+            android:id="@+id/tv_forum_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_forum_name"
+            android:layout_alignLeft="@+id/tv_forum_name"
+            android:layout_marginTop="@dimen/forum_item_margin_bottom"
+            android:layout_marginBottom="@dimen/forum_item_padding"
+            android:textColor="#999999"
+            android:textSize="@dimen/content_text_size"/>
+
+        <TextView
+            android:id="@+id/tv_forum_todayposts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/forum_todayposts_text_color"
+            android:textSize="@dimen/date_text_size"
+            android:layout_above="@+id/tv_forum_description"
+            android:layout_toRightOf="@+id/tv_forum_name"
+            android:layout_marginLeft="@dimen/forum_item_margin_bottom" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/account_item_margin_right"
+            android:src="@drawable/tab_right_back" />
+
+        <View
+            android:id="@+id/v_forum_divider"
+            style="@style/dividerStyle"
+            android:layout_below="@id/tv_forum_description"
+            android:layout_marginTop="@dimen/forum_item_margin_bottom"
+            android:layout_toRightOf="@id/img_forum_icon" />
+    </RelativeLayout>
+
+</FrameLayout>

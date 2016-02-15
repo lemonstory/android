@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:emojicon="http://schemas.android.com/apk/lib/com.rockerhieu.emojicon"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:background="#ebecee"
+    android:layout_alignParentBottom="true">
+    <Button
+        android:id="@+id/btn_switch"
+        android:layout_alignParentLeft="true"
+        android:layout_width="48dp"
+        android:layout_height="44dp"
+        android:text="表情"
+        android:textSize="10dp"
+        />
+
+    <!--TODO:emojiconSize不可用 -->
+    <com.rockerhieu.emojicon.EmojiconEditText
+        android:id="@+id/editEmojicon"
+        emojicon:emojiconSize="28sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/btn_switch"
+        android:layout_toLeftOf="@+id/btn_send_content"
+        android:layout_toStartOf="@+id/btn_send_content"
+        android:lineSpacingExtra="3dp"
+        android:maxLines="8"
+        android:textSize="@dimen/content_text_size"
+        android:layout_margin="8dp" />
+
+    <Button
+        android:id="@+id/btn_send_content"
+        android:layout_width="44dp"
+        android:layout_height="48dp"
+        android:text="发送"
+        android:layout_alignParentRight="true"
+        android:textSize="10dp" />
+
+    <FrameLayout
+        class="com.rockerhieu.emojicon.EmojiconsFragment"
+        android:id="@+id/emojicons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/editEmojicon" />
+</RelativeLayout>

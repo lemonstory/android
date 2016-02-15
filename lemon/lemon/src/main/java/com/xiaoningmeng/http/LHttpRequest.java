@@ -1,8 +1,6 @@
 package com.xiaoningmeng.http;
 
-import java.util.HashMap;
-import java.util.List;
-
+import android.content.Context;
 
 import com.alibaba.sdk.android.oss.callback.SaveCallback;
 import com.xiaoningmeng.MoreActivity;
@@ -10,7 +8,6 @@ import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.bean.Address;
 import com.xiaoningmeng.bean.Album;
 import com.xiaoningmeng.bean.AlbumInfo;
-import com.xiaoningmeng.bean.Comment;
 import com.xiaoningmeng.bean.Discover;
 import com.xiaoningmeng.bean.HomeInfo;
 import com.xiaoningmeng.bean.Mine;
@@ -21,9 +18,9 @@ import com.xiaoningmeng.bean.SearchData;
 import com.xiaoningmeng.bean.TagDetail;
 import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.utils.ImageUtils;
 
-import android.content.Context;
+import java.util.HashMap;
+import java.util.List;
 
 public class LHttpRequest {
 
@@ -146,7 +143,7 @@ public class LHttpRequest {
 		HashMap<String, String> params = new HashMap<>();
 		params.put("currentfirsttagid",currentfirsttagid);
 		params.put("p", p+"");
-		params.put("len", len+"");
+		params.put("len", len + "");
 		params.put("isgettag",isGetTag+"");
 		params.put("visituid", MyApplication.getInstance().getUid());
 		String url = null;
@@ -201,7 +198,7 @@ public class LHttpRequest {
 		HashMap<String, String> params = new HashMap<>();
 		params.put("len", len + "");
 		params.put("visituid", MyApplication.getInstance().getUid());
-		LClient.getInstance().get(context, ConstantURL.RANK_LISTENER_LIST,params, handler);
+		LClient.getInstance().get(context, ConstantURL.RANK_LISTENER_LIST, params, handler);
 	}
 	//专辑详情
 	public void albumInfoReq(Context context,int len,String albumId, String uid,
@@ -316,7 +313,7 @@ public class LHttpRequest {
 	//上传头像
 	public void setAvatarReq(Context context,String avatarFilePath,SaveCallback callback){
 		//String path = ImageUtils.compress(avatarFilePath);
-		UploadFile.getInstance().asyncUpload(avatarFilePath,callback);
+		UploadFile.getInstance().asyncUpload(avatarFilePath, callback);
 	}
 	//个人页
 	public void getHomeInfoReq(Context ctx,String uid,String direction,String startAlbumId,int len,LHttpHandler<HomeInfo> handler){
@@ -331,7 +328,7 @@ public class LHttpRequest {
 		params.put("uid", uid);
 		params.put("len", len+"");
 		params.put("visituid", MyApplication.getInstance().getUid());
-		LClient.getInstance().get(ctx, ConstantURL.GET_HOME_INFO, params,handler);
+		LClient.getInstance().get(ctx, ConstantURL.GET_HOME_INFO, params, handler);
 	}
 	//个人信息
 	public void getUserInfoReq(Context ctx,LHttpHandler<UserInfo> handler){
@@ -436,6 +433,59 @@ public class LHttpRequest {
 		}
 		params.put("visituid", MyApplication.getInstance().getUid());
 		LClient.getInstance().get(ctx, ConstantURL.GET_TAG_ALBUM_LIST, params,handler);
+	}
+
+	//论坛首页
+	public void getForumIndex(Context context,LHttpHandler<String> handler) {
+		HashMap<String, String> params = new HashMap<>();
+		params.put("version", "4");
+		params.put("module", "forumindex");
+		params.put("visituid", MyApplication.getInstance().getUid());
+		LClient.getInstance().get(context, ConstantURL.FORUM_INDEX, params,
+				handler);
+	}
+
+	//论坛帖子列表
+	public void getForumThreads(Context context,LHttpHandler<String> handler,int fid,int page) {
+
+		HashMap<String, String> params = new HashMap<>();
+		params.put("version", "4");
+		params.put("module", "forumdisplay");
+		params.put("fid",fid+"");
+		params.put("page",page+"");
+		params.put("visituid", MyApplication.getInstance().getUid());
+		LClient.getInstance().get(context, ConstantURL.FORUM_INDEX, params,
+				handler);
+	}
+
+	//论坛帖子详情
+	public void getViewThread(Context context,LHttpHandler<String> handler,int tid,int page) {
+
+		HashMap<String, String> params = new HashMap<>();
+		params.put("version", "4");
+		params.put("module", "viewthread");
+		params.put("tid", tid + "");
+		params.put("page",page+"");
+		params.put("visituid", MyApplication.getInstance().getUid());
+		LClient.getInstance().get(context, ConstantURL.FORUM_INDEX, params,
+				handler);
+	}
+
+	//论坛帖子评论
+	public void sendReply(Context context,LHttpHandler<String> handler,int fid,int tid,String message) {
+
+		HashMap<String, String> params = new HashMap<>();
+		params.put("version", "4");
+		params.put("module", "sendreply");
+		params.put("fid", fid + "");
+		params.put("tid",tid+"");
+		params.put("replysubmit","yes");
+		params.put("subject","");
+		params.put("message",message);
+		params.put("usesig","2");
+		params.put("visituid", MyApplication.getInstance().getUid());
+		LClient.getInstance().get(context, ConstantURL.FORUM_INDEX, params,
+				handler);
 	}
 
 }

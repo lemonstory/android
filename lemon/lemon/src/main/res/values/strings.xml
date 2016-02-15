@@ -20,13 +20,13 @@
     <string name="xlistview_footer_hint_normal">查看更多</string>
     <string name="xlistview_footer_hint_ready">松开载入更多</string>
     <string name="xlistview_footer_hint_no_more">没有更多了</string> -->
-    
-      <string name="sd_disable" translatable="false">SD卡不可用</string>
+
+    <string name="sd_disable" translatable="false">SD卡不可用</string>
     <string name="pic_count_on_add" translatable="false">选择图片数量已达到上限</string>
-	<string name="please_select_one_pic" translatable="false">请选择一张图片...</string>
-	<string name="search_hint" translatable="false">名称、作者</string>
-	
-	<string name="remider_tip" translatable="false">建一个提醒吧，和宝宝一起养成规律学习的好习惯哟.</string>
+    <string name="please_select_one_pic" translatable="false">请选择一张图片...</string>
+    <string name="search_hint" translatable="false">名称、作者</string>
+
+    <string name="remider_tip" translatable="false">建一个提醒吧，和宝宝一起养成规律学习的好习惯哟.</string>
     <string name="account_login">立即登录</string>
     <string name="account_rank">学霸排行榜</string>
     <string name="account_shop">商城</string>
@@ -47,8 +47,8 @@
         <item>5首</item>
         <item>10首</item>
     </string-array>
-	<integer-array name="reminder_int">
-	      <item>0</item>
+    <integer-array name="reminder_int">
+        <item>0</item>
         <item>10</item>
         <item>20</item>
         <item>30</item>
@@ -58,10 +58,10 @@
         <item>-3</item>
         <item>-5</item>
         <item>-10</item>
-	</integer-array>
-	
-	<string-array name="music_cover_name">
-	    <item>可爱宝宝</item>
+    </integer-array>
+
+    <string-array name="music_cover_name">
+        <item>可爱宝宝</item>
         <item>瞄</item>
         <item>More Than Light</item>
         <item>黄手帕</item>
@@ -71,7 +71,7 @@
         <item>小小粉刷匠</item>
         <item>小草</item>
         <item>彩虹的约定</item>
-	</string-array>
+    </string-array>
     <string-array name="classification_name">
         <item>故事</item>
         <item>儿歌</item>
@@ -88,4 +88,5 @@
     <string name="no_wifi">没有wifi连接， 只在wifi下更新</string>
     <string name="connect_time_out">超时</string>
     <string name="download_file_tip">正在下载文件，请稍后.</string>
+    <string name="hello_blank_fragment">hello_blank_fragment</string>
 </resources>

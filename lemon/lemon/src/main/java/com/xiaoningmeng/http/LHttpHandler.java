@@ -1,19 +1,15 @@
 package com.xiaoningmeng.http;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.xiaoningmeng.application.MyApplication;
-import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.utils.DebugUtils;
 
@@ -22,6 +18,10 @@ import org.apache.http.client.CookieStore;
 import org.apache.http.cookie.Cookie;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.List;
 
 public abstract class LHttpHandler<T> implements Response.Listener<String>,
 		Response.ErrorListener {
@@ -53,9 +53,10 @@ public abstract class LHttpHandler<T> implements Response.Listener<String>,
 	public void onResponse(String responseString) {
 
 		int code = -1;
+		String content = "";
 		try {
 
-			DebugUtils.e(responseString);
+			//DebugUtils.e(responseString);
 
 			CookieStore store = MyApplication.getInstance().mHttpClient
 					.getCookieStore();
@@ -65,17 +66,29 @@ public abstract class LHttpHandler<T> implements Response.Listener<String>,
 			JSONObject jsonObject = new JSONObject(responseString);
 			Type type = getType();
 			T t;
-			code = jsonObject.getInt("code");
-			DebugUtils.e("code = " + code);
-			if (Constant.REQ_SUCCESS_STATUS == code) {
+			code = jsonObject.has("code") ? jsonObject.getInt("code") : code;
+			//DebugUtils.e("code = " + code);
+
+			//兼容DZ
+			//TODO:jsonObject.has("JSON")不严谨，只是测试
+			if (Constant.REQ_SUCCESS_STATUS == code || jsonObject.has("Variables")) {
+
 				if (jsonObject.has("data")) {
-					String content = jsonObject.getString("data");
+					content = jsonObject.getString("data");
 					if (type == String.class || type == Object.class) {
 						t = (T) content;
 					} else {
 						t = gson.fromJson(content, type);
 					}
-				} else {
+				}else if (jsonObject.has("Variables")) {
+					content = jsonObject.getString("Variables");
+					if (type == String.class || type == Object.class) {
+						t = (T) content;
+					} else {
+						t = gson.fromJson(content, type);
+					}
+				}
+				else {
 					t = null;
 				}
 				onGetDataSuccess(t);
@@ -113,7 +126,7 @@ public abstract class LHttpHandler<T> implements Response.Listener<String>,
 				String desc = responseString;
 				try {
 					JSONObject jsonObject = new JSONObject(responseString);
-					desc = jsonObject.getString("desc");
+					desc = jsonObject.has("desc") ? jsonObject.getString("desc") : desc;
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}

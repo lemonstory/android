@@ -184,13 +184,13 @@
     <dimen name="play_seekbar_margin_top">14dp</dimen>
     <dimen name="play_seekbar_margin_bottom">20dp</dimen>
     <dimen name="play_bottom_height">128dp</dimen>
-    
+
     <dimen name="play_center_margin">28dp</dimen>
     <dimen name="play_center_margin_bottom">14dp</dimen>
     <dimen name="play_center_margin_top">14dp</dimen>
     <dimen name="play_cover_width">210dp</dimen>
     <dimen name="play_cover_new_margin_top">8dp</dimen>
-    
+
     <dimen name="play_bottom_height2">124dp</dimen>
     <dimen name="play_center_margin_bottom2">11dp</dimen>
     <dimen name="play_center_margin_top2">11dp</dimen>
@@ -250,9 +250,23 @@
     <dimen name="switch_btn_width">54dp</dimen>
     <dimen name="switch_btn_hieght">27dp</dimen>
 
-     <!-- setting -->
-        <dimen name="setting_item_height">40dp</dimen>
-        <dimen name="setting_item_margin">14dp</dimen>
-         <dimen name="setting_item_padding">11dp</dimen>
-         <dimen name="setting_item_text_padding">17dp</dimen>
+    <!-- setting -->
+    <dimen name="setting_item_height">40dp</dimen>
+    <dimen name="setting_item_margin">14dp</dimen>
+    <dimen name="setting_item_padding">11dp</dimen>
+    <dimen name="setting_item_text_padding">17dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+
+    <!-- forum -->
+    <dimen name="forum_item_icon_height">41dp</dimen>
+    <dimen name="forum_item_margin_top">20dp</dimen>
+    <dimen name="forum_item_margin_left">15dp</dimen>
+    <dimen name="forum_item_margin_bottom">7dp</dimen>
+    <dimen name="forum_item_padding">3dp</dimen>
+    <dimen name="forum_item_post_icon_height">28dp</dimen>
+    <dimen name="forum_item_anthor_icon_height">24dp</dimen>
+    <dimen name="post_item_anthor_icon_height">34dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
 </resources>
