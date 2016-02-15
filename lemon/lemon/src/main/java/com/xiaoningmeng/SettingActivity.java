@@ -21,6 +21,7 @@ import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.ShareBean;
+import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.LHttpHandler;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
@@ -98,7 +99,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener,
 			Logout();
 			break;
 		case R.id.rl_setting_share:
-			mController = new ShareDialog().show(this,new ShareBean("小柠檬",null, "http://app.mi.com/detail/120187"));
+			mController = new ShareDialog().show(this,new ShareBean("小柠檬",null, Constant.SHARE_OFFCAIL_URL));
 			break;
 		case R.id.rl_setting_check:
 			checkVersion();

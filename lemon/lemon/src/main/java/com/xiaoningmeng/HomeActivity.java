@@ -2,8 +2,14 @@ package com.xiaoningmeng;
 
 import com.orhanobut.dialogplus.DialogPlus;
 import com.umeng.onlineconfig.OnlineConfigAgent;
+import com.umeng.socialize.controller.UMSocialService;
+import com.umeng.socialize.sso.UMSsoHandler;
+import com.umeng.update.UmengUpdateAgent;
+import com.umeng.update.UmengUpdateListener;
+import com.umeng.update.UpdateResponse;
 import com.xiaoningmeng.base.BaseFragmentActivity;
 import com.xiaoningmeng.bean.PlayingStory;
+import com.xiaoningmeng.bean.ShareBean;
 import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.event.LoginEvent;
@@ -20,11 +26,14 @@ import com.xiaoningmeng.player.MusicService;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.utils.PreferenceUtil;
+import com.xiaoningmeng.view.SearchView;
+import com.xiaoningmeng.view.ShareDialog;
 import com.xiaoningmeng.view.dialog.TipDialog;
 import com.ypy.eventbus.EventBus;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
@@ -41,7 +50,6 @@ public class HomeActivity extends BaseFragmentActivity implements
 
 	private DiscoverFragment mDiscoverFragment;
 	private MineFragment mMineFragment;
-	private CricleFragment mSearchFragment;
 	private AccountFragment mAccountFragment;
 	private ForumIndexFragment mForumIndexFragment;
 	private TextView mDisCoverTabTv;
@@ -52,6 +60,9 @@ public class HomeActivity extends BaseFragmentActivity implements
 
 	private TextView mTitleTv;
 	private ImageView mTitleImg;
+	public SearchView mSearchBarView;
+	private View mActionBarView;
+	private Handler mHanler = new Handler();
 
 	public static final String FRAG_DISCOVER = "FRAG_DISCOVER";
 	public static final String FRAG_MINE = "FRAG_MINE";
@@ -80,12 +91,23 @@ public class HomeActivity extends BaseFragmentActivity implements
 		mCoverImg = (ImageView) findViewById(R.id.img_home_cover);
 		mTitleTv = (TextView)findViewById(R.id.tv_head_title);
 		mTitleImg = (ImageView)findViewById(R.id.img_head_title);
+		mSearchBarView = (SearchView) findViewById(R.id.search_bar);
+		mActionBarView = findViewById(R.id.action_bar);
 		setTabSelect(0);
-		reminderTip();
-		shareTip();
+		mHanler.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				reminderTip();
+				shareTip();
+				checkVersion();
+			}
+		}, 100);
+
 	}
 
-
+	/**
+	 * 提示设置闹钟
+	 */
 	private void reminderTip() {
 		int remindCountDown = PreferenceUtil.getInt("Remind_countdown");
 		if (remindCountDown <= Constant.REMINDER_COUNTDOWN) {
@@ -119,16 +141,57 @@ public class HomeActivity extends BaseFragmentActivity implements
 		}
 	}
 
+	/**
+	 * 分享给好友
+	 */
 	private void shareTip() {
 		int remindCountDown = PreferenceUtil.getInt("Share_countdown");
 		if(remindCountDown <= Constant.SHARE_COUNTDOWN){
 			if(remindCountDown == Constant.SHARE_COUNTDOWN){
 				new TipDialog.Builder(this).setLayoutId(R.layout.dialog_prompt)
 						.setNeedBg(true)
-						.setAutoDismiss(false).create().show();
+						.setAutoDismiss(false).setOnClickListener(new com.orhanobut.dialogplus.OnClickListener() {
+					@Override
+					public void onClick(DialogPlus dialog, View view) {
+						if (view.getId() == R.id.tv_dialog_enter) {
+							dialog.dismiss();
+							mHanler.postDelayed(new Runnable() {
+								@Override
+								public void run() {
+									mController = new ShareDialog().show(HomeActivity.this,
+											new ShareBean("小柠檬", null, Constant.SHARE_OFFCAIL_URL));
+								}
+							}, 250);
+						}
+					}
+				}).create().show();
 			}
 			remindCountDown++;
 			PreferenceUtil.putInt("Share_countdown", remindCountDown);
+		}
+	}
+
+	/**
+	 * 检查版本
+	 */
+	private void checkVersion() {
+			final int updateCount = PreferenceUtil.getInt("update_countdown",0);
+		if(updateCount < Constant.UPDATE_COUNTDOWN) {
+			UmengUpdateAgent.setUpdateAutoPopup(false);
+			UmengUpdateAgent.setUpdateOnlyWifi(true);
+			UmengUpdateAgent.setUpdateListener(new UmengUpdateListener() {
+				@Override
+				public void onUpdateReturned(int updateStatus, UpdateResponse updateInfo) {
+
+					switch (updateStatus) {
+						case 0: // has update
+							PreferenceUtil.putInt("update_countdown",updateCount+1);
+							UmengUpdateAgent.showUpdateDialog(HomeActivity.this, updateInfo);
+							break;
+					}
+				}
+			});
+			UmengUpdateAgent.update(this);
 		}
 	}
 
@@ -145,6 +208,8 @@ public class HomeActivity extends BaseFragmentActivity implements
 			case 0:
 				mTitleTv.setVisibility(View.INVISIBLE);
 				mTitleImg.setVisibility(View.VISIBLE);
+				mActionBarView.setVisibility(View.VISIBLE);
+				mSearchBarView.setVisibility(View.INVISIBLE);
 				mDiscoverFragment = (DiscoverFragment) manager.findFragmentByTag(FRAG_DISCOVER);
 				hideTab(transaction);
 				if (mDiscoverFragment == null) {
@@ -158,6 +223,8 @@ public class HomeActivity extends BaseFragmentActivity implements
 				transaction.commitAllowingStateLoss();
 				break;
 			case 1:
+				mActionBarView.setVisibility(View.VISIBLE);
+				mSearchBarView.setVisibility(View.INVISIBLE);
 				mTitleTv.setText("我的故事");
 				mTitleTv.setVisibility(View.VISIBLE);
 				mTitleImg.setVisibility(View.INVISIBLE);
@@ -173,6 +240,8 @@ public class HomeActivity extends BaseFragmentActivity implements
 				transaction.commitAllowingStateLoss();
 				break;
 			case 2:
+				mActionBarView.setVisibility(View.INVISIBLE);
+				mSearchBarView.setVisibility(View.VISIBLE);
 				mTitleImg.setVisibility(View.INVISIBLE);
 				mTitleTv.setVisibility(View.VISIBLE);
 				mTitleTv.setText("圈子");
@@ -189,6 +258,8 @@ public class HomeActivity extends BaseFragmentActivity implements
 				transaction.commitAllowingStateLoss();
 				break;
 			case 3:
+				mActionBarView.setVisibility(View.VISIBLE);
+				mSearchBarView.setVisibility(View.INVISIBLE);
 				mTitleImg.setVisibility(View.INVISIBLE);
 				mTitleTv.setVisibility(View.VISIBLE);
 				mTitleTv.setText("账号");
@@ -278,7 +349,9 @@ public class HomeActivity extends BaseFragmentActivity implements
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 
 		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-			showCancelAppDialog();
+			if(!mSearchBarView.checkIsFocus()) { //检查mSearchView是否还有焦点
+				showCancelAppDialog();
+			}
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
@@ -344,5 +417,24 @@ public class HomeActivity extends BaseFragmentActivity implements
 		PlayerManager.getInstance().unRegister(this);
 		super.onDestroy();
 		EventBus.getDefault().unregister(this);
+	}
+
+
+	public void search(String content){
+		mSearchBarView.search(content);
+	}
+
+	private UMSocialService mController;
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		/** 使用SSO授权必须添加如下代码 */
+		if(mController != null) {
+			UMSsoHandler ssoHandler = mController.getConfig().getSsoHandler(
+					requestCode);
+			if (ssoHandler != null) {
+				ssoHandler.authorizeCallBack(requestCode, resultCode, data);
+			}
+		}
 	}
 }

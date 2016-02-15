@@ -2,6 +2,7 @@ package com.xiaoningmeng.fragment;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.TypedValue;
@@ -107,10 +108,11 @@ public class AblumDetailIntroFragment extends BaseFragment implements View.OnCli
 	public void initTag(List<Tag> tagList) {
 		MarginLayoutParams lp = new ViewGroup.MarginLayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, mContext.getResources()
 				.getDimensionPixelOffset(R.dimen.search_et_height));
-		lp.rightMargin = mContext.getResources().getDimensionPixelOffset(R.dimen.base_margin);
-		lp.topMargin = mContext.getResources().getDimensionPixelOffset(R.dimen.base_radius_size);
+		Resources res = mContext.getResources();
+		lp.rightMargin = res.getDimensionPixelOffset(R.dimen.base_margin);
+		lp.topMargin = res.getDimensionPixelOffset(R.dimen.base_radius_size);
 		int allSize = tagList.size();
-		int minWidth = getResources().getDimensionPixelOffset(R.dimen.home_discover_btn);
+		int minWidth = res.getDimensionPixelOffset(R.dimen.home_discover_btn);
 		int childCount = mFlowLayout.getChildCount();
 		if (childCount > allSize) {
 			for (int i = childCount - 1; i >= allSize; i--) {
@@ -124,7 +126,7 @@ public class AblumDetailIntroFragment extends BaseFragment implements View.OnCli
 			} else {
 				view = new TextView(mContext);
 				view.setMinWidth(minWidth);
-				ColorStateList csl = (ColorStateList) mContext.getResources().getColorStateList(R.color.mark_flow_color_selector);
+				ColorStateList csl = (ColorStateList)res.getColorStateList(R.color.mark_flow_color_selector);
 				view.setTextColor(csl);
 				view.setBackgroundResource(R.drawable.mark_item_bg_normal);
 				view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);

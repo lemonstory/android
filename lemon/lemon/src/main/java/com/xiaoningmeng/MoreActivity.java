@@ -29,6 +29,7 @@ import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.view.PagerSlidingTabStrip;
+import com.xiaoningmeng.view.dialog.DrawableDialogLoading;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +59,7 @@ public class MoreActivity extends BaseFragmentActivity implements View.OnClickLi
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_more);
+
 		mSelectType = getIntent().getIntExtra(MORE_TYPE, HOT_MORE);
 		mIndicator = (PagerSlidingTabStrip) findViewById(R.id.tab_indicator);
 		mViewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -66,15 +68,15 @@ public class MoreActivity extends BaseFragmentActivity implements View.OnClickLi
 		mCoverImg = (ImageView) findViewById(R.id.img_head_right);
 		mTitleNameTv.setText(MoreArray[mSelectType]);
 		mMoreParams = new ArrayList<>();
+		setLoading(new DrawableDialogLoading(this));
 		PlayerManager.getInstance().register(this);
 		requestData();
-
 	}
 
 
 
 	private void requestData(){
-		LHttpRequest.getInstance().getMoreList(this, mSelectType,1, 0, 1, null, new LHttpHandler<MoreAblum>(this) {
+		LHttpRequest.getInstance().getMoreList(this, mSelectType,1, 0, 1, null, new LHttpHandler<MoreAblum>(this,this) {
 			@Override
 			public void onGetDataSuccess(MoreAblum data) {
 				if(data != null){

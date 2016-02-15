@@ -55,109 +55,48 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e08bcf0-491b-42cb-a956-eeaba7832557" name="Default" comment="增加:ondestory">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/libs/MiPush_SDK_Client_2_2_21.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f34e.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f353.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f36d.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f370.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f382.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f383.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f44b.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f44c.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f44d.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f48b.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f4aa.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f4af.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f600.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f601.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f602.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f603.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f604.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f605.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f606.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f607.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f608.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f609.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f60a.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f60b.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f60c.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f60d.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f60e.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f60f.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f612.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f613.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f614.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f615.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f616.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f617.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f618.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f619.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f61a.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f61b.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f61c.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f61d.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f621.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f622.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f623.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f624.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f625.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f626.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f627.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f628.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f629.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f62a.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f62b.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f62c.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f62d.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f630.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f631.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f633.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f636.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x1f64f.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x2615.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-hdpi/emoji_0x263a.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/bean/Attachment.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/EmoticonsKeyboard/app/EmoticonsKeyboard-app.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/bean/Forum.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/ForumDisplayActivity.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/adapter/ForumDisplayAdapter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/adapter/ForumIndexAdapter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/fragment/ForumIndexFragment.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/bean/ForumThread.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/fragment/KeyboardFragment.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/bean/Post.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/adapter/TextWatcherAdapter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/ViewThreadActivity.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/adapter/ViewThreadAdapter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/layout/activity_forum_display.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/layout/activity_view_thread.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/layout/fragment_forum_index.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/layout/fragment_keyboard.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/layout/item_forum_display.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/layout/item_forum_index.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/layout/item_view_thread.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable/keyboard_edit_bg.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/XhsEmoticonsKeyboard/lemon-XhsEmoticonsKeyboard.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/lemon-app.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/lemon-lemon.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/libs/libs.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable/view_thread_quote_border.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/fragment/AblumDetailPlayListFragment.java" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/fragment/AblumDetailPlayListFragment.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-xhdpi/default_classifiction.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/view/NumberProgressBar.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/view/OnProgressBarListener.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/layout/dialog_drawable_loading.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lemon/src/main/res/layout/fragment_search.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/res/drawable-xhdpi/album_default1.png" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-xhdpi/album_default1.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/res/drawable-xhdpi/album_default2.png" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-xhdpi/album_default2.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/res/drawable-xhdpi/album_default3.png" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-xhdpi/album_default3.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/res/drawable-xhdpi/album_default4.png" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-xhdpi/album_default4.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/res/drawable-xhdpi/album_default5.png" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-xhdpi/album_default5.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/res/drawable-xhdpi/album_default6.png" afterPath="$PROJECT_DIR$/lemon/src/main/res/drawable-xhdpi/album_default6.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/AblumDetailActivity.java" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/AblumDetailActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/fragment/AblumDetailIntroFragment.java" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/fragment/AblumDetailIntroFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/lemon/src/main/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/view/dialog/BaseDialog.java" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/view/dialog/BaseDialog.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/ClassificationActivity.java" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/ClassificationActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/fragment/ClassificationFragment.java" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/fragment/ClassificationFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/HomeActivity.java" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/HomeActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/http/LHttpHandler.java" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/http/LHttpHandler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/http/LClient.java" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/http/LClient.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/http/LHttpRequest.java" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/http/LHttpRequest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/utils/UiUtils.java" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/utils/UiUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/auth/UserAuth.java" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/auth/UserAuth.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/LoadingActivity.java" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/LoadingActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/fragment/MineFragment.java" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/fragment/MineFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/MoreActivity.java" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/MoreActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/fragment/MoreFragment.java" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/fragment/MoreFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/application/MyApplication.java" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/application/MyApplication.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/RankActivity.java" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/RankActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/adapter/RecommendStoryAdapter.java" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/adapter/RecommendStoryAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/SearchActivity.java" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/SearchActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/fragment/SearchAlbumChildFragment.java" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/fragment/SearchAlbumChildFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/adapter/SearchDefaultAdapter2.java" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/adapter/SearchDefaultAdapter2.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/fragment/SearchStoryChildFragment.java" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/fragment/SearchStoryChildFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/SettingActivity.java" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/SettingActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/WebViewActivity.java" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/WebViewActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/res/layout/activity_home.xml" afterPath="$PROJECT_DIR$/lemon/src/main/res/layout/activity_home.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/res/values/colors.xml" afterPath="$PROJECT_DIR$/lemon/src/main/res/values/colors.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/res/values/dimens.xml" afterPath="$PROJECT_DIR$/lemon/src/main/res/values/dimens.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/res/layout/item_ablum_detail_comment_head.xml" afterPath="$PROJECT_DIR$/lemon/src/main/res/layout/item_ablum_detail_comment_head.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/settings.gradle" afterPath="$PROJECT_DIR$/settings.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/lemon/src/main/res/values/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/res/values-1280x720/dimens.xml" afterPath="$PROJECT_DIR$/lemon/src/main/res/values-1280x720/dimens.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/res/layout/item_home_discover_center.xml" afterPath="$PROJECT_DIR$/lemon/src/main/res/layout/item_home_discover_center.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/res/layout/item_search_default2.xml" afterPath="$PROJECT_DIR$/lemon/src/main/res/layout/item_search_default2.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/res/layout/item_search_head.xml" afterPath="$PROJECT_DIR$/lemon/src/main/res/layout/item_search_head.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/res/layout/layout_header.xml" afterPath="$PROJECT_DIR$/lemon/src/main/res/layout/layout_header.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/res/values/styles.xml" afterPath="$PROJECT_DIR$/lemon/src/main/res/values/styles.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="lemon.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -200,22 +139,54 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="42" column="33" selection-start-line="42" selection-start-column="33" selection-end-line="42" selection-end-column="33" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ViewThreadActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ViewThreadActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/ViewThreadActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="2.9081633">
-              <caret line="71" column="41" selection-start-line="71" selection-start-column="41" selection-end-line="71" selection-end-column="85" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="67" column="25" selection-start-line="67" selection-start-column="25" selection-end-line="67" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2102#2179#0" expanded="true" />
                 <element signature="e#8478#8868#0" expanded="true" />
                 <element signature="e#8867#8868#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ClassificationActivity.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/ClassificationActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.76311606">
+              <caret line="36" column="39" selection-start-line="36" selection-start-column="39" selection-end-line="36" selection-end-column="39" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RankActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/RankActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="57" column="17" selection-start-line="57" selection-start-column="17" selection-end-line="57" selection-end-column="17" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SearchStoryChildFragment.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/fragment/SearchStoryChildFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="115" column="0" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -264,54 +235,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RelativeLayout.java" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Library/android-sdk-macosx/sources/android-22/android/widget/RelativeLayout.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="1197" column="24" selection-start-line="1197" selection-start-column="24" selection-end-line="1197" selection-end-column="24" />
-              <folding>
-                <element signature="e#0#76719#0" expanded="false" />
-                <element signature="imports" expanded="false" />
-                <element signature="e#8882#8883#0" expanded="false" />
-                <element signature="e#8917#8918#0" expanded="false" />
-                <element signature="e#8983#8984#0" expanded="false" />
-                <element signature="e#9022#9023#0" expanded="false" />
-                <element signature="e#10275#10276#0" expanded="false" />
-                <element signature="e#10303#10304#0" expanded="false" />
-                <element signature="e#10796#10797#0" expanded="false" />
-                <element signature="e#10835#10836#0" expanded="false" />
-                <element signature="e#11106#11107#0" expanded="false" />
-                <element signature="e#11137#11138#0" expanded="false" />
-                <element signature="e#57046#57047#0" expanded="false" />
-                <element signature="e#57081#57082#0" expanded="false" />
-                <element signature="e#57192#57193#0" expanded="false" />
-                <element signature="e#57229#57230#0" expanded="false" />
-                <element signature="e#57346#57347#0" expanded="false" />
-                <element signature="e#57383#57384#0" expanded="false" />
-                <element signature="e#68912#68913#0" expanded="false" />
-                <element signature="e#68949#68950#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="LHttpRequest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/http/LHttpRequest.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="461" column="29" selection-start-line="461" selection-start-column="16" selection-end-line="461" selection-end-column="29" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LClient.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/http/LClient.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
+              <caret line="463" column="29" selection-start-line="463" selection-start-column="16" selection-end-line="463" selection-end-column="29" />
               <folding>
                 <element signature="imports" expanded="false" />
               </folding>
@@ -5521,16 +5449,16 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.66963404" sideWeight="0.50214136" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.8082192" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.8082192" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3576017" sideWeight="0.1355094" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6042618" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34703195" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.49785867" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2649919" sideWeight="0.8644906" order="4" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2649919" sideWeight="0.8644906" order="4" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.66818875" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -5624,30 +5552,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="android-dummy:///Users/gaoyong/Documents/work/xiaoningmeng/android/lemon//Theme Editor">
-      <provider selected="true" editor-type-id="themeEditor">
-        <state theme-name="AiTheme" module-name="lemon-lemon" proportion="0.5" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lemon/src/main/res/values/styles.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.2156863">
-          <caret line="141" column="12" selection-start-line="141" selection-start-column="12" selection-end-line="141" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lemon/src/main/res/layout/dialog_download_tip.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.8301886">
-          <caret line="26" column="47" selection-start-line="26" selection-start-column="30" selection-end-line="26" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/auth/UserAuth.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -5951,7 +5855,7 @@
     <entry file="file://$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/http/LClient.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
+          <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="false" />
           </folding>
@@ -5977,7 +5881,7 @@
     <entry file="file://$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/http/LHttpRequest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="461" column="29" selection-start-line="461" selection-start-column="16" selection-end-line="461" selection-end-column="29" />
+          <caret line="463" column="29" selection-start-line="463" selection-start-column="16" selection-end-line="463" selection-end-column="29" />
           <folding>
             <element signature="imports" expanded="false" />
           </folding>
@@ -5988,7 +5892,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="42" column="33" selection-start-line="42" selection-start-column="33" selection-end-line="42" selection-end-column="33" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -6050,14 +5956,38 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/ViewThreadActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.9081633">
-          <caret line="71" column="41" selection-start-line="71" selection-start-column="41" selection-end-line="71" selection-end-column="85" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="67" column="25" selection-start-line="67" selection-start-column="25" selection-end-line="67" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2102#2179#0" expanded="true" />
             <element signature="e#8478#8868#0" expanded="true" />
             <element signature="e#8867#8868#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/RankActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="57" column="17" selection-start-line="57" selection-start-column="17" selection-end-line="57" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/fragment/SearchStoryChildFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="115" column="0" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/ClassificationActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.76311606">
+          <caret line="36" column="39" selection-start-line="36" selection-start-column="39" selection-end-line="36" selection-end-column="39" />
+          <folding />
         </state>
       </provider>
     </entry>

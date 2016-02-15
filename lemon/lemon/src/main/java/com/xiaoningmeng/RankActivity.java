@@ -25,6 +25,7 @@ import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
+import com.xiaoningmeng.view.dialog.DrawableDialogLoading;
 
 public class RankActivity extends BaseActivity implements PlayObserver {
 	
@@ -54,7 +55,7 @@ public class RankActivity extends BaseActivity implements PlayObserver {
 				getResources().getDimensionPixelSize(R.dimen.download_item_cover_height)));
 		mListView.addFooterView(bottomView);
 		mListView.setAdapter(mAdapter);
-		
+		setLoading(new DrawableDialogLoading(this));
 		mListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -76,7 +77,7 @@ public class RankActivity extends BaseActivity implements PlayObserver {
 
 	private void requestData() {
 		LHttpRequest.getInstance().rankListenerUserListReq(this, 200,
-				new LHttpHandler<Rank>(this) {
+				new LHttpHandler<Rank>(this,this) {
 
 					@Override
 					public void onGetDataSuccess(Rank data) {

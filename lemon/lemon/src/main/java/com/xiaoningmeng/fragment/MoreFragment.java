@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.android.volley.Request;
 import com.baoyz.swipemenu.xlistview.XListView;
 import com.xiaoningmeng.MoreActivity;
 import com.xiaoningmeng.R;
@@ -51,7 +53,8 @@ public class MoreFragment extends BaseFragment implements XListView.IXListViewLi
 
 
 	private  void requestData(){
-		LHttpRequest.getInstance().getMoreList(getActivity(), mMoreParams.moreType, p, Constant.GRID_REQ_LEN, 0, mMoreParams.firstTagId, new LHttpHandler<MoreAblum>(getActivity()) {
+		LHttpRequest.getInstance().getMoreList(getActivity(), mMoreParams.moreType, p,
+				Constant.GRID_REQ_LEN, 0, mMoreParams.firstTagId, new LHttpHandler<MoreAblum>(getActivity()) {
 			@Override
 			public void onGetDataSuccess(MoreAblum data) {
 				hideLoadingTip();
@@ -65,8 +68,15 @@ public class MoreFragment extends BaseFragment implements XListView.IXListViewLi
 						responseAlbumList = data.getSameagelist();
 					}
 					if(responseAlbumList != null){
-						if(responseAlbumList.size() == 0){
+						int size = responseAlbumList.size();
+						if( size== 0) {
 							mListView.setPullLoadEnable(false);
+						}else if(size < Constant.GRID_REQ_LEN){
+							if(p == 1){
+								mListView.setPullLoadEnable(false);
+							}else{
+								mListView.setFootViewNoMore(true);
+							}
 						}else {
 							mListView.setPullLoadEnable(true);
 							mAlbumInfos.addAll(responseAlbumList);

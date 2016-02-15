@@ -7,6 +7,7 @@
     <dimen name="content_text_size">14sp</dimen>
      <dimen name="home_tab_size">13sp</dimen>
     <dimen name="date_text_size">12sp</dimen>
+    <dimen name="recomment_text_size">11sp</dimen>
     <dimen name="small_text_size">10sp</dimen>
     <dimen name="min_text_size">8sp</dimen>
     <!-- base -->

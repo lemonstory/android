@@ -4,9 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/action_bar_height"
     android:background="@color/action_bar_bg">
-
-
-
     <ImageView
         android:id="@+id/img_home_cover"
         android:layout_width="wrap_content"

@@ -3,6 +3,7 @@ package com.xiaoningmeng.http;
 import android.content.Context;
 
 import com.alibaba.sdk.android.oss.callback.SaveCallback;
+import com.android.volley.Request;
 import com.xiaoningmeng.MoreActivity;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.bean.Address;
@@ -154,8 +155,9 @@ public class LHttpRequest {
 		}else if(MoreActivity.SAME_MORE == type){
 			url = ConstantURL.SAME_AGE_LIST;
 		}
-		if(url != null)
-			LClient.getInstance().get(context,url, params,handler);
+		if(url != null) {
+			LClient.getInstance().get(context, url, params, handler);
+		}
 	}
 
 	/*//增加收听
@@ -421,7 +423,7 @@ public class LHttpRequest {
 	 * 1.3版本接口
 	 */
 	//得到标签专辑列表
-	public void getTagAblumListReq(Context ctx,String tagId,int isGetTag, String direction,String relationId,String specialtag,int len,LHttpHandler<TagDetail> handler){
+	public void getTagAblumListReq(Context ctx, String tagId, int isGetTag, String direction, String relationId, String specialtag, int len, LHttpHandler<TagDetail> handler){
 		HashMap<String, String> params = new HashMap<>();
 		params.put("currenttagid", tagId);
 		params.put("isgettag",isGetTag+"");

@@ -34,6 +34,7 @@ import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.view.PagerSlidingTabStrip;
+import com.xiaoningmeng.view.dialog.DrawableDialogLoading;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,11 +75,12 @@ public class ClassificationActivity extends BaseFragmentActivity implements View
         }
         mTagParams = new ArrayList<>();
         PlayerManager.getInstance().register(this);
+        setLoading(new DrawableDialogLoading(this));
         requestData(selectTag.getId());
     }
 
     private  void requestData(String selectTagId){
-        LHttpRequest.getInstance().getTagAblumListReq(this,selectTagId, 1, Constant.FRIST, Constant.FRIST_ID, null, 0, new LHttpHandler<TagDetail>(this) {
+        LHttpRequest.getInstance().getTagAblumListReq(this,selectTagId, 1, Constant.FRIST, Constant.FRIST_ID, null, 0, new LHttpHandler<TagDetail>(this,this) {
             @Override
             public void onGetDataSuccess(TagDetail data) {
 
@@ -89,7 +91,6 @@ public class ClassificationActivity extends BaseFragmentActivity implements View
                     mSecondTagList = data.getSecondtaglist();
                     mFristTagList = data.getFirsttaglist();
                     mSpecialList = data.getSpecialtaglist();
-                    mTagParams.add(new TagParam("全部",mSelectFristTag, null));
                     if (mSpecialList != null) {
                         for (Special specail : mSpecialList) {
                             mTagParams.add(new TagParam(specail.getName(),mSelectFristTag, specail.getParamkey()));
@@ -99,7 +100,7 @@ public class ClassificationActivity extends BaseFragmentActivity implements View
                     if (mSecondTagList != null) {
                         for (Tag tag : mSecondTagList) {
                             mTagParams.add(new TagParam(tag.getName(),tag.getId(), null));
-                            if (tag.getId().equals(mSelectSecondTag)) {
+                            if (tag.getId() != null && tag.getId().equals(mSelectSecondTag)) {
                                 selectTabPos = mTagParams.size()-1;
                             }
 
@@ -182,11 +183,8 @@ public class ClassificationActivity extends BaseFragmentActivity implements View
 
         public  class TabFragmentPagerAdapter extends FragmentPagerAdapter {
 
-
-
         public TabFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
-
         }
 
         @Override

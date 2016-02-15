@@ -29,7 +29,9 @@ public class BaseDialog extends Dialog {
 			default:
 				break;
 			}
-		} else {
+		} else if(builder.animStyle == 1){
+			//TODO
+		}else{
 			window.setWindowAnimations(builder.animStyle);
 		}
 		this.setCanceledOnTouchOutside(true);

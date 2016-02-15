@@ -57,7 +57,6 @@ public class SearchActivity extends BaseFragmentActivity implements SearchView.O
     public BaseFragment[] mSearchFragments = new BaseFragment[2];
     private int mPager  = 1;
     private String mSearchContent;
-    private SearchView mSearchBarView;
 
 
 
@@ -68,7 +67,6 @@ public class SearchActivity extends BaseFragmentActivity implements SearchView.O
         mListView = (XListView)findViewById(R.id.id_stickynavlayout_innerscrollview);
         mSearchView = ((SearchView)findViewById(R.id.search_bar));
         mSearchFl = (FrameLayout) findViewById(R.id.fl_search_content);
-        mSearchBarView = (SearchView) findViewById(R.id.search_bar);
         mListView.setPullLoadEnable(false);
         mListView.setPullRefreshEnable(false);
         mAlbumInfos = new ArrayList<>();
@@ -302,14 +300,14 @@ public class SearchActivity extends BaseFragmentActivity implements SearchView.O
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if(mSearchBarView.checkIsFocus()){ //检查mSearchView是否还有焦点
+            if(mSearchView.checkIsFocus()){ //检查mSearchView是否还有焦点
                 return true;
             }
         }
         return super.onKeyDown(keyCode, event);
     }
     public void search1(String content){
-        mSearchBarView.search(content);
+        mSearchView.search(content);
     }
 
     @Override

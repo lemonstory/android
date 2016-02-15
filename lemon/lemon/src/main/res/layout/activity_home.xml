@@ -5,10 +5,19 @@
     android:clipToPadding="false"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_bar_height"
+        >
+        <include
+            android:id="@+id/action_bar"
+            layout="@layout/layout_header" />
 
-    <include
-        android:id="@+id/action_bar"
-        layout="@layout/layout_header" />
+        <include
+            android:id="@+id/search_bar"
+            layout="@layout/layout_search_header" />
+    </FrameLayout>
+
 
     <FrameLayout
         android:id="@+id/fl_fragment"
@@ -41,8 +50,8 @@
         <TextView
             android:id="@+id/tv_home_forum"
             style="@style/home_tab_style"
-            android:drawableTop="@drawable/tab_cricle_selector"
-            android:text="圈子" />
+            android:drawableTop="@drawable/tab_search_selector"
+            android:text="搜索" />
 
         <TextView
             android:id="@+id/tv_home_account"

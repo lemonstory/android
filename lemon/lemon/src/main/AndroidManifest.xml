@@ -34,15 +34,15 @@
 
     <application
         android:name=".application.MyApplication"
-        android:allowBackup="false"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
+        android:allowBackup="false"
         android:theme="@style/AppTheme"
         tools:replace="android:icon, android:theme,android:allowBackup">
         <activity
             android:name=".LoadingActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -51,116 +51,117 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:exported="false" />
         <activity
             android:name=".GuideActivity"
+            android:screenOrientation="portrait" 
             android:exported="false"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".PlayActivity"
-            android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/PlayTheme" />
+            android:theme="@style/PlayTheme"
+             android:exported="false" />
         <activity
             android:name=".AblumDetailActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+             android:exported="false" />
         <activity
             android:name=".HomeActivity"
-            android:exported="false"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".DownloadActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ReminderActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".CommentActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ClassificationActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".SearchActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".PerasonalActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".SettingActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".PerasonalCenterActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".RankActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ChooImagePathActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".PhotoWallActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".AlarmActivity"
-            android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
+             android:exported="false" />
+        <activity
+            android:name=".DownloadActivity"
+            android:screenOrientation="portrait" 
+             android:exported="false"/>
+        <activity
+            android:name=".ReminderActivity"
+            android:screenOrientation="portrait" 
+             android:exported="false"/>
+        <activity
+            android:name=".CommentActivity"
+            android:screenOrientation="portrait"
+             android:exported="false" />
+        <activity
+            android:name=".ClassificationActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity android:name=".SearchActivity"
+            android:screenOrientation="portrait"
+            android:exported="false"/>
+        <activity
+            android:name=".PerasonalActivity"
+            android:screenOrientation="portrait"
+             android:exported="false" />
+        <activity
+            android:name=".SettingActivity"
+            android:screenOrientation="portrait"
+            android:exported="false"/>
+        <activity
+            android:name=".PerasonalCenterActivity"
+            android:screenOrientation="portrait" 
+             android:exported="false"/>
+        <activity
+            android:name=".RankActivity"
+            android:screenOrientation="portrait"
+             android:exported="false" />
+        <activity
+            android:name=".ChooImagePathActivity"
+            android:screenOrientation="portrait"
+             android:exported="false" />
+        <activity
+            android:name=".PhotoWallActivity"
+            android:screenOrientation="portrait"
+             android:exported="false" />
+        <activity
+            android:name=".AlarmActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+             android:exported="false"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".ModifyPerasonalActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" 
+             android:exported="false"/>
         <activity
             android:name=".FeedBackActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+             android:exported="false" />
         <activity
             android:name=".FavActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+             android:exported="false" />
         <activity
             android:name=".WebViewActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+             android:exported="false" />
         <activity
             android:name=".DownloadStoryActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+             android:exported="false" />
         <activity
             android:name=".AlarmClockActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" 
+             android:exported="false"/>
+
         <activity
             android:name=".AlarmSelectActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+             android:exported="false" />
         <activity
             android:name=".MoreActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+             android:exported="false" />
         <activity
             android:name="com.baidu.mobads.AppActivity"
             android:configChanges="keyboard|keyboardHidden|orientation" />
-        <activity
-            android:name="com.baidu.mobad.feeds.BaiduActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation" />
 
+        <activity android:name="com.baidu.mobad.feeds.BaiduActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation" />
+ 
         <service
             android:name=".player.MusicService"
             android:exported="false" />
@@ -238,13 +239,14 @@
             android:launchMode="singleTask"
             android:noHistory="true"
             android:theme="@style/Theme.UMDialog"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
+            android:windowSoftInputMode="stateVisible|adjustResize" >
+        </activity>
 
         <!-- ############ QQ空间和QQ SSO授权的Activity注册 ############ -->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
-            android:noHistory="true">
+            android:noHistory="true" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -257,27 +259,22 @@
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
         <service
             android:name="com.umeng.update.net.DownloadingService"
-            android:process=":DownloadingService" />
-
+            android:process=":DownloadingService" >
+        </service>
         <activity
             android:name="com.umeng.update.UpdateDialogActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="55dea25567e58ec201004d4e" />
-        <meta-data
-            android:name="BaiduMobAd_APP_ID"
-            android:value="dc0666d1" />
-        <!--
-            <meta-data
-            android:name="BaiduMobAd_APP_ID"
-            android:value="dc0666d1" />
-        -->
+            android:value="55dea25567e58ec201004d4e" >
+        </meta-data>
+        <meta-data android:name="BaiduMobAd_APP_ID"
+            android:value="dc0666d1"/>
 
         <meta-data
             android:name="UMENG_CHANNEL"
