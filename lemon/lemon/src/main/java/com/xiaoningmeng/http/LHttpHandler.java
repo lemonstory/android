@@ -37,8 +37,10 @@ public abstract class LHttpHandler<T> implements Response.Listener<String>,
 	public LHttpHandler(Context context, ILoading loading) {
 
 		this.mContext = context;
-		this.mLoading = loading;
-		showLoading();
+		if(loading != null) {
+			this.mLoading = loading;
+			showLoading();
+		}
 	}
 
 	/**

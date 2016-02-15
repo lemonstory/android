@@ -1,6 +1,8 @@
 package com.xiaoningmeng.application;
 
 import java.io.File;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.util.List;
 
 import org.apache.http.client.CookieStore;
@@ -17,7 +19,6 @@ import android.os.Build;
 import android.util.Log;
 import android.os.Process;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.HttpClientStack;
 import com.android.volley.toolbox.HttpStack;
 import com.android.volley.toolbox.Volley;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
@@ -39,7 +40,7 @@ import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.OSSAuth;
 import com.xiaoningmeng.http.OkHttpStack;
-import com.xiaoningmeng.manager.LImageDownaloder;
+import com.xiaoningmeng.http.PersistentCookieStore;
 
 
 /**
@@ -106,15 +107,15 @@ public class MyApplication extends LitePalApplication {
 			final ThreadSafeClientConnManager mThreadSafeClientConnManager = new ThreadSafeClientConnManager(
 					mHttpParams, mClientConnectionManager.getSchemeRegistry());
 
-			mHttpClient = new DefaultHttpClient(mThreadSafeClientConnManager,
-					mHttpParams);
+			mHttpClient = new DefaultHttpClient(mThreadSafeClientConnManager, mHttpParams);
 
 			File httpCacheDirectory = new File(this.getCacheDir(), "responses");
 			int cacheSize = 10 * 1024 * 1024; // 10 MiB
 			Cache cache = new Cache(httpCacheDirectory, cacheSize);
 			OkHttpClient client = new OkHttpClient();
+			CookieManager cookieManager = new CookieManager(new PersistentCookieStore(getApplicationContext()), CookiePolicy.ACCEPT_ALL);
+			client.setCookieHandler(cookieManager);
 			client.setCache(cache);
-
 			final HttpStack httpStack = new OkHttpStack(client);
 			this.mRequestQueue = Volley.newRequestQueue(
 					this.getApplicationContext(), httpStack);
