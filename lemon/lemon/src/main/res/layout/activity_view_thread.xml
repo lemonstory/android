@@ -10,13 +10,14 @@ tools:context="com.xiaoningmeng.ViewThreadActivity">
 <include layout="@layout/layout_base_header"/>
 <com.baoyz.swipemenu.xlistview.XListView
     android:id="@id/id_stickynavlayout_innerscrollview"
-    style="@style/albumCommentListViewStyle"
+    style="@style/viewThreadListViewStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_below="@+id/rl_bar_head"
     android:divider="@null"
     android:scrollbars="none" />
-    <include layout="@layout/fragment_loading"
+
+<include layout="@layout/fragment_loading"
     android:id="@+id/rl_loading"/>
 
 <FrameLayout
