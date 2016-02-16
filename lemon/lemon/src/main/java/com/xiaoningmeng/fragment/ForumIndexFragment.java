@@ -115,13 +115,15 @@ public class ForumIndexFragment extends BaseFragment  implements IXListViewListe
                     public void onGetDataSuccess(String data) {
                         try{
                             JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.has("forumlist")) {
+                            JSONObject variablesObject = new JSONObject(jsonObject.getString("Variables"));
+
+                            if(variablesObject.has("forumlist")) {
                                 Gson gson = new Gson();
-                                List<Forum> mforums = gson.fromJson(jsonObject.getString("forumlist"),new TypeToken<List<Forum>>() {}.getType());
+                                List<Forum> mforums = gson.fromJson(variablesObject.getString("forumlist"),new TypeToken<List<Forum>>() {}.getType());
                                 setForums(mforums);
                             }
                         }catch (JSONException e) {
-
+                            e.printStackTrace();
                         }
                     }
 
