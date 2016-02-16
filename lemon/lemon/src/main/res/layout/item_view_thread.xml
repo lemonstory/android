@@ -94,7 +94,7 @@
             android:textSize="@dimen/home_tab_size"
             android:text="被引用作者"/>
 
-        <TextView
+        <com.rockerhieu.emojicon.EmojiconTextView
             android:id="@+id/tv_quote_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -134,7 +134,7 @@
             android:layout_height="@dimen/forum_item_post_icon_height"
             android:src="@drawable/ic_launcher"/>
 
-        <TextView
+        <com.rockerhieu.emojicon.EmojiconTextView
             android:id="@+id/tv_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
