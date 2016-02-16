@@ -1,19 +1,17 @@
 package com.xiaoningmeng;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.auth.UserAuth;
@@ -26,12 +24,17 @@ import com.xiaoningmeng.view.RatingBar;
 import com.xiaoningmeng.view.RatingBar.OnRatingChangeListener;
 import com.xiaoningmeng.view.dialog.TipDialog;
 
-public class CommentActivity extends BaseActivity implements OnClickListener {
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+public class CommentActivity extends BaseActivity {
 
 	private RatingBar mRatingBar;
 	private EditText mRatingEt;
 	private String albumId;
 	private int starLevel = 0;
+	private TextView rightTv;
 	private AtomicBoolean isReq = new AtomicBoolean();
 	
 
@@ -42,10 +45,12 @@ public class CommentActivity extends BaseActivity implements OnClickListener {
 		setContentView(R.layout.activity_rate);
 		mRatingBar = (RatingBar) findViewById(R.id.rb_ablum_detail_rate);
 		mRatingEt = (EditText) findViewById(R.id.et_rating);
-		mRatingEt.setImeOptions(EditorInfo.IME_ACTION_SEND);  
-		mRatingEt.setInputType(EditorInfo.TYPE_CLASS_TEXT);  
 		albumId = getIntent().getStringExtra("albumId");
+		rightTv = (TextView) findViewById(R.id.tv_head_right);
+		rightTv.setClickable(false);
+		rightTv.setAlpha((float) 0.5);
 		setTitleName("发表评论");
+		setRightHeadText("发送");
 		mRatingBar.setOnRatingChangeListener(new OnRatingChangeListener() {
 
 			@Override
@@ -66,24 +71,44 @@ public class CommentActivity extends BaseActivity implements OnClickListener {
 				return false;
 			}
 		});
+
+		mRatingEt.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+				if(mRatingEt.getText().length() > 0) {
+
+					rightTv.setClickable(true);
+					rightTv.setAlpha(1);
+				}else {
+					rightTv.setClickable(false);
+					rightTv.setAlpha((float) 0.5);
+				}
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+
+			}
+		});
+
+		rightTv.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				commentAlbum();
+			}
+		});
 	}
 
 	
 	public  void closeInput(){
 		InputMethodManager inputMethodManager = (InputMethodManager)this.getSystemService(Context.INPUT_METHOD_SERVICE);
 		inputMethodManager.hideSoftInputFromWindow(mRatingEt.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
-	}
-	
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.tv_rating_submit:
-			commentAlbum();
-			break;
-
-		default:
-			break;
-		}
 	}
 
 	private void commentAlbum() {

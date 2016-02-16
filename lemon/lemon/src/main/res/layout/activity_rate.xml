@@ -48,25 +48,13 @@
             android:background="@null"
             android:gravity="top|left"
             android:hint="撰写评论"
-            android:inputType="text"
+            android:inputType="textMultiLine"
+            android:singleLine="false"
+            android:scrollHorizontally="false"
+            android:imeOptions="actionSend"
             android:textColor="@color/base_text_color"
             android:textColorHint="#e5e9ee"
             android:textSize="@dimen/title_content_text_size" />
     </LinearLayout>
-
     <View style="@style/dividerStyle" />
-
-    <TextView
-        android:id="@+id/tv_rating_submit"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/rate_btn_height"
-        android:layout_margin="@dimen/rate_btn_margin"
-        android:background="@drawable/rate_btn_bg_selector"
-        android:gravity="center"
-        android:text="提交评论"
-        android:onClick="onClick"
-        android:clickable="true"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size_eightteen" />
-
 </LinearLayout>
