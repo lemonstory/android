@@ -1,10 +1,5 @@
 package com.xiaoningmeng.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.Header;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.baoyz.swipemenu.xlistview.XListView;
-
 import com.xiaoningmeng.AblumDetailActivity;
 import com.xiaoningmeng.DownloadActivity;
 import com.xiaoningmeng.FavActivity;
@@ -38,6 +32,11 @@ import com.xiaoningmeng.event.LoginEvent;
 import com.xiaoningmeng.http.LHttpHandler;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.ypy.eventbus.EventBus;
+
+import org.apache.http.Header;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MineFragment extends BaseFragment implements OnClickListener,XListView.IXListViewListener,OnDownloadCountChangedListener {
@@ -103,7 +102,7 @@ public class MineFragment extends BaseFragment implements OnClickListener,XListV
 
 	private void requestListenerData(final String direction,String startId) {
 		if(MyApplication.getInstance().isIsLogin()){
-			LHttpRequest.getInstance().myStoryReq(getActivity(), direction, startId, Constant.REQ_LEN, new LHttpHandler<Mine>(getActivity()) {
+			LHttpRequest.getInstance().myStoryReq(getActivity(), direction, startId, Constant.MAX_REQ_LEN, new LHttpHandler<Mine>(getActivity()) {
 
 				@Override
 				public void onGetDataSuccess(Mine data) {
@@ -113,13 +112,13 @@ public class MineFragment extends BaseFragment implements OnClickListener,XListV
 						mFavCountTv.setText(data.getFavcount()+"");
 						mAlbumList.clear();
 						addHistoryAlbum(mDBHistoryAlbum);
-						if(albums.size() == Constant.REQ_LEN){
+						if(albums.size() == Constant.MAX_REQ_LEN){
 							mListView.setPullLoadEnable(true);
-						}else if(albums.size() < Constant.REQ_LEN){
+						}else if(albums.size() < Constant.MAX_REQ_LEN){
 							mListView.setPullLoadEnable(false);
 						}
 					}else{
-						if(albums.size() < Constant.REQ_LEN){
+						if(albums.size() < Constant.MAX_REQ_LEN){
 							mListView.setFootViewNoMore(true);
 						}
 					}
@@ -166,7 +165,7 @@ public class MineFragment extends BaseFragment implements OnClickListener,XListV
 		}else{
 			hideLoadingTip();
 			mListView.setPullLoadEnable(true);
-			List<ListenerAlbum> dbHistoryAlbum = HistoryDao.getInstance().getUnloginHistoryAlbums(mAlbumList.size(), Constant.REQ_LEN);
+			List<ListenerAlbum> dbHistoryAlbum = HistoryDao.getInstance().getUnloginHistoryAlbums(mAlbumList.size(), Constant.MAX_REQ_LEN);
 			if(dbHistoryAlbum.size()>0){
 				addHistoryAlbum(dbHistoryAlbum);
 			}else{
