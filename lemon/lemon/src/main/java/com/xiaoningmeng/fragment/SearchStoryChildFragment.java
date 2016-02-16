@@ -1,7 +1,5 @@
 package com.xiaoningmeng.fragment;
 
-import java.util.List;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +19,8 @@ import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.Story;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
+
+import java.util.List;
 
 public class SearchStoryChildFragment extends BaseFragment implements IXListViewListener,PlayObserver{
 	private XListView mListView;
@@ -89,7 +89,8 @@ public class SearchStoryChildFragment extends BaseFragment implements IXListView
 		if(getActivity() instanceof  SearchActivity) {
 			((SearchActivity) getActivity()).moreSearch("story");
 		}else if(getActivity() instanceof HomeActivity){
-			((HomeActivity) getActivity()).mSearchFragment.moreSearch("story");
+			//已被社区替换
+			//((HomeActivity) getActivity()).mSearchFragment.moreSearch("story");
 		}
 	}
 
