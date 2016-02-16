@@ -140,6 +140,10 @@
     <style name="albumCommentListViewStyle">
         <item name="footViewMarginBootom">@dimen/download_item_cover_height</item>
     </style>
+
+    <style name="viewThreadListViewStyle">
+        <item name="footViewMarginBootom">@dimen/download_item_height</item>
+    </style>
     
      <style name="defaultListViewStyle">
         <item name="footViewMarginBootom">@dimen/base_radius_size</item>
