@@ -535,12 +535,7 @@ public class LHttpRequest {
 	public void sendReply(Context context, LHttpHandler<String> handler, int fid, int tid, String formHash, String message, int reppid, int reppost, String noticetrimstr) {
 
 		HashMap<String, String> params = new HashMap<>();
-
 		//回帖
-		params.put("version", "4");
-		params.put("module", "sendreply");
-		params.put("fid", fid + "");
-		params.put("tid", tid + "");
 		params.put("formhash", formHash);
 		params.put("replysubmit", "yes");
 		params.put("subject", "");
