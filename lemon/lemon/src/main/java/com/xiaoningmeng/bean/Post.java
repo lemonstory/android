@@ -294,5 +294,15 @@ public class Post extends DataSupport implements Parcelable {
     public static Parcelable.Creator<Post> getCreator() {
         return CREATOR;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof Post && position.equals(((Post) o).position);
+    }
+
+    @Override
+    public int hashCode() {
+        return position.hashCode();
+    }
 }
 
