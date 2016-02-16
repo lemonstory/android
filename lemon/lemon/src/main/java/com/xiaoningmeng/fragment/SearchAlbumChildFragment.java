@@ -1,7 +1,5 @@
 package com.xiaoningmeng.fragment;
 
-import java.util.List;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,6 +18,8 @@ import com.xiaoningmeng.adapter.SearchAdapter;
 import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.base.BaseFragmentActivity;
 import com.xiaoningmeng.bean.AlbumInfo;
+
+import java.util.List;
 
 public class SearchAlbumChildFragment extends BaseFragment implements IXListViewListener{
 	private XListView mListView;
@@ -86,9 +86,10 @@ public class SearchAlbumChildFragment extends BaseFragment implements IXListView
 		if(getActivity() instanceof  SearchActivity) {
 			((SearchActivity) getActivity()).moreSearch("album");
 		}else if(getActivity() instanceof HomeActivity){
-			((HomeActivity) getActivity()).mSearchFragment.moreSearch("album");
+			//TODO:已被社区替换
+			//((HomeActivity) getActivity()).mSearchFragment.moreSearch("album");
 		}
-		
+
 	}
 
 }
