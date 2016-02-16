@@ -51,12 +51,9 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
         loadingView = (ViewGroup) findViewById(R.id.rl_loading);
         loadingView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.home_discover_item_img_height), 0, 0);
         mListView.setPullLoadEnable(false);
-        mListView.setFootViewNoMore(true);
-        mListView.setPullRefreshEnable(true);
         mListView.setXListViewListener(this);
         this.page = 1;
         this.maxPage = 1;
-        mListView.setFootViewNoMore(true);
         pbEmptyTip = loadingView.findViewById(R.id.pb_empty_tip);
 
     }
@@ -69,7 +66,6 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
         this.page = 1;
         requestForumThreadsData(fid, page);
         mListView.setPullLoadEnable(false);
-        mListView.setFootViewNoMore(true);
     }
 
     @Override
@@ -80,11 +76,12 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
             if (size > 0) {
                 this.page++;
                 requestForumThreadsData(fid, page);
-                ;
             } else {
                 this.page = 1;
                 requestForumThreadsData(fid, page);
             }
+        }else {
+            mListView.stopLoadMore();
         }
     }
 
@@ -96,8 +93,7 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
         if(this.page < this.maxPage) {
             mListView.setPullLoadEnable(true);
             mListView.setFootViewNoMore(false);
-        }else {
-            mListView.setPullLoadEnable(false);
+        } else {
             mListView.setFootViewNoMore(true);
         }
     }
@@ -144,22 +140,28 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
 
                     @Override
                     public void onGetDataSuccess(String data) {
+
                         Double threadsCount = 0.0;
                         Double tpp = 0.0;
+                        List<ForumThread> threads = new ArrayList<ForumThread>();
+
                         try {
+
                             JSONObject jsonObject = new JSONObject(data);
-                            if (jsonObject.has("forum_threadlist")) {
+                            JSONObject variablesObject = new JSONObject(jsonObject.getString("Variables"));
+
+                            if (variablesObject.has("forum_threadlist")) {
                                 Gson gson = new Gson();
-                                List<ForumThread> threads = gson.fromJson(jsonObject.getString("forum_threadlist"), new TypeToken<List<ForumThread>>() {
+                                threads = gson.fromJson(variablesObject.getString("forum_threadlist"), new TypeToken<List<ForumThread>>() {
                                 }.getType());
                                 setForumsThreads(threads);
                             }
 
-                            if (jsonObject.has("forum") && jsonObject.has("tpp")) {
+                            if (variablesObject.has("forum") && variablesObject.has("tpp")) {
 
-                                String forum = jsonObject.getString("forum");
+                                String forum = variablesObject.getString("forum");
                                 JSONObject forumJsonObject = new JSONObject(forum);
-                                tpp = Double.parseDouble(jsonObject.getString("tpp"));
+                                tpp = Double.parseDouble(variablesObject.getString("tpp"));
 
                                 if (forumJsonObject.has("threadcount")) {
                                     threadsCount = Double.parseDouble(forumJsonObject.getString("threadcount"));
@@ -167,8 +169,10 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
                                     ForumDisplayActivity.this.maxPage = dMaxPage.intValue();
                                 }
                             }
+
                         } catch (JSONException e) {
 
+                            e.printStackTrace();
                         }
                     }
 
