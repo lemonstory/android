@@ -12,6 +12,7 @@ import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.View;
 import android.view.WindowManager;
 
 public class UiUtils {
@@ -122,11 +123,6 @@ public class UiUtils {
 		return (int) (px / displaymetrics.density + 0.5f);
 	}
 
-	/**
-	
-	
-	     */
-
 	public static int sp2px(float spValue, Context context) {
 
 		final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
@@ -184,8 +180,6 @@ public class UiUtils {
 	}
 
 
-
-
 	public static int getStatusBarHeight(Activity activity) {
 		Rect localRect = new Rect();
 		activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(localRect);
@@ -213,13 +207,21 @@ public class UiUtils {
 		TypedArray ta = activity.obtainStyledAttributes(attrs);
 		return ta.getDimensionPixelSize(0, UiUtils.getInstance(activity).DipToPixels(56));
 	}
-//
-//	/**键盘是否在显示**/
-//	public static boolean isKeyBoardShow(Activity paramActivity) {
-//		int height = AppUtils.getScreenHeight(paramActivity) - AppUtils.getStatusBarHeight(paramActivity)
-//				- AppUtils.getAppHeight(paramActivity);
-//		return height != 0;
-//	}
 
+
+	/**
+	 *
+	 * 参考:http://toughcoder.net/blog/2015/10/09/android-trick-detect-soft-keyboard-show-slash-hide/
+	 * rootView实际是DectorView，通过任意一个View再getRootView就能获得
+	 */
+	public static boolean isKeyboardShown(View rootView) {
+
+		final int softKeyboardHeight = 100;
+		Rect r = new Rect();
+		rootView.getWindowVisibleDisplayFrame(r);
+		DisplayMetrics dm = rootView.getResources().getDisplayMetrics();
+		int heightDiff = rootView.getBottom() - r.bottom;
+		return heightDiff > softKeyboardHeight * dm.density;
+	}
 
 }
