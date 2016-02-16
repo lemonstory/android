@@ -161,24 +161,20 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
         //显示表情
         if (isEmojiconHidden) {
 
+            hideKeyboard();
             keyboardHeight = UiUtils.getKeyboardHeight(getActivity());
-            AppUtils.hiddenKeyboard(getActivity());
             mFlemojicons.setVisibility(View.VISIBLE);
-            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
             lockHeight = keyboardHeight - 160;
             lockContainerHeight(lockHeight);
             isEmojiconHidden = false;
-            view.setText("键盘");
+
         }else {
 
             //显示键盘
+            hideEmojicons();
             RelativeLayout.LayoutParams localLayoutParams = (RelativeLayout.LayoutParams) mFlemojicons.getLayoutParams();
             localLayoutParams.height = mFlemojicons.getTop();
-            hideEmojicons();
-            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-            //弹起键盘
-            AppUtils.openKeyboard(getActivity());
-            view.setText("表情");
+            showKeyboard();
         }
 
         if(mKeyBoardBarViewListener != null){
@@ -194,6 +190,24 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
     }
 
 
+    //弹起键盘
+    public void showKeyboard() {
+
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        AppUtils.openKeyboard(getActivity());
+        mEditEmojicon.setFocusable(true);
+        mEditEmojicon.requestFocus();
+        mSwitchBtn.setText("表情");
+    }
+
+    //收起键盘
+    public void hideKeyboard() {
+
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        AppUtils.hiddenKeyboard(getActivity());
+        mSwitchBtn.setText("键盘");
+    }
+
 
     public void hideEmojicons() {
 
@@ -203,15 +217,20 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
 
     public void resetKeyboard() {
 
-        if(isEmojiconHidden) {
-            AppUtils.hiddenKeyboard(getActivity());
-        } else {
-            hideEmojicons();
-        }
+        hideKeyboard();
+        hideEmojicons();
         mEditEmojicon.getText().clear();
+        mEditEmojicon.setHint(null);
         mEditEmojicon.clearComposingText();
         mSwitchBtn.setText("表情");
     }
+
+    public void setmEditEmojiconHint(String hint) {
+
+        mEditEmojicon.setHint(hint);
+    }
+
+    //UiUtils中有检测键盘状态的工具方法
 
     @Override
     public void onEmojiconBackspaceClicked(View v) {
