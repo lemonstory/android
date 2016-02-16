@@ -1,20 +1,15 @@
 package com.xiaoningmeng;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.Header;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.baoyz.swipemenu.xlistview.XListView.IXListViewListener;
 import com.baoyz.swipemenulistview.SwipeMenu;
@@ -34,6 +29,11 @@ import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.utils.UiUtils;
 import com.xiaoningmeng.view.dialog.TipDialog;
 import com.ypy.eventbus.EventBus;
+
+import org.apache.http.Header;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FavActivity extends BaseActivity implements IXListViewListener {
 	private SwipeMenuListView mListView;
@@ -150,7 +150,7 @@ public class FavActivity extends BaseActivity implements IXListViewListener {
 
 	private void requestFavData(final String direction, String startId) {
 		LHttpRequest.getInstance().getFavAlbumListRequest(this, direction,
-				startId, 10, new LHttpHandler<List<AlbumInfo>>(this) {
+				startId, Constant.MAX_REQ_LEN, new LHttpHandler<List<AlbumInfo>>(this) {
 
 					@Override
 					public void onGetDataSuccess(List<AlbumInfo> data) {
@@ -158,14 +158,15 @@ public class FavActivity extends BaseActivity implements IXListViewListener {
 						if (data != null) {
 							if (direction == Constant.FRIST) {
 								mFaAlbumList.clear();
-								if (data.size() < 10) {
+								if (data.size() < Constant.MAX_REQ_LEN) {
 									mListView.setPullLoadEnable(false);
 								}else{
 									mListView.setPullLoadEnable(true);
 								}
 							} else if (direction == Constant.DOWN) {
-								if (data.size() < 10) {
+								if (data.size() < Constant.MAX_REQ_LEN) {
 									mListView.setFootViewNoMore(true);
+
 								}
 							}else if(direction == Constant.UP){
 								mFaAlbumList.clear();
