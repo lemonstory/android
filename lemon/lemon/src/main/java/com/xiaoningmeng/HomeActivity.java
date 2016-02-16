@@ -1,5 +1,16 @@
 package com.xiaoningmeng;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.orhanobut.dialogplus.DialogPlus;
 import com.umeng.onlineconfig.OnlineConfigAgent;
 import com.umeng.socialize.controller.UMSocialService;
@@ -17,10 +28,8 @@ import com.xiaoningmeng.fragment.AccountFragment;
 import com.xiaoningmeng.fragment.DiscoverFragment;
 import com.xiaoningmeng.fragment.ForumIndexFragment;
 import com.xiaoningmeng.fragment.MineFragment;
-import com.xiaoningmeng.fragment.CricleFragment;
 import com.xiaoningmeng.http.LHttpHandler;
 import com.xiaoningmeng.http.LHttpRequest;
-import com.xiaoningmeng.manager.DownloadApkManager;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.MusicService;
 import com.xiaoningmeng.player.PlayObserver;
@@ -30,18 +39,6 @@ import com.xiaoningmeng.view.SearchView;
 import com.xiaoningmeng.view.ShareDialog;
 import com.xiaoningmeng.view.dialog.TipDialog;
 import com.ypy.eventbus.EventBus;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import org.apache.http.Header;
 
@@ -195,10 +192,6 @@ public class HomeActivity extends BaseFragmentActivity implements
 		}
 	}
 
-
-
-
-
 	public void setTabSelect(int i) {
 
 		FragmentManager manager = getSupportFragmentManager();
@@ -240,13 +233,12 @@ public class HomeActivity extends BaseFragmentActivity implements
 				transaction.commitAllowingStateLoss();
 				break;
 			case 2:
-				mActionBarView.setVisibility(View.INVISIBLE);
-				mSearchBarView.setVisibility(View.VISIBLE);
-				mTitleImg.setVisibility(View.INVISIBLE);
-				mTitleTv.setVisibility(View.VISIBLE);
+				mActionBarView.setVisibility(View.VISIBLE);
+				mSearchBarView.setVisibility(View.INVISIBLE);
 				mTitleTv.setText("圈子");
-				mForumIndexFragment = (ForumIndexFragment) manager
-						.findFragmentByTag(FRAG_FORUM);
+				mTitleTv.setVisibility(View.VISIBLE);
+				mTitleImg.setVisibility(View.INVISIBLE);
+				mForumIndexFragment = (ForumIndexFragment) manager.findFragmentByTag(FRAG_FORUM);
 				hideTab(transaction);
 				if (mForumIndexFragment == null) {
 					mForumIndexFragment = new ForumIndexFragment();
