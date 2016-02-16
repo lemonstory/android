@@ -1,14 +1,13 @@
 package com.xiaoningmeng.http;
 
 import android.content.Context;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Cache.Entry;
-import com.android.volley.Request;
-import com.android.volley.Request.Method;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request.Method;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
-
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.bean.AppInfo;
@@ -19,6 +18,7 @@ import com.xiaoningmeng.utils.NetUtils;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -191,8 +191,9 @@ public class LClient {
 	public void post(final Context context, String url,
 			final HashMap<String, String> params, LHttpHandler<?> handler) {
 
-		String URL = getUrlWithQueryString(true, url, params);
-		DebugUtils.e(URL);
+		//String URL = getUrlWithQueryString(true, url, params);
+		//DebugUtils.e(URL);
+		DebugUtils.e(url);
 
 		StringRequest request = new StringRequest(Method.POST, url, handler,
 				handler) {
