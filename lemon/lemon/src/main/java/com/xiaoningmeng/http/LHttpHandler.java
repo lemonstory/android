@@ -56,10 +56,10 @@ public abstract class LHttpHandler<T> implements Response.Listener<String>,
 
 		int code = -1;
 		String content = "";
+
 		try {
 
-			//DebugUtils.e(responseString);
-
+			DebugUtils.e(responseString);
 			CookieStore store = MyApplication.getInstance().mHttpClient
 					.getCookieStore();
 			List<Cookie> cookies =  store.getCookies();
@@ -72,10 +72,10 @@ public abstract class LHttpHandler<T> implements Response.Listener<String>,
 			//DebugUtils.e("code = " + code);
 
 			//兼容DZ
-			//TODO:jsonObject.has("JSON")不严谨，只是测试
 			if (Constant.REQ_SUCCESS_STATUS == code || jsonObject.has("Variables")) {
 
 				if (jsonObject.has("data")) {
+
 					content = jsonObject.getString("data");
 					if (type == String.class || type == Object.class) {
 						t = (T) content;
@@ -83,7 +83,8 @@ public abstract class LHttpHandler<T> implements Response.Listener<String>,
 						t = gson.fromJson(content, type);
 					}
 				}else if (jsonObject.has("Variables")) {
-					content = jsonObject.getString("Variables");
+
+					content = responseString;
 					if (type == String.class || type == Object.class) {
 						t = (T) content;
 					} else {
