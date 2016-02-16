@@ -188,16 +188,29 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
 
     public void onSendContentClicked(Button view) {
 
-        Log.d("aaa","KeyboardFragment onSendContentClicked is run");
         if(mKeyBoardBarViewListener != null){
             mKeyBoardBarViewListener.OnSendBtnClick(mEditEmojicon.getText().toString());
         }
     }
 
+
+
     public void hideEmojicons() {
 
         mFlemojicons.setVisibility(View.GONE);
         isEmojiconHidden = true;
+    }
+
+    public void resetKeyboard() {
+
+        if(isEmojiconHidden) {
+            AppUtils.hiddenKeyboard(getActivity());
+        } else {
+            hideEmojicons();
+        }
+        mEditEmojicon.getText().clear();
+        mEditEmojicon.clearComposingText();
+        mSwitchBtn.setText("表情");
     }
 
     @Override
