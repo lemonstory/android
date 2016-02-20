@@ -10,13 +10,13 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/forum_item_margin_left"
         android:layout_marginRight="@dimen/forum_item_margin_left"
+        android:layout_marginTop="@dimen/forum_item_margin_bottom"
         android:orientation="vertical">
 
         <com.xiaoningmeng.view.CircleImageView
             android:id="@+id/cv_avatar"
             android:layout_width="@dimen/post_item_anthor_icon_height"
             android:layout_height="@dimen/post_item_anthor_icon_height"
-            android:layout_marginTop="@dimen/forum_item_margin_bottom"
             android:src="@drawable/logo"/>
         <TextView
             android:id="@+id/tv_author"
@@ -26,8 +26,21 @@
             android:textColor="#999999"
             android:textSize="@dimen/content_text_size"
             android:text="作者的名字"
-            android:paddingTop="6dp"
             android:layout_marginLeft="7dp" />
+
+        <!--楼主图标-->
+        <TextView
+            android:id="@+id/tv_thread_author_icon"
+            android:layout_toRightOf="@+id/tv_author"
+            android:layout_toEndOf="@+id/tv_author"
+            android:layout_marginLeft="@dimen/forum_item_padding"
+            android:layout_width="@dimen/thread_author_icon_width"
+            android:layout_height="@dimen/forum_icon_size"
+            android:background="@drawable/thread_author_bg"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/recomment_text_size"
+            android:gravity="center"
+            android:text="楼主"/>
 
         <TextView
             android:id="@+id/tv_dateline"
@@ -38,16 +51,15 @@
             android:textSize="@dimen/date_text_size"
             android:layout_alignBottom="@+id/tv_author"
             android:layout_alignLeft="@+id/tv_author"
-            android:layout_alignStart="@+id/tv_author"
-            android:paddingTop="3dp" />
+            android:layout_alignStart="@+id/tv_author" />
 
         <!--回帖图标-->
         <ImageView
             android:id="@+id/iv_post_icon"
             android:layout_width="@dimen/forum_item_post_icon_height"
             android:layout_height="@dimen/forum_item_post_icon_height"
-            android:src="@drawable/ic_launcher"
-            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/forum_item_padding"
+            android:src="@drawable/thread_comment_icon"
             android:layout_toLeftOf="@+id/tv_replies"
             android:layout_toStartOf="@+id/tv_replies" />
 
@@ -58,7 +70,6 @@
             android:text="8"
             android:textColor="#999999"
             android:textSize="@dimen/content_text_size"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
     </RelativeLayout>
@@ -66,7 +77,7 @@
         android:id="@+id/rl_quote_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/forum_item_margin_bottom"
+        android:layout_marginTop="@dimen/new_thread_message_margin_bottom"
         android:layout_marginLeft="@dimen/forum_item_margin_left"
         android:layout_marginRight="@dimen/forum_item_margin_left"
         android:background="@drawable/view_thread_quote_border">
@@ -115,25 +126,6 @@
         android:layout_marginLeft="@dimen/forum_item_margin_left"
         android:layout_marginRight="@dimen/forum_item_margin_left"
         android:orientation="horizontal">
-        <!--有图图标-->
-        <ImageView
-            android:id="@+id/iv_img_icon"
-            android:layout_width="@dimen/forum_item_post_icon_height"
-            android:layout_height="@dimen/forum_item_post_icon_height"
-            android:src="@drawable/ic_launcher"/>
-        <!--精华图标-->
-        <ImageView
-            android:id="@+id/iv_digest_icon"
-            android:layout_width="@dimen/forum_item_post_icon_height"
-            android:layout_height="@dimen/forum_item_post_icon_height"
-            android:src="@drawable/ic_launcher"/>
-        <!--热帖图标-->
-        <ImageView
-            android:id="@+id/iv_hot_icon"
-            android:layout_width="@dimen/forum_item_post_icon_height"
-            android:layout_height="@dimen/forum_item_post_icon_height"
-            android:src="@drawable/ic_launcher"/>
-
         <com.rockerhieu.emojicon.EmojiconTextView
             android:id="@+id/tv_message"
             android:layout_width="wrap_content"
