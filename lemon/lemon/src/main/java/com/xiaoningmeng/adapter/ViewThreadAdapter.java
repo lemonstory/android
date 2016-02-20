@@ -89,17 +89,12 @@ public class ViewThreadAdapter extends BaseAdapter {
                     .findViewById(R.id.cv_avatar);
             holder.authorTV = (TextView) convertView
                     .findViewById(R.id.tv_author);
+            holder.ThreadAuthorIcontTv = (TextView) convertView.findViewById(R.id.tv_thread_author_icon);
             holder.datelineTv = (TextView) convertView
                     .findViewById(R.id.tv_dateline);
             holder.repliesTv = (TextView) convertView
                     .findViewById(R.id.tv_replies);
             holder.postIconImg = (ImageView) convertView.findViewById(R.id.iv_post_icon);
-            holder.iconImg = (ImageView) convertView
-                    .findViewById(R.id.iv_img_icon);
-            holder.digestIconImg = (ImageView) convertView
-                    .findViewById(R.id.iv_digest_icon);
-            holder.hotIconImg = (ImageView) convertView
-                    .findViewById(R.id.iv_hot_icon);
             holder.messageTv = (TextView) convertView
                     .findViewById(R.id.tv_message);
 
@@ -118,12 +113,12 @@ public class ViewThreadAdapter extends BaseAdapter {
         String authorid = post.getAuthorid();
         String avatarTime = String.valueOf(post.getDbdateline());
         String avatarUrl = AvatarUtils.getAvatarUrl(authorid, avatarTime, 120);
+        ImageLoader.getInstance().displayImage(avatarUrl, holder.avatarImg, Constant.AVARAR_OPTIONS);
         String original = post.getMessage();
         final HashMap quoteMessage = this.separateQuoteWithMessage(original);
         String author = (String) quoteMessage.get("author");
         String quote = (String) quoteMessage.get("quote");
         String message = (String) quoteMessage.get("message");
-        ImageLoader.getInstance().displayImage(avatarUrl, holder.avatarImg, Constant.AVARAR_OPTIONS);
         holder.authorTV.setText(post.getAuthor());
         holder.datelineTv.setText(Html.fromHtml(post.getDateline()));
 
@@ -165,22 +160,23 @@ public class ViewThreadAdapter extends BaseAdapter {
             }
         });
 
+        //楼主图标
+        if (post.getAuthorid().equals(forumThread.getAuthorid())) {
+            holder.ThreadAuthorIcontTv.setVisibility(View.VISIBLE);
+        }else {
+            holder.ThreadAuthorIcontTv.setVisibility(View.GONE);
+        }
+
         if (post.getFirst().equals("1") && post.getPosition().equals("1")) {
 
             //楼主显示回帖数,回帖图标
             holder.postIconImg.setVisibility(View.VISIBLE);
-            holder.iconImg.setVisibility(View.VISIBLE);
-            holder.digestIconImg.setVisibility(View.VISIBLE);
-            holder.hotIconImg.setVisibility(View.VISIBLE);
             if (!forumThread.getReplies().equals("0")) {
                 holder.repliesTv.setText(forumThread.getReplies());
             }
         }else {
             //回帖隐藏回帖数,回帖图标,显示楼层
             holder.postIconImg.setVisibility(View.GONE);
-            holder.iconImg.setVisibility(View.GONE);
-            holder.digestIconImg.setVisibility(View.GONE);
-            holder.hotIconImg.setVisibility(View.GONE);
             holder.repliesTv.setText(post.getPosition() + "楼");
         }
 
@@ -292,12 +288,10 @@ public class ViewThreadAdapter extends BaseAdapter {
         View dividerView;
         ImageView avatarImg; //发布者头像
         TextView authorTV; //发布者名称
+        TextView ThreadAuthorIcontTv;//楼主图标
         TextView datelineTv; //发布时间
         TextView repliesTv; //主贴回复数
         ImageView postIconImg;//楼主所在楼层的回帖图标
-        ImageView iconImg;//帖子有图标示
-        ImageView digestIconImg;//精华帖标示
-        ImageView hotIconImg;//热帖标示
         TextView messageTv; //帖子正文
 
         RelativeLayout quoteContainerRl;//引用的容器

@@ -3,18 +3,21 @@ package com.xiaoningmeng.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.ViewThreadActivity;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.ForumThread;
+import com.xiaoningmeng.constant.Constant;
+import com.xiaoningmeng.utils.AvatarUtils;
 
 import java.util.List;
 
@@ -65,8 +68,8 @@ public class ForumDisplayAdapter extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.item_forum_display, null);
             holder.dividerView = convertView.findViewById(R.id.v_forum_divider);
             holder.iconImg = (ImageView) convertView.findViewById(R.id.iv_img_icon);
-            holder.digestImg = (ImageView) convertView.findViewById(R.id.iv_digest_icon);
-            holder.hotImg = (ImageView) convertView.findViewById(R.id.iv_hot_icon);
+            holder.digestImg = (TextView) convertView.findViewById(R.id.iv_digest_icon);
+            holder.hotImg = (TextView) convertView.findViewById(R.id.iv_hot_icon);
             holder.subjectTv = (TextView) convertView.findViewById(R.id.tv_subject);
             holder.avatarImg = (ImageView) convertView.findViewById(R.id.cv_avatar);
             holder.postIconImg = (ImageView) convertView.findViewById(R.id.iv_post_icon);
@@ -82,27 +85,60 @@ public class ForumDisplayAdapter extends BaseAdapter {
 
         //帖子附件有图标示
         holder.iconImg = (ImageView) convertView.findViewById(R.id.iv_img_icon);
+        String attachment = thread.getAttachment();
+        //附件,0无附件 1普通附件 2有图片附件
+        if(!attachment.equals("2")) {
+            holder.iconImg.setVisibility(View.GONE);
+        }else {
+            holder.iconImg.setVisibility(View.VISIBLE);
+        }
         //精华帖标示
-        holder.digestImg = (ImageView) convertView.findViewById(R.id.iv_digest_icon);
+        holder.digestImg = (TextView) convertView.findViewById(R.id.iv_digest_icon);
+        boolean isDigest = thread.getDigest().equals("1") ? true : false;
+        if(!isDigest) {
+            holder.digestImg.setVisibility(View.GONE);
+        }else {
+            holder.digestImg.setVisibility(View.VISIBLE);
+        }
         //热帖标示
-        holder.hotImg = (ImageView) convertView.findViewById(R.id.iv_hot_icon);
-        //用户头像
-        //avatarUrl
-        //ImageLoader.getInstance().displayImage(avatarUrl, holder.avatarImg,Constant.AVARAR_OPTIONS);
+        holder.hotImg = (TextView) convertView.findViewById(R.id.iv_hot_icon);
+        String heats = thread.getHeats();
+        String heatlevel = thread.getHeatlevel();
+        //heats:帖子热度
+        //heatlevel:帖子热度级别
+        if(heats != null && !heats.equals("0") && heatlevel != null && !heatlevel.equals("0")) {
+            holder.hotImg.setVisibility(View.VISIBLE);
+        }else {
+            holder.hotImg.setVisibility(View.GONE);
+        }
 
+        //用户头像
+        //TODO:avatartime是要保持一个定值，只有更新头像才变一次,如果每次请求都是新值，cdn的cache就用不上了,每次都会去取源，不够快，费用也会高
+        String authorid = thread.getAuthorid();
+        String avatarTime = String.valueOf(thread.getDbdateline());
+        String avatarUrl = AvatarUtils.getAvatarUrl(authorid, avatarTime, 120);
+        ImageLoader.getInstance().displayImage(avatarUrl, holder.avatarImg, Constant.AVARAR_OPTIONS);
         holder.subjectTv.setText(thread.getSubject());
         holder.authorTv.setText(thread.getAuthor());
-        holder.lastpostTV.setText(Html.fromHtml(thread.getLastpost()));
+        String lastPost = thread.getLastpost().replace("&nbsp;", "");
+        holder.lastpostTV.setText(lastPost);
 
+        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams)holder.lastpostTV.getLayoutParams();
         if (!thread.getReplies().equals("0")) {
 
+            lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,0);
+            lp.addRule(RelativeLayout.ALIGN_PARENT_END,0);
             holder.postIconImg.setVisibility(View.VISIBLE);
             holder.repliesTV.setVisibility(View.VISIBLE);
             holder.repliesTV.setText(thread.getReplies());
+
         }else {
 
+            lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            lp.addRule(RelativeLayout.ALIGN_PARENT_END);
             holder.postIconImg.setVisibility(View.INVISIBLE);
             holder.repliesTV.setVisibility(View.INVISIBLE);
+
         }
 
 
@@ -126,8 +162,8 @@ public class ForumDisplayAdapter extends BaseAdapter {
         View headDividerView;
         View dividerView;
         ImageView iconImg;
-        ImageView digestImg;
-        ImageView hotImg;
+        TextView digestImg;
+        TextView hotImg;
         TextView subjectTv;
         TextView authorTv;
         ImageView avatarImg;
