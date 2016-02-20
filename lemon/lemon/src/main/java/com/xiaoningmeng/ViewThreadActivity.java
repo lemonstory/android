@@ -1,27 +1,35 @@
 package com.xiaoningmeng;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baoyz.swipemenu.xlistview.XListView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.umeng.socialize.controller.UMSocialService;
+import com.umeng.socialize.sso.UMSsoHandler;
 import com.xiaoningmeng.adapter.ViewThreadAdapter;
 import com.xiaoningmeng.base.BaseFragmentActivity;
+import com.xiaoningmeng.bean.Attachment;
 import com.xiaoningmeng.bean.ForumThread;
 import com.xiaoningmeng.bean.Post;
+import com.xiaoningmeng.bean.ShareBean;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.fragment.KeyboardFragment;
+import com.xiaoningmeng.http.ConstantURL;
 import com.xiaoningmeng.http.LHttpHandler;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.utils.UiUtils;
+import com.xiaoningmeng.view.ShareDialog;
 
 import org.apache.http.Header;
 import org.json.JSONException;
@@ -37,9 +45,11 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
     private ViewGroup loadingView;
     private XListView mListView;
     public  ViewThreadAdapter mAdapter;
+    private TextView title;
+    private ImageView headRightImg;
     public KeyboardFragment keyBoardfragment;
     private ForumThread forumThread = new ForumThread();
-    private List<Post> mPosts = new ArrayList<>();
+    private ArrayList<Post> mPosts = new ArrayList<>();
     private String tip = null;
     private View pbEmptyTip;
     private int fid; //论坛ID
@@ -59,7 +69,6 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_thread);
         initView();
-//        this.setTitleName("帖子");
         mContext = this;
         fid = getIntent().getIntExtra("fid",1);
         tid = getIntent().getIntExtra("tid", 1);
@@ -75,6 +84,9 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
 
         mListView = (XListView) findViewById(R.id.id_stickynavlayout_innerscrollview);
         loadingView = (ViewGroup) findViewById(R.id.rl_loading);
+        title = (TextView)findViewById(R.id.tv_head_title);
+        title.setText("帖子");
+        setShareIconVisible();
         loadingView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.home_discover_item_img_height), 0, 0);
         mListView.setPullLoadEnable(false);
         mListView.setXListViewListener(this);
@@ -113,7 +125,7 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
                     case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
 
                         boolean isKeyboardVisible = UiUtils.isKeyboardShown(mListView.getRootView());
-                        if(isKeyboardVisible) {
+                        if (isKeyboardVisible) {
                             keyBoardfragment.resetKeyboard();
                         }
                         break;
@@ -125,14 +137,84 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
 
             }
         });
+
     }
 
+    private void  setShareIconVisible() {
+
+        headRightImg = (ImageView) findViewById(R.id.img_head_right);
+        headRightImg.setImageResource(R.drawable.share_icon_ormal);
+        headRightImg.setClickable(false);
+        headRightImg.setAlpha((float) 0.5);
+        headRightImg.setVisibility(View.VISIBLE);
+    }
+
+    public void setShareIconClickable() {
+
+        headRightImg.setClickable(true);
+        headRightImg.setAlpha((float)1.0);
+        headRightImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String shareIconUrl = "";
+                ArrayList<String> threadImgAttachmentsPath = getImgAttachmentsPathWithThread(forumThread, mPosts);
+                if (threadImgAttachmentsPath.size() > 0) {
+                    shareIconUrl = threadImgAttachmentsPath.get(0);
+                } else {
+                    shareIconUrl = Constant.SHARE_THREAD_DEFAULT_IMAGE_URL;
+                }
+
+                String url = String.format(Constant.VIEW_THREAD_URL,forumThread.getTid());
+
+                ShareBean shareBean = new ShareBean(forumThread.getSubject(), shareIconUrl, url);
+                mController = new ShareDialog().show(ViewThreadActivity.this, shareBean);
+            }
+        });
+    }
+
+    public ArrayList<String> getImgAttachmentsPathWithThread(ForumThread forumThread,ArrayList<Post> posts) {
+
+        ArrayList<String> imgAttachmentsPath = new ArrayList<String>();
+        if (forumThread.getAttachment() != null && forumThread.getAttachment().equals("2")) {
+            Post post = posts.get(0);
+            if (post.getFirst().equals("1") && post.getAuthorid().equals(forumThread.getAuthorid())) {
+                if (post.getImagelist() != null && post.getImagelist().size() > 0) {
+                    int imgListCount = post.getImagelist().size();
+                    for (int i = 0; i < imgListCount; i++) {
+                        String aid = post.getImagelist().get(i);
+                        Attachment attachment = post.getAttachments().get(aid);
+                        String url = attachment.getUrl();
+                        String path = attachment.getAttachment();
+                        String absolutePath = ConstantURL.BBS_URL + url + path;
+                        imgAttachmentsPath.add(absolutePath);
+                    }
+                }
+            }
+        }
+        return imgAttachmentsPath;
+    }
 
     private void setKeyBoardFragment() {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fl_keyboard, KeyboardFragment.newInstance(),"keyboardFragment")
                 .commit();
+    }
+
+    private UMSocialService mController;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        /** 使用SSO授权必须添加如下代码 */
+        if(mController != null) {
+            UMSsoHandler ssoHandler = mController.getConfig().getSsoHandler(
+                    requestCode);
+            if (ssoHandler != null) {
+                ssoHandler.authorizeCallBack(requestCode, resultCode, data);
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -251,7 +333,7 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
                                 forumThread = gson.fromJson(variablesObject.getString("thread"), new TypeToken<ForumThread>() {
                                 }.getType());
                                 setForumThread(forumThread);
-
+                                setShareIconClickable();
                             }
 
                             if (variablesObject.has("postlist")) {
@@ -395,9 +477,4 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
                     }
                 }, fid, tid,formHash, message,repPid,repPost,noticeTrimStr);
     }
-
-
-
-
-
 }
