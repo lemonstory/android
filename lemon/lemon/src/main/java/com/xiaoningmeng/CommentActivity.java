@@ -22,7 +22,6 @@ import com.xiaoningmeng.http.LHttpHandler;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.view.RatingBar;
 import com.xiaoningmeng.view.RatingBar.OnRatingChangeListener;
-import com.xiaoningmeng.view.dialog.TipDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -115,19 +114,22 @@ public class CommentActivity extends BaseActivity {
 		if(UserAuth.auditUser(this, "登录后,才能评论故事喔.")){
 			String commentContent = mRatingEt.getText().toString();
 			int length = commentContent.trim().length();
-			if (length == 0) {
-				new TipDialog.Builder(this).setAutoDismiss(true)
-					.setTransparent(true).setTipText("您还没有输入文字呢").create().show();
-			} else if (length > 140) {
-				new TipDialog.Builder(this).setAutoDismiss(true)
-					.setTransparent(true).setTipText("字数不能超过140").create()
-					.show();
-			} else if (starLevel == 0) {
-				new TipDialog.Builder(this).setAutoDismiss(true)
-					.setTransparent(true).setTipText("您还没有评分").create().show();
-			} else {
-				uploadAlbumComment(starLevel, commentContent);
-			}
+			uploadAlbumComment(starLevel, commentContent);
+
+
+//			if (length == 0) {
+//				new TipDialog.Builder(this).setAutoDismiss(true)
+//					.setTransparent(true).setTipText("您还没有输入文字呢").create().show();
+//			} else if (length > 140) {
+//				new TipDialog.Builder(this).setAutoDismiss(true)
+//					.setTransparent(true).setTipText("字数不能超过140").create()
+//					.show();
+//			} else if (starLevel == 0) {
+//				new TipDialog.Builder(this).setAutoDismiss(true)
+//					.setTransparent(true).setTipText("您还没有评分").create().show();
+//			} else {
+//				uploadAlbumComment(starLevel, commentContent);
+//			}
 		}
 
 	}
