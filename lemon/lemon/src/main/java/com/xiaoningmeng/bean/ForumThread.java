@@ -24,6 +24,7 @@ public class ForumThread extends DataSupport implements Parcelable {
     private String replies;
     private String displayorder;
     private String digest;
+    private String heats;
     private String special;
     private String attachment;
     private String recommend_add;
@@ -32,12 +33,33 @@ public class ForumThread extends DataSupport implements Parcelable {
     private String dblastpost;
     private String rushreply;
     private String recommend;
+    private String heatlevel;
+
+    public String getHeatlevel() {
+        return heatlevel;
+    }
+
+    public void setHeatlevel(String heatlevel) {
+        this.heatlevel = heatlevel;
+    }
 
     public ForumThread() {
 
     }
 
-    public ForumThread(String tid, String typeid, String readperm, String price, String author, String authorid, String subject, String dateline, String lastpost, String lastposter, String views, String replies, String displayorder, String digest, String special, String attachment, String recommend_add, String replycredit, String dbdateline, String dblastpost, String rushreply, String recommend) {
+    public String getHeats() {
+        return heats;
+    }
+
+    public void setHeats(String heats) {
+        this.heats = heats;
+    }
+
+    public static Creator<ForumThread> getCREATOR() {
+        return CREATOR;
+    }
+
+    public ForumThread(String tid, String typeid, String readperm, String price, String author, String authorid, String subject, String dateline, String lastpost, String lastposter, String views, String replies, String displayorder, String digest,String heats,String heatlevel, String special, String attachment, String recommend_add, String replycredit, String dbdateline, String dblastpost, String rushreply, String recommend) {
         this.tid = tid;
         this.typeid = typeid;
         this.readperm = readperm;
@@ -52,6 +74,8 @@ public class ForumThread extends DataSupport implements Parcelable {
         this.replies = replies;
         this.displayorder = displayorder;
         this.digest = digest;
+        this.heats = heats;
+        this.heatlevel = heatlevel;
         this.special = special;
         this.attachment = attachment;
         this.recommend_add = recommend_add;
@@ -259,6 +283,8 @@ public class ForumThread extends DataSupport implements Parcelable {
         replies = in.readString();
         displayorder = in.readString();
         digest = in.readString();
+        heats = in.readString();
+        heatlevel = in.readString();
         special = in.readString();
         attachment = in.readString();
         recommend_add = in.readString();
@@ -285,6 +311,8 @@ public class ForumThread extends DataSupport implements Parcelable {
         out.writeString(replies);
         out.writeString(displayorder);
         out.writeString(digest);
+        out.writeString(heats);
+        out.writeString(heatlevel);
         out.writeString(special);
         out.writeString(attachment);
         out.writeString(recommend_add );
@@ -313,6 +341,5 @@ public class ForumThread extends DataSupport implements Parcelable {
     public static Parcelable.Creator<ForumThread> getCreator() {
         return CREATOR;
     }
-
 
 }
