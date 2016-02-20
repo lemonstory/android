@@ -1,24 +1,8 @@
 package com.xiaoningmeng.adapter;
 
-import java.util.List;
-
-
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.xiaoningmeng.ForumDisplayActivity;
-import com.xiaoningmeng.PerasonalCenterActivity;
-import com.xiaoningmeng.R;
-import com.xiaoningmeng.base.BaseFragmentActivity;
-import com.xiaoningmeng.bean.Forum;
-import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.utils.AvatarUtils;
-import com.xiaoningmeng.utils.DebugUtils;
-import com.xiaoningmeng.view.RatingBar;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,9 +10,16 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.RelativeLayout.LayoutParams;
+
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.xiaoningmeng.ForumDisplayActivity;
+import com.xiaoningmeng.R;
+import com.xiaoningmeng.base.BaseFragmentActivity;
+import com.xiaoningmeng.bean.Forum;
+import com.xiaoningmeng.constant.Constant;
+
+import java.util.List;
 
 public class ForumIndexAdapter extends BaseAdapter {
 
@@ -92,7 +83,9 @@ public class ForumIndexAdapter extends BaseAdapter {
             public void onClick(View v) {
 
                 String fid = forums.get(position).getFId();
+                String name = forums.get(position).getName();
                 Intent i = new Intent(mContext,ForumDisplayActivity.class);
+                i.putExtra("name",name);
                 i.putExtra("fid", Integer.parseInt(fid));
                 i.putExtra("page",1);
                 ((BaseFragmentActivity)mContext).startActivityForNew(i);
