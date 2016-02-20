@@ -1,14 +1,5 @@
 package com.xiaoningmeng;
 
-import java.io.File;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
-import org.apache.http.Header;
-import org.litepal.crud.DataSupport;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,8 +16,8 @@ import com.alibaba.sdk.android.oss.callback.SaveCallback;
 import com.alibaba.sdk.android.oss.model.OSSException;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xiaoningmeng.application.MyApplication;
-import com.xiaoningmeng.base.BasePohotoActivity.IUploadCall;
 import com.xiaoningmeng.base.BasePohotoActivity;
+import com.xiaoningmeng.base.BasePohotoActivity.IUploadCall;
 import com.xiaoningmeng.bean.Address;
 import com.xiaoningmeng.bean.City;
 import com.xiaoningmeng.bean.PlayingStory;
@@ -45,6 +36,15 @@ import com.xiaoningmeng.view.PhotoView;
 import com.xiaoningmeng.view.dialog.BaseDialog;
 import com.xiaoningmeng.view.picker.DatePicker;
 import com.ypy.eventbus.EventBus;
+
+import org.apache.http.Header;
+import org.litepal.crud.DataSupport;
+
+import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class PerasonalActivity extends BasePohotoActivity implements
 		OnClickListener, PlayObserver,IUploadCall{
@@ -155,7 +155,7 @@ public class PerasonalActivity extends BasePohotoActivity implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.rl_perasonal_icon:
-			selectPic(this);
+			selectPic(this,true);
 			break;
 		case R.id.rl_perasonal_address:
 			type = ModifyPerasonalActivity.MODIFY_ADDRESS_PROVINCES;
