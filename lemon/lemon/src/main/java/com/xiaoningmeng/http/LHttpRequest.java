@@ -19,6 +19,8 @@ import com.xiaoningmeng.bean.TagDetail;
 import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.constant.Constant;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -36,6 +38,7 @@ public class LHttpRequest {
 		return mInstance;
 	}
 
+	//http://stackoverflow.com/questions/25091913/volley-string-request-error-while-passing-string-with-null-value-as-param
 	private Map<String, String> checkParams(Map<String, String> map) {
 		Iterator<Map.Entry<String, String>> it = map.entrySet().iterator();
 		while (it.hasNext()) {
@@ -547,11 +550,46 @@ public class LHttpRequest {
 		params.put("reppid", reppid + "");
 		params.put("reppost", reppost + "");
 		params.put("noticetrimstr", noticetrimstr);
-
-		//http://stackoverflow.com/questions/25091913/volley-string-request-error-while-passing-string-with-null-value-as-param
 		params = (HashMap<String, String>) checkParams(params);
 
 		String url = ConstantURL.FORUM_INDEX + "?version=4&module=sendreply&replysubmit=yes&fid=" + fid + "&tid=" + tid + "&visituid=" + MyApplication.getInstance().getUid();
 		LClient.getInstance().post(context, url, params, handler);
 	}
+
+	//论坛帖子上传图片
+	public void forumUpload(Context context, LHttpHandler<String> handler, File file, String formhash) {
+
+		HashMap<String, String> params = new HashMap<>();
+		params.put("uid", MyApplication.getInstance().getUid());
+		params.put("hash", formhash);
+		params.put("operation","upload");
+		params = (HashMap<String, String>) checkParams(params);
+		String url = ConstantURL.FORUM_INDEX + "?version=3&module=forumupload&uid=" + MyApplication.getInstance().getUid();
+		LClient.getInstance().post(context,url,"Filedata",file, params, handler);
+	}
+
+	//论坛发布帖子
+	public void newThread(Context context, LHttpHandler<String> handler, int fid, String subject,String message,ArrayList<String> aids,String forumHash) {
+
+		HashMap<String, String> params = new HashMap<>();
+		params.put("fid", fid+"");
+		params.put("allownoticeauthor", "1");
+		params.put("usesig", "1");
+		params.put("wysiwyg","1");
+		params.put("subject",subject);
+		params.put("message",message);
+		params.put("topicsubmit","yes");
+
+		if(aids != null && aids.size() > 0) {
+			for (String aId : aids) {
+
+				String attach = String.format("attachnew[%s][description]",aId);
+				params.put(attach,"");
+			}
+		}
+		params = (HashMap<String, String>) checkParams(params);
+		String url = ConstantURL.FORUM_INDEX + "?version=4&module=newthread&fid=" + fid +"&formhash=" + forumHash + "&visituid=" + MyApplication.getInstance().getUid();
+		LClient.getInstance().post(context, url, params, handler);
+	}
+
 }

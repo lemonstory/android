@@ -19,6 +19,7 @@ import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -216,7 +217,32 @@ public class LClient {
 		request.setRetryPolicy(retryPolicy);
 		request.setTag(context);
 		mRequestQueue.add(request);
+	}
 
+	public void post(final Context context, String url,String filePartName,File file,
+					 final HashMap<String, String> params, LHttpHandler<?> handler) {
+
+		DebugUtils.e(url);
+		MultipartRequest request = new MultipartRequest(url,handler,handler,file,filePartName,params) {
+
+			@Override
+			protected Map<String, String> getParams() throws AuthFailureError {
+				return params;
+			}
+
+			@Override
+			public Map<String, String> getHeaders() throws AuthFailureError {
+				HashMap<String, String> headers = new HashMap<String, String>();
+
+				headers.put("FROM", "mobile");
+				headers.put("User-Agent",AppInfo.getInstance().getUAStr());
+				headers.put("Content-Type", "application/x-www-form-urlencoded");
+				return headers;
+			}
+		};
+		request.setRetryPolicy(retryPolicy);
+		request.setTag(context);
+		mRequestQueue.add(request);
 	}
 
 
