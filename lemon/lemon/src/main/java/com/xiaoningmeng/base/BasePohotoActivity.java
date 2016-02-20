@@ -54,8 +54,8 @@ public class BasePohotoActivity extends BaseActivity{
 	 * @param selectedMaxCount
 	 *            最多选择图片的数量
 	 */
-	protected void selectPic(IUploadCall call) {
-		modifyPicture(call,true);
+	protected void selectPic(IUploadCall call,boolean isCropPhoto) {
+		modifyPicture(call,isCropPhoto);
 		dialogPlus = new DialogPlus.Builder(this).setGravity(Gravity.BOTTOM)
 				.setContentHolder(new ViewHolder(R.layout.dialog_select_pic))
 				.setOnClickListener(new OnClickListener() {
