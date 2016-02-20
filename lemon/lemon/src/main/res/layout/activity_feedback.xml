@@ -33,7 +33,7 @@
                 android:paddingRight="@dimen/bar_margin"
                 android:paddingTop="@dimen/login_bottom_text_margin"
                 android:textColor="@color/base_title_color"
-                android:textColorHint="#aeb6bd"
+                android:textColorHint="#b0b0b0"
                 android:textSize="@dimen/content_text_size" />
 
             <View style="@style/dividerStyle" />
