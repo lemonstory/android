@@ -1,15 +1,19 @@
 package com.xiaoningmeng;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baoyz.swipemenu.xlistview.XListView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xiaoningmeng.adapter.ForumDisplayAdapter;
+import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.ForumThread;
 import com.xiaoningmeng.http.LHttpHandler;
@@ -24,6 +28,7 @@ import java.util.List;
 
 public class ForumDisplayActivity extends BaseActivity implements XListView.IXListViewListener{
 
+    private Context mContext;
     private ViewGroup loadingView;
     private XListView mListView;
     private BaseAdapter mAdapter;
@@ -33,13 +38,20 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
     private int fid; //论坛ID
     private int page; //当前页码
     private int maxPage;//最大页码
+    private ImageView imgHeadRight;
+    private String title;
+    private String hash;
+    private String formHash;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forum_display);
-        initView();
+        mContext = this;
         fid = getIntent().getIntExtra("fid", 1);
         page = getIntent().getIntExtra("page", 1);
+        title = getIntent().getStringExtra("name");
+        initView();
         mAdapter = new ForumDisplayAdapter(this, mForumThreads,fid);
         mListView.setAdapter(mAdapter);
         requestForumThreadsData(fid, page);
@@ -49,6 +61,10 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
 
         mListView = (XListView) findViewById(R.id.id_stickynavlayout_innerscrollview);
         loadingView = (ViewGroup) findViewById(R.id.rl_loading);
+        imgHeadRight = (ImageView) findViewById(R.id.img_head_right);
+        setTitleName(title);
+        setRightHeadIcon(R.drawable.new_thread_bg_selector);
+
         loadingView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.home_discover_item_img_height), 0, 0);
         mListView.setPullLoadEnable(false);
         mListView.setXListViewListener(this);
@@ -56,6 +72,19 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
         this.maxPage = 1;
         pbEmptyTip = loadingView.findViewById(R.id.pb_empty_tip);
 
+        imgHeadRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(UserAuth.auditUser(mContext, "登录后,才能批量故事喔.")){
+                    Intent i = new Intent(ForumDisplayActivity.this,NewThreadActivity.class);
+                    i.putExtra("fid", fid);
+                    i.putExtra("hash",hash);
+                    i.putExtra("formhash",formHash);
+                    startActivityForNew(i);
+                }
+            }
+        });
     }
 
     @Override
@@ -168,6 +197,14 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
                                     Double dMaxPage = Math.ceil(threadsCount / tpp);
                                     ForumDisplayActivity.this.maxPage = dMaxPage.intValue();
                                 }
+                            }
+
+                            if(variablesObject.has("hash")) {
+                                hash = variablesObject.getString("hash");
+                            }
+
+                            if(variablesObject.has("formhash")) {
+                                formHash = variablesObject.getString("formhash");
                             }
 
                         } catch (JSONException e) {
