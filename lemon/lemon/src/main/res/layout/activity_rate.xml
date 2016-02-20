@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/home_bg"
     android:orientation="vertical" 
-     android:fitsSystemWindows="true"
+    android:fitsSystemWindows="true"
     android:clipToPadding="false">
 
     <include layout="@layout/layout_base_header" />
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/rate_tip_margin_bottom"
             android:text="轻按星星来评分"
-            android:textColor="#e5e9ee"
+            android:textColor="#b0b0b0"
             android:textSize="@dimen/date_text_size" />
 
         <View
@@ -53,7 +53,7 @@
             android:scrollHorizontally="false"
             android:imeOptions="actionSend"
             android:textColor="@color/base_text_color"
-            android:textColorHint="#e5e9ee"
+            android:textColorHint="#b0b0b0"
             android:textSize="@dimen/title_content_text_size" />
     </LinearLayout>
     <View style="@style/dividerStyle" />
