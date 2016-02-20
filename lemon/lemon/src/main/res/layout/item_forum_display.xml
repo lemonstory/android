@@ -9,31 +9,42 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/forum_item_margin_left"
         android:layout_marginRight="@dimen/forum_item_margin_left"
-        android:orientation="horizontal">
+        android:layout_marginTop="@dimen/forum_item_margin_bottom"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
         <!--有图图标-->
         <ImageView
             android:id="@+id/iv_img_icon"
-            android:layout_width="@dimen/forum_item_post_icon_height"
-            android:layout_height="@dimen/forum_item_post_icon_height"
-            android:src="@drawable/ic_launcher"/>
+            android:layout_width="@dimen/forum_icon_size"
+            android:layout_height="@dimen/forum_icon_size"
+            android:layout_marginRight="@dimen/forum_item_padding"
+            android:src="@drawable/attachimg"/>
         <!--精华图标-->
-        <ImageView
+        <TextView
             android:id="@+id/iv_digest_icon"
-            android:layout_width="@dimen/forum_item_post_icon_height"
-            android:layout_height="@dimen/forum_item_post_icon_height"
-            android:src="@drawable/ic_launcher"/>
+            android:layout_width="@dimen/forum_icon_size"
+            android:layout_height="@dimen/forum_icon_size"
+            android:layout_marginRight="@dimen/forum_item_padding"
+            android:background="@drawable/forum_thread_digest_bg"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/recomment_text_size"
+            android:gravity="center"
+            android:text="精"/>
         <!--热帖图标-->
-        <ImageView
+        <TextView
             android:id="@+id/iv_hot_icon"
-            android:layout_width="@dimen/forum_item_post_icon_height"
-            android:layout_height="@dimen/forum_item_post_icon_height"
-            android:src="@drawable/ic_launcher"/>
-
+            android:layout_width="@dimen/forum_icon_size"
+            android:layout_height="@dimen/forum_icon_size"
+            android:layout_marginRight="@dimen/forum_item_padding"
+            android:background="@drawable/forum_thread_hot_bg"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/recomment_text_size"
+            android:gravity="center"
+            android:text="热"/>
         <TextView
             android:id="@+id/tv_subject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/forum_item_margin_bottom"
             android:orientation="vertical"
             android:textColor="@color/base_black_title_color"
             android:textSize="@dimen/title_content_text_size"
@@ -46,22 +57,24 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/forum_item_margin_left"
         android:layout_marginRight="@dimen/forum_item_margin_left"
+        android:layout_marginTop="@dimen/forum_item_post_icon_height"
         android:orientation="vertical">
 
         <com.xiaoningmeng.view.CircleImageView
             android:id="@+id/cv_avatar"
             android:layout_width="@dimen/forum_item_anthor_icon_height"
             android:layout_height="@dimen/forum_item_anthor_icon_height"
-            android:layout_marginTop="@dimen/forum_item_margin_bottom"
+            android:layout_centerVertical="true"
             android:src="@drawable/logo"/>
         <TextView
             android:id="@+id/tv_author"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/forum_item_icon_height"
+            android:layout_height="wrap_content"
             android:layout_toRightOf="@id/cv_avatar"
-            android:gravity="center"
+            android:layout_marginLeft="@dimen/forum_item_padding"
+            android:layout_centerVertical="true"
             android:textColor="#999999"
-            android:textSize="@dimen/content_text_size"
+            android:textSize="@dimen/date_text_size"
             android:text="作者的名字"/>
 
         <TextView
@@ -71,7 +84,7 @@
             android:text="37分钟前"
             android:layout_centerVertical="true"
             android:textColor="#999999"
-            android:textSize="@dimen/content_text_size"
+            android:textSize="@dimen/date_text_size"
             android:layout_toLeftOf="@+id/iv_post_icon"
             android:layout_toStartOf="@+id/iv_post_icon"/>
 
@@ -80,8 +93,9 @@
             android:id="@+id/iv_post_icon"
             android:layout_width="@dimen/forum_item_post_icon_height"
             android:layout_height="@dimen/forum_item_post_icon_height"
-            android:src="@drawable/ic_launcher"
+            android:src="@drawable/thread_comment_icon"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/forum_item_padding"
             android:layout_toLeftOf="@+id/tv_replies"
             android:layout_toStartOf="@+id/tv_replies" />
 
@@ -91,7 +105,7 @@
             android:layout_height="wrap_content"
             android:text="8"
             android:textColor="#999999"
-            android:textSize="@dimen/content_text_size"
+            android:textSize="@dimen/date_text_size"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
@@ -99,5 +113,6 @@
     <View
         android:id="@+id/v_forum_divider"
         style="@style/dividerStyle"
-        android:layout_marginTop="@dimen/forum_item_margin_bottom"/>
+        android:layout_marginTop="@dimen/forum_item_margin_bottom"
+        />
 </LinearLayout>
