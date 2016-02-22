@@ -7,14 +7,24 @@
     android:gravity="center"
     android:background="#ebecee"
     android:layout_alignParentBottom="true">
-    <Button
-        android:id="@+id/btn_switch"
+    <ImageView
+        android:id="@+id/iv_switch"
         android:layout_alignParentLeft="true"
         android:layout_width="48dp"
         android:layout_height="44dp"
-        android:text="表情"
-        android:textSize="10dp"
+        android:padding="10dp"
+        android:src="@drawable/keyboard_emotion_selector"
         />
+
+    <ImageView
+        android:id="@+id/iv_photo"
+        android:layout_width="48dp"
+        android:layout_height="44dp"
+        android:padding="10dp"
+        android:src="@drawable/keyboard_photo_selector"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/iv_switch"
+        android:layout_toEndOf="@+id/iv_switch" />
 
     <!--TODO:emojiconSize不可用 -->
     <com.rockerhieu.emojicon.EmojiconEditText
@@ -22,21 +32,26 @@
         emojicon:emojiconSize="28sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/btn_switch"
-        android:layout_toLeftOf="@+id/btn_send_content"
-        android:layout_toStartOf="@+id/btn_send_content"
-        android:lineSpacingExtra="3dp"
+        android:lineSpacingExtra="2dp"
         android:maxLines="8"
         android:textSize="@dimen/content_text_size"
-        android:layout_margin="8dp" />
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:layout_toRightOf="@+id/iv_photo"
+        android:layout_toLeftOf="@+id/btn_send_content"
+        android:layout_toStartOf="@+id/btn_send_content" />
 
-    <Button
+    <TextView
         android:id="@+id/btn_send_content"
         android:layout_width="44dp"
         android:layout_height="48dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:gravity="center"
+        android:textColor="#fdb22b"
         android:text="发送"
         android:layout_alignParentRight="true"
-        android:textSize="10dp" />
+        android:textSize="16dp" />
 
     <FrameLayout
         class="com.rockerhieu.emojicon.EmojiconsFragment"

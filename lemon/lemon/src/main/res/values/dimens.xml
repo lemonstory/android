@@ -273,7 +273,6 @@
     <dimen name="forum_icon_size">17dp</dimen>
     <dimen name="thread_author_icon_width">30dp</dimen>
 
-
     <!-- new thread -->
     <dimen name="new_thread_mesage_height">108dp</dimen>
     <dimen name="new_thread_margin">13dp</dimen>

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -104,7 +103,7 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
             this.keyBoardfragment.setOnKeyBoardBarViewListener(new KeyboardFragment.KeyBoardBarViewListener() {
 
                 @Override
-                public void onSwitchImgClicked(Button view) {
+                public void onSwitchImgClicked(ImageView view) {
 
                 }
 

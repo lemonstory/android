@@ -4,14 +4,15 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.rockerhieu.emojicon.EmojiconEditText;
 import com.rockerhieu.emojicon.EmojiconGridFragment;
@@ -31,7 +32,7 @@ import static com.xiaoningmeng.R.drawable.keyboard_edit_bg;
  * Use the {@link KeyboardFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class KeyboardFragment extends Fragment implements EmojiconGridFragment.OnEmojiconClickedListener, EmojiconsFragment.OnEmojiconBackspaceClickedListener {
+public class KeyboardFragment extends Fragment implements EmojiconGridFragment.OnEmojiconClickedListener,EmojiconGridFragment.OnEmojiconDeleteClickedListener, EmojiconsFragment.OnEmojiconBackspaceClickedListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -42,8 +43,9 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
     private String mParam2;
 
     EmojiconEditText mEditEmojicon;
-    private Button mSwitchBtn;
-    private Button mSendContent;
+    private ImageView mSwitchIv;
+    private ImageView mPhotoIv;
+    private TextView mSendContent;
     private OnFragmentInteractionListener mListener;
     private boolean isEmojiconHidden;
     private FrameLayout mFlemojicons;
@@ -97,12 +99,14 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
         mEditEmojicon = (EmojiconEditText)view.findViewById(R.id.editEmojicon);
         mEditEmojicon.setBackgroundResource(keyboard_edit_bg);
 
-        mSwitchBtn = (Button) view.findViewById(R.id.btn_switch);
-        mSendContent = (Button) view.findViewById(R.id.btn_send_content);
+        mSwitchIv = (ImageView) view.findViewById(R.id.iv_switch);
+        mPhotoIv = (ImageView) view.findViewById(R.id.iv_photo);
+        mSendContent = (TextView) view.findViewById(R.id.btn_send_content);
         mFlemojicons = (FrameLayout) view.findViewById(R.id.emojicons);
 
+        mEditEmojicon.setOnFocusChangeListener(etOnFocusChangeListener);
         mEditEmojicon.setOnClickListener(btnClicklistener);
-        mSwitchBtn.setOnClickListener(btnClicklistener);
+        mSwitchIv.setOnClickListener(btnClicklistener);
         mSendContent.setOnClickListener(btnClicklistener);
 
         hideEmojicons();
@@ -123,17 +127,38 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
 
             int id = v.getId();
             switch (id) {
-                case R.id.btn_switch:
-                    onSwitchImgClicked((Button) v);
+                case R.id.iv_switch:
+                    onSwitchImgClicked((ImageView) v);
+                    break;
+                case R.id.iv_photo:
+                    onPhotoImgClicked((ImageView) v);
                     break;
                 case R.id.btn_send_content:
-                    onSendContentClicked((Button) v);
+                    onSendContentClicked((TextView) v);
                     break;
                 case R.id.editEmojicon:
                     hideEmojicons();
-                    mSwitchBtn.setText("表情");
+                    mSwitchIv.setImageResource(R.drawable.sent_emotion_normal);
                     break;
             }
+        }
+    };
+
+    public OnFocusChangeListener etOnFocusChangeListener = new OnFocusChangeListener() {
+
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+
+            switch (v.getId()) {
+
+                case R.id.editEmojicon:
+                    if (hasFocus) {
+                        hideEmojicons();
+                        mSwitchIv.setImageResource(R.drawable.sent_emotion_normal);
+                        break;
+                    }
+            }
+
         }
     };
 
@@ -141,20 +166,17 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
     @Override
     public void onEmojiconClicked(Emojicon emojicon) {
 
-        Log.d("onEmojiconClicked", " emojicon classname = " + emojicon.getClass().getName());
+        EmojiconsFragment.input(mEditEmojicon, emojicon);
+    }
 
-        if (emojicon.getClass().getName().equals("ImageButton")) {
+    @Override
+    public void onDeleteClicked(View v) {
 
-            EmojiconsFragment.backspace(mEditEmojicon);
-
-        }else {
-
-            EmojiconsFragment.input(mEditEmojicon, emojicon);
-        }
+        EmojiconsFragment.backspace(mEditEmojicon);
     }
 
 
-    public void onSwitchImgClicked(Button view) {
+    public void onSwitchImgClicked(ImageView view) {
 
         int keyboardHeight = 0;
         int lockHeight = 0;
@@ -182,7 +204,11 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
         }
     }
 
-    public void onSendContentClicked(Button view) {
+    public void onPhotoImgClicked(ImageView view) {
+
+    }
+
+    public void onSendContentClicked(TextView view) {
 
         if(mKeyBoardBarViewListener != null){
             mKeyBoardBarViewListener.OnSendBtnClick(mEditEmojicon.getText().toString());
@@ -197,7 +223,7 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
         AppUtils.openKeyboard(getActivity());
         mEditEmojicon.setFocusable(true);
         mEditEmojicon.requestFocus();
-        mSwitchBtn.setText("表情");
+        mSwitchIv.setImageResource(R.drawable.sent_emotion_normal);
     }
 
     //收起键盘
@@ -205,7 +231,7 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         AppUtils.hiddenKeyboard(getActivity());
-        mSwitchBtn.setText("键盘");
+        mSwitchIv.setImageResource(R.drawable.sent_keyboard_normal);
     }
 
 
@@ -222,7 +248,7 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
         mEditEmojicon.getText().clear();
         mEditEmojicon.setHint(null);
         mEditEmojicon.clearComposingText();
-        mSwitchBtn.setText("表情");
+        mSwitchIv.setImageResource(R.drawable.sent_emotion_normal);
     }
 
     public void setmEditEmojiconHint(String hint) {
@@ -286,7 +312,7 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
 
     public interface KeyBoardBarViewListener {
 
-        public void onSwitchImgClicked(Button view);
+        public void onSwitchImgClicked(ImageView view);
         public void OnSendBtnClick(String msg);
     }
 }

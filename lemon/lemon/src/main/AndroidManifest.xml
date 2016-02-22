@@ -22,8 +22,11 @@
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!--xiaomi 推送-->
-    <permission android:name="com.xiaoningmeng.permission.MIPUSH_RECEIVE" android:protectionLevel="signature" />
+    <!-- xiaomi 推送 -->
+    <permission
+        android:name="com.xiaoningmeng.permission.MIPUSH_RECEIVE"
+        android:protectionLevel="signature" />
+
     <uses-permission android:name="com.xiaoningmeng.permission.MIPUSH_RECEIVE" />
     <!-- 以下为可选权限 -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
@@ -34,15 +37,15 @@
 
     <application
         android:name=".application.MyApplication"
+        android:allowBackup="false"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:allowBackup="false"
         android:theme="@style/AppTheme"
         tools:replace="android:icon, android:theme,android:allowBackup">
         <activity
             android:name=".LoadingActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -51,117 +54,116 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".GuideActivity"
-            android:screenOrientation="portrait" 
             android:exported="false"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".PlayActivity"
+            android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/PlayTheme"
-             android:exported="false" />
+            android:theme="@style/PlayTheme" />
         <activity
             android:name=".AblumDetailActivity"
-            android:screenOrientation="portrait"
-             android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".HomeActivity"
+            android:exported="false"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-             android:exported="false" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".DownloadActivity"
-            android:screenOrientation="portrait" 
-             android:exported="false"/>
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ReminderActivity"
-            android:screenOrientation="portrait" 
-             android:exported="false"/>
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".CommentActivity"
-            android:screenOrientation="portrait"
-             android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ClassificationActivity"
-            android:screenOrientation="portrait"
-            android:exported="false" />
-        <activity android:name=".SearchActivity"
-            android:screenOrientation="portrait"
-            android:exported="false"/>
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SearchActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".PerasonalActivity"
-            android:screenOrientation="portrait"
-             android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SettingActivity"
-            android:screenOrientation="portrait"
-            android:exported="false"/>
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".PerasonalCenterActivity"
-            android:screenOrientation="portrait" 
-             android:exported="false"/>
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".RankActivity"
-            android:screenOrientation="portrait"
-             android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ChooImagePathActivity"
-            android:screenOrientation="portrait"
-             android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".PhotoWallActivity"
-            android:screenOrientation="portrait"
-             android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".AlarmActivity"
+            android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-             android:exported="false"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".ModifyPerasonalActivity"
-            android:screenOrientation="portrait" 
-             android:exported="false"/>
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".FeedBackActivity"
-            android:screenOrientation="portrait"
-             android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".FavActivity"
-            android:screenOrientation="portrait"
-             android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".WebViewActivity"
-            android:screenOrientation="portrait"
-             android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".DownloadStoryActivity"
-            android:screenOrientation="portrait"
-             android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".AlarmClockActivity"
-            android:screenOrientation="portrait" 
-             android:exported="false"/>
-
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".AlarmSelectActivity"
-            android:screenOrientation="portrait"
-             android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MoreActivity"
-            android:screenOrientation="portrait"
-             android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.baidu.mobads.AppActivity"
             android:configChanges="keyboard|keyboardHidden|orientation" />
-
-        <activity android:name="com.baidu.mobad.feeds.BaiduActivity"
+        <activity
+            android:name="com.baidu.mobad.feeds.BaiduActivity"
             android:configChanges="keyboard|keyboardHidden|orientation" />
- 
+
         <service
             android:name=".player.MusicService"
             android:exported="false" />
@@ -188,38 +190,40 @@
                 <action android:name="com.xiaoningmeng.notification_download" />
             </intent-filter>
         </receiver>
-        <!--小米推送-->
+        <!-- 小米推送 -->
         <service
+            android:name="com.xiaomi.push.service.XMPushService"
             android:enabled="true"
-            android:process=":pushservice"
-            android:name="com.xiaomi.push.service.XMPushService"/>
+            android:process=":pushservice" />
         <service
+            android:name="com.xiaomi.mipush.sdk.PushMessageHandler"
             android:enabled="true"
-            android:exported="true"
-            android:name="com.xiaomi.mipush.sdk.PushMessageHandler" />
-        <service android:enabled="true"
-            android:name="com.xiaomi.mipush.sdk.MessageHandleService" />
-        <!--注：此service必须在2.2.5版本以后（包括2.2.5版本）加入-->
+            android:exported="true" />
+        <service
+            android:name="com.xiaomi.mipush.sdk.MessageHandleService"
+            android:enabled="true" />
+        <!-- 注：此service必须在2.2.5版本以后（包括2.2.5版本）加入 -->
         <receiver
-            android:exported="true"
-            android:name="com.xiaomi.push.service.receivers.NetworkStatusReceiver" >
+            android:name="com.xiaomi.push.service.receivers.NetworkStatusReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
         <receiver
+            android:name="com.xiaomi.push.service.receivers.PingReceiver"
             android:exported="false"
-            android:process=":pushservice"
-            android:name="com.xiaomi.push.service.receivers.PingReceiver" >
+            android:process=":pushservice">
             <intent-filter>
                 <action android:name="com.xiaomi.push.PING_TIMER" />
             </intent-filter>
         </receiver>
-        <!--自定义推送-->
+        <!-- 自定义推送 -->
         <receiver
-            android:exported="true"
-            android:name="com.xiaoningmeng.reminder.LMessageReceiver">
+            android:name=".reminder.LMessageReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE" />
             </intent-filter>
@@ -239,14 +243,13 @@
             android:launchMode="singleTask"
             android:noHistory="true"
             android:theme="@style/Theme.UMDialog"
-            android:windowSoftInputMode="stateVisible|adjustResize" >
-        </activity>
+            android:windowSoftInputMode="stateVisible|adjustResize"></activity>
 
         <!-- ############ QQ空间和QQ SSO授权的Activity注册 ############ -->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
-            android:noHistory="true" >
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -259,23 +262,22 @@
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
-        </activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+
         <service
             android:name="com.umeng.update.net.DownloadingService"
-            android:process=":DownloadingService" >
-        </service>
+            android:process=":DownloadingService"></service>
+
         <activity
             android:name="com.umeng.update.UpdateDialogActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="55dea25567e58ec201004d4e" >
-        </meta-data>
-        <meta-data android:name="BaiduMobAd_APP_ID"
-            android:value="dc0666d1"/>
-
+            android:value="55dea25567e58ec201004d4e"></meta-data>
+        <meta-data
+            android:name="BaiduMobAd_APP_ID"
+            android:value="dc0666d1" />
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}" />
@@ -289,9 +291,10 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".ViewThreadActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize">
-        </activity>
+        <activity
+            android:name=".ViewThreadActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+        <activity android:name=".NewThreadActivity"></activity>
     </application>
 
 </manifest>
