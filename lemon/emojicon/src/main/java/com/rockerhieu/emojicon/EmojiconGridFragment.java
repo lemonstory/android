@@ -20,7 +20,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +34,7 @@ import com.rockerhieu.emojicon.emoji.People;
  */
 public class EmojiconGridFragment extends Fragment implements AdapterView.OnItemClickListener {
     private OnEmojiconClickedListener mOnEmojiconClickedListener;
+    private OnEmojiconDeleteClickedListener mOnEmojiconDeleteClickedListener;
     private EmojiconRecents mRecents;
     private Emojicon[] mData;
     private boolean mUseSystemDefault = false;
@@ -96,20 +96,34 @@ public class EmojiconGridFragment extends Fragment implements AdapterView.OnItem
         } else {
             throw new IllegalArgumentException(activity + " must implement interface " + OnEmojiconClickedListener.class.getSimpleName());
         }
+
+        if (activity instanceof OnEmojiconDeleteClickedListener) {
+            mOnEmojiconDeleteClickedListener = (OnEmojiconDeleteClickedListener) activity;
+        } else if (getParentFragment() instanceof OnEmojiconClickedListener) {
+            mOnEmojiconDeleteClickedListener = (OnEmojiconDeleteClickedListener) getParentFragment();
+        } else {
+            throw new IllegalArgumentException(activity + " must implement interface " + OnEmojiconDeleteClickedListener.class.getSimpleName());
+        }
     }
 
     @Override
     public void onDetach() {
         mOnEmojiconClickedListener = null;
+        mOnEmojiconDeleteClickedListener = null;
         super.onDetach();
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        Log.e("aaa","onItemClick :" + position);
-        if (mOnEmojiconClickedListener != null) {
-            mOnEmojiconClickedListener.onEmojiconClicked((Emojicon) parent.getItemAtPosition(position));
+
+        int count = parent.getCount();
+        if (mOnEmojiconClickedListener != null && mOnEmojiconDeleteClickedListener != null) {
+            if(position < count - 1) {
+                mOnEmojiconClickedListener.onEmojiconClicked((Emojicon) parent.getItemAtPosition(position));
+            }else if (position == count - 1){
+                mOnEmojiconDeleteClickedListener.onDeleteClicked(view);
+            }
         }
 //        if (mRecents != null) {
 //            mRecents.addRecentEmoji(view.getContext(), ((Emojicon) parent
@@ -123,5 +137,10 @@ public class EmojiconGridFragment extends Fragment implements AdapterView.OnItem
 
     public interface OnEmojiconClickedListener {
         void onEmojiconClicked(Emojicon emojicon);
+    }
+
+    public interface OnEmojiconDeleteClickedListener {
+
+        void onDeleteClicked(View v);
     }
 }

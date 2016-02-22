@@ -18,11 +18,11 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <ImageButton
-        android:background="@null"
-        android:layout_width="30dip"
-        android:layout_height="30dp"
-        android:layout_weight="1"
-        android:id="@+id/emojis_backspace"
-        android:src="@drawable/sym_keyboard_delete_holo_dark"/>
+    <ImageView
+        android:layout_gravity="center"
+        android:id="@+id/emojis_delete"
+        android:layout_width="36dip"
+        android:layout_height="36dip"
+        android:gravity="center"
+        android:src="@drawable/emojis_delete_selector"/>
  </FrameLayout>
