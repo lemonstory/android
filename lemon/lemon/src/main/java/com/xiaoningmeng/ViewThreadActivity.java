@@ -34,6 +34,7 @@ import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -54,13 +55,14 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
     private int fid; //论坛ID
     private int tid; //帖子ID
     private String formHash;//表单验证使用
+    private String hash;
     private int page; //当前页码
     private int maxPage;//最大页码
     private int perPage;
     public int repPid;
     public int repPost;
     public String noticeTrimStr;
-
+    private ArrayList<File> addedImageFiles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,9 +73,7 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
         mContext = this;
         fid = getIntent().getIntExtra("fid",1);
         tid = getIntent().getIntExtra("tid", 1);
-        formHash = getIntent().getStringExtra("formHash");
         page = getIntent().getIntExtra("page", 1);
-
         mAdapter = new ViewThreadAdapter(this,forumThread,mPosts);
         mListView.setAdapter(mAdapter);
         requestPostsData(tid, page);
@@ -93,7 +93,8 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
         this.maxPage = 1;
         mListView.setFootViewNoMore(true);
         pbEmptyTip = loadingView.findViewById(R.id.pb_empty_tip);
-        setKeyBoardFragment(); //设置用户键盘
+        setKeyBoardfragment(); //设置用户键盘
+        addedImageFiles = new ArrayList<>();
 
         //处理键盘的发送按钮事件
         getSupportFragmentManager().executePendingTransactions();
@@ -103,14 +104,22 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
             this.keyBoardfragment.setOnKeyBoardBarViewListener(new KeyboardFragment.KeyBoardBarViewListener() {
 
                 @Override
-                public void onSwitchImgClicked(ImageView view) {
+                public void onSwitchImgClick(ImageView view) {
 
                 }
-
                 @Override
                 public void OnSendBtnClick(String msg) {
 
-                    sendForumThreadReplyData(fid, tid,formHash,msg);
+                    sendForumThreadReplyData(fid, tid,formHash,hash,msg);
+                }
+                @Override
+                public void OnAddedImgInContainer(ArrayList<File> imagesfiles) {
+
+                    addedImageFiles = imagesfiles;
+                }
+                @Override
+                public void onAddImageControlClick(View view) {
+
                 }
             });
         }
@@ -194,7 +203,7 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
         return imgAttachmentsPath;
     }
 
-    private void setKeyBoardFragment() {
+    private void setKeyBoardfragment() {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fl_keyboard, KeyboardFragment.newInstance(),"keyboardFragment")
@@ -205,6 +214,7 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        super.onActivityResult(requestCode, resultCode, data);
         /** 使用SSO授权必须添加如下代码 */
         if(mController != null) {
             UMSsoHandler ssoHandler = mController.getConfig().getSsoHandler(
@@ -213,7 +223,7 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
                 ssoHandler.authorizeCallBack(requestCode, resultCode, data);
             }
         }
-        super.onActivityResult(requestCode, resultCode, data);
+        this.keyBoardfragment.addedImageFragment.onActivityResult(requestCode,resultCode,data);
     }
 
     @Override
@@ -347,6 +357,11 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
                                 formHash = variablesObject.getString("formhash");
                             }
 
+                            if(variablesObject.has("hash")) {
+
+                                hash = variablesObject.getString("hash");
+                            }
+
                             if (forumThread.getReplies() != null && variablesObject.has("ppp")) {
 
                                 ppp = Double.parseDouble(variablesObject.getString("ppp"));
@@ -401,13 +416,62 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
 
     }
 
-    private void sendForumThreadReplyData(int fid, int tid,String formHash, String message) {
+    private void sendForumThreadReplyData(final int fid,final int tid,final String formHash,String hash,final String message) {
 
+        final ArrayList<String>aids = new ArrayList<>();;//dz上传图片后返回的图片标示符
         if (loadingView != null) {
 
             loadingView.setVisibility(View.INVISIBLE);
             loadingView.setClickable(false);
         }
+
+        //构建一个请求队列,先逐个上传图片,在上传文字
+        if(addedImageFiles.size() > 0) {
+
+            for (File file: addedImageFiles) {
+
+                File fileData = file;
+
+                //上传图片
+                LHttpRequest.getInstance().forumUpload(this,new LHttpHandler<String>(this) {
+                    @Override
+                    public void onGetDataSuccess(String data) {
+
+                        try {
+
+                            JSONObject jsonObject = new JSONObject(data);
+                            JSONObject variablesObject = new JSONObject(jsonObject.getString("Variables"));
+                            if(variablesObject.has("ret")) {
+
+                                JSONObject retObject = new JSONObject(variablesObject.getString("ret"));
+                                String aId = retObject.getString("aId");
+                                String isImage = retObject.getString("image");
+
+                                if(isImage != null && isImage.equals("1") && aId != null && !aId.equals("")) {
+
+                                    aids.add(aId);
+
+                                    if(aids.size() == addedImageFiles.size()) {
+
+                                        sendReplyRequest(fid,tid,formHash,message,aids);
+                                    }
+                                }
+                            }
+
+                        } catch (JSONException e) {
+
+                            e.printStackTrace();
+                        }
+                    }
+                },fileData,hash);
+            }
+        }else {
+            sendReplyRequest(fid, tid,formHash,message,null);
+        }
+    }
+
+    private void sendReplyRequest(int fid, int tid,String formHash, String message,ArrayList<String>aids) {
+
         LHttpRequest.getInstance().sendReply(this,
                 new LHttpHandler<String>(this) {
 
@@ -420,27 +484,27 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
                             String messageVal = messageObject.getString("messageval");
                             String messageStr = messageObject.getString("messagestr");
 
-                            if(messageVal.equals(Constant.FORUM_POST_REPLY_SUCCEED)) {
+                            if (messageVal.equals(Constant.FORUM_POST_REPLY_SUCCEED)) {
 
                                 //关闭键盘
                                 keyBoardfragment.resetKeyboard();
 
                                 //TODO:待优化
                                 //可见的最后一条与实际全量的最后一条距离相近时,页面向下滚动
-                                int lastVisiblePosition =  mListView.getLastVisiblePosition();
+                                int lastVisiblePosition = mListView.getLastVisiblePosition();
                                 int maxPosition = mPosts.size();
-                                if(maxPosition - lastVisiblePosition < 4) {
+                                if (maxPosition - lastVisiblePosition < 4) {
                                     onLoadMore();
                                     //页面滚动到最后
                                     mListView.smoothScrollToPosition(mPosts.size() - 1);
-                                }else {
+                                } else {
                                     onLoadMore();
-                                    Toast.makeText(mContext, "发送成功",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mContext, "发送成功", Toast.LENGTH_SHORT).show();
                                 }
 
-                            }else {
+                            } else {
 
-                                Toast.makeText(mContext,messageStr,Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mContext, messageStr, Toast.LENGTH_SHORT).show();
                             }
 
                         } catch (JSONException e) {
@@ -474,6 +538,7 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
                         onLoad();
                         super.onFinish();
                     }
-                }, fid, tid,formHash, message,repPid,repPost,noticeTrimStr);
+                }, fid, tid,formHash,message,aids,repPid,repPost,noticeTrimStr);
+
     }
 }

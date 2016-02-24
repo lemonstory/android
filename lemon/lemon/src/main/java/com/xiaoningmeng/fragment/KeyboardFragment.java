@@ -22,6 +22,9 @@ import com.xiaoningmeng.R;
 import com.xiaoningmeng.utils.AppUtils;
 import com.xiaoningmeng.utils.UiUtils;
 
+import java.io.File;
+import java.util.ArrayList;
+
 import static com.xiaoningmeng.R.drawable.keyboard_edit_bg;
 
 /**
@@ -32,15 +35,7 @@ import static com.xiaoningmeng.R.drawable.keyboard_edit_bg;
  * Use the {@link KeyboardFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class KeyboardFragment extends Fragment implements EmojiconGridFragment.OnEmojiconClickedListener,EmojiconGridFragment.OnEmojiconDeleteClickedListener, EmojiconsFragment.OnEmojiconBackspaceClickedListener {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class KeyboardFragment extends Fragment implements EmojiconGridFragment.OnEmojiconClickedListener,EmojiconGridFragment.OnEmojiconDeleteClickedListener, EmojiconsFragment.OnEmojiconBackspaceClickedListener,AddedImageFragment.OnAddedImgListener {
 
     EmojiconEditText mEditEmojicon;
     private ImageView mSwitchIv;
@@ -49,45 +44,22 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
     private OnFragmentInteractionListener mListener;
     private boolean isEmojiconHidden;
     private FrameLayout mFlemojicons;
-
-
+    private FrameLayout mAddedImage;
+    public AddedImageFragment addedImageFragment;
 
     public KeyboardFragment() {
         // Required empty public constructor
     }
 
     public static KeyboardFragment newInstance() {
-        KeyboardFragment fragment = new KeyboardFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment KeyboardFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static KeyboardFragment newInstance(String param1, String param2) {
         KeyboardFragment fragment = new KeyboardFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -103,14 +75,19 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
         mPhotoIv = (ImageView) view.findViewById(R.id.iv_photo);
         mSendContent = (TextView) view.findViewById(R.id.btn_send_content);
         mFlemojicons = (FrameLayout) view.findViewById(R.id.emojicons);
+        mAddedImage = (FrameLayout) view.findViewById(R.id.fl_added_image);
 
         mEditEmojicon.setOnFocusChangeListener(etOnFocusChangeListener);
         mEditEmojicon.setOnClickListener(btnClicklistener);
         mSwitchIv.setOnClickListener(btnClicklistener);
+        mPhotoIv.setOnClickListener(btnClicklistener);
         mSendContent.setOnClickListener(btnClicklistener);
 
         hideEmojicons();
+        hideAddImg();
         setEmojiconFragment(false);
+        setAddedImageFragment();
+        AddedImageFragment.newInstance().setOnAddedImgListener(this);
         return view;
     }
 
@@ -119,6 +96,16 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
                 .beginTransaction()
                 .replace(R.id.emojicons, EmojiconsFragment.newInstance(useSystemDefault))
                 .commit();
+    }
+
+    private void setAddedImageFragment() {
+
+        addedImageFragment = AddedImageFragment.newInstance();
+        getChildFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fl_added_image, addedImageFragment, "addedImageFragment")
+                .commit();
+        addedImageFragment.setOnAddedImgListener(this);
     }
 
     public View.OnClickListener btnClicklistener = new View.OnClickListener() {
@@ -138,6 +125,7 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
                     break;
                 case R.id.editEmojicon:
                     hideEmojicons();
+                    hideAddImg();
                     mSwitchIv.setImageResource(R.drawable.sent_emotion_normal);
                     break;
             }
@@ -154,6 +142,7 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
                 case R.id.editEmojicon:
                     if (hasFocus) {
                         hideEmojicons();
+                        hideAddImg();
                         mSwitchIv.setImageResource(R.drawable.sent_emotion_normal);
                         break;
                     }
@@ -183,6 +172,7 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
         //显示表情
         if (isEmojiconHidden) {
 
+            hideAddImg();
             hideKeyboard();
             keyboardHeight = UiUtils.getKeyboardHeight(getActivity());
             mFlemojicons.setVisibility(View.VISIBLE);
@@ -192,6 +182,7 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
 
         }else {
 
+            hideAddImg();
             //显示键盘
             hideEmojicons();
             RelativeLayout.LayoutParams localLayoutParams = (RelativeLayout.LayoutParams) mFlemojicons.getLayoutParams();
@@ -200,12 +191,20 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
         }
 
         if(mKeyBoardBarViewListener != null){
-            mKeyBoardBarViewListener.onSwitchImgClicked(view);
+            mKeyBoardBarViewListener.onSwitchImgClick(view);
         }
     }
 
     public void onPhotoImgClicked(ImageView view) {
 
+        int keyboardHeight = 0;
+        int lockHeight = 0;
+        hideEmojicons();
+        hideKeyboard();
+        showAddImg();
+        keyboardHeight = UiUtils.getKeyboardHeight(getActivity());
+        lockHeight = keyboardHeight - 160;
+        lockContainerHeight(lockHeight);
     }
 
     public void onSendContentClicked(TextView view) {
@@ -231,7 +230,9 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         AppUtils.hiddenKeyboard(getActivity());
-        mSwitchIv.setImageResource(R.drawable.sent_keyboard_normal);
+        if (!isEmojiconHidden) {
+            mSwitchIv.setImageResource(R.drawable.sent_keyboard_normal);
+        }
     }
 
 
@@ -241,10 +242,25 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
         isEmojiconHidden = true;
     }
 
+    public void showAddImg() {
+
+        if (mAddedImage != null) {
+            mAddedImage.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void hideAddImg() {
+
+        if (mAddedImage != null) {
+            mAddedImage.setVisibility(View.GONE);
+        }
+    }
+
     public void resetKeyboard() {
 
         hideKeyboard();
         hideEmojicons();
+        hideAddImg();
         mEditEmojicon.getText().clear();
         mEditEmojicon.setHint(null);
         mEditEmojicon.clearComposingText();
@@ -286,6 +302,22 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
         super.onDetach();
         mListener = null;
     }
+    @Override
+    public void OnAddedImgInContainer(ArrayList<File> imagesfiles) {
+
+        int count = imagesfiles.size();
+        if(mKeyBoardBarViewListener != null){
+            mKeyBoardBarViewListener.OnAddedImgInContainer(imagesfiles);
+        }
+    }
+
+    @Override
+    public void onAddImageControlClick(View view) {
+
+        if(mKeyBoardBarViewListener != null){
+            mKeyBoardBarViewListener.onAddImageControlClick(view);
+        }
+    }
 
     /**
      * This interface must be implemented by activities that contain this
@@ -303,8 +335,11 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
     }
 
     private void lockContainerHeight(int paramInt) {
-        RelativeLayout.LayoutParams localLayoutParams = (RelativeLayout.LayoutParams) mFlemojicons.getLayoutParams();
-        localLayoutParams.height = paramInt;
+
+        RelativeLayout.LayoutParams mFlemojiconsLayoutParams = (RelativeLayout.LayoutParams) mFlemojicons.getLayoutParams();
+        RelativeLayout.LayoutParams mAddedImageLayoutParams = (RelativeLayout.LayoutParams) mAddedImage.getLayoutParams();
+        mFlemojiconsLayoutParams.height = paramInt;
+        mAddedImageLayoutParams.height = paramInt;
     }
 
     KeyBoardBarViewListener mKeyBoardBarViewListener;
@@ -312,7 +347,9 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
 
     public interface KeyBoardBarViewListener {
 
-        public void onSwitchImgClicked(ImageView view);
+        public void onSwitchImgClick(ImageView view);
         public void OnSendBtnClick(String msg);
+        public void OnAddedImgInContainer(ArrayList<File> imagesfiles);
+        public void onAddImageControlClick(View view);
     }
 }

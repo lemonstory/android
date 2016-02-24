@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_added_image_view_pager_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="false">
+
+    <RelativeLayout
+        android:id="@+id/action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_bar_height"
+        android:background="@color/action_bar_bg"
+
+        >
+
+        <ImageView
+            android:id="@+id/img_home_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:clickable="true"
+            android:onClick="back"
+            android:paddingLeft="@dimen/bar_margin"
+            android:paddingRight="@dimen/base_margin"
+            android:src="@drawable/bar_back_selector" />
+        <View
+            android:id="@+id/v_head_divider"
+            style="@style/verticalDividerStyle"
+            android:layout_width="1dp"
+            android:layout_toRightOf="@id/img_home_back"
+            android:layout_marginTop="@dimen/bar_margin"
+            android:layout_marginBottom="@dimen/bar_margin"></View>
+        <TextView
+            android:id="@+id/tv_head_pagination"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/bar_margin"
+            android:paddingRight="@dimen/base_radius_size"
+            android:gravity="center"
+            android:text="  "
+            android:onClick="onClick"
+            android:clickable="true"
+            android:textSize="@dimen/title_content_text_size"
+            android:textColor="@color/white"
+            android:layout_toRightOf="@id/v_head_divider"/>
+
+        <ImageView
+            android:id="@+id/img_head_right"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/base_margin"
+            android:paddingRight="@dimen/bar_margin"
+            android:src="@drawable/trash"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+    <com.xiaoningmeng.view.HackyViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/action_bar" />
+</RelativeLayout>

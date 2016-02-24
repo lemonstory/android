@@ -90,7 +90,10 @@
     <string name="download_file_tip">正在下载文件，请稍后.</string>
     <string name="hello_blank_fragment">hello_blank_fragment</string>
 
-    <item type="id" name="add_image_0"></item>
-    <item type="id" name="add_image_1"></item>
-    <item type="id" name="add_image_2"></item>
+    <item name="add_image_0" type="id"></item>
+    <item name="add_image_1" type="id"></item>
+    <item name="add_image_2" type="id"></item>
+
+    <string name="menu_lock">Lock</string>
+    <string name="menu_unlock">Unlock</string>
 </resources>

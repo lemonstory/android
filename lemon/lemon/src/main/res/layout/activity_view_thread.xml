@@ -21,6 +21,14 @@ tools:context="com.xiaoningmeng.ViewThreadActivity">
     android:id="@+id/rl_loading"/>
 
 <FrameLayout
+        class="com.xiaoningmeng.fragment.AddedImageFragment"
+        android:id="@+id/fl_added_image"
+        android:layout_centerVertical="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+
+<FrameLayout
     class="com.xiaoningmeng.fragment.KeyboardFragment"
     android:id="@+id/fl_keyboard"
     android:layout_centerVertical="true"

@@ -1,10 +1,5 @@
 package com.xiaoningmeng;
 
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.http.Header;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -31,6 +26,11 @@ import com.xiaoningmeng.http.ConstantURL;
 import com.xiaoningmeng.http.LHttpHandler;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.utils.DebugUtils;
+
+import org.apache.http.Header;
+
+import java.util.Map;
+import java.util.Set;
 
 
 public class LoginActivity extends BaseActivity implements OnClickListener {
@@ -110,6 +110,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 					@Override
 					public void onError(SocializeException e,
 										SHARE_MEDIA platform) {
+						e.printStackTrace();
 						Toast.makeText(LoginActivity.this, "无法授权", Toast.LENGTH_SHORT).show();
 
 					}

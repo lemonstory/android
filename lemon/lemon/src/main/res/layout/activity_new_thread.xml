@@ -59,32 +59,13 @@
             android:textColorHint="#b0b0b0"
             android:textSize="@dimen/title_content_text_size" />
 
-        <HorizontalScrollView
+        <FrameLayout
+            class="com.xiaoningmeng.fragment.AddedImageFragment"
+            android:id="@+id/fl_added_image"
+            android:layout_centerVertical="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:id="@+id/ll_added_image_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/new_thread_margin"
-                android:layout_marginRight="@dimen/new_thread_margin">
-
-                <ImageView
-
-                    android:id="@+id/iv_add_image_control"
-                    android:layout_width="86dp"
-                    android:layout_height="86dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:longClickable="false"
-                    android:layout_marginRight="12dp"
-                    android:onClick="onClick"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/add_image_normal"/>
-
-            </LinearLayout>
-        </HorizontalScrollView>
+            android:layout_height="wrap_content"
+            />
         <View
             style="@style/dividerStyle"
             android:layout_marginTop="8dp"/>

@@ -535,7 +535,7 @@ public class LHttpRequest {
 	}
 
 	//论坛帖子评论
-	public void sendReply(Context context, LHttpHandler<String> handler, int fid, int tid, String formHash, String message, int reppid, int reppost, String noticetrimstr) {
+	public void sendReply(Context context, LHttpHandler<String> handler, int fid, int tid, String formHash, String message,ArrayList<String> aids, int reppid, int reppost, String noticetrimstr) {
 
 		HashMap<String, String> params = new HashMap<>();
 		//回帖
@@ -551,6 +551,14 @@ public class LHttpRequest {
 		params.put("reppost", reppost + "");
 		params.put("noticetrimstr", noticetrimstr);
 		params = (HashMap<String, String>) checkParams(params);
+
+		if(aids != null && aids.size() > 0) {
+			for (String aId : aids) {
+
+				String attach = String.format("attachnew[%s][description]",aId);
+				params.put(attach,"");
+			}
+		}
 
 		String url = ConstantURL.FORUM_INDEX + "?version=4&module=sendreply&replysubmit=yes&fid=" + fid + "&tid=" + tid + "&visituid=" + MyApplication.getInstance().getUid();
 		LClient.getInstance().post(context, url, params, handler);

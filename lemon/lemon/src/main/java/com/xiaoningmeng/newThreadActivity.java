@@ -1,23 +1,25 @@
 package com.xiaoningmeng;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.xiaoningmeng.application.MyApplication;
-import com.xiaoningmeng.base.BasePohotoActivity;
+import com.xiaoningmeng.base.BaseFragmentActivity;
 import com.xiaoningmeng.constant.Constant;
+import com.xiaoningmeng.fragment.AddedImageFragment;
+import com.xiaoningmeng.fragment.KeyboardFragment;
 import com.xiaoningmeng.http.LHttpHandler;
 import com.xiaoningmeng.http.LHttpRequest;
+import com.xiaoningmeng.utils.AppUtils;
+import com.xiaoningmeng.utils.UiUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,24 +27,18 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 
-public class NewThreadActivity extends BasePohotoActivity implements View.OnClickListener,BasePohotoActivity.IUploadCall {
-
+public class NewThreadActivity extends BaseFragmentActivity implements View.OnClickListener,KeyboardFragment.OnFragmentInteractionListener,AddedImageFragment.OnAddedImgListener {
 
     private Context mContext;
     private TextView rightTv;
     private EditText subjectEt;
     private EditText messageEt;
-    private LinearLayout addedImageContainerLl;
-
     private TextWatcher textChangeListener;
-    private ImageView ivAddImageControl;
-
-    public final static int MAX_ADDED_IMAGE_COUNT = 3;
-    public final static String ADDED_IMAGE_TAG = "added_image";
     private ArrayList<File> addedImageFiles;
     private String hash;
     private String formHash;
     private int fid;
+    private AddedImageFragment addedImageFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,19 +49,26 @@ public class NewThreadActivity extends BasePohotoActivity implements View.OnClic
         initView();
     }
 
+    private void setAddedImageFragment() {
+
+        addedImageFragment = AddedImageFragment.newInstance();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fl_added_image, addedImageFragment,"addedImageFragment")
+                .commit();
+        addedImageFragment.setOnAddedImgListener(this);
+    }
+
     private void initView() {
 
         rightTv = (TextView) findViewById(R.id.tv_head_right);
         subjectEt = (EditText) findViewById(R.id.et_subject);
         messageEt = (EditText) findViewById(R.id.et_message);
-        addedImageContainerLl = (LinearLayout) findViewById(R.id.ll_added_image_container);
-        ivAddImageControl = (ImageView) findViewById(R.id.iv_add_image_control);
-
         setTitleName("发布帖子");
         setRightHeadText("发送");
-        subjectEt.setHint("回复楼主:");
+        subjectEt.setHint("请输入帖子标题");
         rightTv.setAlpha((float) 0.5);
-
+        setAddedImageFragment();
         textChangeListener = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -103,13 +106,10 @@ public class NewThreadActivity extends BasePohotoActivity implements View.OnClic
     private void commitThread() {
 
         final ArrayList<String>aids = new ArrayList<>();;//dz上传图片后返回的图片标示符
-        RequestQueue mRequestQueue = MyApplication.getInstance().getmRequestQueue();
-
         if (subjectEt.getText().length() == 0) {
 
             Toast.makeText(mContext,"请输入标题",Toast.LENGTH_SHORT).show();
         }
-
         if(messageEt.getText().length() == 0) {
 
             Toast.makeText(mContext,"没有输入任何内容",Toast.LENGTH_SHORT).show();
@@ -174,7 +174,6 @@ public class NewThreadActivity extends BasePohotoActivity implements View.OnClic
                     try {
 
                         JSONObject jsonObject = new JSONObject(data);
-                        JSONObject variablesObject = new JSONObject(jsonObject.getString("Variables"));
                         if (jsonObject.has("Message")) {
 
                             JSONObject messageObject = new JSONObject(jsonObject.getString("Message"));
@@ -208,90 +207,37 @@ public class NewThreadActivity extends BasePohotoActivity implements View.OnClic
     public void onClick(View v) {
 
         int id = v.getId();
-        String tag = (String) v.getTag();
-
         switch (id) {
-
             case R.id.tv_head_right:
                 commitThread();
                 break;
-
-            case R.id.iv_add_image_control:
-                addImage();
-                break;
-
-            case R.id.add_image_0:
-            case R.id.add_image_1:
-            case R.id.add_image_2:
-                Toast.makeText(this,"clicked",Toast.LENGTH_SHORT).show();
-                break;
-
-        }
-    }
-
-    private void addImage() {
-
-        selectPic(this,false);
-    }
-
-    private int addedImageCount() {
-
-        int count = addedImageContainerLl.getChildCount();
-        int isv = ivAddImageControl.getVisibility();
-        boolean iss = ivAddImageControl.isShown();
-
-        if(ivAddImageControl.getVisibility() == View.VISIBLE) {
-            count = count -1;
-        }
-        return count;
-    }
-
-    private void checkAddImageControlVisibility() {
-
-        if(addedImageCount() >= MAX_ADDED_IMAGE_COUNT) {
-
-            ivAddImageControl.setVisibility(View.GONE);
         }
     }
 
     @Override
-    public void gpuback(File file) {
+    public void onFragmentInteraction(Uri uri) {
 
-        //uploadAvatar(file.getAbsolutePath());
+    }
 
-        addedImageFiles.add(file);
-        ImageView imageView = new ImageView(this);
-        imageView.setImageURI(Uri.fromFile(file));
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        imageView.setClickable(true);
-        imageView.setOnClickListener(this);
-        imageView.setFocusable(true);
-        imageView.setLongClickable(false);
+    @Override
+    public void OnAddedImgInContainer(ArrayList<File> imagesfiles) {
 
-        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams)ivAddImageControl.getLayoutParams();
+        this.addedImageFiles = imagesfiles;
+    }
 
-        int addedImageCount = addedImageCount();
-        int id = 0;
-        switch (addedImageCount) {
+    @Override
+    public void onAddImageControlClick(View view) {
 
-            case 0:
-                id = R.id.add_image_0;
-                lp.setMargins(0, 0, 10, 0);
-                break;
-            case 1:
-                id = R.id.add_image_1;
-                lp.setMargins(0, 0, 10, 0);
-                break;
-            case 2:
-                id = R.id.add_image_2;
-                break;
+        boolean isKeyboardVisible = UiUtils.isKeyboardShown(subjectEt.getRootView());
+        if(isKeyboardVisible) {
+            this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+            AppUtils.hiddenKeyboard(this);
         }
+    }
 
-        imageView.setLayoutParams(lp);
-        imageView.setId(id);
-        imageView.setTag(id,ADDED_IMAGE_TAG);
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        addedImageContainerLl.addView(imageView,addedImageCount);
-        checkAddImageControlVisibility();
+        super.onActivityResult(requestCode, resultCode, data);
+        this.addedImageFragment.onActivityResult(requestCode,resultCode,data);
     }
 }
