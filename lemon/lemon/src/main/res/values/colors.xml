@@ -82,5 +82,6 @@
 
     <!--forum-->
     <color name="forum_todayposts_text_color">#FDC772</color>
+    <color name="view_thread_image_background_color">#f9fcff</color>
 
 </resources>

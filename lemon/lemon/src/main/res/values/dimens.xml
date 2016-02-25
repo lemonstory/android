@@ -280,4 +280,6 @@
     <dimen name="new_thread_message_margin_bottom">15dp</dimen>
     <dimen name="new_thread_subject_height">40dp</dimen>
 
+    <!--image viewer -->
+    <dimen name="image_viewer_text_margin_bottom">45dp</dimen>
 </resources>

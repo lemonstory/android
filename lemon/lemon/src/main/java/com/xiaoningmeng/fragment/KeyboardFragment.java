@@ -261,6 +261,7 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
         hideKeyboard();
         hideEmojicons();
         hideAddImg();
+        addedImageFragment.removeAddedImages();
         mEditEmojicon.getText().clear();
         mEditEmojicon.setHint(null);
         mEditEmojicon.clearComposingText();

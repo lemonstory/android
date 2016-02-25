@@ -570,9 +570,8 @@ public class LHttpRequest {
 		HashMap<String, String> params = new HashMap<>();
 		params.put("uid", MyApplication.getInstance().getUid());
 		params.put("hash", formhash);
-		params.put("operation","upload");
 		params = (HashMap<String, String>) checkParams(params);
-		String url = ConstantURL.FORUM_INDEX + "?version=3&module=forumupload&uid=" + MyApplication.getInstance().getUid();
+		String url = ConstantURL.FORUM_INDEX + "?version=3&module=forumupload&operation=upload&uid=" + MyApplication.getInstance().getUid();
 		LClient.getInstance().post(context,url,"Filedata",file, params, handler);
 	}
 

@@ -17,6 +17,7 @@ import com.google.gson.reflect.TypeToken;
 import com.umeng.socialize.controller.UMSocialService;
 import com.umeng.socialize.sso.UMSsoHandler;
 import com.xiaoningmeng.adapter.ViewThreadAdapter;
+import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseFragmentActivity;
 import com.xiaoningmeng.bean.Attachment;
 import com.xiaoningmeng.bean.ForumThread;
@@ -110,7 +111,11 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
                 @Override
                 public void OnSendBtnClick(String msg) {
 
-                    sendForumThreadReplyData(fid, tid,formHash,hash,msg);
+                    if(UserAuth.auditUser(mContext, "登录后,才能批量故事喔.")) {
+
+                        setLoadingTip("正在发布");
+                        sendForumThreadReplyData(fid, tid, formHash, hash, msg);
+                    }
                 }
                 @Override
                 public void OnAddedImgInContainer(ArrayList<File> imagesfiles) {
@@ -419,12 +424,7 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
     private void sendForumThreadReplyData(final int fid,final int tid,final String formHash,String hash,final String message) {
 
         final ArrayList<String>aids = new ArrayList<>();;//dz上传图片后返回的图片标示符
-        if (loadingView != null) {
-
-            loadingView.setVisibility(View.INVISIBLE);
-            loadingView.setClickable(false);
-        }
-
+        startLoading();
         //构建一个请求队列,先逐个上传图片,在上传文字
         if(addedImageFiles.size() > 0) {
 
@@ -459,10 +459,26 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
                             }
 
                         } catch (JSONException e) {
-
+                            stopLoading();
+                            Toast.makeText(mContext,"系统错误",Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
                         }
                     }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        super.onFailure(statusCode, headers, responseString, throwable);
+                        stopLoading();
+                        Toast.makeText(mContext,"请检查网络设置",Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                        super.onFinish();
+                        stopLoading();
+                    }
+
                 },fileData,hash);
             }
         }else {
@@ -477,8 +493,9 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
 
                     @Override
                     public void onGetDataSuccess(String data) {
-                        try {
 
+                        stopLoading();
+                        try {
                             JSONObject jsonObject = new JSONObject(data);
                             JSONObject messageObject = new JSONObject(jsonObject.getString("Message"));
                             String messageVal = messageObject.getString("messageval");
@@ -509,6 +526,7 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
 
                         } catch (JSONException e) {
 
+                            Toast.makeText(mContext,"系统错误",Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
                         }
                     }
@@ -517,26 +535,15 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
                     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                         super.onFailure(statusCode, headers, responseString, throwable);
 
-//                        if (loadingView != null) {
-//                            loadingView.setVisibility(View.VISIBLE);
-//                            ((TextView) loadingView.getChildAt(0)).setText("请连接网络后点击屏幕重试");
-//                            loadingView.getChildAt(1).setVisibility(View.INVISIBLE);
-//                            loadingView.setClickable(true);
-//                            loadingView.setOnClickListener(new View.OnClickListener() {
-//
-//                                @Override
-//                                public void onClick(View v) {
-//                                    reRequestLoading();
-//                                    ForumDisplayActivity.this.requestForumThreadsData(ForumDisplayActivity.this.fid, ForumDisplayActivity.this.page);
-//                                }
-//                            });
-//                        }
+                        stopLoading();
+                        Toast.makeText(mContext,"请检查网络设置",Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onFinish() {
                         onLoad();
                         super.onFinish();
+                        stopLoading();
                     }
                 }, fid, tid,formHash,message,aids,repPid,repPost,noticeTrimStr);
 

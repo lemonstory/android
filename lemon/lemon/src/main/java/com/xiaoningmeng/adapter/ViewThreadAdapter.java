@@ -2,19 +2,26 @@ package com.xiaoningmeng.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Point;
+import android.os.Build;
 import android.text.Html;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageSize;
+import com.xiaoningmeng.ImageViewerPagerActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.ViewThreadActivity;
 import com.xiaoningmeng.bean.Attachment;
@@ -26,6 +33,7 @@ import com.xiaoningmeng.utils.AvatarUtils;
 import com.xiaoningmeng.utils.UiUtils;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,9 +43,13 @@ public class ViewThreadAdapter extends BaseAdapter {
     private static final String KEY_MESSAGE_IN_ORIGINAL = "message";
     private static final String KEY_AUTHOR_IN_ORIGINAL = "author";
 
+    private static final int DEFAULT_POST_IMAGE_WIDTH = 640;
+    private static final int DEFAULT_POST_IMAGE_HEIGHT = 640;
+
     private LayoutInflater mInflater;
     private Context mContext;
     private List<Post> posts;
+    private ArrayList<String> imagesUrl;
     public ForumThread forumThread;
     private WeakReference<ViewThreadActivity> weak;
 
@@ -48,6 +60,7 @@ public class ViewThreadAdapter extends BaseAdapter {
         this.forumThread = forumThread;
         this.posts = posts;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        imagesUrl = new ArrayList<String>();
     }
 
     public void setForumThread(ForumThread forumThread) {
@@ -207,12 +220,14 @@ public class ViewThreadAdapter extends BaseAdapter {
         if (post.getImagelist() != null && post.getImagelist().size() > 0) {
 
             holder.imagesContainerLl.setVisibility(View.VISIBLE);
+            imagesUrl.clear();
             int chindViewCount = holder.imagesContainerLl.getChildCount();
             if (chindViewCount > 0) {
                 holder.imagesContainerLl.removeAllViews();
             }
 
             int imgListCount = post.getImagelist().size();
+
             for (int i = 0; i < imgListCount; i++) {
 
                 String aid = post.getImagelist().get(i);
@@ -220,6 +235,7 @@ public class ViewThreadAdapter extends BaseAdapter {
                 String url = attachment.getUrl();
                 String path = attachment.getAttachment();
                 String absolutePath = ConstantURL.BBS_URL + url + path;
+                imagesUrl.add(absolutePath);
                 /**
                  * 动态添加ImageView
                  <ImageView
@@ -229,14 +245,18 @@ public class ViewThreadAdapter extends BaseAdapter {
                  android:src="@drawable/aaa"/>
                  */
 
+                ImageSize targetSize = parseImageSizeWithUrl(absolutePath);
                 ImageView img = new ImageView(mContext);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+                img.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(targetSize.getWidth(), targetSize.getHeight());
                 params.setMargins(0, 8, 0, 0);
+                params.gravity = Gravity.CENTER;
                 img.setLayoutParams(params);
-
-                //TODO:修改Constant.ALBUM_OPTIONS
-                ImageLoader.getInstance().displayImage(absolutePath, img, Constant.ALBUM_OPTIONS);
+                img.setBackgroundResource(R.color.view_thread_image_background_color);
+                ImageLoader.getInstance().displayImage(absolutePath, img, targetSize);
                 holder.imagesContainerLl.addView(img);
+                img.setTag(i+"");
+                img.setOnClickListener(postImageClickListener);
             }
 
         }else {
@@ -278,6 +298,72 @@ public class ViewThreadAdapter extends BaseAdapter {
         }
 
         return result;
+    }
+
+    View.OnClickListener postImageClickListener = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+
+            final ViewThreadActivity activity = weak.get();
+            int position = Integer.parseInt(v.getTag().toString());
+            Intent i = new Intent(mContext,ImageViewerPagerActivity.class);
+            i.putExtra("position",position);
+            i.putExtra("imagesUrl",imagesUrl);
+            activity.startActivityForNew(i);
+        }
+    };
+
+    private ImageSize parseImageSizeWithUrl(String imageUrl) {
+
+        int widthPx = DEFAULT_POST_IMAGE_WIDTH;
+        int heightPx = DEFAULT_POST_IMAGE_HEIGHT;
+
+        String[] file = imageUrl.split("\\.");
+        int index = file.length - 2;
+        String[] snippet = file[index].split("_");
+
+        int snippetCount = snippet.length;
+        if (snippetCount >= 3) {
+
+            if(null != snippet[1]) {
+                widthPx = Integer.parseInt(snippet[1]);
+            }
+
+            if(null != snippet[2]) {
+                heightPx = Integer.parseInt(snippet[2]);
+            }
+        }
+        final ViewThreadActivity activity = weak.get();
+        WindowManager windowManager = activity.getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        Point size = new Point();
+        int screenWidth = 0;
+        int screenHeight = 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            display.getSize(size);
+            screenWidth = size.x;
+            screenHeight = size.y;
+        } else {
+            screenWidth = display.getWidth();
+            screenHeight = display.getHeight();
+        }
+
+
+        if (widthPx > screenWidth) {
+            widthPx = screenWidth;
+        }else if (widthPx < DEFAULT_POST_IMAGE_WIDTH) {
+            widthPx = DEFAULT_POST_IMAGE_WIDTH;
+        }
+
+        if (heightPx > screenHeight) {
+            heightPx = screenHeight;
+        }else if (heightPx < DEFAULT_POST_IMAGE_HEIGHT) {
+            heightPx = DEFAULT_POST_IMAGE_HEIGHT;
+        }
+
+        ImageSize imageSize = new ImageSize(widthPx,heightPx);
+        return imageSize;
     }
 
 

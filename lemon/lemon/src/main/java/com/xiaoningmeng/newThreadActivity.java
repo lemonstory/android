@@ -21,6 +21,7 @@ import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.utils.AppUtils;
 import com.xiaoningmeng.utils.UiUtils;
 
+import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -114,7 +115,7 @@ public class NewThreadActivity extends BaseFragmentActivity implements View.OnCl
 
             Toast.makeText(mContext,"没有输入任何内容",Toast.LENGTH_SHORT).show();
         }
-
+        startLoading();
         //构建一个请求队列,先逐个上传图片,在上传文字
         if(addedImageFiles.size() > 0) {
 
@@ -136,23 +137,44 @@ public class NewThreadActivity extends BaseFragmentActivity implements View.OnCl
                                 JSONObject retObject = new JSONObject(variablesObject.getString("ret"));
                                 String aId = retObject.getString("aId");
                                 String isImage = retObject.getString("image");
+                                String code = variablesObject.getString("code");
 
-                                if(isImage != null && isImage.equals("1") && aId != null && !aId.equals("")) {
+                                if(isImage != null && isImage.equals("1") && aId != null && !aId.equals("") && !aId.equals("0") && code.equals("0")) {
 
                                     aids.add(aId);
-
                                     if(aids.size() == addedImageFiles.size()) {
 
                                         commitThreadMessage(aids);
                                     }
+                                }else {
+
+                                    Toast.makeText(mContext,"图片发布失败 ：(",Toast.LENGTH_SHORT).show();
+                                    commitThreadMessage(null);
                                 }
                             }
 
                         } catch (JSONException e) {
 
+                            stopLoading();
+                            Toast.makeText(mContext,"系统错误",Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
                         }
                     }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        super.onFailure(statusCode, headers, responseString, throwable);
+                        stopLoading();
+                        Toast.makeText(mContext,"请检查网络设置",Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                        super.onFinish();
+                        stopLoading();
+                    }
+
                 },fileData,hash);
             }
         }else {
@@ -171,6 +193,7 @@ public class NewThreadActivity extends BaseFragmentActivity implements View.OnCl
                 @Override
                 public void onGetDataSuccess(String data) {
 
+                    stopLoading();
                     try {
 
                         JSONObject jsonObject = new JSONObject(data);
@@ -193,12 +216,31 @@ public class NewThreadActivity extends BaseFragmentActivity implements View.OnCl
 
                     } catch (JSONException e) {
 
+                        Toast.makeText(mContext,"系统错误",Toast.LENGTH_SHORT).show();
                         e.printStackTrace();
                     }
                 }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                    super.onFailure(statusCode, headers, responseString, throwable);
+                    stopLoading();
+                    Toast.makeText(mContext,"请检查网络设置",Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFinish() {
+
+                    super.onFinish();
+                    stopLoading();
+                }
+
+
+
             },fid,subject,message,aids,formHash);
         } else {
             //TODO:这个很垃圾,不能有错误提示,待优化
+            stopLoading();
             Toast.makeText(mContext,"请重新登录",Toast.LENGTH_SHORT).show();
         }
     }
@@ -209,6 +251,7 @@ public class NewThreadActivity extends BaseFragmentActivity implements View.OnCl
         int id = v.getId();
         switch (id) {
             case R.id.tv_head_right:
+                setLoadingTip("正在发布");
                 commitThread();
                 break;
         }

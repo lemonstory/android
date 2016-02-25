@@ -173,6 +173,19 @@ public class AddedImageFragment extends BasePhotoFragment implements BasePhotoFr
         }
     }
 
+    public void removeAddedImages() {
+
+        int count = addedImageCount();
+        if (count > 1) {
+
+            for (int position = 1;position < count;position++) {
+                addedImageFiles.remove(position);
+                addedImageContainerLl.removeViewAt(position);
+            }
+        }
+    }
+
+
     @Override
     public void gpuback(File file) {
 
@@ -220,7 +233,7 @@ public class AddedImageFragment extends BasePhotoFragment implements BasePhotoFr
         imageView.invalidate();
     }
 
-    public void onEventMainThread(AddedImageEvent addedImageEvent){
+    public void onEventMainThread(AddedImageEvent addedImageEvent) {
 
         int position = addedImageEvent.position;
         addedImageFiles.remove(position);

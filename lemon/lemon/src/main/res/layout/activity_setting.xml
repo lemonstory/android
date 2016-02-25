@@ -332,7 +332,7 @@
                 android:clickable="true"
                 android:gravity="center_vertical"
                 android:onClick="onClick"
-                android:text="退出登录"
+                android:text="切换账号"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_eightteen" />
 
