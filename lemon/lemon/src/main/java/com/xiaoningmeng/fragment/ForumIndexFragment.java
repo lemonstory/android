@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.baoyz.swipemenu.xlistview.XListView;
 import com.baoyz.swipemenu.xlistview.XListView.IXListViewListener;
@@ -42,7 +43,6 @@ public class ForumIndexFragment extends BaseFragment  implements IXListViewListe
         initView();
         mAdapter = new ForumIndexAdapter(getActivity(),mForumList);
         mListView.setAdapter(mAdapter);
-        showEmptyTip(loadingView, "正在努力加载中 o(>ω<)o", getResources().getDimensionPixelOffset(R.dimen.dialog_margin));
         requestForumListData(Constant.FRIST, Constant.FRIST_ID);
         return contentView;
     }
@@ -107,12 +107,27 @@ public class ForumIndexFragment extends BaseFragment  implements IXListViewListe
         }
     }
 
+    public void reRequestLoading(){
+        if(getView() == null){
+            return;
+        }
+        loadingView.setClickable(false);
+        loadingView.setVisibility(View.VISIBLE);
+        ((TextView)loadingView.getChildAt(0)).setText("正在努力加载中");
+        loadingView.getChildAt(1).setVisibility(View.VISIBLE);
+    }
+
     private void requestForumListData(final String direction,String startId) {
+
+        loadingView.setVisibility(View.VISIBLE);
+        loadingView.setClickable(false);
         LHttpRequest.getInstance().getForumIndex(getActivity(),
                 new LHttpHandler<String>(getActivity()) {
 
                     @Override
                     public void onGetDataSuccess(String data) {
+
+                        loadingView.setVisibility(View.GONE);
                         try{
                             JSONObject jsonObject = new JSONObject(data);
                             JSONObject variablesObject = new JSONObject(jsonObject.getString("Variables"));
@@ -130,6 +145,19 @@ public class ForumIndexFragment extends BaseFragment  implements IXListViewListe
                     @Override
                     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                         super.onFailure(statusCode, headers, responseString, throwable);
+
+                        loadingView.setVisibility(View.VISIBLE);
+                        ((TextView)loadingView.getChildAt(0)).setText("请连接网络后点击屏幕重试");
+                        loadingView.getChildAt(1).setVisibility(View.INVISIBLE);
+                        loadingView.setClickable(true);
+                        loadingView.setOnClickListener(new View.OnClickListener() {
+
+                            @Override
+                            public void onClick(View v) {
+                                reRequestLoading();
+                                requestForumListData(Constant.FRIST, Constant.FRIST_ID);;
+                            }
+                        });
                     }
 
                     @Override
