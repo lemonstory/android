@@ -71,6 +71,10 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
         this.page = 1;
         this.maxPage = 1;
         pbEmptyTip = loadingView.findViewById(R.id.pb_empty_tip);
+        if (loadingView != null) {
+            loadingView.setVisibility(View.VISIBLE);
+            loadingView.setClickable(false);
+        }
 
         imgHeadRight.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,17 +163,13 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
 
     private void requestForumThreadsData(int fid, int page) {
 
-        if (loadingView != null) {
-
-            loadingView.setVisibility(View.INVISIBLE);
-            loadingView.setClickable(false);
-        }
         LHttpRequest.getInstance().getForumThreads(this,
                 new LHttpHandler<String>(this) {
 
                     @Override
                     public void onGetDataSuccess(String data) {
 
+                        loadingView.setVisibility(View.GONE);
                         Double threadsCount = 0.0;
                         Double tpp = 0.0;
                         List<ForumThread> threads = new ArrayList<ForumThread>();

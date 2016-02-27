@@ -97,6 +97,11 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
         setKeyBoardfragment(); //设置用户键盘
         addedImageFiles = new ArrayList<>();
 
+        if (loadingView != null) {
+            loadingView.setVisibility(View.VISIBLE);
+            loadingView.setClickable(false);
+        }
+
         //处理键盘的发送按钮事件
         getSupportFragmentManager().executePendingTransactions();
         this.keyBoardfragment = (KeyboardFragment) getSupportFragmentManager().findFragmentByTag("keyboardFragment");
@@ -321,17 +326,13 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
 
     private void requestPostsData(int tid, int page) {
 
-        if (loadingView != null) {
-
-            loadingView.setVisibility(View.INVISIBLE);
-            loadingView.setClickable(false);
-        }
         LHttpRequest.getInstance().getViewThread(this,
                 new LHttpHandler<String>(this) {
 
                     @Override
                     public void onGetDataSuccess(String data) {
 
+                        loadingView.setVisibility(View.GONE);
                         Double replaysCount = 0.0;
                         Double ppp = 0.0;
                         ForumThread forumThread = null;

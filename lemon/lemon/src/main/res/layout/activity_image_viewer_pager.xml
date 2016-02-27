@@ -11,6 +11,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#000000" />
+
+    <TextView
+        android:id="@+id/tv_loading_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="10%"
+        android:textSize="@dimen/title_text_size"
+        android:textColor="@color/download_album_pb_bg_color"/>
+
     <TextView
         android:id="@+id/tv_pagination"
         android:layout_width="wrap_content"

@@ -1,9 +1,11 @@
 package com.xiaoningmeng;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,9 +13,16 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageSize;
+import com.nostra13.universalimageloader.core.imageaware.ImageAware;
+import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.xiaoningmeng.base.BaseActivity;
-import com.xiaoningmeng.constant.Constant;
+import com.xiaoningmeng.utils.PostImageUtils;
 import com.xiaoningmeng.view.HackyViewPager;
 
 import java.util.ArrayList;
@@ -29,6 +38,7 @@ public class ImageViewerPagerActivity extends BaseActivity {
     private int selectedImagePosition;
     private ArrayList<String> imagesUrl;
     private TextView paginationTv;
+    private TextView imageLoadingTv;
     private SamplePagerAdapter pagerAdapter;
 
     @Override
@@ -39,6 +49,7 @@ public class ImageViewerPagerActivity extends BaseActivity {
         mViewPager = (HackyViewPager) findViewById(R.id.view_pager);
         mViewPager.addOnPageChangeListener(pageChangeListener);
         paginationTv = (TextView) findViewById(R.id.tv_pagination);
+        imageLoadingTv = (TextView) findViewById(R.id.tv_loading_progress);
         selectedImagePosition = this.getIntent().getIntExtra("position",0);
         imagesUrl = (ArrayList<String>) this.getIntent().getSerializableExtra("imagesUrl");
         pagerAdapter = new SamplePagerAdapter(imagesUrl);
@@ -106,7 +117,13 @@ public class ImageViewerPagerActivity extends BaseActivity {
 
             PhotoView photoView = new PhotoView(container.getContext());
             String imageAbsolutePath = this.imagesPath.get(position);
-            ImageLoader.getInstance().displayImage(imageAbsolutePath, photoView, Constant.ALBUM_OPTIONS);
+            ImageSize targetSize = PostImageUtils.parseImageSizeWithUrl(ImageViewerPagerActivity.this, imageAbsolutePath);
+            Log.e("bbb","imageAbsolutePath = " + imageAbsolutePath);
+            String now = String.valueOf(System.currentTimeMillis());
+            //http://h.hiphotos.baidu.com/image/pic/item/38dbb6fd5266d01646062721952bd40735fa359f.jpg?111
+            //imageAbsolutePath = "http://p.xinqing.com/2016/02/10/48ed2wpc6idpq1qlhzrzyv4oa.jpg"+"?"+now;
+            imageAbsolutePath = "http://p.xiaoningmeng.net/album/2016/02/27/eb530d951695112cf80ff651371ceb38.jpg"+"?"+now;
+            ImageLoader.getInstance().displayImage(imageAbsolutePath,(ImageAware) new ImageViewAware(photoView),(DisplayImageOptions)null, targetSize, imageLoadingListener, imageLoadingProgressListener);
             container.addView(photoView, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
             photoView.setOnPhotoTapListener(onPhotoTapListener);
             return photoView;
@@ -174,4 +191,35 @@ public class ImageViewerPagerActivity extends BaseActivity {
         }
         super.onSaveInstanceState(outState);
     }
+
+    SimpleImageLoadingListener imageLoadingListener = new SimpleImageLoadingListener() {
+
+        @Override
+        public void onLoadingStarted(String imageUri, View view) {
+
+            imageLoadingTv.setText("0%");
+            imageLoadingTv.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+
+            imageLoadingTv.setVisibility(View.GONE);
+        }
+
+        @Override
+        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+            imageLoadingTv.setVisibility(View.GONE);
+        }
+    };
+
+    ImageLoadingProgressListener imageLoadingProgressListener = new ImageLoadingProgressListener() {
+        @Override
+        public void onProgressUpdate(String imageUri, View view, int current, int total) {
+
+            Log.e("bbb", "onProgressUpdate -> imageUri = " + imageUri + ", current = " + current + ", total = " + total);
+            imageLoadingTv.setText(Integer.toString(Math.round(100.0f * current / total)) + "%");
+        }
+    };
+
 }

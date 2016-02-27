@@ -3,15 +3,11 @@ package com.xiaoningmeng.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Point;
-import android.os.Build;
 import android.text.Html;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -30,6 +26,7 @@ import com.xiaoningmeng.bean.Post;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.ConstantURL;
 import com.xiaoningmeng.utils.AvatarUtils;
+import com.xiaoningmeng.utils.PostImageUtils;
 import com.xiaoningmeng.utils.UiUtils;
 
 import java.lang.ref.WeakReference;
@@ -42,9 +39,6 @@ public class ViewThreadAdapter extends BaseAdapter {
     private static final String KEY_QUOTE_IN_ORIGINAL = "quote";
     private static final String KEY_MESSAGE_IN_ORIGINAL = "message";
     private static final String KEY_AUTHOR_IN_ORIGINAL = "author";
-
-    private static final int DEFAULT_POST_IMAGE_WIDTH = 640;
-    private static final int DEFAULT_POST_IMAGE_HEIGHT = 640;
 
     private LayoutInflater mInflater;
     private Context mContext;
@@ -244,8 +238,8 @@ public class ViewThreadAdapter extends BaseAdapter {
                  android:layout_marginTop="@dimen/forum_item_padding"
                  android:src="@drawable/aaa"/>
                  */
-
-                ImageSize targetSize = parseImageSizeWithUrl(absolutePath);
+                ViewThreadActivity activity = weak.get();
+                ImageSize targetSize = PostImageUtils.parseImageSizeWithUrl(activity,absolutePath);
                 ImageView img = new ImageView(mContext);
                 img.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(targetSize.getWidth(), targetSize.getHeight());
@@ -253,7 +247,8 @@ public class ViewThreadAdapter extends BaseAdapter {
                 params.gravity = Gravity.CENTER;
                 img.setLayoutParams(params);
                 img.setBackgroundResource(R.color.view_thread_image_background_color);
-                ImageLoader.getInstance().displayImage(absolutePath, img, targetSize);
+                //ImageLoader.getInstance().displayImage(absolutePath, img, targetSize);
+                ImageLoader.getInstance().displayImage(absolutePath, img, Constant.POST_IMAGE_OPTIONS);
                 holder.imagesContainerLl.addView(img);
                 img.setTag(i+"");
                 img.setOnClickListener(postImageClickListener);
@@ -313,59 +308,6 @@ public class ViewThreadAdapter extends BaseAdapter {
             activity.startActivityForNew(i);
         }
     };
-
-    private ImageSize parseImageSizeWithUrl(String imageUrl) {
-
-        int widthPx = DEFAULT_POST_IMAGE_WIDTH;
-        int heightPx = DEFAULT_POST_IMAGE_HEIGHT;
-
-        String[] file = imageUrl.split("\\.");
-        int index = file.length - 2;
-        String[] snippet = file[index].split("_");
-
-        int snippetCount = snippet.length;
-        if (snippetCount >= 3) {
-
-            if(null != snippet[1]) {
-                widthPx = Integer.parseInt(snippet[1]);
-            }
-
-            if(null != snippet[2]) {
-                heightPx = Integer.parseInt(snippet[2]);
-            }
-        }
-        final ViewThreadActivity activity = weak.get();
-        WindowManager windowManager = activity.getWindowManager();
-        Display display = windowManager.getDefaultDisplay();
-        Point size = new Point();
-        int screenWidth = 0;
-        int screenHeight = 0;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            display.getSize(size);
-            screenWidth = size.x;
-            screenHeight = size.y;
-        } else {
-            screenWidth = display.getWidth();
-            screenHeight = display.getHeight();
-        }
-
-
-        if (widthPx > screenWidth) {
-            widthPx = screenWidth;
-        }else if (widthPx < DEFAULT_POST_IMAGE_WIDTH) {
-            widthPx = DEFAULT_POST_IMAGE_WIDTH;
-        }
-
-        if (heightPx > screenHeight) {
-            heightPx = screenHeight;
-        }else if (heightPx < DEFAULT_POST_IMAGE_HEIGHT) {
-            heightPx = DEFAULT_POST_IMAGE_HEIGHT;
-        }
-
-        ImageSize imageSize = new ImageSize(widthPx,heightPx);
-        return imageSize;
-    }
-
 
     static class ViewHolder {
 
