@@ -247,8 +247,7 @@ public class ViewThreadAdapter extends BaseAdapter {
                 params.gravity = Gravity.CENTER;
                 img.setLayoutParams(params);
                 img.setBackgroundResource(R.color.view_thread_image_background_color);
-                //ImageLoader.getInstance().displayImage(absolutePath, img, targetSize);
-                ImageLoader.getInstance().displayImage(absolutePath, img, Constant.POST_IMAGE_OPTIONS);
+                ImageLoader.getInstance().displayImage(absolutePath, img, targetSize);
                 holder.imagesContainerLl.addView(img);
                 img.setTag(i+"");
                 img.setOnClickListener(postImageClickListener);

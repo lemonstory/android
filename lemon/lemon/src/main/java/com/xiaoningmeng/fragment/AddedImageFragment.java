@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -153,12 +154,7 @@ public class AddedImageFragment extends BasePhotoFragment implements BasePhotoFr
     private int addedImageCount() {
 
         int count = addedImageContainerLl.getChildCount();
-        int isv = ivAddImageControl.getVisibility();
-        boolean iss = ivAddImageControl.isShown();
-
-        if(ivAddImageControl.getVisibility() == View.VISIBLE) {
-            count = count -1;
-        }
+        count = count -1;
         return count;
     }
 
@@ -235,9 +231,12 @@ public class AddedImageFragment extends BasePhotoFragment implements BasePhotoFr
 
     public void onEventMainThread(AddedImageEvent addedImageEvent) {
 
+        int a = addedImageContainerLl.getChildCount();
         int position = addedImageEvent.position;
         addedImageFiles.remove(position);
         addedImageContainerLl.removeViewAt(position);
+        int b = addedImageContainerLl.getChildCount();
+        Log.e("eee","a =" + a + ",b = " + b);
         checkAddImageControlVisibility();
     }
 
