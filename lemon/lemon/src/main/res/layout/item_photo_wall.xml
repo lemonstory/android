@@ -1,4 +1,5 @@
 <com.xiaoningmeng.view.SquareRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:padding="2dp" >
@@ -8,7 +9,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
 
-        <ImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/photo_wall_item_photo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

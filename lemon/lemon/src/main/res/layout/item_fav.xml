@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
 
@@ -9,12 +10,13 @@
         android:background="@drawable/base_item_bg_selector" >
 
 
-        <com.xiaoningmeng.view.SelectableRoundedImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/img_mine_item_cover"
-            style="@style/roundImageViewStyle"
             android:layout_width="@dimen/search_item_cover_height"
             android:layout_height="@dimen/search_item_cover_height"
             android:layout_centerVertical="true"
+            fresco:roundedCornerRadius="@dimen/base_radius_size"
+            fresco:placeholderImage="@drawable/album_default"
             android:layout_marginLeft="@dimen/base_margin" />
 
         <LinearLayout

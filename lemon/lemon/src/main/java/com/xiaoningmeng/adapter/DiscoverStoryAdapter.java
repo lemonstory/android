@@ -1,11 +1,24 @@
 package com.xiaoningmeng.adapter;
 
-import java.util.HashMap;
-import java.util.List;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.util.SparseArray;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.baidu.mobads.AdView;
 import com.baidu.mobads.AdViewListener;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.xiaoningmeng.AblumDetailActivity;
 import com.xiaoningmeng.ClassificationActivity;
 import com.xiaoningmeng.MoreActivity;
@@ -17,24 +30,9 @@ import com.xiaoningmeng.bean.Tag;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.utils.UiUtils;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
-import android.util.SparseArray;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
 import org.json.JSONObject;
+
+import java.util.List;
 
 public class DiscoverStoryAdapter extends BaseAdapter implements
 		OnClickListener {
@@ -254,10 +252,10 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 						headViewHolder.classify2Ll = convertView.findViewById(R.id.ll_classify2);
 						headViewHolder.classify3Ll = convertView.findViewById(R.id.ll_classify3);
 						headViewHolder.classify4Ll = convertView.findViewById(R.id.ll_classify4);
-						headViewHolder.classify1Img = (ImageView) convertView.findViewById(R.id.img_classify1);
-						headViewHolder.classify2Img = (ImageView) convertView.findViewById(R.id.img_classify2);
-						headViewHolder.classify3Img = (ImageView) convertView.findViewById(R.id.img_classify3);
-						headViewHolder.classify4Img = (ImageView) convertView.findViewById(R.id.img_classify4);
+						headViewHolder.classify1Img = (SimpleDraweeView) convertView.findViewById(R.id.img_classify1);
+						headViewHolder.classify2Img = (SimpleDraweeView) convertView.findViewById(R.id.img_classify2);
+						headViewHolder.classify3Img = (SimpleDraweeView) convertView.findViewById(R.id.img_classify3);
+						headViewHolder.classify4Img = (SimpleDraweeView) convertView.findViewById(R.id.img_classify4);
 						convertView.setTag(headViewHolder);
 					} else {
 						headViewHolder = (HeadViewHolder) convertView.getTag();
@@ -267,7 +265,8 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 					if (classifitionSize > position * 4) {
 						tag = mDiscover.getFirsttag().get(position * 4);
 						headViewHolder.classify1Ll.setVisibility(View.VISIBLE);
-						ImageLoader.getInstance().displayImage(tag.getCover(), headViewHolder.classify1Img, Constant.ClASSIFICATION_OPTIONS);
+						Uri classify1ImgUri = Uri.parse(tag.getCover());
+						headViewHolder.classify1Img.setImageURI(classify1ImgUri);
 						headViewHolder.classify1Tv.setText(tag.getName());
 						headViewHolder.classify1Ll.setTag(tag);
 						headViewHolder.classify1Ll.setOnClickListener(this);
@@ -277,7 +276,8 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 					if (classifitionSize > position * 4 + 1) {
 
 						tag = mDiscover.getFirsttag().get(position * 4 + 1);
-						ImageLoader.getInstance().displayImage(tag.getCover(), headViewHolder.classify2Img, Constant.ClASSIFICATION_OPTIONS);
+						Uri classify2ImgUri = Uri.parse(tag.getCover());
+						headViewHolder.classify2Img.setImageURI(classify2ImgUri);
 						headViewHolder.classify2Tv.setText(tag.getName());
 						headViewHolder.classify2Ll.setVisibility(View.VISIBLE);
 						headViewHolder.classify2Ll.setTag(tag);
@@ -287,7 +287,8 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 					}
 					if (classifitionSize > position * 4 + 2) {
 						tag = mDiscover.getFirsttag().get(position * 4 + 2);
-						ImageLoader.getInstance().displayImage(tag.getCover(), headViewHolder.classify3Img, Constant.ClASSIFICATION_OPTIONS);
+						Uri classify3ImgUri = Uri.parse(tag.getCover());
+						headViewHolder.classify3Img.setImageURI(classify3ImgUri);
 						headViewHolder.classify3Tv.setText(tag.getName());
 						headViewHolder.classify3Ll.setVisibility(View.VISIBLE);
 						headViewHolder.classify3Ll.setTag(tag);
@@ -297,7 +298,8 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 					}
 					if (classifitionSize > position * 4 + 3) {
 						tag = mDiscover.getFirsttag().get(position * 4 + 3);
-						ImageLoader.getInstance().displayImage(tag.getCover(), headViewHolder.classify4Img, Constant.ClASSIFICATION_OPTIONS);
+						Uri classify4ImgUri = Uri.parse(tag.getCover());
+						headViewHolder.classify4Img.setImageURI(classify4ImgUri);
 						headViewHolder.classify4Tv.setText(tag.getName());
 						headViewHolder.classify4Ll.setVisibility(View.VISIBLE);
 						headViewHolder.classify4Ll.setTag(tag);
@@ -338,7 +340,7 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 						centerViewHolder = new CenterViewHolder();
 						convertView = mInflater.inflate(
 								R.layout.item_home_discover_center, null);
-						centerViewHolder.coverImg1 = (ImageView) convertView
+						centerViewHolder.coverImg1 = (SimpleDraweeView) convertView
 								.findViewById(R.id.img_story_cover1);
 						centerViewHolder.titleTv1 = (TextView) convertView
 								.findViewById(R.id.tv_story_cover1);
@@ -347,7 +349,7 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 						centerViewHolder.storyRl1 = convertView.findViewById(R.id.rl_story1);
 						centerViewHolder.recommendTv1 = (TextView) convertView
 								.findViewById(R.id.tv_story_recommend1);
-						centerViewHolder.coverImg2 = (ImageView) convertView
+						centerViewHolder.coverImg2 = (SimpleDraweeView) convertView
 								.findViewById(R.id.img_story_cover2);
 						centerViewHolder.titleTv2 = (TextView) convertView
 								.findViewById(R.id.tv_story_cover2);
@@ -387,9 +389,10 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 						AlbumInfo albumInfo = albumInfos.get(coverPos);
 						centerViewHolder.storyRl1.setVisibility(View.VISIBLE);
 						centerViewHolder.titleTv1.setText(albumInfo.getTitle());
-						centerViewHolder.tipTv1.setText(albumInfo.getListennum() == 0 ?"" :albumInfo.getListennum() + "");
-						ImageLoader.getInstance().displayImage(albumInfo.getCover(),
-								centerViewHolder.coverImg1, Constant.getSmallAlbumOptions(coverPos));
+						centerViewHolder.tipTv1.setText(albumInfo.getListennum() == 0 ? "" : albumInfo.getListennum() + "");
+						Uri coverImg1Uri = Uri.parse(albumInfo.getCover());
+						centerViewHolder.coverImg1.setBackgroundResource(Constant.getPosDrawable(coverPos));
+						centerViewHolder.coverImg1.setImageURI(coverImg1Uri);
 						if(albumInfo.getRecommenddesc() != null&& !"".equals(albumInfo.getRecommenddesc())) {
 							centerViewHolder.recommendTv1.setText(albumInfo.getRecommenddesc());
 						}else{
@@ -410,8 +413,10 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 						}else{
 							centerViewHolder.recommendTv2.setText(" ");
 						}
-						ImageLoader.getInstance().displayImage(albumInfo.getCover(),
-								centerViewHolder.coverImg2, Constant.getSmallAlbumOptions(coverPos + 1));
+
+						Uri coverImg2Uri = Uri.parse(albumInfo.getCover());
+						centerViewHolder.coverImg2.setBackgroundResource(Constant.getPosDrawable(coverPos + 1));
+						centerViewHolder.coverImg2.setImageURI(coverImg2Uri);
 						centerViewHolder.storyRl2.setTag(albumInfo);
 						centerViewHolder.storyRl2.setOnClickListener(this);
 					} else {
@@ -483,10 +488,10 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 		View classify2Ll;
 		View classify3Ll;
 		View classify4Ll;
-		ImageView classify1Img;
-		ImageView classify2Img;
-		ImageView classify3Img;
-		ImageView classify4Img;
+		SimpleDraweeView classify1Img;
+		SimpleDraweeView classify2Img;
+		SimpleDraweeView classify3Img;
+		SimpleDraweeView classify4Img;
 	}
 
 	static class TopViewHolder {
@@ -500,12 +505,12 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 		TextView titleTv1;
 		TextView recommendTv1;
 		TextView tipTv1;
-		ImageView coverImg1;
+		SimpleDraweeView coverImg1;
 		View storyRl1;
 		TextView titleTv2;
 		TextView tipTv2;
 		TextView recommendTv2;
-		ImageView coverImg2;
+		SimpleDraweeView coverImg2;
 		View storyRl2;
 	}
 

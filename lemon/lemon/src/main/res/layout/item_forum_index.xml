@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fl_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -10,13 +11,15 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom">
 
-        <com.xiaoningmeng.view.CircleImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/img_forum_icon"
             android:layout_width="@dimen/forum_item_icon_height"
             android:layout_height="@dimen/forum_item_icon_height"
             android:layout_marginLeft="@dimen/forum_item_margin_left"
             android:layout_marginRight="@dimen/forum_item_margin_left"
-            android:layout_marginTop="@dimen/forum_item_margin_left" />
+            android:layout_marginTop="@dimen/forum_item_margin_left"
+            fresco:roundAsCircle="true"
+            fresco:placeholderImage="@drawable/album_default"/>
 
         <TextView
             android:id="@+id/tv_forum_name"

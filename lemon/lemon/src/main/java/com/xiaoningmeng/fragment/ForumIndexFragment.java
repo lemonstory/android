@@ -52,11 +52,13 @@ public class ForumIndexFragment extends BaseFragment  implements IXListViewListe
         mListView = (XListView) contentView.findViewById(R.id.id_stickynavlayout_innerscrollview);
         loadingView = (ViewGroup)contentView.findViewById(R.id.rl_loading);
         loadingView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.home_discover_item_img_height), 0, 0);
-        mListView.setPullLoadEnable(mForumList.size() == 10);
-        mListView.setPullRefreshEnable(false);
+        mListView.setPullLoadEnable(false);
         mListView.setXListViewListener(this);
-        mListView.setFootViewNoMore(true);
         pbEmptyTip = loadingView.findViewById(R.id.pb_empty_tip);
+        if (loadingView != null) {
+            loadingView.setVisibility(View.VISIBLE);
+            loadingView.setClickable(false);
+        }
     }
 
     public void hideEmptyTip() {
@@ -81,20 +83,18 @@ public class ForumIndexFragment extends BaseFragment  implements IXListViewListe
         }
     }
 
-
     private void onLoad() {
 
         mListView.stopRefresh();
         mListView.stopLoadMore();
     }
 
-    @Override
     public void onRefresh() {
-        if(mForumList.size()>0){
-            requestForumListData(Constant.UP, mForumList.get(0).getFId());
-        }else{
-            requestForumListData(Constant.FRIST, Constant.FRIST_ID);
-        }
+
+        //TODO:会出现白屏的现象
+        this.mForumList.clear();
+        requestForumListData(Constant.FRIST, Constant.FRIST_ID);
+        mListView.setPullLoadEnable(false);
     }
 
     @Override
@@ -119,8 +119,6 @@ public class ForumIndexFragment extends BaseFragment  implements IXListViewListe
 
     private void requestForumListData(final String direction,String startId) {
 
-        loadingView.setVisibility(View.VISIBLE);
-        loadingView.setClickable(false);
         LHttpRequest.getInstance().getForumIndex(getActivity(),
                 new LHttpHandler<String>(getActivity()) {
 

@@ -3,21 +3,20 @@ package com.xiaoningmeng.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.xiaoningmeng.ForumDisplayActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.base.BaseFragmentActivity;
 import com.xiaoningmeng.bean.Forum;
-import com.xiaoningmeng.constant.Constant;
 
 import java.util.List;
 
@@ -65,7 +64,7 @@ public class ForumIndexAdapter extends BaseAdapter {
                 holder.containerFl = (FrameLayout)convertView.findViewById(R.id.fl_container);
                 holder.dividerView = convertView
                         .findViewById(R.id.v_forum_divider);
-                holder.iconImg = (ImageView) convertView
+                holder.iconImg = (SimpleDraweeView) convertView
                         .findViewById(R.id.img_forum_icon);
                 holder.nameTv = (TextView) convertView
                         .findViewById(R.id.tv_forum_name);
@@ -98,10 +97,9 @@ public class ForumIndexAdapter extends BaseAdapter {
         if (!forum.getPosts().equals("0")) {
             holder.todayposts.setText(forum.getPosts());
         }
-        String avatarUrl = forum.getIcon();
-        ImageLoader.getInstance().displayImage(avatarUrl, holder.iconImg,Constant.AVARAR_OPTIONS);
-
-
+        String iconUrl = forum.getIcon();
+        Uri iconUri = Uri.parse(iconUrl);
+        holder.iconImg.setImageURI(iconUri);
         return convertView;
     }
 
@@ -109,7 +107,7 @@ public class ForumIndexAdapter extends BaseAdapter {
         FrameLayout containerFl;
         View headDividerView;
         View dividerView;
-        ImageView iconImg;
+        SimpleDraweeView iconImg;
         TextView nameTv;
         TextView descriptionTv;
         TextView todayposts;

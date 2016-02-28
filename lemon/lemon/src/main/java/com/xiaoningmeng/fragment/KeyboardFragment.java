@@ -270,7 +270,9 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
 
     public void setmEditEmojiconHint(String hint) {
 
-        mEditEmojicon.setHint(hint);
+        if(null != mEditEmojicon) {
+            mEditEmojicon.setHint(hint);
+        }
     }
 
     //UiUtils中有检测键盘状态的工具方法

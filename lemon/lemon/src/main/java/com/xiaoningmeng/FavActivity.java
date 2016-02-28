@@ -17,6 +17,7 @@ import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.baoyz.swipemenulistview.SwipeMenuListView.OnMenuItemClickListener;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.xiaoningmeng.adapter.MoreAdapter;
 import com.xiaoningmeng.base.BaseActivity;
@@ -45,6 +46,7 @@ public class FavActivity extends BaseActivity implements IXListViewListener {
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
+		Fresco.initialize(this);
 		setContentView(R.layout.activity_fav);
 		setTitleName("我的收藏");
 		mCoverImg = (ImageView) findViewById(R.id.img_head_right);

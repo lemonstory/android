@@ -1,31 +1,28 @@
 package com.xiaoningmeng.adapter;
 
-import java.util.List;
-
-
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.xiaoningmeng.PerasonalCenterActivity;
-import com.xiaoningmeng.R;
-import com.xiaoningmeng.base.BaseFragmentActivity;
-import com.xiaoningmeng.bean.Comment;
-import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.utils.AvatarUtils;
-import com.xiaoningmeng.view.RatingBar;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-
+import android.net.Uri;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.RelativeLayout.LayoutParams;
+import android.widget.TextView;
+
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.xiaoningmeng.PerasonalCenterActivity;
+import com.xiaoningmeng.R;
+import com.xiaoningmeng.base.BaseFragmentActivity;
+import com.xiaoningmeng.bean.Comment;
+import com.xiaoningmeng.utils.AvatarUtils;
+import com.xiaoningmeng.view.RatingBar;
+
+import java.util.List;
 
 public class AblumCommentAdapter extends BaseAdapter implements OnClickListener {
 
@@ -83,7 +80,7 @@ public class AblumCommentAdapter extends BaseAdapter implements OnClickListener 
 						R.layout.item_ablum_detail_comment, null);
 				holder.dividerView = convertView
 						.findViewById(R.id.v_comment_divider);
-				holder.coverImg = (ImageView) convertView
+				holder.coverImg = (SimpleDraweeView) convertView
 						.findViewById(R.id.img_comment_cover);
 				holder.commentTv = (TextView) convertView
 						.findViewById(R.id.tv_comment_content);
@@ -116,7 +113,8 @@ public class AblumCommentAdapter extends BaseAdapter implements OnClickListener 
 				holder.nameTv.setOnClickListener(this);
 				holder.coverImg.setOnClickListener(this);
 				String avatarUrl = AvatarUtils.getAvatarUrl(comment.getUid(), comment.getAvatartime(), -1);
-				ImageLoader.getInstance().displayImage(avatarUrl, holder.coverImg,Constant.AVARAR_OPTIONS);
+				Uri uri = Uri.parse(avatarUrl);
+				holder.coverImg.setImageURI(uri);
 				RelativeLayout.LayoutParams lp = (LayoutParams) holder.dividerView.getLayoutParams();
 				if (position == comments.size()) {
 					lp.addRule(RelativeLayout.RIGHT_OF,0);
@@ -132,7 +130,7 @@ public class AblumCommentAdapter extends BaseAdapter implements OnClickListener 
 	static class ViewHolder {
 		View headDividerView;
 		View dividerView;
-		ImageView coverImg;
+		SimpleDraweeView coverImg;
 		TextView commentTv;
 		TextView nameTv;
 		RatingBar ratingBar;

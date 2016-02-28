@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@null"
@@ -11,10 +12,11 @@
         android:id="@+id/ll_classify1"
         style="@style/classification_ll">
 
-        <ImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/img_classify1"
             android:layout_width="@dimen/classifiction_item_height"
-            android:layout_height="@dimen/classifiction_item_height" />
+            android:layout_height="@dimen/classifiction_item_height"
+            fresco:placeholderImage="@drawable/default_classifiction"/>
 
         <TextView
             android:id="@+id/tv_classify1"
@@ -28,10 +30,11 @@
         android:id="@+id/ll_classify2"
         style="@style/classification_ll">
 
-        <ImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/img_classify2"
             android:layout_width="@dimen/classifiction_item_height"
-            android:layout_height="@dimen/classifiction_item_height"/>
+            android:layout_height="@dimen/classifiction_item_height"
+            fresco:placeholderImage="@drawable/default_classifiction"/>
 
         <TextView
             android:id="@+id/tv_classify2"
@@ -45,16 +48,18 @@
         android:id="@+id/ll_classify3"
         style="@style/classification_ll">
 
-        <ImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/img_classify3"
             android:layout_width="@dimen/classifiction_item_height"
-            android:layout_height="@dimen/classifiction_item_height" />
+            android:layout_height="@dimen/classifiction_item_height"
+            fresco:placeholderImage="@drawable/default_classifiction"/>
 
         <TextView
             android:id="@+id/tv_classify3"
             style="@style/home_classtification_item_style"
             android:layout_marginTop="@dimen/base_radius_size"
-            android:text="故事" />
+            android:text="故事"
+            />
 
     </LinearLayout>
 
@@ -62,10 +67,11 @@
         android:id="@+id/ll_classify4"
         style="@style/classification_ll">
 
-        <ImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/img_classify4"
             android:layout_width="@dimen/classifiction_item_height"
-            android:layout_height="@dimen/classifiction_item_height" />
+            android:layout_height="@dimen/classifiction_item_height"
+            fresco:placeholderImage="@drawable/default_classifiction"/>
 
         <TextView
             android:id="@+id/tv_classify4"

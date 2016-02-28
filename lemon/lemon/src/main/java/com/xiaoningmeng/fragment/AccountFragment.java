@@ -1,6 +1,7 @@
 package com.xiaoningmeng.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.onlineconfig.OnlineConfigAgent;
 import com.xiaoningmeng.PerasonalActivity;
 import com.xiaoningmeng.R;
@@ -93,7 +93,8 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
 			String city = mUserInfo.getCity() == null?"":mUserInfo.getCity();
 			mAccountContentTv.setText(age + province + city);
 			String avatarUrl = AvatarUtils.getAvatarUrl(mUserInfo.getUid(), mUserInfo.getAvatartime(), -1);
-			ImageLoader.getInstance().displayImage(avatarUrl, mAccountAvatarView,Constant.AVARAR_OPTIONS);
+			Uri avatarUri = Uri.parse(avatarUrl);
+			mAccountAvatarView.setImageURI(avatarUri);
 		} else {
 			mAccountHeadView.setVisibility(View.INVISIBLE);
 			mAccountUnloginTv.setVisibility(View.VISIBLE);

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.xiaoningmeng.view.ReboundScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/home_bg"
@@ -20,7 +21,7 @@
 
             <View style="@style/dividerStyle" />
 
-            <com.xiaoningmeng.view.CircleImageView
+            <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/img_account_perasonal"
                 android:layout_width="@dimen/account_perasonal_icon_height"
                 android:layout_height="@dimen/account_perasonal_icon_height"
@@ -28,7 +29,9 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/account_item_margin_left"
                 android:layout_marginRight="@dimen/account_perasonal_padding"
-                android:src="@drawable/default_cover" />
+                fresco:roundAsCircle="true"
+                fresco:placeholderImage="@drawable/default_cover"
+                />
 
             <ImageView
                 android:id="@+id/img_to_right"

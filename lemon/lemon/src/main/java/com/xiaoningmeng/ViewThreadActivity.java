@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baoyz.swipemenu.xlistview.XListView;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.umeng.socialize.controller.UMSocialService;
@@ -69,6 +70,7 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        Fresco.initialize(this);
         setContentView(R.layout.activity_view_thread);
         initView();
         mContext = this;
@@ -96,17 +98,19 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
         pbEmptyTip = loadingView.findViewById(R.id.pb_empty_tip);
         setKeyBoardfragment(); //设置用户键盘
         addedImageFiles = new ArrayList<>();
-
         if (loadingView != null) {
             loadingView.setVisibility(View.VISIBLE);
             loadingView.setClickable(false);
         }
+    }
 
+    protected void onResume() {
+
+        super.onResume();
         //处理键盘的发送按钮事件
-        getSupportFragmentManager().executePendingTransactions();
         this.keyBoardfragment = (KeyboardFragment) getSupportFragmentManager().findFragmentByTag("keyboardFragment");
         if(null != this.keyBoardfragment) {
-
+            this.keyBoardfragment.setmEditEmojiconHint("回复楼主:");
             this.keyBoardfragment.setOnKeyBoardBarViewListener(new KeyboardFragment.KeyBoardBarViewListener() {
 
                 @Override
@@ -155,7 +159,6 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
 
             }
         });
-
     }
 
     private void  setShareIconVisible() {
@@ -218,6 +221,7 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
                 .beginTransaction()
                 .replace(R.id.fl_keyboard, KeyboardFragment.newInstance(),"keyboardFragment")
                 .commit();
+        getSupportFragmentManager().executePendingTransactions();
     }
 
     private UMSocialService mController;

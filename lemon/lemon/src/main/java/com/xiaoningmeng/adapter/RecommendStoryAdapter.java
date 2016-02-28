@@ -3,16 +3,16 @@ package com.xiaoningmeng.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.xiaoningmeng.AblumDetailActivity;
 import com.xiaoningmeng.MoreActivity;
 import com.xiaoningmeng.R;
@@ -68,7 +68,7 @@ public class RecommendStoryAdapter extends BaseAdapter implements OnClickListene
 			if(convertView == null){
 				convertView = mInflater.inflate(R.layout.item_recommend, null);
 			}
-			holder.coverImg1 = (ImageView) convertView
+			holder.coverImg1 = (SimpleDraweeView) convertView
 					.findViewById(R.id.img_story_cover1);
 			holder.titleTv1 = (TextView) convertView
 					.findViewById(R.id.tv_story_cover1);
@@ -76,7 +76,7 @@ public class RecommendStoryAdapter extends BaseAdapter implements OnClickListene
 					.findViewById(R.id.tv_story_tip1);
 			holder.storyRl1 = convertView.findViewById(R.id.rl_story1);
 
-			holder.coverImg2 = (ImageView) convertView
+			holder.coverImg2 = (SimpleDraweeView) convertView
 					.findViewById(R.id.img_story_cover2);
 			holder.titleTv2 = (TextView) convertView
 					.findViewById(R.id.tv_story_cover2);
@@ -84,7 +84,7 @@ public class RecommendStoryAdapter extends BaseAdapter implements OnClickListene
 					.findViewById(R.id.tv_story_tip2);
 			holder.storyRl2 = convertView.findViewById(R.id.rl_story2);
 
-			holder.coverImg3 = (ImageView) convertView
+			holder.coverImg3 = (SimpleDraweeView) convertView
 					.findViewById(R.id.img_story_cover3);
 			holder.titleTv3 = (TextView) convertView
 					.findViewById(R.id.tv_story_cover3);
@@ -109,7 +109,9 @@ public class RecommendStoryAdapter extends BaseAdapter implements OnClickListene
 				}else{
 					holder.tipTv1.setVisibility(View.INVISIBLE);
 				}
-				ImageLoader.getInstance().displayImage(albumInfo.getCover(), holder.coverImg1,Constant.getSmallAlbumOptions(coverPos));
+				Uri coverImg1Uri = Uri.parse(albumInfo.getCover());
+				holder.coverImg1.setBackgroundColor(Constant.getPosDrawable(coverPos));
+				holder.coverImg1.setImageURI(coverImg1Uri);
 				RelativeLayout.LayoutParams lp1= (RelativeLayout.LayoutParams) holder.coverImg1.getLayoutParams();
 				lp1.height = mImgHeight;
 				holder.coverImg1.setLayoutParams(lp1);
@@ -130,7 +132,9 @@ public class RecommendStoryAdapter extends BaseAdapter implements OnClickListene
 				}else{
 					holder.tipTv2.setVisibility(View.INVISIBLE);
 				}
-				ImageLoader.getInstance().displayImage(albumInfo.getCover(), holder.coverImg2,Constant.getSmallAlbumOptions(coverPos+1));
+				Uri coverImg2Uri = Uri.parse(albumInfo.getCover());
+				holder.coverImg2.setBackgroundResource(Constant.getPosDrawable(coverPos + 1));
+				holder.coverImg2.setImageURI(coverImg2Uri);
 				RelativeLayout.LayoutParams lp1= (RelativeLayout.LayoutParams) holder.coverImg2.getLayoutParams();
 				lp1.height = mImgHeight;
 				holder.coverImg2.setLayoutParams(lp1);
@@ -150,7 +154,9 @@ public class RecommendStoryAdapter extends BaseAdapter implements OnClickListene
 				}else{
 					holder.tipTv3.setVisibility(View.INVISIBLE);
 				}
-				ImageLoader.getInstance().displayImage(albumInfo.getCover(), holder.coverImg3,Constant.getSmallAlbumOptions(coverPos+2));
+				Uri coverImg3Uri = Uri.parse(albumInfo.getCover());
+				holder.coverImg3.setBackgroundResource(Constant.getPosDrawable(coverPos + 2));
+				holder.coverImg3.setImageURI(coverImg3Uri);
 				RelativeLayout.LayoutParams lp1= (RelativeLayout.LayoutParams) holder.coverImg3.getLayoutParams();
 				lp1.height = mImgHeight;
 				holder.coverImg3.setLayoutParams(lp1);
@@ -166,15 +172,15 @@ public class RecommendStoryAdapter extends BaseAdapter implements OnClickListene
 
 		TextView titleTv1;
 		TextView tipTv1;
-		ImageView coverImg1;
+		SimpleDraweeView coverImg1;
 		View storyRl1;
 		TextView titleTv2;
 		TextView tipTv2;
-		ImageView coverImg2;
+		SimpleDraweeView coverImg2;
 		View storyRl2;
 		TextView titleTv3;
 		TextView tipTv3;
-		ImageView coverImg3;
+		SimpleDraweeView coverImg3;
 		View storyRl3;
 	}
 

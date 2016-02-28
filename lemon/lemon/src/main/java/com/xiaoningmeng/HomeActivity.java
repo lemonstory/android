@@ -11,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.umeng.onlineconfig.OnlineConfigAgent;
 import com.umeng.socialize.controller.UMSocialService;
@@ -71,6 +72,7 @@ public class HomeActivity extends BaseFragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
+		Fresco.initialize(this);
 		OnlineConfigAgent.getInstance().updateOnlineConfig(this);
 		initView();
 		PlayerManager.getInstance().register(this);

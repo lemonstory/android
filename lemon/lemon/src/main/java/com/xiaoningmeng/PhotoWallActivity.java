@@ -1,30 +1,28 @@
 package com.xiaoningmeng;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Comparator;
-
-import java.util.Vector;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import com.xiaoningmeng.adapter.PhotoWallAdapter;
-import com.xiaoningmeng.bean.ImageFile;
-import com.xiaoningmeng.utils.FileUtils;
-import com.xiaoningmeng.utils.Utility;
-import com.xiaoningmeng.view.dialog.TipDialog;
-
 import android.content.Intent;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.xiaoningmeng.adapter.PhotoWallAdapter;
+import com.xiaoningmeng.bean.ImageFile;
+import com.xiaoningmeng.utils.FileUtils;
+import com.xiaoningmeng.utils.Utility;
+import com.xiaoningmeng.view.dialog.TipDialog;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Vector;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class PhotoWallActivity extends com.xiaoningmeng.base.BaseActivity {
 
@@ -88,7 +86,7 @@ public class PhotoWallActivity extends com.xiaoningmeng.base.BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		Fresco.initialize(this);
 		setContentView(R.layout.activity_photo_wall);
 		setTitleName("相册");
 		//setRightHeadText("确定");

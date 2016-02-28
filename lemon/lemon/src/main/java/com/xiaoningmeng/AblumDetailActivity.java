@@ -1,10 +1,7 @@
 package com.xiaoningmeng;
 
-import java.util.List;
-
-import org.apache.http.Header;
-
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,7 +18,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import com.nostra13.universalimageloader.core.ImageLoader;
+
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.umeng.socialize.controller.UMSocialService;
 import com.umeng.socialize.sso.UMSsoHandler;
 import com.xiaoningmeng.application.ActivityManager;
@@ -56,6 +55,11 @@ import com.xiaoningmeng.view.StickyNavLayout;
 import com.xiaoningmeng.view.dialog.TipDialog;
 import com.ypy.eventbus.EventBus;
 
+import org.apache.http.Header;
+
+import java.util.List;
+
+
 public class AblumDetailActivity extends BaseFragmentActivity implements
 		OnClickListener, PlayObserver, DownLoadObserver<AudioDownLoad> {
 
@@ -73,7 +77,7 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 	private CircleProgressBar mPlayProgressBar;
 	private TextView mAlbumTitleTv;
 	private ImageView mPlayBtnImg;
-	private ImageView mCoverImg;
+	SimpleDraweeView mCoverImg;
 	private ImageView mWaveImg;
 	private TextView mCommentTv;
 
@@ -104,6 +108,7 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 		int pager = getIntent().getIntExtra("pager", 0);
 		mPlayTime = getIntent().getIntExtra("playtimes",0);
 		mPlayStoryId = getIntent().getStringExtra("playstoryid");
+		Fresco.initialize(this);
 		setContentView(R.layout.activity_ablum_detail);
 		mViewPager = (ViewPager) findViewById(R.id.id_stickynavlayout_viewpager);
 		mPlayListTabTv = (TextView) findViewById(R.id.tv_ablum_detail_play_list);
@@ -113,7 +118,7 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 		mPlayBtnImg = (ImageView) findViewById(R.id.img_ablum_detail_btn);
 		mWaveImg = (ImageView) findViewById(R.id.img_head_right);
 		mCommentTv = (TextView) findViewById(R.id.tv_album_detail_comment);
-		mCoverImg = (ImageView) findViewById(R.id.img_ablum_detail_cover);
+		mCoverImg = (SimpleDraweeView) findViewById(R.id.img_ablum_detail_cover);
 		mCommentCountTv = (TextView) findViewById(R.id.tv_ablum_detail_comment_count);
 		mStickyNavLayout = (StickyNavLayout)findViewById(R.id.StickyNavLayout);
 		mAlbumTitleTv =(TextView) findViewById(R.id.tv_ablum_detail_title);
@@ -233,10 +238,11 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 		mAlbumTitleTv.setText(albumInfo.getTitle());
 		setTitleName(albumInfo.getTitle());
 		mRatingBar.setStar(Integer.parseInt(albumInfo.getStar_level()));
-		mFavTv.setSelected(albumInfo.getFav()== 1);
-		mFavTv.setText(albumInfo.getFavnum() == 0?"收藏":(albumInfo.getFavnum()+""));
+		mFavTv.setSelected(albumInfo.getFav() == 1);
+		mFavTv.setText(albumInfo.getFavnum() == 0?"收藏":(albumInfo.getFavnum() + ""));
 		mListenerTv.setText(albumInfo.getListennum()+"");
-		ImageLoader.getInstance().displayImage(albumInfo.getCover(), mCoverImg, Constant.ALBUM_OPTIONS);
+		Uri uri = Uri.parse(albumInfo.getCover());
+		mCoverImg.setImageURI(uri);
 	}
 
 	@Override

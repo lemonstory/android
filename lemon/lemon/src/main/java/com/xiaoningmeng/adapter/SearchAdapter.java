@@ -1,23 +1,23 @@
 package com.xiaoningmeng.adapter;
 
-import java.util.List;
-
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.xiaoningmeng.R;
-import com.xiaoningmeng.bean.AlbumInfo;
-import com.xiaoningmeng.constant.Constant;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
-
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.RelativeLayout.LayoutParams;
+import android.widget.TextView;
+
+import com.facebook.drawee.generic.GenericDraweeHierarchy;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.xiaoningmeng.R;
+import com.xiaoningmeng.bean.AlbumInfo;
+import com.xiaoningmeng.constant.Constant;
+
+import java.util.List;
 
 public class SearchAdapter extends BaseAdapter{
 
@@ -56,7 +56,7 @@ public class SearchAdapter extends BaseAdapter{
 		if (convertView == null) {
 			holder = new ViewHolder();
 			convertView = mInflater.inflate(R.layout.item_search_default, null);
-			holder.coverImg = (ImageView) convertView.findViewById(R.id.img_search_item_cover);
+			holder.coverImg = (SimpleDraweeView) convertView.findViewById(R.id.img_search_item_cover);
 			holder.titleTv = (TextView) convertView.findViewById(R.id.tv_search_title);
 			holder.dividerView = convertView.findViewById(R.id.v_album_divider);
 			convertView.setTag(holder);
@@ -64,7 +64,10 @@ public class SearchAdapter extends BaseAdapter{
 			holder = (ViewHolder) convertView.getTag();
 		}
 		AlbumInfo albumInfo = getItem(position);
-		ImageLoader.getInstance().displayImage(albumInfo.getCover(),holder.coverImg,Constant.getSmallAlbumOptions(position));
+		Uri coverImgUri = Uri.parse(albumInfo.getCover());
+		GenericDraweeHierarchy hierarchy = holder.coverImg.getHierarchy();
+		hierarchy.setPlaceholderImage(Constant.getPosDrawable(position));
+		holder.coverImg.setImageURI(coverImgUri);
 		holder.titleTv.setText(albumInfo.getTitle());
 		RelativeLayout.LayoutParams lp = (LayoutParams) holder.dividerView.getLayoutParams();
 		lp.addRule(RelativeLayout.RIGHT_OF,position ==  getCount() - 1? 0 : R.id.img_search_item_cover);
@@ -73,7 +76,7 @@ public class SearchAdapter extends BaseAdapter{
 	}
 
 	static class ViewHolder {
-		ImageView coverImg;
+		SimpleDraweeView coverImg;
 		TextView titleTv;
 		View dividerView;
 	}

@@ -3,6 +3,7 @@ package com.xiaoningmeng.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.text.Html;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -15,15 +16,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.ImageSize;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.xiaoningmeng.ImageViewerPagerActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.ViewThreadActivity;
 import com.xiaoningmeng.bean.Attachment;
 import com.xiaoningmeng.bean.ForumThread;
 import com.xiaoningmeng.bean.Post;
-import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.ConstantURL;
 import com.xiaoningmeng.utils.AvatarUtils;
 import com.xiaoningmeng.utils.PostImageUtils;
@@ -120,7 +119,8 @@ public class ViewThreadAdapter extends BaseAdapter {
         String authorid = post.getAuthorid();
         String avatarTime = String.valueOf(post.getDbdateline());
         String avatarUrl = AvatarUtils.getAvatarUrl(authorid, avatarTime, 120);
-        ImageLoader.getInstance().displayImage(avatarUrl, holder.avatarImg, Constant.AVARAR_OPTIONS);
+        Uri avatarUri = Uri.parse(avatarUrl);
+        holder.avatarImg.setImageURI(avatarUri);
         String original = post.getMessage();
         final HashMap quoteMessage = this.separateQuoteWithMessage(original);
         String author = (String) quoteMessage.get("author");
@@ -229,6 +229,7 @@ public class ViewThreadAdapter extends BaseAdapter {
                 String url = attachment.getUrl();
                 String path = attachment.getAttachment();
                 String absolutePath = ConstantURL.BBS_URL + url + path;
+                Uri imgUri = Uri.parse(absolutePath);
                 imagesUrl.add(absolutePath);
                 /**
                  * 动态添加ImageView
@@ -239,15 +240,16 @@ public class ViewThreadAdapter extends BaseAdapter {
                  android:src="@drawable/aaa"/>
                  */
                 ViewThreadActivity activity = weak.get();
-                ImageSize targetSize = PostImageUtils.parseImageSizeWithUrl(activity,absolutePath);
-                ImageView img = new ImageView(mContext);
+                HashMap<String,Integer> imageSize = PostImageUtils.parseImageSizeWithUrl(activity, absolutePath);
+
+                SimpleDraweeView img = new SimpleDraweeView(mContext);
                 img.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(targetSize.getWidth(), targetSize.getHeight());
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(imageSize.get("widthPx"),imageSize.get("heightPx"));
                 params.setMargins(0, 8, 0, 0);
                 params.gravity = Gravity.CENTER;
                 img.setLayoutParams(params);
                 img.setBackgroundResource(R.color.view_thread_image_background_color);
-                ImageLoader.getInstance().displayImage(absolutePath, img, targetSize);
+                img.setImageURI(imgUri);
                 holder.imagesContainerLl.addView(img);
                 img.setTag(i+"");
                 img.setOnClickListener(postImageClickListener);

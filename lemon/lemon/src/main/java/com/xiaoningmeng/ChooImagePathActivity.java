@@ -1,15 +1,5 @@
 package com.xiaoningmeng;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashSet;
-
-import com.xiaoningmeng.adapter.PhotoAlbumLVAdapter;
-import com.xiaoningmeng.base.BaseActivity;
-import com.xiaoningmeng.bean.PhotoAlbumLVItem;
-import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.utils.Utility;
-
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
@@ -20,6 +10,17 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.xiaoningmeng.adapter.PhotoAlbumLVAdapter;
+import com.xiaoningmeng.base.BaseActivity;
+import com.xiaoningmeng.bean.PhotoAlbumLVItem;
+import com.xiaoningmeng.constant.Constant;
+import com.xiaoningmeng.utils.Utility;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * 在图片文件夹中选择图片
@@ -34,7 +35,9 @@ public class ChooImagePathActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		mInstance = this;
+		Fresco.initialize(this);
 		setContentView(R.layout.activity_photo_album);
 		setTitleName("目录选择");
 		if (!Utility.isSDcardOK()) {

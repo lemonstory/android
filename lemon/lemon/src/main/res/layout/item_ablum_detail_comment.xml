@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white" >
@@ -8,8 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <com.xiaoningmeng.view.CircleImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/img_comment_cover"
+            fresco:roundAsCircle="true"
+            fresco:placeholderImage="@drawable/default_cover"
             android:layout_width="@dimen/ablum_comment_item_cover_height"
             android:layout_height="@dimen/ablum_comment_item_cover_height"
             android:layout_marginLeft="@dimen/ablum_comment_item_margin_left"

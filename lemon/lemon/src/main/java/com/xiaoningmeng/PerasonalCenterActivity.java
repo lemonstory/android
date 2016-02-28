@@ -1,9 +1,7 @@
 package com.xiaoningmeng;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,7 +13,8 @@ import android.widget.TextView;
 
 import com.baoyz.swipemenu.xlistview.XListView;
 import com.baoyz.swipemenu.xlistview.XListView.IXListViewListener;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.xiaoningmeng.adapter.PerasonalAdapter;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.base.BaseActivity;
@@ -33,13 +32,16 @@ import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.utils.AvatarUtils;
 import com.ypy.eventbus.EventBus;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PerasonalCenterActivity extends BaseActivity implements
 		PlayObserver, OnClickListener,IXListViewListener {
 	private XListView mListView;
 	private ImageView mCoverImg;
 	private TextView mAccountNameTv;
 	private TextView mAccountContentTv;
-	private ImageView mAvatarView;
+	private SimpleDraweeView mAvatarView;
 	private List<ListenerAlbum> mAlbumList;
 	private BaseAdapter mAdapter;
 	private String uid;
@@ -49,6 +51,7 @@ public class PerasonalCenterActivity extends BaseActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
+		Fresco.initialize(this);
 		setContentView(R.layout.activity_perasonal_center);
 		initView();
 		uid = getIntent().getStringExtra("uid");
@@ -85,7 +88,7 @@ public class PerasonalCenterActivity extends BaseActivity implements
 		});
 		mAccountNameTv = (TextView) headerView.findViewById(R.id.tv_account_name);
 		mAccountContentTv = (TextView) headerView.findViewById(R.id.tv_account_content);
-		mAvatarView = (ImageView)headerView.findViewById(R.id.img_perasonal_icon);
+		mAvatarView = (SimpleDraweeView)headerView.findViewById(R.id.img_perasonal_icon);
 		mAlbumList = new ArrayList<>();
 		mAdapter = new PerasonalAdapter(this,mAlbumList);
 		mListView.setAdapter(mAdapter);
@@ -110,7 +113,8 @@ public class PerasonalCenterActivity extends BaseActivity implements
 					String city = data.getCity() == null?"":data.getCity();
 					mAccountContentTv.setText(age + province + city);
 					String avatarUrl = AvatarUtils.getAvatarUrl(data.getUid(), data.getAvatartime(), -1);
-					ImageLoader.getInstance().displayImage(avatarUrl, mAvatarView,Constant.AVARAR_OPTIONS);
+					Uri avatarUri = Uri.parse(avatarUrl);
+					mAvatarView.setImageURI(avatarUri);
 				}
 				if(albums != null && albums.size() > 0){
 					if(direction == Constant.FRIST){

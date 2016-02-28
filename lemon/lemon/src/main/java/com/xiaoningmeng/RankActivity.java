@@ -1,19 +1,17 @@
 package com.xiaoningmeng;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baoyz.swipemenu.xlistview.XListView;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.xiaoningmeng.adapter.RatingAdapter;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.base.BaseActivity;
@@ -27,6 +25,9 @@ import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.view.dialog.DrawableDialogLoading;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RankActivity extends BaseActivity implements PlayObserver {
 	
 	private XListView mListView;
@@ -39,6 +40,7 @@ public class RankActivity extends BaseActivity implements PlayObserver {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Fresco.initialize(this);
 		setContentView(R.layout.activity_rating);
 		setTitleName("学霸排行榜");
 		mListView = (XListView) findViewById(R.id.lv_home_discover);

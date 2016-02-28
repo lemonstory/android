@@ -1,16 +1,8 @@
 package com.xiaoningmeng.adapter;
 
-import java.util.List;
-
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.xiaoningmeng.R;
-import com.xiaoningmeng.bean.UserInfo;
-import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.utils.AvatarUtils;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
-
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,6 +10,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.xiaoningmeng.R;
+import com.xiaoningmeng.bean.UserInfo;
+import com.xiaoningmeng.utils.AvatarUtils;
+
+import java.util.List;
 
 public class RatingAdapter extends BaseAdapter implements OnClickListener {
 
@@ -56,7 +55,7 @@ public class RatingAdapter extends BaseAdapter implements OnClickListener {
 		if (convertView == null) {
 			holder = new ViewHolder();
 			convertView = mInflater.inflate(R.layout.item_rating, null);
-			holder.coverImg = (ImageView) convertView
+			holder.coverImg = (SimpleDraweeView) convertView
 					.findViewById(R.id.img_rating_cover);
 			holder.ratingBg = (ImageView) convertView
 					.findViewById(R.id.img_rating_bg);
@@ -76,7 +75,8 @@ public class RatingAdapter extends BaseAdapter implements OnClickListener {
 		UserInfo userInfo = getItem(position);
 		holder.ratingBg.setVisibility(position <= 2 ? View.VISIBLE: View.INVISIBLE);
 		String avatarUrl = AvatarUtils.getAvatarUrl(userInfo.getUid(), userInfo.getAvatartime(), -1);
-		ImageLoader.getInstance().displayImage(avatarUrl, holder.coverImg,Constant.AVARAR_OPTIONS);
+		Uri avatarUri = Uri.parse(avatarUrl);
+		holder.coverImg.setImageURI(avatarUri);
 		holder.nameTv.setText(userInfo.getNickname()!= null ?userInfo.getNickname() :"");
 		holder.areaTv.setText(userInfo.getProvince()!= null ?userInfo.getProvince():""+userInfo.getCity()!= null ?userInfo.getCity():"");
 		holder.listenTv.setText(userInfo.getListennum()!= null ?userInfo.getListennum():"0");
@@ -122,7 +122,7 @@ public class RatingAdapter extends BaseAdapter implements OnClickListener {
 	}
 
 	static class ViewHolder {
-		ImageView coverImg;
+		SimpleDraweeView coverImg;
 		ImageView ratingBg;
 		ImageView numberBitImg;
 		ImageView numberTenImg;

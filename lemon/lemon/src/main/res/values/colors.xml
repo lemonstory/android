@@ -41,6 +41,7 @@
     <color name="base_black_title_color">#151515</color>
     <color name="base_orage_color">#f5a623</color>
     <!-- home -->
+    <color name="home_discover_focus_picture_bg">#f2f8fe</color>
     <color name="home_discover_item_title">#8c98a1</color>
     <color name="home_discover_item_story_title">#66696b</color>
     <color name="home_discover_item_bg">#f1f6f7</color>

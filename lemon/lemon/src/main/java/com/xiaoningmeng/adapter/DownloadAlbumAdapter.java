@@ -1,9 +1,19 @@
 package com.xiaoningmeng.adapter;
 
-import java.util.HashMap;
-import java.util.List;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.net.Uri;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
+import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.facebook.drawee.generic.GenericDraweeHierarchy;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.xiaoningmeng.DownloadActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.bean.AlbumInfo;
@@ -11,17 +21,8 @@ import com.xiaoningmeng.bean.AudioDownLoad;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.download.DownLoadClientImpl;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.RelativeLayout.LayoutParams;
+import java.util.HashMap;
+import java.util.List;
 
 public class DownloadAlbumAdapter extends BaseAdapter implements
 		OnClickListener {
@@ -64,7 +65,7 @@ public class DownloadAlbumAdapter extends BaseAdapter implements
 		if (convertView == null) {
 			holder = new ViewHolder();
 			convertView = mInflater.inflate(R.layout.item_album_download, null);
-			holder.coverImg = (ImageView) convertView
+			holder.coverImg = (SimpleDraweeView) convertView
 					.findViewById(R.id.img_download_item_cover);
 			holder.storyTitle = (TextView) convertView
 					.findViewById(R.id.tv_download_title);
@@ -77,9 +78,12 @@ public class DownloadAlbumAdapter extends BaseAdapter implements
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
+
 		AlbumInfo albumInfo = getItem(position);
-		ImageLoader.getInstance().displayImage(albumInfo.getCover(),
-				holder.coverImg,Constant.getSmallAlbumOptions(position));
+		Uri coverImgUri = Uri.parse(albumInfo.getCover());
+		GenericDraweeHierarchy hierarchy = holder.coverImg.getHierarchy();
+		hierarchy.setPlaceholderImage(Constant.getPosDrawable(position));
+		holder.coverImg.setImageURI(coverImgUri);
 		holder.storyTitle.setText(albumInfo.getTitle());
 		if (type == 0) {
 			HashMap<String, List<AudioDownLoad>> map = DownLoadClientImpl
@@ -101,7 +105,7 @@ public class DownloadAlbumAdapter extends BaseAdapter implements
 	}
 
 	static class ViewHolder {
-		ImageView coverImg;
+		SimpleDraweeView coverImg;
 		TextView storyTitle;
 		TextView downSizeTv;
 		TextView downStatusTv;

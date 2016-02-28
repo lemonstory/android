@@ -1,33 +1,26 @@
 package com.xiaoningmeng.fragment;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.Header;
 
 import android.content.Context;
 import android.content.Intent;
-
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baoyz.swipemenu.xlistview.XListView;
+import com.bigkoo.convenientbanner.CBPageAdapter;
 import com.bigkoo.convenientbanner.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.ConvenientBanner.Transformer;
-import com.bigkoo.convenientbanner.CBPageAdapter;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.xiaoningmeng.AblumDetailActivity;
-import com.xiaoningmeng.ClassificationActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.WebViewActivity;
 import com.xiaoningmeng.adapter.DiscoverStoryAdapter;
@@ -37,10 +30,14 @@ import com.xiaoningmeng.base.BaseFragmentActivity;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.Discover;
 import com.xiaoningmeng.bean.FocusPic;
-import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.LHttpHandler;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.DownloadApkManager;
+
+import org.apache.http.Header;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DiscoverFragment extends BaseFragment {
 
@@ -105,24 +102,24 @@ public class DiscoverFragment extends BaseFragment {
 						
 					}
 				});
-		
 	}
 
-
-
 	public class ImageHolder implements CBPageAdapter.Holder<FocusPic> {
-		private ImageView imageView;
+		private SimpleDraweeView imageView;
 
 		@Override
 		public View createView(Context context) {
-			imageView = new ImageView(context);
+			imageView = new SimpleDraweeView(context);
 			imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 			return imageView;
 		}
 
 		@Override
 		public void UpdateUI(final Context context, final int position, final FocusPic data) {
-			ImageLoader.getInstance().displayImage(data.getCover(), imageView);
+
+			Uri coverUri = Uri.parse(data.getCover());
+			imageView.setImageURI(coverUri);
+			imageView.setBackgroundResource(R.color.home_discover_focus_picture_bg);
 			imageView.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {

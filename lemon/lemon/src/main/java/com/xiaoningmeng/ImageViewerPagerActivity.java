@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -26,6 +27,7 @@ import com.xiaoningmeng.utils.PostImageUtils;
 import com.xiaoningmeng.view.HackyViewPager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -45,7 +47,7 @@ public class ImageViewerPagerActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_viewer_pager);
-
+        Fresco.initialize(this);
         mViewPager = (HackyViewPager) findViewById(R.id.view_pager);
         mViewPager.addOnPageChangeListener(pageChangeListener);
         paginationTv = (TextView) findViewById(R.id.tv_pagination);
@@ -117,13 +119,15 @@ public class ImageViewerPagerActivity extends BaseActivity {
 
             PhotoView photoView = new PhotoView(container.getContext());
             String imageAbsolutePath = this.imagesPath.get(position);
-            ImageSize targetSize = PostImageUtils.parseImageSizeWithUrl(ImageViewerPagerActivity.this, imageAbsolutePath);
+            HashMap<String,Integer> imageSize = PostImageUtils.parseImageSizeWithUrl(ImageViewerPagerActivity.this, imageAbsolutePath);
+            ImageSize targetSize = new ImageSize(imageSize.get("widthPx"),imageSize.get("heightPx"));
             Log.e("bbb","imageAbsolutePath = " + imageAbsolutePath);
             String now = String.valueOf(System.currentTimeMillis());
             //http://h.hiphotos.baidu.com/image/pic/item/38dbb6fd5266d01646062721952bd40735fa359f.jpg?111
             //imageAbsolutePath = "http://p.xinqing.com/2016/02/10/48ed2wpc6idpq1qlhzrzyv4oa.jpg"+"?"+now;
             imageAbsolutePath = "http://p.xiaoningmeng.net/album/2016/02/27/eb530d951695112cf80ff651371ceb38.jpg"+"?"+now;
             ImageLoader.getInstance().displayImage(imageAbsolutePath,(ImageAware) new ImageViewAware(photoView),(DisplayImageOptions)null, targetSize, imageLoadingListener, imageLoadingProgressListener);
+
             container.addView(photoView, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
             photoView.setOnPhotoTapListener(onPhotoTapListener);
             return photoView;

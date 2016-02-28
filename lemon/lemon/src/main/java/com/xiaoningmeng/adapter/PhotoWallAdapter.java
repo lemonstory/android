@@ -1,8 +1,6 @@
 package com.xiaoningmeng.adapter;
 
-import java.util.ArrayList;
-import android.graphics.Bitmap;
-import android.util.Log;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,14 +9,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.xiaoningmeng.PhotoWallActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.bean.ImageFile;
 import com.xiaoningmeng.constant.Constant;
+
+import java.util.ArrayList;
 
 /**
  * 
@@ -29,16 +26,11 @@ public class PhotoWallAdapter extends BaseAdapter {
 
 	private PhotoWallActivity context;
 	private ArrayList<ImageFile> imageFileList = null;
-	private ImageLoader imageLoader;
-
 
 	public PhotoWallAdapter(PhotoWallActivity context,
 			ArrayList<ImageFile> imageFileList) {
 		this.context = context;
 		this.imageFileList = imageFileList;
-
-		imageLoader = ImageLoader.getInstance();
-
 	}
 
 	@Override
@@ -66,7 +58,7 @@ public class PhotoWallAdapter extends BaseAdapter {
 			holder = new ViewHolder();
 			holder.relativeLayout = (RelativeLayout) convertView
 					.findViewById(R.id.main_photo_wall_item_rl);
-			holder.imageView = (ImageView) convertView
+			holder.imageView = (SimpleDraweeView) convertView
 					.findViewById(R.id.photo_wall_item_photo);
 			holder.backView = convertView.findViewById(R.id.selected_back_view);
 			holder.selectdStatusIV = (ImageView) convertView
@@ -97,13 +89,14 @@ public class PhotoWallAdapter extends BaseAdapter {
 		}
 
 		String imagePath = "file://" + imageFile.getFilePath();
-		imageLoader.displayImage(imagePath, holder.imageView, Constant.getSmallAlbumOptions(position));
-
+		Uri imageUri = Uri.parse(imagePath);
+		holder.imageView.setBackgroundResource(Constant.getPosDrawable(position));
+		holder.imageView.setImageURI(imageUri);
 		return convertView;
 	}
 
 	private class ViewHolder {
-		ImageView imageView;
+		SimpleDraweeView imageView;
 		View backView;
 		ImageView selectdStatusIV;
 		RelativeLayout relativeLayout;

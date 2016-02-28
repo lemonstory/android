@@ -9,18 +9,16 @@ import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.baoyz.swipemenu.xlistview.XListView;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.xiaoningmeng.adapter.SearchAdapter;
 import com.xiaoningmeng.adapter.SearchDefaultAdapter2;
 import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.base.BaseFragmentActivity;
 import com.xiaoningmeng.bean.AlbumInfo;
-import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.SearchContent;
 import com.xiaoningmeng.bean.SearchData;
 import com.xiaoningmeng.db.SearchDao;
@@ -28,8 +26,6 @@ import com.xiaoningmeng.fragment.SearchAlbumChildFragment;
 import com.xiaoningmeng.fragment.SearchStoryChildFragment;
 import com.xiaoningmeng.http.LHttpHandler;
 import com.xiaoningmeng.http.LHttpRequest;
-import com.xiaoningmeng.player.PlayObserver;
-import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.view.SearchView;
 import com.xiaoningmeng.view.TabIndicatorView;
 
@@ -63,6 +59,7 @@ public class SearchActivity extends BaseFragmentActivity implements SearchView.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fresco.initialize(this);
         setContentView(R.layout.activity_search);
         mListView = (XListView)findViewById(R.id.id_stickynavlayout_innerscrollview);
         mSearchView = ((SearchView)findViewById(R.id.search_bar));

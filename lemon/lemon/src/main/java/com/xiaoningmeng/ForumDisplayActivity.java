@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baoyz.swipemenu.xlistview.XListView;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xiaoningmeng.adapter.ForumDisplayAdapter;
@@ -46,6 +47,7 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        Fresco.initialize(this);
         setContentView(R.layout.activity_forum_display);
         mContext = this;
         fid = getIntent().getIntExtra("fid", 1);

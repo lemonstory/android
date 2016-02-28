@@ -6,7 +6,7 @@ import android.os.Build;
 import android.view.Display;
 import android.view.WindowManager;
 
-import com.nostra13.universalimageloader.core.assist.ImageSize;
+import java.util.HashMap;
 
 /**
  * Created by gaoyong on 16/2/26.
@@ -16,7 +16,7 @@ public class PostImageUtils {
     private static final int DEFAULT_POST_IMAGE_WIDTH = 640;
     private static final int DEFAULT_POST_IMAGE_HEIGHT = 640;
 
-    public static ImageSize parseImageSizeWithUrl(Activity activity, String imageUrl) {
+    public static HashMap<String,Integer> parseImageSizeWithUrl(Activity activity, String imageUrl) {
 
         int widthPx = DEFAULT_POST_IMAGE_WIDTH;
         int heightPx = DEFAULT_POST_IMAGE_HEIGHT;
@@ -62,7 +62,10 @@ public class PostImageUtils {
         }else if (heightPx < DEFAULT_POST_IMAGE_HEIGHT) {
             heightPx = DEFAULT_POST_IMAGE_HEIGHT;
         }
-        ImageSize imageSize = new ImageSize(widthPx,heightPx);
+
+        HashMap<String,Integer> imageSize = new HashMap<String,Integer>();
+        imageSize.put("widthPx",widthPx);
+        imageSize.put("heightPx",heightPx);
         return imageSize;
     }
 }

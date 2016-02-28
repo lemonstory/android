@@ -1,7 +1,5 @@
 package com.xiaoningmeng;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,6 +10,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.xiaoningmeng.base.BaseFragmentActivity;
 import com.xiaoningmeng.bean.AudioDownLoad;
 import com.xiaoningmeng.bean.PlayingStory;
@@ -22,6 +21,8 @@ import com.xiaoningmeng.fragment.DownloadFragment;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class DownloadActivity extends BaseFragmentActivity implements
 		OnClickListener, DownLoadObserver<AudioDownLoad>, PlayObserver {
@@ -51,6 +52,7 @@ public class DownloadActivity extends BaseFragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Fresco.initialize(this);
 		setContentView(R.layout.activity_download);
 		setTitleName("我的下载");
 		setRightHeadIcon(R.drawable.play_flag_wave_01);

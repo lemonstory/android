@@ -3,6 +3,7 @@ package com.xiaoningmeng.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +12,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.ViewThreadActivity;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.ForumThread;
-import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.utils.AvatarUtils;
 
 import java.util.List;
@@ -117,7 +116,8 @@ public class ForumDisplayAdapter extends BaseAdapter {
         String authorid = thread.getAuthorid();
         String avatarTime = String.valueOf(thread.getDbdateline());
         String avatarUrl = AvatarUtils.getAvatarUrl(authorid, avatarTime, 120);
-        ImageLoader.getInstance().displayImage(avatarUrl, holder.avatarImg, Constant.AVARAR_OPTIONS);
+        Uri avatarUri = Uri.parse(avatarUrl);
+        holder.avatarImg.setImageURI(avatarUri);
         holder.subjectTv.setText(thread.getSubject());
         holder.authorTv.setText(thread.getAuthor());
         String lastPost = thread.getLastpost().replace("&nbsp;", "");

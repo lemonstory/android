@@ -1,7 +1,24 @@
 package com.xiaoningmeng;
 
 
-import com.nostra13.universalimageloader.core.ImageLoader;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.view.KeyCharacterMap;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.umeng.socialize.controller.UMSocialService;
 import com.umeng.socialize.sso.UMSsoHandler;
 import com.xiaoningmeng.application.MyApplication;
@@ -10,9 +27,9 @@ import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.Album;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.AudioDownLoad;
+import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.ShareBean;
 import com.xiaoningmeng.bean.Story;
-import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.download.DownLoadClientImpl;
 import com.xiaoningmeng.event.CommentEvent;
@@ -30,21 +47,6 @@ import com.xiaoningmeng.view.dialog.TipDialog;
 import com.xiaoningmeng.view.dialog.TopDialog;
 import com.ypy.eventbus.EventBus;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.KeyCharacterMap;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.SeekBar;
-import android.widget.Toast;
-import android.widget.SeekBar.OnSeekBarChangeListener;
-import android.widget.TextView;
-
 public class PlayActivity extends BaseActivity implements OnClickListener,
 		PlayObserver, OnSeekBarChangeListener,OnPlayingDownloadListener{
 
@@ -53,7 +55,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
 	private TextView mLeaveTimeTv;
 	private ImageView mMusicModeImg;
 	private PlayerManager mPlayerManager;
-	private ImageView mPlayCover;
+	private SimpleDraweeView mPlayCover;
 	private ImageView mDownloadImg;
 	private ImageView mFavImg;
 	private ImageView mPauseImg;
@@ -64,6 +66,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Fresco.initialize(this);
 		setContentView(R.layout.activity_player);
 		setTinitColor(getResources().getColor(R.color.system_bar_tint_color));
 		mPlayerManager = PlayerManager.getInstance();
@@ -82,7 +85,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
 		mLeaveTimeTv = (TextView) this.findViewById(R.id.tv_leave_time);
 		mSeekBar = (SeekBar) this.findViewById(R.id.seekbar_play_music);
 		mMusicModeImg = (ImageView) this.findViewById(R.id.img_music_mode);
-		mPlayCover = (ImageView) this.findViewById(R.id.img_play_cover);
+		mPlayCover = (SimpleDraweeView) this.findViewById(R.id.img_play_cover);
 		mDownloadImg = (ImageView) this.findViewById(R.id.img_music_download);
 		mPauseImg = (ImageView) this.findViewById(R.id.img_music_pause);
 		mCommentTv = (TextView) this.findViewById(R.id.tv_music_comment);
@@ -397,7 +400,9 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
 		PlayingStory music = mPlayerManager.getPlayingStory();
 		setTitleName(music.title);
 		if (music.playcover != null){
-			ImageLoader.getInstance().displayImage(music.playcover, mPlayCover);
+
+			Uri playCoverUri = Uri.parse(music.playcover);
+			mPlayCover.setImageURI(playCoverUri);
 		}
 		if(music.albumInfo != null){
 			mFavImg.setSelected(music.albumInfo.getFav() == 1);
