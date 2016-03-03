@@ -11,10 +11,12 @@ import com.baoyz.swipemenu.xlistview.XListView;
 import com.baoyz.swipemenu.xlistview.XListView.IXListViewListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.xiaoningmeng.HomeActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.adapter.ForumIndexAdapter;
 import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.bean.Forum;
+import com.xiaoningmeng.bean.ForumNotice;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.LHttpHandler;
 import com.xiaoningmeng.http.LHttpRequest;
@@ -35,6 +37,7 @@ public class ForumIndexFragment extends BaseFragment  implements IXListViewListe
     private View contentView;
     private String tip = null;
     private View pbEmptyTip;
+    private ForumNotice notice;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -91,8 +94,6 @@ public class ForumIndexFragment extends BaseFragment  implements IXListViewListe
 
     public void onRefresh() {
 
-        //TODO:会出现白屏的现象
-        this.mForumList.clear();
         requestForumListData(Constant.FRIST, Constant.FRIST_ID);
         mListView.setPullLoadEnable(false);
     }
@@ -117,6 +118,19 @@ public class ForumIndexFragment extends BaseFragment  implements IXListViewListe
         loadingView.getChildAt(1).setVisibility(View.VISIBLE);
     }
 
+    public void setBadgeNum(ForumNotice notice) {
+
+        String newMyPost = notice.getNewmypost();
+        int newMyPostInt = Integer.parseInt(notice.getNewmypost());
+        HomeActivity activity = (HomeActivity) this.getActivity();
+        if(newMyPostInt > 0) {
+            activity.badge.setText(newMyPost);
+            activity.badge.show();
+        } else {
+            activity.badge.hide();
+        }
+    }
+
     private void requestForumListData(final String direction,String startId) {
 
         LHttpRequest.getInstance().getForumIndex(getActivity(),
@@ -129,12 +143,21 @@ public class ForumIndexFragment extends BaseFragment  implements IXListViewListe
                         try{
                             JSONObject jsonObject = new JSONObject(data);
                             JSONObject variablesObject = new JSONObject(jsonObject.getString("Variables"));
-
+                            Gson gson = new Gson();
                             if(variablesObject.has("forumlist")) {
-                                Gson gson = new Gson();
+
                                 List<Forum> mforums = gson.fromJson(variablesObject.getString("forumlist"),new TypeToken<List<Forum>>() {}.getType());
+                                if (direction == Constant.FRIST) {
+                                    mForumList.clear();
+                                }
                                 setForums(mforums);
                             }
+
+                            if(variablesObject.has("notice")) {
+                                notice = gson.fromJson(variablesObject.getString("notice"),ForumNotice.class);
+                                setBadgeNum(notice);
+                            }
+
                         }catch (JSONException e) {
                             e.printStackTrace();
                         }

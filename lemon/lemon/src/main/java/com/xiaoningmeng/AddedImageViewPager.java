@@ -17,11 +17,11 @@ import android.widget.TextView;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.event.AddedImageEvent;
 import com.xiaoningmeng.view.HackyViewPager;
-import com.ypy.eventbus.EventBus;
 
 import java.io.File;
 import java.util.ArrayList;
 
+import de.greenrobot.event.EventBus;
 import uk.co.senab.photoview.PhotoView;
 
 public class AddedImageViewPager extends BaseActivity {

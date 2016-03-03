@@ -45,7 +45,7 @@ import com.xiaoningmeng.utils.TimeUtils;
 import com.xiaoningmeng.view.ShareDialog;
 import com.xiaoningmeng.view.dialog.TipDialog;
 import com.xiaoningmeng.view.dialog.TopDialog;
-import com.ypy.eventbus.EventBus;
+import de.greenrobot.event.EventBus;
 
 public class PlayActivity extends BaseActivity implements OnClickListener,
 		PlayObserver, OnSeekBarChangeListener,OnPlayingDownloadListener{

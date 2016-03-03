@@ -20,28 +20,26 @@ import com.umeng.update.UmengUpdateAgent;
 import com.umeng.update.UmengUpdateListener;
 import com.umeng.update.UpdateResponse;
 import com.xiaoningmeng.base.BaseFragmentActivity;
+import com.xiaoningmeng.bean.ForumLoginVar;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.ShareBean;
-import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.event.LoginEvent;
+import com.xiaoningmeng.event.ForumLoginEvent;
 import com.xiaoningmeng.fragment.AccountFragment;
 import com.xiaoningmeng.fragment.DiscoverFragment;
 import com.xiaoningmeng.fragment.ForumIndexFragment;
 import com.xiaoningmeng.fragment.MineFragment;
-import com.xiaoningmeng.http.LHttpHandler;
-import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.MusicService;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.utils.PreferenceUtil;
+import com.xiaoningmeng.view.BadgeView;
 import com.xiaoningmeng.view.SearchView;
 import com.xiaoningmeng.view.ShareDialog;
 import com.xiaoningmeng.view.dialog.TipDialog;
-import com.ypy.eventbus.EventBus;
 
-import org.apache.http.Header;
+import de.greenrobot.event.EventBus;
 
 public class HomeActivity extends BaseFragmentActivity implements
 		OnClickListener, PlayObserver {
@@ -60,6 +58,7 @@ public class HomeActivity extends BaseFragmentActivity implements
 	private ImageView mTitleImg;
 	public SearchView mSearchBarView;
 	private View mActionBarView;
+	public BadgeView badge;
 	private Handler mHanler = new Handler();
 
 	public static final String FRAG_DISCOVER = "FRAG_DISCOVER";
@@ -77,7 +76,28 @@ public class HomeActivity extends BaseFragmentActivity implements
 		initView();
 		PlayerManager.getInstance().register(this);
 		EventBus.getDefault().register(this);
+	}
 
+	@Override
+	protected void onStart(){
+		super.onStart();
+
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		PlayWaveManager.getInstance().loadWaveAnim(this, mCoverImg);
 	}
 
 	private void initView() {
@@ -92,6 +112,7 @@ public class HomeActivity extends BaseFragmentActivity implements
 		mTitleImg = (ImageView)findViewById(R.id.img_head_title);
 		mSearchBarView = (SearchView) findViewById(R.id.search_bar);
 		mActionBarView = findViewById(R.id.action_bar);
+		badge = new BadgeView(this, mForumTabTv);
 		setTabSelect(0);
 		mHanler.postDelayed(new Runnable() {
 			@Override
@@ -248,6 +269,9 @@ public class HomeActivity extends BaseFragmentActivity implements
 				} else {
 					transaction.show(mForumIndexFragment);
 				}
+				if(badge.isShown()) {
+					badge.hide();
+				}
 				mForumTabTv.setSelected(true);
 				transaction.commitAllowingStateLoss();
 				break;
@@ -298,17 +322,7 @@ public class HomeActivity extends BaseFragmentActivity implements
 		}
 	}
 
-	@Override
-	protected void onPause() {
-		super.onPause();
 
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		PlayWaveManager.getInstance().loadWaveAnim(this, mCoverImg);
-	}
 
 	@Override
 	public void onClick(View v) {
@@ -385,32 +399,12 @@ public class HomeActivity extends BaseFragmentActivity implements
 		PlayWaveManager.getInstance().notify(music);
 	}
 
-	//向uc同步用户登录信息
-	public void onEventAsync(LoginEvent event) {
-
-		UserInfo userinfo = event.userInfo;
-		String uc_callback = userinfo.getUcCallback();
-		LHttpRequest.getInstance().UCSyncLoginRequest(HomeActivity.this, uc_callback, new LHttpHandler<UserInfo>(HomeActivity.this) {
-
-			@Override
-			public void onGetDataSuccess(UserInfo data) {
-				//
-			}
-
-			@Override
-			public void onFailure(int statusCode, Header[] headers,
-								  String responseString, Throwable throwable) {
-				//DebugUtils.e("UCSyncLoginRequest onFailure callback is run");
-				//TODO:uc_callback的接口返回，不是项目接口的标准规范，所以会进入到这个回调里面
-			}
-		});
-	}
-
 	@Override
 	public void onDestroy() {
+
 		PlayerManager.getInstance().unRegister(this);
-		super.onDestroy();
 		EventBus.getDefault().unregister(this);
+		super.onDestroy();
 	}
 
 
@@ -429,6 +423,19 @@ public class HomeActivity extends BaseFragmentActivity implements
 			if (ssoHandler != null) {
 				ssoHandler.authorizeCallBack(requestCode, resultCode, data);
 			}
+		}
+	}
+
+	public void onEventMainThread(ForumLoginEvent event) {
+
+		ForumLoginVar forumLoginVar = event.forumLoginVar;
+		String newMyPost = forumLoginVar.getNotice().getNewmypost();
+		int newMyPostInt = Integer.parseInt(forumLoginVar.getNotice().getNewmypost());
+		if(newMyPostInt > 0) {
+			badge.setText(newMyPost);
+			badge.show();
+		} else {
+			badge.hide();
 		}
 	}
 }

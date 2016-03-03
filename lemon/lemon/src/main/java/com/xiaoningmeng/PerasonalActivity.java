@@ -35,7 +35,6 @@ import com.xiaoningmeng.view.Info;
 import com.xiaoningmeng.view.PhotoView;
 import com.xiaoningmeng.view.dialog.BaseDialog;
 import com.xiaoningmeng.view.picker.DatePicker;
-import com.ypy.eventbus.EventBus;
 
 import org.apache.http.Header;
 import org.litepal.crud.DataSupport;
@@ -45,6 +44,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import de.greenrobot.event.EventBus;
 
 public class PerasonalActivity extends BasePohotoActivity implements
 		OnClickListener, PlayObserver,IUploadCall{

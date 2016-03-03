@@ -77,7 +77,7 @@ public class LHttpRequest {
 
 	//UC登录同步
 	public void UCSyncLoginRequest(Context context, String url,
-								   LHttpHandler<UserInfo> handler) {
+								   LHttpHandler<String> handler) {
 		HashMap<String, String> params = new HashMap<>();
 		LClient.getInstance().get(context, url, params,
 				handler);
@@ -535,7 +535,7 @@ public class LHttpRequest {
 	}
 
 	//论坛帖子评论
-	public void sendReply(Context context, LHttpHandler<String> handler, int fid, int tid, String formHash, String message,ArrayList<String> aids, int reppid, int reppost, String noticetrimstr) {
+	public void sendReply(Context context, LHttpHandler<String> handler,int tid, String formHash, String message,ArrayList<String> aids, int reppid, int reppost, String noticetrimstr) {
 
 		HashMap<String, String> params = new HashMap<>();
 		//回帖
@@ -559,8 +559,7 @@ public class LHttpRequest {
 				params.put(attach,"");
 			}
 		}
-
-		String url = ConstantURL.FORUM_INDEX + "?version=4&module=sendreply&replysubmit=yes&fid=" + fid + "&tid=" + tid + "&visituid=" + MyApplication.getInstance().getUid();
+		String url = ConstantURL.FORUM_INDEX + "?version=4&module=sendreply&replysubmit=yes&tid=" + tid + "&visituid=" + MyApplication.getInstance().getUid();
 		LClient.getInstance().post(context, url, params, handler);
 	}
 
@@ -599,4 +598,30 @@ public class LHttpRequest {
 		LClient.getInstance().post(context, url, params, handler);
 	}
 
+	//我的帖子帖子列表
+	public void getMyThread(Context context, LHttpHandler<String> handler, int page) {
+
+		HashMap<String, String> params = new HashMap<>();
+		params.put("version", "4");
+		params.put("module", "mythread");
+		params.put("page", page + "");
+		params.put("visituid", MyApplication.getInstance().getUid());
+		params = (HashMap<String, String>) checkParams(params);
+		LClient.getInstance().get(context, ConstantURL.FORUM_INDEX, params,
+				handler);
+	}
+
+	//我的消息->评论
+	//论坛帖子详情
+	public void getMyNoteList(Context context, LHttpHandler<String> handler,int page) {
+
+		HashMap<String, String> params = new HashMap<>();
+		params.put("version", "3");
+		params.put("module", "mynotelist");
+		params.put("page", page + "");
+		params.put("visituid", MyApplication.getInstance().getUid());
+		params = (HashMap<String, String>) checkParams(params);
+		LClient.getInstance().get(context, ConstantURL.FORUM_INDEX, params,
+				handler);
+	}
 }

@@ -53,11 +53,9 @@ import com.xiaoningmeng.view.RatingBar;
 import com.xiaoningmeng.view.ShareDialog;
 import com.xiaoningmeng.view.StickyNavLayout;
 import com.xiaoningmeng.view.dialog.TipDialog;
-import com.ypy.eventbus.EventBus;
-
 import org.apache.http.Header;
-
 import java.util.List;
+import de.greenrobot.event.EventBus;
 
 
 public class AblumDetailActivity extends BaseFragmentActivity implements

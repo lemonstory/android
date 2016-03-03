@@ -29,12 +29,13 @@ import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.utils.UiUtils;
 import com.xiaoningmeng.view.dialog.TipDialog;
-import com.ypy.eventbus.EventBus;
 
 import org.apache.http.Header;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 public class FavActivity extends BaseActivity implements IXListViewListener {
 	private SwipeMenuListView mListView;

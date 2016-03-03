@@ -11,7 +11,6 @@ import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.event.LoginEvent;
 import com.xiaoningmeng.utils.PreferenceUtil;
-import com.ypy.eventbus.EventBus;
 
 import org.apache.http.client.CookieStore;
 import org.apache.http.cookie.Cookie;
@@ -20,6 +19,8 @@ import org.litepal.crud.DataSupport;
 
 import java.util.Date;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 public class UserAuth {
 

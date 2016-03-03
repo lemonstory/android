@@ -81,6 +81,17 @@
             android:text="作者的名字"/>
 
         <TextView
+            android:id="@+id/tv_forum_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="来自我跟熊孩子的日常"
+            android:layout_centerVertical="true"
+            android:textColor="#999999"
+            android:textSize="@dimen/date_text_size"
+            android:layout_toLeftOf="@+id/iv_post_icon"
+            android:layout_toStartOf="@+id/iv_post_icon"/>
+
+        <TextView
             android:id="@+id/tv_lastpost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

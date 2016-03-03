@@ -1,7 +1,7 @@
 package com.xiaoningmeng.db;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.content.ContentValues;
+import android.database.Cursor;
 
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.bean.AlbumInfo;
@@ -9,11 +9,11 @@ import com.xiaoningmeng.bean.ListenerAlbum;
 import com.xiaoningmeng.bean.Story;
 import com.xiaoningmeng.event.HistoryEvent;
 import com.xiaoningmeng.utils.DebugUtils;
-import com.ypy.eventbus.EventBus;
 
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.util.Log;
+import java.util.ArrayList;
+import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 public class HistoryDao {
 

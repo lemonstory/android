@@ -56,9 +56,7 @@ public abstract class LHttpHandler<T> implements Response.Listener<String>,
 
 		int code = -1;
 		String content = "";
-
 		try {
-
 			DebugUtils.e(responseString);
 			CookieStore store = MyApplication.getInstance().mHttpClient
 					.getCookieStore();
@@ -70,7 +68,6 @@ public abstract class LHttpHandler<T> implements Response.Listener<String>,
 			T t;
 			code = jsonObject.has("code") ? jsonObject.getInt("code") : code;
 			//DebugUtils.e("code = " + code);
-
 			//兼容DZ
 			if (Constant.REQ_SUCCESS_STATUS == code || jsonObject.has("Variables")) {
 

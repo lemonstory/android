@@ -18,6 +18,17 @@ public class Forum extends DataSupport implements Parcelable {
     private String description;
     private String icon;
 
+    public Forum(String fid,String name) {
+
+        this.fid = fid;
+        this.name = name;
+        this.threads = "";
+        this.posts = "";
+        this.todayposts = "";
+        this.description = "";
+        this.icon = "";
+    }
+
 
     public Forum(String fid,String name,String threads,String posts,String todayposts,String description,String icon) {
 

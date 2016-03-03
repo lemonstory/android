@@ -31,12 +31,13 @@ import com.xiaoningmeng.event.HistoryEvent;
 import com.xiaoningmeng.event.LoginEvent;
 import com.xiaoningmeng.http.LHttpHandler;
 import com.xiaoningmeng.http.LHttpRequest;
-import com.ypy.eventbus.EventBus;
 
 import org.apache.http.Header;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 
 public class MineFragment extends BaseFragment implements OnClickListener,XListView.IXListViewListener,OnDownloadCountChangedListener {

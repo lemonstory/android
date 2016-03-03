@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.umeng.onlineconfig.OnlineConfigAgent;
+import com.xiaoningmeng.MyThreadActivity;
 import com.xiaoningmeng.PerasonalActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.RankActivity;
@@ -24,7 +25,7 @@ import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.event.LoginEvent;
 import com.xiaoningmeng.utils.AvatarUtils;
-import com.ypy.eventbus.EventBus;
+import de.greenrobot.event.EventBus;
 
 public class AccountFragment extends BaseFragment implements OnClickListener {
 
@@ -33,7 +34,7 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
 	private TextView mAccountContentTv;
 	private TextView mAccountUnloginTv;
 	private ImageView mAccountAvatarView;
-	//private View recommendView;
+	private View recommendView;
 	private UserInfo mUserInfo;
 	//private RecommendAd recommendAd;
 
@@ -48,8 +49,8 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
 		contentView.findViewById(R.id.rl_account_Ranking).setOnClickListener(
 				this);
 		contentView.findViewById(R.id.rl_account_shop).setOnClickListener(this);
-		//recommendView =  contentView.findViewById(R.id.rl_account_Recommend);
-		//recommendView.setOnClickListener(this);
+		recommendView =  contentView.findViewById(R.id.rl_account_Recommend);
+		recommendView.setOnClickListener(this);
 		mAccountHeadView = contentView.findViewById(R.id.ll_account_head);
 		mAccountAvatarView = (ImageView) contentView.findViewById(R.id.img_account_perasonal);
 		mAccountNameTv = (TextView) contentView.findViewById(R.id.tv_account_name);
@@ -123,9 +124,10 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
 		case R.id.rl_account_Ranking:
 			((BaseFragmentActivity) getActivity()).startActivityForNew(new Intent(getActivity(),RankActivity.class));
 			break;
-		/*case R.id.rl_account_Recommend:
+		case R.id.rl_account_Recommend:
 			//((BaseFragmentActivity) getActivity()).startActivityForNew(new Intent(getActivity(),RecommendAdActivity.class));
-			break;*/
+			((BaseFragmentActivity) getActivity()).startActivityForNew(new Intent(getActivity(),MyThreadActivity.class));
+			break;
 		default:
 			break;
 		}

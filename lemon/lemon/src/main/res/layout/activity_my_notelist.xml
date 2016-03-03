@@ -6,26 +6,34 @@
     android:background="@color/home_bg"
     android:fitsSystemWindows="true"
     android:clipToPadding="false"
-    tools:context="com.xiaoningmeng.ForumDisplayActivity">
+    tools:context="com.xiaoningmeng.ViewThreadActivity">
     <include layout="@layout/layout_base_header"/>
     <com.baoyz.swipemenu.xlistview.XListView
         android:id="@id/id_stickynavlayout_innerscrollview"
-        style="@style/albumCommentListViewStyle"
+        style="@style/viewThreadListViewStyle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/rl_bar_head"
         android:divider="@null"
         android:scrollbars="none" />
+
     <include layout="@layout/fragment_loading"
         android:id="@+id/rl_loading"/>
-    <ImageView
-        android:id="@+id/iv_add"
-        android:layout_width="wrap_content"
+
+    <FrameLayout
+        class="com.xiaoningmeng.fragment.AddedImageFragment"
+        android:id="@+id/fl_added_image"
+        android:layout_centerVertical="true"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/forum_new_thread_btn_selector"
+        android:layout_alignParentBottom="true" />
+
+    <FrameLayout
+        class="com.xiaoningmeng.fragment.KeyboardFragment"
+        android:id="@+id/fl_keyboard"
+        android:layout_centerVertical="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="39dp"
-        android:layout_marginBottom="71dp" />
+        android:visibility="invisible"/>
 </RelativeLayout>

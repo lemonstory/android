@@ -90,6 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/forum_item_margin_bottom"
             android:layout_marginLeft="@dimen/forum_item_margin_bottom"
+            android:layout_marginBottom="@dimen/forum_item_margin_bottom"
             android:orientation="vertical"
             android:textColor="#999999"
             android:textSize="@dimen/date_text_size"
@@ -101,11 +102,12 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/forum_item_padding"
             android:layout_marginTop="@dimen/forum_item_margin_bottom"
+            android:layout_marginBottom="@dimen/forum_item_margin_bottom"
             android:layout_toRightOf="@+id/tv_quote_text"
             android:layout_toEndOf="@+id/tv_quote_text"
             android:textColor="@color/base_black_title_color"
             android:textSize="@dimen/home_tab_size"
-            android:text="被引用作者"/>
+            android:text="被引用作者" />
 
         <com.rockerhieu.emojicon.EmojiconTextView
             android:id="@+id/tv_quote_message"
@@ -117,7 +119,6 @@
             android:layout_below="@+id/tv_quote_text"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="@dimen/forum_item_margin_bottom"
             android:layout_marginLeft="@dimen/forum_item_margin_bottom"
             android:layout_marginBottom="@dimen/forum_item_margin_bottom"/>
 

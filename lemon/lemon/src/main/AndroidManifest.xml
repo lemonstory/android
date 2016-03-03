@@ -297,7 +297,10 @@
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name=".NewThreadActivity" />
         <activity android:name=".AddedImageViewPager" />
-        <activity android:name=".ImageViewerPagerActivity"></activity>
+        <activity android:name=".ImageViewerPagerActivity" />
+        <activity android:name=".MyThreadActivity" />
+        <activity android:name=".MyNotelistActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
     </application>
 
 </manifest>

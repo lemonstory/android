@@ -30,10 +30,11 @@ import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.utils.AvatarUtils;
-import com.ypy.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 public class PerasonalCenterActivity extends BaseActivity implements
 		PlayObserver, OnClickListener,IXListViewListener {

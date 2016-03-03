@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.Html;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +15,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
-import com.xiaoningmeng.ImageViewerPagerActivity;
+import com.xiaoningmeng.MyNotelistActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.ViewThreadActivity;
-import com.xiaoningmeng.bean.Attachment;
 import com.xiaoningmeng.bean.ForumThread;
-import com.xiaoningmeng.bean.Post;
+import com.xiaoningmeng.bean.NoteList;
+import com.xiaoningmeng.bean.NoteVar;
 import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.http.ConstantURL;
 import com.xiaoningmeng.utils.AvatarUtils;
-import com.xiaoningmeng.utils.PostImageUtils;
 import com.xiaoningmeng.utils.UiUtils;
 
 import java.lang.ref.WeakReference;
@@ -34,7 +30,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ViewThreadAdapter extends BaseAdapter {
+public class MyNoteListAdapter extends BaseAdapter {
 
     private static final String KEY_QUOTE_IN_ORIGINAL = "quote";
     private static final String KEY_MESSAGE_IN_ORIGINAL = "message";
@@ -42,17 +38,17 @@ public class ViewThreadAdapter extends BaseAdapter {
 
     private LayoutInflater mInflater;
     private Context mContext;
-    private List<Post> posts;
+    private List<NoteList> mNoteList;
     private ArrayList<String> imagesUrl;
     public ForumThread forumThread;
-    private WeakReference<ViewThreadActivity> weak;
+    private WeakReference<MyNotelistActivity> weak;
 
-    public ViewThreadAdapter(Context context,ForumThread forumThread, List<Post> posts) {
+    public MyNoteListAdapter(Context context,List<NoteList> noteList) {
 
-        this.weak = new WeakReference<ViewThreadActivity>((ViewThreadActivity)context);
+        this.weak = new WeakReference<MyNotelistActivity>((MyNotelistActivity)context);
         mContext = context;
         this.forumThread = forumThread;
-        this.posts = posts;
+        this.mNoteList = noteList;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         imagesUrl = new ArrayList<String>();
     }
@@ -63,15 +59,13 @@ public class ViewThreadAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return posts.size();
+        return mNoteList.size();
     }
 
     @Override
     public Object getItem(int position) {
         return 0;
     }
-
-
 
     @Override
     public long getItemId(int position) {
@@ -106,6 +100,7 @@ public class ViewThreadAdapter extends BaseAdapter {
                     .findViewById(R.id.tv_message);
 
             holder.quoteContainerRl = (RelativeLayout)convertView.findViewById(R.id.rl_quote_container);
+            holder.quoteTextTv = (TextView) convertView.findViewById(R.id.tv_quote_text);
             holder.quoteAuthorTv = (TextView) convertView.findViewById(R.id.tv_quote_author);
             holder.quoteMessageTv = (TextView) convertView.findViewById(R.id.tv_quote_message);
             holder.imagesContainerLl = (LinearLayout) convertView.findViewById(R.id.ll_images_container);
@@ -115,85 +110,81 @@ public class ViewThreadAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Post post = posts.get(position);
+        final NoteList noteList = mNoteList.get(position);
         //TODO:avatartime是要保持一个定值，只有更新头像才变一次,如果每次请求都是新值，cdn的cache就用不上了,每次都会去取源，不够快，费用也会高
-        String authorid = post.getAuthorid();
-        String avatarTime = String.valueOf(post.getDbdateline());
+        String authorid = noteList.getAuthorid();
+        String avatarTime = noteList.getDbdateline();
         String avatarUrl = AvatarUtils.getAvatarUrl(authorid, avatarTime, 120);
         Uri avatarUri = Uri.parse(avatarUrl);
         holder.avatarImg.setImageURI(avatarUri);
-        String original = post.getMessage();
+        String original = noteList.getMessage();
+        final NoteVar notevar = noteList.getNotevar();
         final HashMap quoteMessage = this.separateQuoteWithMessage(original);
-        String author = (String) quoteMessage.get("author");
         String quote = (String) quoteMessage.get("quote");
         String message = (String) quoteMessage.get("message");
-        holder.authorTV.setText(post.getAuthor());
-        holder.datelineTv.setText(Html.fromHtml(post.getDateline()));
+        holder.authorTV.setText(noteList.getAuthor());
+        holder.datelineTv.setText(Html.fromHtml(noteList.getDateline()));
+        holder.repliesTv.setText("回复");
+        holder.repliesTv.setTextColor(mContext.getResources().getColor(R.color.orage_color));
 
-        convertView.setOnClickListener(new View.OnClickListener() {
+        holder.postIconImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                final ViewThreadActivity activity = weak.get();
+                final MyNotelistActivity activity = weak.get();
+                activity.keyboardFl.setVisibility(View.VISIBLE);
                 boolean isKeyboardVisible = UiUtils.isKeyboardShown(activity.getWindow().getDecorView().getRootView());
                 if(!isKeyboardVisible) {
 
-                    activity.repPid = Integer.parseInt(posts.get(position).getPid());
-                    activity.repPost = Integer.parseInt(posts.get(position).getPid());
-                    /**
-                     * 沿用DZ的规则
-                     * noticetrimstr:[quote][size=2][url=forum.php?mod=redirect&goto=findpost&pid=80&ptid=32][color=#999999]mT 发表于 2016-2-15 14:10[/color][/url][/size]
-                     aaaaa[/quote]
-                     *
-                     */
-                    String quoteStr = "";
-                    if (((String) quoteMessage.get("message")).length() > Constant.Forum_QUOTE_STRING_LEN) {
+                    activity.repPid = Integer.parseInt(noteList.getFrom_id());
+                    activity.repPost = Integer.parseInt(noteList.getFrom_id());
+                    activity.tid = Integer.parseInt(noteList.getNotevar().getTid());
 
-                        quoteStr = (String) ((String) quoteMessage.get("message")).substring(0, Constant.Forum_QUOTE_STRING_LEN) + "...";
-                    }else {
-                        quoteStr = (String) quoteMessage.get("message");
-                    }
-                    activity.noticeTrimStr = String.format("[quote][size=2][url=forum.php?mod=redirect&goto=findpost&pid=%s&ptid=%s][color=#999999]%s 发表于 %s[/color][/url][/size]\n" +
-                                    "%s[/quote]",
-                            posts.get(position).getPid(),
-                            posts.get(position).getTid(),
-                            posts.get(position).getAuthor(),
-                            posts.get(position).getDateline(),
-                            quoteStr);
+                            /**
+                             * 沿用DZ的规则
+                             * noticetrimstr:[quote][size=2][url=forum.php?mod=redirect&goto=findpost&pid=80&ptid=32][color=#999999]mT 发表于 2016-2-15 14:10[/color][/url][/size]
+                             aaaaa[/quote]
+                             *
+                             */
+                            String quoteStr = "";
+                            if (((String) quoteMessage.get("message")).length() > Constant.Forum_QUOTE_STRING_LEN) {
 
-                    String hint = String.format("回复%s:",posts.get(position).getAuthor());
+                                quoteStr = (String) ((String) quoteMessage.get("message")).substring(0, Constant.Forum_QUOTE_STRING_LEN) + "...";
+                            }else {
+                                quoteStr = (String) quoteMessage.get("message");
+                            }
+                            activity.noticeTrimStr = String.format("[quote][size=2][url=forum.php?mod=redirect&goto=findpost&pid=%s&ptid=%s][color=#999999]%s 发表于 %s[/color][/url][/size]\n" +
+                                            "%s[/quote]",
+                                    noteList.getFrom_id(),
+                                    noteList.getNotevar().getTid(),
+                                    noteList.getAuthor(),
+                                    noteList.getDateline(),
+                                    quoteStr);
+
+                    String hint = String.format("回复%s:",noteList.getAuthor());
                     activity.keyBoardfragment.setmEditEmojiconHint(hint);
                     activity.keyBoardfragment.showKeyboard();
-
-                } else {
-
-                    activity.repPid = 0;
-                    activity.repPost = 0;
-                    activity.noticeTrimStr = null;
-                    activity.keyBoardfragment.resetKeyboard();
                 }
             }
         });
 
-        //楼主图标
-        if (post.getAuthorid().equals(forumThread.getAuthorid())) {
-            holder.ThreadAuthorIcontTv.setVisibility(View.VISIBLE);
-        }else {
-            holder.ThreadAuthorIcontTv.setVisibility(View.GONE);
-        }
 
-        if (post.getFirst().equals("1") && post.getPosition().equals("1")) {
+        //点击跳转到指定帖子楼层
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-            //楼主显示回帖数,回帖图标
-            holder.postIconImg.setVisibility(View.VISIBLE);
-            if (!forumThread.getReplies().equals("0")) {
-                holder.repliesTv.setText(forumThread.getReplies());
+                String tid = notevar.getTid();
+                String pid = notevar.getPid();
+                Intent i = new Intent(mContext, ViewThreadActivity.class);
+                i.putExtra("tid", Integer.parseInt(tid));
+                i.putExtra("pid",Integer.parseInt(pid));
+                i.putExtra("page", 1);
+                ((MyNotelistActivity) mContext).startActivityForNew(i);
+
+
             }
-        }else {
-            //回帖隐藏回帖数,回帖图标,显示楼层
-            holder.postIconImg.setVisibility(View.GONE);
-            holder.repliesTv.setText(post.getPosition() + "楼");
-        }
+        });
 
         //处理引用内容
         //示例:
@@ -209,64 +200,18 @@ public class ViewThreadAdapter extends BaseAdapter {
 
         if(quote != null && !quote.equals("")) {
 
-            holder.quoteContainerRl.setVisibility(View.VISIBLE);
-            holder.quoteAuthorTv.setText(author);
-            holder.quoteMessageTv.setText(Html.fromHtml(quote));
+            holder.quoteTextTv.setText("回复了你的评论:");
+            holder.quoteAuthorTv.setText(Html.fromHtml(quote));
+            holder.quoteMessageTv.setVisibility(View.GONE);
         }else {
 
-            holder.quoteContainerRl.setVisibility(View.GONE);
+            holder.quoteTextTv.setText("评论了你的帖子:");
+            holder.quoteAuthorTv.setText(Html.fromHtml(notevar.getSubject()));
+            holder.quoteMessageTv.setVisibility(View.GONE);
         }
         holder.messageTv.setText(Html.fromHtml(message));
-
-        //帖子图片
-        if (post.getImagelist() != null && post.getImagelist().size() > 0) {
-
-            holder.imagesContainerLl.setVisibility(View.VISIBLE);
-            imagesUrl.clear();
-            int chindViewCount = holder.imagesContainerLl.getChildCount();
-            if (chindViewCount > 0) {
-                holder.imagesContainerLl.removeAllViews();
-            }
-
-            int imgListCount = post.getImagelist().size();
-
-            for (int i = 0; i < imgListCount; i++) {
-
-                String aid = post.getImagelist().get(i);
-                Attachment attachment = post.getAttachments().get(aid);
-                String url = attachment.getUrl();
-                String path = attachment.getAttachment();
-                String absolutePath = ConstantURL.BBS_URL + url + path;
-                Uri imgUri = Uri.parse(absolutePath);
-                imagesUrl.add(absolutePath);
-                /**
-                 * 动态添加ImageView
-                 <ImageView
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-                 android:layout_marginTop="@dimen/forum_item_padding"
-                 android:src="@drawable/aaa"/>
-                 */
-                ViewThreadActivity activity = weak.get();
-                HashMap<String,Integer> imageSize = PostImageUtils.parseImageSizeWithUrl(activity, absolutePath);
-
-                SimpleDraweeView img = new SimpleDraweeView(mContext);
-                img.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(imageSize.get("widthPx"),imageSize.get("heightPx"));
-                params.setMargins(0, 8, 0, 0);
-                params.gravity = Gravity.CENTER;
-                img.setLayoutParams(params);
-                img.setBackgroundResource(R.color.view_thread_image_background_color);
-                img.setImageURI(imgUri);
-                holder.imagesContainerLl.addView(img);
-                img.setTag(i+"");
-                img.setOnClickListener(postImageClickListener);
-            }
-
-        }else {
-            holder.imagesContainerLl.setVisibility(View.GONE);
-        }
-
+        holder.imagesContainerLl.setVisibility(View.GONE);
+        holder.ThreadAuthorIcontTv.setVisibility(View.GONE);
         return convertView;
     }
 
@@ -277,7 +222,7 @@ public class ViewThreadAdapter extends BaseAdapter {
         result.put(KEY_MESSAGE_IN_ORIGINAL,original);
         result.put(KEY_AUTHOR_IN_ORIGINAL,null);
 
-        int divMarkIndex = original.indexOf("<div class=\"reply_wrap\">");
+        int divMarkIndex = original.indexOf("<div class=\"quote\">");
         if (divMarkIndex != -1) {
 
             int fontMarkStartIndex = original.indexOf("<font color=\"#999999\">");
@@ -300,23 +245,8 @@ public class ViewThreadAdapter extends BaseAdapter {
             String message = original.substring(messageStartIndex);
             result.put(KEY_MESSAGE_IN_ORIGINAL,message);
         }
-
         return result;
     }
-
-    View.OnClickListener postImageClickListener = new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-
-            final ViewThreadActivity activity = weak.get();
-            int position = Integer.parseInt(v.getTag().toString());
-            Intent i = new Intent(mContext,ImageViewerPagerActivity.class);
-            i.putExtra("position",position);
-            i.putExtra("imagesUrl",imagesUrl);
-            activity.startActivityForNew(i);
-        }
-    };
 
     static class ViewHolder {
 
@@ -330,8 +260,8 @@ public class ViewThreadAdapter extends BaseAdapter {
         TextView repliesTv; //主贴回复数
         ImageView postIconImg;//楼主所在楼层的回帖图标
         TextView messageTv; //帖子正文
-
         RelativeLayout quoteContainerRl;//引用的容器
+        TextView quoteTextTv;//引用
         TextView quoteAuthorTv;//引用的发布者名称
         TextView quoteMessageTv;//引用的发布内容
         LinearLayout imagesContainerLl; //帖子图片容器

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,9 +15,11 @@ import com.google.gson.reflect.TypeToken;
 import com.xiaoningmeng.adapter.ForumDisplayAdapter;
 import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
+import com.xiaoningmeng.bean.ForumNotice;
 import com.xiaoningmeng.bean.ForumThread;
 import com.xiaoningmeng.http.LHttpHandler;
 import com.xiaoningmeng.http.LHttpRequest;
+import com.xiaoningmeng.view.BadgeView;
 
 import org.apache.http.Header;
 import org.json.JSONException;
@@ -32,7 +33,7 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
     private Context mContext;
     private ViewGroup loadingView;
     private XListView mListView;
-    private BaseAdapter mAdapter;
+    private ForumDisplayAdapter mAdapter;
     private List<ForumThread> mForumThreads = new ArrayList<>();
     private String tip = null;
     private View pbEmptyTip;
@@ -40,9 +41,12 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
     private int page; //当前页码
     private int maxPage;//最大页码
     private ImageView imgHeadRight;
+    private ImageView addThreadIv;
     private String title;
     private String hash;
     private String formHash;
+    private BadgeView badge;
+    private ForumNotice notice;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -55,6 +59,7 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
         title = getIntent().getStringExtra("name");
         initView();
         mAdapter = new ForumDisplayAdapter(this, mForumThreads,fid);
+        mAdapter.showLastPostTime = true;
         mListView.setAdapter(mAdapter);
         requestForumThreadsData(fid, page);
     }
@@ -64,8 +69,10 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
         mListView = (XListView) findViewById(R.id.id_stickynavlayout_innerscrollview);
         loadingView = (ViewGroup) findViewById(R.id.rl_loading);
         imgHeadRight = (ImageView) findViewById(R.id.img_head_right);
+        badge = new BadgeView(this, imgHeadRight);
+        addThreadIv = (ImageView) findViewById(R.id.iv_add);
         setTitleName(title);
-        setRightHeadIcon(R.drawable.new_thread_bg_selector);
+        setRightHeadIcon(R.drawable.message);
 
         loadingView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.home_discover_item_img_height), 0, 0);
         mListView.setPullLoadEnable(false);
@@ -78,17 +85,29 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
             loadingView.setClickable(false);
         }
 
+        addThreadIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (UserAuth.auditUser(mContext, "登录后,才能批量故事喔.")) {
+                    Intent i = new Intent(ForumDisplayActivity.this, NewThreadActivity.class);
+                    i.putExtra("fid", fid);
+                    i.putExtra("hash", hash);
+                    i.putExtra("formhash", formHash);
+                    startActivityForNew(i);
+                }
+            }
+        });
+
         imgHeadRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(UserAuth.auditUser(mContext, "登录后,才能批量故事喔.")){
-                    Intent i = new Intent(ForumDisplayActivity.this,NewThreadActivity.class);
-                    i.putExtra("fid", fid);
-                    i.putExtra("hash",hash);
-                    i.putExtra("formhash",formHash);
-                    startActivityForNew(i);
+                if(badge.isShown()) {
+                    badge.hide();
                 }
+                Intent i = new Intent(ForumDisplayActivity.this, MyNotelistActivity.class);
+                startActivityForNew(i);
             }
         });
     }
@@ -96,8 +115,6 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
     @Override
     public void onRefresh() {
 
-        //TODO:会出现白屏的现象
-        this.mForumThreads.clear();
         this.page = 1;
         requestForumThreadsData(fid, page);
         mListView.setPullLoadEnable(false);
@@ -135,15 +152,14 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
 
     public void setForumsThreads(List<ForumThread> threads) {
         if (threads != null && threads.size() > 0) {
+
+            if(this.page == 1) {
+                this.mForumThreads.clear();
+            }
             this.mForumThreads.addAll(threads);
             if (mListView != null) {
                 hideEmptyTip();
-                //TODO:
                 mAdapter.notifyDataSetChanged();
-            }
-        } else {
-            if (mListView != null) {
-                //showEmptyTip(loadingView, "没有圈子 o(>ω<)o", getResources().getDimensionPixelOffset(R.dimen.dialog_margin));
             }
         }
     }
@@ -160,6 +176,18 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
             loadingView.setVisibility(View.VISIBLE);
             ((TextView) loadingView.getChildAt(0)).setText("正在努力加载中");
             loadingView.getChildAt(1).setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void setBadgeNum(ForumNotice notice) {
+
+        String newMyPost = notice.getNewmypost();
+        int newMyPostInt = Integer.parseInt(notice.getNewmypost());
+        if(newMyPostInt > 0) {
+            badge.setText(newMyPost);
+            badge.show();
+        } else {
+            badge.hide();
         }
     }
 
@@ -180,9 +208,8 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
 
                             JSONObject jsonObject = new JSONObject(data);
                             JSONObject variablesObject = new JSONObject(jsonObject.getString("Variables"));
-
+                            Gson gson = new Gson();
                             if (variablesObject.has("forum_threadlist")) {
-                                Gson gson = new Gson();
                                 threads = gson.fromJson(variablesObject.getString("forum_threadlist"), new TypeToken<List<ForumThread>>() {
                                 }.getType());
                                 setForumsThreads(threads);
@@ -207,6 +234,11 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
 
                             if(variablesObject.has("formhash")) {
                                 formHash = variablesObject.getString("formhash");
+                            }
+
+                            if(variablesObject.has("notice")) {
+                                notice = gson.fromJson(variablesObject.getString("notice"),ForumNotice.class);
+                                setBadgeNum(notice);
                             }
 
                         } catch (JSONException e) {

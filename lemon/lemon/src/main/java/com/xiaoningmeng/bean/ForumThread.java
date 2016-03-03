@@ -11,6 +11,7 @@ import org.litepal.crud.DataSupport;
 public class ForumThread extends DataSupport implements Parcelable {
 
     private String tid;
+    private String fid; //mythread使用
     private String typeid;
     private String readperm;
     private String price;
@@ -59,8 +60,10 @@ public class ForumThread extends DataSupport implements Parcelable {
         return CREATOR;
     }
 
-    public ForumThread(String tid, String typeid, String readperm, String price, String author, String authorid, String subject, String dateline, String lastpost, String lastposter, String views, String replies, String displayorder, String digest,String heats,String heatlevel, String special, String attachment, String recommend_add, String replycredit, String dbdateline, String dblastpost, String rushreply, String recommend) {
+    public ForumThread(String tid,String fid, String typeid, String readperm, String price, String author, String authorid, String subject, String dateline, String lastpost, String lastposter, String views, String replies, String displayorder, String digest,String heats,String heatlevel, String special, String attachment, String recommend_add, String replycredit, String dbdateline, String dblastpost, String rushreply, String recommend) {
+
         this.tid = tid;
+        this.fid = fid;
         this.typeid = typeid;
         this.readperm = readperm;
         this.price = price;
@@ -92,6 +95,15 @@ public class ForumThread extends DataSupport implements Parcelable {
 
     public void setTid(String tid) {
         this.tid = tid;
+    }
+
+    public void setFid(String fid) {
+        this.fid = fid;
+    }
+
+    public String getFid() {
+
+        return fid;
     }
 
     public String getTypeid() {
@@ -270,6 +282,7 @@ public class ForumThread extends DataSupport implements Parcelable {
     public ForumThread(Parcel in) {
 
         tid = in.readString();
+        fid = in.readString();
         typeid = in.readString();
         readperm = in.readString();
         price = in.readString();
@@ -298,6 +311,7 @@ public class ForumThread extends DataSupport implements Parcelable {
     @Override
     public void writeToParcel(Parcel out, int flags) {
         out.writeString(tid);
+        out.writeString(fid);
         out.writeString(typeid);
         out.writeString(readperm);
         out.writeString(price);

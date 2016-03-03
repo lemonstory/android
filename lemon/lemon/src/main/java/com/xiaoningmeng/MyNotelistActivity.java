@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,22 +18,16 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.umeng.socialize.controller.UMSocialService;
 import com.umeng.socialize.sso.UMSsoHandler;
-import com.xiaoningmeng.adapter.ViewThreadAdapter;
+import com.xiaoningmeng.adapter.MyNoteListAdapter;
 import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseFragmentActivity;
-import com.xiaoningmeng.bean.Attachment;
-import com.xiaoningmeng.bean.ForumLoginVar;
 import com.xiaoningmeng.bean.ForumThread;
-import com.xiaoningmeng.bean.Post;
-import com.xiaoningmeng.bean.ShareBean;
+import com.xiaoningmeng.bean.NoteList;
 import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.event.ForumLoginEvent;
 import com.xiaoningmeng.fragment.KeyboardFragment;
-import com.xiaoningmeng.http.ConstantURL;
 import com.xiaoningmeng.http.LHttpHandler;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.utils.UiUtils;
-import com.xiaoningmeng.view.ShareDialog;
 
 import org.apache.http.Header;
 import org.json.JSONException;
@@ -40,30 +35,28 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
-
-public class ViewThreadActivity extends BaseFragmentActivity implements XListView.IXListViewListener,KeyboardFragment.OnFragmentInteractionListener {
+public class MyNotelistActivity extends BaseFragmentActivity implements XListView.IXListViewListener,KeyboardFragment.OnFragmentInteractionListener {
 
     private Context mContext;
     private ViewGroup loadingView;
     private XListView mListView;
-    public  ViewThreadAdapter mAdapter;
+    public MyNoteListAdapter mAdapter;
     private TextView title;
     private ImageView headRightImg;
+    public FrameLayout keyboardFl;
     public KeyboardFragment keyBoardfragment;
     private ForumThread forumThread = new ForumThread();
-    private ArrayList<Post> mPosts = new ArrayList<>();
+    private ArrayList<NoteList> mNoteList = new ArrayList<>();
     private String tip = null;
     private View pbEmptyTip;
-    private int tid; //主题ID
-    private int pid; //帖子ID
+    public int fid; //论坛ID
+    public int tid; //帖子ID
     private String formHash;//表单验证使用
     private String hash;
     private int page; //当前页码
-    private int maxPage;//最大页码
+    private int count;//最大页码
     private int perPage;
     public int repPid;
     public int repPost;
@@ -75,16 +68,13 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
 
         super.onCreate(savedInstanceState);
         Fresco.initialize(this);
-        setContentView(R.layout.activity_view_thread);
+        setContentView(R.layout.activity_my_notelist);
         initView();
         mContext = this;
-        tid = getIntent().getIntExtra("tid", 1);
-        pid = getIntent().getIntExtra("pid",1);
-        page = getIntent().getIntExtra("page", 1);
-        mAdapter = new ViewThreadAdapter(this,forumThread,mPosts);
+        page = 1;
+        mAdapter = new MyNoteListAdapter(this,mNoteList);
         mListView.setAdapter(mAdapter);
-        requestPostsData(tid, page);
-        EventBus.getDefault().register(this);
+        requestMyNoteListData(page);
     }
 
     public void initView() {
@@ -92,13 +82,12 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
         mListView = (XListView) findViewById(R.id.id_stickynavlayout_innerscrollview);
         loadingView = (ViewGroup) findViewById(R.id.rl_loading);
         title = (TextView)findViewById(R.id.tv_head_title);
-        title.setText("帖子");
-        setShareIconVisible();
+        keyboardFl = (FrameLayout) findViewById(R.id.fl_keyboard);
+        title.setText("我的消息");
         loadingView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.home_discover_item_img_height), 0, 0);
         mListView.setPullLoadEnable(false);
         mListView.setXListViewListener(this);
         this.page = 1;
-        this.maxPage = 1;
         mListView.setFootViewNoMore(true);
         pbEmptyTip = loadingView.findViewById(R.id.pb_empty_tip);
         setKeyBoardfragment(); //设置用户键盘
@@ -128,7 +117,7 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
                     if(UserAuth.auditUser(mContext, "登录后,才能批量故事喔.")) {
 
                         setLoadingTip("正在发布");
-                        sendForumThreadReplyData(tid, formHash, hash, msg);
+                        sendForumThreadReplyData(fid, tid, formHash, hash, msg);
                     }
                 }
                 @Override
@@ -153,6 +142,8 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
 
                         boolean isKeyboardVisible = UiUtils.isKeyboardShown(mListView.getRootView());
                         if (isKeyboardVisible) {
+
+                            keyboardFl.setVisibility(View.INVISIBLE);
                             keyBoardfragment.resetKeyboard();
                         }
                         break;
@@ -164,61 +155,6 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
 
             }
         });
-    }
-
-    private void  setShareIconVisible() {
-
-        headRightImg = (ImageView) findViewById(R.id.img_head_right);
-        headRightImg.setImageResource(R.drawable.share_icon_ormal);
-        headRightImg.setClickable(false);
-        headRightImg.setAlpha((float) 0.5);
-        headRightImg.setVisibility(View.VISIBLE);
-    }
-
-    public void setShareIconClickable() {
-
-        headRightImg.setClickable(true);
-        headRightImg.setAlpha((float)1.0);
-        headRightImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String shareIconUrl = "";
-                ArrayList<String> threadImgAttachmentsPath = getImgAttachmentsPathWithThread(forumThread, mPosts);
-                if (threadImgAttachmentsPath.size() > 0) {
-                    shareIconUrl = threadImgAttachmentsPath.get(0);
-                } else {
-                    shareIconUrl = Constant.SHARE_THREAD_DEFAULT_IMAGE_URL;
-                }
-
-                String url = String.format(Constant.VIEW_THREAD_URL,forumThread.getTid());
-
-                ShareBean shareBean = new ShareBean(forumThread.getSubject(), shareIconUrl, url);
-                mController = new ShareDialog().show(ViewThreadActivity.this, shareBean);
-            }
-        });
-    }
-
-    public ArrayList<String> getImgAttachmentsPathWithThread(ForumThread forumThread,ArrayList<Post> posts) {
-
-        ArrayList<String> imgAttachmentsPath = new ArrayList<String>();
-        if (forumThread.getAttachment() != null && forumThread.getAttachment().equals("2")) {
-            Post post = posts.get(0);
-            if (post.getFirst().equals("1") && post.getAuthorid().equals(forumThread.getAuthorid())) {
-                if (post.getImagelist() != null && post.getImagelist().size() > 0) {
-                    int imgListCount = post.getImagelist().size();
-                    for (int i = 0; i < imgListCount; i++) {
-                        String aid = post.getImagelist().get(i);
-                        Attachment attachment = post.getAttachments().get(aid);
-                        String url = attachment.getUrl();
-                        String path = attachment.getAttachment();
-                        String absolutePath = ConstantURL.BBS_URL + url + path;
-                        imgAttachmentsPath.add(absolutePath);
-                    }
-                }
-            }
-        }
-        return imgAttachmentsPath;
     }
 
     private void setKeyBoardfragment() {
@@ -242,33 +178,25 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
                 ssoHandler.authorizeCallBack(requestCode, resultCode, data);
             }
         }
-        this.keyBoardfragment.addedImageFragment.onActivityResult(requestCode,resultCode,data);
+        this.keyBoardfragment.addedImageFragment.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     public void onRefresh() {
 
         this.page = 1;
-        requestPostsData(tid, page);
+        requestMyNoteListData(page);
         mListView.setPullLoadEnable(false);
     }
 
     @Override
     public void onLoadMore() {
 
-        if(this.page < this.maxPage) {
-            int size = mPosts.size();
-            if (size >= perPage) {
-                this.page++;
-                requestPostsData(tid, page);
-            } else {
-                this.page = 1;
-                requestPostsData(tid, page);
-            }
+        if(this.count == this.perPage) {
+            this.page++;
+            requestMyNoteListData(page);
         }else {
-
-            //获取到的数据需要做合并
-            requestPostsData(tid, page);
+            mListView.stopLoadMore();
         }
     }
 
@@ -276,43 +204,26 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
 
         mListView.stopRefresh();
         mListView.stopLoadMore();
-        mListView.setPullLoadEnable(true);
-        if(this.page < this.maxPage) {
-            mListView.setFootViewNoMore(false);
-        } else {
+
+        if(this.count < this.perPage) {
             mListView.setFootViewNoMore(true);
+        } else {
+            mListView.setPullLoadEnable(true);
+            mListView.setFootViewNoMore(false);
         }
     }
 
-    public void setForumThread(ForumThread forumThread) {
+    public void setNoteLists(List<NoteList> noteList) {
 
-        if (forumThread != null) {
-            this.forumThread = forumThread;
-            this.mAdapter.setForumThread(forumThread);
+        if (mNoteList != null && mNoteList.size() > 0) {
+            if (this.page == 1) {
+                this.mNoteList.clear();
+            }
         }
-    }
-
-    public void setPosts(List<Post> mPosts) {
-
-        if (mPosts != null && mPosts.size() > 0) {
-
-            if(this.page == 1) {
-
-                this.mPosts.clear();
-            }
-
-            for (Post post : mPosts) {
-
-                int freq = Collections.frequency(this.mPosts, post);
-                if(freq < 1) {
-                    this.mPosts.add(post);
-                }
-            }
-            if (mListView != null) {
-                hideEmptyTip();
-                //TODO:
-                mAdapter.notifyDataSetChanged();
-            }
+        this.mNoteList.addAll(noteList);
+        if (mListView != null) {
+            hideEmptyTip();
+            mAdapter.notifyDataSetChanged();
         }
     }
 
@@ -332,64 +243,47 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
         }
     }
 
-    private void requestPostsData(int tid, int page) {
+    private void requestMyNoteListData(int page) {
 
-        LHttpRequest.getInstance().getViewThread(this,
+        LHttpRequest.getInstance().getMyNoteList(this,
                 new LHttpHandler<String>(this) {
 
                     @Override
                     public void onGetDataSuccess(String data) {
 
                         loadingView.setVisibility(View.GONE);
-                        Double replaysCount = 0.0;
-                        Double ppp = 0.0;
-                        ForumThread forumThread = null;
                         try {
 
                             JSONObject jsonObject = new JSONObject(data);
                             JSONObject variablesObject = new JSONObject(jsonObject.getString("Variables"));
 
                             Gson gson = new Gson();
+                            if (variablesObject.has("list")) {
 
-                            if (variablesObject.has("thread")) {
-
-                                forumThread = gson.fromJson(variablesObject.getString("thread"), new TypeToken<ForumThread>() {
+                                List<NoteList> noteLists = gson.fromJson(variablesObject.getString("list"), new TypeToken<List<NoteList>>() {
                                 }.getType());
-                                setForumThread(forumThread);
-                                setShareIconClickable();
+                                setNoteLists(noteLists);
                             }
 
-                            if (variablesObject.has("postlist")) {
+                            if (variablesObject.has("count")) {
 
-                                List<Post> posts = gson.fromJson(variablesObject.getString("postlist"), new TypeToken<List<Post>>() {
-                                }.getType());
-                                setPosts(posts);
+                                count = Integer.parseInt(variablesObject.getString("count"));
                             }
 
-                            if(variablesObject.has("formhash")) {
+                            if (variablesObject.has("perpage")) {
+
+                                perPage = Integer.parseInt(variablesObject.getString("perpage"));
+                            }
+
+                            if (variablesObject.has("formhash")) {
 
                                 formHash = variablesObject.getString("formhash");
                             }
 
-                            if(variablesObject.has("hash")) {
+                            if (variablesObject.has("hash")) {
 
                                 hash = variablesObject.getString("hash");
                             }
-
-                            if (forumThread.getReplies() != null && variablesObject.has("ppp")) {
-
-                                ppp = Double.parseDouble(variablesObject.getString("ppp"));
-                                perPage = Integer.valueOf(variablesObject.getString("ppp"));
-
-                                //TODO:接口里面有两个:replies，allreplies先用前者
-                                if (forumThread.getReplies() != null) {
-                                    //+1是因为还有主贴
-                                    replaysCount = Double.parseDouble(forumThread.getReplies()) + 1;
-                                    Double dMaxPage = Math.ceil(replaysCount / ppp);
-                                    ViewThreadActivity.this.maxPage = dMaxPage.intValue();
-                                }
-                            }
-
 
                         } catch (JSONException e) {
 
@@ -411,7 +305,7 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
                                 @Override
                                 public void onClick(View v) {
                                     reRequestLoading();
-                                    ViewThreadActivity.this.requestPostsData(ViewThreadActivity.this.tid, ViewThreadActivity.this.page);
+                                    //ViewThreadActivity.this.requestPostsData(ViewThreadActivity.this.tid, ViewThreadActivity.this.page);
                                 }
                             });
                         }
@@ -422,7 +316,7 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
                         onLoad();
                         super.onFinish();
                     }
-                }, tid, page);
+                }, page);
     }
 
     @Override
@@ -430,7 +324,7 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
 
     }
 
-    private void sendForumThreadReplyData(final int tid,final String formHash,String hash,final String message) {
+    private void sendForumThreadReplyData(final int fid,final int tid,final String formHash,String hash,final String message) {
 
         final ArrayList<String>aids = new ArrayList<>();;//dz上传图片后返回的图片标示符
         startLoading();
@@ -469,7 +363,7 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
 
                         } catch (JSONException e) {
                             stopLoading();
-                            Toast.makeText(mContext,"系统错误",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, "系统错误", Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
                         }
                     }
@@ -486,6 +380,7 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
 
                         super.onFinish();
                         stopLoading();
+                        keyboardFl.setVisibility(View.INVISIBLE);
                     }
 
                 },fileData,hash);
@@ -518,11 +413,11 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
                                 //TODO:待优化
                                 //可见的最后一条与实际全量的最后一条距离相近时,页面向下滚动
                                 int lastVisiblePosition = mListView.getLastVisiblePosition();
-                                int maxPosition = mPosts.size();
+                                int maxPosition = mNoteList.size();
                                 if (maxPosition - lastVisiblePosition < 4) {
                                     onLoadMore();
                                     //页面滚动到最后
-                                    mListView.smoothScrollToPosition(mPosts.size() - 1);
+                                    mListView.smoothScrollToPosition(mNoteList.size() - 1);
                                 } else {
                                     onLoadMore();
                                     Toast.makeText(mContext, "发送成功", Toast.LENGTH_SHORT).show();
@@ -557,17 +452,5 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
                 },tid,formHash,message,aids,repPid,repPost,noticeTrimStr);
 
     }
-
-    public void onEventMainThread(ForumLoginEvent event) {
-
-        ForumLoginVar forumLoginVar = event.forumLoginVar;
-        formHash = forumLoginVar.getFormhash();
-    }
-
-    @Override
-    public void onDestroy() {
-
-        EventBus.getDefault().unregister(this);
-        super.onDestroy();
-    }
 }
+

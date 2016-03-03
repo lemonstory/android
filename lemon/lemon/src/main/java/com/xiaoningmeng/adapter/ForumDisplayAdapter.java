@@ -15,10 +15,13 @@ import android.widget.TextView;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.ViewThreadActivity;
 import com.xiaoningmeng.base.BaseActivity;
+import com.xiaoningmeng.bean.ForumName;
 import com.xiaoningmeng.bean.ForumThread;
 import com.xiaoningmeng.utils.AvatarUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by gaoyong on 16/1/22.
@@ -28,7 +31,10 @@ public class ForumDisplayAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private Context mContext;
     private List<ForumThread> threadList;
+    public Map<String,ForumName> forumNames = new HashMap<String,ForumName>();
     private int fid;
+    public boolean showForumName = false;
+    public boolean showLastPostTime = false;
 
     public ForumDisplayAdapter(Context context, List<ForumThread> threads,int fid) {
 
@@ -73,8 +79,9 @@ public class ForumDisplayAdapter extends BaseAdapter {
             holder.avatarImg = (ImageView) convertView.findViewById(R.id.cv_avatar);
             holder.postIconImg = (ImageView) convertView.findViewById(R.id.iv_post_icon);
             holder.authorTv = (TextView) convertView.findViewById(R.id.tv_author);
-            holder.lastpostTV = (TextView) convertView.findViewById(R.id.tv_lastpost);
-            holder.repliesTV = (TextView) convertView.findViewById(R.id.tv_replies);
+            holder.forumNameTv = (TextView) convertView.findViewById(R.id.tv_forum_name);
+            holder.lastpostTv = (TextView) convertView.findViewById(R.id.tv_lastpost);
+            holder.repliesTv = (TextView) convertView.findViewById(R.id.tv_replies);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -120,27 +127,49 @@ public class ForumDisplayAdapter extends BaseAdapter {
         holder.avatarImg.setImageURI(avatarUri);
         holder.subjectTv.setText(thread.getSubject());
         holder.authorTv.setText(thread.getAuthor());
-        String lastPost = thread.getLastpost().replace("&nbsp;", "");
-        holder.lastpostTV.setText(lastPost);
 
-        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams)holder.lastpostTV.getLayoutParams();
+        if (showLastPostTime) {
+            holder.lastpostTv.setVisibility(View.VISIBLE);
+            String lastPost = thread.getLastpost().replace("&nbsp;", "");
+            holder.lastpostTv.setText(lastPost);
+        }else {
+            holder.lastpostTv.setVisibility(View.INVISIBLE);
+        }
+
+        if (showForumName) {
+            holder.forumNameTv.setVisibility(View.VISIBLE);
+            if (null != forumNames && null != thread.getFid() && !"".equals(thread.getFid())) {
+                String fid = thread.getFid();
+                String forumName = forumNames.get(fid).getName();
+                holder.forumNameTv.setText("来自"+forumName);
+            }
+        }else {
+            holder.forumNameTv.setVisibility(View.INVISIBLE);
+        }
+
+        //如果forumNameTv和lastpostTv同时出现,会出现重叠
+        RelativeLayout.LayoutParams lastpostTvLp = (RelativeLayout.LayoutParams)holder.lastpostTv.getLayoutParams();
+        RelativeLayout.LayoutParams forumNameTvLp = (RelativeLayout.LayoutParams)holder.forumNameTv.getLayoutParams();
+
         if (!thread.getReplies().equals("0")) {
 
-            lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,0);
-            lp.addRule(RelativeLayout.ALIGN_PARENT_END,0);
+            lastpostTvLp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,0);
+            lastpostTvLp.addRule(RelativeLayout.ALIGN_PARENT_END,0);
+            forumNameTvLp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,0);
+            forumNameTvLp.addRule(RelativeLayout.ALIGN_PARENT_END,0);
             holder.postIconImg.setVisibility(View.VISIBLE);
-            holder.repliesTV.setVisibility(View.VISIBLE);
-            holder.repliesTV.setText(thread.getReplies());
+            holder.repliesTv.setVisibility(View.VISIBLE);
+            holder.repliesTv.setText(thread.getReplies());
 
         }else {
 
-            lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-            lp.addRule(RelativeLayout.ALIGN_PARENT_END);
+            lastpostTvLp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            lastpostTvLp.addRule(RelativeLayout.ALIGN_PARENT_END);
+            forumNameTvLp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            forumNameTvLp.addRule(RelativeLayout.ALIGN_PARENT_END);
             holder.postIconImg.setVisibility(View.INVISIBLE);
-            holder.repliesTV.setVisibility(View.INVISIBLE);
-
+            holder.repliesTv.setVisibility(View.INVISIBLE);
         }
-
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,6 +188,7 @@ public class ForumDisplayAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
+
         View headDividerView;
         View dividerView;
         ImageView iconImg;
@@ -168,7 +198,8 @@ public class ForumDisplayAdapter extends BaseAdapter {
         TextView authorTv;
         ImageView avatarImg;
         ImageView postIconImg;
-        TextView lastpostTV;
-        TextView repliesTV;
+        TextView forumNameTv;
+        TextView lastpostTv;
+        TextView repliesTv;
     }
 }

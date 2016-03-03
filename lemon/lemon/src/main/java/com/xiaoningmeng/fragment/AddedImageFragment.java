@@ -18,7 +18,7 @@ import com.xiaoningmeng.AddedImageViewPager;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.base.BasePhotoFragment;
 import com.xiaoningmeng.event.AddedImageEvent;
-import com.ypy.eventbus.EventBus;
+import de.greenrobot.event.EventBus;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -236,7 +236,6 @@ public class AddedImageFragment extends BasePhotoFragment implements BasePhotoFr
         addedImageFiles.remove(position);
         addedImageContainerLl.removeViewAt(position);
         int b = addedImageContainerLl.getChildCount();
-        Log.e("eee","a =" + a + ",b = " + b);
         checkAddImageControlVisibility();
     }
 

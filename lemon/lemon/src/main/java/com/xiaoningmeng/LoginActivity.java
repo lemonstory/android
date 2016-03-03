@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
@@ -20,17 +21,24 @@ import com.umeng.socialize.weixin.controller.UMWXHandler;
 import com.xiaoningmeng.application.ActivityManager;
 import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
+import com.xiaoningmeng.bean.ForumLoginVar;
 import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.constant.Constant;
+import com.xiaoningmeng.event.ForumLoginEvent;
+import com.xiaoningmeng.event.LoginEvent;
 import com.xiaoningmeng.http.ConstantURL;
 import com.xiaoningmeng.http.LHttpHandler;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.utils.DebugUtils;
 
 import org.apache.http.Header;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Map;
 import java.util.Set;
+
+import de.greenrobot.event.EventBus;
 
 
 public class LoginActivity extends BaseActivity implements OnClickListener {
@@ -46,6 +54,18 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 		setContentView(R.layout.activity_login);
 		setTinitColor(Color.parseColor("#f0f0f0"));
 		initLoginByPlatform();
+	}
+
+	@Override
+	protected void onStart(){
+		super.onStart();
+		EventBus.getDefault().register(this);
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		EventBus.getDefault().unregister(this);
 	}
 
 	private void requestData() {
@@ -163,7 +183,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 					public void onGetDataSuccess(UserInfo data) {
 
 						UserAuth.getInstance().login(mContext, data);
-						if(ActivityManager.getScreenManager().getActivity(HomeActivity.class)== null){
+						if (ActivityManager.getScreenManager().getActivity(HomeActivity.class) == null) {
 							startActivityForNew(new Intent(LoginActivity.this,
 									HomeActivity.class));
 						}
@@ -302,6 +322,47 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 				});
 	}
 
+	//向uc同步用户登录信息
+	public void onEventAsync(LoginEvent event) {
+
+		UserInfo userinfo = event.userInfo;
+		String uc_callback = userinfo.getUcCallback();
+		LHttpRequest.getInstance().UCSyncLoginRequest(LoginActivity.this, uc_callback, new LHttpHandler<String>(LoginActivity.this) {
+
+			@Override
+			public void onGetDataSuccess(String data) {
+				try {
+					JSONObject jsonObject = new JSONObject(data);
+					JSONObject messageObject = new JSONObject(jsonObject.getString("Message"));
+					if (messageObject.has("messageval")) {
+
+						String messageval = messageObject.getString("messageval");
+						if (messageval != null && messageval.equals(Constant.FORUM_LOGIN_SUCCEED)) {
+
+							if (jsonObject.has("Variables")) {
+								Gson gson = new Gson();
+								ForumLoginVar forumLoginVar = gson.fromJson(jsonObject.getString("Variables"), ForumLoginVar.class);
+								EventBus.getDefault().post(new ForumLoginEvent(forumLoginVar));
+							}
+						}
+					}
+
+				} catch (JSONException e) {
+
+					e.printStackTrace();
+				}
+
+			}
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers,
+								  String responseString, Throwable throwable) {
+				//DebugUtils.e("UCSyncLoginRequest onFailure callback is run");
+				//TODO:uc_callback的接口返回，不是项目接口的标准规范，所以会进入到这个回调里面
+			}
+		});
+	}
+
 	@Override
 	public void finish() {
 		stopLoading();
@@ -313,6 +374,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-//
+		EventBus.getDefault().unregister(this);
 	}
 }

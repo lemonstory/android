@@ -165,7 +165,7 @@
                  />
         </RelativeLayout>
 
-       <!-- <RelativeLayout
+       <RelativeLayout
             android:id="@+id/rl_account_Recommend"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/account_item_height"
