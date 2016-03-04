@@ -2,6 +2,7 @@ package com.xiaoningmeng;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -27,6 +28,7 @@ import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.fragment.KeyboardFragment;
 import com.xiaoningmeng.http.LHttpHandler;
 import com.xiaoningmeng.http.LHttpRequest;
+import com.xiaoningmeng.utils.ImageUtils;
 import com.xiaoningmeng.utils.UiUtils;
 
 import org.apache.http.Header;
@@ -80,22 +82,20 @@ public class MyNotelistActivity extends BaseFragmentActivity implements XListVie
     public void initView() {
 
         mListView = (XListView) findViewById(R.id.id_stickynavlayout_innerscrollview);
-        loadingView = (ViewGroup) findViewById(R.id.rl_loading);
-        title = (TextView)findViewById(R.id.tv_head_title);
-        keyboardFl = (FrameLayout) findViewById(R.id.fl_keyboard);
-        title.setText("我的消息");
-        loadingView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.home_discover_item_img_height), 0, 0);
-        mListView.setPullLoadEnable(false);
         mListView.setXListViewListener(this);
-        this.page = 1;
+        mListView.setPullLoadEnable(false);
         mListView.setFootViewNoMore(true);
+        mListView.autoRefresh();
+        loadingView = (ViewGroup) findViewById(R.id.rl_loading);
+        loadingView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.home_discover_item_img_height), 0, 0);
         pbEmptyTip = loadingView.findViewById(R.id.pb_empty_tip);
+        loadingView.setVisibility(View.GONE);
+        title = (TextView)findViewById(R.id.tv_head_title);
+        title.setText("我的消息");
+        keyboardFl = (FrameLayout) findViewById(R.id.fl_keyboard);
         setKeyBoardfragment(); //设置用户键盘
         addedImageFiles = new ArrayList<>();
-        if (loadingView != null) {
-            loadingView.setVisibility(View.VISIBLE);
-            loadingView.setClickable(false);
-        }
+        this.page = 1;
     }
 
     protected void onResume() {
@@ -234,13 +234,7 @@ public class MyNotelistActivity extends BaseFragmentActivity implements XListVie
 
     public void reRequestLoading() {
 
-        if (loadingView != null) {
-
-            loadingView.setClickable(false);
-            loadingView.setVisibility(View.VISIBLE);
-            ((TextView) loadingView.getChildAt(0)).setText("正在努力加载中");
-            loadingView.getChildAt(1).setVisibility(View.VISIBLE);
-        }
+        mListView.autoRefresh();
     }
 
     private void requestMyNoteListData(int page) {
@@ -305,7 +299,7 @@ public class MyNotelistActivity extends BaseFragmentActivity implements XListVie
                                 @Override
                                 public void onClick(View v) {
                                     reRequestLoading();
-                                    //ViewThreadActivity.this.requestPostsData(ViewThreadActivity.this.tid, ViewThreadActivity.this.page);
+                                    MyNotelistActivity.this.requestMyNoteListData(MyNotelistActivity.this.page);
                                 }
                             });
                         }
@@ -333,7 +327,8 @@ public class MyNotelistActivity extends BaseFragmentActivity implements XListVie
 
             for (File file: addedImageFiles) {
 
-                File fileData = file;
+                String compressFilePath =  ImageUtils.compress(file.getAbsolutePath(), Bitmap.CompressFormat.JPEG, 80);
+                final File fileData = new File(compressFilePath);
 
                 //上传图片
                 LHttpRequest.getInstance().forumUpload(this,new LHttpHandler<String>(this) {

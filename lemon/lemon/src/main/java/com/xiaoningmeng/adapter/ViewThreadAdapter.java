@@ -236,7 +236,13 @@ public class ViewThreadAdapter extends BaseAdapter {
                 Attachment attachment = post.getAttachments().get(aid);
                 String url = attachment.getUrl();
                 String path = attachment.getAttachment();
-                String absolutePath = ConstantURL.BBS_URL + url + path;
+                String absolutePath;
+                //支持远程附件
+                if (!url.startsWith("http")) {
+                    absolutePath = ConstantURL.BBS_URL + url + path;
+                }else {
+                    absolutePath = url + path;
+                }
                 Uri imgUri = Uri.parse(absolutePath);
                 imagesUrl.add(absolutePath);
                 /**

@@ -67,23 +67,20 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
     public void initView() {
 
         mListView = (XListView) findViewById(R.id.id_stickynavlayout_innerscrollview);
+        mListView.setXListViewListener(this);
+        mListView.setPullLoadEnable(false);
+        mListView.autoRefresh();
         loadingView = (ViewGroup) findViewById(R.id.rl_loading);
+        loadingView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.home_discover_item_img_height), 0, 0);
+        loadingView.setVisibility(View.GONE);
+        pbEmptyTip = loadingView.findViewById(R.id.pb_empty_tip);
         imgHeadRight = (ImageView) findViewById(R.id.img_head_right);
         badge = new BadgeView(this, imgHeadRight);
         addThreadIv = (ImageView) findViewById(R.id.iv_add);
         setTitleName(title);
         setRightHeadIcon(R.drawable.message);
-
-        loadingView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.home_discover_item_img_height), 0, 0);
-        mListView.setPullLoadEnable(false);
-        mListView.setXListViewListener(this);
         this.page = 1;
         this.maxPage = 1;
-        pbEmptyTip = loadingView.findViewById(R.id.pb_empty_tip);
-        if (loadingView != null) {
-            loadingView.setVisibility(View.VISIBLE);
-            loadingView.setClickable(false);
-        }
 
         addThreadIv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,13 +167,7 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
 
     public void reRequestLoading() {
 
-        if (loadingView != null) {
-
-            loadingView.setClickable(false);
-            loadingView.setVisibility(View.VISIBLE);
-            ((TextView) loadingView.getChildAt(0)).setText("正在努力加载中");
-            loadingView.getChildAt(1).setVisibility(View.VISIBLE);
-        }
+        mListView.autoRefresh();
     }
 
     public void setBadgeNum(ForumNotice notice) {

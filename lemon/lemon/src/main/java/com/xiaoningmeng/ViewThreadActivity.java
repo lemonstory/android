@@ -2,6 +2,7 @@ package com.xiaoningmeng;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -31,6 +32,7 @@ import com.xiaoningmeng.fragment.KeyboardFragment;
 import com.xiaoningmeng.http.ConstantURL;
 import com.xiaoningmeng.http.LHttpHandler;
 import com.xiaoningmeng.http.LHttpRequest;
+import com.xiaoningmeng.utils.ImageUtils;
 import com.xiaoningmeng.utils.UiUtils;
 import com.xiaoningmeng.view.ShareDialog;
 
@@ -90,23 +92,20 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
     public void initView() {
 
         mListView = (XListView) findViewById(R.id.id_stickynavlayout_innerscrollview);
+        mListView.setXListViewListener(this);
+        mListView.setPullLoadEnable(false);
+        mListView.autoRefresh();
         loadingView = (ViewGroup) findViewById(R.id.rl_loading);
+        loadingView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.home_discover_item_img_height), 0, 0);
+        pbEmptyTip = loadingView.findViewById(R.id.pb_empty_tip);
+        loadingView.setVisibility(View.GONE);
         title = (TextView)findViewById(R.id.tv_head_title);
         title.setText("帖子");
         setShareIconVisible();
-        loadingView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.home_discover_item_img_height), 0, 0);
-        mListView.setPullLoadEnable(false);
-        mListView.setXListViewListener(this);
         this.page = 1;
         this.maxPage = 1;
-        mListView.setFootViewNoMore(true);
-        pbEmptyTip = loadingView.findViewById(R.id.pb_empty_tip);
         setKeyBoardfragment(); //设置用户键盘
         addedImageFiles = new ArrayList<>();
-        if (loadingView != null) {
-            loadingView.setVisibility(View.VISIBLE);
-            loadingView.setClickable(false);
-        }
     }
 
     protected void onResume() {
@@ -276,8 +275,9 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
 
         mListView.stopRefresh();
         mListView.stopLoadMore();
-        mListView.setPullLoadEnable(true);
+
         if(this.page < this.maxPage) {
+            mListView.setPullLoadEnable(true);
             mListView.setFootViewNoMore(false);
         } else {
             mListView.setFootViewNoMore(true);
@@ -323,13 +323,7 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
 
     public void reRequestLoading() {
 
-        if (loadingView != null) {
-
-            loadingView.setClickable(false);
-            loadingView.setVisibility(View.VISIBLE);
-            ((TextView) loadingView.getChildAt(0)).setText("正在努力加载中");
-            loadingView.getChildAt(1).setVisibility(View.VISIBLE);
-        }
+        mListView.autoRefresh();
     }
 
     private void requestPostsData(int tid, int page) {
@@ -436,11 +430,9 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
         startLoading();
         //构建一个请求队列,先逐个上传图片,在上传文字
         if(addedImageFiles.size() > 0) {
-
             for (File file: addedImageFiles) {
-
-                File fileData = file;
-
+                String compressFilePath =  ImageUtils.compress(file.getAbsolutePath(), Bitmap.CompressFormat.JPEG, 80);
+                final File fileData = new File(compressFilePath);
                 //上传图片
                 LHttpRequest.getInstance().forumUpload(this,new LHttpHandler<String>(this) {
                     @Override
@@ -555,7 +547,6 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
                         stopLoading();
                     }
                 },tid,formHash,message,aids,repPid,repPost,noticeTrimStr);
-
     }
 
     public void onEventMainThread(ForumLoginEvent event) {

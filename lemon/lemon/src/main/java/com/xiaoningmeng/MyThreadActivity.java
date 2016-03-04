@@ -58,18 +58,15 @@ public class MyThreadActivity extends BaseActivity implements XListView.IXListVi
     public void initView() {
 
         mListView = (XListView) findViewById(R.id.id_stickynavlayout_innerscrollview);
-        loadingView = (ViewGroup) findViewById(R.id.rl_loading);
-        setTitleName("帖子");
-
-        loadingView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.home_discover_item_img_height), 0, 0);
         mListView.setPullLoadEnable(false);
         mListView.setXListViewListener(this);
-        this.page = 1;
+        mListView.autoRefresh();
+        loadingView = (ViewGroup) findViewById(R.id.rl_loading);
+        loadingView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.home_discover_item_img_height), 0, 0);
         pbEmptyTip = loadingView.findViewById(R.id.pb_empty_tip);
-        if (loadingView != null) {
-            loadingView.setVisibility(View.VISIBLE);
-            loadingView.setClickable(false);
-        }
+        loadingView.setVisibility(View.GONE);
+        setTitleName("帖子");
+        this.page = 1;
     }
 
     @Override
@@ -130,13 +127,7 @@ public class MyThreadActivity extends BaseActivity implements XListView.IXListVi
 
     public void reRequestLoading() {
 
-        if (loadingView != null) {
-
-            loadingView.setClickable(false);
-            loadingView.setVisibility(View.VISIBLE);
-            ((TextView) loadingView.getChildAt(0)).setText("正在努力加载中");
-            loadingView.getChildAt(1).setVisibility(View.VISIBLE);
-        }
+        mListView.autoRefresh();
     }
 
     private void requestMyThreadData( int page) {

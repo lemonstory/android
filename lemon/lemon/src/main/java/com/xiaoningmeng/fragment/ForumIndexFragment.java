@@ -52,16 +52,15 @@ public class ForumIndexFragment extends BaseFragment  implements IXListViewListe
 
     public void initView() {
 
-        mListView = (XListView) contentView.findViewById(R.id.id_stickynavlayout_innerscrollview);
         loadingView = (ViewGroup)contentView.findViewById(R.id.rl_loading);
         loadingView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.home_discover_item_img_height), 0, 0);
-        mListView.setPullLoadEnable(false);
-        mListView.setXListViewListener(this);
         pbEmptyTip = loadingView.findViewById(R.id.pb_empty_tip);
-        if (loadingView != null) {
-            loadingView.setVisibility(View.VISIBLE);
-            loadingView.setClickable(false);
-        }
+        loadingView.setVisibility(View.GONE);
+
+        mListView = (XListView) contentView.findViewById(R.id.id_stickynavlayout_innerscrollview);
+        mListView.setXListViewListener(this);
+        mListView.setPullLoadEnable(false);
+        mListView.autoRefresh();
     }
 
     public void hideEmptyTip() {
@@ -109,13 +108,11 @@ public class ForumIndexFragment extends BaseFragment  implements IXListViewListe
     }
 
     public void reRequestLoading(){
+
+        mListView.autoRefresh();
         if(getView() == null){
             return;
         }
-        loadingView.setClickable(false);
-        loadingView.setVisibility(View.VISIBLE);
-        ((TextView)loadingView.getChildAt(0)).setText("正在努力加载中");
-        loadingView.getChildAt(1).setVisibility(View.VISIBLE);
     }
 
     public void setBadgeNum(ForumNotice notice) {
@@ -138,7 +135,6 @@ public class ForumIndexFragment extends BaseFragment  implements IXListViewListe
 
                     @Override
                     public void onGetDataSuccess(String data) {
-
                         loadingView.setVisibility(View.GONE);
                         try{
                             JSONObject jsonObject = new JSONObject(data);
@@ -166,7 +162,6 @@ public class ForumIndexFragment extends BaseFragment  implements IXListViewListe
                     @Override
                     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                         super.onFailure(statusCode, headers, responseString, throwable);
-
                         loadingView.setVisibility(View.VISIBLE);
                         ((TextView)loadingView.getChildAt(0)).setText("请连接网络后点击屏幕重试");
                         loadingView.getChildAt(1).setVisibility(View.INVISIBLE);

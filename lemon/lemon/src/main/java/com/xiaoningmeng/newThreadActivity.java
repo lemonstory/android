@@ -2,8 +2,10 @@ package com.xiaoningmeng;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -19,6 +21,8 @@ import com.xiaoningmeng.fragment.KeyboardFragment;
 import com.xiaoningmeng.http.LHttpHandler;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.utils.AppUtils;
+import com.xiaoningmeng.utils.FileUtils;
+import com.xiaoningmeng.utils.ImageUtils;
 import com.xiaoningmeng.utils.UiUtils;
 
 import org.apache.http.Header;
@@ -40,6 +44,8 @@ public class NewThreadActivity extends BaseFragmentActivity implements View.OnCl
     private String formHash;
     private int fid;
     private AddedImageFragment addedImageFragment;
+    private String SAVED_IMAGE_DIR_PATH = Environment
+            .getExternalStorageDirectory() + "/DCIM/Camera";// 图片的存储目录
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,27 +113,18 @@ public class NewThreadActivity extends BaseFragmentActivity implements View.OnCl
     private void commitThread() {
 
         final ArrayList<String>aids = new ArrayList<>();;//dz上传图片后返回的图片标示符
-        if (subjectEt.getText().length() == 0) {
-
-            Toast.makeText(mContext,"请输入标题",Toast.LENGTH_SHORT).show();
-        }
-        if(messageEt.getText().length() == 0) {
-
-            Toast.makeText(mContext,"没有输入任何内容",Toast.LENGTH_SHORT).show();
-        }
-        startLoading();
         //构建一个请求队列,先逐个上传图片,在上传文字
         if(addedImageFiles.size() > 0) {
 
             for (File file: addedImageFiles) {
 
-                File fileData = file;
-
+                String compressFilePath =  ImageUtils.compress(file.getAbsolutePath(), Bitmap.CompressFormat.JPEG, 80);
+                final File fileData = new File(compressFilePath);
                 //上传图片
                 LHttpRequest.getInstance().forumUpload(this,new LHttpHandler<String>(this) {
                     @Override
                     public void onGetDataSuccess(String data) {
-
+                        FileUtils.deleteFile(fileData);
                         try {
 
                             JSONObject jsonObject = new JSONObject(data);
@@ -205,9 +202,8 @@ public class NewThreadActivity extends BaseFragmentActivity implements View.OnCl
 
                             if(messageVal != null && messageVal.equals(Constant.FORUM_POST_NEW_THREAD_SUCCEED)) {
 
-                                Toast.makeText(mContext,messageStr,Toast.LENGTH_SHORT).show();
                                 finish();
-
+                                //Toast.makeText(mContext,messageStr,Toast.LENGTH_SHORT).show();
                             } else {
 
                                 Toast.makeText(mContext,messageStr,Toast.LENGTH_SHORT).show();
@@ -252,6 +248,15 @@ public class NewThreadActivity extends BaseFragmentActivity implements View.OnCl
         switch (id) {
             case R.id.tv_head_right:
                 setLoadingTip("正在发布");
+                if (subjectEt.getText().length() == 0) {
+
+                    Toast.makeText(mContext,"请输入标题",Toast.LENGTH_SHORT).show();
+                }
+                if(messageEt.getText().length() == 0) {
+
+                    Toast.makeText(mContext,"没有输入任何内容",Toast.LENGTH_SHORT).show();
+                }
+                startLoading();
                 commitThread();
                 break;
         }
@@ -283,4 +288,6 @@ public class NewThreadActivity extends BaseFragmentActivity implements View.OnCl
         super.onActivityResult(requestCode, resultCode, data);
         this.addedImageFragment.onActivityResult(requestCode,resultCode,data);
     }
+
+
 }

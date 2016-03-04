@@ -1,36 +1,36 @@
 package com.xiaoningmeng.utils;
 
-import java.io.ByteArrayInputStream;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
+import android.os.Build;
+
+import com.xiaoningmeng.constant.Constant;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import com.xiaoningmeng.constant.Constant;
-
-
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
-
 public class ImageUtils {
-	
-	public static String compress(String filePath){
-		
-		Bitmap bitmap = getSmallBitmap(filePath); 
-		return saveBitmap(bitmap);
+
+	public static String compress(String filePath,Bitmap.CompressFormat format,int quality) {
+
+		Bitmap bitmap = getCompressBitmap(filePath,format,quality,null);
+		return saveBitmap(bitmap,format,quality);
 	}
 
+	//400*400
+	public static String compressSmall(String filePath,Bitmap.CompressFormat format,int quality){
+		
+		Bitmap bitmap = getSmallBitmap(filePath, format, quality);
+		return saveBitmap(bitmap,format,quality);
+	}
 
-	public static Bitmap getSmallBitmap(String filePath) {
-    	
-		final BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(filePath, options);
-		options.inSampleSize = calculateInSampleSize(options, 400, 400);
-		options.inJustDecodeBounds = false;
-		Bitmap bm = BitmapFactory.decodeFile(filePath, options);
+	public static Bitmap getCompressBitmap(String filePath,Bitmap.CompressFormat format,int quality,BitmapFactory.Options options) {
+
+		Bitmap bm = BitmapFactory.decodeFile(filePath,options);
 		if(bm == null){
 			return  null;
 		}
@@ -39,8 +39,8 @@ public class ImageUtils {
 		ByteArrayOutputStream baos = null ;
 		try{
 			baos = new ByteArrayOutputStream();
-			bm.compress(Bitmap.CompressFormat.PNG, 80, baos);
-			
+			bm.compress(format,quality, baos);
+
 		}finally{
 			try {
 				if(baos != null)
@@ -49,6 +49,17 @@ public class ImageUtils {
 				e.printStackTrace();
 			}
 		}
+		return bm ;
+	}
+
+	public static Bitmap getSmallBitmap(String filePath,Bitmap.CompressFormat format,int quality) {
+    	
+		final BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = true;
+		BitmapFactory.decodeFile(filePath, options);
+		options.inSampleSize = calculateInSampleSize(options, 400, 400);
+		options.inJustDecodeBounds = false;
+		Bitmap bm = getCompressBitmap(filePath,format,quality,options);
 		return bm ;
 	}
 	
@@ -113,21 +124,47 @@ public class ImageUtils {
 	}
 	
 	
-	public static String saveBitmap(Bitmap bitmap) {
+	public static String saveBitmap(Bitmap bitmap,Bitmap.CompressFormat format,int quality) {
 
-		FileUtils.createSDDir(Constant.FILE_DIR_NAME);
-		String filePath = FileUtils.SDPATH() + Constant.FILE_DIR_NAME + "/"+ "tempImage.png";
+		String filePath = makeImageFilePath(format);
 		File f = new File(filePath);
 		try {
 			if (f.exists()) {
 				f.delete();
 			}
 			FileOutputStream out = new FileOutputStream(f);
-			bitmap.compress(Bitmap.CompressFormat.PNG,80, out);
+			bitmap.compress(format,quality, out);
 			out.flush();
 			out.close();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+		return filePath;
+	}
+
+	public static String makeImageFilePath(Bitmap.CompressFormat format) {
+
+		File dir = new File(FileUtils.SDPATH() + Constant.FILE_DIR_NAME);
+		if (!dir.exists()) {
+			FileUtils.createSDDir(FileUtils.SDPATH() + Constant.FILE_DIR_NAME);
+		}
+		String filePath = FileUtils.SDPATH() + Constant.FILE_DIR_NAME + System.currentTimeMillis();
+		switch (format) {
+			case JPEG:
+				filePath = filePath + ".jpg";
+				break;
+
+			case PNG:
+				filePath = filePath + ".png";
+				break;
+		}
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+			switch (format) {
+				case WEBP:
+					filePath = filePath + ".webp";
+					break;
+			}
 		}
 		return filePath;
 	}

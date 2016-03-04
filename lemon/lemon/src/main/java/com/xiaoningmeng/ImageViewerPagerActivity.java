@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -118,16 +119,11 @@ public class ImageViewerPagerActivity extends BaseActivity {
         public View instantiateItem(ViewGroup container, int position) {
 
             PhotoView photoView = new PhotoView(container.getContext());
+            photoView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             String imageAbsolutePath = this.imagesPath.get(position);
             HashMap<String,Integer> imageSize = PostImageUtils.parseImageSizeWithUrl(ImageViewerPagerActivity.this, imageAbsolutePath);
             ImageSize targetSize = new ImageSize(imageSize.get("widthPx"),imageSize.get("heightPx"));
-            Log.e("bbb","imageAbsolutePath = " + imageAbsolutePath);
-            String now = String.valueOf(System.currentTimeMillis());
-            //http://h.hiphotos.baidu.com/image/pic/item/38dbb6fd5266d01646062721952bd40735fa359f.jpg?111
-            //imageAbsolutePath = "http://p.xinqing.com/2016/02/10/48ed2wpc6idpq1qlhzrzyv4oa.jpg"+"?"+now;
-            imageAbsolutePath = "http://p.xiaoningmeng.net/album/2016/02/27/eb530d951695112cf80ff651371ceb38.jpg"+"?"+now;
             ImageLoader.getInstance().displayImage(imageAbsolutePath,(ImageAware) new ImageViewAware(photoView),(DisplayImageOptions)null, targetSize, imageLoadingListener, imageLoadingProgressListener);
-
             container.addView(photoView, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
             photoView.setOnPhotoTapListener(onPhotoTapListener);
             return photoView;
