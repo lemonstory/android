@@ -201,7 +201,7 @@ public class NewThreadActivity extends BaseFragmentActivity implements View.OnCl
                             String messageStr = messageObject.getString("messagestr");
 
                             if(messageVal != null && messageVal.equals(Constant.FORUM_POST_NEW_THREAD_SUCCEED)) {
-
+                                NewThreadActivity.this.setResult(RESULT_OK);
                                 finish();
                                 //Toast.makeText(mContext,messageStr,Toast.LENGTH_SHORT).show();
                             } else {

@@ -25,6 +25,7 @@ public class ForumIndexAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private Context mContext;
     private List<Forum> forums;
+    public String newMyPost;
 
     public ForumIndexAdapter(Context context, List<Forum> forums) {
 
@@ -84,6 +85,7 @@ public class ForumIndexAdapter extends BaseAdapter {
                 String fid = forums.get(position).getFId();
                 String name = forums.get(position).getName();
                 Intent i = new Intent(mContext,ForumDisplayActivity.class);
+                i.putExtra("newmypost",newMyPost);
                 i.putExtra("name",name);
                 i.putExtra("fid", Integer.parseInt(fid));
                 i.putExtra("page",1);

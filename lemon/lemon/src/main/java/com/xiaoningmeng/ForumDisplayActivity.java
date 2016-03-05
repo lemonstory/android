@@ -13,6 +13,7 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xiaoningmeng.adapter.ForumDisplayAdapter;
+import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.ForumNotice;
@@ -47,6 +48,7 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
     private String formHash;
     private BadgeView badge;
     private ForumNotice notice;
+    private String newMyPost;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -54,6 +56,7 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
         Fresco.initialize(this);
         setContentView(R.layout.activity_forum_display);
         mContext = this;
+        newMyPost = getIntent().getStringExtra("newmypost");
         fid = getIntent().getIntExtra("fid", 1);
         page = getIntent().getIntExtra("page", 1);
         title = getIntent().getStringExtra("name");
@@ -76,10 +79,11 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
         loadingView.setVisibility(View.GONE);
         pbEmptyTip = loadingView.findViewById(R.id.pb_empty_tip);
         imgHeadRight = (ImageView) findViewById(R.id.img_head_right);
+        setRightHeadIcon(R.drawable.message);
         badge = new BadgeView(this, imgHeadRight);
         addThreadIv = (ImageView) findViewById(R.id.iv_add);
         setTitleName(title);
-        setRightHeadIcon(R.drawable.message);
+
         this.page = 1;
         this.maxPage = 1;
 
@@ -87,12 +91,12 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
             @Override
             public void onClick(View v) {
 
-                if (UserAuth.auditUser(mContext, "登录后,才能批量故事喔.")) {
+                if (UserAuth.auditUser(mContext, "")) {
                     Intent i = new Intent(ForumDisplayActivity.this, NewThreadActivity.class);
                     i.putExtra("fid", fid);
                     i.putExtra("hash", hash);
                     i.putExtra("formhash", formHash);
-                    startActivityForNew(i);
+                    startActivityForResult(i,0);
                 }
             }
         });
@@ -101,13 +105,19 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
             @Override
             public void onClick(View v) {
 
-                if(badge.isShown()) {
+                if (badge.isShown()) {
                     badge.hide();
                 }
                 Intent i = new Intent(ForumDisplayActivity.this, MyNotelistActivity.class);
                 startActivityForNew(i);
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setBadgeNum(newMyPost);
     }
 
     @Override
@@ -168,15 +178,22 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
         mListView.autoRefresh();
     }
 
-    public void setBadgeNum(ForumNotice notice) {
-        String newMyPost = notice.getNewmypost();
-        int newMyPostInt = Integer.parseInt(notice.getNewmypost());
-        if(newMyPostInt > 0) {
-            badge.setText(newMyPost);
-            badge.show();
-        } else {
-            badge.hide();
+    public void setBadgeNum(String newMyPost) {
+
+        if (MyApplication.getInstance().isIsLogin() && MyApplication.getInstance().userInfo != null) {
+
+            imgHeadRight.setVisibility(View.VISIBLE);
+            int newMyPostInt = Integer.parseInt(newMyPost);
+            if(newMyPostInt > 0) {
+                badge.setText(newMyPost);
+                badge.show();
+            } else {
+                badge.hide();
+            }
+        }else {
+            imgHeadRight.setVisibility(View.INVISIBLE);
         }
+
     }
 
     private void requestForumThreadsData(int fid, int page) {
@@ -225,7 +242,8 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
 
                             if(variablesObject.has("notice")) {
                                 notice = gson.fromJson(variablesObject.getString("notice"),ForumNotice.class);
-                                setBadgeNum(notice);
+                                newMyPost = notice.getNewmypost();
+                                setBadgeNum(newMyPost);
                             }
 
                         } catch (JSONException e) {
@@ -260,5 +278,16 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
                         super.onFinish();
                     }
                 }, fid, page);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 0) {
+            if (resultCode == RESULT_OK) {
+                mListView.autoRefresh();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

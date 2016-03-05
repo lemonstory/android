@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.baoyz.swipemenu.xlistview.XListView;
@@ -14,6 +13,7 @@ import com.google.gson.reflect.TypeToken;
 import com.xiaoningmeng.HomeActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.adapter.ForumIndexAdapter;
+import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.bean.Forum;
 import com.xiaoningmeng.bean.ForumNotice;
@@ -32,12 +32,13 @@ public class ForumIndexFragment extends BaseFragment  implements IXListViewListe
 
     private ViewGroup loadingView;
     private XListView mListView;
-    private BaseAdapter mAdapter;
+    private ForumIndexAdapter mAdapter;
     private List<Forum> mForumList = new ArrayList<>();
     private View contentView;
     private String tip = null;
     private View pbEmptyTip;
     private ForumNotice notice;
+    public String newMyPost;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,6 +84,23 @@ public class ForumIndexFragment extends BaseFragment  implements IXListViewListe
         }
     }
 
+    public void setMessageBadgeNum(ForumNotice notice) {
+
+        if (MyApplication.getInstance().isIsLogin() && MyApplication.getInstance().userInfo != null) {
+            HomeActivity activity = (HomeActivity) this.getActivity();
+            newMyPost = notice.getNewmypost();
+            //将newMyPost传给ForumIndexAdapter是为了在打开帖子详情页是,详情页有又上角即刻出现badgeNumber
+            mAdapter.newMyPost = newMyPost;
+            int newMyPostInt = Integer.parseInt(notice.getNewmypost());
+            if (newMyPostInt > 0) {
+                activity.messageBadge.setText(newMyPost);
+                activity.messageBadge.show();
+            } else {
+                activity.messageBadge.hide();
+            }
+        }
+    }
+
     private void onLoad() {
 
         mListView.stopRefresh();
@@ -113,19 +131,6 @@ public class ForumIndexFragment extends BaseFragment  implements IXListViewListe
         }
     }
 
-    public void setBadgeNum(ForumNotice notice) {
-
-        String newMyPost = notice.getNewmypost();
-        int newMyPostInt = Integer.parseInt(notice.getNewmypost());
-        HomeActivity activity = (HomeActivity) this.getActivity();
-        if(newMyPostInt > 0) {
-            activity.badge.setText(newMyPost);
-            activity.badge.show();
-        } else {
-            activity.badge.hide();
-        }
-    }
-
     private void requestForumListData(final String direction,String startId) {
 
         LHttpRequest.getInstance().getForumIndex(getActivity(),
@@ -149,7 +154,7 @@ public class ForumIndexFragment extends BaseFragment  implements IXListViewListe
 
                             if(variablesObject.has("notice")) {
                                 notice = gson.fromJson(variablesObject.getString("notice"),ForumNotice.class);
-                                setBadgeNum(notice);
+                                setMessageBadgeNum(notice);
                             }
 
                         }catch (JSONException e) {
