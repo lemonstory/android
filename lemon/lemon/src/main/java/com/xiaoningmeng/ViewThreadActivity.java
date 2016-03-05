@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -83,6 +84,7 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
         tid = getIntent().getIntExtra("tid", 1);
         pid = getIntent().getIntExtra("pid",1);
         page = getIntent().getIntExtra("page", 1);
+        Log.e("eee","tid = " + tid + ",pid = " + pid + "page = " + page);
         mAdapter = new ViewThreadAdapter(this,forumThread,mPosts);
         mListView.setAdapter(mAdapter);
         requestPostsData(tid, page);
@@ -273,15 +275,14 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
 
     private void onLoad() {
 
-        mListView.stopRefresh();
-        mListView.stopLoadMore();
-
         if(this.page < this.maxPage) {
             mListView.setPullLoadEnable(true);
             mListView.setFootViewNoMore(false);
         } else {
             mListView.setFootViewNoMore(true);
         }
+        mListView.stopRefresh();
+        mListView.stopLoadMore();
     }
 
     public void setForumThread(ForumThread forumThread) {

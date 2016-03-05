@@ -61,7 +61,6 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
         mAdapter = new ForumDisplayAdapter(this, mForumThreads,fid);
         mAdapter.showLastPostTime = true;
         mListView.setAdapter(mAdapter);
-        requestForumThreadsData(fid, page);
     }
 
     public void initView() {
@@ -69,6 +68,8 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
         mListView = (XListView) findViewById(R.id.id_stickynavlayout_innerscrollview);
         mListView.setXListViewListener(this);
         mListView.setPullLoadEnable(false);
+        //autoRefresh会自动调用onRefresh()方法
+        //去掉Oncreate中的requestForumThreadsData调用
         mListView.autoRefresh();
         loadingView = (ViewGroup) findViewById(R.id.rl_loading);
         loadingView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.home_discover_item_img_height), 0, 0);
@@ -112,7 +113,7 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
     @Override
     public void onRefresh() {
 
-        this.page = 1;
+        ForumDisplayActivity.this.page = 1;
         requestForumThreadsData(fid, page);
         mListView.setPullLoadEnable(false);
     }
@@ -136,15 +137,14 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
 
     private void onLoad() {
 
-        mListView.stopRefresh();
-        mListView.stopLoadMore();
-
         if(this.page < this.maxPage) {
             mListView.setPullLoadEnable(true);
             mListView.setFootViewNoMore(false);
         } else {
             mListView.setFootViewNoMore(true);
         }
+        mListView.stopRefresh();
+        mListView.stopLoadMore();
     }
 
     public void setForumsThreads(List<ForumThread> threads) {
@@ -162,16 +162,13 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
     }
 
     private void hideEmptyTip() {
-
     }
 
     public void reRequestLoading() {
-
         mListView.autoRefresh();
     }
 
     public void setBadgeNum(ForumNotice notice) {
-
         String newMyPost = notice.getNewmypost();
         int newMyPostInt = Integer.parseInt(notice.getNewmypost());
         if(newMyPostInt > 0) {
@@ -183,7 +180,6 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
     }
 
     private void requestForumThreadsData(int fid, int page) {
-
         LHttpRequest.getInstance().getForumThreads(this,
                 new LHttpHandler<String>(this) {
 

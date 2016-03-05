@@ -76,7 +76,6 @@ public class MyNotelistActivity extends BaseFragmentActivity implements XListVie
         page = 1;
         mAdapter = new MyNoteListAdapter(this,mNoteList);
         mListView.setAdapter(mAdapter);
-        requestMyNoteListData(page);
     }
 
     public void initView() {

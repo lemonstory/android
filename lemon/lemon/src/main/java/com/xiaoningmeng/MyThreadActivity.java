@@ -52,7 +52,6 @@ public class MyThreadActivity extends BaseActivity implements XListView.IXListVi
         mAdapter = new ForumDisplayAdapter(this, mForumThreads,0);
         mAdapter.showForumName = true;
         mListView.setAdapter(mAdapter);
-        requestMyThreadData(page);
     }
 
     public void initView() {

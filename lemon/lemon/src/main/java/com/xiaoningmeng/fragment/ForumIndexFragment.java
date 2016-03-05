@@ -46,7 +46,6 @@ public class ForumIndexFragment extends BaseFragment  implements IXListViewListe
         initView();
         mAdapter = new ForumIndexAdapter(getActivity(),mForumList);
         mListView.setAdapter(mAdapter);
-        requestForumListData(Constant.FRIST, Constant.FRIST_ID);
         return contentView;
     }
 
@@ -56,7 +55,6 @@ public class ForumIndexFragment extends BaseFragment  implements IXListViewListe
         loadingView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.home_discover_item_img_height), 0, 0);
         pbEmptyTip = loadingView.findViewById(R.id.pb_empty_tip);
         loadingView.setVisibility(View.GONE);
-
         mListView = (XListView) contentView.findViewById(R.id.id_stickynavlayout_innerscrollview);
         mListView.setXListViewListener(this);
         mListView.setPullLoadEnable(false);
