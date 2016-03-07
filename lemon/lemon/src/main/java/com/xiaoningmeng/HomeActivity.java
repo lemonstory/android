@@ -288,8 +288,8 @@ public class HomeActivity extends BaseFragmentActivity implements
 					transaction.show(mForumIndexFragment);
 				}
 				forumBadge.hide();
-				showMessageBadge();
 				mForumTabTv.setSelected(true);
+				showMessageBadge();
 				transaction.commitAllowingStateLoss();
 				break;
 			case 3:
@@ -345,10 +345,11 @@ public class HomeActivity extends BaseFragmentActivity implements
 
 	private void showMessageBadge() {
 
-		if (MyApplication.getInstance().isIsLogin() && MyApplication.getInstance().userInfo != null) {
+		if (MyApplication.getInstance().isIsLogin() && MyApplication.getInstance().userInfo != null && mForumTabTv.isSelected()) {
 			mCoverImg.setVisibility(View.VISIBLE);
 			mCoverImg.setImageResource(R.drawable.message);
 			mCoverImg.setOnClickListener(messageImgClick);
+
 			if (null != newMyPost && !newMyPost.equals("")) {
 				int newMyPostInt = Integer.parseInt(newMyPost);
 				if (newMyPostInt > 0) {

@@ -132,13 +132,13 @@
     <orderEntry type="library" exported="" name="umeng-onlineconfig_v1.0.0" level="project" />
     <orderEntry type="library" exported="" name="umeng-update-v2.6.0.1" level="project" />
     <orderEntry type="library" exported="" name="umeng_social_sdk" level="project" />
+    <orderEntry type="library" exported="" name="Volley-1.0.19" level="project" />
     <orderEntry type="library" exported="" name="imagepipeline-base-0.9.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-appindexing-8.1.0" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_QQZone_1" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-22.2.1" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_QQZone_2" level="project" />
     <orderEntry type="library" exported="" name="SocialSDK_QQZone_3" level="project" />
-    <orderEntry type="library" exported="" name="Volley" level="project" />
     <orderEntry type="library" exported="" name="bugly_1.2.8_release" level="project" />
     <orderEntry type="library" exported="" name="drawee-0.9.0" level="project" />
     <orderEntry type="library" exported="" name="eventbus-2.4.1" level="project" />

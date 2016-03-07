@@ -183,11 +183,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 					public void onGetDataSuccess(UserInfo data) {
 
 						UserAuth.getInstance().login(mContext, data);
-						if (ActivityManager.getScreenManager().getActivity(HomeActivity.class) == null) {
-							startActivityForNew(new Intent(LoginActivity.this,
-									HomeActivity.class));
-						}
-						finish();
 					}
 
 					@Override
@@ -215,9 +210,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 					public void onGetDataSuccess(UserInfo data) {
 
 						UserAuth.getInstance().login(mContext, data);
-						startActivityForNew(new Intent(LoginActivity.this,
-								GuideActivity.class));
-						finish();
 					}
 				});
 	}
@@ -286,11 +278,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 					@Override
 					public void onGetDataSuccess(UserInfo data) {
 						UserAuth.getInstance().login(mContext, data);
-						if (ActivityManager.getScreenManager().getActivity(HomeActivity.class) == null) {
-							startActivityForNew(new Intent(LoginActivity.this,
-									HomeActivity.class));
-						}
-						finish();
 					}
 
 					@Override
@@ -315,20 +302,25 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 					@Override
 					public void onGetDataSuccess(UserInfo data) {
 						UserAuth.getInstance().login(mContext, data);
-						startActivityForNew(new Intent(LoginActivity.this, GuideActivity.class));
-						finish();
-
 					}
 				});
 	}
 
+	private void enterHomeActivity() {
+
+		if (ActivityManager.getScreenManager().getActivity(HomeActivity.class) == null) {
+			startActivityForNew(new Intent(LoginActivity.this,
+					HomeActivity.class));
+		}
+		finish();
+	}
+
 	//向uc同步用户登录信息
-	public void onEventAsync(LoginEvent event) {
+	public void onEventMainThread(LoginEvent event) {
 
 		UserInfo userinfo = event.userInfo;
 		String uc_callback = userinfo.getUcCallback();
 		LHttpRequest.getInstance().UCSyncLoginRequest(LoginActivity.this, uc_callback, new LHttpHandler<String>(LoginActivity.this) {
-
 			@Override
 			public void onGetDataSuccess(String data) {
 				try {
@@ -345,10 +337,11 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 								EventBus.getDefault().post(new ForumLoginEvent(forumLoginVar));
 							}
 						}
+						enterHomeActivity();
 					}
 
 				} catch (JSONException e) {
-
+					Toast.makeText(LoginActivity.this,"登录失败",Toast.LENGTH_SHORT).show();
 					e.printStackTrace();
 				}
 
@@ -357,8 +350,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 			@Override
 			public void onFailure(int statusCode, Header[] headers,
 								  String responseString, Throwable throwable) {
-				//DebugUtils.e("UCSyncLoginRequest onFailure callback is run");
-				//TODO:uc_callback的接口返回，不是项目接口的标准规范，所以会进入到这个回调里面
+				DebugUtils.e("UCSyncLoginRequest onFailure callback is run");
 			}
 		});
 	}
