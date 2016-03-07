@@ -76,6 +76,7 @@ public class MyNotelistActivity extends BaseFragmentActivity implements XListVie
         page = 1;
         mAdapter = new MyNoteListAdapter(this,mNoteList);
         mListView.setAdapter(mAdapter);
+        mListView.autoRefresh();
     }
 
     public void initView() {
@@ -84,7 +85,6 @@ public class MyNotelistActivity extends BaseFragmentActivity implements XListVie
         mListView.setXListViewListener(this);
         mListView.setPullLoadEnable(false);
         mListView.setFootViewNoMore(true);
-        mListView.autoRefresh();
         loadingView = (ViewGroup) findViewById(R.id.rl_loading);
         loadingView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.home_discover_item_img_height), 0, 0);
         pbEmptyTip = loadingView.findViewById(R.id.pb_empty_tip);

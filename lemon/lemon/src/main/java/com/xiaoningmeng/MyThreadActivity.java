@@ -52,6 +52,7 @@ public class MyThreadActivity extends BaseActivity implements XListView.IXListVi
         mAdapter = new ForumDisplayAdapter(this, mForumThreads,0);
         mAdapter.showForumName = true;
         mListView.setAdapter(mAdapter);
+        mListView.autoRefresh();
     }
 
     public void initView() {
@@ -59,7 +60,6 @@ public class MyThreadActivity extends BaseActivity implements XListView.IXListVi
         mListView = (XListView) findViewById(R.id.id_stickynavlayout_innerscrollview);
         mListView.setPullLoadEnable(false);
         mListView.setXListViewListener(this);
-        mListView.autoRefresh();
         loadingView = (ViewGroup) findViewById(R.id.rl_loading);
         loadingView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.home_discover_item_img_height), 0, 0);
         pbEmptyTip = loadingView.findViewById(R.id.pb_empty_tip);

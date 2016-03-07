@@ -64,6 +64,7 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
         mAdapter = new ForumDisplayAdapter(this, mForumThreads,fid);
         mAdapter.showLastPostTime = true;
         mListView.setAdapter(mAdapter);
+        mListView.autoRefresh();
     }
 
     public void initView() {
@@ -73,7 +74,6 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
         mListView.setPullLoadEnable(false);
         //autoRefresh会自动调用onRefresh()方法
         //去掉Oncreate中的requestForumThreadsData调用
-        mListView.autoRefresh();
         loadingView = (ViewGroup) findViewById(R.id.rl_loading);
         loadingView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.home_discover_item_img_height), 0, 0);
         loadingView.setVisibility(View.GONE);

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -79,15 +78,14 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
         super.onCreate(savedInstanceState);
         Fresco.initialize(this);
         setContentView(R.layout.activity_view_thread);
-        initView();
         mContext = this;
         tid = getIntent().getIntExtra("tid", 1);
         pid = getIntent().getIntExtra("pid",1);
         page = getIntent().getIntExtra("page", 1);
-        Log.e("eee","tid = " + tid + ",pid = " + pid + "page = " + page);
+        initView();
         mAdapter = new ViewThreadAdapter(this,forumThread,mPosts);
         mListView.setAdapter(mAdapter);
-        requestPostsData(tid, page);
+        mListView.autoRefresh();
         EventBus.getDefault().register(this);
     }
 
@@ -96,7 +94,6 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
         mListView = (XListView) findViewById(R.id.id_stickynavlayout_innerscrollview);
         mListView.setXListViewListener(this);
         mListView.setPullLoadEnable(false);
-        mListView.autoRefresh();
         loadingView = (ViewGroup) findViewById(R.id.rl_loading);
         loadingView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.home_discover_item_img_height), 0, 0);
         pbEmptyTip = loadingView.findViewById(R.id.pb_empty_tip);

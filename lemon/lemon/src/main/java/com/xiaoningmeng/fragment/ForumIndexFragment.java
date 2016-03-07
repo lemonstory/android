@@ -47,6 +47,7 @@ public class ForumIndexFragment extends BaseFragment  implements IXListViewListe
         initView();
         mAdapter = new ForumIndexAdapter(getActivity(),mForumList);
         mListView.setAdapter(mAdapter);
+        mListView.autoRefresh();
         return contentView;
     }
 
@@ -59,7 +60,6 @@ public class ForumIndexFragment extends BaseFragment  implements IXListViewListe
         mListView = (XListView) contentView.findViewById(R.id.id_stickynavlayout_innerscrollview);
         mListView.setXListViewListener(this);
         mListView.setPullLoadEnable(false);
-        mListView.autoRefresh();
     }
 
     public void hideEmptyTip() {
