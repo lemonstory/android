@@ -53,8 +53,11 @@ import com.xiaoningmeng.view.RatingBar;
 import com.xiaoningmeng.view.ShareDialog;
 import com.xiaoningmeng.view.StickyNavLayout;
 import com.xiaoningmeng.view.dialog.TipDialog;
+
 import org.apache.http.Header;
+
 import java.util.List;
+
 import de.greenrobot.event.EventBus;
 
 
@@ -101,13 +104,14 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mAlbumId = getIntent().getStringExtra("albumId");
-		boolean isScroll = getIntent().getBooleanExtra("isScroll", false);
-		int pager = getIntent().getIntExtra("pager", 0);
-		mPlayTime = getIntent().getIntExtra("playtimes",0);
-		mPlayStoryId = getIntent().getStringExtra("playstoryid");
 		Fresco.initialize(this);
 		setContentView(R.layout.activity_ablum_detail);
+		mAlbumId = getAlbumIdWithIntent();
+		boolean isScroll = getIntent().getBooleanExtra("isScroll", false);
+		int pager = getIntent().getIntExtra("pager", 0);
+		mPlayTime = getIntent().getIntExtra("playtimes", 0);
+		mPlayStoryId = getIntent().getStringExtra("playstoryid");
+
 		mViewPager = (ViewPager) findViewById(R.id.id_stickynavlayout_viewpager);
 		mPlayListTabTv = (TextView) findViewById(R.id.tv_ablum_detail_play_list);
 		mIntroTabTv = (TextView) findViewById(R.id.tv_ablum_detail_info);
@@ -141,7 +145,7 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 		mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
 			@Override
 			public void onPageScrolled(int position, float positionOffset,
-					int positionOffsetPixels) {
+									   int positionOffsetPixels) {
 			}
 
 			@Override
@@ -171,44 +175,68 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 		}
 	}
 
+	private String getAlbumIdWithIntent() {
+
+		String albumIdWithIntent = "";
+		String albumIdWithExtar = "";
+		String albumIdWithData = "";
+
+		Intent intent = this.getIntent();
+		Uri data = intent.getData();
+		albumIdWithExtar = intent.getStringExtra("albumId");
+		if(null != data) {
+			albumIdWithData = data.getQueryParameter("albumid");
+		}
+
+		if (albumIdWithExtar != null && !albumIdWithExtar.equals("")) {
+			albumIdWithIntent = albumIdWithExtar;
+		} else if(albumIdWithData != null && !albumIdWithData.equals("")) {
+			albumIdWithIntent = albumIdWithData;
+		}
+		return albumIdWithIntent;
+	}
+
 	public void requestAlbumDetailData() {
 
-		LHttpRequest.getInstance().albumInfoReq(this,10,mAlbumId,
-				MyApplication.getInstance().getUid(),
-				new LHttpHandler<Album>(this) {
+		if (mAlbumId != null && !mAlbumId.equals("")) {
 
-					@Override
-					public void onGetDataSuccess(Album data) {
-						albumInfo = data.getAlbuminfo();
-						storyList = data.getStorylist();
-						commentList = data.getCommentlist();
-						fillAlbumInfoView(albumInfo);
-						mPlayListFragment.setStoryList(albumInfo, storyList,mPlayStoryId,mPlayTime);
-						mIntroFragment.setIntro(albumInfo.getIntro(),data.getTaglist(),data.getRecommendalbumlist());
-						if(albumInfo.getCommentnum()==0){
-							mCommentCountTv.setVisibility(View.INVISIBLE);
-						}else{
-							mCommentCountTv.setVisibility(View.VISIBLE);
-							mCommentCountTv.setText(albumInfo.getCommentnum()+"");
-						}
-						recoveryPlayedPosition();
-						mCommentFragment.setComments(albumInfo.getAlbumid(),commentList);
-						AblumDetailActivity.this.notify(PlayerManager.getInstance().getPlayingStory());
-					}
+			LHttpRequest.getInstance().albumInfoReq(this,10,mAlbumId,
+					MyApplication.getInstance().getUid(),
+					new LHttpHandler<Album>(this) {
 
-					@Override
-					public void onFailure(int statusCode, Header[] headers,
-							String responseString, Throwable throwable) {
-						mViewPager.postDelayed(new Runnable() {
-
-							@Override
-							public void run() {
-								mPlayListFragment.onFailure();
-
+						@Override
+						public void onGetDataSuccess(Album data) {
+							albumInfo = data.getAlbuminfo();
+							storyList = data.getStorylist();
+							commentList = data.getCommentlist();
+							fillAlbumInfoView(albumInfo);
+							mPlayListFragment.setStoryList(albumInfo, storyList,mPlayStoryId,mPlayTime);
+							mIntroFragment.setIntro(albumInfo.getIntro(),data.getTaglist(),data.getRecommendalbumlist());
+							if(albumInfo.getCommentnum()==0){
+								mCommentCountTv.setVisibility(View.INVISIBLE);
+							}else{
+								mCommentCountTv.setVisibility(View.VISIBLE);
+								mCommentCountTv.setText(albumInfo.getCommentnum()+"");
 							}
-						}, 500);
-					}
-				});
+							recoveryPlayedPosition();
+							mCommentFragment.setComments(albumInfo.getAlbumid(),commentList);
+							AblumDetailActivity.this.notify(PlayerManager.getInstance().getPlayingStory());
+						}
+
+						@Override
+						public void onFailure(int statusCode, Header[] headers,
+											  String responseString, Throwable throwable) {
+							mViewPager.postDelayed(new Runnable() {
+
+								@Override
+								public void run() {
+									mPlayListFragment.onFailure();
+
+								}
+							}, 500);
+						}
+					});
+		}
 	}
 
 	//恢复到上次播放的位置

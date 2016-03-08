@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
+import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xiaoningmeng.LoginActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.application.ActivityManager;
@@ -88,6 +89,7 @@ public class UserAuth {
 		DataSupport.deleteAll(UserInfo.class);
 		userInfo.save();
 		loadUserInfo(userInfo, store);
+		MiPushClient.setUserAccount(context,userInfo.getUid(),null);
 		EventBus.getDefault().post(new LoginEvent(userInfo));
 	}
 
@@ -100,6 +102,8 @@ public class UserAuth {
 	 */
 	public void invinvalidateUserIdentity(Context context) {
 
+		String uid = PreferenceUtil.getString(UID);
+		MiPushClient.unsetUserAccount(context,uid, null);
 		PreferenceUtil.removeString(UID);
 		PreferenceUtil.removeString(TOKEN);
 		UserInfo.deleteAll(UserInfo.class);
@@ -108,7 +112,6 @@ public class UserAuth {
 		MyApplication.getInstance().setUserInfo(null);
 		ActivityManager.getScreenManager().popAllActivity();
 		// restartApplication(MyApplication.getInstance().getApplicationContext());
-
 	}
 
 	/**

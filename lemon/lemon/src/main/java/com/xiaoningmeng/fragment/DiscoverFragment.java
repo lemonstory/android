@@ -20,13 +20,11 @@ import com.bigkoo.convenientbanner.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.ConvenientBanner.Transformer;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.xiaoningmeng.AblumDetailActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.WebViewActivity;
 import com.xiaoningmeng.adapter.DiscoverStoryAdapter;
 import com.xiaoningmeng.adapter.MoreAdapter;
 import com.xiaoningmeng.base.BaseFragment;
-import com.xiaoningmeng.base.BaseFragmentActivity;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.Discover;
 import com.xiaoningmeng.bean.FocusPic;
@@ -117,13 +115,14 @@ public class DiscoverFragment extends BaseFragment {
 		@Override
 		public void UpdateUI(final Context context, final int position, final FocusPic data) {
 
-			Uri coverUri = Uri.parse(data.getCover());
+			final Uri coverUri = Uri.parse(data.getCover());
 			imageView.setImageURI(coverUri);
 			imageView.setBackgroundResource(R.color.home_discover_focus_picture_bg);
 			imageView.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
 					String linkUrl = data.getLinkurl();
+					//http里面有apk的下载,暂时不做改动
 					if(linkUrl != null){
 						if(linkUrl.startsWith("http:")||linkUrl.startsWith("https:")){
 							if(linkUrl.endsWith(".apk")){
@@ -132,12 +131,11 @@ public class DiscoverFragment extends BaseFragment {
 								WebViewActivity.openWebView(context, data.getLinkurl());
 							}
 						}else if(linkUrl.startsWith("xnm:")){
-							if(linkUrl.contains("albumid")){
-								String ablumId = linkUrl.substring(linkUrl.lastIndexOf("=")+1,linkUrl.length());
-								Intent intent = new Intent(getActivity(), AblumDetailActivity.class);
-								intent.putExtra("albumId",ablumId);
-								((BaseFragmentActivity) getActivity()).startActivityForNew(intent);
-							}
+							Uri linkUri = Uri.parse(linkUrl);
+							Intent intent = new Intent();
+							intent.setData(linkUri);
+							intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+							context.startActivity(intent);
 						}
 					}
 				}

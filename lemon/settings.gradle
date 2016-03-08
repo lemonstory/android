@@ -1,4 +1,4 @@
-include ':convenientbanner', ':emojicon'
+include ':convenientbanner', ':emojicon', ':PhotoView'
 include ':dialogplus'
 include ':swpeListView'
 include ':lemon'

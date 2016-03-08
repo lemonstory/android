@@ -79,7 +79,7 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
         Fresco.initialize(this);
         setContentView(R.layout.activity_view_thread);
         mContext = this;
-        tid = getIntent().getIntExtra("tid", 1);
+        tid = getTidIdWithIntent();
         pid = getIntent().getIntExtra("pid",1);
         page = getIntent().getIntExtra("page", 1);
         initView();
@@ -162,6 +162,28 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
 
             }
         });
+    }
+
+    private int getTidIdWithIntent() {
+
+        int tidWithIntent = 0;
+        int tidWithExtar = 0;
+        int tidWithData = 0;
+
+        Intent intent = this.getIntent();
+        Uri data = intent.getData();
+
+        tidWithExtar = intent.getIntExtra("tid", 0);
+        if(null != data) {
+            tidWithData = Integer.parseInt(data.getQueryParameter("tid"));
+        }
+
+        if (tidWithExtar != 0) {
+            tidWithIntent = tidWithExtar;
+        } else if(tidWithData != 0) {
+            tidWithIntent = tidWithData;
+        }
+        return tidWithIntent;
     }
 
     private void  setShareIconVisible() {

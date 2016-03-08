@@ -64,7 +64,7 @@ public class MyThreadActivity extends BaseActivity implements XListView.IXListVi
         loadingView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.home_discover_item_img_height), 0, 0);
         pbEmptyTip = loadingView.findViewById(R.id.pb_empty_tip);
         loadingView.setVisibility(View.GONE);
-        setTitleName("帖子");
+        setTitleName("我的帖子");
         this.page = 1;
     }
 

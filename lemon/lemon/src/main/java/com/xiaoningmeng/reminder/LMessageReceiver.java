@@ -2,6 +2,7 @@ package com.xiaoningmeng.reminder;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
 
 import com.xiaomi.mipush.sdk.ErrorCode;
@@ -9,7 +10,6 @@ import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xiaomi.mipush.sdk.MiPushCommandMessage;
 import com.xiaomi.mipush.sdk.MiPushMessage;
 import com.xiaomi.mipush.sdk.PushMessageReceiver;
-import com.xiaoningmeng.AblumDetailActivity;
 import com.xiaoningmeng.WebViewActivity;
 
 import java.util.List;
@@ -45,13 +45,11 @@ public class LMessageReceiver extends PushMessageReceiver {
             if(mMessage.startsWith("http:")|| mMessage.startsWith("https:")){
                 WebViewActivity.openNotifyWebView(context, mMessage);
             }else if(mMessage.startsWith("xnm:")){
-                if(mMessage.contains("albumid")){
-                    String ablumId = mMessage.substring(mMessage.lastIndexOf("=")+1,mMessage.length());
-                    Intent intent = new Intent(context, AblumDetailActivity.class);
-                    intent.putExtra("albumId",ablumId);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(intent);
-                }
+                Uri uri = Uri.parse(mMessage);
+                Intent intent = new Intent();
+                intent.setData(uri);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
             }
         }
     }

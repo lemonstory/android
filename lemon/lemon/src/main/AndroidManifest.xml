@@ -70,7 +70,16 @@
         <activity
             android:name=".AblumDetailActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <intent-filter>
+            <action android:name="android.intent.action.VIEW"></action>
+            <category android:name="android.intent.category.DEFAULT"></category>
+            <category android:name="com.xiaoningmeng.intent.category.album"></category>
+            <data android:scheme="xnm"></data>
+            <data android:host="www.xiaoningmeng.net"></data>
+            <data android:path="/album/info.php"></data>
+            </intent-filter>
+        </activity>
         <activity
             android:name=".HomeActivity"
             android:exported="false"
@@ -294,7 +303,17 @@
 
         <activity
             android:name=".ViewThreadActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"></action>
+                <category android:name="android.intent.category.DEFAULT"></category>
+                <category android:name="com.xiaoningmeng.intent.category.forum"></category>
+                <data android:scheme="xnm"></data>
+                <data android:host="bbs.xiaoningmeng.net"></data>
+                <data android:path="/forum.php"></data>
+                <data android:sspPattern=".*mod=viewthread.*"></data>
+            </intent-filter>
+        </activity>
         <activity android:name=".NewThreadActivity" />
         <activity android:name=".AddedImageViewPager" />
         <activity android:name=".ImageViewerPagerActivity" />
