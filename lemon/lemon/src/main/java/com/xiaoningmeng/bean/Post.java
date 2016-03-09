@@ -32,7 +32,6 @@ public class Post extends DataSupport implements Parcelable {
     private String memberstatus;
     private String number;
     private String dbdateline;
-    //TODO:这个和上面的attachment有冲突？
     //附件
     private HashMap<String,Attachment> attachments;
     private ArrayList<String> imagelist;

@@ -4,19 +4,24 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.ViewThreadActivity;
 import com.xiaoningmeng.base.BaseActivity;
+import com.xiaoningmeng.bean.Attachment;
 import com.xiaoningmeng.bean.ForumName;
 import com.xiaoningmeng.bean.ForumThread;
+import com.xiaoningmeng.http.ConstantURL;
 import com.xiaoningmeng.utils.AvatarUtils;
 
 import java.util.HashMap;
@@ -72,7 +77,6 @@ public class ForumDisplayAdapter extends BaseAdapter {
             holder = new ViewHolder();
             convertView = mInflater.inflate(R.layout.item_forum_display, null);
             holder.dividerView = convertView.findViewById(R.id.v_forum_divider);
-            holder.iconImg = (ImageView) convertView.findViewById(R.id.iv_img_icon);
             holder.digestImg = (TextView) convertView.findViewById(R.id.iv_digest_icon);
             holder.hotImg = (TextView) convertView.findViewById(R.id.iv_hot_icon);
             holder.subjectTv = (TextView) convertView.findViewById(R.id.tv_subject);
@@ -82,21 +86,69 @@ public class ForumDisplayAdapter extends BaseAdapter {
             holder.forumNameTv = (TextView) convertView.findViewById(R.id.tv_forum_name);
             holder.lastpostTv = (TextView) convertView.findViewById(R.id.tv_lastpost);
             holder.repliesTv = (TextView) convertView.findViewById(R.id.tv_replies);
+            holder.imagesContainerLl = (LinearLayout) convertView.findViewById(R.id.ll_images_container);
+            holder.imageF = (SimpleDraweeView) convertView.findViewById(R.id.iv_image_f);
+            holder.imageS = (SimpleDraweeView) convertView.findViewById(R.id.iv_image_s);
+            holder.imageT = (SimpleDraweeView) convertView.findViewById(R.id.iv_image_t);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
         ForumThread thread = threadList.get(position);
-
-        //帖子附件有图标示
-        holder.iconImg = (ImageView) convertView.findViewById(R.id.iv_img_icon);
         String attachment = thread.getAttachment();
+        holder.imageF.setVisibility(View.INVISIBLE);
+        holder.imageF.setImageURI(null);
+        holder.imageF.setBackgroundResource(R.color.view_thread_image_background_color);
+
+        holder.imageS.setVisibility(View.INVISIBLE);
+        holder.imageS.setImageURI(null);
+        holder.imageS.setBackgroundResource(R.color.view_thread_image_background_color);
+
+        holder.imageT.setVisibility(View.INVISIBLE);
+        holder.imageT.setImageURI(null);
+        holder.imageT.setBackgroundResource(R.color.view_thread_image_background_color);
+
         //附件,0无附件 1普通附件 2有图片附件
         if(!attachment.equals("2")) {
-            holder.iconImg.setVisibility(View.GONE);
+            holder.imagesContainerLl.setVisibility(View.GONE);
         }else {
-            holder.iconImg.setVisibility(View.VISIBLE);
+            holder.imagesContainerLl.setVisibility(View.VISIBLE);
+            if (null != thread.getImagelist()) {
+
+                int imgListCount = thread.getImagelist().size();
+                if (imgListCount > 0) {
+
+                    for (int i = 0; i < imgListCount; i++) {
+
+                        String aid = thread.getImagelist().get(i);
+                        Attachment attachmentImg = thread.getAttachments().get(aid);
+                        String url = attachmentImg.getUrl();
+                        String path = attachmentImg.getAttachment();
+                        String absolutePath;
+                        //支持远程附件
+                        if (!url.startsWith("http")) {
+                            absolutePath = ConstantURL.BBS_URL + url + path;
+                        }else {
+                            absolutePath = url + path;
+                        }
+                        Uri imgUri = Uri.parse(absolutePath);
+                        switch (i) {
+                            case 0:
+                                holder.imageF.setVisibility(View.VISIBLE);
+                                holder.imageF.setImageURI(imgUri);
+                                break;
+                            case 1:
+                                holder.imageS.setVisibility(View.VISIBLE);
+                                holder.imageS.setImageURI(imgUri);
+                                break;
+                            case 2:
+                                holder.imageT.setVisibility(View.VISIBLE);
+                                holder.imageT.setImageURI(imgUri);
+                                break;
+                        }
+                    }
+                }
+            }
         }
         //精华帖标示
         holder.digestImg = (TextView) convertView.findViewById(R.id.iv_digest_icon);
@@ -125,7 +177,8 @@ public class ForumDisplayAdapter extends BaseAdapter {
         String avatarUrl = AvatarUtils.getAvatarUrl(authorid, avatarTime, 120);
         Uri avatarUri = Uri.parse(avatarUrl);
         holder.avatarImg.setImageURI(avatarUri);
-        holder.subjectTv.setText(thread.getSubject());
+        String content = thread.getSubject() + "<br>" + thread.getMessage();
+        holder.subjectTv.setText(Html.fromHtml(content));
         holder.authorTv.setText(thread.getAuthor());
 
         if (showLastPostTime) {
@@ -171,7 +224,7 @@ public class ForumDisplayAdapter extends BaseAdapter {
             holder.repliesTv.setVisibility(View.INVISIBLE);
         }
 
-        convertView.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener itemClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -182,8 +235,13 @@ public class ForumDisplayAdapter extends BaseAdapter {
                 i.putExtra("page", 1);
                 ((BaseActivity) mContext).startActivityForNew(i);
             }
-        });
+        };
 
+        convertView.setOnClickListener(itemClickListener);
+        holder.imagesContainerLl.setOnClickListener(itemClickListener);
+        holder.imageF.setOnClickListener(itemClickListener);
+        holder.imageS.setOnClickListener(itemClickListener);
+        holder.imageT.setOnClickListener(itemClickListener);
         return convertView;
     }
 
@@ -191,7 +249,6 @@ public class ForumDisplayAdapter extends BaseAdapter {
 
         View headDividerView;
         View dividerView;
-        ImageView iconImg;
         TextView digestImg;
         TextView hotImg;
         TextView subjectTv;
@@ -201,5 +258,9 @@ public class ForumDisplayAdapter extends BaseAdapter {
         TextView forumNameTv;
         TextView lastpostTv;
         TextView repliesTv;
+        LinearLayout imagesContainerLl;
+        SimpleDraweeView imageF;
+        SimpleDraweeView imageS;
+        SimpleDraweeView imageT;
     }
 }

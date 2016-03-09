@@ -5,6 +5,9 @@ import android.os.Parcelable;
 
 import org.litepal.crud.DataSupport;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * Created by gaoyong on 16/1/22.
  */
@@ -18,6 +21,7 @@ public class ForumThread extends DataSupport implements Parcelable {
     private String author;
     private String authorid;
     private String subject;
+    private String message;
     private String dateline;
     private String lastpost;
     private String lastposter;
@@ -35,6 +39,9 @@ public class ForumThread extends DataSupport implements Parcelable {
     private String rushreply;
     private String recommend;
     private String heatlevel;
+    //附件
+    private HashMap<String,Attachment> attachments;
+    private ArrayList<String> imagelist;
 
     public String getHeatlevel() {
         return heatlevel;
@@ -60,7 +67,7 @@ public class ForumThread extends DataSupport implements Parcelable {
         return CREATOR;
     }
 
-    public ForumThread(String tid,String fid, String typeid, String readperm, String price, String author, String authorid, String subject, String dateline, String lastpost, String lastposter, String views, String replies, String displayorder, String digest,String heats,String heatlevel, String special, String attachment, String recommend_add, String replycredit, String dbdateline, String dblastpost, String rushreply, String recommend) {
+    public ForumThread(String tid,String fid, String typeid, String readperm, String price, String author, String authorid, String subject,String message, String dateline, String lastpost, String lastposter, String views, String replies, String displayorder, String digest,String heats,String heatlevel, String special, String attachment, String recommend_add, String replycredit, String dbdateline, String dblastpost, String rushreply, String recommend,HashMap<String,Attachment> attachments, ArrayList<String> imagelist) {
 
         this.tid = tid;
         this.fid = fid;
@@ -87,6 +94,8 @@ public class ForumThread extends DataSupport implements Parcelable {
         this.dblastpost = dblastpost;
         this.rushreply = rushreply;
         this.recommend = recommend;
+        this.attachments = attachments;
+        this.imagelist = imagelist;
     }
 
     public String getTid() {
@@ -274,6 +283,30 @@ public class ForumThread extends DataSupport implements Parcelable {
         this.recommend = recommend;
     }
 
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public HashMap<String, Attachment> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(HashMap<String, Attachment> attachments) {
+        this.attachments = attachments;
+    }
+
+    public ArrayList<String> getImagelist() {
+        return imagelist;
+    }
+
+    public void setImagelist(ArrayList<String> imagelist) {
+        this.imagelist = imagelist;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -289,6 +322,7 @@ public class ForumThread extends DataSupport implements Parcelable {
         author = in.readString();
         authorid = in.readString();
         subject = in.readString();
+        message = in.readString();
         dateline = in.readString();
         lastpost = in.readString();
         lastposter = in.readString();

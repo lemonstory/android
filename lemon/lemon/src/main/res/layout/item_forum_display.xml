@@ -13,13 +13,6 @@
         android:layout_marginTop="@dimen/forum_item_margin_bottom"
         android:orientation="horizontal"
         android:gravity="center_vertical">
-        <!--有图图标-->
-        <ImageView
-            android:id="@+id/iv_img_icon"
-            android:layout_width="@dimen/forum_icon_size"
-            android:layout_height="@dimen/forum_icon_size"
-            android:layout_marginRight="@dimen/forum_item_padding"
-            android:src="@drawable/attachimg"/>
         <!--精华图标-->
         <TextView
             android:id="@+id/iv_digest_icon"
@@ -47,9 +40,58 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:ellipsize="end"
+            android:singleLine="false"
+            android:lineSpacingExtra="4dp"
+            android:maxLines="4"
             android:textColor="@color/base_black_title_color"
-            android:textSize="@dimen/title_content_text_size"
-            android:text="这是文章标题"/>
+            android:textSize="@dimen/content_text_size"
+            android:text="这是文章标题 + 正文"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_images_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/forum_item_margin_left"
+        android:layout_marginRight="@dimen/forum_item_margin_left"
+        android:layout_marginTop="@dimen/forum_item_margin_bottom">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+
+            android:id="@+id/iv_image_f"
+            android:layout_width="105dp"
+            android:layout_height="105dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:longClickable="false"
+            android:layout_marginRight="8dp"
+            android:scaleType="centerCrop"
+            android:background="@color/view_thread_image_background_color"/>
+
+        <com.facebook.drawee.view.SimpleDraweeView
+
+            android:id="@+id/iv_image_s"
+            android:layout_width="105dp"
+            android:layout_height="105dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:longClickable="false"
+            android:layout_marginRight="8dp"
+            android:scaleType="centerCrop"
+            android:background="@color/view_thread_image_background_color"/>
+
+        <com.facebook.drawee.view.SimpleDraweeView
+
+            android:id="@+id/iv_image_t"
+            android:layout_width="105dp"
+            android:layout_height="105dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:longClickable="false"
+            android:layout_marginRight="8dp"
+            android:scaleType="centerCrop"
+            android:background="@color/view_thread_image_background_color"/>
     </LinearLayout>
 
     <RelativeLayout
