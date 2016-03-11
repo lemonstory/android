@@ -158,15 +158,17 @@
     <!-- setting -->
     <dimen name="setting_logout_btn_height">40dp</dimen>
     <!-- perasonal -->
-    <dimen name="perasonal_head_height">80dp</dimen>
+    <dimen name="perasonal_head_height">120dp</dimen>
     <dimen name="perasonal_margin_left">10dp</dimen>
     <dimen name="perasonal_margin_right">14dp</dimen>
     <dimen name="perasonal_head_icon_height">51dp</dimen>
+    <dimen name="perasonal_head_icon_margin_top">20dp</dimen>
     <dimen name="perasonal_head_padding">6dp</dimen>
-    <dimen name="perasonal_head_post_padding">3dp</dimen>
+    <dimen name="perasonal_head_post_padding">20dp</dimen>
     <dimen name="perasonal_head_margin_top">12dp</dimen>
     <dimen name="perasonal_item_head_margin_left">17dp</dimen>
     <dimen name="perasonal_item_head_height">41dp</dimen>
+
 
     <!-- rating -->
     <dimen name="rating_icon_margin_left">14dp</dimen>

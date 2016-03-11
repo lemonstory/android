@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.xiaoningmeng.ImageViewerPagerActivity;
+import com.xiaoningmeng.PerasonalCenterActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.ViewThreadActivity;
 import com.xiaoningmeng.bean.Attachment;
@@ -122,13 +123,16 @@ public class ViewThreadAdapter extends BaseAdapter {
         String avatarUrl = AvatarUtils.getAvatarUrl(authorid, avatarTime, 120);
         Uri avatarUri = Uri.parse(avatarUrl);
         holder.avatarImg.setImageURI(avatarUri);
+        holder.avatarImg.setOnClickListener(new userProfileClickListener(authorid));
         String original = post.getMessage();
         final HashMap quoteMessage = this.separateQuoteWithMessage(original);
         String author = (String) quoteMessage.get("author");
         String quote = (String) quoteMessage.get("quote");
         String message = (String) quoteMessage.get("message");
         holder.authorTV.setText(post.getAuthor());
+        holder.authorTV.setOnClickListener(new userProfileClickListener(authorid));
         holder.datelineTv.setText(Html.fromHtml(post.getDateline()));
+        holder.datelineTv.setOnClickListener(new userProfileClickListener(authorid));
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,6 +182,7 @@ public class ViewThreadAdapter extends BaseAdapter {
         //楼主图标
         if (post.getAuthorid().equals(forumThread.getAuthorid())) {
             holder.ThreadAuthorIcontTv.setVisibility(View.VISIBLE);
+            holder.ThreadAuthorIcontTv.setOnClickListener(new userProfileClickListener(authorid));
         }else {
             holder.ThreadAuthorIcontTv.setVisibility(View.GONE);
         }
@@ -342,4 +347,20 @@ public class ViewThreadAdapter extends BaseAdapter {
         TextView quoteMessageTv;//引用的发布内容
         LinearLayout imagesContainerLl; //帖子图片容器
     }
+
+    public class userProfileClickListener implements View.OnClickListener {
+
+        String uid;
+        public userProfileClickListener(String uid) {
+            this.uid = uid;
+        }
+
+        @Override
+        public void onClick(View v)
+        {
+            Intent i = new Intent(mContext,PerasonalCenterActivity.class);
+            i.putExtra("uid", uid);
+            ((ViewThreadActivity) mContext).startActivityForNew(i);
+        }
+    };
 }

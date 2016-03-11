@@ -24,18 +24,19 @@
             android:id="@+id/img_perasonal_icon"
             android:layout_width="@dimen/perasonal_head_icon_height"
             android:layout_height="@dimen/perasonal_head_icon_height"
-            android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/perasonal_margin_left"
             android:layout_marginRight="@dimen/perasonal_margin_right"
+            android:layout_marginTop="@dimen/perasonal_head_icon_margin_top"
             fresco:roundAsCircle="true"
             fresco:placeholderImage="@drawable/default_cover"/>
 
         <LinearLayout
+            android:id="@+id/ll_perasonal_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-              android:layout_marginRight="@dimen/perasonal_margin_right"
+            android:layout_marginRight="@dimen/perasonal_margin_right"
             android:layout_toRightOf="@id/img_perasonal_icon"
+            android:layout_marginTop="@dimen/perasonal_head_icon_margin_top"
             android:orientation="vertical" >
 
             <TextView
@@ -54,6 +55,40 @@
                 android:layout_marginTop="@dimen/perasonal_head_padding"
                 android:textColor="@color/base_text_color"
                 android:textSize="@dimen/content_text_size" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_account_post_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/perasonal_margin_right"
+            android:layout_below="@+id/ll_perasonal_info"
+            android:layout_toRightOf="@id/img_perasonal_icon"
+            android:layout_marginTop="@dimen/perasonal_head_post_padding"
+            android:layout_marginBottom="@dimen/perasonal_head_padding"
+            android:orientation="horizontal"
+            android:onClick="onClick"
+            android:visibility="invisible">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/base_text_color"
+                android:textSize="@dimen/content_text_size"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:text="帖子 "
+                />
+            <TextView
+                android:id="@+id/tv_account_post"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/base_orage_color"
+                android:textSize="@dimen/content_text_size"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:text="8"
+                />
         </LinearLayout>
     </RelativeLayout>
 

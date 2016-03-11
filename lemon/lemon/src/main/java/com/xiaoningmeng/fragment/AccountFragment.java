@@ -147,7 +147,10 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
 			//((BaseFragmentActivity) getActivity()).startActivityForNew(new Intent(getActivity(),RecommendAdActivity.class));
 		//	break;
 		case R.id.rl_account_Post:
-			((BaseFragmentActivity) getActivity()).startActivityForNew(new Intent(getActivity(),MyThreadActivity.class));
+			Intent intent = new Intent (getActivity(),MyThreadActivity.class);
+			intent.putExtra("uid",mUserInfo.getUid());
+			intent.putExtra("nickname",mUserInfo.getNickname());
+			((BaseFragmentActivity) getActivity()).startActivityForNew(intent);
 			break;
 
 		default:

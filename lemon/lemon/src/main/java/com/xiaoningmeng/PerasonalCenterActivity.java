@@ -9,12 +9,14 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.baoyz.swipemenu.xlistview.XListView;
 import com.baoyz.swipemenu.xlistview.XListView.IXListViewListener;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.gson.Gson;
 import com.xiaoningmeng.adapter.PerasonalAdapter;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.base.BaseActivity;
@@ -31,6 +33,9 @@ import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.utils.AvatarUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,10 +47,13 @@ public class PerasonalCenterActivity extends BaseActivity implements
 	private ImageView mCoverImg;
 	private TextView mAccountNameTv;
 	private TextView mAccountContentTv;
+	private TextView mAccountPostTv;
+	private LinearLayout mAccountPostContainer;
 	private SimpleDraweeView mAvatarView;
 	private List<ListenerAlbum> mAlbumList;
 	private BaseAdapter mAdapter;
 	private String uid;
+	private String nickname;
 	private View headerView;
 
 	@Override
@@ -57,6 +65,7 @@ public class PerasonalCenterActivity extends BaseActivity implements
 		initView();
 		uid = getIntent().getStringExtra("uid");
 		requestHomeInfo(Constant.FRIST, Constant.FRIST_ID);
+		getUserProfileData(uid);
 		PlayerManager.getInstance().register(this);
 		EventBus.getDefault().register(this);
 	}
@@ -90,6 +99,8 @@ public class PerasonalCenterActivity extends BaseActivity implements
 		mAccountNameTv = (TextView) headerView.findViewById(R.id.tv_account_name);
 		mAccountContentTv = (TextView) headerView.findViewById(R.id.tv_account_content);
 		mAvatarView = (SimpleDraweeView)headerView.findViewById(R.id.img_perasonal_icon);
+		mAccountPostTv = (TextView) headerView.findViewById(R.id.tv_account_post);
+		mAccountPostContainer = (LinearLayout) headerView.findViewById(R.id.ll_account_post_container);
 		mAlbumList = new ArrayList<>();
 		mAdapter = new PerasonalAdapter(this,mAlbumList);
 		mListView.setAdapter(mAdapter);
@@ -107,8 +118,9 @@ public class PerasonalCenterActivity extends BaseActivity implements
 				List<ListenerAlbum> albums = data.getListenalbumlist();
 				if(direction == Constant.FRIST){
 					mListView.addHeaderView(headerView,null,false);
-					mAccountNameTv.setText(data.getNickname());
-					setTitleName(data.getNickname());
+					nickname = data.getNickname();
+					mAccountNameTv.setText(nickname);
+					setTitleName(nickname);
 					String age = data.getAge() == null ?"":(data.getAge()+"岁");
 					String province = data.getProvince() == null ?" ":(" "+data.getProvince()+" ");
 					String city = data.getCity() == null?"":data.getCity();
@@ -169,7 +181,15 @@ public class PerasonalCenterActivity extends BaseActivity implements
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
+
 		case R.id.ll_perasonal_head:
+			break;
+
+		case R.id.ll_account_post_container:
+			Intent intent = new Intent(this, MyThreadActivity.class);
+			intent.putExtra("uid", uid);
+			intent.putExtra("nickname",nickname);
+			this.startActivityForNew(intent);
 			break;
 
 		default:
@@ -247,5 +267,46 @@ public class PerasonalCenterActivity extends BaseActivity implements
 			mListView.removeHeaderView(emptyView);
 		}
 		mListView.setPullLoadEnable(true);
+	}
+
+		public void getUserProfileData(final String uid) {
+
+		LHttpRequest.getInstance().getUserProfile(this,
+				new LHttpHandler<String>(this) {
+
+					@Override
+					public void onGetDataSuccess(String data) {
+
+						try {
+
+							JSONObject jsonObject = new JSONObject(data);
+							JSONObject variablesObject = new JSONObject(jsonObject.getString("Variables"));
+
+							Gson gson = new Gson();
+							if (variablesObject.has("space")) {
+
+								//设置帖子数
+								JSONObject spaceObject = new JSONObject(variablesObject.getString("space"));
+
+								if (spaceObject.has("uid") && spaceObject.has("threads")) {
+									if (uid.equals(spaceObject.getString("uid"))) {
+										mAccountPostContainer.setVisibility(View.VISIBLE);
+										mAccountPostContainer.setEnabled(true);
+										mAccountPostTv.setText(spaceObject.getString("threads"));
+									}else {
+										//到这来就是系统出错了
+									}
+								}else {
+									mAccountPostContainer.setEnabled(false);
+									mAccountPostTv.setText("0");
+								}
+							}
+
+						} catch (JSONException e) {
+
+							e.printStackTrace();
+						}
+					}
+				},uid);
 	}
 }
