@@ -162,7 +162,8 @@
     <dimen name="perasonal_margin_left">10dp</dimen>
     <dimen name="perasonal_margin_right">14dp</dimen>
     <dimen name="perasonal_head_icon_height">51dp</dimen>
-    <dimen name="perasonal_head_padding">10dp</dimen>
+    <dimen name="perasonal_head_padding">6dp</dimen>
+    <dimen name="perasonal_head_post_padding">3dp</dimen>
     <dimen name="perasonal_head_margin_top">12dp</dimen>
     <dimen name="perasonal_item_head_margin_left">17dp</dimen>
     <dimen name="perasonal_item_head_height">41dp</dimen>

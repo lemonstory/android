@@ -68,7 +68,8 @@
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:textColor="@color/base_black_title_color"
-                    android:textSize="@dimen/text_size_eightteen" />
+                    android:textSize="@dimen/title_content_text_size"
+                    android:text=""/>
 
                 <TextView
                     android:id="@+id/tv_account_content"
@@ -76,22 +77,63 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/perasonal_head_padding"
                     android:textColor="@color/base_text_color"
-                    android:textSize="@dimen/content_text_size" />
+                    android:textSize="@dimen/content_text_size"
+                    android:text=""/>
             </LinearLayout>
-
             <View
                 style="@style/dividerStyle"
                 android:layout_alignParentBottom="true" />
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/rl_account_Ranking"
+            android:id="@+id/rl_account_Post"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/account_item_height"
             android:layout_marginTop="@dimen/account_item_inv"
             android:background="@drawable/base_item_bg_selector">
 
             <View style="@style/dividerStyle" />
+
+            <ImageView
+                android:id="@+id/img_account_Post"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/account_item_margin_left"
+                android:layout_marginRight="@dimen/account_item_padding"
+                android:src="@drawable/account_rating" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/img_account_Post"
+                android:text="@string/account_post"
+                android:textColor="@color/base_black_title_color"
+                android:textSize="@dimen/title_content_text_size" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/account_item_margin_right"
+                android:src="@drawable/tab_right_back" />
+
+            <View
+                style="@style/dividerStyle"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="@dimen/account_item_margin_left" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_account_Ranking"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/account_item_height"
+            android:background="@drawable/base_item_bg_selector">
+
+            <View style="@style/dividerStyle" android:id="@+id/account_ranking_divider" />
 
             <ImageView
                 android:id="@+id/img_account_Ranking"
@@ -165,43 +207,43 @@
                  />
         </RelativeLayout>
 
-       <RelativeLayout
-            android:id="@+id/rl_account_Recommend"
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/account_item_height"
-            android:background="@drawable/base_item_bg_selector">
+       <!--<RelativeLayout-->
+            <!--android:id="@+id/rl_account_Recommend"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="@dimen/account_item_height"-->
+            <!--android:background="@drawable/base_item_bg_selector">-->
 
-            <ImageView
-                android:id="@+id/img_account_Recommend"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/account_item_margin_left"
-                android:layout_marginRight="@dimen/account_item_padding"
-                android:src="@drawable/account_recommend" />
+            <!--<ImageView-->
+                <!--android:id="@+id/img_account_Recommend"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginLeft="@dimen/account_item_margin_left"-->
+                <!--android:layout_marginRight="@dimen/account_item_padding"-->
+                <!--android:src="@drawable/account_recommend" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/img_account_Recommend"
-                android:text="@string/account_recommend"
-                android:textColor="@color/base_black_title_color"
-                android:textSize="@dimen/title_content_text_size" />
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_toRightOf="@id/img_account_Recommend"-->
+                <!--android:text="@string/account_recommend"-->
+                <!--android:textColor="@color/base_black_title_color"-->
+                <!--android:textSize="@dimen/title_content_text_size" />-->
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/account_item_margin_right"
-                android:src="@drawable/tab_right_back" />
+            <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginRight="@dimen/account_item_margin_right"-->
+                <!--android:src="@drawable/tab_right_back" />-->
 
-            <View
-                style="@style/dividerStyle"
-                android:layout_alignParentBottom="true" />
-        </RelativeLayout>-->
+            <!--<View-->
+                <!--style="@style/dividerStyle"-->
+                <!--android:layout_alignParentBottom="true" />-->
+        <!--</RelativeLayout>-->
 
         <RelativeLayout
             android:id="@+id/rl_account_setting"

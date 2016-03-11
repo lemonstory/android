@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.baoyz.swipemenu.xlistview.XListView;
@@ -79,11 +81,10 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
         loadingView.setVisibility(View.GONE);
         pbEmptyTip = loadingView.findViewById(R.id.pb_empty_tip);
         imgHeadRight = (ImageView) findViewById(R.id.img_head_right);
-        setRightHeadIcon(R.drawable.message);
         badge = new BadgeView(this, imgHeadRight);
+        setRightHeadIcon(R.drawable.message);
         addThreadIv = (ImageView) findViewById(R.id.iv_add);
-        setTitleName(title);
-
+        setHeadTitle(title);
         this.page = 1;
         this.maxPage = 1;
 
@@ -96,7 +97,7 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
                     i.putExtra("fid", fid);
                     i.putExtra("hash", hash);
                     i.putExtra("formhash", formHash);
-                    startActivityForResult(i,0);
+                    startActivityForResult(i, 0);
                 }
             }
         });
@@ -118,6 +119,7 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
     public void onResume() {
         super.onResume();
         setBadgeNum(newMyPost);
+
     }
 
     @Override
@@ -178,22 +180,39 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
         mListView.autoRefresh();
     }
 
+    //badgeView 会对img_head_right做修改,所以需要对tv_head_title重新做下处理
+    public void setHeadTitle(String title) {
+
+        ViewParent parent = imgHeadRight.getParent();
+        ViewGroup group = (ViewGroup) parent;
+        group.setId(R.id.forum_display_badge_container_id);
+        TextView headTitleView = (TextView)findViewById(R.id.tv_head_title);
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.addRule(RelativeLayout.CENTER_IN_PARENT);
+        lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        lp.addRule(RelativeLayout.LEFT_OF,R.id.forum_display_badge_container_id);
+        lp.addRule(RelativeLayout.RIGHT_OF,R.id.img_home_back);
+        headTitleView.setLayoutParams(lp);
+        headTitleView.setText(title);
+    }
+
     public void setBadgeNum(String newMyPost) {
 
         if (MyApplication.getInstance().isIsLogin() && MyApplication.getInstance().userInfo != null) {
 
             imgHeadRight.setVisibility(View.VISIBLE);
-            int newMyPostInt = Integer.parseInt(newMyPost);
-            if(newMyPostInt > 0) {
-                badge.setText(newMyPost);
-                badge.show();
-            } else {
-                badge.hide();
+            if (null != newMyPost) {
+                int newMyPostInt = Integer.parseInt(newMyPost);
+                if(newMyPostInt > 0) {
+                    badge.setText(newMyPost);
+                    badge.show();
+                } else {
+                    badge.hide();
+                }
             }
         }else {
             imgHeadRight.setVisibility(View.INVISIBLE);
         }
-
     }
 
     private void requestForumThreadsData(int fid, int page) {

@@ -624,4 +624,16 @@ public class LHttpRequest {
 		LClient.getInstance().get(context, ConstantURL.FORUM_INDEX, params,
 				handler);
 	}
+
+	//社区->个人信息
+	public void getUserProfile(Context context, LHttpHandler<String> handler,String uid) {
+
+		HashMap<String, String> params = new HashMap<>();
+		params.put("version", "4");
+		params.put("module", "profile");
+		params.put("uid", uid);
+		params = (HashMap<String, String>) checkParams(params);
+		LClient.getInstance().get(context, ConstantURL.FORUM_INDEX, params,
+				handler);
+	}
 }

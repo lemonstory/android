@@ -100,14 +100,14 @@ public class MyThreadActivity extends BaseActivity implements XListView.IXListVi
         }
     }
 
-    public void setForumsThreads(Map<String,ForumThread> threads) {
+    public void setForumsThreads(List<ForumThread> threads) {
 
         if (threads != null && threads.size() > 0) {
+
             if(this.page == 1) {
                 this.mForumThreads.clear();
             }
-            List<ForumThread> threadsList = new ArrayList<ForumThread>(threads.values());
-            this.mForumThreads.addAll(threadsList);
+            this.mForumThreads.addAll(threads);
             if (mListView != null) {
                 hideEmptyTip();
                 mAdapter.notifyDataSetChanged();
@@ -138,7 +138,7 @@ public class MyThreadActivity extends BaseActivity implements XListView.IXListVi
                     public void onGetDataSuccess(String data) {
 
                         loadingView.setVisibility(View.GONE);
-                        Map<String,ForumThread> threadList = new HashMap<String,ForumThread>();
+                        List<ForumThread> threadList = new ArrayList<ForumThread>();
                         try {
 
                             JSONObject jsonObject = new JSONObject(data);
@@ -157,7 +157,7 @@ public class MyThreadActivity extends BaseActivity implements XListView.IXListVi
                             if (dataObject.has("threadlist")) {
 
                                 Gson gson = new Gson();
-                                threadList = gson.fromJson(dataObject.getString("threadlist"), new TypeToken<Map<String,ForumThread>>() {
+                                threadList = gson.fromJson(dataObject.getString("threadlist"), new TypeToken<List<ForumThread>>() {
                                 }.getType());
                                 setForumsThreads(threadList);
                             }
@@ -205,5 +205,3 @@ public class MyThreadActivity extends BaseActivity implements XListView.IXListVi
                 },page);
     }
 }
-
-
