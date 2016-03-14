@@ -119,12 +119,12 @@ public class ImageViewerPagerActivity extends BaseActivity {
         public View instantiateItem(ViewGroup container, int position) {
 
             PhotoView photoView = new PhotoView(container.getContext());
-            photoView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            photoView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             String imageAbsolutePath = this.imagesPath.get(position);
             HashMap<String,Integer> imageSize = PostImageUtils.parseImageSizeWithUrl(ImageViewerPagerActivity.this, imageAbsolutePath);
             ImageSize targetSize = new ImageSize(imageSize.get("widthPx"),imageSize.get("heightPx"));
             ImageLoader.getInstance().displayImage(imageAbsolutePath,(ImageAware) new ImageViewAware(photoView),(DisplayImageOptions)null, targetSize, imageLoadingListener, imageLoadingProgressListener);
-            container.addView(photoView, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+            container.addView(photoView, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
             photoView.setOnPhotoTapListener(onPhotoTapListener);
             return photoView;
         }
