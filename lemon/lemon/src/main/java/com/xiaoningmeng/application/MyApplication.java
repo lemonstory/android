@@ -1,23 +1,14 @@
 package com.xiaoningmeng.application;
 
-import java.io.File;
-import java.net.CookieManager;
-import java.net.CookiePolicy;
-import java.util.List;
-
-import org.apache.http.client.CookieStore;
-import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.cookie.Cookie;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
-import org.apache.http.params.HttpParams;
-import org.litepal.LitePalApplication;
-
 import android.app.ActivityManager;
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 import android.os.Process;
+import android.support.multidex.MultiDex;
+import android.util.Log;
+
+import com.alibaba.sdk.android.AlibabaSDK;
+import com.alibaba.sdk.android.callback.InitResultCallback;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.HttpStack;
 import com.android.volley.toolbox.Volley;
@@ -41,6 +32,19 @@ import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.OSSAuth;
 import com.xiaoningmeng.http.OkHttpStack;
 import com.xiaoningmeng.http.PersistentCookieStore;
+
+import org.apache.http.client.CookieStore;
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.cookie.Cookie;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
+import org.apache.http.params.HttpParams;
+import org.litepal.LitePalApplication;
+
+import java.io.File;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
+import java.util.List;
 
 
 /**
@@ -66,6 +70,12 @@ public class MyApplication extends LitePalApplication {
 	}
 
 	@Override
+	protected void attachBaseContext(Context context) {
+		super.attachBaseContext(context);
+		MultiDex.install(this);
+	}
+
+	@Override
 	public void onCreate() {
 		super.onCreate();
 		mApplication = this;
@@ -76,6 +86,20 @@ public class MyApplication extends LitePalApplication {
 			initImageLoaderConfig(this);
 			CrashReport.initCrashReport(this, "900008353", false);
 			initRequestQueue();
+
+			//阿里百川
+			AlibabaSDK.asyncInit(this, new InitResultCallback() {
+				@Override
+				public void onSuccess() {
+//					Toast.makeText(MyApplication.this, "TaeSDK 初始化成功", Toast.LENGTH_SHORT)
+//							.show();
+				}
+
+				@Override
+				public void onFailure(int code, String message) {
+//					Log.w("mayongge", "初始化异常，code = " + code + ", info = " + message);
+				}
+			});
 		}
 		writeMILog();
 	}
