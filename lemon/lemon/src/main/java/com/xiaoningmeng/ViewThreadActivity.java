@@ -202,17 +202,19 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
             @Override
             public void onClick(View v) {
 
-                String shareIconUrl = "";
-                ArrayList<String> threadImgAttachmentsPath = getImgAttachmentsPathWithThread(forumThread, mPosts);
-                if (threadImgAttachmentsPath.size() > 0) {
-                    shareIconUrl = threadImgAttachmentsPath.get(0);
-                } else {
-                    shareIconUrl = Constant.SHARE_THREAD_DEFAULT_IMAGE_URL;
-                }
-
-                String url = String.format(Constant.VIEW_THREAD_URL,forumThread.getTid());
-
-                ShareBean shareBean = new ShareBean(forumThread.getSubject(), shareIconUrl, url);
+//TODO:h5未完成
+//                String shareIconUrl = "";
+//                ArrayList<String> threadImgAttachmentsPath = getImgAttachmentsPathWithThread(forumThread, mPosts);
+//                if (threadImgAttachmentsPath.size() > 0) {
+//                    shareIconUrl = threadImgAttachmentsPath.get(0);
+//                } else {
+//                    shareIconUrl = Constant.SHARE_THREAD_DEFAULT_IMAGE_URL;
+//                }
+//
+//                String url = String.format(Constant.VIEW_THREAD_URL,forumThread.getTid());
+//
+//                ShareBean shareBean = new ShareBean(forumThread.getSubject(), shareIconUrl, url);
+                ShareBean shareBean = new ShareBean("小柠檬", null, Constant.SHARE_OFFCAIL_URL);
                 mController = new ShareDialog().show(ViewThreadActivity.this, shareBean);
             }
         });
