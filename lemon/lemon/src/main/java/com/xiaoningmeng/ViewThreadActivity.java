@@ -33,7 +33,6 @@ import com.xiaoningmeng.http.ConstantURL;
 import com.xiaoningmeng.http.LHttpHandler;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.utils.ImageUtils;
-import com.xiaoningmeng.utils.UiUtils;
 import com.xiaoningmeng.view.ShareDialog;
 
 import org.apache.http.Header;
@@ -149,10 +148,10 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
                 switch (scrollState) {
                     case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
 
-                        boolean isKeyboardVisible = UiUtils.isKeyboardShown(mListView.getRootView());
-                        if (isKeyboardVisible) {
+//                        boolean isKeyboardVisible = UiUtils.isKeyboardShown(mListView.getRootView());
+//                        if (isKeyboardVisible) {
                             keyBoardfragment.resetKeyboard();
-                        }
+//                        }
                         break;
                 }
             }

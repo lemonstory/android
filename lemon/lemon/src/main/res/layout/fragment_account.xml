@@ -102,7 +102,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/account_item_margin_left"
                 android:layout_marginRight="@dimen/account_item_padding"
-                android:src="@drawable/account_rating" />
+                android:src="@drawable/account_post" />
 
             <TextView
                 android:layout_width="wrap_content"

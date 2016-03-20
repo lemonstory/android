@@ -3,6 +3,7 @@ package com.xiaoningmeng.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.text.Html;
 import android.view.Gravity;
@@ -193,11 +194,15 @@ public class ViewThreadAdapter extends BaseAdapter {
             holder.postIconImg.setVisibility(View.VISIBLE);
             if (!forumThread.getReplies().equals("0")) {
                 holder.repliesTv.setText(forumThread.getReplies());
+                holder.repliesTv.setTextColor(Color.parseColor("#fdb12b"));
             }
+            holder.messageTv.setText(Html.fromHtml(forumThread.getSubject() + "<br>" + message));
         }else {
             //回帖隐藏回帖数,回帖图标,显示楼层
             holder.postIconImg.setVisibility(View.GONE);
+            holder.repliesTv.setTextColor(Color.parseColor("#999999"));
             holder.repliesTv.setText(post.getPosition() + "楼");
+            holder.messageTv.setText(Html.fromHtml(message));
         }
 
         //处理引用内容
@@ -221,7 +226,6 @@ public class ViewThreadAdapter extends BaseAdapter {
 
             holder.quoteContainerRl.setVisibility(View.GONE);
         }
-        holder.messageTv.setText(Html.fromHtml(message));
 
         //帖子图片
         if (post.getImagelist() != null && post.getImagelist().size() > 0) {
@@ -263,6 +267,7 @@ public class ViewThreadAdapter extends BaseAdapter {
 
                 SimpleDraweeView img = new SimpleDraweeView(mContext);
                 img.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(imageSize.get("widthPx"),imageSize.get("heightPx"));
                 params.setMargins(0, 8, 0, 0);
                 params.gravity = Gravity.CENTER;

@@ -171,17 +171,14 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
         int lockHeight = 0;
         //显示表情
         if (isEmojiconHidden) {
-
             hideAddImg();
             hideKeyboard();
             keyboardHeight = UiUtils.getKeyboardHeight(getActivity());
-            mFlemojicons.setVisibility(View.VISIBLE);
             lockHeight = keyboardHeight - 160;
             lockContainerHeight(lockHeight);
+            mFlemojicons.setVisibility(View.VISIBLE);
             isEmojiconHidden = false;
-
         }else {
-
             hideAddImg();
             //显示键盘
             hideEmojicons();
@@ -230,9 +227,7 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         AppUtils.hiddenKeyboard(getActivity());
-        if (!isEmojiconHidden) {
-            mSwitchIv.setImageResource(R.drawable.sent_keyboard_normal);
-        }
+        mSwitchIv.setImageResource(R.drawable.sent_keyboard_normal);
     }
 
 

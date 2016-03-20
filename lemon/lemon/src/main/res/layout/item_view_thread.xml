@@ -23,7 +23,7 @@
         <TextView
             android:id="@+id/tv_author"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/forum_item_icon_height"
+            android:layout_height="@dimen/forum_item_author_height"
             android:layout_toRightOf="@id/cv_avatar"
             android:textColor="#999999"
             android:textSize="@dimen/content_text_size"
@@ -37,7 +37,7 @@
             android:layout_toEndOf="@+id/tv_author"
             android:layout_marginLeft="@dimen/forum_item_padding"
             android:layout_width="@dimen/thread_author_icon_width"
-            android:layout_height="@dimen/forum_icon_size"
+            android:layout_height="17dp"
             android:background="@drawable/thread_author_bg"
             android:textColor="#FFFFFF"
             android:textSize="@dimen/recomment_text_size"
@@ -51,7 +51,7 @@
             android:text="37分钟前"
             android:textColor="#999999"
             android:textSize="@dimen/date_text_size"
-            android:layout_alignBottom="@+id/tv_author"
+            android:layout_below="@+id/tv_author"
             android:layout_alignLeft="@+id/tv_author"
             android:layout_alignStart="@+id/tv_author" />
 
@@ -60,8 +60,8 @@
             android:id="@+id/iv_post_icon"
             android:layout_width="@dimen/forum_item_post_icon_height"
             android:layout_height="@dimen/forum_item_post_icon_height"
-            android:layout_marginLeft="@dimen/forum_item_padding"
             android:src="@drawable/thread_comment_icon"
+            android:layout_alignParentTop="true"
             android:layout_toLeftOf="@+id/tv_replies"
             android:layout_toStartOf="@+id/tv_replies" />
 
@@ -69,17 +69,19 @@
             android:id="@+id/tv_replies"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="8"
-            android:textColor="#999999"
+            android:text=""
+            android:textColor="#fdb12b"
             android:textSize="@dimen/content_text_size"
+            android:layout_marginLeft="@dimen/forum_item_padding"
+            android:layout_alignBottom="@+id/iv_post_icon"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"/>
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/rl_quote_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/new_thread_message_margin_bottom"
+        android:layout_marginTop="@dimen/forum_item_content_top"
         android:layout_marginLeft="@dimen/forum_item_margin_left"
         android:layout_marginRight="@dimen/forum_item_margin_left"
         android:background="@drawable/view_thread_quote_border">
@@ -133,7 +135,8 @@
             android:id="@+id/tv_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/forum_item_margin_bottom"
+            android:layout_marginTop="@dimen/forum_item_content_top"
+            android:layout_marginBottom="@dimen/forum_item_content_bottom"
             android:orientation="vertical"
             android:textColor="@color/base_black_title_color"
             android:textSize="@dimen/title_content_text_size"

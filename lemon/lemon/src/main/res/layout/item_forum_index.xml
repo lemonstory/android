@@ -18,8 +18,7 @@
             android:layout_marginLeft="@dimen/forum_item_margin_left"
             android:layout_marginRight="@dimen/forum_item_margin_left"
             android:layout_marginTop="@dimen/forum_item_margin_left"
-            fresco:roundAsCircle="true"
-            fresco:placeholderImage="@drawable/album_default"/>
+            fresco:roundAsCircle="true" />
 
         <TextView
             android:id="@+id/tv_forum_name"
