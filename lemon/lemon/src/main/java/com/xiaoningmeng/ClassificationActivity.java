@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.xiaoningmeng.adapter.PopAdapter;
 import com.xiaoningmeng.base.BaseFragmentActivity;
 import com.xiaoningmeng.bean.PlayingStory;
@@ -61,6 +62,7 @@ public class ClassificationActivity extends BaseFragmentActivity implements View
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+        Fresco.initialize(this);
         setContentView(R.layout.activity_classification);
         Tag selectTag = getIntent().getParcelableExtra("classification");
         String classificationName = getIntent().getStringExtra("classification_name");

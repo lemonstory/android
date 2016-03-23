@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.xiaoningmeng"
-    android:versionCode="5"
-    android:versionName="1.4">
+    android:versionCode="6"
+    android:versionName="1.5">
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -293,7 +293,9 @@
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}" />
 
-        <activity android:name=".ForumDisplayActivity" />
+        <activity android:name=".ForumDisplayActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <!--
              ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -304,6 +306,7 @@
 
         <activity
             android:name=".ViewThreadActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"></action>
@@ -315,11 +318,26 @@
                 <data android:sspPattern=".*mod=viewthread.*"></data>
             </intent-filter>
         </activity>
-        <activity android:name=".NewThreadActivity" />
-        <activity android:name=".AddedImageViewPager" />
-        <activity android:name=".ImageViewerPagerActivity" />
-        <activity android:name=".MyThreadActivity" />
-        <activity android:name=".MyNotelistActivity"
+        <activity
+            android:name=".NewThreadActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AddedImageViewPager"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ImageViewerPagerActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".MyThreadActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".MyNotelistActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
     </application>
 

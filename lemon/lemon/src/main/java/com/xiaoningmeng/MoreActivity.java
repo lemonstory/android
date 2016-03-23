@@ -9,19 +9,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
-
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.xiaoningmeng.base.BaseFragmentActivity;
-import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.MoreAblum;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.Tag;
-import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.fragment.ClassificationFragment;
 import com.xiaoningmeng.fragment.MoreFragment;
 import com.xiaoningmeng.http.LHttpHandler;
 import com.xiaoningmeng.http.LHttpRequest;
@@ -58,8 +54,8 @@ public class MoreActivity extends BaseFragmentActivity implements View.OnClickLi
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
+		Fresco.initialize(this);
 		setContentView(R.layout.activity_more);
-
 		mSelectType = getIntent().getIntExtra(MORE_TYPE, HOT_MORE);
 		mIndicator = (PagerSlidingTabStrip) findViewById(R.id.tab_indicator);
 		mViewPager = (ViewPager) findViewById(R.id.viewpager);
