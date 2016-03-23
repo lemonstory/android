@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.alibaba.sdk.android.AlibabaSDK;
 import com.alibaba.sdk.android.callback.InitResultCallback;
+import com.alibaba.sdk.android.trade.TradeConfigs;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.HttpStack;
 import com.android.volley.toolbox.Volley;
@@ -80,7 +81,7 @@ public class MyApplication extends LitePalApplication {
 		super.onCreate();
 		mApplication = this;
 		if(shouldInit()) {
-			MiPushClient.registerPush(this, Constant.MI_APP_ID,Constant.MI_APP_KEY);
+			MiPushClient.registerPush(this, Constant.MI_APP_ID, Constant.MI_APP_KEY);
 			AppInfo.getInstance();
 			OSSAuth.getInstance().init(this);
 			initImageLoaderConfig(this);
@@ -88,6 +89,7 @@ public class MyApplication extends LitePalApplication {
 			initRequestQueue();
 
 			//阿里百川
+			TradeConfigs.defaultTaokePid = "mm_10003360_0_0";
 			AlibabaSDK.asyncInit(this, new InitResultCallback() {
 				@Override
 				public void onSuccess() {

@@ -89,6 +89,7 @@
     <string name="connect_time_out">超时</string>
     <string name="download_file_tip">正在下载文件，请稍后.</string>
     <string name="hello_blank_fragment">hello_blank_fragment</string>
+    <string name="account_post">我的帖子</string>
 
     <item name="add_image_0" type="id"></item>
     <item name="add_image_1" type="id"></item>

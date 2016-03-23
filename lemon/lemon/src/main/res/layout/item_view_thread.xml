@@ -140,6 +140,8 @@
             android:orientation="vertical"
             android:textColor="@color/base_black_title_color"
             android:textSize="@dimen/title_content_text_size"
+            android:singleLine="false"
+            android:lineSpacingExtra="4dp"
             android:text="这是文章正文"/>
     </LinearLayout>
     <LinearLayout

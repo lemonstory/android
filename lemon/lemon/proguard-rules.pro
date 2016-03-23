@@ -47,6 +47,7 @@
 -dontwarn com.umeng.**
 -dontwarn com.tencent.weibo.sdk.**
 -dontwarn com.facebook.**
+-dontwarn com.baidu.**
 -keep enum com.facebook.**
 -keepattributes Exceptions,InnerClasses,Signature
 -keepattributes *Annotation*
@@ -72,6 +73,7 @@
 }
 -keep public class com.tencent.bugly.**{*;}
 -keep class com.baidu.** {*;}
+-keep class vi.com.** {*;}
 -keep class com.google.gson.**{*;}
 -keep class com.android.volley.**{*;}
 -keep class com.alibaba.sdk.** { *; }

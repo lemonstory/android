@@ -1,10 +1,5 @@
 package com.xiaoningmeng;
 
-import java.util.HashMap;
-import java.util.List;
-
-import org.apache.http.cookie.Cookie;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,50 +7,41 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
+import android.webkit.WebStorage.QuotaUpdater;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.webkit.WebStorage.QuotaUpdater;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-//import com.r0adkll.slidr.Slidr;
 import com.xiaoningmeng.application.ActivityManager;
-import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.base.BaseActivity;
-import com.xiaoningmeng.bean.AppInfo;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.utils.NetUtils;
+
+//import com.r0adkll.slidr.Slidr;
 
 public class WebViewActivity extends BaseActivity {
 
 	private WebView webView;
-	//private HashMap<String, String> headers;
 	private ViewGroup loadingView;
-
+	private String webUrl;
+	private ProgressBar progressBar;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_webview);
 		webView = (WebView) findViewById(R.id.webView);
+		progressBar = (ProgressBar)findViewById(R.id.myProgressBar);
 		settingWebView();
-		String webUrl = getIntent().getStringExtra("web_url");
+		webUrl = getIntent().getStringExtra("web_url");
 		reRequestLoading();
+		CookieSyncManager.getInstance().sync();
+		//synCookies(WebViewActivity.this, url);
 		webView.loadUrl(webUrl/*, headers*/);
-		/*webView.setOnKeyListener(new View.OnKeyListener(){
-
-			@Override
-			public boolean onKey(View v, int keyCode, KeyEvent event) {
-				if (event.getAction() == KeyEvent.ACTION_DOWN) {
-					if(keyCode == KeyEvent.KEYCODE_BACK &&webView.canGoBack()){
-						webView.goBack();
-						return true;
-					}
-				}
-				return false;
-			}
-		});*/
 	}
 
 	// 调用此方法打开webView
@@ -76,6 +62,7 @@ public class WebViewActivity extends BaseActivity {
 	}
 
 	private void settingWebView() {
+
 		WebSettings webseting = webView.getSettings();
 		webseting.setJavaScriptEnabled(true);
 		webseting.setAllowFileAccess(true);
@@ -97,15 +84,22 @@ public class WebViewActivity extends BaseActivity {
 			webseting.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
 		}
 
+		//http://blog.csdn.net/zhyh1986/article/details/42169159
 		webView.setWebViewClient(new WebViewClient() {
 			/**
 			 * 点击Url是否重载 返回true表示在webView加载
 			 */
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
 
-				//synCookies(WebViewActivity.this, url);
-				view.loadUrl(url/*, headers*/);
-				return true;
+				if (url.startsWith("http:") || url.startsWith("https:")) {
+					return false;
+				}else {
+
+					// Otherwise allow the OS to handle things like tel, mailto, etc.
+					//Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+					//startActivity(intent);
+					return true;
+				}
 			}
 
 			/**
@@ -113,22 +107,30 @@ public class WebViewActivity extends BaseActivity {
 			 */
 			@Override
 			public void onReceivedError(WebView view, int errorCode,
-					String description, String failingUrl) {
+										String description, String failingUrl) {
 				onFailure();
 			}
 		});
+
 
 		webView.setWebChromeClient(new WebChromeClient() {
 
 			/**
 			 * 监听进度变化
 			 */
-			public void onProgressChanged(WebView view, int progress) {
+			@Override
+			public void onProgressChanged(WebView view, int newProgress) {
 
-				if (progress == 100) {
+				if (newProgress == 100) {
 					reqeuestSuccess();
+					progressBar.setVisibility(View.GONE);
+				} else {
+					if (View.INVISIBLE == progressBar.getVisibility()) {
+						progressBar.setVisibility(View.VISIBLE);
+					}
+					progressBar.setProgress(newProgress);
 				}
-
+				super.onProgressChanged(view, newProgress);
 			}
 
 			/**
@@ -212,8 +214,13 @@ public class WebViewActivity extends BaseActivity {
 	}
 
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
-			webView.goBack(); // goBack()表示返回WebView的上一页面
+
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			if (webView.canGoBack()) {
+				webView.goBack();
+			} else {
+				finish();
+			}
 			return true;
 		}
 		return super.onKeyDown(keyCode,event);
@@ -222,9 +229,17 @@ public class WebViewActivity extends BaseActivity {
 
 	@Override
 	public void finish() {
-		if(ActivityManager.getScreenManager().getActivity(HomeActivity.class) == null){
-			startActivityForNew(new Intent(this,HomeActivity.class));
+
+		if (webView.canGoBack()) {
+
+			webView.goBack();
+
+		} else {
+
+			if(ActivityManager.getScreenManager().getActivity(HomeActivity.class) == null){
+				startActivityForNew(new Intent(this,HomeActivity.class));
+			}
+			super.finish();
 		}
-		super.finish();
 	}
 }

@@ -1,14 +1,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@drawable/login_bg"
     android:clipToPadding="false"
     android:id="@+id/ll_webView"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
-
     <include
         android:id="@+id/action_bar"
         layout="@layout/layout_base_header" />
 
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:id="@+id/myProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:indeterminateOnly="false"
+        android:max="100"
+        android:progressDrawable="@drawable/progress_bar_states"/>
     <include layout="@layout/fragment_circle" />
 </LinearLayout>
