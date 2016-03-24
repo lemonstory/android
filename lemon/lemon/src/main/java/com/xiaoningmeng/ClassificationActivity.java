@@ -174,10 +174,12 @@ public class ClassificationActivity extends BaseFragmentActivity implements View
         mPopListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Tag tag = mFristTagList.get(position);
-                mSelectFristTag = tag.getId();
-                mClassifyTv.setText(tag.getName());
-                requestData(tag.getId());
+                if (null != mFristTagList) {
+                    Tag tag = mFristTagList.get(position);
+                    mSelectFristTag = tag.getId();
+                    mClassifyTv.setText(tag.getName());
+                    requestData(tag.getId());
+                }
                 mPopupWindow.dismiss();
             }
         });

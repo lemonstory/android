@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -112,7 +111,12 @@ public class ImageViewerPagerActivity extends BaseActivity {
 
         @Override
         public int getCount() {
-            return this.imagesPath.size();
+
+            int count = 0;
+            if (this.imagesPath != null) {
+                count = this.imagesPath.size();
+            }
+            return count;
         }
 
         @Override
@@ -217,7 +221,6 @@ public class ImageViewerPagerActivity extends BaseActivity {
         @Override
         public void onProgressUpdate(String imageUri, View view, int current, int total) {
 
-            Log.e("bbb", "onProgressUpdate -> imageUri = " + imageUri + ", current = " + current + ", total = " + total);
             imageLoadingTv.setText(Integer.toString(Math.round(100.0f * current / total)) + "%");
         }
     };

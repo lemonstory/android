@@ -1,11 +1,20 @@
 package com.xiaoningmeng.utils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.Build;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.backends.pipeline.PipelineDraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.xiaoningmeng.constant.Constant;
 
 import java.io.ByteArrayOutputStream;
@@ -167,5 +176,22 @@ public class ImageUtils {
 			}
 		}
 		return filePath;
+	}
+
+	//基于fresco展示图片并做resize操作
+	public static void displayImage(Context mContext, SimpleDraweeView imageView,Uri uri,int width,int height) {
+
+		ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri)
+				.setAutoRotateEnabled(true)
+				.setResizeOptions(new ResizeOptions(width, height))
+				.build();
+		ImagePipelineConfig.newBuilder(mContext).setDownsampleEnabled(true).build();
+		PipelineDraweeController controller = (PipelineDraweeController) Fresco.newDraweeControllerBuilder()
+				.setTapToRetryEnabled(true)
+				.setOldController(imageView.getController())
+
+				.setImageRequest(request)
+				.build();
+		imageView.setController(controller);
 	}
 }

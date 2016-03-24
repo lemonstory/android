@@ -179,7 +179,7 @@ public class DiscoverFragment extends BaseFragment {
 	TextView emptyView;
 	public void showEmptyTip() {
 		if(mListView.getHeaderViewsCount() == 1 && getActivity() != null){
-			if(emptyView == null){
+			if(emptyView == null && getActivity() != null){
 				LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE); 
 			     if (inflater != null) { 
 			    	 emptyView = (TextView)inflater.inflate(R.layout.fragment_empty, null);

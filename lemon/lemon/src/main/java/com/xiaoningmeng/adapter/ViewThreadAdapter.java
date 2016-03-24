@@ -28,6 +28,7 @@ import com.xiaoningmeng.bean.Post;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.ConstantURL;
 import com.xiaoningmeng.utils.AvatarUtils;
+import com.xiaoningmeng.utils.ImageUtils;
 import com.xiaoningmeng.utils.PostImageUtils;
 import com.xiaoningmeng.utils.UiUtils;
 
@@ -264,16 +265,13 @@ public class ViewThreadAdapter extends BaseAdapter {
                  */
                 ViewThreadActivity activity = weak.get();
                 HashMap<String,Integer> imageSize = PostImageUtils.parseImageSizeWithUrl(activity, absolutePath);
-
                 SimpleDraweeView img = new SimpleDraweeView(mContext);
-                img.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(imageSize.get("widthPx"),imageSize.get("heightPx"));
                 params.setMargins(0, 8, 0, 0);
                 params.gravity = Gravity.CENTER;
                 img.setLayoutParams(params);
                 img.setBackgroundResource(R.color.view_thread_image_background_color);
-                img.setImageURI(imgUri);
+                ImageUtils.displayImage(mContext,img,imgUri,imageSize.get("widthPx"), imageSize.get("heightPx"));
                 holder.imagesContainerLl.addView(img);
                 img.setTag(i+"");
                 img.setOnClickListener(postImageClickListener);

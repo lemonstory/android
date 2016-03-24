@@ -48,6 +48,7 @@ import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.player.PlayerManager.AlbumSource;
+import com.xiaoningmeng.utils.ImageUtils;
 import com.xiaoningmeng.view.CircleProgressBar;
 import com.xiaoningmeng.view.RatingBar;
 import com.xiaoningmeng.view.ShareDialog;
@@ -268,7 +269,7 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 		mFavTv.setText(albumInfo.getFavnum() == 0?"收藏":(albumInfo.getFavnum() + ""));
 		mListenerTv.setText(albumInfo.getListennum()+"");
 		Uri uri = Uri.parse(albumInfo.getCover());
-		mCoverImg.setImageURI(uri);
+		ImageUtils.displayImage(this,mCoverImg,uri,300,300);
 	}
 
 	@Override

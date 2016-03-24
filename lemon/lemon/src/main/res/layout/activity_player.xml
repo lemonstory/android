@@ -250,7 +250,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:scaleType="centerCrop"
+                fresco:actualImageScaleType="centerCrop"
                 fresco:placeholderImage="@drawable/album_default"/>
         </FrameLayout>
     </android.support.percent.PercentRelativeLayout>

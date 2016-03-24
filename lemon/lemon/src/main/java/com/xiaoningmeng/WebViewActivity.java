@@ -91,6 +91,7 @@ public class WebViewActivity extends BaseActivity {
 			 */
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
 
+				CookieSyncManager.getInstance().sync();
 				if (url.startsWith("http:") || url.startsWith("https:")) {
 					return false;
 				}else {

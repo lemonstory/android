@@ -16,7 +16,8 @@
             android:id="@+id/img_classify1"
             android:layout_width="@dimen/classifiction_item_height"
             android:layout_height="@dimen/classifiction_item_height"
-            fresco:placeholderImage="@drawable/default_classifiction"/>
+            fresco:placeholderImage="@drawable/default_classifiction"
+            fresco:actualImageScaleType="centerCrop"/>
 
         <TextView
             android:id="@+id/tv_classify1"
@@ -34,7 +35,8 @@
             android:id="@+id/img_classify2"
             android:layout_width="@dimen/classifiction_item_height"
             android:layout_height="@dimen/classifiction_item_height"
-            fresco:placeholderImage="@drawable/default_classifiction"/>
+            fresco:placeholderImage="@drawable/default_classifiction"
+            fresco:actualImageScaleType="centerCrop"/>
 
         <TextView
             android:id="@+id/tv_classify2"
@@ -52,7 +54,8 @@
             android:id="@+id/img_classify3"
             android:layout_width="@dimen/classifiction_item_height"
             android:layout_height="@dimen/classifiction_item_height"
-            fresco:placeholderImage="@drawable/default_classifiction"/>
+            fresco:placeholderImage="@drawable/default_classifiction"
+            fresco:actualImageScaleType="centerCrop"/>
 
         <TextView
             android:id="@+id/tv_classify3"
@@ -71,7 +74,8 @@
             android:id="@+id/img_classify4"
             android:layout_width="@dimen/classifiction_item_height"
             android:layout_height="@dimen/classifiction_item_height"
-            fresco:placeholderImage="@drawable/default_classifiction"/>
+            fresco:placeholderImage="@drawable/default_classifiction"
+            fresco:actualImageScaleType="centerCrop"/>
 
         <TextView
             android:id="@+id/tv_classify4"

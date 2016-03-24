@@ -23,6 +23,7 @@ import com.xiaoningmeng.bean.ForumName;
 import com.xiaoningmeng.bean.ForumThread;
 import com.xiaoningmeng.http.ConstantURL;
 import com.xiaoningmeng.utils.AvatarUtils;
+import com.xiaoningmeng.utils.ImageUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +41,8 @@ public class ForumDisplayAdapter extends BaseAdapter {
     private int fid;
     public boolean showForumName = false;
     public boolean showLastPostTime = false;
+    public static int FORUM_IMAGE_WIDTH = 300;
+    public static int FORUM_IMAGE_HEIGHT = 300;
 
     public ForumDisplayAdapter(Context context, List<ForumThread> threads,int fid) {
 
@@ -135,15 +138,15 @@ public class ForumDisplayAdapter extends BaseAdapter {
                         switch (i) {
                             case 0:
                                 holder.imageF.setVisibility(View.VISIBLE);
-                                holder.imageF.setImageURI(imgUri);
+                                ImageUtils.displayImage(mContext, holder.imageF, imgUri, FORUM_IMAGE_WIDTH, FORUM_IMAGE_HEIGHT);
                                 break;
                             case 1:
                                 holder.imageS.setVisibility(View.VISIBLE);
-                                holder.imageS.setImageURI(imgUri);
+                                ImageUtils.displayImage(mContext, holder.imageS, imgUri, FORUM_IMAGE_WIDTH, FORUM_IMAGE_HEIGHT);
                                 break;
                             case 2:
                                 holder.imageT.setVisibility(View.VISIBLE);
-                                holder.imageT.setImageURI(imgUri);
+                                ImageUtils.displayImage(mContext, holder.imageT, imgUri, FORUM_IMAGE_WIDTH, FORUM_IMAGE_HEIGHT);
                                 break;
                         }
                     }
