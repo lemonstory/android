@@ -267,6 +267,7 @@
     <dimen name="forum_item_margin_left">15dp</dimen>
     <dimen name="forum_item_margin_bottom">10dp</dimen>
     <dimen name="forum_item_padding">3dp</dimen>
+    <dimen name="forum_item_post_padding_top">3dp</dimen>
     <dimen name="forum_item_dateline_top">60dp</dimen>
     <dimen name="forum_item_post_icon_height">14dp</dimen>
     <dimen name="forum_item_anthor_icon_height">20dp</dimen>

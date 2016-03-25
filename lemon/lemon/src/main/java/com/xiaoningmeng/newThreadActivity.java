@@ -71,7 +71,7 @@ public class NewThreadActivity extends BaseFragmentActivity implements View.OnCl
         rightTv = (TextView) findViewById(R.id.tv_head_right);
         subjectEt = (EditText) findViewById(R.id.et_subject);
         messageEt = (EditText) findViewById(R.id.et_message);
-        setTitleName("发布帖子");
+        setTitleName("发表帖子");
         setRightHeadText("发送");
         subjectEt.setHint("请输入帖子标题");
         rightTv.setAlpha((float) 0.5);

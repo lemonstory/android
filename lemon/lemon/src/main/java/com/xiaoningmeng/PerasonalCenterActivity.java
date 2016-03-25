@@ -288,11 +288,17 @@ public class PerasonalCenterActivity extends BaseActivity implements
 								//设置帖子数
 								JSONObject spaceObject = new JSONObject(variablesObject.getString("space"));
 
+
 								if (spaceObject.has("uid") && spaceObject.has("threads")) {
 									if (uid.equals(spaceObject.getString("uid"))) {
 										mAccountPostContainer.setVisibility(View.VISIBLE);
-										mAccountPostContainer.setEnabled(true);
 										mAccountPostTv.setText(spaceObject.getString("threads"));
+										int postCount = Integer.parseInt(spaceObject.getString("threads"));
+										if (postCount > 0) {
+											mAccountPostContainer.setEnabled(true);
+										}else {
+											mAccountPostContainer.setEnabled(false);
+										}
 									}else {
 										//到这来就是系统出错了
 									}

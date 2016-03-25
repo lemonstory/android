@@ -73,7 +73,7 @@ public class MyThreadActivity extends BaseActivity implements XListView.IXListVi
         if (MyApplication.getInstance().isIsLogin() && MyApplication.getInstance().userInfo.getNickname().equals(nickname)) {
             setTitleName("我的帖子");
         }else {
-            setTitleName(this.nickname+"的帖子");
+            setTitleName(this.nickname + "的帖子");
         }
     }
 
@@ -113,7 +113,7 @@ public class MyThreadActivity extends BaseActivity implements XListView.IXListVi
 
     public void setForumsThreads(List<ForumThread> threads) {
 
-        if (threads != null && threads.size() > 0) {
+        if (threads != null && threads.size() > 0 && threadCount > 0) {
 
             if(this.page == 1) {
                 this.mForumThreads.clear();
@@ -123,16 +123,37 @@ public class MyThreadActivity extends BaseActivity implements XListView.IXListVi
                 hideEmptyTip();
                 mAdapter.notifyDataSetChanged();
             }
+        }else {
+            showEmptyTip("发布的帖子会出现在这里喔");
         }
     }
 
     public void setForumNames(Map<String,ForumName> forumNames) {
-
-        mAdapter.forumNames.putAll(forumNames);
+        if (null != forumNames) {
+            mAdapter.forumNames.putAll(forumNames);
+        }
     }
 
-    private void hideEmptyTip() {
+    TextView emptyView;
+    public void showEmptyTip(String tip) {
+        if(mListView.getHeaderViewsCount() == 1){
+            if(emptyView == null){
+                emptyView = (TextView) View.inflate(this,R.layout.fragment_empty, null);
+            }
+            emptyView = (TextView) View.inflate(this,R.layout.fragment_empty, null);
+            emptyView.setText(tip);
+            emptyView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.home_discover_item_img_height), 0, 0);
+            mListView.addHeaderView(emptyView,null,false);
+            mListView.setPullLoadEnable(false);
+        }
 
+    }
+
+
+    public void hideEmptyTip() {
+        if(emptyView != null && mListView.getHeaderViewsCount()>1){
+            mListView.removeHeaderView(emptyView);
+        }
     }
 
     public void reRequestLoading() {
@@ -162,20 +183,17 @@ public class MyThreadActivity extends BaseActivity implements XListView.IXListVi
                                     Gson gson = new Gson();
                                     mForumNames = gson.fromJson(dataObject.getString("forumnames"), new TypeToken<Map<String,ForumName>>() {
                                     }.getType());
-                                    setForumNames(mForumNames);
 
+                                    setForumNames(mForumNames);
                                 }
 
-                                if (dataObject.has("threadlist")) {
+                                if (dataObject.has("threadlist") && dataObject.has("threadcount")) {
 
                                     Gson gson = new Gson();
                                     threadList = gson.fromJson(dataObject.getString("threadlist"), new TypeToken<List<ForumThread>>() {
                                     }.getType());
-                                    setForumsThreads(threadList);
-                                }
-
-                                if (dataObject.has("threadcount")) {
                                     threadCount = Integer.parseInt(dataObject.getString("threadcount"));
+                                    setForumsThreads(threadList);
                                 }
 
                                 if (variablesObject.has("perpage")) {

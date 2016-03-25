@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -144,7 +143,7 @@ public abstract class LHttpHandler<T> implements Response.Listener<String>,
 	 */
 	public void showServerMsg(int statusCode, final String msg) {
 		if(mContext  instanceof Activity){
-			Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+			//Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
 		}
 	}
 

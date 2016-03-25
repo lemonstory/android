@@ -82,7 +82,8 @@ public class PlayNotificationManager {
 			notification.contentIntent = contentIntent;
 			notification.setLatestEventInfo(mContext, "点击查看", "点击查看详细内容", contentIntent);  
 			notifyView.setTextViewText(R.id.notify_title, playingMusic.title);
-			notifyView.setTextViewText(R.id.notify_album, playingMusic.albumInfo.getTitle());
+			String title = (playingMusic.albumInfo != null ? playingMusic.albumInfo.getTitle() : mContext.getString(R.string.app_name));
+			notifyView.setTextViewText(R.id.notify_album, title);
 		}
 		showNotify(playingMusic);
 
@@ -98,8 +99,10 @@ public class PlayNotificationManager {
 			notifyView.setViewVisibility(R.id.notify_pause, View.VISIBLE);
 		}
 		notifyView.setTextViewText(R.id.notify_title, playingMusic.title);
-		notifyView.setTextViewText(R.id.notify_album, playingMusic.albumInfo.getTitle());
-		ImageLoader.getInstance().loadImage(playingMusic.cover, Constant.NOTICE_OPTION, new ImageLoadingListener() {
+		String title = (playingMusic.albumInfo != null ?playingMusic.albumInfo.getTitle():mContext.getString(R.string.app_name));
+		notifyView.setTextViewText(R.id.notify_album, title);
+		String url = playingMusic.cover == null ?  playingMusic.cover: (playingMusic.albumInfo != null ?playingMusic.albumInfo.getS_cover():null);
+		ImageLoader.getInstance().loadImage(url, Constant.NOTICE_OPTION, new ImageLoadingListener() {
 			
 			@Override
 			public void onLoadingStarted(String arg0, View arg1) {
