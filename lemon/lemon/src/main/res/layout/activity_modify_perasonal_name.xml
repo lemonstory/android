@@ -27,7 +27,7 @@
            android:layout_height="match_parent"
            android:textColor="@color/base_black_title_color"
            android:textSize="@dimen/title_content_text_size"
-           android:hint="请填写您的手机号"
+           android:hint="请填写您宝宝的名字"
            android:singleLine="true"
            /> 
         <ImageView 

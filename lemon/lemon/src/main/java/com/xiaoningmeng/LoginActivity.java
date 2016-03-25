@@ -320,39 +320,41 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
 		UserInfo userinfo = event.userInfo;
 		String uc_callback = userinfo.getUcCallback();
-		LHttpRequest.getInstance().UCSyncLoginRequest(LoginActivity.this, uc_callback, new LHttpHandler<String>(LoginActivity.this) {
-			@Override
-			public void onGetDataSuccess(String data) {
-				try {
-					JSONObject jsonObject = new JSONObject(data);
-					JSONObject messageObject = new JSONObject(jsonObject.getString("Message"));
-					if (messageObject.has("messageval")) {
+		if (uc_callback != null && !uc_callback.equals("")) {
+			LHttpRequest.getInstance().UCSyncLoginRequest(LoginActivity.this, uc_callback, new LHttpHandler<String>(LoginActivity.this) {
+				@Override
+				public void onGetDataSuccess(String data) {
+					try {
+						JSONObject jsonObject = new JSONObject(data);
+						JSONObject messageObject = new JSONObject(jsonObject.getString("Message"));
+						if (messageObject.has("messageval")) {
 
-						String messageval = messageObject.getString("messageval");
-						if (messageval != null && messageval.equals(Constant.FORUM_LOGIN_SUCCEED)) {
+							String messageval = messageObject.getString("messageval");
+							if (messageval != null && messageval.equals(Constant.FORUM_LOGIN_SUCCEED)) {
 
-							if (jsonObject.has("Variables")) {
-								Gson gson = new Gson();
-								ForumLoginVar forumLoginVar = gson.fromJson(jsonObject.getString("Variables"), ForumLoginVar.class);
-								EventBus.getDefault().post(new ForumLoginEvent(forumLoginVar));
+								if (jsonObject.has("Variables")) {
+									Gson gson = new Gson();
+									ForumLoginVar forumLoginVar = gson.fromJson(jsonObject.getString("Variables"), ForumLoginVar.class);
+									EventBus.getDefault().post(new ForumLoginEvent(forumLoginVar));
+								}
 							}
+							enterHomeActivity();
 						}
-						enterHomeActivity();
+
+					} catch (JSONException e) {
+						Toast.makeText(LoginActivity.this,"登录失败",Toast.LENGTH_SHORT).show();
+						e.printStackTrace();
 					}
 
-				} catch (JSONException e) {
-					Toast.makeText(LoginActivity.this,"登录失败",Toast.LENGTH_SHORT).show();
-					e.printStackTrace();
 				}
 
-			}
-
-			@Override
-			public void onFailure(int statusCode, Header[] headers,
-								  String responseString, Throwable throwable) {
-				DebugUtils.e("UCSyncLoginRequest onFailure callback is run");
-			}
-		});
+				@Override
+				public void onFailure(int statusCode, Header[] headers,
+									  String responseString, Throwable throwable) {
+					DebugUtils.e("UCSyncLoginRequest onFailure callback is run");
+				}
+			});
+		}
 	}
 
 	@Override

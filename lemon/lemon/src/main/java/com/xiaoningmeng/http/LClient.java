@@ -248,7 +248,7 @@ public class LClient {
 
 	public String getUrlWithQueryString(boolean shouldEncodeUrl, String url,
 			HashMap<String, String> params) {
-		if (shouldEncodeUrl)
+		if (shouldEncodeUrl && url != null)
 			url = url.replace(" ", "%20");
 		if (params != null) {
 			String paramString = getParamsList(params).trim();
