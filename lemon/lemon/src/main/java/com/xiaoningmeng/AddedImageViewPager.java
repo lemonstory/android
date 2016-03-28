@@ -124,7 +124,12 @@ public class AddedImageViewPager extends BaseActivity {
 
         @Override
         public int getCount() {
-            return this.imageFiles.size();
+
+            int count = 0;
+            if (this.imageFiles != null) {
+               count = this.imageFiles.size();
+            }
+            return count;
         }
 
         @Override

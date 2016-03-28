@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.MarginLayoutParams;
 import android.view.ViewStub;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -17,28 +18,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.baidu.mobads.AdView;
-import com.baidu.mobads.AdViewListener;
 import com.xiaoningmeng.ClassificationActivity;
-import com.xiaoningmeng.MoreActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.adapter.DiscoverStoryAdapter;
 import com.xiaoningmeng.adapter.RecommendStoryAdapter;
 import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.base.BaseFragmentActivity;
 import com.xiaoningmeng.bean.AlbumInfo;
-import com.xiaoningmeng.bean.MoreAblum;
 import com.xiaoningmeng.bean.Tag;
 import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.http.LHttpHandler;
-import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.view.CollapsibleTextView;
 import com.xiaoningmeng.view.FlowLayout;
 
-import android.view.ViewGroup.MarginLayoutParams;
-
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class AblumDetailIntroFragment extends BaseFragment implements View.OnClickListener{
@@ -147,10 +138,11 @@ public class AblumDetailIntroFragment extends BaseFragment implements View.OnCli
 	public void onClick(View v) {
 		if(v.getTag() != null){
 			Tag tag = (Tag)v.getTag();
-			Intent i = new Intent(mContext, ClassificationActivity.class);
-			i.putExtra("classification",tag);
-			startActivityForNew(i);
+			if (tag != null && tag.getId() != null) {
+				Intent i = new Intent(mContext, ClassificationActivity.class);
+				i.putExtra("classification",tag);
+				startActivityForNew(i);
+			}
 		}
-
 	}
 }

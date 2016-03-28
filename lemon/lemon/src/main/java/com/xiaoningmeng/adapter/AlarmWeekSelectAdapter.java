@@ -1,20 +1,18 @@
 package com.xiaoningmeng.adapter;
 
-import java.util.List;
-
-import com.xiaoningmeng.R;
-import com.xiaoningmeng.bean.WeekDay;
-
-
 import android.annotation.SuppressLint;
 import android.content.Context;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.xiaoningmeng.R;
+import com.xiaoningmeng.bean.WeekDay;
+
+import java.util.List;
 
 public class AlarmWeekSelectAdapter extends BaseAdapter{
 
@@ -32,7 +30,11 @@ public class AlarmWeekSelectAdapter extends BaseAdapter{
 
 	@Override
 	public int getCount() {
-		return weekDays.size();
+		int count = 0;
+		if (weekDays != null) {
+			count = weekDays.size();
+		}
+		return count;
 	}
 
 	@Override

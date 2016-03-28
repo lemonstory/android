@@ -78,7 +78,11 @@ public class ClassificationActivity extends BaseFragmentActivity implements View
         mTagParams = new ArrayList<>();
         PlayerManager.getInstance().register(this);
         setLoading(new DrawableDialogLoading(this));
-        requestData(selectTag.getId());
+        String selectTagId = Constant.DEFAULT_TAG_ID;//避免空指针,给个默认值
+        if (selectTag != null &&  selectTag.getId() != null && !selectTag.getId().equals("")) {
+            selectTagId = selectTag.getId();
+        }
+        requestData(selectTagId);
     }
 
     private  void requestData(String selectTagId){

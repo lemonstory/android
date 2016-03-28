@@ -1,5 +1,14 @@
 package com.xiaoningmeng.base;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.application.ActivityManager;
@@ -7,14 +16,6 @@ import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.http.ILoading;
 import com.xiaoningmeng.manager.SystemBarTintManager;
 import com.xiaoningmeng.view.dialog.TextDialogLoading;
-
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Build;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 public class BaseActivity extends Activity implements ILoading {
 
@@ -104,7 +105,12 @@ public class BaseActivity extends Activity implements ILoading {
 	public void startLoading() {
 
 		if (mLoading == null) {
-			mLoading = new TextDialogLoading(this);
+
+			Context context = this;
+			if (this.isFinishing()) {
+				context = this.getParent();
+			}
+			mLoading = new TextDialogLoading(context);
 		}
 		mLoading.startLoading();
 	}

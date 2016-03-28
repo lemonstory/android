@@ -1,5 +1,6 @@
 package com.xiaoningmeng.player;
 
+import android.database.sqlite.SQLiteFullException;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnBufferingUpdateListener;
@@ -11,6 +12,8 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.PowerManager;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipeline;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.ReminderActivity;
 import com.xiaoningmeng.application.MyApplication;
@@ -395,9 +398,22 @@ public class PlayerManager extends PlayerObservable implements
         }
         startPlay(pos, current);
         if (mPlayingStory.albumSource != AlbumSource.SEARCH) {
-            DataSupport.deleteAll(PlayStory.class);
-            DownLoadClientImpl.getInstance().addAlbum(albumInfo);
-            DataSupport.saveAll(playStories);
+            try{
+                DataSupport.deleteAll(PlayStory.class);
+                DownLoadClientImpl.getInstance().addAlbum(albumInfo);
+                DataSupport.saveAll(playStories);
+
+            }catch (SQLiteFullException e) {
+                //clear image cache
+                ImagePipeline imagePipeline = Fresco.getImagePipeline();
+                imagePipeline.clearCaches();
+
+                DataSupport.deleteAll(PlayStory.class);
+                DownLoadClientImpl.getInstance().addAlbum(albumInfo);
+                DataSupport.saveAll(playStories);
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -206,13 +207,23 @@ public class ForumDisplayAdapter extends BaseAdapter {
         //如果forumNameTv和lastpostTv同时出现,会出现重叠
         RelativeLayout.LayoutParams lastpostTvLp = (RelativeLayout.LayoutParams)holder.lastpostTv.getLayoutParams();
         RelativeLayout.LayoutParams forumNameTvLp = (RelativeLayout.LayoutParams)holder.forumNameTv.getLayoutParams();
-
+        //https://github.com/himanshu-soni/ChatMessageView/issues/4
+        final boolean hasSdk17 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1;
         if (!thread.getReplies().equals("0")) {
 
             lastpostTvLp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,0);
-            lastpostTvLp.addRule(RelativeLayout.ALIGN_PARENT_END,0);
+            if (hasSdk17) {
+                lastpostTvLp.addRule(RelativeLayout.ALIGN_PARENT_END,0);
+            }else {
+                lastpostTvLp.addRule(RelativeLayout.ALIGN_RIGHT, R.id.rl_user);
+            }
             forumNameTvLp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,0);
-            forumNameTvLp.addRule(RelativeLayout.ALIGN_PARENT_END,0);
+            if (hasSdk17) {
+                forumNameTvLp.addRule(RelativeLayout.ALIGN_PARENT_END,0);
+            }else {
+                forumNameTvLp.addRule(RelativeLayout.ALIGN_RIGHT, R.id.rl_user);
+            }
+
             holder.postIconImg.setVisibility(View.VISIBLE);
             holder.repliesTv.setVisibility(View.VISIBLE);
             holder.repliesTv.setText(thread.getReplies());
@@ -220,9 +231,18 @@ public class ForumDisplayAdapter extends BaseAdapter {
         }else {
 
             lastpostTvLp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-            lastpostTvLp.addRule(RelativeLayout.ALIGN_PARENT_END);
+            if (hasSdk17) {
+                lastpostTvLp.addRule(RelativeLayout.ALIGN_PARENT_END);
+            }else {
+                lastpostTvLp.addRule(RelativeLayout.ALIGN_RIGHT, R.id.rl_user);
+            }
+
             forumNameTvLp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-            forumNameTvLp.addRule(RelativeLayout.ALIGN_PARENT_END);
+            if (hasSdk17) {
+                forumNameTvLp.addRule(RelativeLayout.ALIGN_PARENT_END);
+            }else {
+                forumNameTvLp.addRule(RelativeLayout.ALIGN_RIGHT, R.id.rl_user);
+            }
             holder.postIconImg.setVisibility(View.INVISIBLE);
             holder.repliesTv.setVisibility(View.INVISIBLE);
         }

@@ -65,6 +65,13 @@ public class MyApplication extends LitePalApplication {
 	private List<Cookie> cookies;
 	private CookieStore cookieStore;
 
+
+	//https://github.com/facebook/fresco/issues/410
+	static {
+		System.loadLibrary("webp");
+		System.loadLibrary("imagepipeline");
+	}
+
 	public static MyApplication getInstance() {
 
 		return mApplication;

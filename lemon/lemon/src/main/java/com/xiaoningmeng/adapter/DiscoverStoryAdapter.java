@@ -546,14 +546,16 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 		case R.id.ll_classify3:
 		case R.id.ll_classify4:
 			Tag tag = (Tag) v.getTag();
-			Intent ii = new Intent(mContext,ClassificationActivity.class);
-			ii.putExtra("classification",tag);
-			ii.putExtra("classification_name", tag.getName());
-			((BaseFragmentActivity) mContext).startActivityForNew(ii);
-			HashMap<String,String> map = new HashMap<String,String>();
-			map.put("tagId",tag.getId());
-			map.put("tagName",tag.getName());
-			MobclickAgent.onEvent(mContext, "event_click_tag", map);
+			if (tag != null && tag.getId() != null) {
+				Intent ii = new Intent(mContext,ClassificationActivity.class);
+				ii.putExtra("classification",tag);
+				ii.putExtra("classification_name", tag.getName());
+				((BaseFragmentActivity) mContext).startActivityForNew(ii);
+				HashMap<String,String> map = new HashMap<String,String>();
+				map.put("tagId",tag.getId());
+				map.put("tagName",tag.getName());
+				MobclickAgent.onEvent(mContext, "event_click_tag", map);
+			}
 			break;
 		}
 	}

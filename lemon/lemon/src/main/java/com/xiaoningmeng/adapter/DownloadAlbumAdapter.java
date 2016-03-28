@@ -80,10 +80,15 @@ public class DownloadAlbumAdapter extends BaseAdapter implements
 		}
 
 		AlbumInfo albumInfo = getItem(position);
-		Uri coverImgUri = Uri.parse(albumInfo.getCover());
+		Uri coverImgUri = null;
+		if (albumInfo.getCover() != null) {
+			coverImgUri = Uri.parse(albumInfo.getCover());
+		}
 		GenericDraweeHierarchy hierarchy = holder.coverImg.getHierarchy();
 		hierarchy.setPlaceholderImage(Constant.getPosDrawable(position));
-		holder.coverImg.setImageURI(coverImgUri);
+		if (coverImgUri != null) {
+			holder.coverImg.setImageURI(coverImgUri);
+		}
 		holder.storyTitle.setText(albumInfo.getTitle());
 		if (type == 0) {
 			HashMap<String, List<AudioDownLoad>> map = DownLoadClientImpl

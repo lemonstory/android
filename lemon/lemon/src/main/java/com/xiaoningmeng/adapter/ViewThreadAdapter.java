@@ -153,9 +153,9 @@ public class ViewThreadAdapter extends BaseAdapter {
                      *
                      */
                     String quoteStr = "";
-                    if (((String) quoteMessage.get("message")).length() > Constant.Forum_QUOTE_STRING_LEN) {
+                    if (((String) quoteMessage.get("message")).length() > Constant.FORUM_QUOTE_STRING_LEN) {
 
-                        quoteStr = (String) ((String) quoteMessage.get("message")).substring(0, Constant.Forum_QUOTE_STRING_LEN) + "...";
+                        quoteStr = (String) ((String) quoteMessage.get("message")).substring(0, Constant.FORUM_QUOTE_STRING_LEN) + "...";
                     }else {
                         quoteStr = (String) quoteMessage.get("message");
                     }
