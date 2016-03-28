@@ -14,6 +14,7 @@ import com.baoyz.swipemenu.xlistview.XListView;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.adapter.ForumDisplayAdapter;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.auth.UserAuth;
@@ -119,7 +120,7 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
     public void onResume() {
         super.onResume();
         setBadgeNum(newMyPost);
-
+        MobclickAgent.onEvent(this, "event_show_forumdisplay");
     }
 
     @Override

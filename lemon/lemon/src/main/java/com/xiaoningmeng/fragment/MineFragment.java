@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.baoyz.swipemenu.xlistview.XListView;
+import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.AblumDetailActivity;
 import com.xiaoningmeng.DownloadActivity;
 import com.xiaoningmeng.FavActivity;
@@ -275,6 +276,7 @@ public class MineFragment extends BaseFragment implements OnClickListener,XListV
 			mHistoryEvents.clear();
 			mAdapter.notifyDataSetChanged();
 		}
+		MobclickAgent.onEvent(mContext, "event_show_mystory");
 	}
 
 	private void update(HistoryEvent historyEvent) {

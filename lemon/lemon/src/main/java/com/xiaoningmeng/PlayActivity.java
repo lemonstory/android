@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.controller.UMSocialService;
 import com.umeng.socialize.sso.UMSsoHandler;
 import com.xiaoningmeng.application.MyApplication;
@@ -45,6 +46,7 @@ import com.xiaoningmeng.utils.TimeUtils;
 import com.xiaoningmeng.view.ShareDialog;
 import com.xiaoningmeng.view.dialog.TipDialog;
 import com.xiaoningmeng.view.dialog.TopDialog;
+
 import de.greenrobot.event.EventBus;
 
 public class PlayActivity extends BaseActivity implements OnClickListener,
@@ -191,7 +193,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
 
 		Animation donwloadAnim = AnimationUtils.loadAnimation(PlayActivity.this, R.anim.fav_anim_in);
 		v.startAnimation(donwloadAnim);
-		Toast.makeText(this, "已加入下载队列", Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, "开始下载...", Toast.LENGTH_SHORT).show();
 		//如果是搜索过来则没有专辑信息，需要重新加载
 		if(mPlayerManager.getPlayingStory().albumInfo == null){
 			LHttpRequest.getInstance().albumInfoReq(this,10,mPlayerManager.getPlayingStory().albumid,
@@ -207,6 +209,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
 		}else {
 			download();
 		}
+		MobclickAgent.onEvent(this, "event_download");
 	}
 
 	private void download() {
@@ -218,6 +221,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
             new TipDialog.Builder(PlayActivity.this).setAutoDismiss(true)
                     .setTransparent(false).setTipText("嗯哈，你已经下载过啦").create().show();
         }
+
 	}
 
 
@@ -238,7 +242,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
 		}else {
 			fav(view, albumInfo);
 		}
-
+		MobclickAgent.onEvent(this,"event_collect");
 	}
 
 	private void fav(final View view, final AlbumInfo albumInfo) {
@@ -287,7 +291,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
 		if (mode == PlayMode.CYCLE) {
 			mPlayerManager.setPlayMode(PlayMode.SINGLE);
 			mMusicModeImg.setImageResource(R.drawable.play_btn_once_selecotr);
-			TopDialog.create(this,(ViewGroup)findViewById(R.id.rl_content), "已经切换到单曲循环模式").show();
+			TopDialog.create(this, (ViewGroup) findViewById(R.id.rl_content), "已经切换到单曲循环模式").show();
 		} else if (mode == PlayMode.SINGLE) {
 			mPlayerManager.setPlayMode(PlayMode.RANDOM);
 			mMusicModeImg.setImageResource(R.drawable.play_btn_random_selecotr);
@@ -399,11 +403,16 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
 		
 		PlayingStory music = mPlayerManager.getPlayingStory();
 		setTitleName(music.title);
-		if (music.playcover != null){
-
-			Uri playCoverUri = Uri.parse(music.playcover);
+		Uri playCoverUri = null;
+		if (music.playcover != null && !music.playcover.equals("")){
+			playCoverUri = Uri.parse(music.playcover);
+		}else if (music.albumInfo.getCover() != null && !music.albumInfo.getCover().equals("")) {
+			playCoverUri = Uri.parse(music.albumInfo.getCover());
+		}
+		if (playCoverUri != null) {
 			mPlayCover.setImageURI(playCoverUri);
 		}
+
 		if(music.albumInfo != null){
 			mFavImg.setSelected(music.albumInfo.getFav() == 1);
 			mCommentTv.setText(music.albumInfo.getCommentnum() != 0 ? (music.albumInfo.getCommentnum()+""):"");

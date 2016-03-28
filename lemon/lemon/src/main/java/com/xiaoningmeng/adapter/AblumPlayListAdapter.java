@@ -1,7 +1,19 @@
 package com.xiaoningmeng.adapter;
 
-import java.util.List;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.text.Html;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.AudioDownLoad;
@@ -12,20 +24,7 @@ import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.player.PlayerManager.PlayState;
 import com.xiaoningmeng.view.dialog.TipDialog;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-
-import android.text.Html;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import java.util.List;
 
 public class AblumPlayListAdapter extends BaseAdapter implements
 		OnClickListener {
@@ -191,6 +190,7 @@ public class AblumPlayListAdapter extends BaseAdapter implements
 				new TipDialog.Builder(mContext).setAutoDismiss(true)
 				.setTransparent(true).setTipText("嗯哈，你已经下载过啦").create().show();
 			}
+			MobclickAgent.onEvent(mContext, "event_download");
 			break;
 
 		default:

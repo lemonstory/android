@@ -11,6 +11,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.PowerManager;
 
+import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.ReminderActivity;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.bean.AlbumInfo;
@@ -303,6 +304,7 @@ public class PlayerManager extends PlayerObservable implements
                 }
             }
         });
+        MobclickAgent.onEvent(MyApplication.getContext(),"event_play");
     }
 
 

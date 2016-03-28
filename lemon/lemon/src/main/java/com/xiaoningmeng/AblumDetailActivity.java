@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.controller.UMSocialService;
 import com.umeng.socialize.sso.UMSsoHandler;
 import com.xiaoningmeng.application.ActivityManager;
@@ -349,6 +350,7 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 				}
 			}
 		}
+		MobclickAgent.onEvent(this, "event_download");
 	}
 
 	private void favAblum(final View view) {
@@ -391,6 +393,7 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 						}
 					});
 		}
+		MobclickAgent.onEvent(this,"event_collect");
 	}
 
 	private void selectTab(int position) {

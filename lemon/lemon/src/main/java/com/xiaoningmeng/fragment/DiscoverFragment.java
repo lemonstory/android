@@ -20,6 +20,7 @@ import com.bigkoo.convenientbanner.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.ConvenientBanner.Transformer;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.WebViewActivity;
 import com.xiaoningmeng.adapter.DiscoverStoryAdapter;
@@ -68,36 +69,36 @@ public class DiscoverFragment extends BaseFragment {
 
 						hideLoadingTip();
 						List<FocusPic> focusPics = data.getFocuspic();
-						if(focusPics!= null && focusPics.size() !=0){
+						if (focusPics != null && focusPics.size() != 0) {
 							convenientBanner = new ConvenientBanner<>(getActivity());
 							convenientBanner.setLayoutParams(new AbsListView.LayoutParams(LayoutParams.MATCH_PARENT,
 									getResources().getDimensionPixelSize(R.dimen.home_banner_height)));
-							mListView.addHeaderView(convenientBanner,null,false);
+							mListView.addHeaderView(convenientBanner, null, false);
 							convenientBanner.setPages(new CBViewHolderCreator<ImageHolder>() {
-										@Override
-										public ImageHolder createHolder() {
-											return new ImageHolder();
-										}
-									}, focusPics)
-									.setPageIndicator(new int[] { R.drawable.ic_page_indicator,R.drawable.ic_page_indicator_focused })
+								@Override
+								public ImageHolder createHolder() {
+									return new ImageHolder();
+								}
+							}, focusPics)
+									.setPageIndicator(new int[]{R.drawable.ic_page_indicator, R.drawable.ic_page_indicator_focused})
 									.setPageTransformer(Transformer.DefaultTransformer);
 						}
 						mAdapter = new DiscoverStoryAdapter(getActivity(), data);
 						mListView.setAdapter(mAdapter);
 					}
-					
+
 					@Override
 					public void onFailure(int statusCode, Header[] headers,
-							String responseString, Throwable throwable) {
+										  String responseString, Throwable throwable) {
 						mListView.postDelayed(new Runnable() {
-							
+
 							@Override
 							public void run() {
 								hideLoadingTip();
 								showEmptyTip();
 							}
 						}, 500);
-						
+
 					}
 				});
 	}
@@ -154,6 +155,9 @@ public class DiscoverFragment extends BaseFragment {
 	public void onResume() {
 		if(convenientBanner!= null)
 			convenientBanner.startTurning(5000);
+		if (getActivity() != null) {
+			MobclickAgent.onEvent(getActivity(), "event_show_discover");
+		}
 		super.onResume();
 	}
 	

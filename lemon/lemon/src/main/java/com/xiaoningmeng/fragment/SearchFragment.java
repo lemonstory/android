@@ -1,11 +1,5 @@
 package com.xiaoningmeng.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import org.apache.http.Header;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,10 +9,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.baoyz.swipemenu.xlistview.XListView;
+import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.adapter.SearchAdapter;
 import com.xiaoningmeng.adapter.SearchDefaultAdapter2;
@@ -33,6 +29,12 @@ import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.view.SearchView;
 import com.xiaoningmeng.view.SearchView.OnSearchViewListener;
 import com.xiaoningmeng.view.TabIndicatorView;
+
+import org.apache.http.Header;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SearchFragment extends BaseFragment implements OnSearchViewListener,OnClickListener{
 
@@ -138,6 +140,7 @@ public class SearchFragment extends BaseFragment implements OnSearchViewListener
                         super.onFinish();
                     }
                 });
+        MobclickAgent.onEvent(mContext, "event_search");
     }
 
     public void moreSearch(String searchType) {

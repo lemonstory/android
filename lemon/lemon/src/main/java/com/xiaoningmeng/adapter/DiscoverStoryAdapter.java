@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.baidu.mobads.AdView;
 import com.baidu.mobads.AdViewListener;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.AblumDetailActivity;
 import com.xiaoningmeng.ClassificationActivity;
 import com.xiaoningmeng.MoreActivity;
@@ -32,6 +33,7 @@ import com.xiaoningmeng.utils.UiUtils;
 
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class DiscoverStoryAdapter extends BaseAdapter implements
@@ -546,8 +548,12 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 			Tag tag = (Tag) v.getTag();
 			Intent ii = new Intent(mContext,ClassificationActivity.class);
 			ii.putExtra("classification",tag);
-			ii.putExtra("classification_name",tag.getName());
+			ii.putExtra("classification_name", tag.getName());
 			((BaseFragmentActivity) mContext).startActivityForNew(ii);
+			HashMap<String,String> map = new HashMap<String,String>();
+			map.put("tagId",tag.getId());
+			map.put("tagName",tag.getName());
+			MobclickAgent.onEvent(mContext, "event_click_tag", map);
 			break;
 		}
 	}

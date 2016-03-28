@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.onlineconfig.OnlineConfigAgent;
 import com.xiaoningmeng.MyThreadActivity;
 import com.xiaoningmeng.PerasonalActivity;
@@ -155,6 +156,14 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
 
 		default:
 			break;
+		}
+	}
+
+	public void onResume() {
+
+		super.onResume();
+		if (getActivity() != null) {
+			MobclickAgent.onEvent(getActivity(), "event_show_account");
 		}
 	}
 	

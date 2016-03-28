@@ -16,6 +16,7 @@ import com.baoyz.swipemenu.xlistview.XListView;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.controller.UMSocialService;
 import com.umeng.socialize.sso.UMSsoHandler;
 import com.xiaoningmeng.adapter.ViewThreadAdapter;
@@ -161,6 +162,7 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
 
             }
         });
+        MobclickAgent.onEvent(this, "event_show_forum_viewthread");
     }
 
     private int getTidIdWithIntent() {

@@ -10,6 +10,7 @@ import com.baoyz.swipemenu.xlistview.XListView;
 import com.baoyz.swipemenu.xlistview.XListView.IXListViewListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.HomeActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.adapter.ForumIndexAdapter;
@@ -60,6 +61,14 @@ public class ForumIndexFragment extends BaseFragment  implements IXListViewListe
         mListView = (XListView) contentView.findViewById(R.id.id_stickynavlayout_innerscrollview);
         mListView.setXListViewListener(this);
         mListView.setPullLoadEnable(false);
+    }
+
+    public void onResume() {
+
+        super.onResume();
+        if (getActivity() != null) {
+            MobclickAgent.onEvent(getActivity(), "event_show_forum");
+        }
     }
 
     public void hideEmptyTip() {
