@@ -105,7 +105,7 @@ public class DownloadActivity extends BaseFragmentActivity implements
 				 */
 				transaction.show(mHistoryFragment);
 			}
-			transaction.commit();
+			transaction.commitAllowingStateLoss();
 
 			break;
 		case 1:
@@ -126,7 +126,7 @@ public class DownloadActivity extends BaseFragmentActivity implements
 			} else {
 				transaction.show(mDownloadFragment);
 			}
-			transaction.commit();
+			transaction.commitAllowingStateLoss();
 			break;
 		}
 	}
