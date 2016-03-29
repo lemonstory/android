@@ -74,10 +74,11 @@ public class HomeActivity extends BaseFragmentActivity implements
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+
 		super.onCreate(savedInstanceState);
 		mContext = this;
-		setContentView(R.layout.activity_home);
 		Fresco.initialize(this);
+		setContentView(R.layout.activity_home);
 		OnlineConfigAgent.getInstance().updateOnlineConfig(this);
 		initView();
 		PlayerManager.getInstance().register(this);
@@ -101,8 +102,12 @@ public class HomeActivity extends BaseFragmentActivity implements
 
 	@Override
 	protected void onResume() {
+
 		super.onResume();
 		showMessageBadge();
+		if(mDisCoverTabTv.isSelected() || mMineTabTv.isSelected() || mPerasonTabTv.isSelected()) {
+			PlayWaveManager.getInstance().loadWaveAnim(this, mCoverImg);
+		}
 	}
 
 	private void initView() {
@@ -443,6 +448,7 @@ public class HomeActivity extends BaseFragmentActivity implements
 
 	@Override
 	public void notify(PlayingStory music) {
+
 		PlayWaveManager.getInstance().notify(music);
 	}
 

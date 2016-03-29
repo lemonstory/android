@@ -1,11 +1,11 @@
 package com.xiaoningmeng.bean;
 
-import java.lang.ref.SoftReference;
-
 import android.graphics.Bitmap;
 
 import com.xiaoningmeng.player.PlayerManager.PlayState;
 import com.xiaoningmeng.player.PlayerManager.PlayType;
+
+import java.lang.ref.SoftReference;
 
 public class PlayingStory {
 
@@ -53,4 +53,25 @@ public class PlayingStory {
 				mediapath, cover,playcover);
 	}
 
+	@Override
+	public String toString() {
+		return "PlayingStory{" +
+				"storyId='" + storyId + '\'' +
+				", title='" + title + '\'' +
+				", intro='" + intro + '\'' +
+				", times=" + times +
+				", file_size='" + file_size + '\'' +
+				", mediapath='" + mediapath + '\'' +
+				", cover='" + cover + '\'' +
+				", current=" + current +
+				", buffer=" + buffer +
+				", albumid='" + albumid + '\'' +
+				", playType=" + playType +
+				", albumSource=" + albumSource +
+				", playcover='" + playcover + '\'' +
+				", playState=" + playState +
+				", bitmapcache=" + bitmapcache +
+				", albumInfo=" + albumInfo +
+				'}';
+	}
 }
