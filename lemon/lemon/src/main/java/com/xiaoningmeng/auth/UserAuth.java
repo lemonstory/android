@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
+import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xiaoningmeng.LoginActivity;
@@ -93,6 +94,7 @@ public class UserAuth {
 		MiPushClient.setUserAccount(context, userInfo.getUid(), null);
 		EventBus.getDefault().post(new LoginEvent(userInfo));
 		MobclickAgent.onEvent(context, "event_login");
+		CrashReport.setUserId(userInfo.getUid());
 	}
 
 

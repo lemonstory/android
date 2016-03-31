@@ -5,7 +5,7 @@
 
     <!-- time -->
     <string name="duration">300</string>
-    <string name="play_anim_duration">50</string>
+    <integer name="play_anim_duration">50</integer>
 
     <!-- error -->
     <string name="net_connect_error">网络不给力，请检查网络后重新试试！</string>

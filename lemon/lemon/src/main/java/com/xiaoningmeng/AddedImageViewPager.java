@@ -51,7 +51,9 @@ public class AddedImageViewPager extends BaseActivity {
         pagerAdapter = new SamplePagerAdapter(addedImageFiles);
         mViewPager.setAdapter(pagerAdapter);
         mViewPager.setCurrentItem(selectedImagePosition);
-        setHeadPagination(selectedImagePosition + 1, addedImageFiles.size());
+        if (selectedImagePosition >= 0 && addedImageFiles != null && addedImageFiles.size() > 0) {
+            setHeadPagination(selectedImagePosition + 1, addedImageFiles.size());
+        }
         if (savedInstanceState != null) {
             boolean isLocked = savedInstanceState.getBoolean(ISLOCKED_ARG, false);
             ((HackyViewPager) mViewPager).setLocked(isLocked);

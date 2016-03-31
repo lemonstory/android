@@ -406,7 +406,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
 		Uri playCoverUri = null;
 		if (music.playcover != null && !music.playcover.equals("")){
 			playCoverUri = Uri.parse(music.playcover);
-		}else if (music.albumInfo.getCover() != null && !music.albumInfo.getCover().equals("")) {
+		}else if (music.albumInfo != null && music.albumInfo.getCover() != null && !music.albumInfo.getCover().equals("")) {
 			playCoverUri = Uri.parse(music.albumInfo.getCover());
 		}
 		if (playCoverUri != null) {

@@ -50,9 +50,9 @@ public class ViewThreadAdapter extends BaseAdapter {
     public ForumThread forumThread;
     private WeakReference<ViewThreadActivity> weak;
 
-    public ViewThreadAdapter(Context context,ForumThread forumThread, List<Post> posts) {
+    public ViewThreadAdapter(Context context, ForumThread forumThread, List<Post> posts) {
 
-        this.weak = new WeakReference<ViewThreadActivity>((ViewThreadActivity)context);
+        this.weak = new WeakReference<ViewThreadActivity>((ViewThreadActivity) context);
         mContext = context;
         this.forumThread = forumThread;
         this.posts = posts;
@@ -75,7 +75,6 @@ public class ViewThreadAdapter extends BaseAdapter {
     }
 
 
-
     @Override
     public long getItemId(int position) {
         return position;
@@ -91,7 +90,7 @@ public class ViewThreadAdapter extends BaseAdapter {
 
             convertView = mInflater.inflate(
                     R.layout.item_view_thread, null);
-            holder.containerFl = (FrameLayout)convertView.findViewById(R.id.fl_container);
+            holder.containerFl = (FrameLayout) convertView.findViewById(R.id.fl_container);
             holder.dividerView = convertView
                     .findViewById(R.id.v_forum_divider);
 
@@ -108,7 +107,7 @@ public class ViewThreadAdapter extends BaseAdapter {
             holder.messageTv = (TextView) convertView
                     .findViewById(R.id.tv_message);
 
-            holder.quoteContainerRl = (RelativeLayout)convertView.findViewById(R.id.rl_quote_container);
+            holder.quoteContainerRl = (RelativeLayout) convertView.findViewById(R.id.rl_quote_container);
             holder.quoteAuthorTv = (TextView) convertView.findViewById(R.id.tv_quote_author);
             holder.quoteMessageTv = (TextView) convertView.findViewById(R.id.tv_quote_message);
             holder.imagesContainerLl = (LinearLayout) convertView.findViewById(R.id.ll_images_container);
@@ -142,7 +141,7 @@ public class ViewThreadAdapter extends BaseAdapter {
 
                 final ViewThreadActivity activity = weak.get();
                 boolean isKeyboardVisible = UiUtils.isKeyboardShown(activity.getWindow().getDecorView().getRootView());
-                if(!isKeyboardVisible) {
+                if (!isKeyboardVisible) {
 
                     activity.repPid = Integer.parseInt(posts.get(position).getPid());
                     activity.repPost = Integer.parseInt(posts.get(position).getPid());
@@ -156,7 +155,7 @@ public class ViewThreadAdapter extends BaseAdapter {
                     if (((String) quoteMessage.get("message")).length() > Constant.FORUM_QUOTE_STRING_LEN) {
 
                         quoteStr = (String) ((String) quoteMessage.get("message")).substring(0, Constant.FORUM_QUOTE_STRING_LEN) + "...";
-                    }else {
+                    } else {
                         quoteStr = (String) quoteMessage.get("message");
                     }
                     activity.noticeTrimStr = String.format("[quote][size=2][url=forum.php?mod=redirect&goto=findpost&pid=%s&ptid=%s][color=#999999]%s 发表于 %s[/color][/url][/size]\n" +
@@ -167,7 +166,7 @@ public class ViewThreadAdapter extends BaseAdapter {
                             posts.get(position).getDateline(),
                             quoteStr);
 
-                    String hint = String.format("回复%s:",posts.get(position).getAuthor());
+                    String hint = String.format("回复%s:", posts.get(position).getAuthor());
                     activity.keyBoardfragment.setmEditEmojiconHint(hint);
                     activity.keyBoardfragment.showKeyboard();
 
@@ -185,7 +184,7 @@ public class ViewThreadAdapter extends BaseAdapter {
         if (post.getAuthorid().equals(forumThread.getAuthorid())) {
             holder.ThreadAuthorIcontTv.setVisibility(View.VISIBLE);
             holder.ThreadAuthorIcontTv.setOnClickListener(new userProfileClickListener(authorid));
-        }else {
+        } else {
             holder.ThreadAuthorIcontTv.setVisibility(View.GONE);
         }
 
@@ -198,7 +197,7 @@ public class ViewThreadAdapter extends BaseAdapter {
                 holder.repliesTv.setTextColor(Color.parseColor("#fdb12b"));
             }
             holder.messageTv.setText(Html.fromHtml(forumThread.getSubject() + "<br>" + message));
-        }else {
+        } else {
             //回帖隐藏回帖数,回帖图标,显示楼层
             holder.postIconImg.setVisibility(View.GONE);
             holder.repliesTv.setTextColor(Color.parseColor("#999999"));
@@ -218,12 +217,12 @@ public class ViewThreadAdapter extends BaseAdapter {
         // <br />
         // 回帖-2-回复1
 
-        if(quote != null && !quote.equals("")) {
+        if (quote != null && !quote.equals("")) {
 
             holder.quoteContainerRl.setVisibility(View.VISIBLE);
             holder.quoteAuthorTv.setText(author);
             holder.quoteMessageTv.setText(Html.fromHtml(quote));
-        }else {
+        } else {
 
             holder.quoteContainerRl.setVisibility(View.GONE);
         }
@@ -250,7 +249,7 @@ public class ViewThreadAdapter extends BaseAdapter {
                 //支持远程附件
                 if (!url.startsWith("http")) {
                     absolutePath = ConstantURL.BBS_URL + url + path;
-                }else {
+                } else {
                     absolutePath = url + path;
                 }
                 Uri imgUri = Uri.parse(absolutePath);
@@ -264,20 +263,20 @@ public class ViewThreadAdapter extends BaseAdapter {
                  android:src="@drawable/aaa"/>
                  */
                 ViewThreadActivity activity = weak.get();
-                HashMap<String,Integer> imageSize = PostImageUtils.parseImageSizeWithUrl(activity, absolutePath);
+                HashMap<String, Integer> imageSize = PostImageUtils.parseImageSizeWithUrl(activity, absolutePath);
                 SimpleDraweeView img = new SimpleDraweeView(mContext);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(imageSize.get("widthPx"),imageSize.get("heightPx"));
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(imageSize.get("widthPx"), imageSize.get("heightPx"));
                 params.setMargins(0, 8, 0, 0);
                 params.gravity = Gravity.CENTER;
                 img.setLayoutParams(params);
                 img.setBackgroundResource(R.color.view_thread_image_background_color);
-                ImageUtils.displayImage(mContext,img,imgUri,imageSize.get("widthPx"), imageSize.get("heightPx"));
+                ImageUtils.displayImage(mContext, img, imgUri, imageSize.get("widthPx"), imageSize.get("heightPx"));
                 holder.imagesContainerLl.addView(img);
-                img.setTag(i+"");
+                img.setTag(i + "");
                 img.setOnClickListener(postImageClickListener);
             }
 
-        }else {
+        } else {
             holder.imagesContainerLl.setVisibility(View.GONE);
         }
 
@@ -286,10 +285,10 @@ public class ViewThreadAdapter extends BaseAdapter {
 
     private HashMap separateQuoteWithMessage(String original) {
 
-        HashMap<String , String> result = new HashMap<String , String>();
-        result.put(KEY_QUOTE_IN_ORIGINAL,null);
-        result.put(KEY_MESSAGE_IN_ORIGINAL,original);
-        result.put(KEY_AUTHOR_IN_ORIGINAL,null);
+        HashMap<String, String> result = new HashMap<String, String>();
+        result.put(KEY_QUOTE_IN_ORIGINAL, null);
+        result.put(KEY_MESSAGE_IN_ORIGINAL, original);
+        result.put(KEY_AUTHOR_IN_ORIGINAL, null);
 
         int divMarkIndex = original.indexOf("<div class=\"reply_wrap\">");
         if (divMarkIndex != -1) {
@@ -297,7 +296,7 @@ public class ViewThreadAdapter extends BaseAdapter {
             int fontMarkStartIndex = original.indexOf("<font color=\"#999999\">");
             int fontMartStartLen = "<font color=\"#999999\">".length();
             int fontMarkEndIndex = original.indexOf("</font>");
-            String quoteAuthorAndTime =  original.substring(fontMarkStartIndex + fontMartStartLen, fontMarkEndIndex);
+            String quoteAuthorAndTime = original.substring(fontMarkStartIndex + fontMartStartLen, fontMarkEndIndex);
             int blandInQuoteAuthorAndTimeIndex = quoteAuthorAndTime.indexOf(" ");
             String quoteAuthor = quoteAuthorAndTime.substring(0, blandInQuoteAuthorAndTimeIndex);
             result.put(KEY_AUTHOR_IN_ORIGINAL, quoteAuthor);
@@ -306,13 +305,13 @@ public class ViewThreadAdapter extends BaseAdapter {
             int brMartLen = "<br />".length();
             int divCloseMarkFirstIndex = original.indexOf("</div>");
             int quoteMessageStartIndex = brMartFirstIndex + brMartLen + 1;
-            String quoteMessage = original.substring(quoteMessageStartIndex,divCloseMarkFirstIndex);
+            String quoteMessage = original.substring(quoteMessageStartIndex, divCloseMarkFirstIndex);
             result.put(KEY_QUOTE_IN_ORIGINAL, quoteMessage);
 
             int brMarkSecondIndex = original.indexOf("<br />", divCloseMarkFirstIndex);
             int messageStartIndex = brMarkSecondIndex + brMartLen + 1;
             String message = original.substring(messageStartIndex);
-            result.put(KEY_MESSAGE_IN_ORIGINAL,message);
+            result.put(KEY_MESSAGE_IN_ORIGINAL, message);
         }
 
         return result;
@@ -325,10 +324,12 @@ public class ViewThreadAdapter extends BaseAdapter {
 
             final ViewThreadActivity activity = weak.get();
             int position = Integer.parseInt(v.getTag().toString());
-            Intent i = new Intent(mContext,ImageViewerPagerActivity.class);
-            i.putExtra("position",position);
-            i.putExtra("imagesUrl",imagesUrl);
-            activity.startActivityForNew(i);
+            if (position >= 0 && imagesUrl != null && imagesUrl.size() > 0) {
+                Intent i = new Intent(mContext, ImageViewerPagerActivity.class);
+                i.putExtra("position", position);
+                i.putExtra("imagesUrl", imagesUrl);
+                activity.startActivityForNew(i);
+            }
         }
     };
 
@@ -354,16 +355,18 @@ public class ViewThreadAdapter extends BaseAdapter {
     public class userProfileClickListener implements View.OnClickListener {
 
         String uid;
+
         public userProfileClickListener(String uid) {
             this.uid = uid;
         }
 
         @Override
-        public void onClick(View v)
-        {
-            Intent i = new Intent(mContext,PerasonalCenterActivity.class);
+        public void onClick(View v) {
+            Intent i = new Intent(mContext, PerasonalCenterActivity.class);
             i.putExtra("uid", uid);
             ((ViewThreadActivity) mContext).startActivityForNew(i);
         }
-    };
+    }
+
+    ;
 }

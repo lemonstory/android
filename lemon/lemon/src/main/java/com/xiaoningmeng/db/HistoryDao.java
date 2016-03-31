@@ -222,10 +222,19 @@ public class HistoryDao {
 
 
 	private Story getHistoryStoriesByAlbumId(String ablumId,String storyId){
-		
+
 		Story story =null;
+		String ablumIdArg = "";
+		String storyIdArg = "";
+		if (ablumId != null) {
+			ablumIdArg = ablumId;
+		}
+		if (storyId != null) {
+			storyIdArg = storyId;
+		}
+
 		Cursor cursor = null;
-		cursor = dbhelper.sdb.rawQuery("select * from "+DBHelper.TAB_STORY+ " where albumid=? and storyId=?",new String[]{ablumId,storyId});
+		cursor = dbhelper.sdb.rawQuery("select * from "+DBHelper.TAB_STORY+ " where albumid=? and storyId=?",new String[]{ablumIdArg,storyIdArg});
 		if(cursor != null){
 			if(cursor.moveToFirst()){
 				do{

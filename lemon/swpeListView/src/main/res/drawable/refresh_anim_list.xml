@@ -4,31 +4,31 @@
 
     <item
         android:drawable="@drawable/refresh1"
-        android:duration="@string/refresh_anim_duration">
+        android:duration="@integer/refresh_anim_duration">
     </item>
     <item
         android:drawable="@drawable/refresh2"
-        android:duration="@string/refresh_anim_duration">
+        android:duration="@integer/refresh_anim_duration">
     </item>
     <item
         android:drawable="@drawable/refresh3"
-        android:duration="@string/refresh_anim_duration">
+        android:duration="@integer/refresh_anim_duration">
     </item>
     <item
         android:drawable="@drawable/refresh4"
-        android:duration="@string/refresh_anim_duration">
+        android:duration="@integer/refresh_anim_duration">
     </item>
     <item
         android:drawable="@drawable/refresh5"
-        android:duration="@string/refresh_anim_duration">
+        android:duration="@integer/refresh_anim_duration">
     </item>
     <item
         android:drawable="@drawable/refresh6"
-        android:duration="@string/refresh_anim_duration">
+        android:duration="@integer/refresh_anim_duration">
     </item>
     <item
         android:drawable="@drawable/refresh7"
-        android:duration="@string/refresh_anim_duration">
+        android:duration="@integer/refresh_anim_duration">
     </item>
 
 </animation-list>

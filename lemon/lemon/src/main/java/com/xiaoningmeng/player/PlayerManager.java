@@ -11,9 +11,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.PowerManager;
+import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipeline;
+import com.tencent.bugly.crashreport.BuglyLog;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.ReminderActivity;
 import com.xiaoningmeng.application.MyApplication;
@@ -60,6 +62,7 @@ public class PlayerManager extends PlayerObservable implements
     public OnPlayingDownloadListener mOnPlayingDownloadListener;
     private PlayErrorMonitor mErrorMonitor;
     private ExecutorService pool = Executors.newCachedThreadPool();
+    private ArrayList<String> recentsPlayErrorStoryIds = new ArrayList<>();
     private Handler mHandler = new Handler(Looper.getMainLooper()) {
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
@@ -126,12 +129,21 @@ public class PlayerManager extends PlayerObservable implements
                 recordHistoryData();
             } else {
 
-                //如果是单曲循环,播放失败后,继续播下一首放仍会继续失败进入死循环
-                if (mPlayMode != PlayMode.SINGLE) {
-                    nextPlay();
+                String playErrorStoryId = story.getStoryId();
+                if (!recentsPlayErrorStoryIds.contains(playErrorStoryId)) {
+                    recentsPlayErrorStoryIds.add(playErrorStoryId);
+                    BuglyLog.w("xnm", "PlayerManager->startPlay fail. go into next. story = " + story.toString());
+                    //如果是单曲循环,播放失败后,继续播下一首放仍会继续失败进入死循环
+                    if (mPlayMode != PlayMode.SINGLE) {
+                        nextPlay();
+                    }else {
+                        position =+1;
+                        nextPlay();
+                    }
                 }else {
-                    position =+1;
-                    nextPlay();
+                    BuglyLog.w("xnm", "PlayerManager->startPlay fail. recentsPlayErrorStoryIds = " + recentsPlayErrorStoryIds.toString());
+                    Toast.makeText(MyApplication.getInstance()
+                            .getApplicationContext(),"哎呀,该专辑无法播放,正在紧急修复中",Toast.LENGTH_SHORT).show();
                 }
             }
         }

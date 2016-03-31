@@ -57,7 +57,9 @@ public class ImageViewerPagerActivity extends BaseActivity {
         pagerAdapter = new SamplePagerAdapter(imagesUrl);
         mViewPager.setAdapter(pagerAdapter);
         mViewPager.setCurrentItem(selectedImagePosition);
-        setPaginationText(selectedImagePosition + 1, imagesUrl.size());
+        if (selectedImagePosition >= 0 && imagesUrl != null && imagesUrl.size() > 0) {
+            setPaginationText(selectedImagePosition + 1, imagesUrl.size());
+        }
         if (savedInstanceState != null) {
             boolean isLocked = savedInstanceState.getBoolean(ISLOCKED_ARG, false);
             ((HackyViewPager) mViewPager).setLocked(isLocked);

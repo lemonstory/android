@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import com.xiaoningmeng.application.ActivityManager;
 import com.xiaoningmeng.base.BaseActivity;
-import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.utils.NetUtils;
 
 //import com.r0adkll.slidr.Slidr;
@@ -209,7 +208,7 @@ public class WebViewActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				reRequestLoading();
-				webView.loadUrl(Constant.Cricle_URL/*, headers*/);
+				webView.loadUrl(webUrl/*, headers*/);
 			}
 		});
 	}

@@ -4,71 +4,71 @@
 
     <item
         android:drawable="@drawable/play_flag_wave_01"
-        android:duration="@string/play_anim_duration">
+        android:duration="@integer/play_anim_duration">
     </item>
     <item
         android:drawable="@drawable/play_flag_wave_02"
-        android:duration="@string/play_anim_duration">
+        android:duration="@integer/play_anim_duration">
     </item>
     <item
         android:drawable="@drawable/play_flag_wave_03"
-        android:duration="@string/play_anim_duration">
+        android:duration="@integer/play_anim_duration">
     </item>
     <item
         android:drawable="@drawable/play_flag_wave_04"
-        android:duration="@string/play_anim_duration">
+        android:duration="@integer/play_anim_duration">
     </item>
     <item
         android:drawable="@drawable/play_flag_wave_05"
-        android:duration="@string/play_anim_duration">
+        android:duration="@integer/play_anim_duration">
     </item>
     <item
         android:drawable="@drawable/play_flag_wave_06"
-        android:duration="@string/play_anim_duration">
+        android:duration="@integer/play_anim_duration">
     </item>
     <item
         android:drawable="@drawable/play_flag_wave_07"
-        android:duration="@string/play_anim_duration">
+        android:duration="@integer/play_anim_duration">
     </item>
     <item
         android:drawable="@drawable/play_flag_wave_08"
-        android:duration="@string/play_anim_duration">
+        android:duration="@integer/play_anim_duration">
     </item>
     <item
         android:drawable="@drawable/play_flag_wave_09"
-        android:duration="@string/play_anim_duration">
+        android:duration="@integer/play_anim_duration">
     </item>
     <item
         android:drawable="@drawable/play_flag_wave_10"
-        android:duration="@string/play_anim_duration">
+        android:duration="@integer/play_anim_duration">
     </item>
     <item
         android:drawable="@drawable/play_flag_wave_11"
-        android:duration="@string/play_anim_duration">
+        android:duration="@integer/play_anim_duration">
     </item>
     <item
         android:drawable="@drawable/play_flag_wave_12"
-        android:duration="@string/play_anim_duration">
+        android:duration="@integer/play_anim_duration">
     </item>
      <item
         android:drawable="@drawable/play_flag_wave_13"
-        android:duration="@string/play_anim_duration">
+        android:duration="@integer/play_anim_duration">
     </item>
      <item
         android:drawable="@drawable/play_flag_wave_14"
-        android:duration="@string/play_anim_duration">
+        android:duration="@integer/play_anim_duration">
     </item>
      <item
         android:drawable="@drawable/play_flag_wave_15"
-        android:duration="@string/play_anim_duration">
+        android:duration="@integer/play_anim_duration">
     </item>
      <item
         android:drawable="@drawable/play_flag_wave_16"
-        android:duration="@string/play_anim_duration">
+        android:duration="@integer/play_anim_duration">
     </item>
      <item
         android:drawable="@drawable/play_flag_wave_17"
-        android:duration="@string/play_anim_duration">
+        android:duration="@integer/play_anim_duration">
     </item>
 
 </animation-list>

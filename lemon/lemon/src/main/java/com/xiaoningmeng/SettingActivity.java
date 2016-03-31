@@ -1,10 +1,8 @@
 package com.xiaoningmeng;
 
-import android.animation.ArgbEvaluator;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -31,7 +29,6 @@ import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.utils.PreferenceUtil;
 import com.xiaoningmeng.view.ShareDialog;
 import com.xiaoningmeng.view.dialog.TextDialogLoading;
-import com.xiaoningmeng.view.dialog.TipDialog;
 
 
 public class SettingActivity extends BaseActivity implements OnClickListener,
