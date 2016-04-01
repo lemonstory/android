@@ -315,7 +315,7 @@ public class MineFragment extends BaseFragment implements OnClickListener,XListV
 			OnClickListener onClickListener) {
 		
 		if(mListView.getHeaderViewsCount() == 2){
-			if(emptyView == null){
+			if(emptyView == null && getActivity() != null){
 				emptyView = (TextView) View.inflate(getActivity(),R.layout.fragment_empty, null);
 				emptyView.setText(tip);
 				emptyView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.home_discover_item_img_height), 0, 0);

@@ -19,8 +19,10 @@ import com.xiaoningmeng.adapter.ForumDisplayAdapter;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
+import com.xiaoningmeng.bean.ForumLoginVar;
 import com.xiaoningmeng.bean.ForumNotice;
 import com.xiaoningmeng.bean.ForumThread;
+import com.xiaoningmeng.event.ForumLoginEvent;
 import com.xiaoningmeng.http.LHttpHandler;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.view.BadgeView;
@@ -31,6 +33,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 public class ForumDisplayActivity extends BaseActivity implements XListView.IXListViewListener{
 
@@ -68,6 +72,7 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
         mAdapter.showLastPostTime = true;
         mListView.setAdapter(mAdapter);
         mListView.autoRefresh();
+        EventBus.getDefault().register(this);
     }
 
     public void initView() {
@@ -309,5 +314,18 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void onEventMainThread(ForumLoginEvent event) {
+
+        ForumLoginVar forumLoginVar = event.forumLoginVar;
+        formHash = forumLoginVar.getFormhash();
+    }
+
+    @Override
+    public void onDestroy() {
+
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 }

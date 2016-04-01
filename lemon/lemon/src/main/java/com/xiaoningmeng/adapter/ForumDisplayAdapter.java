@@ -182,6 +182,12 @@ public class ForumDisplayAdapter extends BaseAdapter {
         Uri avatarUri = Uri.parse(avatarUrl);
         holder.avatarImg.setImageURI(avatarUri);
         String content = thread.getSubject() + "<br>" + thread.getMessage();
+        if (holder.digestImg.getVisibility() == View.VISIBLE) {
+            content = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + content;
+        }
+        if (holder.hotImg.getVisibility() == View.VISIBLE) {
+            content = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + content;
+        }
         holder.subjectTv.setText(Html.fromHtml(content));
         holder.authorTv.setText(thread.getAuthor());
 

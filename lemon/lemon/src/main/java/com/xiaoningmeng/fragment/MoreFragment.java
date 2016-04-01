@@ -2,14 +2,12 @@ package com.xiaoningmeng.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.android.volley.Request;
 import com.baoyz.swipemenu.xlistview.XListView;
 import com.xiaoningmeng.MoreActivity;
 import com.xiaoningmeng.R;
@@ -20,7 +18,9 @@ import com.xiaoningmeng.bean.MoreAblum;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.LHttpHandler;
 import com.xiaoningmeng.http.LHttpRequest;
+
 import org.apache.http.Header;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -148,7 +148,7 @@ public class MoreFragment extends BaseFragment implements XListView.IXListViewLi
 	TextView emptyView;
 	public void showEmptyTip() {
 		if(mListView.getHeaderViewsCount() == 1){
-			if(emptyView == null){
+			if(emptyView == null && getActivity() != null){
 				LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE); 
 			     if (inflater != null) { 
 			    	 emptyView = (TextView)inflater.inflate(R.layout.fragment_empty, null);
