@@ -67,13 +67,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e08bcf0-491b-42cb-a956-eeaba7832557" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/lemon/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/ForumDisplayActivity.java" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/ForumDisplayActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/adapter/ForumDisplayAdapter.java" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/adapter/ForumDisplayAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/fragment/MineFragment.java" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/fragment/MineFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/fragment/MoreFragment.java" afterPath="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/fragment/MoreFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/src/main/res/layout/item_forum_display.xml" afterPath="$PROJECT_DIR$/lemon/src/main/res/layout/item_forum_display.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lemon/lemon-lemon.iml" afterPath="$PROJECT_DIR$/lemon/lemon-lemon.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="lemon.iws" />
@@ -102,11 +95,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ConstantURL.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ConstantURL.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/http/ConstantURL.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="4" column="45" selection-start-line="4" selection-start-column="45" selection-end-line="4" selection-end-column="48" />
+            <state vertical-scroll-proportion="0.046104927">
+              <caret line="4" column="49" selection-start-line="4" selection-start-column="49" selection-end-line="4" selection-end-column="49" />
               <folding />
             </state>
           </provider>
@@ -142,11 +135,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ForumDisplayAdapter.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ForumDisplayAdapter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/adapter/ForumDisplayAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.41362128">
-              <caret line="190" column="0" selection-start-line="190" selection-start-column="0" selection-end-line="190" selection-end-column="0" />
+            <state vertical-scroll-proportion="-10.333333">
+              <caret line="192" column="0" selection-start-line="192" selection-start-column="0" selection-end-line="192" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -12579,11 +12572,11 @@
         <option value="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/fragment/MineFragment.java" />
         <option value="$PROJECT_DIR$/lemon/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/lemon/build.gradle" />
-        <option value="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/http/ConstantURL.java" />
-        <option value="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/constant/Constant.java" />
         <option value="$PROJECT_DIR$/lemon/src/main/res/layout/test.xml" />
         <option value="$PROJECT_DIR$/lemon/src/main/res/layout/item_forum_display.xml" />
         <option value="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/adapter/ForumDisplayAdapter.java" />
+        <option value="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/constant/Constant.java" />
+        <option value="$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/http/ConstantURL.java" />
       </list>
     </option>
   </component>
@@ -13161,12 +13154,6 @@
       <option name="number" value="Default" />
       <updated>1451351890038</updated>
     </task>
-    <task id="LOCAL-00034" summary="修改：textColorHint">
-      <created>1455944415813</created>
-      <option name="number" value="00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1455944415814</updated>
-    </task>
     <task id="LOCAL-00035" summary="修改：所有的图标">
       <created>1455944857394</created>
       <option name="number" value="00035" />
@@ -13455,7 +13442,13 @@
       <option name="project" value="LOCAL" />
       <updated>1459414073655</updated>
     </task>
-    <option name="localTasksCounter" value="83" />
+    <task id="LOCAL-00083" summary="bugfix">
+      <created>1459501019294</created>
+      <option name="number" value="00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1459501019297</updated>
+    </task>
+    <option name="localTasksCounter" value="84" />
     <servers />
   </component>
   <component name="TodoView">
@@ -13493,7 +13486,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21082391" sideWeight="0.80365294" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30775446" sideWeight="0.19634703" order="4" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30775446" sideWeight="0.19634703" order="4" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.66057837" sideWeight="0.49676898" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -14015,22 +14008,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/http/ConstantURL.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="4" column="45" selection-start-line="4" selection-start-column="45" selection-end-line="4" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/constant/Constant.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="39" column="38" selection-start-line="39" selection-start-column="38" selection-end-line="39" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lemon/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-2.5">
@@ -14128,11 +14105,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/adapter/ForumDisplayAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.41362128">
-          <caret line="190" column="0" selection-start-line="190" selection-start-column="0" selection-end-line="190" selection-end-column="0" />
+        <state vertical-scroll-proportion="-10.333333">
+          <caret line="192" column="0" selection-start-line="192" selection-start-column="0" selection-end-line="192" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/constant/Constant.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="39" column="38" selection-start-line="39" selection-start-column="38" selection-end-line="39" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lemon/src/main/java/com/xiaoningmeng/http/ConstantURL.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.046104927">
+          <caret line="4" column="49" selection-start-line="4" selection-start-column="49" selection-end-line="4" selection-end-column="49" />
+          <folding />
         </state>
       </provider>
     </entry>
