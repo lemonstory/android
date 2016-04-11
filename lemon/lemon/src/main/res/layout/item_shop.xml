@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:orientation="horizontal"
+    android:paddingLeft="2dp"
+    android:paddingRight="2dp">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/rl_shop_item1"
+        style="@style/discover_card_style">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+
+                android:id="@+id/img_pic1"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:background="@color/view_thread_image_background_color"
+                android:clickable="true"
+                android:focusable="true"
+                android:longClickable="false"
+                fresco:actualImageScaleType="centerCrop"
+                fresco:placeholderImage="@drawable/forum_display_place_holder_image" />
+
+            <TextView
+                android:id="@+id/tv_title1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/img_pic1"
+                android:layout_alignParentLeft="true"
+                android:layout_alignRight="@+id/img_pic1"
+                android:layout_below="@+id/img_pic1"
+                android:layout_marginTop="@dimen/shop_line_space"
+                android:layout_marginLeft="@dimen/mall_margin_top"
+                android:ellipsize="end"
+                android:lineSpacingExtra="@dimen/text_line_space"
+                android:lines="2"
+                android:text="          商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题"
+                android:textColor="@color/base_text_color"
+                android:textSize="@dimen/content_text_size" />
+
+            <TextView
+                android:id="@+id/tv_mall1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignTop="@+id/tv_title1"
+                android:layout_marginTop="@dimen/mall_margin_top"
+                android:layout_marginLeft="@dimen/mall_margin_top"
+                android:background="@drawable/shop_tmall_bg"
+                android:gravity="center"
+                android:text="天猫"
+                android:textColor="#FFFFFF"
+                android:textSize="@dimen/shop_mall_text_size" />
+
+            <TextView
+                android:id="@+id/tv_taobao1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignTop="@+id/tv_title1"
+                android:layout_marginTop="@dimen/mall_margin_top"
+                android:layout_marginLeft="@dimen/mall_margin_top"
+                android:background="@drawable/shop_taobao_bg"
+                android:gravity="center"
+                android:text="淘"
+                android:textColor="#FFFFFF"
+                android:textSize="@dimen/shop_mall_text_size" />
+
+            <TextView
+                android:id="@+id/tv_price1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_title1"
+                android:layout_marginTop="@dimen/shop_line_space"
+                android:text="￥5.7"
+                android:textColor="#E53F39"
+                android:textSize="@dimen/title_content_text_size" />
+
+            <TextView
+                android:id="@+id/tv_reserve_price1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tv_price1"
+                android:layout_marginLeft="@dimen/shop_line_space"
+                android:layout_toRightOf="@+id/tv_price1"
+                android:text="￥50"
+                android:textColor="@color/base_date_color"
+                android:textSize="@dimen/content_text_size" />
+
+            <TextView
+                android:id="@+id/tv_post_fee1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tv_reserve_price1"
+                android:layout_alignEnd="@+id/tv_title1"
+                android:layout_alignRight="@+id/tv_title1"
+                android:layout_marginBottom="@dimen/mall_margin_bottom"
+                android:background="@drawable/shop_post_fee_bg"
+                android:text="包邮"
+                android:textColor="#E53F39"
+                android:textSize="@dimen/date_text_size" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/rl_shop_item2"
+        style="@style/discover_card_style">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+
+                android:id="@+id/img_pic2"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:background="@color/view_thread_image_background_color"
+                android:clickable="true"
+                android:focusable="true"
+                android:longClickable="false"
+                fresco:actualImageScaleType="centerCrop"
+                fresco:placeholderImage="@drawable/forum_display_place_holder_image" />
+
+            <TextView
+                android:id="@+id/tv_title2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/img_pic2"
+                android:layout_alignParentLeft="true"
+                android:layout_alignRight="@+id/img_pic2"
+                android:layout_below="@+id/img_pic2"
+                android:layout_marginTop="@dimen/shop_line_space"
+                android:layout_marginLeft="@dimen/mall_margin_top"
+                android:ellipsize="end"
+                android:lineSpacingExtra="@dimen/text_line_space"
+                android:lines="2"
+                android:text="          商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题"
+                android:textColor="@color/base_text_color"
+                android:textSize="@dimen/content_text_size" />
+
+            <TextView
+                android:id="@+id/tv_mall2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignTop="@+id/tv_title2"
+                android:layout_marginTop="@dimen/mall_margin_top"
+                android:layout_marginLeft="@dimen/mall_margin_top"
+                android:background="@drawable/shop_tmall_bg"
+                android:gravity="center"
+                android:text="天猫"
+                android:textColor="#FFFFFF"
+                android:textSize="@dimen/shop_mall_text_size" />
+
+            <TextView
+                android:id="@+id/tv_taobao2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignTop="@+id/tv_title2"
+                android:layout_marginTop="@dimen/mall_margin_top"
+                android:layout_marginLeft="@dimen/mall_margin_top"
+                android:background="@drawable/shop_taobao_bg"
+                android:gravity="center"
+                android:text="淘"
+                android:textColor="#FFFFFF"
+                android:textSize="@dimen/shop_mall_text_size" />
+
+            <TextView
+                android:id="@+id/tv_price2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_title2"
+                android:layout_marginTop="@dimen/shop_line_space"
+                android:text="￥5.7"
+                android:textColor="#E53F39"
+                android:textSize="@dimen/title_content_text_size" />
+
+            <TextView
+                android:id="@+id/tv_reserve_price2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tv_price2"
+                android:layout_marginLeft="@dimen/shop_line_space"
+                android:layout_toRightOf="@+id/tv_price2"
+                android:text="￥50"
+                android:textColor="@color/base_date_color"
+                android:textSize="@dimen/content_text_size" />
+
+            <TextView
+                android:id="@+id/tv_post_fee2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tv_reserve_price2"
+                android:layout_alignEnd="@+id/tv_title2"
+                android:layout_alignRight="@+id/tv_title2"
+                android:layout_marginBottom="@dimen/mall_margin_bottom"
+                android:background="@drawable/shop_post_fee_bg"
+                android:text="包邮"
+                android:textColor="#E53F39"
+                android:textSize="@dimen/date_text_size" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

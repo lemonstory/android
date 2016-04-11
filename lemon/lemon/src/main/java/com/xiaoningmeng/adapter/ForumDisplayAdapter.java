@@ -116,9 +116,8 @@ public class ForumDisplayAdapter extends BaseAdapter {
         if(!attachment.equals("2")) {
             holder.imagesContainerLl.setVisibility(View.GONE);
         }else {
-            holder.imagesContainerLl.setVisibility(View.VISIBLE);
             if (null != thread.getImagelist()) {
-
+                holder.imagesContainerLl.setVisibility(View.VISIBLE);
                 int imgListCount = thread.getImagelist().size();
                 if (imgListCount > 0) {
 
@@ -152,6 +151,8 @@ public class ForumDisplayAdapter extends BaseAdapter {
                         }
                     }
                 }
+            }else {
+                holder.imagesContainerLl.setVisibility(View.GONE);
             }
         }
         //精华帖标示

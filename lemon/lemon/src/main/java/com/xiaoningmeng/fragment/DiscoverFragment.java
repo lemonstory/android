@@ -14,6 +14,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.sdk.android.AlibabaSDK;
+import com.alibaba.sdk.android.trade.TradeConstants;
+import com.alibaba.sdk.android.trade.TradeService;
+import com.alibaba.sdk.android.trade.callback.TradeProcessCallback;
+import com.alibaba.sdk.android.trade.model.TaokeParams;
+import com.alibaba.sdk.android.trade.model.TradeResult;
+import com.alibaba.sdk.android.trade.page.Page;
 import com.baoyz.swipemenu.xlistview.XListView;
 import com.bigkoo.convenientbanner.CBPageAdapter;
 import com.bigkoo.convenientbanner.CBViewHolderCreator;
@@ -29,6 +36,7 @@ import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.Discover;
 import com.xiaoningmeng.bean.FocusPic;
+import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.LHttpHandler;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.DownloadApkManager;
@@ -36,7 +44,9 @@ import com.xiaoningmeng.manager.DownloadApkManager;
 import org.apache.http.Header;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DiscoverFragment extends BaseFragment {
 
@@ -128,6 +138,8 @@ public class DiscoverFragment extends BaseFragment {
 						if(linkUrl.startsWith("http:")||linkUrl.startsWith("https:")){
 							if(linkUrl.endsWith(".apk")){
 								DownloadApkManager.getInstance().showDownloadDialog(getActivity(),linkUrl);
+							}else if(linkUrl.contains("taobao")) {
+								showTaobaoPage(linkUrl);
 							}else {
 								WebViewActivity.openWebView(context, data.getLinkurl());
 							}
@@ -138,6 +150,7 @@ public class DiscoverFragment extends BaseFragment {
 							intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 							context.startActivity(intent);
 						}
+
 					}
 				}
 			});
@@ -210,6 +223,23 @@ public class DiscoverFragment extends BaseFragment {
 			emptyView.setClickable(false);
 			mListView.removeHeaderView(emptyView);
 		}
+	}
+
+	public void showTaobaoPage(String url) {
+		Map<String, Object> exParams = new HashMap<String, Object>();
+		exParams.put(TradeConstants.ISV_CODE, "xiaoningmeng");
+		Page page = new Page(url, exParams);
+		TaokeParams taokeParams = new TaokeParams();
+		taokeParams.pid = Constant.DEFAULT_TAOKE_PID;
+		AlibabaSDK.getService(TradeService.class).show(page, taokeParams, getActivity(), null, new TradeProcessCallback(){
+			@Override
+			public void onPaySuccess(TradeResult tradeResult) {
+			}
+			@Override
+			public void onFailure(int code, String msg) {
+
+			}
+		});
 	}
 
 }

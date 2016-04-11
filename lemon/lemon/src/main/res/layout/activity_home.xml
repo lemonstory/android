@@ -53,11 +53,11 @@
             android:drawableTop="@drawable/tab_forum_selector"
             android:text="圈子" />
 
-        <!--<TextView-->
-            <!--android:id="@+id/tv_home_shop"-->
-            <!--style="@style/home_tab_style"-->
-            <!--android:drawableTop="@drawable/tab_forum_selector"-->
-            <!--android:text="商城" />-->
+        <TextView
+            android:id="@+id/tv_home_shop"
+            style="@style/home_tab_style"
+            android:drawableTop="@drawable/tab_shop_selector"
+            android:text="商城" />
 
         <TextView
             android:id="@+id/tv_home_account"

@@ -96,7 +96,7 @@ public class MyApplication extends LitePalApplication {
 			initRequestQueue();
 
 			//阿里百川
-			TradeConfigs.defaultTaokePid = "mm_10003360_0_0";
+			TradeConfigs.defaultTaokePid = Constant.DEFAULT_TAOKE_PID;
 			AlibabaSDK.asyncInit(this, new InitResultCallback() {
 				@Override
 				public void onSuccess() {

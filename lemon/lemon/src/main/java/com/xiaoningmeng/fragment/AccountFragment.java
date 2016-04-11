@@ -13,19 +13,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
-import com.umeng.onlineconfig.OnlineConfigAgent;
 import com.xiaoningmeng.MyThreadActivity;
 import com.xiaoningmeng.PerasonalActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.RankActivity;
 import com.xiaoningmeng.SettingActivity;
-import com.xiaoningmeng.WebViewActivity;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.base.BaseFragmentActivity;
 import com.xiaoningmeng.bean.UserInfo;
-import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.event.LoginEvent;
 import com.xiaoningmeng.utils.AvatarUtils;
 
@@ -53,7 +50,7 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
 		contentView.findViewById(R.id.rl_account_perasonal).setOnClickListener(this);
 		contentView.findViewById(R.id.rl_account_Post).setOnClickListener(this);
 		contentView.findViewById(R.id.rl_account_Ranking).setOnClickListener(this);
-		contentView.findViewById(R.id.rl_account_shop).setOnClickListener(this);
+//		contentView.findViewById(R.id.rl_account_shop).setOnClickListener(this);
 		//recommendView =  contentView.findViewById(R.id.rl_account_Recommend);
 //		recommendView.setOnClickListener(this);
 		mAccountHeadView = contentView.findViewById(R.id.ll_account_head);
@@ -137,10 +134,10 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
 								PerasonalActivity.class));
 			}
 			break;
-		case R.id.rl_account_shop:
-			String shopUrl = OnlineConfigAgent.getInstance().getConfigParams(getActivity(),  Constant.SHOP_CONFIG_PARAMS);
-			WebViewActivity.openWebView(getActivity(), shopUrl);
-			break;
+//		case R.id.rl_account_shop:
+//			String shopUrl = OnlineConfigAgent.getInstance().getConfigParams(getActivity(),  Constant.SHOP_CONFIG_PARAMS);
+//			WebViewActivity.openWebView(getActivity(), shopUrl);
+//			break;
 		case R.id.rl_account_Ranking:
 			((BaseFragmentActivity) getActivity()).startActivityForNew(new Intent(getActivity(),RankActivity.class));
 			break;

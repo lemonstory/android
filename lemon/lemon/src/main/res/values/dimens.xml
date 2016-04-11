@@ -292,4 +292,13 @@
 
     <!--image viewer -->
     <dimen name="image_viewer_text_margin_bottom">45dp</dimen>
+
+    <!-- shop -->
+    <dimen name="shop_mall_text_size">10sp</dimen>
+    <dimen name="shop_line_space">7dp</dimen>
+    <dimen name="text_line_space">2dp</dimen>
+    <dimen name="mall_margin_top">3dp</dimen>
+    <dimen name="mall_margin_bottom">2dp</dimen>
+    <dimen name="shop_item_margin_left">7dp</dimen>
+    <dimen name="shop_item_margin_bottom">10dp</dimen>
 </resources>

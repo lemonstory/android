@@ -161,51 +161,51 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/account_item_margin_right"
                 android:src="@drawable/tab_right_back" />
-
-            <View
-                style="@style/dividerStyle"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="@dimen/account_item_margin_left" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl_account_shop"
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/account_item_height"
-            android:background="@drawable/base_item_bg_selector">
-
-            <ImageView
-                android:id="@+id/img_account_shop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/account_item_margin_left"
-                android:layout_marginRight="@dimen/account_item_padding"
-                android:src="@drawable/account_shop" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/img_account_shop"
-                android:text="@string/account_shop"
-                android:textColor="@color/base_black_title_color"
-                android:textSize="@dimen/title_content_text_size" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/account_item_margin_right"
-                android:src="@drawable/tab_right_back" />
-
+            <!--android:layout_marginLeft="@dimen/account_item_margin_left"-->
             <View
                 style="@style/dividerStyle"
                 android:layout_alignParentBottom="true"
                  />
         </RelativeLayout>
+
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/rl_account_shop"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="@dimen/account_item_height"-->
+            <!--android:background="@drawable/base_item_bg_selector">-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/img_account_shop"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginLeft="@dimen/account_item_margin_left"-->
+                <!--android:layout_marginRight="@dimen/account_item_padding"-->
+                <!--android:src="@drawable/account_shop" />-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_toRightOf="@id/img_account_shop"-->
+                <!--android:text="@string/account_shop"-->
+                <!--android:textColor="@color/base_black_title_color"-->
+                <!--android:textSize="@dimen/title_content_text_size" />-->
+
+            <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginRight="@dimen/account_item_margin_right"-->
+                <!--android:src="@drawable/tab_right_back" />-->
+
+            <!--<View-->
+                <!--style="@style/dividerStyle"-->
+                <!--android:layout_alignParentBottom="true"-->
+                 <!--/>-->
+        <!--</RelativeLayout>-->
 
        <!--<RelativeLayout-->
             <!--android:id="@+id/rl_account_Recommend"-->

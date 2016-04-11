@@ -636,4 +636,13 @@ public class LHttpRequest {
 		LClient.getInstance().get(context, ConstantURL.FORUM_INDEX, params,
 				handler);
 	}
+
+	//商城
+	public void getShopItems(Context context, LHttpHandler<String> handler,int page) {
+
+		HashMap<String, String> params = new HashMap<>();
+		params.put("page", page + "");
+		params = (HashMap<String, String>) checkParams(params);
+		LClient.getInstance().get(context, ConstantURL.SHOP_INDEX, params, handler);
+	}
 }

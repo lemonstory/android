@@ -31,6 +31,7 @@ import com.xiaoningmeng.fragment.AccountFragment;
 import com.xiaoningmeng.fragment.DiscoverFragment;
 import com.xiaoningmeng.fragment.ForumIndexFragment;
 import com.xiaoningmeng.fragment.MineFragment;
+import com.xiaoningmeng.fragment.ShopFragment;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.MusicService;
 import com.xiaoningmeng.player.PlayObserver;
@@ -51,13 +52,16 @@ public class HomeActivity extends BaseFragmentActivity implements
 	private MineFragment mMineFragment;
 	private AccountFragment mAccountFragment;
 	private ForumIndexFragment mForumIndexFragment;
+	private ShopFragment mShopFragment;
 	private TextView mDisCoverTabTv;
 	private TextView mMineTabTv;
 	private TextView mForumTabTv;
+	private TextView mShopTabTv;
+	public String mShopTitle;
 	private TextView mPerasonTabTv;
 	private ImageView mCoverImg;
 	private ImageView mSearchImg;
-	private TextView mTitleTv;
+	public TextView mTitleTv;
 	private ImageView mTitleImg;
 	public SearchView mSearchBarView;
 	private View mActionBarView;
@@ -69,6 +73,7 @@ public class HomeActivity extends BaseFragmentActivity implements
 	public static final String FRAG_DISCOVER = "FRAG_DISCOVER";
 	public static final String FRAG_MINE = "FRAG_MINE";
 	public static final String FRAG_FORUM = "FRAG_FORUM";
+	public static final String FRAG_SHOP = "FRAG_SHOP";
 	public static final String FRAG_ACCOUNT = "FRAG_ACCOUNT";
 
 
@@ -115,6 +120,7 @@ public class HomeActivity extends BaseFragmentActivity implements
 		mDisCoverTabTv = (TextView) this.findViewById(R.id.tv_home_discover);
 		mMineTabTv = (TextView) this.findViewById(R.id.tv_home_mine);
 		mForumTabTv = (TextView) this.findViewById(R.id.tv_home_forum);
+		mShopTabTv = (TextView) this.findViewById(R.id.tv_home_shop);
 		mPerasonTabTv = (TextView) this.findViewById(R.id.tv_home_account);
 		mCoverImg = (ImageView) findViewById(R.id.img_home_cover);
 		mSearchImg = (ImageView) findViewById(R.id.img_head_search);
@@ -206,7 +212,7 @@ public class HomeActivity extends BaseFragmentActivity implements
 	 * 检查版本
 	 */
 	private void checkVersion() {
-			final int updateCount = PreferenceUtil.getInt("update_countdown",0);
+			final int updateCount = PreferenceUtil.getInt("update_countdown", 0);
 		if(updateCount < Constant.UPDATE_COUNTDOWN) {
 			UmengUpdateAgent.setUpdateAutoPopup(false);
 			UmengUpdateAgent.setUpdateOnlyWifi(true);
@@ -297,7 +303,31 @@ public class HomeActivity extends BaseFragmentActivity implements
 				showMessageBadge();
 				transaction.commitAllowingStateLoss();
 				break;
+
 			case 3:
+				mActionBarView.setVisibility(View.VISIBLE);
+				mSearchBarView.setVisibility(View.INVISIBLE);
+				if (mShopTitle == null || mShopTitle.equals("")) {
+					mShopTitle = "商城";
+				}
+				mTitleTv.setText(mShopTitle);
+				mTitleTv.setVisibility(View.VISIBLE);
+				mTitleImg.setVisibility(View.INVISIBLE);
+				mSearchImg.setVisibility(View.INVISIBLE);
+				mCoverImg.setVisibility(View.INVISIBLE);
+				mShopFragment = (ShopFragment) manager.findFragmentByTag(FRAG_SHOP);
+				hideTab(transaction);
+				if (mShopFragment == null) {
+					mShopFragment = new ShopFragment();
+					transaction.add(R.id.fl_fragment, mShopFragment, FRAG_SHOP);
+				} else {
+					transaction.show(mShopFragment);
+				}
+				mShopTabTv.setSelected(true);
+				transaction.commitAllowingStateLoss();
+				break;
+
+			case 4:
 				mActionBarView.setVisibility(View.VISIBLE);
 				mSearchBarView.setVisibility(View.INVISIBLE);
 				mSearchImg.setVisibility(View.VISIBLE);
@@ -308,8 +338,7 @@ public class HomeActivity extends BaseFragmentActivity implements
 				mTitleImg.setVisibility(View.INVISIBLE);
 				mTitleTv.setVisibility(View.VISIBLE);
 				mTitleTv.setText("账号");
-				mAccountFragment = (AccountFragment) manager
-						.findFragmentByTag(FRAG_ACCOUNT);
+				mAccountFragment = (AccountFragment) manager.findFragmentByTag(FRAG_ACCOUNT);
 				hideTab(transaction);
 				if (mAccountFragment == null) {
 					mAccountFragment = new AccountFragment();
@@ -330,6 +359,7 @@ public class HomeActivity extends BaseFragmentActivity implements
 		mDisCoverTabTv.setSelected(false);
 		mMineTabTv.setSelected(false);
 		mForumTabTv.setSelected(false);
+		mShopTabTv.setSelected(false);
 		mPerasonTabTv.setSelected(false);
 	}
 
@@ -342,6 +372,9 @@ public class HomeActivity extends BaseFragmentActivity implements
 		}
 		if (mForumIndexFragment != null) {
 			transaction.hide(mForumIndexFragment);
+		}
+		if (mShopFragment != null) {
+			transaction.hide(mShopFragment);
 		}
 		if (mAccountFragment != null) {
 			transaction.hide(mAccountFragment);
@@ -379,8 +412,11 @@ public class HomeActivity extends BaseFragmentActivity implements
 			case R.id.tv_home_forum:
 				setTabSelect(2);
 				break;
-			case R.id.tv_home_account:
+			case R.id.tv_home_shop:
 				setTabSelect(3);
+				break;
+			case R.id.tv_home_account:
+				setTabSelect(4);
 				break;
 			case R.id.img_head_search:
 
