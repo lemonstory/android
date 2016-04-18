@@ -66,7 +66,7 @@ public abstract class LHttpHandler<T> implements Response.Listener<String>,
 			Type type = getType();
 			T t;
 			code = jsonObject.has("code") ? jsonObject.getInt("code") : code;
-			//DebugUtils.e("code = " + code);
+			DebugUtils.e("code = " + code);
 			//兼容DZ
 			if (Constant.REQ_SUCCESS_STATUS == code || jsonObject.has("Variables")) {
 

@@ -4,20 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.umeng.socialize.UMAuthListener;
+import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.controller.UMServiceFactory;
-import com.umeng.socialize.controller.UMSocialService;
-import com.umeng.socialize.controller.listener.SocializeListeners.UMAuthListener;
-import com.umeng.socialize.controller.listener.SocializeListeners.UMDataListener;
-import com.umeng.socialize.exception.SocializeException;
-import com.umeng.socialize.sso.UMQQSsoHandler;
-import com.umeng.socialize.weixin.controller.UMWXHandler;
 import com.xiaoningmeng.application.ActivityManager;
 import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
@@ -36,15 +30,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Map;
-import java.util.Set;
 
 import de.greenrobot.event.EventBus;
 
 
 public class LoginActivity extends BaseActivity implements OnClickListener {
 
-    private UMSocialService mController;
+    private UMShareAPI mShareAPI = null;
     private Context mContext;
+    private String accessToken;
+    private String openId;
+    private String nickName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +49,53 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         mContext = this;
         setContentView(R.layout.activity_login);
         setTinitColor(Color.parseColor("#f0f0f0"));
-        initLoginByPlatform();
+        //initLoginByPlatform();
+        mShareAPI = UMShareAPI.get( this );
     }
+
+    /** auth callback interface**/
+    //未处理微信的登录
+    private UMAuthListener umAuthListener = new UMAuthListener() {
+        @Override
+        public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
+
+            switch (action) {
+
+                //授权回调
+                case 0:
+                    if (data != null) {
+                        accessToken = (String)data.get("access_token");
+                        openId = (String)data.get("openid");
+                    }
+                    mShareAPI.getPlatformInfo(LoginActivity.this, platform, umAuthListener);
+                    break;
+
+                //获取用户信息回调
+                case 2:
+                    if (data!=null){
+
+                        nickName = (String)data.get("screen_name");
+                        if (!accessToken.equals("") && !openId.equals("") && !nickName.equals("")) {
+                            loginQQ(accessToken, openId, nickName);
+                        }else {
+                            Toast.makeText(getApplicationContext(), "param empty", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    break;
+            }
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, int action, Throwable t) {
+            Toast.makeText(LoginActivity.this, "无法授权", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform, int action) {
+            stopLoading();
+            Toast.makeText(mContext, "授权取消", Toast.LENGTH_SHORT).show();
+        }
+    };
 
     @Override
     protected void onStart() {
@@ -84,6 +125,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
     @Override
     public void onClick(View v) {
+        SHARE_MEDIA platform = null;
         switch (v.getId()) {
             case R.id.tv_login_agreement:
                 WebViewActivity.openWebView(this, ConstantURL.Service);
@@ -94,83 +136,19 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                 break;
             case R.id.tv_login_weixin:
                 setLoadingTip("正在登录");
-                requestData();
-                // loginByWeixin();
+                platform = SHARE_MEDIA.WEIXIN;
+                mShareAPI.doOauthVerify(LoginActivity.this, platform, umAuthListener);
                 break;
             case R.id.tv_login_qq:
                 setLoadingTip("正在登录");
-                loginByQQ();
+                platform = SHARE_MEDIA.QQ;
+                startLoading();
+                mShareAPI.doOauthVerify(LoginActivity.this, platform, umAuthListener);
                 break;
             default:
                 break;
         }
 
-    }
-
-    private void initLoginByPlatform() {
-
-        mController = UMServiceFactory.getUMSocialService("com.umeng.login");
-        UMQQSsoHandler qqSsoHandler = new UMQQSsoHandler(this,
-                Constant.QQ_APP_ID, Constant.QQ_APP_KEY);
-        qqSsoHandler.addToSocialSDK();
-        UMWXHandler wxHandler = new UMWXHandler(this, Constant.WEI_XIN_APP_ID,
-                Constant.WEIN_XIN_APP_SECRET);
-        wxHandler.addToSocialSDK();
-    }
-
-    private void loginByQQ() {
-
-        startLoading();
-        mController.doOauthVerify(mContext, SHARE_MEDIA.QQ,
-                new UMAuthListener() {
-                    @Override
-                    public void onStart(SHARE_MEDIA platform) {
-
-                    }
-
-                    @Override
-                    public void onError(SocializeException e,
-                                        SHARE_MEDIA platform) {
-                        e.printStackTrace();
-                        Toast.makeText(LoginActivity.this, "无法授权", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onComplete(Bundle bundle, SHARE_MEDIA platform) {
-                        final String accessToken = bundle
-                                .getString("access_token");
-                        final String openId = bundle.getString("openid");
-                        // 获取相关授权信息
-                        mController.getPlatformInfo(LoginActivity.this,
-                                SHARE_MEDIA.QQ, new UMDataListener() {
-                                    @Override
-                                    public void onStart() {
-
-                                    }
-
-                                    @Override
-                                    public void onComplete(int status,
-                                                           Map<String, Object> info) {
-
-                                        if (status == 200 && info != null) {
-                                            final String nickName = (String) info
-                                                    .get("screen_name");
-
-                                            loginQQ(accessToken, openId,
-                                                    nickName);
-                                        }
-
-                                    }
-                                });
-                    }
-
-                    @Override
-                    public void onCancel(SHARE_MEDIA platform) {
-                        stopLoading();
-                        Toast.makeText(mContext, "授权取消", Toast.LENGTH_SHORT)
-                                .show();
-                    }
-                });
     }
 
     private void loginQQ(final String accessToken, final String openId,
@@ -214,95 +192,95 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                 });
     }
 
-    private void loginByWeixin() {
-        startLoading();
-        mController.doOauthVerify(mContext, SHARE_MEDIA.WEIXIN,
-                new UMAuthListener() {
-                    @Override
-                    public void onStart(SHARE_MEDIA platform) {
-                    }
+//    private void loginByWeixin() {
+//        startLoading();
+//        mController.doOauthVerify(mContext, SHARE_MEDIA.WEIXIN,
+//                new UMAuthListener() {
+//                    @Override
+//                    public void onStart(SHARE_MEDIA platform) {
+//                    }
+//
+//                    @Override
+//                    public void onError(SocializeException e,
+//                                        SHARE_MEDIA platform) {
+//                        Toast.makeText(mContext, "授权错误", Toast.LENGTH_SHORT)
+//                                .show();
+//
+//                    }
+//
+//                    @Override
+//                    public void onComplete(Bundle value, SHARE_MEDIA platform) {
+//                        // 获取相关授权信息
+//                        mController.getPlatformInfo(LoginActivity.this,
+//                                SHARE_MEDIA.WEIXIN, new UMDataListener() {
+//                                    @Override
+//                                    public void onStart() {
+//                                    }
+//
+//                                    @Override
+//                                    public void onComplete(int status,
+//                                                           Map<String, Object> info) {
+//                                        if (status == 200 && info != null) {
+//                                            StringBuilder sb = new StringBuilder();
+//                                            Set<String> keys = info.keySet();
+//                                            for (String key : keys) {
+//                                                sb.append(key
+//                                                        + "="
+//                                                        + info.get(key)
+//                                                        .toString()
+//                                                        + "\r\n");
+//                                            }
+//                                            Log.d("TestData", sb.toString());
+//                                        } else {
+//                                            Log.d("TestData", "发生错误：" + status);
+//                                        }
+//                                    }
+//                                });
+//                    }
+//
+//                    @Override
+//                    public void onCancel(SHARE_MEDIA platform) {
+//                        stopLoading();
+//                        Toast.makeText(mContext, "授权取消", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//    }
 
-                    @Override
-                    public void onError(SocializeException e,
-                                        SHARE_MEDIA platform) {
-                        Toast.makeText(mContext, "授权错误", Toast.LENGTH_SHORT)
-                                .show();
-
-                    }
-
-                    @Override
-                    public void onComplete(Bundle value, SHARE_MEDIA platform) {
-                        // 获取相关授权信息
-                        mController.getPlatformInfo(LoginActivity.this,
-                                SHARE_MEDIA.WEIXIN, new UMDataListener() {
-                                    @Override
-                                    public void onStart() {
-                                    }
-
-                                    @Override
-                                    public void onComplete(int status,
-                                                           Map<String, Object> info) {
-                                        if (status == 200 && info != null) {
-                                            StringBuilder sb = new StringBuilder();
-                                            Set<String> keys = info.keySet();
-                                            for (String key : keys) {
-                                                sb.append(key
-                                                        + "="
-                                                        + info.get(key)
-                                                        .toString()
-                                                        + "\r\n");
-                                            }
-                                            Log.d("TestData", sb.toString());
-                                        } else {
-                                            Log.d("TestData", "发生错误：" + status);
-                                        }
-                                    }
-                                });
-                    }
-
-                    @Override
-                    public void onCancel(SHARE_MEDIA platform) {
-                        stopLoading();
-                        Toast.makeText(mContext, "授权取消", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
-    private void loginWechat(final String accessToken, final String openId,
-                             final String nickName) {
-        LHttpRequest.getInstance().WechatLoginRequest(this, accessToken, openId,
-                new LHttpHandler<UserInfo>(this, this) {
-
-                    @Override
-                    public void onGetDataSuccess(UserInfo data) {
-                        UserAuth.getInstance().login(mContext, data);
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers,
-                                          String responseString, Throwable throwable) {
-                        if (statusCode == 100302) {
-                            loginRegWechat(accessToken, openId, nickName);
-                        } else {
-                            super.onFailure(statusCode, headers,
-                                    responseString, throwable);
-                        }
-                    }
-                });
-    }
-
-    private void loginRegWechat(String accessToken, String openId, String nickName) {
-        DebugUtils.e("QQ accessToken:" + accessToken + " openId" + openId
-                + " nickName" + nickName);
-        LHttpRequest.getInstance().WechatLoginRegRequest(this, accessToken, openId,
-                nickName, new LHttpHandler<UserInfo>(this, this) {
-
-                    @Override
-                    public void onGetDataSuccess(UserInfo data) {
-                        UserAuth.getInstance().login(mContext, data);
-                    }
-                });
-    }
+//    private void loginWechat(final String accessToken, final String openId,
+//                             final String nickName) {
+//        LHttpRequest.getInstance().WechatLoginRequest(this, accessToken, openId,
+//                new LHttpHandler<UserInfo>(this, this) {
+//
+//                    @Override
+//                    public void onGetDataSuccess(UserInfo data) {
+//                        UserAuth.getInstance().login(mContext, data);
+//                    }
+//
+//                    @Override
+//                    public void onFailure(int statusCode, Header[] headers,
+//                                          String responseString, Throwable throwable) {
+//                        if (statusCode == 100302) {
+//                            loginRegWechat(accessToken, openId, nickName);
+//                        } else {
+//                            super.onFailure(statusCode, headers,
+//                                    responseString, throwable);
+//                        }
+//                    }
+//                });
+//    }
+//
+//    private void loginRegWechat(String accessToken, String openId, String nickName) {
+//        DebugUtils.e("QQ accessToken:" + accessToken + " openId" + openId
+//                + " nickName" + nickName);
+//        LHttpRequest.getInstance().WechatLoginRegRequest(this, accessToken, openId,
+//                nickName, new LHttpHandler<UserInfo>(this, this) {
+//
+//                    @Override
+//                    public void onGetDataSuccess(UserInfo data) {
+//                        UserAuth.getInstance().login(mContext, data);
+//                    }
+//                });
+//    }
 
     private void enterHomeActivity() {
 
@@ -367,5 +345,11 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         // TODO Auto-generated method stub
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mShareAPI.onActivityResult(requestCode, resultCode, data);
     }
 }

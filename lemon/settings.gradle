@@ -1,4 +1,3 @@
-include ':convenientbanner', ':emojicon', ':PhotoView', ':OneSDK'
-include ':dialogplus'
+include ':convenientbanner', ':emojicon', ':PhotoView', ':OneSDK', ':dialogplus'
 include ':swpeListView'
 include ':lemon'

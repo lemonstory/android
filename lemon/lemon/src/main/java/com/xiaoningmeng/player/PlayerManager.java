@@ -67,7 +67,9 @@ public class PlayerManager extends PlayerObservable implements
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
                 if (mPlayingStory.albumSource != AlbumSource.SEARCH) {
-                    mNotificationManager.show(mPlayingStory);
+                    if (mNotificationManager != null) {
+                        mNotificationManager.show(mPlayingStory);
+                    }
                 }
             }
         }

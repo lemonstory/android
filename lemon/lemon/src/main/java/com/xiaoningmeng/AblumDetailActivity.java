@@ -22,8 +22,8 @@ import android.widget.TextView;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.umeng.analytics.MobclickAgent;
-import com.umeng.socialize.controller.UMSocialService;
-import com.umeng.socialize.sso.UMSsoHandler;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
 import com.xiaoningmeng.application.ActivityManager;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.auth.UserAuth;
@@ -300,7 +300,7 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 			Animation favInAnim = AnimationUtils.loadAnimation(AblumDetailActivity.this, R.anim.fav_anim_in);
 			v.startAnimation(favInAnim);
 			if(albumInfo != null){
-				ShareBean shareBean = new ShareBean(albumInfo.getTitle(), albumInfo.getCover(), Constant.SHARE_ALBUM_URL+albumInfo.getAlbumid());
+				ShareBean shareBean = new ShareBean(albumInfo.getTitle(),albumInfo.getIntro(), albumInfo.getCover(), Constant.SHARE_ALBUM_URL+albumInfo.getAlbumid());
 				mController = new ShareDialog().show(this,shareBean);
 			}
 			break;
@@ -538,7 +538,7 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 		notifyData(t);
 	}
 
-	private UMSocialService mController;
+	private ShareAction mController;
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if(resultCode == 5 && data != null){
@@ -550,14 +550,7 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 			mCommentFragment.addComment(comment);
 			EventBus.getDefault().post(new CommentEvent(albumInfo, commentCount));
 		}else{
-			/** 使用SSO授权必须添加如下代码 */
-			if(mController != null) {
-				UMSsoHandler ssoHandler = mController.getConfig().getSsoHandler(
-						requestCode);
-				if (ssoHandler != null) {
-					ssoHandler.authorizeCallBack(requestCode, resultCode, data);
-				}
-			}
+			UMShareAPI.get(this).onActivityResult( requestCode, resultCode, data);
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}

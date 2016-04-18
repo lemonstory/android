@@ -88,6 +88,7 @@ public class ShopFragment extends BaseFragment implements View.OnClickListener,X
         mContext = (BaseFragmentActivity) getActivity();
         initView();
         this.mItemslist = new ArrayList<>();
+        this.mPageItemslist = new ArrayList<>();
         this.mShopAdapter = new ShopAdapter(getActivity(),this.mItemslist);
         this.mListView.setAdapter(this.mShopAdapter);
         mListView.autoRefresh();
@@ -116,12 +117,6 @@ public class ShopFragment extends BaseFragment implements View.OnClickListener,X
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
     }
 
     @Override
@@ -147,7 +142,6 @@ public class ShopFragment extends BaseFragment implements View.OnClickListener,X
     public void onLoadMore() {
 
         if (mPageItemslist.size() > 0) {
-
             this.page++;
             requestItemListData(page);
         } else {

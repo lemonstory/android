@@ -1,24 +1,22 @@
 package com.xiaoningmeng.bean;
 
-import android.util.Log;
-
 import java.io.Serializable;
 
 public class ShareBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	private String url;
+	private String iconUrl;
+	private String title;
+	private String text;
 
-	public ShareBean(String title, String iconUrl, String url) {
+	public ShareBean(String title,String text, String iconUrl, String url) {
 		this.title = title;
+		this.text = text;
 		this.url = url;
 		this.iconUrl = iconUrl;
 	}
 
-
-
-	private String url;
-	private String iconUrl;
-	private String title;
 
 
 	public String getIconUrl() {
@@ -45,10 +43,25 @@ public class ShareBean implements Serializable {
 		this.title = title;
 	}
 
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
-	
 
+	@Override
+	public String toString() {
+		return "ShareBean{" +
+				"url='" + url + '\'' +
+				", iconUrl='" + iconUrl + '\'' +
+				", title='" + title + '\'' +
+				", text='" + text + '\'' +
+				'}';
+	}
 }

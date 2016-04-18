@@ -20,8 +20,8 @@ import android.widget.Toast;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.umeng.analytics.MobclickAgent;
-import com.umeng.socialize.controller.UMSocialService;
-import com.umeng.socialize.sso.UMSsoHandler;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
@@ -178,12 +178,12 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
 						@Override
 						public void onGetDataSuccess(Album data) {
 							AlbumInfo albumInfo2 = data.getAlbuminfo();
-							ShareBean shareBean = new ShareBean(albumInfo2.getTitle(), albumInfo2.getCover(), Constant.SHARE_ALBUM_URL + albumInfo2.getAlbumid());
+							ShareBean shareBean = new ShareBean(albumInfo2.getTitle(),albumInfo.getIntro(), albumInfo2.getCover(), Constant.SHARE_ALBUM_URL + albumInfo2.getAlbumid());
 							mController = new ShareDialog().show(PlayActivity.this, shareBean);
 						}
 					});
 		}else {
-			ShareBean shareBean = new ShareBean(albumInfo.getTitle(), albumInfo.getCover(), Constant.SHARE_ALBUM_URL + albumInfo.getAlbumid());
+			ShareBean shareBean = new ShareBean(albumInfo.getTitle(),albumInfo.getIntro(), albumInfo.getCover(), Constant.SHARE_ALBUM_URL + albumInfo.getAlbumid());
 			mController = new ShareDialog().show(this, shareBean);
 		}
 	}
@@ -473,17 +473,10 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
 		}
 	}
 
-	private UMSocialService mController;
+	private ShareAction mController;
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		/** 使用SSO授权必须添加如下代码 */
-		if(mController != null) {
-			UMSsoHandler ssoHandler = mController.getConfig().getSsoHandler(
-					requestCode);
-			if (ssoHandler != null) {
-				ssoHandler.authorizeCallBack(requestCode, resultCode, data);
-			}
-		}
+		UMShareAPI.get(this).onActivityResult( requestCode, resultCode, data);
 	}
 }

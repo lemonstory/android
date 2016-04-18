@@ -43,7 +43,11 @@ public class ReminderActivity extends BaseActivity implements OnClickListener,
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				int reminderMode = reminderTimeInt[position - 1];
+				int index = position - 1;
+				if (index < 0) {
+					index = 0;
+				}
+				int reminderMode = reminderTimeInt[index];
 				PreferenceUtil.putLong(REMINDER_TIME,
 						System.currentTimeMillis());
 				PreferenceUtil.putInt(REMINDER_INT, reminderMode);
@@ -54,7 +58,7 @@ public class ReminderActivity extends BaseActivity implements OnClickListener,
 					PlayerManager.getInstance().setReminderSong(
 							Math.abs(reminderMode));
 				}
-				mAdapter.setReminderMode(position - 1);
+				mAdapter.setReminderMode(index);
 				mAdapter.notifyDataSetChanged();
 			}
 		});

@@ -12,7 +12,6 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/shop_item_margin_left"
         android:layout_marginRight="@dimen/shop_item_margin_left"
-        android:layout_marginTop="@dimen/shop_item_margin_bottom"
         android:listSelector="@android:color/transparent"
         android:verticalSpacing="10dp"
         android:horizontalSpacing="10dp"/>

@@ -24,6 +24,7 @@ import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.umeng.socialize.PlatformConfig;
 import com.xiaomi.channel.commonutils.logger.LoggerInterface;
 import com.xiaomi.mipush.sdk.Logger;
 import com.xiaomi.mipush.sdk.MiPushClient;
@@ -109,8 +110,16 @@ public class MyApplication extends LitePalApplication {
 //					Log.w("mayongge", "初始化异常，code = " + code + ", info = " + message);
 				}
 			});
+
+			//umeng初始化各平台配置
+			PlatformConfig.setWeixin("wxd926c4581e5830d1", "bbc01a7bce805b59706f8725f036cce3");
+			//微信 appid appsecret
+			PlatformConfig.setSinaWeibo("428063796","86a3ecc00a8085b25899cbce3488b40f");
+			//新浪微博 appkey appsecret
+			PlatformConfig.setQQZone("1104756379", "ikRoNihiIJluOL0k");
+			// QQ和Qzone appid appkey
 		}
-		writeMILog();
+		 
 	}
 
 /*	private void initRequestQueue() {

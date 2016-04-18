@@ -15,8 +15,8 @@ import android.widget.TextView;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.umeng.onlineconfig.OnlineConfigAgent;
-import com.umeng.socialize.controller.UMSocialService;
-import com.umeng.socialize.sso.UMSsoHandler;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
 import com.umeng.update.UmengUpdateAgent;
 import com.umeng.update.UmengUpdateListener;
 import com.umeng.update.UpdateResponse;
@@ -195,8 +195,9 @@ public class HomeActivity extends BaseFragmentActivity implements
 							mHanler.postDelayed(new Runnable() {
 								@Override
 								public void run() {
-									mController = new ShareDialog().show(HomeActivity.this,
-											new ShareBean("小柠檬", null, Constant.SHARE_OFFCAIL_URL));
+									String app_name = HomeActivity.this.getString(R.string.app_name);
+									String app_desc = HomeActivity.this.getString(R.string.app_desc);
+									mController = new ShareDialog().show(HomeActivity.this,new ShareBean(app_name,app_desc,Constant.SHARE_OFFCAIL_ICON_URL,Constant.SHARE_OFFCAIL_URL));
 								}
 							}, 250);
 						}
@@ -501,18 +502,11 @@ public class HomeActivity extends BaseFragmentActivity implements
 		mSearchBarView.search(content);
 	}
 
-	private UMSocialService mController;
+	private ShareAction mController;
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		/** 使用SSO授权必须添加如下代码 */
-		if(mController != null) {
-			UMSsoHandler ssoHandler = mController.getConfig().getSsoHandler(
-					requestCode);
-			if (ssoHandler != null) {
-				ssoHandler.authorizeCallBack(requestCode, resultCode, data);
-			}
-		}
+		UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
 	}
 
 	public void onEventMainThread(ForumLoginEvent event) {

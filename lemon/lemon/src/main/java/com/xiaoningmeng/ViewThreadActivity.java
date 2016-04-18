@@ -17,8 +17,8 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.umeng.analytics.MobclickAgent;
-import com.umeng.socialize.controller.UMSocialService;
-import com.umeng.socialize.sso.UMSsoHandler;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
 import com.xiaoningmeng.adapter.ViewThreadAdapter;
 import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseFragmentActivity;
@@ -216,7 +216,9 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
 //                String url = String.format(Constant.VIEW_THREAD_URL,forumThread.getTid());
 //
 //                ShareBean shareBean = new ShareBean(forumThread.getSubject(), shareIconUrl, url);
-                ShareBean shareBean = new ShareBean("小柠檬", null, Constant.SHARE_OFFCAIL_URL);
+                String app_name = ViewThreadActivity.this.getString(R.string.app_name);
+                String app_desc = ViewThreadActivity.this.getString(R.string.app_desc);
+                ShareBean shareBean = new ShareBean(app_name, app_desc,Constant.SHARE_OFFCAIL_ICON_URL, Constant.SHARE_OFFCAIL_URL);
                 mController = new ShareDialog().show(ViewThreadActivity.this, shareBean);
             }
         });
@@ -252,19 +254,12 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
         getSupportFragmentManager().executePendingTransactions();
     }
 
-    private UMSocialService mController;
+    private ShareAction mController;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-        /** 使用SSO授权必须添加如下代码 */
-        if(mController != null) {
-            UMSsoHandler ssoHandler = mController.getConfig().getSsoHandler(
-                    requestCode);
-            if (ssoHandler != null) {
-                ssoHandler.authorizeCallBack(requestCode, resultCode, data);
-            }
-        }
+        UMShareAPI.get(this).onActivityResult( requestCode, resultCode, data);
         this.keyBoardfragment.addedImageFragment.onActivityResult(requestCode,resultCode,data);
     }
 

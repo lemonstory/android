@@ -9,8 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.umeng.socialize.controller.UMSocialService;
-import com.umeng.socialize.sso.UMSsoHandler;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
 import com.umeng.update.UmengUpdateAgent;
 import com.umeng.update.UmengUpdateListener;
 import com.umeng.update.UpdateResponse;
@@ -79,8 +79,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener,
 			break;
 		case R.id.rl_setting_rate:
 			try{
-			Uri uri = Uri.parse("market://search?q=pname:"
-					+ this.getPackageName());
+			Uri uri = Uri.parse("market://search?q=pname:"+ this.getPackageName());
 			Intent it = new Intent(Intent.ACTION_VIEW, uri);
 			startActivity(it);
 			}catch (Exception e) {
@@ -96,7 +95,9 @@ public class SettingActivity extends BaseActivity implements OnClickListener,
 			Logout();
 			break;
 		case R.id.rl_setting_share:
-			mController = new ShareDialog().show(this,new ShareBean("小柠檬",null, Constant.SHARE_OFFCAIL_URL));
+			String app_name = this.getString(R.string.app_name);
+			String app_desc = this.getString(R.string.app_desc);
+			mController = new ShareDialog().show(this,new ShareBean(app_name,app_desc,Constant.SHARE_OFFCAIL_ICON_URL,Constant.SHARE_OFFCAIL_URL));
 			break;
 		case R.id.rl_setting_check:
 			checkVersion();
@@ -141,18 +142,11 @@ public class SettingActivity extends BaseActivity implements OnClickListener,
 
 	}
 
-	private UMSocialService mController;
+	private ShareAction mController;
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		/** 使用SSO授权必须添加如下代码 */
-		if(mController != null) {
-			UMSsoHandler ssoHandler = mController.getConfig().getSsoHandler(
-					requestCode);
-			if (ssoHandler != null) {
-				ssoHandler.authorizeCallBack(requestCode, resultCode, data);
-			}
-		}
+		UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
 	}
 
 	@Override
@@ -181,7 +175,8 @@ public class SettingActivity extends BaseActivity implements OnClickListener,
 						Toast.makeText(SettingActivity.this, getResources().getString(R.string.no_wifi), Toast.LENGTH_SHORT).show();
 						break;
 					case 3: // time out
-						Toast.makeText(SettingActivity.this, getResources().getString(R.string.connect_time_out), Toast.LENGTH_SHORT).show();;
+						Toast.makeText(SettingActivity.this, getResources().getString(R.string.connect_time_out), Toast.LENGTH_SHORT).show();
+						;
 						break;
 					default:
 						break;
@@ -190,6 +185,4 @@ public class SettingActivity extends BaseActivity implements OnClickListener,
 		});
 		UmengUpdateAgent.update(SettingActivity.this);
 	}
-
-
 }

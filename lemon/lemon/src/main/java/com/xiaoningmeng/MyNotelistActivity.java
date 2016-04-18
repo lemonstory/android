@@ -17,8 +17,8 @@ import com.baoyz.swipemenu.xlistview.XListView;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.umeng.socialize.controller.UMSocialService;
-import com.umeng.socialize.sso.UMSsoHandler;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
 import com.xiaoningmeng.adapter.MyNoteListAdapter;
 import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseFragmentActivity;
@@ -164,19 +164,12 @@ public class MyNotelistActivity extends BaseFragmentActivity implements XListVie
         getSupportFragmentManager().executePendingTransactions();
     }
 
-    private UMSocialService mController;
+    private ShareAction mController;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-        /** 使用SSO授权必须添加如下代码 */
-        if(mController != null) {
-            UMSsoHandler ssoHandler = mController.getConfig().getSsoHandler(
-                    requestCode);
-            if (ssoHandler != null) {
-                ssoHandler.authorizeCallBack(requestCode, resultCode, data);
-            }
-        }
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
         this.keyBoardfragment.addedImageFragment.onActivityResult(requestCode, resultCode, data);
     }
 

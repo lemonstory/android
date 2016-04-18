@@ -20,10 +20,16 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.SET_DEBUG_APP" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- xiaomi 推送 -->
-    <permission
+    <permissionWRITE_EXTERNAL_STORAGE
         android:name="com.xiaoningmeng.permission.MIPUSH_RECEIVE"
         android:protectionLevel="signature" />
 
@@ -32,7 +38,6 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
@@ -72,12 +77,14 @@
             android:exported="false"
             android:screenOrientation="portrait">
             <intent-filter>
-            <action android:name="android.intent.action.VIEW"></action>
-            <category android:name="android.intent.category.DEFAULT"></category>
-            <category android:name="com.xiaoningmeng.intent.category.album"></category>
-            <data android:scheme="xnm"></data>
-            <data android:host="www.xiaoningmeng.net"></data>
-            <data android:path="/album/info.php"></data>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.xiaoningmeng.intent.category.album" />
+
+                <data android:scheme="xnm" />
+                <data android:host="www.xiaoningmeng.net" />
+                <data android:path="/album/info.php" />
             </intent-filter>
         </activity>
         <activity
@@ -152,9 +159,11 @@
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"></action>
-                <category android:name="android.intent.category.DEFAULT"></category>
-                <data android:scheme="http"></data>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="http" />
             </intent-filter>
         </activity>
         <activity
@@ -190,6 +199,25 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".WBShareActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
+            android:configChanges="keyboardHidden|orientation"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"></activity>
+
+        <service
+            android:name="com.sina.weibo.sdk.net.DownloadService"
+            android:exported="false"></service>
 
         <receiver
             android:name=".reminder.RemindBroadcastReceiver"
@@ -254,12 +282,18 @@
         <!-- ###################注册SDK使用的Activity###################### -->
         <!-- 分享编辑页 -->
         <activity
-            android:name="com.umeng.socialize.view.ShareActivity"
-            android:configChanges="orientation|keyboard"
-            android:launchMode="singleTask"
-            android:noHistory="true"
-            android:theme="@style/Theme.UMDialog"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
+            android:name="com.umeng.socialize.editorpage.ShareActivity"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.UMDefault" />
+
+        <!-- <activity -->
+        <!-- android:name="com.umeng.socialize.view.ShareActivity" -->
+        <!-- android:configChanges="orientation|keyboard" -->
+        <!-- android:launchMode="singleTask" -->
+        <!-- android:noHistory="true" -->
+        <!-- android:theme="@style/Theme.UMDialog" -->
+        <!-- android:windowSoftInputMode="stateVisible|adjustResize" /> -->
+
 
         <!-- ############ QQ空间和QQ SSO授权的Activity注册 ############ -->
         <activity
@@ -298,9 +332,10 @@
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}" />
 
-        <activity android:name=".ForumDisplayActivity"
+        <activity
+            android:name=".ForumDisplayActivity"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!--
              ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -314,13 +349,15 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"></action>
-                <category android:name="android.intent.category.DEFAULT"></category>
-                <category android:name="com.xiaoningmeng.intent.category.forum"></category>
-                <data android:scheme="xnm"></data>
-                <data android:host="bbs.xiaoningmeng.net"></data>
-                <data android:path="/forum.php"></data>
-                <data android:sspPattern=".*mod=viewthread.*"></data>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.xiaoningmeng.intent.category.forum" />
+
+                <data android:scheme="xnm" />
+                <data android:host="bbs.xiaoningmeng.net" />
+                <data android:path="/forum.php" />
+                <data android:sspPattern=".*mod=viewthread.*" />
             </intent-filter>
         </activity>
         <activity
@@ -334,11 +371,11 @@
         <activity
             android:name=".ImageViewerPagerActivity"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MyThreadActivity"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MyNotelistActivity"
             android:exported="false"

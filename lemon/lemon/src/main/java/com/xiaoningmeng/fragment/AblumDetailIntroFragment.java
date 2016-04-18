@@ -17,16 +17,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.baidu.mobads.AdView;
 import com.xiaoningmeng.ClassificationActivity;
 import com.xiaoningmeng.R;
-import com.xiaoningmeng.adapter.DiscoverStoryAdapter;
 import com.xiaoningmeng.adapter.RecommendStoryAdapter;
 import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.base.BaseFragmentActivity;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.Tag;
-import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.view.CollapsibleTextView;
 import com.xiaoningmeng.view.FlowLayout;
 
@@ -72,11 +69,13 @@ public class AblumDetailIntroFragment extends BaseFragment implements View.OnCli
 					mRecommendLl1 = (LinearLayout) mContentView.findViewById(R.id.ll_recommend1);
 					mRecommendLl2 = (LinearLayout) mContentView.findViewById(R.id.ll_recommend2);
 					final FrameLayout adFl = (FrameLayout) mContentView.findViewById(R.id.fl_ad);
-					AdView adView = new AdView(mContext, Constant.BAIDU_DETAIL_ID);
-					adView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
-					adView.setVisibility(View.GONE);
-					adView.setListener(new DiscoverStoryAdapter.MyAdListener(adView));
-					adFl.addView(adView);
+					//-- baidu ad start
+//					AdView adView = new AdView(mContext, Constant.BAIDU_DETAIL_ID);
+//					adView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
+//					adView.setVisibility(View.GONE);
+//					adView.setListener(new DiscoverStoryAdapter.MyAdListener(adView));
+//					adFl.addView(adView);
+					//-- baidu ad end
 					if (intro != null && !"".equals(intro)) {
 						introTv.setDesc(intro, introTv, TextView.BufferType.NORMAL);
 					} else {
