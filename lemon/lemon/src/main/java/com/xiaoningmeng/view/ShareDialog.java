@@ -2,6 +2,7 @@ package com.xiaoningmeng.view;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.view.Gravity;
@@ -84,8 +85,13 @@ public class ShareDialog implements View.OnClickListener{
     public void onClick(View v) {
         //开启回流统计
         Config.isloadUrl = true;
+        //关闭Toast
         Config.IsToastTip = false;
-        Config.dialog = null;
+        //修改dialog
+        ProgressDialog dialog =  new ProgressDialog(mContext);
+        dialog.setMessage("正在打开...");
+        Config.dialog = dialog;
+
         switch (v.getId()) {
             case R.id.share_rl_qq:
                 share(SHARE_MEDIA.QQ);

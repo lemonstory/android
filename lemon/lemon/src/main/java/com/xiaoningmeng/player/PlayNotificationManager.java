@@ -29,9 +29,8 @@ public class PlayNotificationManager {
 	private RemoteViews notifyView;
 
 	private PlayNotificationManager() {
-		mContext = MyApplication.getContext();
-		mNotificationManager = (NotificationManager) mContext
-				.getSystemService(Context.NOTIFICATION_SERVICE);
+		mContext = MyApplication.getInstance().getApplicationContext();
+		mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 	}
 
 	public static PlayNotificationManager getInstance() {
@@ -129,7 +128,9 @@ public class PlayNotificationManager {
 			}
 		});
 		notification.contentView = notifyView;
-		mNotificationManager.notify(MusicService.PLAYING_NOTIFY_ID,notification);
+		if (mNotificationManager != null) {
+			mNotificationManager.notify(MusicService.PLAYING_NOTIFY_ID,notification);
+		}
 		MusicService.startService(mContext);
 	}
 

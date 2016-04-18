@@ -10,7 +10,6 @@ import com.xiaoningmeng.download.DownLoadClientImpl;
 import com.xiaoningmeng.download.DownloadNotificationManager;
 import com.xiaoningmeng.manager.UploadManager;
 import com.xiaoningmeng.player.PlayerManager;
-import com.xiaoningmeng.utils.PreferenceUtil;
 
 public class LoadingActivity extends BaseActivity {
 
@@ -29,9 +28,9 @@ public class LoadingActivity extends BaseActivity {
 		PlayerManager.getInstance(); // 初始化音乐播放器
 		DownloadNotificationManager.getInstance();//初始化下载通知栏
 		UploadManager.getInstance().uploadRecord();
-		int loadCountDown = PreferenceUtil.getInt("load_countdown");
-		if(loadCountDown <3){
-			PreferenceUtil.putInt("load_countdown",loadCountDown+1);
+//		int loadCountDown = PreferenceUtil.getInt("load_countdown");
+//		if(loadCountDown <3){
+//			PreferenceUtil.putInt("load_countdown",loadCountDown+1);
 			mHandler.postDelayed(new Runnable() {
 				@Override
 				public void run() {
@@ -41,11 +40,11 @@ public class LoadingActivity extends BaseActivity {
 					overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
 				}
 			}, LOGIN_TIME);
-		}else{
-			//-- baidu ad start
-			loadAd();
-			//-- baidu ad end
-		}
+//		}else{
+//			//-- baidu ad start
+//			loadAd();
+//			//-- baidu ad end
+//		}
 	}
 
 	private void loadAd() {

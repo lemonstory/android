@@ -76,6 +76,9 @@ public class ClassificationActivity extends BaseFragmentActivity implements View
             mClassifyTv.setText(classificationName);
         }
         mTagParams = new ArrayList<>();
+        mFristTagList = new ArrayList<>();
+        mSecondTagList = new ArrayList<>();
+        mSpecialList = new ArrayList<>();
         PlayerManager.getInstance().register(this);
         setLoading(new DrawableDialogLoading(this));
         String selectTagId = Constant.DEFAULT_TAG_ID;//避免空指针,给个默认值

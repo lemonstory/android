@@ -61,13 +61,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/huawei/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/huawei/jni" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/huawei/rs" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestHuawei/res" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestHuawei/resources" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestHuawei/assets" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestHuawei/aidl" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestHuawei/java" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestHuawei/jni" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestHuawei/rs" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testHuawei/res" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testHuawei/resources" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testHuawei/assets" type="java-test-resource" />
@@ -75,6 +68,13 @@
       <sourceFolder url="file://$MODULE_DIR$/src/testHuawei/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testHuawei/jni" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testHuawei/rs" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestHuawei/res" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestHuawei/resources" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestHuawei/assets" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestHuawei/aidl" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestHuawei/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestHuawei/jni" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestHuawei/rs" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/assets" type="java-resource" />

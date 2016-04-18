@@ -110,9 +110,11 @@ public class BaseActivity extends Activity implements ILoading {
 			if (this.isFinishing()) {
 				context = this.getParent();
 			}
-			mLoading = new TextDialogLoading(context);
+			if (context != null) {
+				mLoading = new TextDialogLoading(context);
+				mLoading.startLoading();
+			}
 		}
-		mLoading.startLoading();
 	}
 
 	@Override

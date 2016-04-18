@@ -88,7 +88,7 @@ public class MineFragment extends BaseFragment implements OnClickListener,XListV
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				int pos = position -2;
-				if(pos >= 0 && mAlbumList.size() > 0) {
+				if(pos >= 0 && mAlbumList.size() > 0 && pos < mAlbumList.size()) {
 					ListenerAlbum listenerAlbum = mAlbumList.get(pos);
 					AlbumInfo albumInfo = listenerAlbum.getAlbuminfo();
 					Intent intent = new Intent(mContext, AblumDetailActivity.class);

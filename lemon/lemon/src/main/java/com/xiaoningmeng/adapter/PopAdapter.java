@@ -6,16 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xiaoningmeng.R;
-import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.Tag;
-import com.xiaoningmeng.constant.Constant;
 
 import java.util.List;
 
@@ -37,7 +31,11 @@ public class PopAdapter extends BaseAdapter{
 
 	@Override
 	public int getCount() {
-		return firstTags.size();
+		int count = 0;
+		if (firstTags != null) {
+			count = firstTags.size();
+		}
+		return count;
 	}
 
 	@Override
