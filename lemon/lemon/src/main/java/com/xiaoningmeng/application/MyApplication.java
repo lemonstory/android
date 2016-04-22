@@ -112,12 +112,12 @@ public class MyApplication extends LitePalApplication {
 			});
 
 			//umeng初始化各平台配置
-			PlatformConfig.setWeixin("wxd926c4581e5830d1", "bbc01a7bce805b59706f8725f036cce3");
 			//微信 appid appsecret
-			PlatformConfig.setSinaWeibo("428063796","86a3ecc00a8085b25899cbce3488b40f");
+			PlatformConfig.setWeixin(Constant.WEI_XIN_APP_ID, Constant.WEIN_XIN_APP_SECRET);
 			//新浪微博 appkey appsecret
-			PlatformConfig.setQQZone("1104756379", "ikRoNihiIJluOL0k");
+			PlatformConfig.setSinaWeibo(Constant.WEIBO_APP_ID,Constant.WEIN_XIN_APP_SECRET);
 			// QQ和Qzone appid appkey
+			PlatformConfig.setQQZone(Constant.QQ_APP_ID, Constant.QQ_APP_KEY);
 		}
 		 
 	}

@@ -1,13 +1,12 @@
 package com.xiaoningmeng.bean;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import org.litepal.crud.DataSupport;
 
-
-import android.os.Parcel;
-import android.os.Parcelable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AlbumInfo extends DataSupport implements Parcelable {
 
@@ -180,6 +179,7 @@ public class AlbumInfo extends DataSupport implements Parcelable {
 	public void setCommentnum(int commentnum) {
 		this.commentnum = commentnum;
 	}
+
 
 	@Override
 	public int describeContents() {

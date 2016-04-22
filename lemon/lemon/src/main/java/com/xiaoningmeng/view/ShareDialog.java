@@ -15,6 +15,7 @@ import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMusic;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.bean.ShareBean;
 import com.xiaoningmeng.view.dialog.BaseDialog;
@@ -30,7 +31,6 @@ public class ShareDialog implements View.OnClickListener{
         mShareBean = shareBean;
         mContext = activity;
         mShareBean.setTitle(mShareBean.getTitle());
-        setShareParams();
         mDialog = new BaseDialog.Builder(mContext).setGravity(Gravity.BOTTOM).create();
         View shareView  = View.inflate(mContext,R.layout.activity_share,null);
         shareView.findViewById(R.id.share_rl_qq).setOnClickListener(this);
@@ -41,13 +41,13 @@ public class ShareDialog implements View.OnClickListener{
         shareView.findViewById(R.id.share_ll_copy).setOnClickListener(this);
         shareView.findViewById(R.id.share_tv_cancel).setOnClickListener(this);
         mDialog.show(shareView);
+        mController = new ShareAction(mContext);
         return mController;
 
 
     }
     private void setShareParams() {
 
-        mController = new ShareAction(mContext);
         // 设置分享内容
         mController.withText(mShareBean.getText());
         mController.withTitle(mShareBean.getTitle());
@@ -55,9 +55,20 @@ public class ShareDialog implements View.OnClickListener{
         if(mShareBean.getIconUrl() == null) {
             UMImage image = new UMImage(mContext,BitmapFactory.decodeResource(mContext.getResources(), R.drawable.logo));
             mController.withMedia(image);
-        }else{
+        } else{
             UMImage image = new UMImage(mContext, mShareBean.getIconUrl());
+            image.setTargetUrl(mShareBean.getUrl());
             mController.withMedia(image);
+        }
+        //测试新浪微博不能分享音频
+        if (mController.getPlatform() != null && !mController.getPlatform().toString().equals("SINA")) {
+            if (mShareBean.getMusicUrl() != null) {
+                UMusic music = new UMusic(mShareBean.getMusicUrl());
+                music.setTitle(mShareBean.getTitle());
+                music.setThumb(new UMImage(mContext,mShareBean.getIconUrl()));
+                music.setTargetUrl(mShareBean.getUrl());
+                mController.withMedia(music);
+            }
         }
         mController.withTargetUrl(mShareBean.getUrl());
         mController.setCallback(umShareListener);
@@ -128,6 +139,7 @@ public class ShareDialog implements View.OnClickListener{
     private void share(final SHARE_MEDIA platform) {
 
         mController.setPlatform(platform);
+        setShareParams();
         mController.share();
     }
 

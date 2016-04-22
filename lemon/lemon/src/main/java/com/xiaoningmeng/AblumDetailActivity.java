@@ -210,6 +210,7 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 						public void onGetDataSuccess(Album data) {
 							albumInfo = data.getAlbuminfo();
 							storyList = data.getStorylist();
+							albumInfo.setStorylist(storyList);
 							commentList = data.getCommentlist();
 							fillAlbumInfoView(albumInfo);
 							mPlayListFragment.setStoryList(albumInfo, storyList,mPlayStoryId,mPlayTime);
@@ -300,7 +301,8 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 			Animation favInAnim = AnimationUtils.loadAnimation(AblumDetailActivity.this, R.anim.fav_anim_in);
 			v.startAnimation(favInAnim);
 			if(albumInfo != null){
-				ShareBean shareBean = new ShareBean(albumInfo.getTitle(),albumInfo.getIntro(), albumInfo.getCover(), Constant.SHARE_ALBUM_URL+albumInfo.getAlbumid());
+				Story story = albumInfo.getStorylist().get(0);
+				ShareBean shareBean = new ShareBean(albumInfo.getTitle(),albumInfo.getIntro(), albumInfo.getCover(),story.getMediapath(), Constant.SHARE_ALBUM_URL+albumInfo.getAlbumid());
 				mController = new ShareDialog().show(this,shareBean);
 			}
 			break;
@@ -550,7 +552,7 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 			mCommentFragment.addComment(comment);
 			EventBus.getDefault().post(new CommentEvent(albumInfo, commentCount));
 		}else{
-			UMShareAPI.get(this).onActivityResult( requestCode, resultCode, data);
+			UMShareAPI.get(AblumDetailActivity.this).onActivityResult( requestCode, resultCode, data);
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}

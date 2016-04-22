@@ -218,7 +218,7 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
 //                ShareBean shareBean = new ShareBean(forumThread.getSubject(), shareIconUrl, url);
                 String app_name = ViewThreadActivity.this.getString(R.string.app_name);
                 String app_desc = ViewThreadActivity.this.getString(R.string.app_desc);
-                ShareBean shareBean = new ShareBean(app_name, app_desc,Constant.SHARE_OFFCAIL_ICON_URL, Constant.SHARE_OFFCAIL_URL);
+                ShareBean shareBean = new ShareBean(app_name, app_desc,Constant.SHARE_OFFCAIL_ICON_URL,null,Constant.SHARE_OFFCAIL_URL);
                 mController = new ShareDialog().show(ViewThreadActivity.this, shareBean);
             }
         });

@@ -97,7 +97,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener,
 		case R.id.rl_setting_share:
 			String app_name = this.getString(R.string.app_name);
 			String app_desc = this.getString(R.string.app_desc);
-			mController = new ShareDialog().show(this,new ShareBean(app_name,app_desc,Constant.SHARE_OFFCAIL_ICON_URL,Constant.SHARE_OFFCAIL_URL));
+			mController = new ShareDialog().show(this,new ShareBean(app_name,app_desc,Constant.SHARE_OFFCAIL_ICON_URL,null,Constant.SHARE_OFFCAIL_URL));
 			break;
 		case R.id.rl_setting_check:
 			checkVersion();

@@ -3,13 +3,18 @@ package com.xiaoningmeng;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.RelativeLayout;
 
+import com.baidu.mobads.SplashAd;
+import com.baidu.mobads.SplashAdListener;
 import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
+import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.download.DownLoadClientImpl;
 import com.xiaoningmeng.download.DownloadNotificationManager;
 import com.xiaoningmeng.manager.UploadManager;
 import com.xiaoningmeng.player.PlayerManager;
+import com.xiaoningmeng.utils.PreferenceUtil;
 
 public class LoadingActivity extends BaseActivity {
 
@@ -28,9 +33,11 @@ public class LoadingActivity extends BaseActivity {
 		PlayerManager.getInstance(); // 初始化音乐播放器
 		DownloadNotificationManager.getInstance();//初始化下载通知栏
 		UploadManager.getInstance().uploadRecord();
-//		int loadCountDown = PreferenceUtil.getInt("load_countdown");
-//		if(loadCountDown <3){
-//			PreferenceUtil.putInt("load_countdown",loadCountDown+1);
+		//-- baidu ad start
+		int loadCountDown = PreferenceUtil.getInt("load_countdown");
+		if(loadCountDown <3){
+			PreferenceUtil.putInt("load_countdown",loadCountDown+1);
+		//-- baidu ad end
 			mHandler.postDelayed(new Runnable() {
 				@Override
 				public void run() {
@@ -40,37 +47,37 @@ public class LoadingActivity extends BaseActivity {
 					overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
 				}
 			}, LOGIN_TIME);
-//		}else{
-//			//-- baidu ad start
-//			loadAd();
-//			//-- baidu ad end
-//		}
+		//-- baidu ad start
+		}else{
+			loadAd();
+		}
+		//-- baidu ad end
 	}
 
 	private void loadAd() {
-//		RelativeLayout adsParent = (RelativeLayout) this
-//				.findViewById(R.id.adsRl);
-//		SplashAdListener listener=new SplashAdListener() {
-//			@Override
-//			public void onAdDismissed() {
+		RelativeLayout adsParent = (RelativeLayout) this
+				.findViewById(R.id.adsRl);
+		SplashAdListener listener=new SplashAdListener() {
+			@Override
+			public void onAdDismissed() {
 				jumpWhenCanClick();// 跳转至您的应用主界面
-//			}
-//
-//			@Override
-//			public void onAdFailed(String arg0) {
-//				jump();
-//			}
-//
-//			@Override
-//			public void onAdPresent() {
-//			}
-//
-//			@Override
-//			public void onAdClick() {
-//				//WebViewActivity.openWebView(this, url);
-//			}
-//		};
-//		new SplashAd(this, adsParent, listener, Constant.BAIDU_AD_LOAD_ID, true);
+			}
+
+			@Override
+			public void onAdFailed(String arg0) {
+				jump();
+			}
+
+			@Override
+			public void onAdPresent() {
+			}
+
+			@Override
+			public void onAdClick() {
+				//WebViewActivity.openWebView(this, url);
+			}
+		};
+		new SplashAd(this, adsParent, listener, Constant.BAIDU_AD_LOAD_ID, true);
 		
 	}
 	

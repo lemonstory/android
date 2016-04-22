@@ -178,12 +178,14 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
 						@Override
 						public void onGetDataSuccess(Album data) {
 							AlbumInfo albumInfo2 = data.getAlbuminfo();
-							ShareBean shareBean = new ShareBean(albumInfo2.getTitle(),albumInfo.getIntro(), albumInfo2.getCover(), Constant.SHARE_ALBUM_URL + albumInfo2.getAlbumid());
+							Story story = albumInfo.getStorylist().get(0);
+							ShareBean shareBean = new ShareBean(albumInfo2.getTitle(),albumInfo.getIntro(), albumInfo2.getCover(),story.getMediapath(), Constant.SHARE_ALBUM_URL + albumInfo2.getAlbumid());
 							mController = new ShareDialog().show(PlayActivity.this, shareBean);
 						}
 					});
 		}else {
-			ShareBean shareBean = new ShareBean(albumInfo.getTitle(),albumInfo.getIntro(), albumInfo.getCover(), Constant.SHARE_ALBUM_URL + albumInfo.getAlbumid());
+			Story story = albumInfo.getStorylist().get(0);
+			ShareBean shareBean = new ShareBean(albumInfo.getTitle(),albumInfo.getIntro(), albumInfo.getCover(),story.getMediapath(), Constant.SHARE_ALBUM_URL + albumInfo.getAlbumid());
 			mController = new ShareDialog().show(this, shareBean);
 		}
 	}

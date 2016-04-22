@@ -5,15 +5,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.mobads.AdView;
+import com.baidu.mobads.AdViewListener;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.AblumDetailActivity;
@@ -26,6 +30,8 @@ import com.xiaoningmeng.bean.Discover;
 import com.xiaoningmeng.bean.Tag;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.utils.UiUtils;
+
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +53,7 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 			R.drawable.home_same_tip, R.drawable.home_new_tip,
 			R.drawable.home_private_tip };
 	//--baidu ad start
-//	public SparseArray<AdView> map;
+	public SparseArray<AdView> map;
 	//--baidu ad end
 
 	public DiscoverStoryAdapter(Context context, Discover discover) {
@@ -58,7 +64,7 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mImgHeight = (int)(UiUtils.getInstance(mContext).getmScreenWidth()*0.25f);
 		//--baidu ad start
-//		map = new SparseArray<>();
+		map = new SparseArray<>();
 		//--baidu ad end
 	}
 
@@ -440,37 +446,37 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 					break;
 				case AD_TYPE:
 					//--baidu ad start
-//					AdView adView = null;
+					AdView adView = null;
 					if(convertView == null) {
 						convertView = mInflater.inflate(
 								R.layout.item_album_ad, null);
 					}
 					FrameLayout adFl = (FrameLayout) convertView;
 					adFl.removeAllViews();
-//					if (map.get(typePostion) != null) {
-//						adView = map.get(typePostion);
-//					} else{
-//						String adId = null;
-//						switch (typePostion) {
-//							case MoreActivity.HOT_MORE:
-//								adId = Constant.BAIDU_HOME1_ID;
-//								break;
-//							case MoreActivity.SAME_MORE:
-//								adId = Constant.BAIDU_HOME2_ID;
-//								break;
-//							case MoreActivity.NEW_MORE:
-//							case MoreActivity.PRIVATE_MORE:
-//								adId = Constant.BAIDU_HOME3_ID;
-//								break;
-//							}
-//						adView = new AdView(mContext, adId);
-//						adView.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-//								ViewGroup.LayoutParams.WRAP_CONTENT));
-//						map.put(typePostion,adView);
-//					}
-//					adView.setVisibility(View.GONE);
-//					adView.setListener(new MyAdListener(adView));
-//					adFl.addView(adView);
+					if (map.get(typePostion) != null) {
+						adView = map.get(typePostion);
+					} else{
+						String adId = null;
+						switch (typePostion) {
+							case MoreActivity.HOT_MORE:
+								adId = Constant.BAIDU_HOME1_ID;
+								break;
+							case MoreActivity.SAME_MORE:
+								adId = Constant.BAIDU_HOME2_ID;
+								break;
+							case MoreActivity.NEW_MORE:
+							case MoreActivity.PRIVATE_MORE:
+								adId = Constant.BAIDU_HOME3_ID;
+								break;
+							}
+						adView = new AdView(mContext, adId);
+						adView.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+								ViewGroup.LayoutParams.WRAP_CONTENT));
+						map.put(typePostion,adView);
+					}
+					adView.setVisibility(View.GONE);
+					adView.setListener(new MyAdListener(adView));
+					adFl.addView(adView);
 					//--baidu ad end
 				break;
 
@@ -559,41 +565,41 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 		}
 	}
 	//--baidu ad start
-//	public static class MyAdListener implements  AdViewListener{
-//		private AdView adView;
-//
-//		public MyAdListener(AdView adView){
-//			this.adView = adView;
-//		}
-//
-//		@Override
-//		public void onAdReady(AdView adView) {
-//
-//		}
-//
-//		@Override
-//		public void onAdShow(JSONObject jsonObject) {
-//			if(adView != null){
-//				adView.setVisibility(View.VISIBLE);
-//			}
-//		}
-//
-//		@Override
-//		public void onAdClick(JSONObject jsonObject) {
-//
-//		}
-//
-//		@Override
-//		public void onAdFailed(String s) {
-//			if(adView != null){
-//				adView.setVisibility(View.GONE);
-//			}
-//		}
-//
-//		@Override
-//		public void onAdSwitch() {
-//
-//		}
-//	}
+	public static class MyAdListener implements AdViewListener {
+		private AdView adView;
+
+		public MyAdListener(AdView adView){
+			this.adView = adView;
+		}
+
+		@Override
+		public void onAdReady(AdView adView) {
+
+		}
+
+		@Override
+		public void onAdShow(JSONObject jsonObject) {
+			if(adView != null){
+				adView.setVisibility(View.VISIBLE);
+			}
+		}
+
+		@Override
+		public void onAdClick(JSONObject jsonObject) {
+
+		}
+
+		@Override
+		public void onAdFailed(String s) {
+			if(adView != null){
+				adView.setVisibility(View.GONE);
+			}
+		}
+
+		@Override
+		public void onAdSwitch() {
+
+		}
+	}
 	//--baidu ad end
 }

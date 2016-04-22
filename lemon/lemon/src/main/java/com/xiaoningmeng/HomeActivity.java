@@ -197,7 +197,7 @@ public class HomeActivity extends BaseFragmentActivity implements
 								public void run() {
 									String app_name = HomeActivity.this.getString(R.string.app_name);
 									String app_desc = HomeActivity.this.getString(R.string.app_desc);
-									mController = new ShareDialog().show(HomeActivity.this,new ShareBean(app_name,app_desc,Constant.SHARE_OFFCAIL_ICON_URL,Constant.SHARE_OFFCAIL_URL));
+									mController = new ShareDialog().show(HomeActivity.this,new ShareBean(app_name,app_desc,Constant.SHARE_OFFCAIL_ICON_URL,null,Constant.SHARE_OFFCAIL_URL));
 								}
 							}, 250);
 						}

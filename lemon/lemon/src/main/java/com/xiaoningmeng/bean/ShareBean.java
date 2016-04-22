@@ -9,15 +9,15 @@ public class ShareBean implements Serializable {
 	private String iconUrl;
 	private String title;
 	private String text;
+	private String musicUrl;
 
-	public ShareBean(String title,String text, String iconUrl, String url) {
+	public ShareBean(String title,String text, String iconUrl,String musicUrl, String url) {
 		this.title = title;
 		this.text = text;
 		this.url = url;
 		this.iconUrl = iconUrl;
+		this.musicUrl = musicUrl;
 	}
-
-
 
 	public String getIconUrl() {
 		return iconUrl;
@@ -55,11 +55,20 @@ public class ShareBean implements Serializable {
 		return serialVersionUID;
 	}
 
+	public String getMusicUrl() {
+		return musicUrl;
+	}
+
+	public void setMusicUrl(String musicUrl) {
+		this.musicUrl = musicUrl;
+	}
+
 	@Override
 	public String toString() {
 		return "ShareBean{" +
 				"url='" + url + '\'' +
 				", iconUrl='" + iconUrl + '\'' +
+				", musicUrl='" + musicUrl + '\'' +
 				", title='" + title + '\'' +
 				", text='" + text + '\'' +
 				'}';
