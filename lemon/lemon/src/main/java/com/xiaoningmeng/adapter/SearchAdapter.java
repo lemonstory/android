@@ -3,6 +3,7 @@ package com.xiaoningmeng.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,7 +69,7 @@ public class SearchAdapter extends BaseAdapter{
 		GenericDraweeHierarchy hierarchy = holder.coverImg.getHierarchy();
 		hierarchy.setPlaceholderImage(Constant.getPosDrawable(position));
 		holder.coverImg.setImageURI(coverImgUri);
-		holder.titleTv.setText(albumInfo.getTitle());
+		holder.titleTv.setText(Html.fromHtml(albumInfo.getTitle()));
 		RelativeLayout.LayoutParams lp = (LayoutParams) holder.dividerView.getLayoutParams();
 		lp.addRule(RelativeLayout.RIGHT_OF,position ==  getCount() - 1? 0 : R.id.img_search_item_cover);
 		

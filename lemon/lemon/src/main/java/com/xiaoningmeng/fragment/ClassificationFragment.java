@@ -1,38 +1,22 @@
 package com.xiaoningmeng.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.Request;
 import com.baoyz.swipemenu.xlistview.XListView;
-import com.bigkoo.convenientbanner.CBPageAdapter;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.xiaoningmeng.AblumDetailActivity;
 import com.xiaoningmeng.ClassificationActivity;
-import com.xiaoningmeng.MoreActivity;
 import com.xiaoningmeng.R;
-import com.xiaoningmeng.WebViewActivity;
 import com.xiaoningmeng.adapter.RecommendStoryAdapter;
 import com.xiaoningmeng.base.BaseFragment;
-import com.xiaoningmeng.base.BaseFragmentActivity;
 import com.xiaoningmeng.bean.AlbumInfo;
-import com.xiaoningmeng.bean.FocusPic;
-import com.xiaoningmeng.bean.Special;
-import com.xiaoningmeng.bean.Tag;
 import com.xiaoningmeng.bean.TagAlbum;
 import com.xiaoningmeng.bean.TagDetail;
 import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.http.LClient;
 import com.xiaoningmeng.http.LHttpHandler;
 import com.xiaoningmeng.http.LHttpRequest;
 
@@ -90,13 +74,11 @@ public class ClassificationFragment extends BaseFragment implements XListView.IX
 						mAlbumInfos.add(tagAlbum.getAlbuminfo());
 					}
 					mTagAlbums.addAll(tagAlbumList);
-					if(Constant.DOWN.equals(direction) && tagAlbumList.size() == 0){
-						mListView.setFootViewNoMore(true);
-					}
-					if(Constant.FRIST == direction && tagAlbumList.size() < Constant.GRID_REQ_LEN){
-						mListView.setPullLoadEnable(false);
-					}else{
+					if (tagAlbumList.size() > 0) {
 						mListView.setPullLoadEnable(true);
+						mListView.setFootViewNoMore(false);
+					}else {
+						mListView.setFootViewNoMore(true);
 					}
 					mAdapter.notifyDataSetChanged();
 				}

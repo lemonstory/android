@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -101,7 +102,7 @@ public class RecommendStoryAdapter extends BaseAdapter implements OnClickListene
 			if( albumsSize> coverPos){
 				AlbumInfo albumInfo = albumInfos.get(coverPos);
 				holder.storyRl1.setVisibility(View.VISIBLE);
-				holder.titleTv1.setText(albumInfo.getTitle());
+				holder.titleTv1.setText(Html.fromHtml(albumInfo.getTitle()));
 				int listenerAlbumCount = albumInfo.getListennum();
 				if(listenerAlbumCount !=0) {
 					holder.tipTv1.setText(albumInfo.getListennum() + "");
@@ -124,7 +125,7 @@ public class RecommendStoryAdapter extends BaseAdapter implements OnClickListene
 			if(albumsSize > coverPos + 1){
 				AlbumInfo albumInfo = albumInfos.get(coverPos+1);
 				holder.storyRl2.setVisibility(View.VISIBLE);
-				holder.titleTv2.setText(albumInfo.getTitle());
+				holder.titleTv2.setText(Html.fromHtml(albumInfo.getTitle()));
 				int listenerAlbumCount = albumInfo.getListennum();
 				if(listenerAlbumCount !=0) {
 					holder.tipTv2.setText(albumInfo.getListennum() + "");
@@ -146,7 +147,7 @@ public class RecommendStoryAdapter extends BaseAdapter implements OnClickListene
 			if(albumsSize > coverPos + 2){
 				AlbumInfo albumInfo = albumInfos.get(coverPos+2);
 				holder.storyRl3.setVisibility(View.VISIBLE);
-				holder.titleTv3.setText(albumInfo.getTitle());
+				holder.titleTv3.setText(Html.fromHtml(albumInfo.getTitle()));
 				int listenerAlbumCount = albumInfo.getListennum();
 				if(listenerAlbumCount !=0) {
 					holder.tipTv3.setText(albumInfo.getListennum() + "");

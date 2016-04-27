@@ -1,21 +1,21 @@
 package com.xiaoningmeng.adapter;
 
-import java.util.List;
-
-import com.xiaoningmeng.R;
-import com.xiaoningmeng.bean.PlayingStory;
-import com.xiaoningmeng.bean.Story;
-import com.xiaoningmeng.player.PlayerManager;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
-
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.xiaoningmeng.R;
+import com.xiaoningmeng.bean.PlayingStory;
+import com.xiaoningmeng.bean.Story;
+import com.xiaoningmeng.player.PlayerManager;
+
+import java.util.List;
 
 public class SearchStoryListAdapter extends BaseAdapter {
 
@@ -71,7 +71,7 @@ public class SearchStoryListAdapter extends BaseAdapter {
 		Story story = storys.get(position);
 		getPlayView(holder,story);
 		holder.numberTv.setText((position + 1) + "");
-		holder.titleTv.setText(story.getTitle());
+		holder.titleTv.setText(Html.fromHtml(story.getTitle()));
 		return convertView;
 	}
 
