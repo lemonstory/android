@@ -71,7 +71,7 @@
 -keep public class [your_pkg].R$*{
     public static final int *;
 }
--keep public class com.tencent.bugly.**{*;}
+
 -keep class com.baidu.** {*;}
 -keep class vi.com.** {*;}
 -keep class com.google.gson.**{*;}
@@ -101,8 +101,27 @@
 -keep class com.ta.** {*;}
 -dontwarn com.ta.**
 
+#http://bugly.qq.com/androidfast
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}
+#end
 
-#umeng
+#http://baichuan.taobao.com/doc2/detail?spm=a3c0d.7662649.4.2.VtAIKw&treeId=51&articleId=102861&docType=1
+-keepattributes Signature
+-keep class sun.misc.Unsafe { *; }
+-keep class com.taobao.** {*;}
+-keep class com.alibaba.** {*;}
+-keep class com.alipay.** {*;}
+-dontwarn com.taobao.**
+-dontwarn com.alibaba.**
+-dontwarn com.alipay.**
+-keep class com.ut.** {*;}
+-dontwarn com.ut.**
+-keep class com.ta.** {*;}
+-dontwarn com.ta.*
+#end
+
+#http://dev.umeng.com/social/android/android-update#14
 -dontshrink
 -dontoptimize
 -dontwarn com.google.android.maps.**
@@ -168,3 +187,6 @@
 }
 -keep class com.linkedin.** { *; }
 -keepattributes Signature
+#end
+-ignorewarnings
+

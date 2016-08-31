@@ -447,7 +447,8 @@ public class HomeActivity extends BaseFragmentActivity implements
 
 		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
 			if(!mSearchBarView.checkIsFocus()) { //检查mSearchView是否还有焦点
-				showCancelAppDialog();
+//				showCancelAppDialog();
+				oldFinish();
 			}
 			return true;
 		}
