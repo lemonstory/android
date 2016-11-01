@@ -15,19 +15,12 @@ public class TelUtil {
 
 	// 姓名检查
 	public static boolean isChineseName(String name) {
-		if (!name.matches("[\u4e00-\u9fa5]{2,6}")) {
-			return false;
-		} else
-			return true;
+		return name.matches("[\u4e00-\u9fa5]{2,6}");
 	}
 
 	public static boolean isPwd(String pwd) {
 		String regex = "^[0-9a-zA-Z]{6,16}$";/* "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$" */
-		;
-		if (!pwd.matches(regex)) {
-			return false;
-		} else
-			return true;
+		return pwd.matches(regex);
 	}
 
 	public static boolean isEmail(String email) {

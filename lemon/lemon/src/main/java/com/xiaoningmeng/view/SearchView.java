@@ -180,11 +180,11 @@ public class SearchView extends LinearLayout implements OnClickListener{
 	
 	public interface OnSearchViewListener{
 		
-		public void search(String searchCotent);
+		void search(String searchCotent);
 		
-		public void showDefault();
+		void showDefault();
 		
-		public void showEmpty(boolean isShowSearch);
+		void showEmpty(boolean isShowSearch);
 	}
 
 

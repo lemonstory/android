@@ -100,7 +100,7 @@ public class UploadManager {
 		int uploadCount = 0;
 		Iterator<Entry<String, AudioDownLoad>> iter = historyArray.entrySet().iterator();
 		while (iter.hasNext()) {
-			Map.Entry<String, AudioDownLoad> entry = (Map.Entry<String, AudioDownLoad>) iter.next(); 
+			Map.Entry<String, AudioDownLoad> entry = iter.next();
 			AudioDownLoad downLoad = entry.getValue();
 			if(!downLoad.isUpload()){
 				uploadCount++;
@@ -111,7 +111,7 @@ public class UploadManager {
 		}
 		Iterator<Entry<String, AudioDownLoad>> iter2 = downloadArray.entrySet().iterator();
 		while (iter2.hasNext()) {
-			Map.Entry<String, AudioDownLoad> entry = (Map.Entry<String, AudioDownLoad>) iter2.next(); 
+			Map.Entry<String, AudioDownLoad> entry = iter2.next();
 			AudioDownLoad downLoad = entry.getValue();
 			if(!downLoad.isUpload()){
 				uploadCount++;

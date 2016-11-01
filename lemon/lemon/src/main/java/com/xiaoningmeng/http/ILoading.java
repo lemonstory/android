@@ -8,8 +8,8 @@ package com.xiaoningmeng.http;
  */
 public interface ILoading {
 
-	public abstract void startLoading();
+	void startLoading();
 
-	public abstract void stopLoading();
+	void stopLoading();
 	
 }

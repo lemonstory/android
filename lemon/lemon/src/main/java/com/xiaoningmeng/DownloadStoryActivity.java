@@ -375,13 +375,13 @@ public class DownloadStoryActivity extends BaseActivity implements
 			if (mAdapter.isCheck()) {
 				mAdapter.setCheck(false);
 				((TextView) v).setText("批量删除");
-				((TextView) v).setSelected(false);
+				v.setSelected(false);
 				mAdapter.notifyDataSetChanged();
 				mDelBtnTv.setVisibility(View.GONE);
 			} else {
 				mAdapter.setCheck(true);
 				((TextView) v).setText("取消删除");
-				((TextView) v).setSelected(true);
+				v.setSelected(true);
 				mAdapter.notifyDataSetChanged();
 				mDelBtnTv.setVisibility(View.VISIBLE);
 			}

@@ -60,7 +60,7 @@ public class PhotoWallActivity extends com.xiaoningmeng.base.BaseActivity {
                 }
             } else if (msg.what == TARGET_POS) {
 
-                int pos = (Integer) msg.arg1;
+                int pos = msg.arg1;
                 if (pos >= 0 && pos < ImageFileList.size()) {
                     ImageFileList.get(pos).setSelected(false);
                     int firstPos = mPhotoWall.getFirstVisiblePosition();

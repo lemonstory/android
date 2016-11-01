@@ -79,7 +79,7 @@ public class KeyboardRelativeLayout extends RelativeLayout {
 	}
 
 	public interface IOnKeyboardStateChangedListener {
-		public void onKeyboardStateChanged(int state);
+		void onKeyboardStateChanged(int state);
 	}
 
 	@Override

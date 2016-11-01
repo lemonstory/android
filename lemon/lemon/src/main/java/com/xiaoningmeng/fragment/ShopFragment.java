@@ -344,7 +344,7 @@ public class ShopFragment extends BaseFragment implements View.OnClickListener,X
                             @Override
                             public void onClick(View v) {
                                 reRequestLoading();
-                                requestItemListData(page);;
+                                requestItemListData(page);
                             }
                         });
                     }

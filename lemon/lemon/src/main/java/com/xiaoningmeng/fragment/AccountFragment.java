@@ -59,7 +59,7 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
 		mAccountContentTv = (TextView) contentView.findViewById(R.id.tv_account_content);
 		mAccountUnloginTv = (TextView) contentView.findViewById(R.id.tv_account_unlogin);
 		mAccountPostView = (RelativeLayout) contentView.findViewById(R.id.rl_account_Post);
-		mAccountRankingDivider = (View) contentView.findViewById(R.id.account_ranking_divider);
+		mAccountRankingDivider = contentView.findViewById(R.id.account_ranking_divider);
 		mAccountRankingView = (RelativeLayout) contentView.findViewById(R.id.rl_account_Ranking);
 		mUserInfo = MyApplication.getInstance().userInfo;
 		setUserInfo();

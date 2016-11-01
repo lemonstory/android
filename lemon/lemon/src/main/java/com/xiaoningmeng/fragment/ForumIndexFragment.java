@@ -181,7 +181,7 @@ public class ForumIndexFragment extends BaseFragment  implements IXListViewListe
                             @Override
                             public void onClick(View v) {
                                 reRequestLoading();
-                                requestForumListData(Constant.FRIST, Constant.FRIST_ID);;
+                                requestForumListData(Constant.FRIST, Constant.FRIST_ID);
                             }
                         });
                     }

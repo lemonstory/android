@@ -143,7 +143,7 @@ public class SearchDefaultAdapter2 extends BaseAdapter implements OnClickListene
    	 	}else{
    	 		view = new TextView(mContext);
    	 		view.setMinWidth(minWidth);
-   	 		ColorStateList csl=(ColorStateList)mContext.getResources().getColorStateList(R.color.search_flow_color_selector);
+   	 		ColorStateList csl= mContext.getResources().getColorStateList(R.color.search_flow_color_selector);
    	 		view.setTextColor(csl);
         	view.setBackgroundResource(R.drawable.bg_edittext_round_2);
         	view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);

@@ -231,9 +231,7 @@ public class FilePathUtil {
 
 	public static boolean isInternalStoragePath(String path) {
 		String rootPath = getInternalStorageDirectory();
-		if (path != null && path.startsWith(rootPath))
-			return true;
-		return false;
+		return path != null && path.startsWith(rootPath);
 	}
 
 	public static String getFileName(String file) {

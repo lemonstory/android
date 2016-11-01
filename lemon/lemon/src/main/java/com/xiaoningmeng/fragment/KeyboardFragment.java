@@ -345,9 +345,9 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
 
     public interface KeyBoardBarViewListener {
 
-        public void onSwitchImgClick(ImageView view);
-        public void OnSendBtnClick(String msg);
-        public void OnAddedImgInContainer(ArrayList<File> imagesfiles);
-        public void onAddImageControlClick(View view);
+        void onSwitchImgClick(ImageView view);
+        void OnSendBtnClick(String msg);
+        void OnAddedImgInContainer(ArrayList<File> imagesfiles);
+        void onAddImageControlClick(View view);
     }
 }

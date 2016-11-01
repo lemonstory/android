@@ -325,8 +325,8 @@ public class PlayerManager extends PlayerObservable implements
     }
 
 
-    public static enum PlayState {
-        START, STOP, PLAY, PAUSE, RESUME, ERROR;
+    public enum PlayState {
+        START, STOP, PLAY, PAUSE, RESUME, ERROR
     }
 
     public static class PlayMode {
@@ -342,8 +342,8 @@ public class PlayerManager extends PlayerObservable implements
         public static final int SEARCH = 2;
     }
 
-    public static enum PlayType {
-        NET, LOCAL;
+    public enum PlayType {
+        NET, LOCAL
     }
 
     @Override
@@ -560,11 +560,8 @@ public class PlayerManager extends PlayerObservable implements
     }
 
     public boolean isPlaying() {
-        if (mPlayingStory.playState == PlayState.PLAY
-                || mPlayingStory.playState == PlayState.RESUME) {
-            return true;
-        }
-        return false;
+        return mPlayingStory.playState == PlayState.PLAY
+                || mPlayingStory.playState == PlayState.RESUME;
     }
 
 
@@ -601,9 +598,9 @@ public class PlayerManager extends PlayerObservable implements
     }
 
 
-    public static interface OnPlayingDownloadListener {
+    public interface OnPlayingDownloadListener {
 
-        public void notifyDownload();
+        void notifyDownload();
     }
 
     @Override

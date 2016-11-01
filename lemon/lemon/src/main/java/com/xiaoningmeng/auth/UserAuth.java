@@ -195,7 +195,7 @@ public class UserAuth {
 			Intent intent = new Intent(context,
 					LoginActivity.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			((Activity) context)
+			context
 					.startActivity(intent);
 			((Activity)context).overridePendingTransition(R.anim.main_translatey100to0,
 					R.anim.main_translatey0tof100);
@@ -214,7 +214,7 @@ public class UserAuth {
 
 	public interface OnAuthFailListener {
 
-		public void onFail();
+		void onFail();
 	}
 
 	/**

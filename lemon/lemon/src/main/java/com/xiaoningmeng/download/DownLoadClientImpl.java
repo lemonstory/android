@@ -49,7 +49,7 @@ public class DownLoadClientImpl extends
 	private Handler mHandler = new Handler(Looper.getMainLooper()) {
 		public void handleMessage(Message msg) {
 			handleMsg(msg);
-		};
+		}
 	};
 
 	private static DownLoadClientImpl impl;
@@ -65,7 +65,7 @@ public class DownLoadClientImpl extends
 		mDownloadMap = new LinkedHashMap<>();
 		mHistoryMap = new LinkedHashMap<>();
 		init();
-	};
+	}
 
 	public static DownLoadClientImpl getInstance() {
 		return impl == null ? impl = new DownLoadClientImpl() : impl;
@@ -298,7 +298,7 @@ public class DownLoadClientImpl extends
 			request.pause();
 			notifyData(file, DownLoadState.DOWN_PAUSE);
 		}
-	};
+	}
 
 	/**
 	 * 停止所有下载

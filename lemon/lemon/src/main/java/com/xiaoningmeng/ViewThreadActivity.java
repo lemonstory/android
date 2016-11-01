@@ -442,7 +442,7 @@ public class ViewThreadActivity extends BaseActivity implements XListView.IXList
 
     private void sendForumThreadReplyData(final int tid,final String formHash,String hash,final String message) {
 
-        final ArrayList<String>aids = new ArrayList<>();;//dz上传图片后返回的图片标示符
+        final ArrayList<String>aids = new ArrayList<>();//dz上传图片后返回的图片标示符
         startLoading();
         //构建一个请求队列,先逐个上传图片,在上传文字
         if(addedImageFiles.size() > 0) {

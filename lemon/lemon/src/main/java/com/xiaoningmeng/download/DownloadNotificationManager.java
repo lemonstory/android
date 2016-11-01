@@ -117,7 +117,7 @@ public class DownloadNotificationManager implements DownLoadObserver<AudioDownLo
 			   currentLength += value.getCurPos();
 			   allLength += value.getEndPos();
 			}
-			int progress = allLength != 0 ?(int) (currentLength * 100 /allLength):0;
+			int progress = allLength != 0 ? currentLength * 100 /allLength :0;
 			notifyView.setTextViewText(R.id.notify_download_title, "正在下载："+albumInfo.getTitle());
 			notifyView.setProgressBar(R.id.rpb_notify_progress, 100, progress, false);
 			notifyView.setImageViewResource(R.id.notify_logo, R.drawable.notice_icon_download);

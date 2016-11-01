@@ -2,32 +2,32 @@ package com.xiaoningmeng.download;
 
 public interface DownLoadClient<T> {
 
-	public void download(T file);
+	void download(T file);
 
-	public void pause(T file);
+	void pause(T file);
 
-	public void pauseAll();
+	void pauseAll();
 
-	public void cancel(T file);
+	void cancel(T file);
 
-	public void cancelAll();
+	void cancelAll();
 
-	public void downAll();
+	void downAll();
 
-	public int getHistoryCount(String uid);
+	int getHistoryCount(String uid);
 
-	public int getDownloadCount(String uid);
+	int getDownloadCount(String uid);
 
-	public int getCount(String uid);
+	int getCount(String uid);
 
-	public boolean isInited();
+	boolean isInited();
 
-	public T getDownloadBeanByIndex(String url);
+	T getDownloadBeanByIndex(String url);
 
-	public T getHistoryBeanByIndex(String url);
+	T getHistoryBeanByIndex(String url);
 
-	public void init();
+	void init();
 
-	public void clearAll();
+	void clearAll();
 
 }

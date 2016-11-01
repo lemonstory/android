@@ -199,8 +199,8 @@ public class Utility {
 
 		if (widthOrg >= edgeLength && heightOrg >= edgeLength) {
 			// 压缩到一个最小长度是edgeLength的bitmap
-			int longerEdge = (int) (edgeLength * Math.max(widthOrg, heightOrg) / Math
-					.min(widthOrg, heightOrg));
+			int longerEdge = edgeLength * Math.max(widthOrg, heightOrg) / Math
+					.min(widthOrg, heightOrg);
 			int scaledWidth = widthOrg > heightOrg ? longerEdge : edgeLength;
 			int scaledHeight = widthOrg > heightOrg ? edgeLength : longerEdge;
 			Bitmap scaledBitmap;
@@ -280,7 +280,6 @@ public class Utility {
 		try {
 			// 旋转图片 动作
 			Matrix matrix = new Matrix();
-			;
 			matrix.postRotate(angle);
 
 			// 创建新的图片

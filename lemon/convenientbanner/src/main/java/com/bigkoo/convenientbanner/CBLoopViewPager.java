@@ -114,7 +114,7 @@ public class CBLoopViewPager extends ViewPager {
     @Override
     public void setOnPageChangeListener(OnPageChangeListener listener) {
         mOuterPageChangeListener = listener;
-    };
+    }
 
     public CBLoopViewPager(Context context) {
         super(context);

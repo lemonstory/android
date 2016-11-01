@@ -54,7 +54,7 @@ public class MineFragment extends BaseFragment implements OnClickListener,XListV
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View contentView = (ViewGroup) View.inflate(getActivity(),
+		View contentView = View.inflate(getActivity(),
 				R.layout.fragment_mine, null);
 		mContext = (BaseActivity) getActivity();
 		initView(contentView);

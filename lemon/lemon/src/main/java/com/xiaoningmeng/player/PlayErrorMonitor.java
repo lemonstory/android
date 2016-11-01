@@ -20,10 +20,7 @@ public class PlayErrorMonitor {
 	}
 	
 	public boolean isUpperPlayErrorCountLimit(){
-		if(totalError <= playerManager.getPlayList().size()-1){
-			return false;
-		}
-		return true;
+		return totalError > playerManager.getPlayList().size() - 1;
 	}
 	
 	//播放时间是否太短(如果在0.15秒内故事调用OnCompletion  算这个故事播放错误)

@@ -212,5 +212,5 @@ public abstract class BaseUploadActivity extends BaseActivity {
 	public void error() {
 
 		//Toast.makeText(this, "无法获取到拍照图片", Toast.LENGTH_SHORT).show();
-	};
+	}
 }

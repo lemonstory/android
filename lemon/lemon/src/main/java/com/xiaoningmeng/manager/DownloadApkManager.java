@@ -84,7 +84,7 @@ public class DownloadApkManager {
 				default:
 					break;
 			}
-		};
+		}
 	};
 
 	public void showDownloadDialog(Context context,String donwloadUrl){

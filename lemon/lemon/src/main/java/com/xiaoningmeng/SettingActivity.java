@@ -176,7 +176,6 @@ public class SettingActivity extends BaseActivity implements OnClickListener,
 						break;
 					case 3: // time out
 						Toast.makeText(SettingActivity.this, getResources().getString(R.string.connect_time_out), Toast.LENGTH_SHORT).show();
-						;
 						break;
 					default:
 						break;

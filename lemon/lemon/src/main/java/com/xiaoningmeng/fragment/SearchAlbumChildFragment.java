@@ -32,7 +32,7 @@ public class SearchAlbumChildFragment extends BaseFragment implements IXListView
 		View contentView = View.inflate(getActivity(),
 				R.layout.fragment_empty_search, null);
 		mListView = (XListView) contentView
-				.findViewById(R.id.id_stickynavlayout_innerscrollview);;
+				.findViewById(R.id.id_stickynavlayout_innerscrollview);
 		mListView.setPullLoadEnable(true);
 		mListView.setPullRefreshEnable(false);
 		mListView.setXListViewListener(this);

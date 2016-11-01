@@ -395,16 +395,16 @@ public class XExpandableListView extends ExpandableListView implements OnScrollL
 	 * onXScrolling when header/footer scroll back.
 	 */
 	public interface OnXScrollListener extends OnScrollListener {
-		public void onXScrolling(View view);
+		void onXScrolling(View view);
 	}
 
 	/**
 	 * implements this interface to get refresh/load more event.
 	 */
 	public interface IXListViewListener {
-		public void onRefresh();
+		void onRefresh();
 
-		public void onLoadMore();
+		void onLoadMore();
 	}
 
 	public void setFootViewNoMore(boolean isNoMore) {

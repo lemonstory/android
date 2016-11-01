@@ -111,7 +111,7 @@ public class NewThreadActivity extends BaseActivity implements View.OnClickListe
 
     private void commitThread() {
 
-        final ArrayList<String>aids = new ArrayList<>();;//dz上传图片后返回的图片标示符
+        final ArrayList<String>aids = new ArrayList<>();//dz上传图片后返回的图片标示符
         //构建一个请求队列,先逐个上传图片,在上传文字
         if(addedImageFiles.size() > 0) {
 

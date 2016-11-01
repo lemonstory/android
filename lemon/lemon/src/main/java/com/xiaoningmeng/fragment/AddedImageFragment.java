@@ -137,7 +137,7 @@ public class AddedImageFragment extends BasePhotoFragment implements BasePhotoFr
 
     private void addImage() {
 
-        selectPic((IUploadCall) this,false);
+        selectPic(this,false);
     }
 
     private int addedImageCount() {
@@ -180,7 +180,7 @@ public class AddedImageFragment extends BasePhotoFragment implements BasePhotoFr
         //imageView.setImageURI会出现OutOfMemoryError,参考下面的方案处理
         //参考文档
         //  http://stackoverflow.com/questions/2191407/changing-imageview-content-causes-outofmemoryerror
-        if(((BitmapDrawable)imageView.getDrawable())!=null) {
+        if(imageView.getDrawable() !=null) {
             ((BitmapDrawable)imageView.getDrawable()).getBitmap().recycle();
         }
         imageView.setImageURI(Uri.fromFile(file));

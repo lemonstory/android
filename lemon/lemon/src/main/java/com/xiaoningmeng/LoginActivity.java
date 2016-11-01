@@ -60,8 +60,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                 //授权回调
                 case 0:
                     if (data != null) {
-                        accessToken = (String)data.get("access_token");
-                        openId = (String)data.get("openid");
+                        accessToken = data.get("access_token");
+                        openId = data.get("openid");
                     }
                     mShareAPI.getPlatformInfo(LoginActivity.this, platform, umAuthListener);
                     break;
@@ -70,7 +70,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                 case 2:
                     if (data!=null){
 
-                        nickName = (String)data.get("screen_name");
+                        nickName = data.get("screen_name");
                         if (!accessToken.equals("") && !openId.equals("") && !nickName.equals("")) {
                             loginQQ(accessToken, openId, nickName);
                         }else {

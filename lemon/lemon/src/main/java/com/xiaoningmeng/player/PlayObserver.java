@@ -4,6 +4,6 @@ import com.xiaoningmeng.bean.PlayingStory;
 
 public interface PlayObserver {
 
-	public void notify(PlayingStory music);
+	void notify(PlayingStory music);
 
 }

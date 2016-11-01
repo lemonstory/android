@@ -9,9 +9,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/BaseRecyclerViewAdapterHelper" />
+            <option value="$PROJECT_DIR$/BaseRecyclerViewAdapterHelper-2.4.4/library" />
             <option value="$PROJECT_DIR$/OneSDK" />
-            <option value="$PROJECT_DIR$/PhotoView" />
             <option value="$PROJECT_DIR$/convenientbanner" />
             <option value="$PROJECT_DIR$/dialogplus" />
             <option value="$PROJECT_DIR$/emojicon" />
@@ -22,9 +21,8 @@
         <option name="myModules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/BaseRecyclerViewAdapterHelper" />
+            <option value="$PROJECT_DIR$/BaseRecyclerViewAdapterHelper-2.4.4/library" />
             <option value="$PROJECT_DIR$/OneSDK" />
-            <option value="$PROJECT_DIR$/PhotoView" />
             <option value="$PROJECT_DIR$/convenientbanner" />
             <option value="$PROJECT_DIR$/dialogplus" />
             <option value="$PROJECT_DIR$/emojicon" />
