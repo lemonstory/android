@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:fresco="http://schemas.android.com/apk/res-auto"
+        android:paddingLeft="@dimen/base_margin"
+        android:paddingRight="@dimen/base_margin"
+        android:paddingTop="@dimen/bar_margin"
+        android:id="@+id/img_index_ad"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ablum_play_height"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        fresco:actualImageScaleType="centerCrop"/>
