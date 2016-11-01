@@ -1,8 +1,12 @@
 package com.xiaoningmeng.application;
 
 import android.app.ActivityManager;
+import android.app.Service;
+import android.content.ComponentName;
 import android.content.Context;
-import android.os.Build;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.os.Process;
 import android.support.multidex.MultiDex;
 import android.util.Log;
@@ -10,19 +14,7 @@ import android.util.Log;
 import com.alibaba.sdk.android.AlibabaSDK;
 import com.alibaba.sdk.android.callback.InitResultCallback;
 import com.alibaba.sdk.android.trade.TradeConfigs;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.HttpStack;
-import com.android.volley.toolbox.Volley;
-import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
-import com.nostra13.universalimageloader.cache.memory.impl.LRULimitedMemoryCache;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.nostra13.universalimageloader.utils.StorageUtils;
-import com.squareup.okhttp.Cache;
-import com.squareup.okhttp.OkHttpClient;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.socialize.PlatformConfig;
 import com.xiaomi.channel.commonutils.logger.LoggerInterface;
@@ -31,22 +23,22 @@ import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xiaoningmeng.bean.AppInfo;
 import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.constant.Constant;
+import com.xiaoningmeng.http.CacheInterceptor;
 import com.xiaoningmeng.http.OSSAuth;
-import com.xiaoningmeng.http.OkHttpStack;
-import com.xiaoningmeng.http.PersistentCookieStore;
+import com.xiaoningmeng.player.MusicService;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.cookie.CookieJarImpl;
+import com.zhy.http.okhttp.cookie.store.PersistentCookieStore;
+import com.zhy.http.okhttp.log.LoggerInterceptor;
 
-import org.apache.http.client.CookieStore;
-import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.cookie.Cookie;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
-import org.apache.http.params.HttpParams;
 import org.litepal.LitePalApplication;
 
 import java.io.File;
-import java.net.CookieManager;
-import java.net.CookiePolicy;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.Cache;
+import okhttp3.OkHttpClient;
 
 
 /**
@@ -54,24 +46,14 @@ import java.util.List;
  * @author HuangYanbin
  * 
  */
-public class MyApplication extends LitePalApplication {
+public class MyApplication extends LitePalApplication implements ServiceConnection{
 
 	private static MyApplication mApplication;
-	public DefaultHttpClient mHttpClient;
-	private RequestQueue mRequestQueue;
-	private boolean mIsFirstRequest = true;
 	private boolean mIsLogin;
 	private String uid = "";
 	public UserInfo userInfo;
-	private List<Cookie> cookies;
-	private CookieStore cookieStore;
 
 
-	//https://github.com/facebook/fresco/issues/410
-	static {
-		System.loadLibrary("webp");
-		System.loadLibrary("imagepipeline");
-	}
 
 	public static MyApplication getInstance() {
 
@@ -91,11 +73,10 @@ public class MyApplication extends LitePalApplication {
 		if(shouldInit()) {
 			MiPushClient.registerPush(this, Constant.MI_APP_ID, Constant.MI_APP_KEY);
 			AppInfo.getInstance();
+			Fresco.initialize(this);
 			OSSAuth.getInstance().init(this);
-			initImageLoaderConfig(this);
 			CrashReport.initCrashReport(this, "900008353", false);
-			initRequestQueue();
-
+			initOkHttpClient();
 			//阿里百川
 			TradeConfigs.defaultTaokePid = Constant.DEFAULT_TAOKE_PID;
 			AlibabaSDK.asyncInit(this, new InitResultCallback() {
@@ -122,81 +103,32 @@ public class MyApplication extends LitePalApplication {
 		 
 	}
 
-/*	private void initRequestQueue() {
+	public void initOkHttpClient(){
 
-		if (mRequestQueue == null) {
-			DefaultHttpClient mDefaultHttpClient = new DefaultHttpClient();
-			final ClientConnectionManager mClientConnectionManager = mDefaultHttpClient
-					.getConnectionManager();
-			final HttpParams mHttpParams = mDefaultHttpClient.getParams();
-			final ThreadSafeClientConnManager mThreadSafeClientConnManager = new ThreadSafeClientConnManager(
-					mHttpParams, mClientConnectionManager.getSchemeRegistry());
-			mHttpClient = new DefaultHttpClient(mThreadSafeClientConnManager,
-					mHttpParams);
-			final HttpStack httpStack = new HttpClientStack(mHttpClient);
-			this.mRequestQueue = Volley.newRequestQueue(
-					this.getApplicationContext(), httpStack);
-		}
-	}*/
+		File cacheFile = new File(getExternalCacheDir(), "HttpCache");
+		Cache cache = new Cache(cacheFile, 1024 * 1024 * 50); //50Mb
+		CookieJarImpl cookieJar = new CookieJarImpl(new PersistentCookieStore(getApplicationContext()));
+		CacheInterceptor cacheInterceptor = new CacheInterceptor();
+		OkHttpClient okHttpClient = new OkHttpClient.Builder()
+				.cookieJar(cookieJar)
+				.addInterceptor(new LoggerInterceptor("huang"))
+				.addNetworkInterceptor(cacheInterceptor)
+				.addInterceptor(cacheInterceptor)
+				.cache(cache)
+				.connectTimeout(10000L, TimeUnit.MILLISECONDS)
+				.readTimeout(10000L, TimeUnit
+						.MILLISECONDS)
+				//其他配置
+				.build();
 
-	private void initRequestQueue() {
+		OkHttpUtils.initClient(okHttpClient);
 
-		if (mRequestQueue == null) {
-			DefaultHttpClient mDefaultHttpClient = new DefaultHttpClient();
-			final ClientConnectionManager mClientConnectionManager = mDefaultHttpClient
-					.getConnectionManager();
-			final HttpParams mHttpParams = mDefaultHttpClient.getParams();
-			final ThreadSafeClientConnManager mThreadSafeClientConnManager = new ThreadSafeClientConnManager(
-					mHttpParams, mClientConnectionManager.getSchemeRegistry());
 
-			mHttpClient = new DefaultHttpClient(mThreadSafeClientConnManager, mHttpParams);
-
-			File httpCacheDirectory = new File(this.getCacheDir(), "responses");
-			int cacheSize = 10 * 1024 * 1024; // 10 MiB
-			Cache cache = new Cache(httpCacheDirectory, cacheSize);
-			OkHttpClient client = new OkHttpClient();
-			CookieManager cookieManager = new CookieManager(new PersistentCookieStore(getApplicationContext()), CookiePolicy.ACCEPT_ALL);
-			client.setCookieHandler(cookieManager);
-			client.setCache(cache);
-			final HttpStack httpStack = new OkHttpStack(client);
-			this.mRequestQueue = Volley.newRequestQueue(
-					this.getApplicationContext(), httpStack);
-		}
 	}
 
-	
-	public void initImageLoaderConfig(Context context) {
 
-		int memoryCacheSize;
-		File cacheDir = StorageUtils.getCacheDirectory(getApplicationContext());
-		UnlimitedDiskCache discCache = new UnlimitedDiskCache(cacheDir);
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
-			int memClass = ((ActivityManager) context
-					.getSystemService(Context.ACTIVITY_SERVICE))
-					.getMemoryClass();
-			memoryCacheSize = (memClass / 6) * 1024 * 1024;
-		} else {
-			memoryCacheSize = 4 * 1024 * 1024;
-		}
 
-		DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
-				.showImageForEmptyUri(android.R.color.transparent)
-				.showImageOnFail(android.R.color.transparent)
-				.cacheInMemory(true).cacheOnDisk(true).build();
-		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-				context).threadPoolSize(5)
-				.threadPriority(Thread.NORM_PRIORITY - 2)
-				.memoryCacheSize(memoryCacheSize)
-				.memoryCache(new LRULimitedMemoryCache(memoryCacheSize))
-				.denyCacheImageMultipleSizesInMemory().diskCache(discCache)
-				.diskCacheFileNameGenerator(new Md5FileNameGenerator())
-				.diskCacheSize(50 * 1024 * 1024)
-				/*.imageDownloader(new LImageDownaloder(this))*/
-				.tasksProcessingOrder(QueueProcessingType.LIFO)
-				.defaultDisplayImageOptions(displayImageOptions)
-				.writeDebugLogs().build();
-		ImageLoader.getInstance().init(config);
-	}
+
 
 	private void writeMILog(){
 		//打开Log
@@ -233,25 +165,7 @@ public class MyApplication extends LitePalApplication {
 		return false;
 	}
 
-	/**
-	 * 得到请求队列
-	 * 
-	 * @return请求队列
-	 */
-	public RequestQueue getmRequestQueue() {
 
-		return mRequestQueue;
-	}
-
-	public boolean isFirstRequest() {
-
-		return mIsFirstRequest;
-	}
-
-	public void setIsFirstRequest(boolean isFirstRequest) {
-
-		this.mIsFirstRequest = isFirstRequest;
-	}
 
 	public boolean isIsLogin() {
 		return mIsLogin;
@@ -280,11 +194,46 @@ public class MyApplication extends LitePalApplication {
 
 	}
 
+	@Override
+	public void onServiceConnected(ComponentName componentName, IBinder service) {
+		if (service instanceof MusicService.ServiceBinder) {
+			MusicService.ServiceBinder binder = (MusicService.ServiceBinder)service;
+		}
+
+	}
+
+	@Override
+	public void onServiceDisconnected(ComponentName componentName) {
+
+	}
+
+	public void startMusicService() {
+		Intent it = new Intent (this, MusicService.class);
+		startService(it);
+		bindMusicService();
+	}
+
+	public void stopMusicService () {
+		Intent it = new Intent(this, MusicService.class);
+		stopService(it);
+	}
+
+	private void bindMusicService () {
+		Intent it = new Intent (this, MusicService.class);
+		this.bindService(it, this, Service.BIND_AUTO_CREATE);
+	}
+
+	public void unbindMusicService () {
+		this.unbindService(this);
+		stopMusicService();
+	}
+
+
 	/**
 	 * 通过token设置cookie
 	 * 
 	 * @param cookieStore
-	 */
+	 *//*
 	public void setCookieFromToken(CookieStore cookieStore) {
 
 		mHttpClient.setCookieStore(cookieStore);
@@ -292,9 +241,9 @@ public class MyApplication extends LitePalApplication {
 
 	}
 
-	/**
+	*//**
 	 * httpClient的cookie传给Client
-	 */
+	 *//*
 	public void setClientCookieFromHttpClient() {
 		
 		cookieStore = mHttpClient.getCookieStore();
@@ -304,11 +253,7 @@ public class MyApplication extends LitePalApplication {
 
 	public void removeClientCookieFromHttpClient() {
 		mHttpClient.setCookieStore(null);
-	}
+	}*/
 
-	public List<Cookie> getCookies() {
-
-		return cookies;
-	}
 
 }

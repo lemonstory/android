@@ -4,8 +4,6 @@ package com.xiaoningmeng;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.KeyCharacterMap;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -35,7 +33,7 @@ import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.download.DownLoadClientImpl;
 import com.xiaoningmeng.event.CommentEvent;
 import com.xiaoningmeng.event.FavEvent;
-import com.xiaoningmeng.http.LHttpHandler;
+import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
@@ -70,7 +68,6 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
 		super.onCreate(savedInstanceState);
 		Fresco.initialize(this);
 		setContentView(R.layout.activity_player);
-		setTinitColor(getResources().getColor(R.color.system_bar_tint_color));
 		mPlayerManager = PlayerManager.getInstance();
 		initView();
 		setPlayMode();
@@ -170,10 +167,10 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
 		v.startAnimation(shareAnim);
 		final AlbumInfo albumInfo = mPlayerManager.getPlayingStory().albumInfo;
 		//如果是搜索过来则没有专辑信息，需要重新加载
-		if(albumInfo == null){
+		if(albumInfo == null || albumInfo.getStorylist().size() == 0){
 			LHttpRequest.getInstance().albumInfoReq(this,10,mPlayerManager.getPlayingStory().albumid,
 					MyApplication.getInstance().getUid(),
-					new LHttpHandler<Album>(this) {
+					new JsonCallback<Album>() {
 
 						@Override
 						public void onGetDataSuccess(Album data) {
@@ -200,7 +197,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
 		if(mPlayerManager.getPlayingStory().albumInfo == null){
 			LHttpRequest.getInstance().albumInfoReq(this,10,mPlayerManager.getPlayingStory().albumid,
 					MyApplication.getInstance().getUid(),
-					new LHttpHandler<Album>(this) {
+					new JsonCallback<Album>(this) {
 
 						@Override
 						public void onGetDataSuccess(Album data) {
@@ -233,7 +230,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
 		if(albumInfo == null){
 			LHttpRequest.getInstance().albumInfoReq(this,10,mPlayerManager.getPlayingStory().albumid,
 				MyApplication.getInstance().getUid(),
-				new LHttpHandler<Album>(this) {
+				new JsonCallback<Album>() {
 
 					@Override
 					public void onGetDataSuccess(Album data) {
@@ -251,7 +248,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
 		if (albumInfo.getFav() == 0) {
 			LHttpRequest.getInstance().addFavAlbumRequest(this,
 					albumInfo.getId(),
-					new LHttpHandler<String>(this) {
+					new JsonCallback<String>() {
 
 						@Override
 						public void onGetDataSuccess(String data) {
@@ -270,7 +267,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
 		} else {
 			LHttpRequest.getInstance().delFavAlbumRequest(this,
 					mPlayerManager.getPlayingStory().albumid,
-					new LHttpHandler<String>(this) {
+					new JsonCallback<String>() {
 
 						@Override
 						public void onGetDataSuccess(String data) {
@@ -422,7 +419,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
 			mFavImg.setSelected(false);
 			mCommentTv.setText(1+"");
 		}
-		mLeaveTimeTv.setText(" / "+ TimeUtils.getShortTimeShot(music.times));
+		mLeaveTimeTv.setText(TimeUtils.getShortTimeShot(music.times));
 		notifyDownload();
 	}
 
@@ -443,15 +440,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
 
 	}
 	
-	private boolean hasPermanentKey() {
-		  boolean hasBackKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
-		  boolean hasHomeKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_HOME);
-		  if (hasBackKey && hasHomeKey) {
-		  		 return false;
-		  } else {
-		  		 return true;
-		  }
-		}
+
 	
 	public void onEventMainThread(FavEvent favEvent){
 		

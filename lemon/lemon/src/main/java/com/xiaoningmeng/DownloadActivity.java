@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.xiaoningmeng.base.BaseFragmentActivity;
+import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.AudioDownLoad;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.download.DownLoadClientImpl;
@@ -24,7 +24,7 @@ import com.xiaoningmeng.player.PlayerManager;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class DownloadActivity extends BaseFragmentActivity implements
+public class DownloadActivity extends BaseActivity implements
 		OnClickListener, DownLoadObserver<AudioDownLoad>, PlayObserver {
 
 	public static final String FRAGMENT_POS = "fragment_pos";

@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
@@ -103,6 +104,19 @@ public class StickyNavLayout extends LinearLayout {
 					ev2.setAction(MotionEvent.ACTION_DOWN);
 					return dispatchTouchEvent(ev2);
 				}
+			}else if (mInnerScrollView instanceof RecyclerView) {
+
+				RecyclerView rv = (RecyclerView) mInnerScrollView;
+				View c = rv.getChildAt(0);
+				if (!isInControl && c != null && c.getTop() == 0 && isTopHidden
+						&& dy > 0) {
+					isInControl = true;
+					ev.setAction(MotionEvent.ACTION_CANCEL);
+					MotionEvent ev2 = MotionEvent.obtain(ev);
+					dispatchTouchEvent(ev);
+					ev2.setAction(MotionEvent.ACTION_DOWN);
+					return dispatchTouchEvent(ev2);
+				}
 			} else if (mInnerScrollView instanceof ListView) {
 
 				ListView lv = (ListView) mInnerScrollView;
@@ -130,11 +144,15 @@ public class StickyNavLayout extends LinearLayout {
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
 		final int action = ev.getAction();
 		float y = ev.getY();
+
 		switch (action) {
 		case MotionEvent.ACTION_DOWN:
 			mLastY = y;
 			break;
 		case MotionEvent.ACTION_MOVE:
+			if (!mScroller.isFinished()){
+				return true;
+			}
 			float dy = y - mLastY;
 			getCurrentScrollView();
 			if (Math.abs(dy) > mTouchSlop) {
@@ -144,6 +162,22 @@ public class StickyNavLayout extends LinearLayout {
 					// 或sc的scrollY = 0 && topView隐藏 && 下拉，则拦截
 					if (!isTopHidden
 							|| (mInnerScrollView.getScrollY() == 0
+									&& isTopHidden && dy > 0)) {
+
+						initVelocityTrackerIfNotExists();
+						mVelocityTracker.addMovement(ev);
+						mLastY = y;
+						return true;
+					}
+				}else if (mInnerScrollView instanceof RecyclerView) {
+
+					RecyclerView rv = (RecyclerView) mInnerScrollView;
+					View c = rv.getChildAt(0);
+					// 如果topView没有隐藏
+					// 或sc的listView在顶部 && topView隐藏 && 下拉，则拦截
+					if (!isTopHidden || //
+							(c != null //
+									&& c.getTop() == 0//
 									&& isTopHidden && dy > 0)) {
 
 						initVelocityTrackerIfNotExists();

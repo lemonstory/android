@@ -10,11 +10,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-
-import org.apache.http.util.EncodingUtils;
 
 import android.content.Context;
 import android.os.Environment;
@@ -26,24 +21,7 @@ public class FileUtils {
 		return Environment.getExternalStorageDirectory() + "/";
 	}
 
-	public static String openAssetFile(Context ctx, String file_path) {
 
-		String res = "";
-		try {
-
-			InputStream in = ctx.getResources().getAssets().open(file_path);
-			int length = in.available();
-			byte[] buffer = new byte[length];
-			in.read(buffer);
-			res = EncodingUtils.getString(buffer, "UTF-8");
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-
-		return res;
-	}
 
 	public static void copyFile(File src, File dst) throws IOException {
 		InputStream in = new FileInputStream(src);
@@ -107,32 +85,7 @@ public class FileUtils {
 		}
 	}
 
-	/*
-	 * 从手机内部存储读取文本
-	 */
-	public static String readFileOnDeviceInternalStorage(Context context,
-			String filename) {
-		String content = "";
-		try {
-			FileInputStream inputStream = context.openFileInput(filename);
-			int length = inputStream.available();
-			byte[] buffer = new byte[length];
-			inputStream.read(buffer);
-			content = EncodingUtils.getString(buffer, "UTF-8");
-			inputStream.close();
-			return content;
 
-		} catch (FileNotFoundException e) {
-
-			e.printStackTrace();
-			return null;
-
-		} catch (IOException e) {
-
-			e.printStackTrace();
-			return null;
-		}
-	}
 
 	public static byte[] readInputStream(InputStream inputStream) {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();

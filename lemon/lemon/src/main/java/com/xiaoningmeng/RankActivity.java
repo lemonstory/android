@@ -18,7 +18,7 @@ import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.Rank;
 import com.xiaoningmeng.bean.UserInfo;
-import com.xiaoningmeng.http.LHttpHandler;
+import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
@@ -74,12 +74,11 @@ public class RankActivity extends BaseActivity implements PlayObserver {
 		});
 		requestData();
 		PlayerManager.getInstance().register(this);
-		//Slidr.attach(this);
 	}
 
 	private void requestData() {
 		LHttpRequest.getInstance().rankListenerUserListReq(this, 200,
-				new LHttpHandler<Rank>(this,this) {
+				new JsonCallback<Rank>(this) {
 
 					@Override
 					public void onGetDataSuccess(Rank data) {

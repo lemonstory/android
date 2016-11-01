@@ -6,16 +6,22 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.view.View;
 import android.widget.RemoteViews;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.facebook.common.executors.CallerThreadExecutor;
+import com.facebook.common.references.CloseableReference;
+import com.facebook.datasource.DataSource;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipeline;
+import com.facebook.imagepipeline.datasource.BaseBitmapDataSubscriber;
+import com.facebook.imagepipeline.image.CloseableImage;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.bean.PlayingStory;
-import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.player.PlayerManager.PlayState;
 import com.xiaoningmeng.reminder.RemindBroadcastReceiver;
 
@@ -78,7 +84,7 @@ public class PlayNotificationManager {
                     0, new Intent(RemindBroadcastReceiver.NOTIFICATION_PLAY),
                     PendingIntent.FLAG_UPDATE_CURRENT);
             notification.contentIntent = contentIntent;
-            notification.setLatestEventInfo(mContext, "点击查看", "点击查看详细内容", contentIntent);
+            //notification.setLatestEventInfo(mContext, "点击查看", "点击查看详细内容", contentIntent);
             notifyView.setTextViewText(R.id.notify_title, playingMusic.title);
             notifyView.setTextViewText(R.id.notify_album, title);
         }
@@ -98,33 +104,34 @@ public class PlayNotificationManager {
         notifyView.setTextViewText(R.id.notify_title, playingMusic.title);
         String title = (playingMusic.albumInfo != null ? playingMusic.albumInfo.getTitle() : mContext.getString(R.string.app_name));
         notifyView.setTextViewText(R.id.notify_album, title);
-        String url = playingMusic.cover == null ? playingMusic.cover : (playingMusic.albumInfo != null ? playingMusic.albumInfo.getS_cover() : null);
-        ImageLoader.getInstance().loadImage(url, Constant.NOTICE_OPTION, new ImageLoadingListener() {
+        String url = playingMusic.cover != null ? playingMusic.cover : (playingMusic.albumInfo != null ? playingMusic.albumInfo.getS_cover() : null);
+        if(url != null) {
+            ImageRequest imageRequest = ImageRequestBuilder
+                    .newBuilderWithSource(Uri.parse(url))
+                    .setProgressiveRenderingEnabled(true)
+                    .build();
+            ImagePipeline imagePipeline = Fresco.getImagePipeline();
+            DataSource<CloseableReference<CloseableImage>>
+                    dataSource = imagePipeline.fetchDecodedImage(imageRequest, mContext);
 
-            @Override
-            public void onLoadingStarted(String arg0, View arg1) {
+            dataSource.subscribe(new BaseBitmapDataSubscriber() {
 
-            }
+                                     @Override
+                                     public void onNewResultImpl(Bitmap bitmap) {
+                                         if (bitmap != null) {
+                                             notifyView.setImageViewBitmap(R.id.notify_logo, bitmap);
+                                             mNotificationManager.notify(MusicService.PLAYING_NOTIFY_ID, notification);
+                                         }
+                                     }
 
-            @Override
-            public void onLoadingFailed(String arg0, View arg1, FailReason arg2) {
-                notifyView.setImageViewResource(R.id.notify_logo, R.drawable.notice_icon_clock);
-                mNotificationManager.notify(MusicService.PLAYING_NOTIFY_ID, notification);
-
-            }
-
-            @Override
-            public void onLoadingComplete(String arg0, View arg1, Bitmap arg2) {
-                notifyView.setImageViewBitmap(R.id.notify_logo, arg2);
-                mNotificationManager.notify(MusicService.PLAYING_NOTIFY_ID, notification);
-
-            }
-
-            @Override
-            public void onLoadingCancelled(String arg0, View arg1) {
-
-            }
-        });
+                                     @Override
+                                     public void onFailureImpl(DataSource dataSource) {
+                                         notifyView.setImageViewResource(R.id.notify_logo, R.drawable.notice_icon_clock);
+                                         mNotificationManager.notify(MusicService.PLAYING_NOTIFY_ID, notification);
+                                     }
+                                 },
+                    CallerThreadExecutor.getInstance());
+        }
         notification.contentView = notifyView;
         if (mNotificationManager != null) {
             mNotificationManager.notify(MusicService.PLAYING_NOTIFY_ID, notification);

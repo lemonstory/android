@@ -1,16 +1,16 @@
 package com.xiaoningmeng.fragment;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
-import android.widget.TextView;
 
-import com.baoyz.swipemenu.xlistview.XListView;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.AblumDetailActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.adapter.AblumPlayListAdapter;
@@ -19,20 +19,26 @@ import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.AudioDownLoad;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.Story;
+import com.xiaoningmeng.download.DownLoadClientImpl;
+import com.xiaoningmeng.manager.EmptyHelper;
 import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.player.PlayerManager.AlbumSource;
 import com.xiaoningmeng.player.PlayerManager.PlayState;
+import com.xiaoningmeng.view.dialog.TipDialog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AblumDetailPlayListFragment extends BaseFragment {
-	private XListView mListView;
+
+	private RecyclerView mRecyclerView;
 	private AblumPlayListAdapter mAdapter;
 	private List<Story> stories;
-	private ViewGroup loadingView;
 	private AlbumInfo albumInfo;
 	private String playStoryId;
 	private int current;
+	private EmptyHelper mEmptyHelper;
+
 
 
 	@Override
@@ -40,16 +46,19 @@ public class AblumDetailPlayListFragment extends BaseFragment {
 							 Bundle savedInstanceState) {
 		View contentView = View.inflate(getActivity(),
 				R.layout.fragment_ablum_detail_playlist, null);
-		mListView = (XListView) contentView
+		mRecyclerView = (RecyclerView) contentView
 				.findViewById(R.id.id_stickynavlayout_innerscrollview);
-		loadingView = (ViewGroup)contentView.findViewById(R.id.rl_loading);
-		mListView.setPullLoadEnable(false);
-		mListView.setPullRefreshEnable(false);
-		if(stories != null){
+		mRecyclerView.setHasFixedSize(true);
+		mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+		stories = new ArrayList<>();
+		initAdapter();
+		if(stories.size() >0){
 			loadingData(albumInfo, stories,playStoryId,current);
 		}
 		return contentView;
 	}
+
+
 
 	public void setStoryList(final AlbumInfo albumInfo, List<Story> storys,String playStoryId,int current) {
 		loadingData(albumInfo, storys,playStoryId,current);
@@ -61,21 +70,55 @@ public class AblumDetailPlayListFragment extends BaseFragment {
 		this.albumInfo = albumInfo;
 		this.playStoryId = playStoryId;
 		this.current = current;
-		if(loadingView == null){
-			return;
+		if(mRecyclerView != null){
+			mAdapter.setNewData(stories);
 		}
-		loadingView.setVisibility(View.INVISIBLE);
-		loadingView.setClickable(false);
-		mAdapter = new AblumPlayListAdapter(getActivity(), stories, this.albumInfo,playStoryId);
-		mListView.setAdapter(mAdapter);
-		mListView.setOnItemClickListener(new OnItemClickListener() {
+	}
+
+	public void initAdapter(){
+
+		mAdapter = new AblumPlayListAdapter(stories);
+		mAdapter.setPlayStoryId(playStoryId);
+		mAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+		mEmptyHelper = new EmptyHelper(getContext(),mRecyclerView,mAdapter);
+		mEmptyHelper.setEmptyView(EmptyHelper.LOADING,false,getString(R.string.loading_tip));
+		mRecyclerView.setAdapter(mAdapter);
+		((SimpleItemAnimator)mRecyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+		mRecyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
+			@Override
+			public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+
+			}
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-									int position, long id) {
-				final int pos = position - 1;
-				if(stories.size() > pos){
-					Story story = stories.get(pos);
+			public void onItemChildClick(BaseQuickAdapter adapter, View v, int position) {
+
+				switch (v.getId()) {
+					case R.id.fl_download:
+						Story story = stories.get(position);
+						int downloadStatus = DownLoadClientImpl.getInstance().getDownloadStatus(story.getMediapath());
+						if(downloadStatus == -1){
+							AudioDownLoad downLoad = new AudioDownLoad(story,position);
+							DownLoadClientImpl.getInstance().download(downLoad, albumInfo);
+						}else if(downloadStatus == 0){
+							new TipDialog.Builder(getContext()).setAutoDismiss(true)
+									.setTransparent(true).setTipText("嗯哈，正在下载中呢").create().show();
+						}else{
+							new TipDialog.Builder(getContext()).setAutoDismiss(true)
+									.setTransparent(true).setTipText("嗯哈，你已经下载过啦").create().show();
+						}
+						MobclickAgent.onEvent(getContext(), "event_download");
+						break;
+					default:
+						break;
+				}
+			}
+
+			@Override
+			public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+				super.onItemClick(adapter, view, position);
+				if(stories.size() > position){
+					Story story = stories.get(position);
 					PlayingStory playingStory = PlayerManager.getInstance().getPlayingStory();
 					if (story.getAlbum_id().equals(albumInfo.getAlbumid())){
 						if(story.getMediapath().equals(playingStory.mediapath)) {
@@ -85,12 +128,12 @@ public class AblumDetailPlayListFragment extends BaseFragment {
 								PlayerManager.getInstance().resumePlay();
 							}
 						}else{
-							PlayerManager.getInstance().playStory(albumInfo, stories, pos,AlbumSource.ALBUM_DETAIL);
+							PlayerManager.getInstance().playStory(albumInfo, stories, position,AlbumSource.ALBUM_DETAIL);
 						}
 					}else if(story.getStoryId().equals(AblumDetailPlayListFragment.this.playStoryId)){
-						PlayerManager.getInstance().playStory(albumInfo, stories, pos,AlbumSource.ALBUM_DETAIL);
+						PlayerManager.getInstance().playStory(albumInfo, stories, position,AlbumSource.ALBUM_DETAIL);
 					}else{
-						PlayerManager.getInstance().playStory(albumInfo, stories, pos,AblumDetailPlayListFragment.this.current,AlbumSource.ALBUM_DETAIL);
+						PlayerManager.getInstance().playStory(albumInfo, stories, position,AblumDetailPlayListFragment.this.current,AlbumSource.ALBUM_DETAIL);
 					}
 				}
 			}
@@ -98,47 +141,29 @@ public class AblumDetailPlayListFragment extends BaseFragment {
 	}
 
 
-
-	public void reRequestLoading(){
-		if(getView() == null){
-			return;
-		}
-		if(loadingView == null){
-			loadingView = (ViewGroup)getView().findViewById(R.id.rl_loading);
-		}
-		loadingView.setClickable(false);
-		loadingView.setVisibility(View.VISIBLE);
-		((TextView)loadingView.getChildAt(0)).setText("正在努力加载中");
-		loadingView.getChildAt(1).setVisibility(View.VISIBLE);
-	}
-
-	public void onFailure(){
-		if(getView() == null){
-			return;
-		}
-		if(loadingView == null){
-			loadingView = (ViewGroup)getView().findViewById(R.id.rl_loading);
-		}
-		loadingView.setVisibility(View.VISIBLE);
-		((TextView)loadingView.getChildAt(0)).setText("请连接网络后点击屏幕重试");
-		loadingView.getChildAt(1).setVisibility(View.INVISIBLE);
-		loadingView.setClickable(true);
-		loadingView.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				reRequestLoading();
-				((AblumDetailActivity)getActivity()).requestAlbumDetailData();
-			}
-		});
-	}
-
-	public BaseAdapter getAdapter() {
+	public BaseQuickAdapter getAdapter() {
 		return mAdapter;
 	}
 
 	public void notifyDownloadView(AudioDownLoad t){
-		mAdapter.notifyView(mListView, t);
+		if(stories != null) {
+			for (int i = 0; i < stories.size(); i++) {
+				Story s = stories.get(i);
+				if(t.getStoryId().equals(s.getStoryId())){
+					mAdapter.notifyItemChanged(i);
+					break;
+				}
+			}
+		}
 	}
 
+	public void onFailure(){
+		mEmptyHelper.setEmptyView(EmptyHelper.FAILURE, false, getString(R.string.failure_tip)/*, new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				mEmptyHelper.setEmptyView(EmptyHelper.LOADING,false,getString(R.string.loading_tip));
+				((AblumDetailActivity)getActivity()).requestAlbumDetailData();
+			}
+		}*/);
+	}
 }

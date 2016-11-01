@@ -18,6 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="10%"
+        android:visibility="gone"
         android:textSize="@dimen/title_text_size"
         android:textColor="@color/download_album_pb_bg_color"/>
 

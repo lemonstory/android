@@ -64,7 +64,7 @@
 		    android:layout_height="@dimen/dialog_btn_size"
 		    android:text="取消"
 
-		    android:background="@drawable/base_dialog_item_bg_selector"
+		    android:background="@drawable/base_listview_item_bg_selector"
 		    android:textColor="@color/orage_color"
 		    android:textSize="@dimen/title_content_text_size"
 		    android:gravity="center"

@@ -15,12 +15,9 @@ import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.event.LoginEvent;
 import com.xiaoningmeng.utils.PreferenceUtil;
 
-import org.apache.http.client.CookieStore;
-import org.apache.http.cookie.Cookie;
-import org.json.JSONException;
+
 import org.litepal.crud.DataSupport;
 
-import java.util.Date;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
@@ -68,7 +65,8 @@ public class UserAuth {
 					uid == null ? "" : uid).find(UserInfo.class);
 			if (userList != null && userList.size() > 0) {
 				UserInfo userInfo = userList.get(0);
-				return checkAuthTokenValid(context, userInfo, token);
+				return true;
+				//return checkAuthTokenValid(context, userInfo, token);
 			}
 
 		}
@@ -83,14 +81,14 @@ public class UserAuth {
 	 */
 	public void login(Context context, UserInfo userInfo) {
 
-		CookieStore store = MyApplication.getInstance().mHttpClient
+		/*CookieStore store = MyApplication.getInstance().mHttpClient
 				.getCookieStore();
-		String authToken = CookieParser.parseCookies2Json(store);
-		PreferenceUtil.putString(TOKEN, authToken);
+		String authToken = CookieParser.parseCookies2Json(store);*/
+		//PreferenceUtil.putString(TOKEN, authToken);
 		PreferenceUtil.putString(UID, userInfo.getUid());
 		DataSupport.deleteAll(UserInfo.class);
 		userInfo.save();
-		loadUserInfo(userInfo, store);
+		loadUserInfo(userInfo);
 		MiPushClient.setUserAccount(context, userInfo.getUid(), null);
 		EventBus.getDefault().post(new LoginEvent(userInfo));
 		MobclickAgent.onEvent(context, "event_login");
@@ -111,37 +109,37 @@ public class UserAuth {
 		PreferenceUtil.removeString(UID);
 		PreferenceUtil.removeString(TOKEN);
 		UserInfo.deleteAll(UserInfo.class);
-		MyApplication.getInstance().removeClientCookieFromHttpClient();
+		//MyApplication.getInstance().removeClientCookieFromHttpClient();
 		MyApplication.getInstance().setIsLogin(false);
 		MyApplication.getInstance().setUserInfo(null);
 		ActivityManager.getScreenManager().popAllActivity();
 		// restartApplication(MyApplication.getInstance().getApplicationContext());
 	}
 
-	/**
+/*	*//**
 	 * 检查cookie
 	 *
 	 * @param context
 	 * @param authToken
 	 * @return
-	 */
+	 *//*
 	private boolean checkAuthTokenValid(Context context,
 										final UserInfo userinfo, String authToken) {
 
 		try {
 			CookieStore store = CookieParser.pareseJson2Cookies(authToken);
 			if (store != null) {
-				/*
+				*//*
 				 * //判断是否有网 没有网不检查 if(!NetworkUtils.hasNetWork(context)){ return
 				 * true; }
-				 */
+				 *//*
 				List<Cookie> cookies = store.getCookies();
 				// 检查cookie的有效时间
 				for (Cookie cookie : cookies) {
-					/*
+					*//*
 					 * if(cookie.getDomain().contains("223.6.253.158")){ return
 					 * false; }
-					 */
+					 *//*
 					if ("al".equals(cookie.getName())) {
 						if (!cookie.isExpired(new Date())) {
 							loadUserInfo(userinfo, store);
@@ -155,24 +153,24 @@ public class UserAuth {
 			e.printStackTrace();
 		}
 		return false;
-	}
+	}*/
 
 	/**
 	 * 加载用户信息
 	 *
 	 * @param userInfo
 	 */
-	private void loadUserInfo(UserInfo userInfo, CookieStore cookieStore) {
+	private void loadUserInfo(UserInfo userInfo/*, CookieStore cookieStore*/) {
 
 		MyApplication.getInstance().setUserInfo(userInfo);
 
-		if (cookieStore == null) {
+	/*	if (cookieStore == null) {
 			MyApplication.getInstance().setClientCookieFromHttpClient();
 
 		} else {
 			MyApplication.getInstance().setCookieFromToken(cookieStore);
 
-		}
+		}*/
 		MyApplication.getInstance().setIsLogin(true);
 
 	}

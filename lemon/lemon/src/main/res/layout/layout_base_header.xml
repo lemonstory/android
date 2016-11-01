@@ -3,27 +3,31 @@
     android:id="@+id/rl_bar_head"
     android:layout_width="match_parent"
     android:layout_height="@dimen/action_bar_height"
-    android:background="@color/action_bar_bg" >
+    android:background="@color/white" >
 
     <ImageView
         android:id="@+id/img_home_back"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="@dimen/ablum_bar_height"
+        android:layout_height="@dimen/ablum_bar_height"
         android:layout_centerVertical="true"
         android:clickable="true"
         android:onClick="back"
-        android:paddingLeft="@dimen/bar_margin"
+        android:layout_marginLeft="@dimen/mine_item_cover_margin_left"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:paddingLeft="@dimen/base_margin"
         android:paddingRight="@dimen/base_margin"
         android:src="@drawable/bar_back_selector" />
 
     <ImageView
         android:id="@+id/img_head_right"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_width="@dimen/ablum_bar_height"
+        android:layout_height="@dimen/ablum_bar_height"
+        android:layout_marginRight="@dimen/mine_item_cover_margin_left"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:paddingLeft="@dimen/bar_margin"
-        android:paddingRight="@dimen/bar_margin"
+        android:paddingLeft="@dimen/base_radius_size"
+        android:paddingRight="@dimen/base_radius_size"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:visibility="invisible" />
 
     <TextView
@@ -37,7 +41,7 @@
         android:onClick="onClick"
         android:paddingLeft="@dimen/bar_margin"
         android:paddingRight="@dimen/bar_margin"
-        android:textColor="@color/white"
+        android:textColor="@color/actionBarTitleColor"
         android:textSize="@dimen/text_size_eightteen"
         android:visibility="invisible" />
 
@@ -50,8 +54,13 @@
         android:layout_toLeftOf="@id/img_head_right"
         android:layout_toRightOf="@id/img_home_back"
         android:ellipsize="end"
-        android:singleLine="true"
-        android:textColor="@color/white"
+        android:maxLines="1"
+        android:textColor="@color/actionBarTitleColor"
         android:textSize="@dimen/title_text_size" />
+    <View
+       android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#e1e1e1"
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

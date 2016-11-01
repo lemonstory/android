@@ -21,7 +21,7 @@ import com.umeng.update.UmengUpdateAgent;
 import com.umeng.update.UmengUpdateListener;
 import com.umeng.update.UpdateResponse;
 import com.xiaoningmeng.application.MyApplication;
-import com.xiaoningmeng.base.BaseFragmentActivity;
+import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.ForumLoginVar;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.ShareBean;
@@ -32,6 +32,7 @@ import com.xiaoningmeng.fragment.DiscoverFragment;
 import com.xiaoningmeng.fragment.ForumIndexFragment;
 import com.xiaoningmeng.fragment.MineFragment;
 import com.xiaoningmeng.fragment.ShopFragment;
+import com.xiaoningmeng.fragment.SimpleDialogFragment;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.MusicService;
 import com.xiaoningmeng.player.PlayObserver;
@@ -44,7 +45,7 @@ import com.xiaoningmeng.view.dialog.TipDialog;
 
 import de.greenrobot.event.EventBus;
 
-public class HomeActivity extends BaseFragmentActivity implements
+public class HomeActivity extends BaseActivity implements
 		OnClickListener, PlayObserver {
 
 	private Context mContext;
@@ -56,7 +57,7 @@ public class HomeActivity extends BaseFragmentActivity implements
 	private TextView mDisCoverTabTv;
 	private TextView mMineTabTv;
 	private TextView mForumTabTv;
-	private TextView mShopTabTv;
+	//private TextView mShopTabTv;
 	public String mShopTitle;
 	private TextView mPerasonTabTv;
 	private ImageView mCoverImg;
@@ -73,7 +74,7 @@ public class HomeActivity extends BaseFragmentActivity implements
 	public static final String FRAG_DISCOVER = "FRAG_DISCOVER";
 	public static final String FRAG_MINE = "FRAG_MINE";
 	public static final String FRAG_FORUM = "FRAG_FORUM";
-	public static final String FRAG_SHOP = "FRAG_SHOP";
+	//public static final String FRAG_SHOP = "FRAG_SHOP";
 	public static final String FRAG_ACCOUNT = "FRAG_ACCOUNT";
 
 
@@ -120,7 +121,7 @@ public class HomeActivity extends BaseFragmentActivity implements
 		mDisCoverTabTv = (TextView) this.findViewById(R.id.tv_home_discover);
 		mMineTabTv = (TextView) this.findViewById(R.id.tv_home_mine);
 		mForumTabTv = (TextView) this.findViewById(R.id.tv_home_forum);
-		mShopTabTv = (TextView) this.findViewById(R.id.tv_home_shop);
+		//mShopTabTv = (TextView) this.findViewById(R.id.tv_home_shop);
 		mPerasonTabTv = (TextView) this.findViewById(R.id.tv_home_account);
 		mCoverImg = (ImageView) findViewById(R.id.img_home_cover);
 		mSearchImg = (ImageView) findViewById(R.id.img_head_search);
@@ -305,7 +306,7 @@ public class HomeActivity extends BaseFragmentActivity implements
 				transaction.commitAllowingStateLoss();
 				break;
 
-			case 3:
+			/*case 3:
 				mActionBarView.setVisibility(View.VISIBLE);
 				mSearchBarView.setVisibility(View.INVISIBLE);
 				if (mShopTitle == null || mShopTitle.equals("")) {
@@ -326,7 +327,7 @@ public class HomeActivity extends BaseFragmentActivity implements
 				}
 				mShopTabTv.setSelected(true);
 				transaction.commitAllowingStateLoss();
-				break;
+				break;*/
 
 			case 4:
 				mActionBarView.setVisibility(View.VISIBLE);
@@ -360,7 +361,7 @@ public class HomeActivity extends BaseFragmentActivity implements
 		mDisCoverTabTv.setSelected(false);
 		mMineTabTv.setSelected(false);
 		mForumTabTv.setSelected(false);
-		mShopTabTv.setSelected(false);
+		//mShopTabTv.setSelected(false);
 		mPerasonTabTv.setSelected(false);
 	}
 
@@ -413,14 +414,14 @@ public class HomeActivity extends BaseFragmentActivity implements
 			case R.id.tv_home_forum:
 				setTabSelect(2);
 				break;
-			case R.id.tv_home_shop:
+			/*case R.id.tv_home_shop:
 				setTabSelect(3);
-				break;
+				break;*/
 			case R.id.tv_home_account:
 				setTabSelect(4);
 				break;
 			case R.id.img_head_search:
-
+				//new SimpleDialogFragment ().show(getSupportFragmentManager().beginTransaction(), "simpleDialog");
 				startActivity(new Intent(this,SearchActivity.class));
 				overridePendingTransition(R.anim.search_translatey100to0,
 						R.anim.search_translatey0tof100);
@@ -447,7 +448,10 @@ public class HomeActivity extends BaseFragmentActivity implements
 
 		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
 			if(!mSearchBarView.checkIsFocus()) { //检查mSearchView是否还有焦点
-//				showCancelAppDialog();
+				//showCancelAppDialog();
+				if(!PlayerManager.getInstance().isPlaying()){
+					MusicService.stopService(HomeActivity.this);
+				}
 				oldFinish();
 			}
 			return true;

@@ -21,17 +21,16 @@ import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.xiaoningmeng.adapter.MyNoteListAdapter;
 import com.xiaoningmeng.auth.UserAuth;
-import com.xiaoningmeng.base.BaseFragmentActivity;
+import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.ForumThread;
 import com.xiaoningmeng.bean.NoteList;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.fragment.KeyboardFragment;
-import com.xiaoningmeng.http.LHttpHandler;
+import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.utils.ImageUtils;
 import com.xiaoningmeng.utils.UiUtils;
 
-import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,7 +38,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyNotelistActivity extends BaseFragmentActivity implements XListView.IXListViewListener,KeyboardFragment.OnFragmentInteractionListener {
+public class MyNotelistActivity extends BaseActivity implements XListView.IXListViewListener,
+        KeyboardFragment.OnFragmentInteractionListener {
 
     private Context mContext;
     private ViewGroup loadingView;
@@ -232,7 +232,7 @@ public class MyNotelistActivity extends BaseFragmentActivity implements XListVie
     private void requestMyNoteListData(int page) {
 
         LHttpRequest.getInstance().getMyNoteList(this,
-                new LHttpHandler<String>(this) {
+                new JsonCallback<String>(this) {
 
                     @Override
                     public void onGetDataSuccess(String data) {
@@ -278,9 +278,7 @@ public class MyNotelistActivity extends BaseFragmentActivity implements XListVie
                     }
 
                     @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        super.onFailure(statusCode, headers, responseString, throwable);
-
+                    public void onFailure(String failureResponse) {
                         if (loadingView != null) {
                             loadingView.setVisibility(View.VISIBLE);
                             ((TextView) loadingView.getChildAt(0)).setText("请连接网络后点击屏幕重试");
@@ -296,6 +294,8 @@ public class MyNotelistActivity extends BaseFragmentActivity implements XListVie
                             });
                         }
                     }
+
+
 
                     @Override
                     public void onFinish() {
@@ -323,7 +323,7 @@ public class MyNotelistActivity extends BaseFragmentActivity implements XListVie
                 final File fileData = new File(compressFilePath);
 
                 //上传图片
-                LHttpRequest.getInstance().forumUpload(this,new LHttpHandler<String>(this) {
+                LHttpRequest.getInstance().forumUpload(this,new JsonCallback<String>(this) {
                     @Override
                     public void onGetDataSuccess(String data) {
 
@@ -356,8 +356,7 @@ public class MyNotelistActivity extends BaseFragmentActivity implements XListVie
                     }
 
                     @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        super.onFailure(statusCode, headers, responseString, throwable);
+                    public void onFailure(String responseString) {
                         stopLoading();
                         Toast.makeText(mContext,"请检查网络设置",Toast.LENGTH_SHORT).show();
                     }
@@ -380,7 +379,7 @@ public class MyNotelistActivity extends BaseFragmentActivity implements XListVie
     private void sendReplyRequest(int tid,String formHash, String message,ArrayList<String>aids) {
 
         LHttpRequest.getInstance().sendReply(this,
-                new LHttpHandler<String>(this) {
+                new JsonCallback<String>(this) {
 
                     @Override
                     public void onGetDataSuccess(String data) {
@@ -423,9 +422,7 @@ public class MyNotelistActivity extends BaseFragmentActivity implements XListVie
                     }
 
                     @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        super.onFailure(statusCode, headers, responseString, throwable);
-
+                    public void onFailure( String responseString) {
                         stopLoading();
                         Toast.makeText(mContext,"请检查网络设置",Toast.LENGTH_SHORT).show();
                     }

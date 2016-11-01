@@ -30,7 +30,6 @@ public class PlayWaveManager implements PlayObserver {
 
 		@Override
 		public void onClick(View v) {
-			((ImageView)v).setImageResource(R.drawable.top_play_clicking);
 			if(mPlayerManager.getPlayList().size() > 0){
 				Intent i = new Intent(mContext, PlayActivity.class);
 				mContext.startActivity(i);

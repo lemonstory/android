@@ -96,7 +96,7 @@ public class NetUtils {
 
 		NetworkInfo networkInfo = connectivityMgr.getActiveNetworkInfo();
 		if (networkInfo == null) {
-			return "无网络";
+			return "no net";
 		}
 
 		if (ConnectivityManager.TYPE_MOBILE == networkInfo.getType()) {
@@ -123,12 +123,12 @@ public class NetUtils {
 			case TelephonyManager.NETWORK_TYPE_LTE:
 				return "4G";
 			default:
-				return "手机网络";
+				return "telNet";
 			}
 		} else if (ConnectivityManager.TYPE_WIFI == networkInfo.getType()) {
 			return "wifi";
 		} else {
-			return "其他网络";
+			return "otherNet";
 		}
 	}
 }

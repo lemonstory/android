@@ -193,7 +193,6 @@ public class PhotoRoundedImageView extends PhotoView {
 			try {
 				d = rsrc.getDrawable(mResource);
 			} catch (NotFoundException e) {
-				Log.w(TAG, "Unable to find resource: " + mResource, e);
 				// Don't try again.
 				mResource = 0;
 			}

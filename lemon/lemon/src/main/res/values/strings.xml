@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
 
     <string name="app_name">小柠檬-听儿歌故事</string>
     <string name="app_desc">听儿歌、故事、 育儿、早教、启蒙教育、母婴、教育、辣妈必备！</string>
@@ -91,6 +93,9 @@
     <string name="connect_time_out">超时</string>
     <string name="download_file_tip">正在下载文件，请稍后.</string>
     <string name="hello_blank_fragment">hello_blank_fragment</string>
+    <string name="loading_tip">正在努力加载中</string>
+    <string name="empty_tip">暂无数据</string>
+    <string name="failure_tip">请连接网络后点击屏幕重试</string>
 
     <item name="add_image_0" type="id"></item>
     <item name="add_image_1" type="id"></item>
@@ -98,4 +103,8 @@
 
     <string name="menu_lock">Lock</string>
     <string name="menu_unlock">Unlock</string>
+    <string name="mp.list.layoutManager.linear">LinearLayoutManager</string>
+    <string name="mp.play_list.dialog.add_to">Add to play list</string>
+    <string name="mp.cancel">Cancel</string>
+    <string name="mp.Confirm">Confirm</string>
 </resources>

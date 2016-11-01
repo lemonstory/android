@@ -63,7 +63,6 @@ public class AlarmSelectActivity extends BaseActivity implements OnClickListener
 				mAdapter.notifyDataSetChanged();
 			}
 		});
-		//Slidr.attach(this);
 	}
 	@Override
 	public void onClick(View v) {

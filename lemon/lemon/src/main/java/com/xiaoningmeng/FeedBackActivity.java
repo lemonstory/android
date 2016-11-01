@@ -1,7 +1,7 @@
 package com.xiaoningmeng;
 
 import com.xiaoningmeng.base.BaseActivity;
-import com.xiaoningmeng.http.LHttpHandler;
+import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.utils.TelUtil;
 import com.xiaoningmeng.view.dialog.TipDialog;
@@ -47,7 +47,7 @@ public class FeedBackActivity extends BaseActivity implements OnClickListener {
 			}
 			String feedBackStr = mFeedbackEt.getText().toString();
 			if (feedBackStr.length() > 0) {
-				LHttpRequest.getInstance().feedbackReq(this, qq,tel,feedBackStr, new LHttpHandler<String>(this) {
+				LHttpRequest.getInstance().feedbackReq(this, qq,tel,feedBackStr, new JsonCallback<String>() {
 					
 					@Override
 					public void onGetDataSuccess(String data) {

@@ -8,6 +8,7 @@
         android:layout_height="wrap_content"
          android:paddingLeft="@dimen/base_margin"
         android:paddingRight="@dimen/base_margin"
+        android:paddingTop="@dimen/mine_center_divider_height"
    		 android:background="@null"
    		  >
 

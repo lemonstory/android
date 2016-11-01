@@ -1,28 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="AiTheme" parent="android:Theme.Light.NoTitleBar">
+    <style name="LemonTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorAccent">@color/action_bar_bg</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowAllowEnterTransitionOverlap" tools:targetApi="lollipop">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap" tools:targetApi="lollipop">true</item>
+        <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <!-- AlertDialog -->
+        <item name="alertDialogTheme">@style/MP.Theme.Widget.AlertDialog</item>
+
+        <!-- PopupMenu -->
+        <item name="popupMenuStyle">@style/MP.Theme.Widget.PopupMenu</item>
+        <item name="textAppearanceLargePopupMenu">@style/MP.Theme.TextAppearance.LargePopupMenu</item>
+        <item name="textAppearanceSmallPopupMenu">@style/MP.Theme.TextAppearance.SmallPopupMenu</item>
+    </style>
+    <style name="MP.Theme.Widget.AlertDialog" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="MP.Theme.Widget.PopupMenu" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:popupBackground">@color/white</item>
+        <item name="android:dropDownHorizontalOffset">-24dp</item>
+    </style>
+
+    <style name="PickTheme" parent="LoadingTheme">
         <item name="numberPickerUpButtonStyle">@style/AiWidget.ImageButton.NumberPickerUpButton</item>
         <item name="numberPickerDownButtonStyle">@style/AiWidget.ImageButton.NumberPickerDownButton</item>
         <item name="numberPickerInputTextStyle">@style/AiWidget.EditText.NumberPickerInputText</item>
         <item name="numberPickerStyle">@style/AiWidget.NumberPicker</item>
-         <item name="android:windowIsTranslucent">true</item>  
-		<item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
-    <style name="AppTheme" parent="android:Theme.Light.NoTitleBar"></style>
+
+    <style name="PlayTheme" parent="LemonTheme">
+        <item name="colorPrimaryDark">@color/system_bar_tint_color</item>
+    </style>
+
+    <style name="LoadingTheme" parent="LemonTheme">
+        <item name="colorPrimaryDark">@color/item_press_bg</item>
+    </style>
 
     <!-- Dialog弹框样式 -->
-    <style name="shareTheme" parent="@android:style/Theme.Dialog">
-       <!-- <item name="android:windowFrame">@null</item>
-        <item name="android:windowNoTitle">true</item>-->
-      <!--  <item name="android:windowIsFloating">true</item>
-        <item name="android:windowIsTranslucent">false</item>
-
-
-
-        <item name="android:backgroundDimEnabled">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>-->
-
+    <style name="shareTheme" parent="@android:style/Theme.Dialog"/>
+    <style name="MP.Theme.TextAppearance.LargePopupMenu" parent="TextAppearance.AppCompat.Widget.PopupMenu.Large">
+        <item name="android:textColor">@color/base_text_color</item>
     </style>
+
+    <style name="MP.Theme.TextAppearance.SmallPopupMenu" parent="TextAppearance.AppCompat.Widget.PopupMenu.Small">
+        <item name="android:textColor">@color/base_text_color</item>
+    </style>
+
 </resources>

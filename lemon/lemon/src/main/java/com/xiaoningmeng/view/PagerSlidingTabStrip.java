@@ -21,6 +21,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.Pair;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -237,7 +238,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         if (textView != null) {
             if (title != null) textView.setText(title);
         }
-
+        textView.setTextAppearance(getContext(),R.style.tabStrip_tab_style);
         tabView.setFocusable(true);
         tabView.setOnClickListener(new OnClickListener() {
             @Override

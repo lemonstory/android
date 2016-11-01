@@ -18,8 +18,8 @@ import com.xiaoningmeng.R;
 import com.xiaoningmeng.adapter.MineHistoryAdapter;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.auth.UserAuth;
+import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.base.BaseFragment;
-import com.xiaoningmeng.base.BaseFragmentActivity;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.ListenerAlbum;
 import com.xiaoningmeng.bean.Mine;
@@ -30,10 +30,9 @@ import com.xiaoningmeng.download.OnDownloadCountChangedListener;
 import com.xiaoningmeng.event.FavEvent;
 import com.xiaoningmeng.event.HistoryEvent;
 import com.xiaoningmeng.event.LoginEvent;
-import com.xiaoningmeng.http.LHttpHandler;
+import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 
-import org.apache.http.Header;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +44,7 @@ public class MineFragment extends BaseFragment implements OnClickListener,XListV
 	
 	private XListView mListView;
 	private MineHistoryAdapter mAdapter;
-	private BaseFragmentActivity mContext;
+	private BaseActivity mContext;
 	private TextView mDownloadCountTv;
 	private TextView mFavCountTv;
 	private List<ListenerAlbum> mAlbumList;
@@ -57,7 +56,7 @@ public class MineFragment extends BaseFragment implements OnClickListener,XListV
 			Bundle savedInstanceState) {
 		View contentView = (ViewGroup) View.inflate(getActivity(),
 				R.layout.fragment_mine, null);
-		mContext = (BaseFragmentActivity) getActivity();
+		mContext = (BaseActivity) getActivity();
 		initView(contentView);
 		DownLoadClientImpl.getInstance().setOnDownloadCountChangedListener(this);
 		mDBHistoryAlbum = HistoryDao.getInstance().getHistoryAlbums();
@@ -96,7 +95,7 @@ public class MineFragment extends BaseFragment implements OnClickListener,XListV
 					intent.putExtra("albumInfo", albumInfo);
 					intent.putExtra("playstoryid", listenerAlbum.getPlaystoryid());
 					intent.putExtra("playtimes", listenerAlbum.getPlaytimes());
-					((BaseFragmentActivity) mContext).startActivityForNew(intent);
+					mContext.startShareTransitionActivity(intent,view.findViewById(R.id.img_mine_item_cover),"albumImage");
 				}
 			}
 		});
@@ -104,7 +103,7 @@ public class MineFragment extends BaseFragment implements OnClickListener,XListV
 
 	private void requestListenerData(final String direction,String startId) {
 		if(MyApplication.getInstance().isIsLogin()){
-			LHttpRequest.getInstance().myStoryReq(getActivity(), direction, startId, Constant.MAX_REQ_LEN, new LHttpHandler<Mine>(getActivity()) {
+			LHttpRequest.getInstance().myStoryReq(getActivity(), direction, startId, Constant.MAX_REQ_LEN, new JsonCallback<Mine>() {
 
 				@Override
 				public void onGetDataSuccess(Mine data) {
@@ -132,8 +131,7 @@ public class MineFragment extends BaseFragment implements OnClickListener,XListV
 				}
 				
 				@Override
-				public void onFailure(int statusCode, Header[] headers,
-						String responseString, Throwable throwable) {
+				public void onFailure(String responseString) {
 					mListView.postDelayed(new Runnable() {
 						
 						@Override
@@ -155,8 +153,7 @@ public class MineFragment extends BaseFragment implements OnClickListener,XListV
 							}
 						}
 					}, 500);
-					
-					super.onFailure(statusCode, headers, responseString, throwable);
+
 				}
 				@Override
 				public void onFinish() {
@@ -222,11 +219,11 @@ public class MineFragment extends BaseFragment implements OnClickListener,XListV
 
 		switch (v.getId()) {
 		case R.id.rl_mine_download:
-			((BaseFragmentActivity) getActivity()).startActivityForNew(new Intent(getActivity(),DownloadActivity.class));
+			((BaseActivity) getActivity()).startActivityForNew(new Intent(getActivity(),DownloadActivity.class));
 			break;
 		case R.id.rl_mine_fav:
 			if(UserAuth.auditUser(mContext, null)){
-				((BaseFragmentActivity) getActivity()).startActivityForNew(new Intent(getActivity(),FavActivity.class));
+				((BaseActivity) getActivity()).startActivityForNew(new Intent(getActivity(),FavActivity.class));
 			}
 			break;
 		default:

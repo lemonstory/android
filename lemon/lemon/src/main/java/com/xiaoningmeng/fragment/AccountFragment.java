@@ -20,8 +20,8 @@ import com.xiaoningmeng.RankActivity;
 import com.xiaoningmeng.SettingActivity;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.auth.UserAuth;
+import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.base.BaseFragment;
-import com.xiaoningmeng.base.BaseFragmentActivity;
 import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.event.LoginEvent;
 import com.xiaoningmeng.utils.AvatarUtils;
@@ -123,13 +123,13 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.rl_account_setting:
-			((BaseFragmentActivity) getActivity())
+			((BaseActivity) getActivity())
 					.startActivityForNew(new Intent(getActivity(),
 							SettingActivity.class));
 			break;
 		case R.id.rl_account_perasonal:
 			if (UserAuth.auditUser(getActivity(), null)) {
-				((BaseFragmentActivity) getActivity())
+				((BaseActivity) getActivity())
 						.startActivityForNew(new Intent(getActivity(),
 								PerasonalActivity.class));
 			}
@@ -139,7 +139,7 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
 //			WebViewActivity.openWebView(getActivity(), shopUrl);
 //			break;
 		case R.id.rl_account_Ranking:
-			((BaseFragmentActivity) getActivity()).startActivityForNew(new Intent(getActivity(),RankActivity.class));
+			((BaseActivity) getActivity()).startActivityForNew(new Intent(getActivity(),RankActivity.class));
 			break;
 		//case R.id.rl_account_Recommend:
 			//((BaseFragmentActivity) getActivity()).startActivityForNew(new Intent(getActivity(),RecommendAdActivity.class));
@@ -148,7 +148,7 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
 			Intent intent = new Intent (getActivity(),MyThreadActivity.class);
 			intent.putExtra("uid",mUserInfo.getUid());
 			intent.putExtra("nickname",mUserInfo.getNickname());
-			((BaseFragmentActivity) getActivity()).startActivityForNew(intent);
+			((BaseActivity) getActivity()).startActivityForNew(intent);
 			break;
 
 		default:

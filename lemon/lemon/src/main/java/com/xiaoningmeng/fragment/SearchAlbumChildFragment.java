@@ -15,8 +15,8 @@ import com.xiaoningmeng.HomeActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.SearchActivity;
 import com.xiaoningmeng.adapter.SearchAdapter;
+import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.base.BaseFragment;
-import com.xiaoningmeng.base.BaseFragmentActivity;
 import com.xiaoningmeng.bean.AlbumInfo;
 
 import java.util.List;
@@ -45,7 +45,7 @@ public class SearchAlbumChildFragment extends BaseFragment implements IXListView
 				Intent intent = new Intent(getActivity(), AblumDetailActivity.class);
 				AlbumInfo albumInfo = mAlbumInfos.get(pos);
 				intent.putExtra("albumId", albumInfo.getAlbumid());
-				((BaseFragmentActivity)getActivity()).startActivityForNew(intent);
+				((BaseActivity)getActivity()).startActivityForNew(intent);
 			}
 		});
 		return contentView;

@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" 
      android:fitsSystemWindows="true"
-    android:clipToPadding="false">
+   >
 
     <include
         android:id="@+id/action_bar"
-        layout="@layout/layout_base_header" />
+        layout="@layout/layout_base_header"/>
 
     <com.xiaoningmeng.view.ReboundScrollView
         android:layout_width="match_parent"
@@ -59,13 +60,21 @@
                     android:layout_toLeftOf="@id/img_setting_reminder_right"
                     >
 
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/img_perasonal_icon"
+                        android:layout_width="@dimen/ablum_play_item_height"
+                        android:layout_height="@dimen/ablum_play_item_height"
+                        fresco:placeholderImage="@drawable/default_cover"
+                        fresco:roundedCornerRadius="@dimen/base_radius_size"
+                        fresco:actualImageScaleType="centerCrop"/>
+<!--
                 <com.xiaoningmeng.view.PhotoRoundedImageView
                     android:id="@+id/img_perasonal_icon"
                     style="@style/roundImageViewStyle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:src="@drawable/default_cover" />
+                    android:src="@drawable/default_cover" />-->
 
                 <ProgressBar
                      android:id="@+id/pb_perasonal_progress"
@@ -343,24 +352,5 @@
             </RelativeLayout>
         </LinearLayout>
     </com.xiaoningmeng.view.ReboundScrollView>
-    
-    <FrameLayout
-        android:id="@+id/parent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-
-        <ImageView
-            android:id="@+id/img_perasonal_photo_bg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#ff000000" />
-
-        <com.xiaoningmeng.view.PhotoView
-            android:id="@+id/pv_perasonal_photo"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-    </FrameLayout>
 
 </RelativeLayout>

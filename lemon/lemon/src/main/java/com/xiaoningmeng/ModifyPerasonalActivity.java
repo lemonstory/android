@@ -39,7 +39,7 @@ import com.xiaoningmeng.bean.Province;
 import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.bean.Zone;
 import com.xiaoningmeng.db.AreaDao;
-import com.xiaoningmeng.http.LHttpHandler;
+import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.utils.TelUtil;
 import com.xiaoningmeng.utils.UiUtils;
@@ -132,7 +132,7 @@ public class ModifyPerasonalActivity extends BaseActivity implements
 	private Address mAddress = null;
 
 	private void initAddGoodsAddress() {
-		setTheme(R.style.AiTheme);
+		setTheme(R.style.PickTheme);
 		setContentView(R.layout.activity_modify_goods_address);
 		if(getIntent().getSerializableExtra("address")!= null){
 			mAddress = (Address) getIntent().getSerializableExtra("address");
@@ -259,7 +259,7 @@ public class ModifyPerasonalActivity extends BaseActivity implements
 	
 	private void delAddress(final int position) {
 		String addressId = mAddresses.get(position).getId();
-		LHttpRequest.getInstance().delAddressReq(ModifyPerasonalActivity.this, addressId, new LHttpHandler<Address>(this,this) {
+		LHttpRequest.getInstance().delAddressReq(ModifyPerasonalActivity.this, addressId, new JsonCallback<Address>(this) {
 
 			@Override
 			public void onGetDataSuccess(Address data) {
@@ -271,7 +271,7 @@ public class ModifyPerasonalActivity extends BaseActivity implements
 		});
 	}
 	private void requestAddresses(){
-		LHttpRequest.getInstance().getAddressListReq(this, new LHttpHandler<List<Address>>(this) {
+		LHttpRequest.getInstance().getAddressListReq(this, new JsonCallback<List<Address>>() {
 
 			@Override
 			public void onGetDataSuccess(List<Address> data) {
@@ -549,7 +549,7 @@ public class ModifyPerasonalActivity extends BaseActivity implements
 		}
 		final Address address = new Address(mAddress== null ? null: mAddress.getId(),addressName, phone, mAreas[0], mAreas[1], mAreas[2], street, zipCode);
 		if(mAddress == null){
-			LHttpRequest.getInstance().addAddressReq(this, address, new LHttpHandler<Address>(this,this) {
+			LHttpRequest.getInstance().addAddressReq(this, address, new JsonCallback<Address>(this) {
 			@Override
 			public void onGetDataSuccess(Address data) {
 				Intent i = new Intent(ModifyPerasonalActivity.this,ModifyPerasonalActivity.class);
@@ -560,7 +560,7 @@ public class ModifyPerasonalActivity extends BaseActivity implements
 			});
 		}else{
 			
-			LHttpRequest.getInstance().setAddressReq(this, address, new LHttpHandler<Address>(this,this) {
+			LHttpRequest.getInstance().setAddressReq(this, address, new JsonCallback<Address>(this) {
 			
 			@Override
 			public void onGetDataSuccess(Address data) {
@@ -578,7 +578,7 @@ public class ModifyPerasonalActivity extends BaseActivity implements
 
 
 	public void saveUserInfo(final String nickName,final String gender,String birthday,final String provinceStr,final String cityStr,final String area,final String phonenumber,final Address address){
-		LHttpRequest.getInstance().setUserInfoReq(this, nickName, gender, birthday, provinceStr, cityStr, area, phonenumber, address == null ? null: address.getId(),null, new LHttpHandler<String>(this,this) {
+		LHttpRequest.getInstance().setUserInfoReq(this, nickName, gender, birthday, provinceStr, cityStr, area, phonenumber, address == null ? null: address.getId(),null, new JsonCallback<String>(this) {
 
 			@Override
 			public void onGetDataSuccess(String data) {

@@ -17,7 +17,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.xiaoningmeng.AblumDetailActivity;
 import com.xiaoningmeng.MoreActivity;
 import com.xiaoningmeng.R;
-import com.xiaoningmeng.base.BaseFragmentActivity;
+import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.utils.UiUtils;
@@ -103,9 +103,9 @@ public class RecommendStoryAdapter extends BaseAdapter implements OnClickListene
 				AlbumInfo albumInfo = albumInfos.get(coverPos);
 				holder.storyRl1.setVisibility(View.VISIBLE);
 				holder.titleTv1.setText(Html.fromHtml(albumInfo.getTitle()));
-				int listenerAlbumCount = albumInfo.getListennum();
-				if(listenerAlbumCount !=0) {
-					holder.tipTv1.setText(albumInfo.getListennum() + "");
+				String listenerAlbumCount = albumInfo.getListennum();
+				if(!"0".equals(listenerAlbumCount)) {
+					holder.tipTv1.setText(albumInfo.getListennum());
 					holder.tipTv1.setVisibility(View.VISIBLE);
 				}else{
 					holder.tipTv1.setVisibility(View.INVISIBLE);
@@ -126,8 +126,8 @@ public class RecommendStoryAdapter extends BaseAdapter implements OnClickListene
 				AlbumInfo albumInfo = albumInfos.get(coverPos+1);
 				holder.storyRl2.setVisibility(View.VISIBLE);
 				holder.titleTv2.setText(Html.fromHtml(albumInfo.getTitle()));
-				int listenerAlbumCount = albumInfo.getListennum();
-				if(listenerAlbumCount !=0) {
+				String listenerAlbumCount = albumInfo.getListennum();
+				if(!"0".equals(listenerAlbumCount)) {
 					holder.tipTv2.setText(albumInfo.getListennum() + "");
 					holder.tipTv2.setVisibility(View.VISIBLE);
 				}else{
@@ -148,8 +148,8 @@ public class RecommendStoryAdapter extends BaseAdapter implements OnClickListene
 				AlbumInfo albumInfo = albumInfos.get(coverPos+2);
 				holder.storyRl3.setVisibility(View.VISIBLE);
 				holder.titleTv3.setText(Html.fromHtml(albumInfo.getTitle()));
-				int listenerAlbumCount = albumInfo.getListennum();
-				if(listenerAlbumCount !=0) {
+				String listenerAlbumCount = albumInfo.getListennum();
+				if(!"0".equals(listenerAlbumCount)) {
 					holder.tipTv3.setText(albumInfo.getListennum() + "");
 					holder.tipTv3.setVisibility(View.VISIBLE);
 				}else{
@@ -195,7 +195,7 @@ public class RecommendStoryAdapter extends BaseAdapter implements OnClickListene
 			Intent intent = new Intent(mContext, AblumDetailActivity.class);
 			intent.putExtra("albumId", albumInfo.getAlbumid());
 			intent.putExtra("albumInfo",albumInfo);
-			((BaseFragmentActivity) mContext).startActivityForNew(intent);
+			((BaseActivity) mContext).startShareTransitionActivity(intent,v,"albumImage");
 			break;
 		case R.id.tv_classify_more:
 		case R.id.tv_classify_title:
@@ -203,7 +203,7 @@ public class RecommendStoryAdapter extends BaseAdapter implements OnClickListene
 			int type = (int) v.getTag();
 			Intent i= new Intent(mContext, MoreActivity.class);
 			i.putExtra(MoreActivity.MORE_TYPE, type);
-			((BaseFragmentActivity) mContext).startActivityForNew(i);
+			((BaseActivity) mContext).startActivityForNew(i);
 			break;
 
 		default:

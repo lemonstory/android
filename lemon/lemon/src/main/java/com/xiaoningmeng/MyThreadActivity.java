@@ -16,10 +16,9 @@ import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.ForumName;
 import com.xiaoningmeng.bean.ForumThread;
-import com.xiaoningmeng.http.LHttpHandler;
+import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 
-import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -165,7 +164,7 @@ public class MyThreadActivity extends BaseActivity implements XListView.IXListVi
 
         if (uid != null && !uid.equals("") && page != 0) {
             LHttpRequest.getInstance().getMyThread(this,
-                    new LHttpHandler<String>(this) {
+                    new JsonCallback<String>() {
 
                         @Override
                         public void onGetDataSuccess(String data) {
@@ -207,8 +206,7 @@ public class MyThreadActivity extends BaseActivity implements XListView.IXListVi
                         }
 
                         @Override
-                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                            super.onFailure(statusCode, headers, responseString, throwable);
+                        public void onFailure(String responseString) {
 
                             if (loadingView != null) {
                                 loadingView.setVisibility(View.VISIBLE);

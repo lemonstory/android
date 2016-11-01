@@ -101,15 +101,13 @@ public class ForumDisplayAdapter extends BaseAdapter {
         ForumThread thread = threadList.get(position);
         String attachment = thread.getAttachment();
         holder.imageF.setVisibility(View.INVISIBLE);
-        holder.imageF.setImageURI(null);
         holder.imageF.setBackgroundResource(R.color.view_thread_image_background_color);
 
         holder.imageS.setVisibility(View.INVISIBLE);
-        holder.imageS.setImageURI(null);
+
         holder.imageS.setBackgroundResource(R.color.view_thread_image_background_color);
 
         holder.imageT.setVisibility(View.INVISIBLE);
-        holder.imageT.setImageURI(null);
         holder.imageT.setBackgroundResource(R.color.view_thread_image_background_color);
 
         //附件,0无附件 1普通附件 2有图片附件

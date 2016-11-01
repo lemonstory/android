@@ -17,6 +17,7 @@
             android:layout_width="@dimen/classifiction_item_height"
             android:layout_height="@dimen/classifiction_item_height"
             fresco:placeholderImage="@drawable/default_classifiction"
+            android:background="?attr/selectableItemBackgroundBorderless"
             fresco:actualImageScaleType="centerCrop"/>
 
         <TextView
@@ -35,6 +36,7 @@
             android:id="@+id/img_classify2"
             android:layout_width="@dimen/classifiction_item_height"
             android:layout_height="@dimen/classifiction_item_height"
+            android:background="?attr/selectableItemBackgroundBorderless"
             fresco:placeholderImage="@drawable/default_classifiction"
             fresco:actualImageScaleType="centerCrop"/>
 
@@ -54,6 +56,7 @@
             android:id="@+id/img_classify3"
             android:layout_width="@dimen/classifiction_item_height"
             android:layout_height="@dimen/classifiction_item_height"
+            android:background="?attr/selectableItemBackgroundBorderless"
             fresco:placeholderImage="@drawable/default_classifiction"
             fresco:actualImageScaleType="centerCrop"/>
 
@@ -74,6 +77,7 @@
             android:id="@+id/img_classify4"
             android:layout_width="@dimen/classifiction_item_height"
             android:layout_height="@dimen/classifiction_item_height"
+            android:background="?attr/selectableItemBackgroundBorderless"
             fresco:placeholderImage="@drawable/default_classifiction"
             fresco:actualImageScaleType="centerCrop"/>
 

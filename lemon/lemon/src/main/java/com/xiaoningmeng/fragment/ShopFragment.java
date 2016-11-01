@@ -1,6 +1,5 @@
 package com.xiaoningmeng.fragment;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,13 +27,12 @@ import com.xiaoningmeng.HomeActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.adapter.ShopAdapter;
 import com.xiaoningmeng.base.BaseFragment;
-import com.xiaoningmeng.base.BaseFragmentActivity;
+import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.ShopItem;
 import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.http.LHttpHandler;
+import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 
-import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -58,7 +56,7 @@ public class ShopFragment extends BaseFragment implements View.OnClickListener,X
     private ArrayList<ShopItem> mPageItemslist;
     private View contentView;
     private ViewGroup loadingView;
-    private BaseFragmentActivity mContext;
+    private BaseActivity mContext;
     private View pbEmptyTip;
     private ShopAdapter mShopAdapter;
     private OnFragmentInteractionListener mListener;
@@ -85,7 +83,7 @@ public class ShopFragment extends BaseFragment implements View.OnClickListener,X
         contentView =  inflater.inflate(R.layout.fragment_shop, container, false);
         contentView.findViewById(R.id.my_orders_ib).setOnClickListener(this);
         contentView.findViewById(R.id.my_carts_ib).setOnClickListener(this);
-        mContext = (BaseFragmentActivity) getActivity();
+        mContext = (BaseActivity) getActivity();
         initView();
         this.mItemslist = new ArrayList<>();
         this.mPageItemslist = new ArrayList<>();
@@ -114,10 +112,7 @@ public class ShopFragment extends BaseFragment implements View.OnClickListener,X
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
+
 
     @Override
     public void onDetach() {
@@ -309,7 +304,7 @@ public class ShopFragment extends BaseFragment implements View.OnClickListener,X
     private void requestItemListData(final int page) {
 
         LHttpRequest.getInstance().getShopItems(getActivity(),
-                new LHttpHandler<String>(getActivity()) {
+                new JsonCallback<String>() {
 
                     @Override
                     public void onGetDataSuccess(String data) {
@@ -339,8 +334,7 @@ public class ShopFragment extends BaseFragment implements View.OnClickListener,X
                     }
 
                     @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        super.onFailure(statusCode, headers, responseString, throwable);
+                    public void onFailure(String responseString) {
                         loadingView.setVisibility(View.VISIBLE);
                         ((TextView)loadingView.getChildAt(0)).setText("请连接网络后点击屏幕重试");
                         loadingView.getChildAt(1).setVisibility(View.INVISIBLE);

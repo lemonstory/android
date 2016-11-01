@@ -1,6 +1,6 @@
 package com.xiaoningmeng;
 
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Animatable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,9 +11,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.backends.pipeline.PipelineDraweeControllerBuilder;
+import com.facebook.drawee.controller.BaseControllerListener;
+import com.facebook.imagepipeline.image.ImageInfo;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.event.AddedImageEvent;
 import com.xiaoningmeng.view.HackyViewPager;
@@ -22,7 +25,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import de.greenrobot.event.EventBus;
-import uk.co.senab.photoview.PhotoView;
+import me.relex.photodraweeview.PhotoDraweeView;
 
 public class AddedImageViewPager extends BaseActivity {
 
@@ -134,7 +137,48 @@ public class AddedImageViewPager extends BaseActivity {
             return count;
         }
 
+
         @Override
+        public View instantiateItem(ViewGroup viewGroup, int position) {
+            final PhotoDraweeView photoDraweeView = new PhotoDraweeView(viewGroup.getContext());
+            PipelineDraweeControllerBuilder controller = Fresco.newDraweeControllerBuilder();
+            File file = this.imageFiles.get(position);
+            controller.setUri(Uri.fromFile(file));
+            controller.setOldController(photoDraweeView.getController());
+            controller.setControllerListener(new BaseControllerListener<ImageInfo>() {
+                @Override
+                public void onFinalImageSet(String id, ImageInfo imageInfo, Animatable animatable) {
+                    super.onFinalImageSet(id, imageInfo, animatable);
+                    if (imageInfo == null) {
+                        return;
+                    }
+                    photoDraweeView.update(imageInfo.getWidth(), imageInfo.getHeight());
+                }
+            });
+            photoDraweeView.setController(controller.build());
+
+            try {
+                viewGroup.addView(photoDraweeView, ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return photoDraweeView;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((View) object);
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == object;
+        }
+    }
+
+   /* @Override
         public View instantiateItem(ViewGroup container, int position) {
 
             PhotoView photoView = new PhotoView(container.getContext());
@@ -151,18 +195,7 @@ public class AddedImageViewPager extends BaseActivity {
             photoView.invalidate();
             return photoView;
         }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView((View) object);
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == object;
-        }
-
-    }
+ */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

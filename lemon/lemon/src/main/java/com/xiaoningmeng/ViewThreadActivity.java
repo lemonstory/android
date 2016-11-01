@@ -21,7 +21,7 @@ import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.xiaoningmeng.adapter.ViewThreadAdapter;
 import com.xiaoningmeng.auth.UserAuth;
-import com.xiaoningmeng.base.BaseFragmentActivity;
+import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.Attachment;
 import com.xiaoningmeng.bean.ForumLoginVar;
 import com.xiaoningmeng.bean.ForumThread;
@@ -31,12 +31,11 @@ import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.event.ForumLoginEvent;
 import com.xiaoningmeng.fragment.KeyboardFragment;
 import com.xiaoningmeng.http.ConstantURL;
-import com.xiaoningmeng.http.LHttpHandler;
+import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.utils.ImageUtils;
 import com.xiaoningmeng.view.ShareDialog;
 
-import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -47,7 +46,7 @@ import java.util.List;
 
 import de.greenrobot.event.EventBus;
 
-public class ViewThreadActivity extends BaseFragmentActivity implements XListView.IXListViewListener,KeyboardFragment.OnFragmentInteractionListener {
+public class ViewThreadActivity extends BaseActivity implements XListView.IXListViewListener,KeyboardFragment.OnFragmentInteractionListener {
 
     private Context mContext;
     private ViewGroup loadingView;
@@ -347,7 +346,7 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
     private void requestPostsData(int tid, int page) {
 
         LHttpRequest.getInstance().getViewThread(this,
-                new LHttpHandler<String>(this) {
+                new JsonCallback<String>() {
 
                     @Override
                     public void onGetDataSuccess(String data) {
@@ -410,8 +409,7 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
                     }
 
                     @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        super.onFailure(statusCode, headers, responseString, throwable);
+                    public void onFailure(String responseString) {
 
                         if (loadingView != null) {
                             loadingView.setVisibility(View.VISIBLE);
@@ -452,7 +450,7 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
                 String compressFilePath =  ImageUtils.compress(file.getAbsolutePath(), Bitmap.CompressFormat.JPEG, 80);
                 final File fileData = new File(compressFilePath);
                 //上传图片
-                LHttpRequest.getInstance().forumUpload(this,new LHttpHandler<String>(this) {
+                LHttpRequest.getInstance().forumUpload(this,new JsonCallback<String>() {
                     @Override
                     public void onGetDataSuccess(String data) {
 
@@ -485,8 +483,7 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
                     }
 
                     @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        super.onFailure(statusCode, headers, responseString, throwable);
+                    public void onFailure(String responseString) {
                         stopLoading();
                         Toast.makeText(mContext,"请检查网络设置",Toast.LENGTH_SHORT).show();
                     }
@@ -508,7 +505,7 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
     private void sendReplyRequest(int tid,String formHash, String message,ArrayList<String>aids) {
 
         LHttpRequest.getInstance().sendReply(this,
-                new LHttpHandler<String>(this) {
+                new JsonCallback<String>() {
 
                     @Override
                     public void onGetDataSuccess(String data) {
@@ -551,9 +548,7 @@ public class ViewThreadActivity extends BaseFragmentActivity implements XListVie
                     }
 
                     @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        super.onFailure(statusCode, headers, responseString, throwable);
-
+                    public void onFailure(String responseString) {
                         stopLoading();
                         Toast.makeText(mContext,"请检查网络设置",Toast.LENGTH_SHORT).show();
                     }

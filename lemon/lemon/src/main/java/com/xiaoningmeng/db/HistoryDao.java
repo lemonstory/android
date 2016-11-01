@@ -260,7 +260,7 @@ public class HistoryDao {
 		albuminfo.setStar_level(cursor.getString(cursor.getColumnIndex("star_level")));
 		albuminfo.setCover(cursor.getString(cursor.getColumnIndex("cover")));
 		albuminfo.setFav(cursor.getInt(cursor.getColumnIndex("fav")));
-		albuminfo.setListennum(cursor.getInt(cursor.getColumnIndex("listennum")));
+		albuminfo.setListennum(cursor.getString(cursor.getColumnIndex("listennum")));
 		albuminfo.setFavnum(cursor.getInt(cursor.getColumnIndex("favnum")));
 		albuminfo.setCommentnum(cursor.getInt(cursor.getColumnIndex("commentnum")));
 		albuminfo.setStoryinfo(getHistoryStoriesByAlbumId(ablumId,album.getPlaystoryid()));

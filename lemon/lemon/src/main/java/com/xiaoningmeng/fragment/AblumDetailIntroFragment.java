@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -22,8 +21,8 @@ import com.xiaoningmeng.ClassificationActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.adapter.DiscoverStoryAdapter;
 import com.xiaoningmeng.adapter.RecommendStoryAdapter;
-import com.xiaoningmeng.base.BaseFragment;
-import com.xiaoningmeng.base.BaseFragmentActivity;
+import com.xiaoningmeng.base.BaseActivity;
+import com.xiaoningmeng.base.LazyFragment;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.Tag;
 import com.xiaoningmeng.constant.Constant;
@@ -32,20 +31,21 @@ import com.xiaoningmeng.view.FlowLayout;
 
 import java.util.List;
 
-public class AblumDetailIntroFragment extends BaseFragment implements View.OnClickListener{
+public class AblumDetailIntroFragment extends LazyFragment implements View.OnClickListener{
 
 	private CollapsibleTextView introTv;
 	private RelativeLayout mIntroView;
 	private FlowLayout mFlowLayout;
-	private BaseFragmentActivity mContext;
+	private BaseActivity mContext;
 	private LinearLayout mRecommendLl1;
 	private LinearLayout mRecommendLl2;
 	private RecommendStoryAdapter mRecommendAdapter;
 	private View mContentView;
-	private List<Tag> mTagList;
-	private List<AlbumInfo> mRecommendAlbumList;
-
-	private Handler mHandler = new Handler();
+	private String intro;
+	private List<Tag> tagList;
+	private List<AlbumInfo> recommendAlbumList;
+	private boolean isPrepared;
+	private boolean flag;
 
 
 	@Override
@@ -53,52 +53,73 @@ public class AblumDetailIntroFragment extends BaseFragment implements View.OnCli
 			Bundle savedInstanceState) {
 		 mContentView = View.inflate(getActivity(),
 				R.layout.fragment_ablum_detail_intro, null);
-		mContext = (BaseFragmentActivity) getActivity();
+		mContext = (BaseActivity) getActivity();
+		isPrepared = true;
+		lazyLoad();
 		return mContentView;
 	}
 
 	public void setIntro(final String intro, final List<Tag> tagList, final List<AlbumInfo> recommendAlbumList) {
-		mTagList = tagList;
-		mRecommendAlbumList = recommendAlbumList;
-		mHandler.postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				if(mContentView != null) {
-					ViewStub viewStub = (ViewStub) mContentView.findViewById(R.id.vs_intro);
-					viewStub.inflate();
-					introTv = (CollapsibleTextView) mContentView.findViewById(R.id.wv_album_detail_content);
-					mIntroView = (RelativeLayout) mContentView.findViewById(R.id.fl_detail_intro);
-					mFlowLayout = (FlowLayout) mContentView.findViewById(R.id.fl_album_mark);
-					mRecommendLl1 = (LinearLayout) mContentView.findViewById(R.id.ll_recommend1);
-					mRecommendLl2 = (LinearLayout) mContentView.findViewById(R.id.ll_recommend2);
-					final FrameLayout adFl = (FrameLayout) mContentView.findViewById(R.id.fl_ad);
-					//-- baidu ad start
-					AdView adView = new AdView(mContext, Constant.BAIDU_DETAIL_ID);
-					adView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
-					adView.setVisibility(View.GONE);
-					adView.setListener(new DiscoverStoryAdapter.MyAdListener(adView));
-					adFl.addView(adView);
-					//-- baidu ad end
-					if (intro != null && !"".equals(intro)) {
-						introTv.setDesc(intro, introTv, TextView.BufferType.NORMAL);
-					} else {
-						showEmptyTip(mIntroView, "暂无简介", getResources().getDimensionPixelOffset(R.dimen.dialog_margin));
-					}
-					if(tagList != null && tagList.size() != 0) {
-						initTag(tagList);
-					}
-					if(recommendAlbumList != null && recommendAlbumList.size() >0){
-						mRecommendAdapter = new RecommendStoryAdapter(mContext,recommendAlbumList,false);
-						mRecommendAdapter.getView(0,mRecommendLl1,null);
-						mRecommendAdapter.getView(1,mRecommendLl2,null);
-					}
-				}
-			}
-		},200);
+		this.intro = intro;
+		this.tagList = tagList;
+		this.recommendAlbumList = recommendAlbumList;
+		flag = true;
 
+		lazyLoad();
 	}
 
+
+
+	@Override
+	public void onClick(View v) {
+		if(v.getTag() != null){
+			Tag tag = (Tag)v.getTag();
+			if (tag != null && tag.getId() != null) {
+				Intent i = new Intent(mContext, ClassificationActivity.class);
+				i.putExtra("classification",tag);
+				startActivityForNew(i);
+			}
+		}
+	}
+
+	@Override
+	protected void lazyLoad() {
+		if(!isPrepared || !isVisible) {
+			return;
+		}
+		if(flag) {
+			ViewStub viewStub = (ViewStub) mContentView.findViewById(R.id.vs_intro);
+			viewStub.inflate();
+			introTv = (CollapsibleTextView) mContentView.findViewById(R.id.wv_album_detail_content);
+			mIntroView = (RelativeLayout) mContentView.findViewById(R.id.fl_detail_intro);
+			mFlowLayout = (FlowLayout) mContentView.findViewById(R.id.fl_album_mark);
+			mRecommendLl1 = (LinearLayout) mContentView.findViewById(R.id.ll_recommend1);
+			mRecommendLl2 = (LinearLayout) mContentView.findViewById(R.id.ll_recommend2);
+			final FrameLayout adFl = (FrameLayout) mContentView.findViewById(R.id.fl_ad);
+			AdView adView = new AdView(mContext, Constant.BAIDU_DETAIL_ID);
+			adView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+			adView.setVisibility(View.GONE);
+			adView.setListener(new DiscoverStoryAdapter.MyAdListener(adView));
+			adFl.addView(adView);
+			//-- baidu ad end
+			if (intro != null && !"".equals(intro)) {
+				introTv.setDesc(intro, introTv, TextView.BufferType.NORMAL);
+			} else {
+				showEmptyTip(mIntroView, "暂无简介", getResources().getDimensionPixelOffset(R.dimen.dialog_margin));
+			}
+			if (tagList != null && tagList.size() != 0) {
+				initTag(tagList);
+			}
+			if (recommendAlbumList != null && recommendAlbumList.size() > 0) {
+				mRecommendAdapter = new RecommendStoryAdapter(mContext, recommendAlbumList, false);
+				mRecommendAdapter.getView(0, mRecommendLl1, null);
+				mRecommendAdapter.getView(1, mRecommendLl2, null);
+			}
+			isLoadData = true;
+		}
+	}
 	public void initTag(List<Tag> tagList) {
+
 		MarginLayoutParams lp = new ViewGroup.MarginLayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, mContext.getResources()
 				.getDimensionPixelOffset(R.dimen.search_et_height));
 		Resources res = mContext.getResources();
@@ -119,7 +140,7 @@ public class AblumDetailIntroFragment extends BaseFragment implements View.OnCli
 			} else {
 				view = new TextView(mContext);
 				view.setMinWidth(minWidth);
-				ColorStateList csl = (ColorStateList)res.getColorStateList(R.color.mark_flow_color_selector);
+				ColorStateList csl = res.getColorStateList(R.color.mark_flow_color_selector);
 				view.setTextColor(csl);
 				view.setBackgroundResource(R.drawable.mark_item_bg_normal);
 				view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
@@ -133,18 +154,4 @@ public class AblumDetailIntroFragment extends BaseFragment implements View.OnCli
 		}
 	}
 
-
-
-
-	@Override
-	public void onClick(View v) {
-		if(v.getTag() != null){
-			Tag tag = (Tag)v.getTag();
-			if (tag != null && tag.getId() != null) {
-				Intent i = new Intent(mContext, ClassificationActivity.class);
-				i.putExtra("classification",tag);
-				startActivityForNew(i);
-			}
-		}
-	}
 }

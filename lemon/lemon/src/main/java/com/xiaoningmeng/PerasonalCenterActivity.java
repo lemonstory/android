@@ -26,7 +26,7 @@ import com.xiaoningmeng.bean.ListenerAlbum;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.event.HistoryEvent;
-import com.xiaoningmeng.http.LHttpHandler;
+import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
@@ -111,7 +111,7 @@ public class PerasonalCenterActivity extends BaseActivity implements
 		if(uid == null || uid.equals(MyApplication.getInstance().getUid())){
 			uid = MyApplication.getInstance().getUid();
 		}
-		LHttpRequest.getInstance().getHomeInfoReq(this,uid, direction, startStroyId, Constant.MAX_REQ_LEN, new LHttpHandler<HomeInfo>(this) {
+		LHttpRequest.getInstance().getHomeInfoReq(this,uid, direction, startStroyId, Constant.MAX_REQ_LEN, new JsonCallback<HomeInfo>() {
 
 			@Override
 			public void onGetDataSuccess(HomeInfo data) {
@@ -272,7 +272,7 @@ public class PerasonalCenterActivity extends BaseActivity implements
 		public void getUserProfileData(final String uid) {
 
 		LHttpRequest.getInstance().getUserProfile(this,
-				new LHttpHandler<String>(this) {
+				new JsonCallback<String>() {
 
 					@Override
 					public void onGetDataSuccess(String data) {

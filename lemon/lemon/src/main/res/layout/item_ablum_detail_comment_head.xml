@@ -3,7 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical" 
-    android:background="@drawable/base_dialog_item_bg_selector">
+    android:background="@drawable/base_listview_item_bg_selector">
     <View 
         android:id="@+id/v_comment_head_divider"
         style="@style/dividerStyle"

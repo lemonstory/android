@@ -3,7 +3,7 @@ package com.xiaoningmeng;
 import java.lang.reflect.Field;
 
 import com.xiaoningmeng.application.ActivityManager;
-import com.xiaoningmeng.base.BaseFragmentActivity;
+import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.fragment.WeclomeFragment;
 import com.xiaoningmeng.view.CricleIndicator;
 
@@ -23,7 +23,7 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
-public class GuideActivity extends BaseFragmentActivity implements
+public class GuideActivity extends BaseActivity implements
 		OnClickListener {
 
 	private ViewPager mViewPager;
@@ -40,9 +40,8 @@ public class GuideActivity extends BaseFragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setTheme(R.style.AiTheme);
+		setTheme(R.style.PickTheme);
 		setContentView(R.layout.activity_guide);
-		setTinitColor(Color.parseColor("#f0f0f0"));
 		indicator = (CricleIndicator) findViewById(R.id.indicator);
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mRightTv = (TextView) findViewById(R.id.tv_head_right);
@@ -170,5 +169,13 @@ public class GuideActivity extends BaseFragmentActivity implements
 			mRightTv.setTextColor(getResources().getColor(R.color.base_black_title_color));
 		}
 
+	}
+
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		if (hasFocus){
+			setStatusBarHide();
+		}
 	}
 }

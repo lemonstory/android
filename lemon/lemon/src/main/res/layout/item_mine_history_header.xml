@@ -47,6 +47,7 @@
             android:layout_height="@dimen/search_item_cover_height"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/mine_item_small_margin_top"
+            fresco:placeholderImageScaleType="centerCrop"
             fresco:roundedCornerRadius="@dimen/base_radius_size"
             android:layout_toRightOf="@id/v_mine_header" />
 

@@ -1,12 +1,12 @@
 package com.xiaoningmeng;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.alibaba.sdk.android.oss.callback.SaveCallback;
 import com.alibaba.sdk.android.oss.model.OSSException;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.base.BasePohotoActivity;
 import com.xiaoningmeng.base.BasePohotoActivity.IUploadCall;
@@ -24,24 +24,21 @@ import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.Province;
 import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.bean.Zone;
-import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.http.LHttpHandler;
+import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.utils.AvatarUtils;
-import com.xiaoningmeng.view.Info;
-import com.xiaoningmeng.view.PhotoView;
 import com.xiaoningmeng.view.dialog.BaseDialog;
 import com.xiaoningmeng.view.picker.DatePicker;
 
-import org.apache.http.Header;
 import org.litepal.crud.DataSupport;
 
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -54,7 +51,7 @@ public class PerasonalActivity extends BasePohotoActivity implements
 	private View mAgeView;
 	private TextView mSexTv;
 	private TextView mAddressTv;
-	private ImageView mAvatarImg;
+	private SimpleDraweeView mAvatarImg;
 	private ProgressBar mUploadingProgress;
 	private TextView mNameTv;
 	private TextView mPhoneTv;
@@ -63,22 +60,15 @@ public class PerasonalActivity extends BasePohotoActivity implements
 	private UserInfo mUserInfo;
 	private int type = -1;
 	private ImageView mWaveImg;
-	private View mPhotoParent;
-	private View mPhotoBg;
-	private PhotoView mPhotoView;
-	private Info mInfo;
-	private	AlphaAnimation in = new AlphaAnimation(0, 1);
-	private AlphaAnimation out = new AlphaAnimation(1, 0);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setTheme(R.style.AiTheme);
+		setTheme(R.style.PickTheme);
 		setContentView(R.layout.activity_perasonal);
 		mUserInfo = MyApplication.getInstance().userInfo;
 		initView();
 		PlayerManager.getInstance().register(this);
-		//Slidr.attach(this);
 	}
 
 	public void initView() {
@@ -87,20 +77,13 @@ public class PerasonalActivity extends BasePohotoActivity implements
 		setRightHeadIcon(R.drawable.play_flag_wave_01);
 		mSexTv = (TextView) findViewById(R.id.tv_perasonal_sex);
 		mAddressTv = (TextView) findViewById(R.id.tv_perasonal_address);
-		mAvatarImg = (ImageView) findViewById(R.id.img_perasonal_icon);
+		mAvatarImg = (SimpleDraweeView) findViewById(R.id.img_perasonal_icon);
 		mAvatarImg.setOnClickListener(this);
 		mNameTv = (TextView) findViewById(R.id.tv_perasonal_name);
 		mPhoneTv = (TextView) findViewById(R.id.tv_perasonal_phone);
 		mGoodsAddressTv = (TextView) findViewById(R.id.tv_perasonal_goods_address);
 		mAgeTv = (TextView) findViewById(R.id.tv_perasonal_age);
 		mUploadingProgress = (ProgressBar) findViewById(R.id.pb_perasonal_progress);
-		in.setDuration(300);
-	    out.setDuration(300);
-	    mPhotoParent = findViewById(R.id.parent);
-	    mPhotoBg = findViewById(R.id.img_perasonal_photo_bg);
-	    mPhotoView = (PhotoView) findViewById(R.id.pv_perasonal_photo);
-	    mPhotoView.enable();
-        mPhotoView.setOnClickListener(this);
 		setUserView();
 		requestUserInfo();
 		
@@ -133,12 +116,13 @@ public class PerasonalActivity extends BasePohotoActivity implements
 				mGoodsAddressTv.setText(address.getProvince()+" "+address.getCity()+(address.getArea()!= null ?" "+address.getArea():" ")+address.getAddress());
 			}
 			String avatarUrl = AvatarUtils.getAvatarUrl(mUserInfo.getUid(), mUserInfo.getAvatartime(), -1);
-			ImageLoader.getInstance().displayImage(avatarUrl, mAvatarImg,Constant.AVARAR_OPTIONS);
+			mAvatarImg.setImageURI(Uri.parse(avatarUrl));
+			//ImageLoader.getInstance().displayImage(avatarUrl, mAvatarImg,Constant.AVARAR_OPTIONS);
 		}		
 	}
 
 	public void requestUserInfo(){
-		LHttpRequest.getInstance().getUserInfoReq(this, new LHttpHandler<UserInfo>(this) {
+		LHttpRequest.getInstance().getUserInfoReq(this, new JsonCallback<UserInfo>() {
 			
 			@Override
 			public void onGetDataSuccess(UserInfo data) {
@@ -182,45 +166,21 @@ public class PerasonalActivity extends BasePohotoActivity implements
 			initAgeDialog();
 			break;
 		case R.id.img_perasonal_icon:
-			 startPhotoView(v);
-			break;
-		case R.id.pv_perasonal_photo:
-			 exitPhotoView();
+			String avatarUrl = AvatarUtils.getAvatarUrl(mUserInfo.getUid(), mUserInfo.getAvatartime(), -1);
+			Intent i = new Intent(this,ImageViewerPagerActivity.class);
+			ArrayList<String> imageUrls = new ArrayList<>();
+			imageUrls.add(avatarUrl);
+			i.putStringArrayListExtra("imagesUrl",imageUrls);
+			startActivity(i);
 			break;
 		}
 	}
 
-	private void startPhotoView(View v) {
-		setTinitColor(getResources().getColor(android.R.color.black));
-		PhotoView p = (PhotoView)v;
-		 mInfo = p.getInfo();
-		 String avatarUrl = AvatarUtils.getAvatarUrl(mUserInfo.getUid(), mUserInfo.getAvatartime(), -1);
-		 ImageLoader.getInstance().displayImage(avatarUrl, mPhotoView,Constant.AVARAR_OPTIONS);
-		 mPhotoBg.startAnimation(in);
-		 mPhotoParent.setVisibility(View.VISIBLE);
-		 mPhotoView.animaFrom(mInfo);
-	}
-
-	private void exitPhotoView() {
-		mPhotoBg.startAnimation(out);
-		 mPhotoView.animaTo(mInfo, new Runnable() {
-		     @Override
-		     public void run() {
-		         mPhotoParent.setVisibility(View.GONE);
-		         setTinitColor(getResources().getColor(R.color.system_bar_tint_color));
-		     }
-		 });
-	}
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 
 		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-			if(mPhotoParent.getVisibility() == View.VISIBLE){
-				exitPhotoView();
-				return true;
-			}
-			
 		}
 		return super.onKeyDown(keyCode, event);
 	}
@@ -247,7 +207,7 @@ public class PerasonalActivity extends BasePohotoActivity implements
 							int ageBegin = getAge(birthday);
 							final int age = ageBegin <0 ? 0 : ageBegin;
 							mDialog.dismiss();
-							LHttpRequest.getInstance().setUserInfoReq(PerasonalActivity.this, null, null, birthday, null, null, null, null, null,null, new LHttpHandler<String>(PerasonalActivity.this,PerasonalActivity.this) {
+							LHttpRequest.getInstance().setUserInfoReq(PerasonalActivity.this, null, null, birthday, null, null, null, null, null,null, new JsonCallback<String>(PerasonalActivity.this) {
 
 								@Override
 								public void onGetDataSuccess(String data) {
@@ -315,22 +275,12 @@ public class PerasonalActivity extends BasePohotoActivity implements
         return 0;
     }
 
-/*	@Override
-	public void getPhoto(String filePath) {
 
-		
-		uploadAvatar(filePath);
-	}
-
-	@Override
-	public void getImages(List<String> imagePaths) {
-		uploadAvatar(imagePaths.get(0));
-
-	}*/
 
 	private void uploadAvatar(String filePath) {
-		ImageLoader.getInstance().displayImage("file:///" + filePath, mAvatarImg);
+
 		File avatarFile = new File(filePath);
+		mAvatarImg.setImageURI(Uri.fromFile(avatarFile));
 		mUploadingProgress.setVisibility(View.VISIBLE);
 		if(avatarFile.exists()){
 			LHttpRequest.getInstance().setAvatarReq(this, filePath,new SaveCallback(){
@@ -343,7 +293,7 @@ public class PerasonalActivity extends BasePohotoActivity implements
 						@Override
 						public void onFailure(String arg0, OSSException arg1) {
 							String avatarUrl = AvatarUtils.getAvatarUrl(mUserInfo.getUid(), mUserInfo.getAvatartime(), -1);
-							ImageLoader.getInstance().displayImage(avatarUrl, mAvatarImg,Constant.AVARAR_OPTIONS);
+							mAvatarImg.setImageURI(Uri.parse(avatarUrl));
 							Toast.makeText(PerasonalActivity.this, "修改头像失败", Toast.LENGTH_SHORT).show();
 							mUploadingProgress.setVisibility(View.INVISIBLE);
 							
@@ -366,7 +316,7 @@ public class PerasonalActivity extends BasePohotoActivity implements
 
 	private void uploadAvatartime() {
 		final long avatartime = System.currentTimeMillis()/1000;
-		LHttpRequest.getInstance().setUserInfoReq(PerasonalActivity.this, null, null, null, null, null, null, null, null,avatartime+"", new LHttpHandler<String>(this) {
+		LHttpRequest.getInstance().setUserInfoReq(PerasonalActivity.this, null, null, null, null, null, null, null, null,avatartime+"", new JsonCallback<String>() {
 
 			@Override
 			public void onGetDataSuccess(String data) {
@@ -377,13 +327,12 @@ public class PerasonalActivity extends BasePohotoActivity implements
 			}
 			
 			@Override
-			public void onFailure(int statusCode, Header[] headers,
-					String responseString, Throwable throwable) {
+			public void onFailure(String responseString) {
 				String avatarUrl = AvatarUtils.getAvatarUrl(mUserInfo.getUid(), mUserInfo.getAvatartime(), -1);
-				ImageLoader.getInstance().displayImage(avatarUrl, mAvatarImg,Constant.AVARAR_OPTIONS);
+				mAvatarImg.setImageURI(Uri.parse(avatarUrl));
 				Toast.makeText(PerasonalActivity.this, "修改头像失败", Toast.LENGTH_SHORT).show();
 				mUploadingProgress.setVisibility(View.INVISIBLE);
-				super.onFailure(statusCode, headers, responseString, throwable);
+
 			}
 		});
 		
@@ -465,15 +414,4 @@ public class PerasonalActivity extends BasePohotoActivity implements
 		
 	}
 
-/*	@Override
-	public void getPhoto(String filePath) {
-		uploadAvatar(filePath);
-		
-	}
-
-	@Override
-	public void getImages(List<String> imagePaths) {
-		uploadAvatar(imagePaths.get(0));
-		
-	}*/
 }

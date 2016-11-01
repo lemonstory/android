@@ -24,7 +24,7 @@ import com.xiaoningmeng.AblumDetailActivity;
 import com.xiaoningmeng.ClassificationActivity;
 import com.xiaoningmeng.MoreActivity;
 import com.xiaoningmeng.R;
-import com.xiaoningmeng.base.BaseFragmentActivity;
+import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.Discover;
 import com.xiaoningmeng.bean.Tag;
@@ -395,7 +395,7 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 						AlbumInfo albumInfo = albumInfos.get(coverPos);
 						centerViewHolder.storyRl1.setVisibility(View.VISIBLE);
 						centerViewHolder.titleTv1.setText(albumInfo.getTitle());
-						centerViewHolder.tipTv1.setText(albumInfo.getListennum() == 0 ? "" : albumInfo.getListennum() + "");
+						centerViewHolder.tipTv1.setText("0".equals(albumInfo.getListennum()) ? "" : albumInfo.getListennum());
 						Uri coverImg1Uri = Uri.parse(albumInfo.getCover());
 						centerViewHolder.coverImg1.setBackgroundResource(Constant.getPosDrawable(coverPos));
 						centerViewHolder.coverImg1.setImageURI(coverImg1Uri);
@@ -413,7 +413,7 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 						AlbumInfo albumInfo = albumInfos.get(coverPos + 1);
 						centerViewHolder.storyRl2.setVisibility(View.VISIBLE);
 						centerViewHolder.titleTv2.setText(albumInfo.getTitle());
-						centerViewHolder.tipTv2.setText(albumInfo.getListennum() == 0 ?"" :albumInfo.getListennum() + "");
+						centerViewHolder.tipTv2.setText("0".equals(albumInfo.getListennum())?"" :albumInfo.getListennum());
 						if(albumInfo.getRecommenddesc() != null&& !"".equals(albumInfo.getRecommenddesc())) {
 							centerViewHolder.recommendTv2.setText(albumInfo.getRecommenddesc());
 						}else{
@@ -536,7 +536,7 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 			Intent intent = new Intent(mContext, AblumDetailActivity.class);
 			intent.putExtra("albumId", albumInfo.getAlbumid());
 			intent.putExtra("albumInfo",albumInfo);
-			((BaseFragmentActivity) mContext).startActivityForNew(intent);
+			((BaseActivity) mContext).startShareTransitionActivity(intent,v,"albumImage");
 			break;
 		case R.id.tv_classify_more:
 		case R.id.tv_classify_title:
@@ -544,7 +544,7 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 			int type = (int) v.getTag();
 			Intent i= new Intent(mContext, MoreActivity.class);
 			i.putExtra(MoreActivity.MORE_TYPE, type);
-			((BaseFragmentActivity) mContext).startActivityForNew(i);
+			((BaseActivity) mContext).startActivityForNew(i);
 			break;
 		case R.id.ll_classify1:
 		case R.id.ll_classify2:
@@ -555,7 +555,7 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 				Intent ii = new Intent(mContext,ClassificationActivity.class);
 				ii.putExtra("classification",tag);
 				ii.putExtra("classification_name", tag.getName());
-				((BaseFragmentActivity) mContext).startActivityForNew(ii);
+				((BaseActivity) mContext).startActivityForNew(ii);
 				HashMap<String,String> map = new HashMap<String,String>();
 				map.put("tagId",tag.getId());
 				map.put("tagName",tag.getName());

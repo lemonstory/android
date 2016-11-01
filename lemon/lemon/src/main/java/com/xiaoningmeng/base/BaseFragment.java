@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import android.widget.TextView;
 public class BaseFragment extends Fragment {
 
 	protected boolean isLandscape;
-	protected Dialog baseDialog;
 	private ViewGroup parent;
 
 	@Override
@@ -51,8 +49,8 @@ public class BaseFragment extends Fragment {
 				R.anim.main_translatex0to100);
 	}
 
-	public BaseFragmentActivity getBaseActivity() {
-		return (BaseFragmentActivity) getActivity();
+	public BaseActivity getBaseActivity() {
+		return (BaseActivity) getActivity();
 	}
 
 	public void animationForBottom() {

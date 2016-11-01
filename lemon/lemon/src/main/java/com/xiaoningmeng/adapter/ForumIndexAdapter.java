@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.xiaoningmeng.ForumDisplayActivity;
 import com.xiaoningmeng.R;
-import com.xiaoningmeng.base.BaseFragmentActivity;
+import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.Forum;
 
 import java.util.List;
@@ -89,7 +89,7 @@ public class ForumIndexAdapter extends BaseAdapter {
                 i.putExtra("name",name);
                 i.putExtra("fid", Integer.parseInt(fid));
                 i.putExtra("page",1);
-                ((BaseFragmentActivity)mContext).startActivityForNew(i);
+                ((BaseActivity)mContext).startActivityForNew(i);
             }
         });
 

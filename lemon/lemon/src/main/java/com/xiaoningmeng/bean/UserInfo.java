@@ -2,7 +2,7 @@ package com.xiaoningmeng.bean;
 
 import org.litepal.crud.DataSupport;
 
-public class UserInfo extends DataSupport {
+public class UserInfo extends DataSupport{
 
 	private String uid;
 	private String nickname;

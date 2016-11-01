@@ -13,8 +13,6 @@
         style="@style/discover_card_style"
        >
         <RelativeLayout
-
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -25,7 +23,7 @@
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
             android:layout_marginTop="3dp"
-            fresco:actualImageScaleType="none"
+            fresco:actualImageScaleType="centerCrop"
             />
 
 
@@ -58,7 +56,6 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <!-- android:background="@drawable/base_item_bg_selector"-->
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/img_story_cover2"

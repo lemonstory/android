@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/ablum_play_item_height"
-    android:background="@drawable/base_dialog_item_bg_selector"
+    android:background="@drawable/base_listview_item_bg_selector"
     android:orientation="vertical" >
 
     <TextView

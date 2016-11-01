@@ -23,11 +23,10 @@ import com.xiaoningmeng.bean.ForumLoginVar;
 import com.xiaoningmeng.bean.ForumNotice;
 import com.xiaoningmeng.bean.ForumThread;
 import com.xiaoningmeng.event.ForumLoginEvent;
-import com.xiaoningmeng.http.LHttpHandler;
+import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.view.BadgeView;
 
-import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -223,7 +222,7 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
 
     private void requestForumThreadsData(int fid, int page) {
         LHttpRequest.getInstance().getForumThreads(this,
-                new LHttpHandler<String>(this) {
+                new JsonCallback<String>() {
 
                     @Override
                     public void onGetDataSuccess(String data) {
@@ -278,9 +277,7 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
                     }
 
                     @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        super.onFailure(statusCode, headers, responseString, throwable);
-
+                    public void onFailure(String responseString) {
                         if (loadingView != null) {
                             loadingView.setVisibility(View.VISIBLE);
                             ((TextView) loadingView.getChildAt(0)).setText("请连接网络后点击屏幕重试");

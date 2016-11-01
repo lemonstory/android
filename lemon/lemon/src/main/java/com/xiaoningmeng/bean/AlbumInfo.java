@@ -8,7 +8,7 @@ import org.litepal.crud.DataSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AlbumInfo extends DataSupport implements Parcelable {
+public class AlbumInfo extends DataSupport implements Parcelable,IRecyclerItem {
 
 	protected String id;
 	protected String favid;
@@ -21,12 +21,21 @@ public class AlbumInfo extends DataSupport implements Parcelable {
     private String s_cover;
     private String add_time;
     private String update_time;
-    private int listennum;
+    private String listennum;
     private int favnum;
     private int commentnum;
     protected List<Story> storylist = new ArrayList<>();
 	protected Story storyinfo;
 	protected String recommenddesc;
+
+	@Override
+	public int getSpanSize() {
+		return 2;
+	}
+	@Override
+	public int getItemType() {
+		return Index.ALBUM_TYPE;
+	}
 
 	public AlbumInfo() {
 	}
@@ -44,7 +53,7 @@ public class AlbumInfo extends DataSupport implements Parcelable {
 		s_cover = in.readString();
 		add_time = in.readString();
 		update_time=in.readString();
-		listennum = in.readInt();
+		listennum = in.readString();
 		favnum = in.readInt();
 		commentnum = in.readInt();
 	}
@@ -147,11 +156,11 @@ public class AlbumInfo extends DataSupport implements Parcelable {
 		this.update_time = update_time;
 	}
 
-	public int getListennum() {
+	public String getListennum() {
 		return listennum;
 	}
 
-	public void setListennum(int listennum) {
+	public void setListennum(String listennum) {
 		this.listennum = listennum;
 	}
 	
@@ -215,7 +224,7 @@ public class AlbumInfo extends DataSupport implements Parcelable {
 		out.writeString(s_cover);
 		out.writeString(add_time);
 		out.writeString(update_time);
-		out.writeInt(listennum);
+		out.writeString(listennum);
 		out.writeInt(favnum);
 		out.writeInt(commentnum);
 

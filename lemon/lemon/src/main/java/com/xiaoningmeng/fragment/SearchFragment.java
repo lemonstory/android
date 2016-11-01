@@ -18,19 +18,18 @@ import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.adapter.SearchAdapter;
 import com.xiaoningmeng.adapter.SearchDefaultAdapter2;
+import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.base.BaseFragment;
-import com.xiaoningmeng.base.BaseFragmentActivity;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.SearchContent;
 import com.xiaoningmeng.bean.SearchData;
 import com.xiaoningmeng.db.SearchDao;
-import com.xiaoningmeng.http.LHttpHandler;
+import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.view.SearchView;
 import com.xiaoningmeng.view.SearchView.OnSearchViewListener;
 import com.xiaoningmeng.view.TabIndicatorView;
 
-import org.apache.http.Header;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +38,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class SearchFragment extends BaseFragment implements OnSearchViewListener,OnClickListener{
 
     private XListView mListView;
-    private BaseFragmentActivity mContext;
+    private BaseActivity mContext;
     private SearchAdapter mSearchAdapter;
     private SearchDefaultAdapter2 mDefaultAdapter;
     private List<AlbumInfo> mAlbumInfos;
@@ -58,7 +57,7 @@ public class SearchFragment extends BaseFragment implements OnSearchViewListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mContext = (BaseFragmentActivity) getActivity();
+        mContext = (BaseActivity) getActivity();
         View contentView = View.inflate(mContext,R.layout.fragment_search, null);
         mListView = (XListView) contentView.findViewById(R.id.id_stickynavlayout_innerscrollview);
         mSearchView = ((SearchView)getActivity().findViewById(R.id.search_bar));
@@ -81,7 +80,7 @@ public class SearchFragment extends BaseFragment implements OnSearchViewListener
     public void requestDefaultSearchReq(){
 
 
-        LHttpRequest.getInstance().getHotSearchReq(mContext, 20, new LHttpHandler<List<SearchContent>>(mContext) {
+        LHttpRequest.getInstance().getHotSearchReq(mContext, 20, new JsonCallback<List<SearchContent>>(mContext) {
 
             @Override
             public void onGetDataSuccess(List<SearchContent> data) {
@@ -104,7 +103,7 @@ public class SearchFragment extends BaseFragment implements OnSearchViewListener
         mContext.setLoadingTip("搜索中...");
         mPager = 1;
         LHttpRequest.getInstance().searchReq(getActivity(), searchContent, 10,mPager,null,
-                new LHttpHandler<SearchData>(mContext,mContext) {
+                new JsonCallback<SearchData>(mContext) {
 
                     @Override
                     public void onGetDataSuccess(SearchData data) {
@@ -122,8 +121,7 @@ public class SearchFragment extends BaseFragment implements OnSearchViewListener
                     }
 
                     @Override
-                    public void onFailure(int statusCode, Header[] headers,
-                                          String responseString, Throwable throwable) {
+                    public void onFailure(String responseString) {
 
                         mSearchContentView.setVisibility(View.VISIBLE);
                         showEmptyTip();
@@ -151,7 +149,7 @@ public class SearchFragment extends BaseFragment implements OnSearchViewListener
 
         mAlbumInfos.clear();
         LHttpRequest.getInstance().searchReq(getActivity(), mSearchContent, 10,mPager,searchType,
-                new LHttpHandler<SearchData>(mContext) {
+                new JsonCallback<SearchData>() {
 
                     @Override
                     public void onGetDataSuccess(SearchData data) {

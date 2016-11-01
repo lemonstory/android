@@ -4,8 +4,10 @@
 -dontusemixedcaseclassnames   # 是否使用大小写混合
 -dontpreverify           # 混淆时是否做预校验
 -verbose                # 混淆时是否记录日志
+-keepattributes EnclosingMethod
 
 -optimizations !code/simplification/arithmetic,!field/*,!class/merging/*  # 混淆时所采用的算法
+-keepattributes EnclosingMethod
 
 -keep public class * extends android.app.Activity      # 保持哪些类不被混淆
 -keep public class * extends android.app.Application   # 保持哪些类不被混淆
@@ -48,6 +50,8 @@
 -dontwarn com.tencent.weibo.sdk.**
 -dontwarn com.facebook.**
 -dontwarn com.baidu.**
+
+
 -keep enum com.facebook.**
 -keepattributes Exceptions,InnerClasses,Signature
 -keepattributes *Annotation*
@@ -87,6 +91,19 @@
 -keep class com.baoyz.**{*;}
 -keep class com.xiaoningmeng.bean.** { *; }
 -keep class com.xiaoningmeng.reminder.LMessageReceiver {*;}
+#okhttputils
+-dontwarn com.zhy.http.**
+-keep class com.zhy.http.**{*;}
+
+
+#okhttp
+-dontwarn okhttp3.**
+-keep class okhttp3.**{*;}
+
+
+#okio
+-dontwarn okio.**
+-keep class okio.**{*;}
 
 -keepattributes Signature
 -keep class sun.misc.Unsafe { *; }
@@ -176,7 +193,18 @@
 -keep class com.tencent.open.PKDialog {*;}
 -keep class com.tencent.open.PKDialog$*
 -keep class com.tencent.open.PKDialog$* {*;}
-
+-keepattributes Signature
+-keep class sun.misc.Unsafe { *; }
+-keep class com.taobao.** {*;}
+-keep class com.alibaba.** {*;}
+-keep class com.alipay.** {*;}
+-dontwarn com.taobao.**
+-dontwarn com.alibaba.**
+-dontwarn com.alipay.**
+-keep class com.ut.** {*;}
+-dontwarn com.ut.**
+-keep class com.ta.** {*;}
+-dontwarn com.ta.**
 -keep class com.sina.** {*;}
 -dontwarn com.sina.**
 -keep class  com.alipay.share.sdk.** {
@@ -189,4 +217,5 @@
 -keepattributes Signature
 #end
 -ignorewarnings
+
 

@@ -22,14 +22,14 @@ import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.xiaoningmeng.adapter.PopAdapter;
-import com.xiaoningmeng.base.BaseFragmentActivity;
+import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.Special;
 import com.xiaoningmeng.bean.Tag;
 import com.xiaoningmeng.bean.TagDetail;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.fragment.ClassificationFragment;
-import com.xiaoningmeng.http.LHttpHandler;
+import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
@@ -41,12 +41,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ClassificationActivity extends BaseFragmentActivity implements View.OnClickListener,PlayObserver {
+public class ClassificationActivity extends BaseActivity implements View.OnClickListener,PlayObserver {
 
     private PagerSlidingTabStrip mIndicator;
     private ViewPager mViewPager;
     private TextView mClassifyTv;
-    private ImageView mSearchImg;
     private ImageView mCoverImg;
     private ImageView mDropImg;
     private ClassificationFragment[] mClassificationFragments;
@@ -70,7 +69,6 @@ public class ClassificationActivity extends BaseFragmentActivity implements View
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         mClassifyTv = (TextView) findViewById(R.id.tv_head_classify);
         mDropImg = (ImageView)findViewById(R.id.img_head_drop);
-        mSearchImg = (ImageView)findViewById(R.id.img_head_search);
         mCoverImg = (ImageView) findViewById(R.id.img_head_right);
         if(classificationName != null){
             mClassifyTv.setText(classificationName);
@@ -89,7 +87,8 @@ public class ClassificationActivity extends BaseFragmentActivity implements View
     }
 
     private  void requestData(String selectTagId){
-        LHttpRequest.getInstance().getTagAblumListReq(this,selectTagId, 1, Constant.FRIST, Constant.FRIST_ID, null, 0, new LHttpHandler<TagDetail>(this,this) {
+        LHttpRequest.getInstance().getTagAblumListReq(this,selectTagId, 1,
+                Constant.FRIST, Constant.FRIST_ID, null, 0, new JsonCallback<TagDetail>(this) {
             @Override
             public void onGetDataSuccess(TagDetail data) {
 
@@ -124,6 +123,7 @@ public class ClassificationActivity extends BaseFragmentActivity implements View
                     if(isFirst) {
                         mPagerAdapter = new TabFragmentPagerAdapter(getSupportFragmentManager());
                         mViewPager.setAdapter(mPagerAdapter);
+                        mViewPager.setOffscreenPageLimit(0);
                         mIndicator.setViewPager(mViewPager);
                     }else{
                         for(int i = 0; i < mPagerAdapter.getCount();i++){

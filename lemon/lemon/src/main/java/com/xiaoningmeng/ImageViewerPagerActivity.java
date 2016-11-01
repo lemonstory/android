@@ -1,6 +1,8 @@
 package com.xiaoningmeng;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.Animatable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
@@ -9,28 +11,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.assist.ImageSize;
-import com.nostra13.universalimageloader.core.imageaware.ImageAware;
-import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.facebook.drawee.backends.pipeline.PipelineDraweeControllerBuilder;
+import com.facebook.drawee.controller.BaseControllerListener;
+import com.facebook.imagepipeline.image.ImageInfo;
+
 import com.xiaoningmeng.base.BaseActivity;
-import com.xiaoningmeng.utils.PostImageUtils;
 import com.xiaoningmeng.view.HackyViewPager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import uk.co.senab.photoview.PhotoView;
-import uk.co.senab.photoview.PhotoViewAttacher;
+import me.relex.photodraweeview.OnPhotoTapListener;
+import me.relex.photodraweeview.PhotoDraweeView;
 
 public class ImageViewerPagerActivity extends BaseActivity {
 
@@ -90,12 +84,12 @@ public class ImageViewerPagerActivity extends BaseActivity {
         paginationTv.setText(pageination);
     }
 
-    PhotoViewAttacher.OnPhotoTapListener onPhotoTapListener = new PhotoViewAttacher.OnPhotoTapListener() {
+   /* PhotoViewAttacher.OnPhotoTapListener onPhotoTapListener = new PhotoViewAttacher.OnPhotoTapListener() {
         @Override
         public void onPhotoTap(View view, float x, float y){
             ImageViewerPagerActivity.this.back(view);
         }
-    };
+    };*/
 
     class SamplePagerAdapter extends PagerAdapter {
 
@@ -122,6 +116,39 @@ public class ImageViewerPagerActivity extends BaseActivity {
         }
 
         @Override
+        public View instantiateItem(ViewGroup viewGroup, int position) {
+            final PhotoDraweeView photoDraweeView = new PhotoDraweeView(viewGroup.getContext());
+            PipelineDraweeControllerBuilder controller = Fresco.newDraweeControllerBuilder();
+            String imageAbsolutePath = this.imagesPath.get(position);
+            controller.setUri(Uri.parse(imageAbsolutePath));
+            controller.setOldController(photoDraweeView.getController());
+            controller.setControllerListener(new BaseControllerListener<ImageInfo>() {
+                @Override
+                public void onFinalImageSet(String id, ImageInfo imageInfo, Animatable animatable) {
+                    super.onFinalImageSet(id, imageInfo, animatable);
+                    if (imageInfo == null) {
+                        return;
+                    }
+                    photoDraweeView.update(imageInfo.getWidth(), imageInfo.getHeight());
+                }
+            });
+            photoDraweeView.setController(controller.build());
+            photoDraweeView.setOnPhotoTapListener(new OnPhotoTapListener() {
+            @Override
+            public void onPhotoTap(View view, float x, float y) {
+                ImageViewerPagerActivity.this.back(view);
+            }
+        });
+            try {
+                viewGroup.addView(photoDraweeView, ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return photoDraweeView;
+        }
+       /* @Override
         public View instantiateItem(ViewGroup container, int position) {
 
             PhotoView photoView = new PhotoView(container.getContext());
@@ -133,7 +160,7 @@ public class ImageViewerPagerActivity extends BaseActivity {
             container.addView(photoView, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
             photoView.setOnPhotoTapListener(onPhotoTapListener);
             return photoView;
-        }
+        }*/
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
@@ -198,7 +225,7 @@ public class ImageViewerPagerActivity extends BaseActivity {
         super.onSaveInstanceState(outState);
     }
 
-    SimpleImageLoadingListener imageLoadingListener = new SimpleImageLoadingListener() {
+   /* SimpleImageLoadingListener imageLoadingListener = new SimpleImageLoadingListener() {
 
         @Override
         public void onLoadingStarted(String imageUri, View view) {
@@ -225,6 +252,6 @@ public class ImageViewerPagerActivity extends BaseActivity {
 
             imageLoadingTv.setText(Integer.toString(Math.round(100.0f * current / total)) + "%");
         }
-    };
+    };*/
 
 }

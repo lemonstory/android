@@ -2,6 +2,7 @@ package com.xiaoningmeng;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -19,7 +20,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.drawable.ScalingUtils;
+import com.facebook.drawee.view.DraweeTransition;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
@@ -27,7 +29,7 @@ import com.umeng.socialize.UMShareAPI;
 import com.xiaoningmeng.application.ActivityManager;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.auth.UserAuth;
-import com.xiaoningmeng.base.BaseFragmentActivity;
+import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.Album;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.AudioDownLoad;
@@ -43,7 +45,7 @@ import com.xiaoningmeng.event.FavEvent;
 import com.xiaoningmeng.fragment.AblumDetailCommentFragment;
 import com.xiaoningmeng.fragment.AblumDetailIntroFragment;
 import com.xiaoningmeng.fragment.AblumDetailPlayListFragment;
-import com.xiaoningmeng.http.LHttpHandler;
+import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
@@ -56,14 +58,12 @@ import com.xiaoningmeng.view.ShareDialog;
 import com.xiaoningmeng.view.StickyNavLayout;
 import com.xiaoningmeng.view.dialog.TipDialog;
 
-import org.apache.http.Header;
-
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
 
 
-public class AblumDetailActivity extends BaseFragmentActivity implements
+public class AblumDetailActivity extends BaseActivity implements
 		OnClickListener, PlayObserver, DownLoadObserver<AudioDownLoad> {
 
 	private ViewPager mViewPager;
@@ -89,6 +89,7 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 	private List<Story> storyList;
 	private List<Comment> commentList;
 	private boolean isFirst = true;
+	private boolean isLoadImage;
 	private int mPlayTime;
 	private String mPlayStoryId;
 	private int mPlayStoryPosition;
@@ -106,14 +107,13 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Fresco.initialize(this);
 		setContentView(R.layout.activity_ablum_detail);
 		mAlbumId = getAlbumIdWithIntent();
 		boolean isScroll = getIntent().getBooleanExtra("isScroll", false);
-		int pager = getIntent().getIntExtra("pager", 0);
+		final int pager = getIntent().getIntExtra("pager", 0);
 		mPlayTime = getIntent().getIntExtra("playtimes", 0);
 		mPlayStoryId = getIntent().getStringExtra("playstoryid");
-
+		final AlbumInfo albumInfo = getIntent().getParcelableExtra("albumInfo");
 		mViewPager = (ViewPager) findViewById(R.id.id_stickynavlayout_viewpager);
 		mPlayListTabTv = (TextView) findViewById(R.id.tv_ablum_detail_play_list);
 		mIntroTabTv = (TextView) findViewById(R.id.tv_ablum_detail_info);
@@ -131,40 +131,45 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 		mPlayListTabTv.setOnClickListener(this);
 		mIntroTabTv.setOnClickListener(this);
 		mCommentTabV.setOnClickListener(this);
-		final AlbumInfo albumInfo = getIntent().getParcelableExtra("albumInfo");
+		mPlayProgressBar = (CircleProgressBar) findViewById(R.id.circleProgressBar);
 		if(albumInfo != null){
 			fillAlbumInfoView(albumInfo);
 		}
 		PlayerManager.getInstance().register(this);
 		setRightHeadIcon(R.drawable.play_flag_wave_01);
-		mPlayListFragment = new AblumDetailPlayListFragment();
-		mIntroFragment = new AblumDetailIntroFragment();
-		mCommentFragment = new AblumDetailCommentFragment();
-		mViewPager.setAdapter(new TabFragmentPagerAdapter(getSupportFragmentManager()));
-		mViewPager.setOffscreenPageLimit(2);
-		mPlayProgressBar = (CircleProgressBar) findViewById(R.id.circleProgressBar);
-		selectTab(pager);
-		mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
+		mHandler.postDelayed(new Runnable() {
 			@Override
-			public void onPageScrolled(int position, float positionOffset,
-									   int positionOffsetPixels) {
+			public void run() {
+				mPlayListFragment = new AblumDetailPlayListFragment();
+				mIntroFragment = new AblumDetailIntroFragment();
+				mCommentFragment = new AblumDetailCommentFragment();
+				mViewPager.setAdapter(new TabFragmentPagerAdapter(getSupportFragmentManager()));
+				mViewPager.setOffscreenPageLimit(2);
+				selectTab(pager);
+				mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
+					@Override
+					public void onPageScrolled(int position, float positionOffset,
+											   int positionOffsetPixels) {
+					}
+
+					@Override
+					public void onPageSelected(int position) {
+						selectTab(position);
+
+					}
+
+					@Override
+					public void onPageScrollStateChanged(int state) {
+
+					}
+				});
+				mViewPager.setCurrentItem(pager);
+				DownLoadClientImpl.getInstance().registerObserver(AblumDetailActivity.this);
+				EventBus.getDefault().register(AblumDetailActivity.this);
+				requestAlbumDetailData();
 			}
+		},300);
 
-			@Override
-			public void onPageSelected(int position) {
-				selectTab(position);
-
-			}
-
-			@Override
-			public void onPageScrollStateChanged(int state) {
-
-			}
-		});
-		mViewPager.setCurrentItem(pager);
-		DownLoadClientImpl.getInstance().registerObserver(this);
-		EventBus.getDefault().register(this);
-		requestAlbumDetailData();
 		if(isScroll){
 			mStickyNavLayout.postDelayed(new Runnable() {
 
@@ -177,6 +182,15 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 		}
 	}
 
+	private void initShareSharedElementTransition(){
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			getWindow().setSharedElementEnterTransition(DraweeTransition.createTransitionSet(
+					ScalingUtils.ScaleType.CENTER_CROP, ScalingUtils.ScaleType.CENTER_CROP));
+			getWindow().setSharedElementReturnTransition(DraweeTransition.createTransitionSet(
+					ScalingUtils.ScaleType.CENTER_CROP, ScalingUtils.ScaleType.CENTER_CROP));
+		}
+	}
 	private String getAlbumIdWithIntent() {
 
 		String albumIdWithIntent = "";
@@ -204,7 +218,7 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 
 			LHttpRequest.getInstance().albumInfoReq(this,10,mAlbumId,
 					MyApplication.getInstance().getUid(),
-					new LHttpHandler<Album>(this) {
+					new JsonCallback<Album>() {
 
 						@Override
 						public void onGetDataSuccess(Album data) {
@@ -227,17 +241,11 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 						}
 
 						@Override
-						public void onFailure(int statusCode, Header[] headers,
-											  String responseString, Throwable throwable) {
-							mViewPager.postDelayed(new Runnable() {
-
-								@Override
-								public void run() {
-									mPlayListFragment.onFailure();
-
-								}
-							}, 500);
+						public void onFailure(String failureResponse) {
+							mPlayListFragment.onFailure();
 						}
+
+
 					});
 		}
 	}
@@ -263,15 +271,19 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 	}
 
 	private void fillAlbumInfoView(AlbumInfo albumInfo) {
-
-		mAlbumTitleTv.setText(albumInfo.getTitle());
-		setTitleName(albumInfo.getTitle());
-		mRatingBar.setStar(Integer.parseInt(albumInfo.getStar_level()));
+		if(!isLoadImage){
+			mAlbumTitleTv.setText(albumInfo.getTitle());
+			setTitleName(albumInfo.getTitle());
+			Uri uri = Uri.parse(albumInfo.getCover());
+			ImageUtils.displayImage(this,mCoverImg,uri,300,300);
+			initShareSharedElementTransition();
+			isLoadImage = true;
+		}
+		mRatingBar.setStar(albumInfo.getStar_level() != null ?Integer.parseInt(albumInfo.getStar_level()):0);
 		mFavTv.setSelected(albumInfo.getFav() == 1);
 		mFavTv.setText(albumInfo.getFavnum() == 0?"收藏":(albumInfo.getFavnum() + ""));
 		mListenerTv.setText(albumInfo.getListennum()+"");
-		Uri uri = Uri.parse(albumInfo.getCover());
-		ImageUtils.displayImage(this,mCoverImg,uri,300,300);
+
 	}
 
 	@Override
@@ -362,7 +374,7 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 		if (albumInfo.getFav() == 0) {
 			LHttpRequest.getInstance().addFavAlbumRequest(this,
 					mAlbumId,
-					new LHttpHandler<String>(this) {
+					new JsonCallback<String>(this) {
 
 						@Override
 						public void onGetDataSuccess(String data) {
@@ -379,7 +391,7 @@ public class AblumDetailActivity extends BaseFragmentActivity implements
 						}
 					});
 		} else {
-			LHttpRequest.getInstance().delFavAlbumRequest(this,mAlbumId,new LHttpHandler<String>(this) {
+			LHttpRequest.getInstance().delFavAlbumRequest(this,mAlbumId,new JsonCallback<String>(this) {
 
 						@Override
 						public void onGetDataSuccess(String data) {

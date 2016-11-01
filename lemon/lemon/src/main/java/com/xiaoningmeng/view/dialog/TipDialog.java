@@ -1,18 +1,14 @@
 package com.xiaoningmeng.view.dialog;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.TextView;
 
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.DialogPlus.Gravity;
-import com.orhanobut.dialogplus.OnDismissListener;
 import com.orhanobut.dialogplus.ViewHolder;
 import com.xiaoningmeng.R;
-import com.xiaoningmeng.base.BaseActivity;
-import com.xiaoningmeng.base.BaseFragmentActivity;
 
 public class TipDialog {
 
@@ -60,27 +56,13 @@ public class TipDialog {
 				.setIsTransparentBg(false)
 				.setShieldActionUp(builder.isShieldActionUp)
 				.setOnClickListener(builder.onClickListener)
-				.setOnDismissListener(new OnDismissListener() {
-					@Override
-					public void onDismiss(DialogPlus dialog) {
-						if(builder.context instanceof BaseFragmentActivity){
-							((BaseFragmentActivity)builder.context).setSystemBar();
-						}else if(builder.context instanceof BaseActivity){
-							((BaseActivity)builder.context).setSystemBar();
-						}
-					}
-				}).setBackgroundColorResourceId(bgId).create();
+				.setBackgroundColorResourceId(bgId).create();
 	}
 
 	public void show() {
 
 		dialog.show();
-		int acitonBarBg = builder.context.getResources().getColor(R.color.action_bar_dialog_bg);
-		if(builder.context instanceof BaseFragmentActivity){
-			((BaseFragmentActivity)builder.context).setTinitColor(acitonBarBg);
-		}else if(builder.context instanceof BaseActivity){
-			((BaseActivity)builder.context).setTinitColor(acitonBarBg);
-		}
+
 		if (builder.autoDismiss) {
 			new CountDownTimer(TIME_COUNT, 500) {
 

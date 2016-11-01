@@ -18,7 +18,7 @@ import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.Comment;
 import com.xiaoningmeng.bean.UserInfo;
-import com.xiaoningmeng.http.LHttpHandler;
+import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.view.RatingBar;
 import com.xiaoningmeng.view.RatingBar.OnRatingChangeListener;
@@ -140,7 +140,7 @@ public class CommentActivity extends BaseActivity {
 		}
 		isReq.set(true);
 		LHttpRequest.getInstance().addCommentReq(this, albumId, commentContent,
-				starLevel, new LHttpHandler<String>(this, this) {
+				starLevel, new JsonCallback<String>( this) {
 
 			
 					@Override

@@ -1,19 +1,16 @@
 package com.xiaoningmeng.fragment;
 
 import com.xiaoningmeng.GuideActivity;
-import com.xiaoningmeng.HomeActivity;
-import com.xiaoningmeng.LoginActivity;
 import com.xiaoningmeng.PerasonalActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.application.MyApplication;
+import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.base.BaseFragment;
-import com.xiaoningmeng.base.BaseFragmentActivity;
-import com.xiaoningmeng.http.LHttpHandler;
+import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.view.dialog.BaseDialog;
 import com.xiaoningmeng.view.picker.DatePicker;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,13 +28,13 @@ public class WeclomeFragment extends BaseFragment implements OnClickListener {
 	private TextView mDayEt;
 	private BaseDialog mDialog;
 	private View mAgeView;
-	private BaseFragmentActivity mContext;
+	private BaseActivity mContext;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		int page = getArguments().getInt("page");
-		mContext = (BaseFragmentActivity) getActivity();
+		mContext = (BaseActivity) getActivity();
 		View containerView;
 		if (page == 0) {
 			containerView = inflater.inflate(R.layout.fragment_welcome1, null);
@@ -100,7 +97,7 @@ public class WeclomeFragment extends BaseFragment implements OnClickListener {
 							int ageBegin = PerasonalActivity.getAge(birthday);
 							final int age = ageBegin <0 ? 0 : ageBegin;
 							mDialog.dismiss();
-							LHttpRequest.getInstance().setUserInfoReq(mContext, null, null, birthday, null, null, null, null, null,null, new LHttpHandler<String>(mContext) {
+							LHttpRequest.getInstance().setUserInfoReq(mContext, null, null, birthday, null, null, null, null, null,null, new JsonCallback<String>() {
 
 								@Override
 								public void onGetDataSuccess(String data) {
@@ -126,7 +123,7 @@ public class WeclomeFragment extends BaseFragment implements OnClickListener {
 	
 	
 	private void modifySex(final int sex){
-		LHttpRequest.getInstance().setUserInfoReq(mContext, null, sex+"", null, null, null, null, null, null,null, new LHttpHandler<String>(mContext) {
+		LHttpRequest.getInstance().setUserInfoReq(mContext, null, sex+"", null, null, null, null, null, null,null, new JsonCallback<String>() {
 
 			@Override
 			public void onGetDataSuccess(String data) {

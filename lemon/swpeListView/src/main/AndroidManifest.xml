@@ -2,5 +2,5 @@
     package="com.baoyz.swipemenulistview">
  <uses-sdk
         android:minSdkVersion="9"
-        android:targetSdkVersion="21" />
+        android:targetSdkVersion="22" />
 </manifest>

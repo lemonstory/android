@@ -4,21 +4,21 @@
     <item
         android:id="@android:id/background" >
          <shape>
-                <solid android:color="@color/play_seekbar_bg" />
+                <solid android:color="@color/white" />
             </shape>
         </item>
     <item
         android:id="@android:id/secondaryProgress">
         <clip>
             <shape>
-                <solid android:color="@color/play_buffer_progress" />
+                <solid android:color="@color/base_date_color" />
             </shape>
         </clip> 
         </item>
     <item android:id="@android:id/progress">
       <clip>
             <shape>
-                <solid android:color="@color/play_seekbar_progress" />
+                <solid android:color="#656565" />
             </shape>
         </clip> 
     </item>

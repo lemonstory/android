@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.xiaoningmeng.PerasonalCenterActivity;
 import com.xiaoningmeng.R;
-import com.xiaoningmeng.base.BaseFragmentActivity;
+import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.Comment;
 import com.xiaoningmeng.utils.AvatarUtils;
 import com.xiaoningmeng.view.RatingBar;
@@ -146,7 +146,7 @@ public class AblumCommentAdapter extends BaseAdapter implements OnClickListener 
 			String uid = comments.get(position).getUid();
 			Intent i = new Intent(mContext,PerasonalCenterActivity.class);
 			i.putExtra("uid", uid);
-			((BaseFragmentActivity)mContext).startActivityForNew(i);
+			((BaseActivity)mContext).startActivityForNew(i);
 			break;
 		}
 	}

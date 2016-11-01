@@ -19,10 +19,9 @@ import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.bean.Forum;
 import com.xiaoningmeng.bean.ForumNotice;
 import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.http.LHttpHandler;
+import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 
-import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -143,7 +142,7 @@ public class ForumIndexFragment extends BaseFragment  implements IXListViewListe
     private void requestForumListData(final String direction,String startId) {
 
         LHttpRequest.getInstance().getForumIndex(getActivity(),
-                new LHttpHandler<String>(getActivity()) {
+                new JsonCallback<String>() {
 
                     @Override
                     public void onGetDataSuccess(String data) {
@@ -172,8 +171,7 @@ public class ForumIndexFragment extends BaseFragment  implements IXListViewListe
                     }
 
                     @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        super.onFailure(statusCode, headers, responseString, throwable);
+                    public void onFailure( String responseString) {
                         loadingView.setVisibility(View.VISIBLE);
                         ((TextView)loadingView.getChildAt(0)).setText("请连接网络后点击屏幕重试");
                         loadingView.getChildAt(1).setVisibility(View.INVISIBLE);

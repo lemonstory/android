@@ -5,14 +5,11 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.xiaoningmeng.AddedImageViewPager;
 import com.xiaoningmeng.R;
@@ -21,18 +18,9 @@ import com.xiaoningmeng.event.AddedImageEvent;
 import de.greenrobot.event.EventBus;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link AddedImageFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link AddedImageFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class AddedImageFragment extends BasePhotoFragment implements BasePhotoFragment.IUploadCall {
 
     public final static int MAX_ADDED_IMAGE_COUNT = 3;
@@ -42,6 +30,7 @@ public class AddedImageFragment extends BasePhotoFragment implements BasePhotoFr
     private ArrayList<File> addedImageFiles;
     private View mView;
     private OnAddedImgListener mListener;
+
 
     public AddedImageFragment() {
         // Required empty public constructor

@@ -24,13 +24,12 @@ import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.event.FavEvent;
-import com.xiaoningmeng.http.LHttpHandler;
+import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.utils.UiUtils;
 import com.xiaoningmeng.view.dialog.TipDialog;
 
-import org.apache.http.Header;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -138,7 +137,7 @@ public class FavActivity extends BaseActivity implements IXListViewListener {
 			final AlbumInfo albumInfo = mFaAlbumList.get(position);
 			final String albumId = albumInfo.getAlbumid();
 			LHttpRequest.getInstance().delFavAlbumRequest(this,albumId,
-					new LHttpHandler<String>(this) {
+					new JsonCallback<String>() {
 
 						@Override
 						public void onGetDataSuccess(String data) {
@@ -153,7 +152,7 @@ public class FavActivity extends BaseActivity implements IXListViewListener {
 
 	private void requestFavData(final String direction, String startId) {
 		LHttpRequest.getInstance().getFavAlbumListRequest(this, direction,
-				startId, Constant.MAX_REQ_LEN, new LHttpHandler<List<AlbumInfo>>(this) {
+				startId, Constant.MAX_REQ_LEN, new JsonCallback<List<AlbumInfo>>() {
 
 					@Override
 					public void onGetDataSuccess(List<AlbumInfo> data) {
@@ -181,10 +180,8 @@ public class FavActivity extends BaseActivity implements IXListViewListener {
 					}
 					
 					@Override
-					public void onFailure(int statusCode, Header[] headers,
-							String responseString, Throwable throwable) {
+					public void onFailure(String responseString) {
 						hideLoadingTip();
-						super.onFailure(statusCode, headers, responseString, throwable);
 					}
 
 					@Override

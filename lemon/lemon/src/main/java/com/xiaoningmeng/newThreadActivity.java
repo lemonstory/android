@@ -14,25 +14,24 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.xiaoningmeng.base.BaseFragmentActivity;
+import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.fragment.AddedImageFragment;
 import com.xiaoningmeng.fragment.KeyboardFragment;
-import com.xiaoningmeng.http.LHttpHandler;
+import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.utils.AppUtils;
 import com.xiaoningmeng.utils.FileUtils;
 import com.xiaoningmeng.utils.ImageUtils;
 import com.xiaoningmeng.utils.UiUtils;
 
-import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
 
-public class NewThreadActivity extends BaseFragmentActivity implements View.OnClickListener,KeyboardFragment.OnFragmentInteractionListener,AddedImageFragment.OnAddedImgListener {
+public class NewThreadActivity extends BaseActivity implements View.OnClickListener,KeyboardFragment.OnFragmentInteractionListener,AddedImageFragment.OnAddedImgListener {
 
     private Context mContext;
     private TextView rightTv;
@@ -121,7 +120,7 @@ public class NewThreadActivity extends BaseFragmentActivity implements View.OnCl
                 String compressFilePath =  ImageUtils.compress(file.getAbsolutePath(), Bitmap.CompressFormat.JPEG, 80);
                 final File fileData = new File(compressFilePath);
                 //上传图片
-                LHttpRequest.getInstance().forumUpload(this,new LHttpHandler<String>(this) {
+                LHttpRequest.getInstance().forumUpload(this,new JsonCallback<String>() {
                     @Override
                     public void onGetDataSuccess(String data) {
                         FileUtils.deleteFile(fileData);
@@ -159,8 +158,7 @@ public class NewThreadActivity extends BaseFragmentActivity implements View.OnCl
                     }
 
                     @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        super.onFailure(statusCode, headers, responseString, throwable);
+                    public void onFailure( String responseString) {
                         stopLoading();
                         Toast.makeText(mContext,"请检查网络设置",Toast.LENGTH_SHORT).show();
                     }
@@ -186,7 +184,7 @@ public class NewThreadActivity extends BaseFragmentActivity implements View.OnCl
         if (fid != 0 && formHash != null && !formHash.equals("")) {
             String subject = subjectEt.getText().toString();
             String message = messageEt.getText().toString();
-            LHttpRequest.getInstance().newThread(this, new LHttpHandler<String>(this) {
+            LHttpRequest.getInstance().newThread(this, new JsonCallback<String>() {
                 @Override
                 public void onGetDataSuccess(String data) {
 
@@ -218,8 +216,7 @@ public class NewThreadActivity extends BaseFragmentActivity implements View.OnCl
                 }
 
                 @Override
-                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                    super.onFailure(statusCode, headers, responseString, throwable);
+                public void onFailure(String responseString) {
                     stopLoading();
                     Toast.makeText(mContext,"请检查网络设置",Toast.LENGTH_SHORT).show();
                 }

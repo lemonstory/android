@@ -22,7 +22,7 @@ import com.alibaba.sdk.android.trade.page.ItemDetailPage;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.R;
-import com.xiaoningmeng.base.BaseFragmentActivity;
+import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.ShopItem;
 import com.xiaoningmeng.constant.Constant;
 
@@ -166,7 +166,7 @@ public class ShopAdapter extends BaseAdapter implements View.OnClickListener {
         ItemDetailPage itemDetailPage = new ItemDetailPage(itemId, exParams);
         TaokeParams taokeParams = new TaokeParams();
         taokeParams.pid = Constant.DEFAULT_TAOKE_PID;
-        tradeService.show(itemDetailPage, taokeParams, (BaseFragmentActivity) mContext, null, new TradeProcessCallback() {
+        tradeService.show(itemDetailPage, taokeParams, (BaseActivity) mContext, null, new TradeProcessCallback() {
             @Override
             public void onFailure(int code, String msg) {
                 Toast.makeText(mContext, "失败 " + code + msg,

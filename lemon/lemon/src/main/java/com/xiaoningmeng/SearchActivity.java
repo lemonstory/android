@@ -16,27 +16,26 @@ import com.baoyz.swipemenu.xlistview.XListView;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.xiaoningmeng.adapter.SearchAdapter;
 import com.xiaoningmeng.adapter.SearchDefaultAdapter2;
+import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.base.BaseFragment;
-import com.xiaoningmeng.base.BaseFragmentActivity;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.SearchContent;
 import com.xiaoningmeng.bean.SearchData;
 import com.xiaoningmeng.db.SearchDao;
 import com.xiaoningmeng.fragment.SearchAlbumChildFragment;
 import com.xiaoningmeng.fragment.SearchStoryChildFragment;
-import com.xiaoningmeng.http.LHttpHandler;
+import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.view.SearchView;
 import com.xiaoningmeng.view.TabIndicatorView;
 
-import org.apache.http.Header;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
-public class SearchActivity extends BaseFragmentActivity implements SearchView.OnSearchViewListener,View.OnClickListener{
+public class SearchActivity extends BaseActivity implements SearchView.OnSearchViewListener,View.OnClickListener{
     private XListView mListView;
     private SearchAdapter mSearchAdapter;
     private SearchDefaultAdapter2 mDefaultAdapter;
@@ -80,7 +79,7 @@ public class SearchActivity extends BaseFragmentActivity implements SearchView.O
     public void requestDefaultSearchReq(){
 
 
-        LHttpRequest.getInstance().getHotSearchReq(this, 20, new LHttpHandler<List<SearchContent>>(this) {
+        LHttpRequest.getInstance().getHotSearchReq(this, 20, new JsonCallback<List<SearchContent>>() {
 
             @Override
             public void onGetDataSuccess(List<SearchContent> data) {
@@ -103,7 +102,7 @@ public class SearchActivity extends BaseFragmentActivity implements SearchView.O
         setLoadingTip("搜索中...");
         mPager = 1;
         LHttpRequest.getInstance().searchReq(this, searchContent, 10,mPager,null,
-                new LHttpHandler<SearchData>(this,this) {
+                new JsonCallback<SearchData>(this) {
 
                     @Override
                     public void onGetDataSuccess(SearchData data) {
@@ -121,8 +120,7 @@ public class SearchActivity extends BaseFragmentActivity implements SearchView.O
                     }
 
                     @Override
-                    public void onFailure(int statusCode, Header[] headers,
-                                          String responseString, Throwable throwable) {
+                    public void onFailure(String responseString) {
 
                         mSearchContentView.setVisibility(View.VISIBLE);
                         showEmptyTip();
@@ -150,7 +148,7 @@ public class SearchActivity extends BaseFragmentActivity implements SearchView.O
 
         mAlbumInfos.clear();
         LHttpRequest.getInstance().searchReq(this, mSearchContent, 10,mPager,searchType,
-                new LHttpHandler<SearchData>(this) {
+                new JsonCallback<SearchData>() {
 
                     @Override
                     public void onGetDataSuccess(SearchData data) {

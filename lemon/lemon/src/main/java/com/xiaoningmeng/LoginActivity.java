@@ -2,7 +2,6 @@ package com.xiaoningmeng;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,11 +20,10 @@ import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.event.ForumLoginEvent;
 import com.xiaoningmeng.event.LoginEvent;
 import com.xiaoningmeng.http.ConstantURL;
-import com.xiaoningmeng.http.LHttpHandler;
+import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.utils.DebugUtils;
 
-import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -48,9 +46,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
         mContext = this;
         setContentView(R.layout.activity_login);
-        setTinitColor(Color.parseColor("#f0f0f0"));
-        //initLoginByPlatform();
-        mShareAPI = UMShareAPI.get( this );
+        mShareAPI = UMShareAPI.get(this);
     }
 
     /** auth callback interface**/
@@ -112,7 +108,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     private void requestData() {
 
         LHttpRequest.getInstance().loginRequest(this,
-                new LHttpHandler<UserInfo>(this, this) {
+                new JsonCallback<UserInfo>( this) {
 
                     @Override
                     public void onGetDataSuccess(UserInfo data) {
@@ -155,7 +151,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                          final String nickName) {
 
         LHttpRequest.getInstance().QQLoginRequest(this, accessToken, openId,
-                new LHttpHandler<UserInfo>(this) {
+                new JsonCallback<UserInfo>() {
 
                     @Override
                     public void onGetDataSuccess(UserInfo data) {
@@ -164,13 +160,11 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                     }
 
                     @Override
-                    public void onFailure(int statusCode, Header[] headers,
-                                          String responseString, Throwable throwable) {
+                    public void onFailure(int statusCode,String responseString) {
                         if (statusCode == 100302) {
                             loginRegQQ(accessToken, openId, nickName);
                         } else {
-                            super.onFailure(statusCode, headers,
-                                    responseString, throwable);
+
                         }
                     }
                 });
@@ -182,7 +176,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                 + " nickName" + nickName);
 
         LHttpRequest.getInstance().QQLoginRegRequest(this, accessToken, openId,
-                nickName, new LHttpHandler<UserInfo>(this, this) {
+                nickName, new JsonCallback<UserInfo>( this) {
 
                     @Override
                     public void onGetDataSuccess(UserInfo data) {
@@ -297,7 +291,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         UserInfo userinfo = event.userInfo;
         String uc_callback = userinfo.getUcCallback();
         if (uc_callback != null && !uc_callback.equals("")) {
-            LHttpRequest.getInstance().UCSyncLoginRequest(LoginActivity.this, uc_callback, new LHttpHandler<String>(LoginActivity.this) {
+            LHttpRequest.getInstance().UCSyncLoginRequest(LoginActivity.this, uc_callback, new JsonCallback<String>(LoginActivity.this) {
                 @Override
                 public void onGetDataSuccess(String data) {
                     try {
@@ -325,8 +319,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                 }
 
                 @Override
-                public void onFailure(int statusCode, Header[] headers,
-                                      String responseString, Throwable throwable) {
+                public void onFailure(String responseString) {
                     DebugUtils.e("UCSyncLoginRequest onFailure callback is run");
                 }
             });
@@ -351,5 +344,13 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mShareAPI.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus){
+            setStatusBarHide();
+        }
     }
 }

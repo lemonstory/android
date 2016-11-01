@@ -1,6 +1,7 @@
 package com.xiaoningmeng.view;
 
 import android.content.Context;
+import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.util.AttributeSet;
@@ -63,13 +64,13 @@ public class CollapsibleTextView extends LinearLayout implements
     /**
      * 赋值
      */
-    public final void setDesc(CharSequence charSequence,
+    public final void setDesc(String charSequence,
                               CollapsibleTextView tv, BufferType bufferType) {
        // this.coTextView = tv;
         // 对内容中的网址进行处理;
         tv_context.setAutoLinkMask(Linkify.WEB_URLS);
         tv_context.setMovementMethod(LinkMovementMethod.getInstance());
-        tv_context.setText(charSequence, bufferType);
+        tv_context.setText(Html.fromHtml(charSequence), bufferType);
         // 初始类型
         if (lookCount == 0) {
             this.setNowType(COLLAPSIBLE_STATE_SPREAD);

@@ -20,7 +20,7 @@ import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.ShareBean;
 import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.http.LHttpHandler;
+import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayNotificationManager;
@@ -113,7 +113,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener,
 		TextDialogLoading loading = new TextDialogLoading(this);
 		loading.setLoadingTip("正在退出登录");
 		LHttpRequest.getInstance().logoutRequest(this,
-				new LHttpHandler<String>(this, loading) {
+				new JsonCallback<String>( loading) {
 
 					@Override
 					public void onGetDataSuccess(String data) {

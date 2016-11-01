@@ -41,13 +41,13 @@
             android:layout_height="wrap_content"
             android:background="@color/white" >
 
-            <!--<com.xiaoningmeng.view.SelectableRoundedImageView
-            android:src="@drawable/album_default"-->
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/img_ablum_detail_cover"
                 android:layout_width="@dimen/ablum_cover_height"
                 android:layout_height="@dimen/ablum_cover_height"
                 android:layout_margin="@dimen/ablum_cover_margin"
+                fresco:placeholderImageScaleType="centerCrop"
+                android:transitionName="albumImage"
                 fresco:placeholderImage="@drawable/album_default"
                 fresco:roundedCornerRadius="@dimen/base_radius_size"
                 />
@@ -76,6 +76,7 @@
                 android:layout_marginRight="@dimen/ablum_cover_margin"
                 android:layout_marginTop="@dimen/ablum_cover_margin"
                 android:layout_toRightOf="@id/img_ablum_detail_cover"
+
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:textColor="@color/black"

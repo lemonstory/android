@@ -14,12 +14,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.xiaoningmeng.base.BaseFragmentActivity;
+import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.MoreAblum;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.Tag;
 import com.xiaoningmeng.fragment.MoreFragment;
-import com.xiaoningmeng.http.LHttpHandler;
+import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MoreActivity extends BaseFragmentActivity implements View.OnClickListener,PlayObserver {
+public class MoreActivity extends BaseActivity implements View.OnClickListener,PlayObserver {
 
 	public static final int SAME_MORE = 1;
 	public static final int NEW_MORE = 2;
@@ -40,7 +40,6 @@ public class MoreActivity extends BaseFragmentActivity implements View.OnClickLi
 	public static final String MORE_TYPE = "more_type";
 	private PagerSlidingTabStrip mIndicator;
 	private ViewPager mViewPager;
-	private ImageView mSearchImg;
 	private ImageView mCoverImg;
 	public static final String MoreParams = "MoreParams";
 	private List<MoreParam> mMoreParams;
@@ -59,8 +58,8 @@ public class MoreActivity extends BaseFragmentActivity implements View.OnClickLi
 		mSelectType = getIntent().getIntExtra(MORE_TYPE, HOT_MORE);
 		mIndicator = (PagerSlidingTabStrip) findViewById(R.id.tab_indicator);
 		mViewPager = (ViewPager) findViewById(R.id.viewpager);
+		mViewPager.setOffscreenPageLimit(1);
 		mTitleNameTv = (TextView) findViewById(R.id.tv_head_title);
-		mSearchImg = (ImageView)findViewById(R.id.img_head_search);
 		mCoverImg = (ImageView) findViewById(R.id.img_head_right);
 		mTitleNameTv.setText(MoreArray[mSelectType]);
 		mMoreParams = new ArrayList<>();
@@ -70,9 +69,8 @@ public class MoreActivity extends BaseFragmentActivity implements View.OnClickLi
 	}
 
 
-
 	private void requestData(){
-		LHttpRequest.getInstance().getMoreList(this, mSelectType,1, 0, 1, null, new LHttpHandler<MoreAblum>(this,this) {
+		LHttpRequest.getInstance().getMoreList(this, mSelectType,1, 0, 1, null, new JsonCallback<MoreAblum>(this) {
 			@Override
 			public void onGetDataSuccess(MoreAblum data) {
 				if(data != null){

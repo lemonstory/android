@@ -21,7 +21,7 @@
     <color name="black_p50">#7f000000</color>
     <color name="list_view_item_bg">#f9fcff</color>
     <color name="dialong_top_bg">#f24c4c</color>
-   <!-- <color name="action_bar_bg2">#ffdf78</color>-->
+    <color name="actionBarTitleColor">#4a4a4a</color>
     <!-- inc -->
     <color name="home_inc_title_normal_color">#b3e8b7</color>
     <color name="home_inc_title_select_color">#f9fff4</color>

@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.http.Header;
 
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.bean.AppInfo;
@@ -16,9 +15,8 @@ import com.xiaoningmeng.bean.AudioDownLoad;
 import com.xiaoningmeng.bean.ListenerAlbum;
 import com.xiaoningmeng.db.HistoryDao;
 import com.xiaoningmeng.download.DownLoadClientImpl;
-import com.xiaoningmeng.http.LHttpHandler;
+import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
-import com.xiaoningmeng.utils.DebugUtils;
 
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
@@ -71,7 +69,7 @@ public class UploadManager {
 			}
 			record = record.deleteCharAt(record.length()-1);
 			record.append("]");
-			LHttpRequest.getInstance().addRecordReq(MyApplication.getContext(), record.toString(), new LHttpHandler<String>(MyApplication.getContext()) {
+			LHttpRequest.getInstance().addRecordReq(MyApplication.getContext(), record.toString(), new JsonCallback<String>() {
 
 				@Override
 				public void onGetDataSuccess(String data) {
@@ -89,10 +87,7 @@ public class UploadManager {
 					
 				}
 				
-				@Override
-				public void onFailure(int statusCode, Header[] headers,
-						String responseString, Throwable throwable) {
-				}
+
 			});
 		}
 	}
@@ -128,7 +123,7 @@ public class UploadManager {
 		record = record.deleteCharAt(record.length()-1);
 		record.append("]");
 		if(uploadCount > 0){
-			LHttpRequest.getInstance().addDownRecordReq(MyApplication.getContext(), record.toString(), new LHttpHandler<String>(MyApplication.getContext()) {
+			LHttpRequest.getInstance().addDownRecordReq(MyApplication.getContext(), record.toString(), new JsonCallback<String>() {
 				
 				@Override
 				public void onGetDataSuccess(String data) {
@@ -136,10 +131,7 @@ public class UploadManager {
 					updateLocalDownloadRecrod(historyArray);
 				}
 				
-				@Override
-				public void onFailure(int statusCode, Header[] headers,
-						String responseString, Throwable throwable) {
-				}
+
 			});
 			
 			
@@ -149,7 +141,7 @@ public class UploadManager {
 	private void updateLocalDownloadRecrod(HashMap<String, AudioDownLoad> array){
 		Iterator<Entry<String, AudioDownLoad>> iter = array.entrySet().iterator();
 		while (iter.hasNext()) {
-			Map.Entry<String, AudioDownLoad> entry = (Map.Entry<String, AudioDownLoad>) iter.next(); 
+			Map.Entry<String, AudioDownLoad> entry =  iter.next();
 			AudioDownLoad downLoad = entry.getValue();
 			if(!downLoad.isUpload()){
 				downLoad.setUpload(true);

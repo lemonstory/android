@@ -32,7 +32,7 @@ public class AlarmClockActivity extends BaseActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-		setTheme(R.style.AiTheme);
+		setTheme(R.style.PickTheme);
 		setContentView(R.layout.activity_alarm_clock);
 		setRightHeadIcon(R.drawable.play_flag_wave_01);
 		setTitleName("定时提醒");

@@ -4,7 +4,6 @@ import java.io.File;
 
 import android.content.Context;
 
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 
 public class AudioUtils {
 

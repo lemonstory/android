@@ -1,10 +1,12 @@
 package com.xiaoningmeng.player;
 
+import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.download.DownloadNotificationManager;
 
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Binder;
 import android.os.IBinder;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -17,11 +19,26 @@ public class MusicService extends Service {
 	public static final int PLAYING_NOTIFY_ID = 667667;
 	private TelephonyManager mTelephonyManager;
 
-	@Override
-	public IBinder onBind(Intent intent) {
 
-		return null;
+	/**
+	 * binder
+	 */
+	public static class ServiceBinder extends Binder {
+
+		private MusicService mService = null;
+
+		public ServiceBinder(MusicService service) {
+			mService = service;
+		}
+
+		public MusicService getService () {
+			return mService;
+		}
 	}
+
+
+
+
 
 	@Override
 	public void onCreate() {
@@ -32,9 +49,21 @@ public class MusicService extends Service {
 		mPhoneStateListener = new PhoneStateListener() {
 			@Override
 			public void onCallStateChanged(int state, String incomingNumber) {
-				if (state == TelephonyManager.CALL_STATE_IDLE) {
-
-				} else {
+				switch(state){
+					case TelephonyManager.CALL_STATE_IDLE:
+						break;
+					//接听电话 暂停播放
+					case TelephonyManager.CALL_STATE_OFFHOOK:
+						if(mPlayerManager.isPlaying()) {
+							mPlayerManager.pausePlay();
+						}
+						break;
+					//响铃
+					case TelephonyManager.CALL_STATE_RINGING:
+						if(mPlayerManager.isPlaying()) {
+							mPlayerManager.pausePlay();
+						}
+						break;
 				}
 			}
 		};
@@ -43,14 +72,26 @@ public class MusicService extends Service {
 	}
 
 	@Override
-	@Deprecated
-	public void onStart(Intent intent, int startId) {
+	public IBinder onBind(Intent intent) {
+		return new ServiceBinder(this);
+	}
 
-		super.onStart(intent, startId);
+
+
+	@Override
+	public int onStartCommand(Intent intent, int flags, int startId) {
+
 		if(mPlayNotificationManager.notification != null){
 			startForeground(PLAYING_NOTIFY_ID,
-				mPlayNotificationManager.notification);
+					mPlayNotificationManager.notification);
 		}
+		return START_STICKY;
+	}
+
+	@Override
+	public boolean stopService(Intent name) {
+		stopForeground(true);
+		return super.stopService(name);
 	}
 
 	public void onDestroy() {
@@ -58,20 +99,17 @@ public class MusicService extends Service {
 				PhoneStateListener.LISTEN_NONE);
 		mPlayerManager.stopPlay();
 		DownloadNotificationManager.getInstance().cancel();
-		stopForeground(true);
-		System.exit(0);
 		super.onDestroy();
 	}
 
 	public static void startService(Context context) {
-		Intent i = new Intent();
-		i.setClass(context, MusicService.class);
-		context.startService(i);
+		MyApplication.getInstance().startMusicService();
 	}
 
 	public static void stopService(Context context) {
-		Intent i = new Intent();
+		/*Intent i = new Intent();
 		i.setClass(context, MusicService.class);
-		context.stopService(i);
+		context.stopService(i);*/
+		MyApplication.getInstance().unbindMusicService();
 	}
 }

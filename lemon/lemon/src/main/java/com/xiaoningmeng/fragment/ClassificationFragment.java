@@ -1,120 +1,157 @@
 package com.xiaoningmeng.fragment;
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.baoyz.swipemenu.xlistview.XListView;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.xiaoningmeng.AblumDetailActivity;
 import com.xiaoningmeng.ClassificationActivity;
 import com.xiaoningmeng.R;
-import com.xiaoningmeng.adapter.RecommendStoryAdapter;
-import com.xiaoningmeng.base.BaseFragment;
+import com.xiaoningmeng.adapter.RecommendAdatper;
+import com.xiaoningmeng.base.BaseActivity;
+import com.xiaoningmeng.base.LazyFragment;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.TagAlbum;
 import com.xiaoningmeng.bean.TagDetail;
 import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.http.LHttpHandler;
+import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 
-import org.apache.http.Header;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClassificationFragment extends BaseFragment implements XListView.IXListViewListener {
+public class ClassificationFragment extends LazyFragment
+		implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener{
 
-	private XListView mListView;
-	private RecommendStoryAdapter mAdapter;
+	private RecyclerView mRecyclerView;
+	private RecommendAdatper mQuickAdapter;
+	private SwipeRefreshLayout mRefreshLayout;
 	private List<AlbumInfo> mAlbumInfos;
 	private List<TagAlbum> mTagAlbums;
 	private ClassificationActivity.TagParam mTagParam;
 	private boolean isAttach;
+	private boolean isPrepared;
+	private LayoutInflater mInflater;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View contentView = View.inflate(getActivity(),
-				R.layout.fragment_discover, null);
+				R.layout.fragment_classification, null);
 		if(!isAttach) {
 			mTagParam = getArguments().getParcelable(ClassificationActivity.Fragment_Tag);
 		}
 		isAttach = false;
-		mListView = (XListView) contentView.findViewById(R.id.lv_home_discover);
-		mListView.setPullLoadEnable(false);
-		mListView.setPullRefreshEnable(true);
+		isLoadData = false;
+		mRecyclerView = (RecyclerView) contentView.findViewById(R.id.rv_list);
+		mRefreshLayout = (SwipeRefreshLayout)contentView.findViewById(R.id.swipeLayout);
+		mRecyclerView.setHasFixedSize(true);
+		mRefreshLayout.setOnRefreshListener(this);
+		mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),3));
 		mAlbumInfos = new ArrayList<>();
 		mTagAlbums = new ArrayList<>();
-		mAdapter = new RecommendStoryAdapter(getActivity(),mAlbumInfos,true);
-		showLoadingTip();
-		requestData(Constant.FRIST,Constant.FRIST_ID,false);
-		mListView.setAdapter(mAdapter);
-		mListView.setXListViewListener(this);
+		mInflater = inflater;
+		initAdapter();
+		isPrepared = true;
+		lazyLoad();
 		return contentView;
 	}
 
+	private void initAdapter() {
+
+		mQuickAdapter = new RecommendAdatper(mAlbumInfos);
+		mQuickAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+		mQuickAdapter.setOnLoadMoreListener(this);
+		mQuickAdapter.openLoadMore(20);
+		setEmptyView(true);
+		mQuickAdapter.isFirstOnly(true);
+		mRecyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
+
+			@Override
+			public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+				super.onItemChildClick(adapter, view, position);
+				if(position >= 0) {
+					AlbumInfo albumInfo = (AlbumInfo) adapter.getItem(position);
+					Intent intent = new Intent(getActivity(), AblumDetailActivity.class);
+					intent.putExtra("albumId", albumInfo.getAlbumid());
+					intent.putExtra("albumInfo", albumInfo);
+					((BaseActivity) getActivity()).startShareTransitionActivity(intent, view, "albumImage");
+				}
+			}
+			@Override
+			public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+
+			}
+		});
+		mRecyclerView.setAdapter(mQuickAdapter);
+	}
 
 	public void requestData(final String direction, String relationId,final boolean isReafresh){
 
 		LHttpRequest.getInstance().getTagAblumListReq(getActivity(), mTagParam.tag, 0,direction, relationId,
-				mTagParam.special,  Constant.GRID_REQ_LEN, new LHttpHandler<TagDetail>(getActivity()) {
+				mTagParam.special,  Constant.GRID_REQ_LEN, new JsonCallback<TagDetail>() {
 			@Override
 			public void onGetDataSuccess(TagDetail data) {
-				hideLoadingTip();
+				isLoadData = true;
 				if(isReafresh){
 					mAlbumInfos.clear();
 					mTagAlbums.clear();
 				}
+				if(direction == Constant.FRIST || direction == Constant.UP){
+					mRefreshLayout.setRefreshing(false);
+					if(data ==null || data.getTagalbumlist() == null
+							|| data.getTagalbumlist().size() == 0){
+						setEmptyView(false);
+					}
+				}
 				if(data != null && data.getTagalbumlist() != null){
 					List<TagAlbum> tagAlbumList = data.getTagalbumlist();
+					List<AlbumInfo> albumInfos = new ArrayList<>();
 					for(TagAlbum tagAlbum : tagAlbumList){
-						mAlbumInfos.add(tagAlbum.getAlbuminfo());
+						albumInfos.add(tagAlbum.getAlbuminfo());
 					}
 					mTagAlbums.addAll(tagAlbumList);
-					if (tagAlbumList.size() > 0) {
-						mListView.setPullLoadEnable(true);
-						mListView.setFootViewNoMore(false);
-					}else {
-						mListView.setFootViewNoMore(true);
+					if (direction == Constant.DOWN && tagAlbumList.size() == 0) {
+						mQuickAdapter.loadComplete();
 					}
-					mAdapter.notifyDataSetChanged();
+					mQuickAdapter.addData(albumInfos);
 				}
 			}
 			@Override
-			public void onFailure(int statusCode, Header[] headers,
-								  String responseString, Throwable throwable) {
-				if(mAlbumInfos.size() == 0) {
-					mListView.postDelayed(new Runnable() {
+			public void onFailure(String responseString) {
+				isLoadData = true;
 
-						@Override
-						public void run() {
-							hideLoadingTip();
-							showEmptyTip();
-						}
-					}, 500);
-				}
 
-			}
-			@Override
-			public void onFinish() {
-				onLoad();
-				super.onFinish();
 			}
 		});
 	}
 
-
 	public void refreshData(ClassificationActivity.TagParam tagParam){
 		isAttach = true;
+		isLoadData = false;
 		mTagParam = tagParam;
 	}
 
+	@Override
+	protected void lazyLoad() {
+		if(!isPrepared || !isVisible) {
+			return;
+		}
+		mRefreshLayout.setRefreshing(true);
+		requestData(Constant.FRIST,Constant.FRIST_ID,true);
+	}
 
 	@Override
 	public void onRefresh() {
+
 		if(mTagAlbums.size() > 0){
 			String relationId = mTagAlbums.get(0).getId();
 			if(relationId != null) {
@@ -123,11 +160,10 @@ public class ClassificationFragment extends BaseFragment implements XListView.IX
 		}else{
 			requestData(Constant.FRIST,Constant.FRIST_ID,false);
 		}
-
 	}
 
 	@Override
-	public void onLoadMore() {
+	public void onLoadMoreRequested() {
 		int size = mTagAlbums.size();
 		if(size > 0){
 			String  relationId = mTagAlbums.get(size-1).getId();
@@ -139,63 +175,23 @@ public class ClassificationFragment extends BaseFragment implements XListView.IX
 		}
 	}
 
-	private void onLoad() {
+	public void setEmptyView(boolean isLoading){
+		View emptyView;
+		if(isLoading) {
+			 emptyView = mInflater.inflate(R.layout.layout_loading2,(ViewGroup) mRecyclerView.getParent(),false);
+		}else{
+			emptyView = mInflater.inflate(R.layout.layout_empty,(ViewGroup) mRecyclerView.getParent(),false);
+		}
+		changedView(emptyView);
+	}
 
-		mListView.stopRefresh();
-		mListView.stopLoadMore();
+
+	private void changedView(View view) {
+		if( mQuickAdapter.getEmptyView() != view) {
+			mQuickAdapter.setEmptyView(view);
+			mQuickAdapter.notifyItemChanged(0);
+		}
 	}
 
-	
-	View loadingView;
-	public void showLoadingTip() {
-		if(mListView.getHeaderViewsCount() == 1){
-			if(loadingView == null){
-				loadingView = View.inflate(getActivity(),R.layout.fragment_loading, null);
-				loadingView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.home_banner_height), 0, 0);
-			}
-			mListView.addHeaderView(loadingView,null,false);
-		}
-	}
-	
-	public void hideLoadingTip() {
-		
-		if(loadingView != null && mListView.getHeaderViewsCount() > 1){
-			mListView.removeHeaderView(loadingView);
-		}
-	}
-	
-	
-	TextView emptyView;
-	public void showEmptyTip() {
-
-		if(mListView.getHeaderViewsCount() == 1){
-			if(emptyView == null && getActivity() != null){
-				LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE); 
-			     if (inflater != null) { 
-			    	 emptyView = (TextView)inflater.inflate(R.layout.fragment_empty, null);
-			     }
-			}
-			if(emptyView != null){
-				emptyView.setText("请连接网络后点击屏幕重试");
-				emptyView.setClickable(true);
-				mListView.addHeaderView(emptyView,null,false);
-				emptyView.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					hideEmptyTip();
-					requestData(Constant.FRIST,Constant.FRIST_ID,false);
-				}
-			});
-			}
-		}
-	}
-	
-	public void hideEmptyTip() {
-		if(emptyView != null && mListView.getHeaderViewsCount() > 1){
-			emptyView.setClickable(false);
-			mListView.removeHeaderView(emptyView);
-		}
-	}
 
 }
