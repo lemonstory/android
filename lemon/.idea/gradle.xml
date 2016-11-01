@@ -19,7 +19,19 @@
             <option value="$PROJECT_DIR$/swpeListView" />
           </set>
         </option>
-        <option name="resolveModulePerSourceSet" value="false" />
+        <option name="myModules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/BaseRecyclerViewAdapterHelper" />
+            <option value="$PROJECT_DIR$/OneSDK" />
+            <option value="$PROJECT_DIR$/PhotoView" />
+            <option value="$PROJECT_DIR$/convenientbanner" />
+            <option value="$PROJECT_DIR$/dialogplus" />
+            <option value="$PROJECT_DIR$/emojicon" />
+            <option value="$PROJECT_DIR$/lemon" />
+            <option value="$PROJECT_DIR$/swpeListView" />
+          </set>
+        </option>
       </GradleProjectSettings>
     </option>
   </component>

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BaseRecyclerViewAdapterHelper/BaseRecyclerViewAdapterHelper.iml" filepath="$PROJECT_DIR$/BaseRecyclerViewAdapterHelper/BaseRecyclerViewAdapterHelper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BaseRecyclerViewAdapterHelper/BaseRecyclerViewAdapterHelper.iml" filepath="$PROJECT_DIR$/BaseRecyclerViewAdapterHelper/BaseRecyclerViewAdapterHelper.iml" />
       <module fileurl="file://$PROJECT_DIR$/OneSDK/OneSDK.iml" filepath="$PROJECT_DIR$/OneSDK/OneSDK.iml" />
       <module fileurl="file://$PROJECT_DIR$/PhotoView/PhotoView.iml" filepath="$PROJECT_DIR$/PhotoView/PhotoView.iml" />
       <module fileurl="file://$PROJECT_DIR$/convenientbanner/convenientbanner.iml" filepath="$PROJECT_DIR$/convenientbanner/convenientbanner.iml" />
