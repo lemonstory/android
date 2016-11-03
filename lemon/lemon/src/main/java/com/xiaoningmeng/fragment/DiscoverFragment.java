@@ -270,6 +270,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
         }
     }
 */
+
     public void showTaobaoPage(String url) {
         Map<String, Object> exParams = new HashMap<String, Object>();
         exParams.put(TradeConstants.ISV_CODE, "xiaoningmeng");
