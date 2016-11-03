@@ -13,7 +13,7 @@
     <!-- base -->
     <dimen name="refresh_progress_size">30dp</dimen>
     <dimen name="base_rect_button_height">44dp</dimen>
-    <dimen name="base_margin">11dp</dimen>
+    <dimen name="base_margin">6dp</dimen>
     <dimen name="base_radius_size">5dp</dimen>
 
     <!-- dividerLine -->
@@ -50,13 +50,13 @@
     <dimen name="home_discover_btn">37dp</dimen>
     <dimen name="home_tab_height">55dp</dimen>
     <dimen name="home_discover_cover_width">31dp</dimen>
-    <dimen name="home_discover_cover_height">27dp</dimen>
+    <dimen name="home_discover_cover_height">10dp</dimen>
 
     <!-- home mine -->
     <dimen name="mine_head_img_width">70dp</dimen>
     <dimen name="mine_head_height">50dp</dimen>
     <dimen name="mine_magin_right">11dp</dimen>
-    <dimen name="mine_center_divider_height">15dp</dimen>
+    <dimen name="mine_center_divider_height">13dp</dimen>
     <dimen name="mine_item_cover_margin">10dp</dimen>
     <dimen name="mine_item_cover_margin_left">7dp</dimen>
     <dimen name="mine_item_cover_height">45dp</dimen>
@@ -110,7 +110,13 @@
     <dimen name="ablum_comment_item_height">67dp</dimen>
     <dimen name="ablum_comment_item_margin_left">11dp</dimen>
     <dimen name="ablum_comment_item_margin_right">11dp</dimen>
-    <dimen name="classifiction_item_height">32dp</dimen>
+    <dimen name="classifiction_item_height">42dp</dimen>
+    <dimen name="classifiction_text_margin">8dp</dimen>
+
+    <!-- 首页推荐专辑-->
+    <dimen name="album_title_margin">4dp</dimen>
+    <dimen name="album_recommend_text_margin">2dp</dimen>
+    <dimen name="album_play_count_margin">2dp</dimen>
 
     <dimen name="album_intro_margin_left">16dp</dimen>
     <dimen name="album_intro_open">11dp</dimen>

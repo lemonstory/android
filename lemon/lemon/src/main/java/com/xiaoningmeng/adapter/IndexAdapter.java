@@ -46,6 +46,7 @@ public class IndexAdapter extends BaseMultiItemQuickAdapter<IRecyclerItem,BaseVi
                 break;
 
             case Index.ALBUM_MORE_TYPE:
+
                 Index.AlbumSectionBean.ItemBean albumItemBean = (Index.AlbumSectionBean.ItemBean) item;
                 helper.setText(R.id.tv_classify_title,albumItemBean.getTitle())
                         .addOnClickListener(R.id.tv_classify_title)

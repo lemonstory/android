@@ -2,6 +2,7 @@ package com.xiaoningmeng.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -78,9 +79,9 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
         mEmptyHelper = new EmptyHelper(getContext(), mRecyclerView, mAdapter);
         mEmptyHelper.setEmptyView(EmptyHelper.LOADING, true, getString(R.string.loading_tip));
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addItemDecoration(new SpaceItemDecoration(18));
         new DiscoverPresenter(getActivity(), this).subscribe();
         mPresenter.requestIndexData();
-
         mRecyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
             public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -289,4 +290,54 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
         });
     }
 
+    /**
+     * 设置专辑间距
+     */
+    public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
+
+        int mSpace;
+        int lastPos;
+
+        public SpaceItemDecoration(int space) {
+            this.mSpace = space;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            int pos = parent.getChildAdapterPosition(view);
+            int viewType = mAdapter.getItemViewType(pos);
+            switch (viewType) {
+                case Index.ALBUM_TYPE: {
+                    outRect.right = mSpace;
+                    outRect.top = 0;
+                    outRect.bottom = 0;
+                    if(pos - lastPos > 0) {
+                        if (Math.abs(pos - lastPos) % 2 != 0 ) {
+                            outRect.left = mSpace;
+                        } else {
+                            outRect.left = 0;
+                        }
+                    } else {
+
+                        if (Math.abs(pos - lastPos) % 2 != 0 ) {
+                            outRect.left = 0;
+                        } else {
+                            outRect.left = mSpace;
+                        }
+                    }
+                }
+                break;
+
+                default:
+                    lastPos = pos;
+                break;
+            }
+            if(lastPos == 0) {
+                lastPos = pos - 1;
+            }
+        }
+    }
+
 }
+
+

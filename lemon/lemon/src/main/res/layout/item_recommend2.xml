@@ -3,24 +3,27 @@
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ll_story"
     android:orientation="vertical"
-    android:padding="@dimen/base_margin"
+    android:paddingTop="@dimen/base_margin"
+    android:paddingBottom="@dimen/base_margin"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/img_story_cover"
         android:layout_width="match_parent"
         android:layout_height="@dimen/home_discover_item_img_height"
-        fresco:roundedCornerRadius="5dp"
-        fresco:actualImageScaleType="centerCrop" />
+        fresco:roundedCornerRadius="3dp"
+        fresco:actualImageScaleType="centerCrop"
+        android:layout_gravity="center_vertical" />
     <TextView
         android:id="@+id/tv_story_cover"
         style="@style/discover_story_title"
-        android:layout_marginTop="@dimen/bar_margin"
+        android:layout_marginTop="@dimen/album_title_margin"
         android:text="下雨的小兔子" />
     <TextView
         android:id="@+id/tv_story_recommend"
-        android:layout_marginTop="@dimen/base_radius_size"
-        style="@style/discover_recommend_style" />
+        android:layout_marginTop="@dimen/album_recommend_text_margin"
+        style="@style/discover_recommend_style"
+        android:text="推荐语"/>
     <TextView
         android:id="@+id/tv_story_tip"
         android:textSize="@dimen/date_text_size"
@@ -29,7 +32,7 @@
         android:textColor="@color/base_date_color"
         android:drawableLeft="@drawable/home_listener_num_tip"
         android:drawablePadding="@dimen/base_radius_size"
-        android:layout_marginTop="@dimen/base_radius_size"
-        android:text="" />
+        style="@style/discover_recommend_style"
+        android:text="10万" />
 
 </LinearLayout>
