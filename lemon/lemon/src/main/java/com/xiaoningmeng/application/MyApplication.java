@@ -223,9 +223,10 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
 		this.bindService(it, this, Service.BIND_AUTO_CREATE);
 	}
 
+	//TODO:http://stackoverflow.com/questions/12277673/android-services-error-service-not-registered/16713212#16713212
 	public void unbindMusicService () {
 		this.unbindService(this);
-		stopMusicService();
+//		stopMusicService();
 	}
 
 

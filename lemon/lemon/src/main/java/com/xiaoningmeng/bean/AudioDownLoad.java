@@ -1,12 +1,12 @@
 package com.xiaoningmeng.bean;
 
-import java.io.File;
-
-import org.litepal.crud.DataSupport;
-import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.download.DownLoadState;
 import com.xiaoningmeng.utils.AudioUtils;
+
+import org.litepal.crud.DataSupport;
+
+import java.io.File;
 
 /**
  * 下载对象Model
@@ -65,12 +65,11 @@ public class AudioDownLoad extends DataSupport implements Comparable<AudioDownLo
 		this.status = status;
 		this.type = type;
 		this.addTime = addTime;
-		this.storyId = story.getStoryId();
+		this.storyId = story.getId();
 		this.albumid = story.getAlbum_id();
 		this.title = story.getTitle();
 		this.intro = story.getIntro();
 		this.times = story.getTimes();
-		this.cover = story.getCover();
 		this.playcover = story.getPlaycover();
 		this.file_size = story.getFile_size();
 		this.isUpload = false;

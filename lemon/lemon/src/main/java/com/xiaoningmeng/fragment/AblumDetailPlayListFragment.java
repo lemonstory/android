@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.umeng.analytics.MobclickAgent;
-import com.xiaoningmeng.AblumDetailActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.adapter.AblumPlayListAdapter;
 import com.xiaoningmeng.base.BaseFragment;
@@ -71,7 +70,7 @@ public class AblumDetailPlayListFragment extends BaseFragment {
 		this.playStoryId = playStoryId;
 		this.current = current;
 		if(mRecyclerView != null){
-			mAdapter.setNewData(stories);
+			this.mAdapter.setNewData(this.stories);
 		}
 	}
 
@@ -120,7 +119,7 @@ public class AblumDetailPlayListFragment extends BaseFragment {
 				if(stories.size() > position){
 					Story story = stories.get(position);
 					PlayingStory playingStory = PlayerManager.getInstance().getPlayingStory();
-					if (story.getAlbum_id().equals(albumInfo.getAlbumid())){
+					if (story.getAlbum_id() != null && story.getAlbum_id().equals(albumInfo.getAlbumid())){
 						if(story.getMediapath().equals(playingStory.mediapath)) {
 							if (playingStory.playState == PlayState.RESUME || playingStory.playState == PlayState.START || playingStory.playState == PlayState.PLAY) {
 								PlayerManager.getInstance().pausePlay();
@@ -130,7 +129,7 @@ public class AblumDetailPlayListFragment extends BaseFragment {
 						}else{
 							PlayerManager.getInstance().playStory(albumInfo, stories, position,AlbumSource.ALBUM_DETAIL);
 						}
-					}else if(story.getStoryId().equals(AblumDetailPlayListFragment.this.playStoryId)){
+					}else if(story.getId() != null && story.getId().equals(AblumDetailPlayListFragment.this.playStoryId)){
 						PlayerManager.getInstance().playStory(albumInfo, stories, position,AlbumSource.ALBUM_DETAIL);
 					}else{
 						PlayerManager.getInstance().playStory(albumInfo, stories, position,AblumDetailPlayListFragment.this.current,AlbumSource.ALBUM_DETAIL);
@@ -149,7 +148,7 @@ public class AblumDetailPlayListFragment extends BaseFragment {
 		if(stories != null) {
 			for (int i = 0; i < stories.size(); i++) {
 				Story s = stories.get(i);
-				if(t.getStoryId().equals(s.getStoryId())){
+				if(t.getStoryId().equals(s.getId())){
 					mAdapter.notifyItemChanged(i);
 					break;
 				}

@@ -5,14 +5,12 @@ import org.litepal.crud.DataSupport;
 public class Story extends DataSupport {
 
     public String id;
-    private String storyId;
     private String album_id;
     private String title;
     private String intro;
     private String times;
     private String file_size;
     private String mediapath;
-    private String cover;
     private String playcover;
     private static Story mInstance;
 
@@ -27,6 +25,7 @@ public class Story extends DataSupport {
         return mInstance;
     }
 
+
     public Story() {
 
     }
@@ -34,27 +33,21 @@ public class Story extends DataSupport {
     public Story(String storyId, String albumId, String title, String intro,
                  String times, String file_size, String mediapath, String cover, String playcover) {
         this.id = storyId;
-        this.storyId = storyId;
         this.title = title;
         this.intro = intro;
         this.times = times;
         this.album_id = albumId;
         this.file_size = file_size;
         this.mediapath = mediapath;
-        this.cover = cover;
         this.playcover = playcover;
     }
 
     public String getId() {
-        if (id == null) {
-            id = storyId;
-        }
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
-        this.storyId = id;
     }
 
     public String getIntro() {
@@ -97,22 +90,6 @@ public class Story extends DataSupport {
         this.title = title;
     }
 
-    public String getCover() {
-        return cover;
-    }
-
-    public void setCover(String cover) {
-        this.cover = cover;
-    }
-
-    public String getStoryId() {
-        if (storyId == null) {
-            storyId = id;
-        }
-        return storyId;
-    }
-
-
     public String getAlbum_id() {
         return album_id;
     }
@@ -121,10 +98,6 @@ public class Story extends DataSupport {
         this.album_id = album_id;
     }
 
-    public void setStoryId(String storyId) {
-        this.storyId = storyId;
-        this.id = storyId;
-    }
 
     public String getPlaycover() {
         return playcover;
@@ -138,14 +111,12 @@ public class Story extends DataSupport {
     public String toString() {
         return "Story{" +
                 "id='" + id + '\'' +
-                ", storyId='" + storyId + '\'' +
                 ", album_id='" + album_id + '\'' +
                 ", title='" + title + '\'' +
                 ", intro='" + intro + '\'' +
                 ", times='" + times + '\'' +
                 ", file_size='" + file_size + '\'' +
                 ", mediapath='" + mediapath + '\'' +
-                ", cover='" + cover + '\'' +
                 ", playcover='" + playcover + '\'' +
                 '}';
     }

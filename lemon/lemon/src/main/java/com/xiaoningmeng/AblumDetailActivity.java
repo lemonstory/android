@@ -51,6 +51,7 @@ import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.player.PlayerManager.AlbumSource;
+import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.utils.ImageUtils;
 import com.xiaoningmeng.view.CircleProgressBar;
 import com.xiaoningmeng.view.RatingBar;
@@ -222,13 +223,14 @@ public class AblumDetailActivity extends BaseActivity implements
 
 						@Override
 						public void onGetDataSuccess(Album data) {
-							albumInfo = data.getAlbuminfo();
-							storyList = data.getStorylist();
+							DebugUtils.d("data = " + data.toString());
+							albumInfo = data.getAlbumInfo();
+							storyList = data.getStoryListItems();
 							albumInfo.setStorylist(storyList);
 							commentList = data.getCommentlist();
 							fillAlbumInfoView(albumInfo);
 							mPlayListFragment.setStoryList(albumInfo, storyList,mPlayStoryId,mPlayTime);
-							mIntroFragment.setIntro(albumInfo.getIntro(),data.getTaglist(),data.getRecommendalbumlist());
+							mIntroFragment.setIntro(albumInfo.getIntro(),data.getTagList(),data.getRecommendAlbumList());
 							if(albumInfo.getCommentnum()==0){
 								mCommentCountTv.setVisibility(View.INVISIBLE);
 							}else{
@@ -257,7 +259,7 @@ public class AblumDetailActivity extends BaseActivity implements
 				@Override
 				public void run() {
 					for(int i = 0; i<storyList.size();i++){
-						if(mPlayStoryId.equals(storyList.get(i).getStoryId())){
+						if(mPlayStoryId.equals(storyList.get(i).getId())){
 							Story s = storyList.get(i);
 							mPlayStoryPosition = i;
 							mPlayProgressBar.setMax(Integer.parseInt(s.getTimes()));

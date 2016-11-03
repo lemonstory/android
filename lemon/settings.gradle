@@ -1,4 +1,4 @@
-include ':convenientbanner', ':emojicon', ':dialogplus', ':OneSDK', ':BaseRecyclerViewAdapterHelper'
+include ':emojicon', ':dialogplus', ':OneSDK', ':BaseRecyclerViewAdapterHelper'
 include ':swpeListView'
 include ':lemon'
 project(':BaseRecyclerViewAdapterHelper').projectDir = new File('BaseRecyclerViewAdapterHelper-2.4.4/library')

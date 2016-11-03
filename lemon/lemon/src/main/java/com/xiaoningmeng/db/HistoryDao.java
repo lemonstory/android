@@ -135,8 +135,8 @@ public class HistoryDao {
 
 		try {
 			if (story != null && dbhelper.open()) {
-					dbhelper.sdb.execSQL("insert into " + DBHelper.TAB_STORY + "(storyId,albumid,title,intro,times,file_size,mediapath,cover,playcover)values(?,?,?,?,?,?,?,?,?)",
-							new Object[] {story.getStoryId(),ablumId,story.getTitle(),story.getIntro(),story.getTimes(),story.getFile_size(),story.getMediapath(),story.getCover(),story.getPlaycover()});
+					dbhelper.sdb.execSQL("insert into " + DBHelper.TAB_STORY + "(storyId,albumid,title,intro,times,file_size,mediapath,playcover)values(?,?,?,?,?,?,?,?)",
+							new Object[] {story.getId(),ablumId,story.getTitle(),story.getIntro(),story.getTimes(),story.getFile_size(),story.getMediapath(),story.getPlaycover()});
 			}
 		} catch (Exception e) {
 			DebugUtils.exception(e);
@@ -269,14 +269,13 @@ public class HistoryDao {
 	}
 	private Story parseStory(Cursor cursor) {
 		Story story = new Story();
-		story.setStoryId(cursor.getString(cursor.getColumnIndex("storyId")));
+		story.setId(cursor.getString(cursor.getColumnIndex("storyId")));
 		story.setAlbum_id(cursor.getString(cursor.getColumnIndex("albumid")));
 		story.setTitle(cursor.getString(cursor.getColumnIndex("title")));
 		story.setIntro(cursor.getString(cursor.getColumnIndex("intro")));
 		story.setTimes(cursor.getString(cursor.getColumnIndex("times")));
 		story.setFile_size(cursor.getString(cursor.getColumnIndex("file_size")));
 		story.setMediapath(cursor.getString(cursor.getColumnIndex("mediapath")));
-		story.setCover(cursor.getString(cursor.getColumnIndex("cover")));
 		story.setPlaycover(cursor.getString(cursor.getColumnIndex("playcover")));
 
 		return story;

@@ -1,15 +1,12 @@
 package com.xiaoningmeng.fragment;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -74,7 +71,7 @@ public class SimpleDialogFragment extends BaseDialogFragment implements   Dialog
         void onPlayListSelected();
     }
 
-    public static class SimpleAdapter extends BaseQuickAdapter<String>{
+    public static class SimpleAdapter extends BaseQuickAdapter<String,BaseViewHolder>{
 
         public SimpleAdapter( List<String> data) {
             super(R.layout.item_address, data);

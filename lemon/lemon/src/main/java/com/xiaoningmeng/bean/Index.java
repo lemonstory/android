@@ -1,7 +1,6 @@
 package com.xiaoningmeng.bean;
 
 
-
 import java.util.List;
 
 /**
@@ -10,22 +9,15 @@ import java.util.List;
 
 public class Index {
 
-
     public static final int BANNER_TYPE = 0;
-    public static final int AGE_TYPE = 1;
-    public static final int CATEGORY_TYPE = 2;
-    public static final int ALBUM_MORE_TYPE = 3;
-    public static final int ALBUM_TYPE = 4;
-    public static final int AD_TYPE = 5;
-
+    public static final int CATEGORY_TYPE = 1;
+    public static final int ALBUM_MORE_TYPE = 2;
+    public static final int ALBUM_TYPE = 3;
+    public static final int AD_TYPE = 4;
 
     private FocusPicBean focus_pic;
-    private AgeLevelBean age_level;
-
     private ContentCategoryBean content_category;
     private AlbumSectionBean album_section;
-
-
     private AdBean ad;
 
     public FocusPicBean getFocus_pic() {
@@ -36,13 +28,6 @@ public class Index {
         this.focus_pic = focus_pic;
     }
 
-    public AgeLevelBean getAge_level() {
-        return age_level;
-    }
-
-    public void setAge_level(AgeLevelBean age_level) {
-        this.age_level = age_level;
-    }
 
     public ContentCategoryBean getContent_category() {
         return content_category;
@@ -68,7 +53,7 @@ public class Index {
         this.ad = ad;
     }
 
-    public static class FocusPicBean implements IRecyclerItem{
+    public static class FocusPicBean implements IRecyclerItem {
         private int total;
         /**
          * cover : http://p.xiaoningmeng.net/focus/32.png@!640x260?v=1475734342
@@ -129,14 +114,10 @@ public class Index {
         }
     }
 
-    public static class AgeLevelBean  {
-        private int total;
-        /**
-         * cover : http://lemonpic.oss-cn-hangzhou.aliyuncs.com/focus/1.png
-         * title : 0-2岁
-         */
+    public static class ContentCategoryBean {
 
-        private List<ItemsBean> items;
+        private int total;
+        private List<ItemBean> items;
 
         public int getTotal() {
             return total;
@@ -146,82 +127,28 @@ public class Index {
             this.total = total;
         }
 
-        public List<ItemsBean> getItems() {
+        public List<ItemBean> getItems() {
             return items;
         }
 
-        public void setItems(List<ItemsBean> items) {
+        public void setItems(List<ItemBean> items) {
             this.items = items;
         }
 
-
-
-        public static class ItemsBean implements IRecyclerItem{
+        public static class ItemBean implements IRecyclerItem {
             private String cover;
             private String title;
-
-            public String getCover() {
-                return cover;
-            }
-
-            public void setCover(String cover) {
-                this.cover = cover;
-            }
-
-            public String getTitle() {
-                return title;
-            }
-
-            public void setTitle(String title) {
-                this.title = title;
-            }
+            private String linkUrl;
 
             @Override
             public int getSpanSize() {
                 return 1;
             }
+
             @Override
             public int getItemType() {
-                return AGE_TYPE;
+                return CATEGORY_TYPE;
             }
-        }
-    }
-
-    public static class ContentCategoryBean implements IRecyclerItem{
-
-        private int total;
-        private List<ItemsBean> items;
-
-        public int getTotal() {
-            return total;
-        }
-
-        public void setTotal(int total) {
-            this.total = total;
-        }
-
-        public List<ItemsBean> getItems() {
-            return items;
-        }
-
-        public void setItems(List<ItemsBean> items) {
-            this.items = items;
-        }
-
-
-        @Override
-        public int getSpanSize() {
-            return 4;
-        }
-        @Override
-        public int getItemType() {
-            return CATEGORY_TYPE;
-        }
-
-        public static class ItemsBean {
-            private String cover;
-            private String title;
-
             public String getCover() {
                 return cover;
             }
@@ -236,6 +163,14 @@ public class Index {
 
             public void setTitle(String title) {
                 this.title = title;
+            }
+
+            public String getLinkUrl() {
+                return linkUrl;
+            }
+
+            public void setLinkUrl(String linkUrl) {
+                this.linkUrl = linkUrl;
             }
         }
     }
@@ -272,6 +207,7 @@ public class Index {
             public int getSpanSize() {
                 return 4;
             }
+
             @Override
             public int getItemType() {
                 return ALBUM_MORE_TYPE;
@@ -317,8 +253,7 @@ public class Index {
         }
 
 
-
-        public static class ItemsBean implements IRecyclerItem{
+        public static class ItemsBean implements IRecyclerItem {
             private String cover;
             private String linkurl;
 
@@ -337,10 +272,12 @@ public class Index {
             public void setLinkurl(String linkurl) {
                 this.linkurl = linkurl;
             }
+
             @Override
             public int getSpanSize() {
                 return 4;
             }
+
             @Override
             public int getItemType() {
                 return AD_TYPE;

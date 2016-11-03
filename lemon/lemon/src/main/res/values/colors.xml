@@ -6,6 +6,7 @@
     <color name="black_trans">#f0000000</color>
     <color name="black_little">#262626</color>
     <color name="white">#FFFFFF</color>
+    <color name="primary">#ededed</color>
     <color name="top_tip_bg">#E6000000</color>
     <color name="err_text_color">#ffc4c4</color>
     <color name="white_dialog_bg">#F2FFFFFF</color>

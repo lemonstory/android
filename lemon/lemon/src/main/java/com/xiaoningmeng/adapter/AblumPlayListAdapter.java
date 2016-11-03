@@ -17,7 +17,7 @@ import com.xiaoningmeng.player.PlayerManager.PlayState;
 
 import java.util.List;
 
-public class AblumPlayListAdapter extends BaseQuickAdapter<Story>{
+public class AblumPlayListAdapter extends BaseQuickAdapter<Story,BaseViewHolder>{
 
 	private PlayingStory mPlayingStory;
 	private String playStoryId;
@@ -47,7 +47,7 @@ public class AblumPlayListAdapter extends BaseQuickAdapter<Story>{
 	
 
 	private void getPlayView(BaseViewHolder helper, Story story) {
-		if (story.getAlbum_id().equals(mPlayingStory.albumid)) {
+		if (story.getAlbum_id() != null && story.getAlbum_id().equals(mPlayingStory.albumid)) {
 			if(story.getMediapath().equals(mPlayingStory.mediapath)){
 				helper.getView(R.id.tv_play_list_number).setVisibility(View.INVISIBLE);
 				helper.getView(R.id.img_play_list_status).setVisibility(View.VISIBLE);
@@ -58,7 +58,7 @@ public class AblumPlayListAdapter extends BaseQuickAdapter<Story>{
 				helper.getView(R.id.img_play_list_status).setVisibility(View.INVISIBLE);
 				helper.getView(R.id.tv_play_list_title).setSelected(false);
 			}
-		}else if(story.getStoryId().equals(playStoryId)){
+		}else if(story.getId() != null && story.getId().equals(playStoryId)){
 			helper.getView(R.id.tv_play_list_number).setVisibility(View.INVISIBLE);
 			helper.getView(R.id.img_play_list_status).setVisibility(View.VISIBLE);
 			helper.getView(R.id.tv_play_list_title).setSelected(false);

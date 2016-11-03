@@ -21,11 +21,10 @@ public class PlayStory extends DataSupport {
     }
 
     public PlayStory(Story story) {
-        this.storyId = story.getStoryId();
+        this.storyId = story.getId();
         this.title = story.getTitle();
         this.intro = story.getIntro();
         this.times = story.getTimes();
-        this.cover = story.getCover();
         this.albumid = story.getAlbum_id();
         this.file_size = story.getFile_size();
         this.mediapath = story.getMediapath();
@@ -117,14 +116,13 @@ public class PlayStory extends DataSupport {
     public Story getStory() {
 
         Story storyObj = Story.getInstance();
-        storyObj.setStoryId(storyId);
+        storyObj.setId(storyId);
         storyObj.setAlbum_id(albumid);
         storyObj.setTitle(title);
         storyObj.setIntro(intro);
         storyObj.setTimes(times);
         storyObj.setFile_size(file_size);
         storyObj.setMediapath(mediapath);
-        storyObj.setCover(cover);
         storyObj.setPlaycover(playcover);
         return storyObj;
     }

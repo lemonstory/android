@@ -1,11 +1,7 @@
 package com.xiaoningmeng.bean;
 
-import android.graphics.Bitmap;
-
 import com.xiaoningmeng.player.PlayerManager.PlayState;
 import com.xiaoningmeng.player.PlayerManager.PlayType;
-
-import java.lang.ref.SoftReference;
 
 public class PlayingStory {
 
@@ -26,11 +22,10 @@ public class PlayingStory {
 	public AlbumInfo albumInfo;
 
 	public void setStory(Story story) {
-		this.storyId = story.getStoryId();
+		this.storyId = story.getId();
 		this.title = story.getTitle();
 		this.intro = story.getIntro();
 		this.times = Integer.parseInt(story.getTimes());
-		this.cover = story.getCover();
 		this.file_size = story.getFile_size();
 		this.albumid = story.getAlbum_id();
 		this.mediapath = story.getMediapath();

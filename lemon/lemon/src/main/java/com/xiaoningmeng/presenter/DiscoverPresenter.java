@@ -56,8 +56,11 @@ public class DiscoverPresenter implements DiscoverConstract.Presenter{
                     public List<IRecyclerItem> call(final Index data) {
 
                         ArrayList<IRecyclerItem>  iRecyclerItems = new ArrayList<>();
-                        iRecyclerItems.addAll(data.getAge_level().getItems());
-                        iRecyclerItems.add(data.getContent_category());
+                        for(int i = 0; i < data.getContent_category().getItems().size();i++){
+                            Index.ContentCategoryBean.ItemBean itemBean = data.getContent_category().getItems().get(i);
+                            iRecyclerItems.add(itemBean);
+                        }
+
                         for(int i = 0; i < data.getAlbum_section().getItems().size();i++){
                             Index.AlbumSectionBean.ItemBean itemBean = data.getAlbum_section().getItems().get(i);
                             iRecyclerItems.add(itemBean);

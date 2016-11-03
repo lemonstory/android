@@ -2,9 +2,7 @@ package com.xiaoningmeng.adapter;
 
 import android.net.Uri;
 import android.text.Html;
-import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -20,7 +18,7 @@ import java.util.List;
  * Created by huang on 2016/9/14.
  */
 
-public class RecommendAdatper extends BaseQuickAdapter<AlbumInfo>{
+public class RecommendAdatper extends BaseQuickAdapter<AlbumInfo,BaseViewHolder>{
     private int mImgHeight;
 
     public RecommendAdatper(List<AlbumInfo> data) {

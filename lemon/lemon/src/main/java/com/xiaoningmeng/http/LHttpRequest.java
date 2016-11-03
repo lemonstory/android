@@ -1,7 +1,6 @@
 package com.xiaoningmeng.http;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.alibaba.sdk.android.oss.callback.SaveCallback;
 import com.xiaoningmeng.MoreActivity;
@@ -10,7 +9,6 @@ import com.xiaoningmeng.bean.Address;
 import com.xiaoningmeng.bean.Album;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.AppInfo;
-import com.xiaoningmeng.bean.Discover;
 import com.xiaoningmeng.bean.HomeInfo;
 import com.xiaoningmeng.bean.Index;
 import com.xiaoningmeng.bean.Mine;
@@ -25,14 +23,10 @@ import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.GetBuilder;
 import com.zhy.http.okhttp.builder.OkHttpRequestBuilder;
 import com.zhy.http.okhttp.builder.PostFormBuilder;
-import com.zhy.http.okhttp.builder.PostStringBuilder;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 public class LHttpRequest {
 
@@ -203,7 +197,7 @@ public class LHttpRequest {
 	public void albumInfoReq(Context context, int len, String albumId, String uid,
 							 JsonCallback<Album> handler) {
 		get(ConstantURL.ALBUM_INFO).tag(context)
-		.addParams("albumid", albumId)
+		.addParams("album_id", albumId)
 		.addParams("iscommentpage", "0")
 		.addParams("direction", Constant.FRIST)
 		.addParams("startid", Constant.FRIST_ID)

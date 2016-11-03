@@ -4,25 +4,29 @@ import java.util.List;
 
 public class Album {
 
-	private AlbumInfo albuminfo;
-	private List<Story> storylist;
+	private AlbumInfo albumInfo;
+	private StoryListBean storyList;
 	private List<Comment> commentlist;
-	private List<Tag> taglist;
-	private List<AlbumInfo> recommendalbumlist;
-	public AlbumInfo getAlbuminfo() {
-		return albuminfo;
+	private List<Tag> tagList;
+	private List<AlbumInfo> recommendAlbumList;
+	public AlbumInfo getAlbumInfo() {
+		return albumInfo;
 	}
 
-	public void setAlbuminfo(AlbumInfo albuminfo) {
-		this.albuminfo = albuminfo;
+	public void setAlbumInfo(AlbumInfo albumInfo) {
+		this.albumInfo = albumInfo;
 	}
 
-	public List<Story> getStorylist() {
-		return storylist;
+	public StoryListBean getStoryList() {
+		return storyList;
 	}
 
-	public void setStorylist(List<Story> storylist) {
-		this.storylist = storylist;
+	public void setStoryList(StoryListBean storyList) {
+		this.storyList = storyList;
+	}
+
+	public List<Story> getStoryListItems() {
+		return this.storyList.getItems();
 	}
 
 	public List<Comment> getCommentlist() {
@@ -33,19 +37,40 @@ public class Album {
 		this.commentlist = commentlist;
 	}
 
-	public List<Tag> getTaglist() {
-		return taglist;
+	public List<Tag> getTagList() {
+		return tagList;
 	}
 
-	public void setTaglist(List<Tag> taglist) {
-		this.taglist = taglist;
+	public void setTagList(List<Tag> tagList) {
+		this.tagList = tagList;
 	}
 
-	public List<AlbumInfo> getRecommendalbumlist() {
-		return recommendalbumlist;
+	public List<AlbumInfo> getRecommendAlbumList() {
+		return recommendAlbumList;
 	}
 
-	public void setRecommendalbumlist(List<AlbumInfo> recommendalbumlist) {
-		this.recommendalbumlist = recommendalbumlist;
+	public void setRecommendAlbumList(List<AlbumInfo> recommendAlbumList) {
+		this.recommendAlbumList = recommendAlbumList;
+	}
+
+	public static class StoryListBean  {
+		private int total;
+		private List<Story> items;
+
+		public int getTotal() {
+			return total;
+		}
+
+		public void setTotal(int total) {
+			this.total = total;
+		}
+
+		public List<Story> getItems() {
+			return items;
+		}
+
+		public void setItems(List<Story> items) {
+			this.items = items;
+		}
 	}
 }

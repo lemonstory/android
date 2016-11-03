@@ -131,7 +131,7 @@ public class PlayerManager extends PlayerObservable implements
                 recordHistoryData();
             } else {
 
-                String playErrorStoryId = story.getStoryId();
+                String playErrorStoryId = story.getId();
                 if (!recentsPlayErrorStoryIds.contains(playErrorStoryId)) {
                     recentsPlayErrorStoryIds.add(playErrorStoryId);
                     BuglyLog.w("xnm", "PlayerManager->startPlay fail. go into next. story = " + story.toString());
