@@ -43,7 +43,7 @@
     <color name="base_orage_color">#f5a623</color>
     <!-- home -->
     <color name="home_discover_focus_picture_bg">#f2f8fe</color>
-    <color name="home_discover_item_title">#8c98a1</color>
+    <color name="home_discover_item_title">#9B9B9B</color>
     <color name="home_discover_item_story_title">#66696b</color>
     <color name="home_discover_item_bg">#f1f6f7</color>
     <color name="home_discover_item_tip">#45ddc7</color>
@@ -86,4 +86,10 @@
     <color name="forum_todayposts_text_color">#FDC772</color>
     <color name="view_thread_image_background_color">#efefef</color>
     <color name="forum_icon_background_color">#f5f8fc</color>
+
+    <!--首页 广告背景-->
+    <color name="ad_background_color">#A9B3BD</color>
+
+    <!-- 专辑 标题-->
+    <color name="album_title_color">#4A4A4A</color>
 </resources>

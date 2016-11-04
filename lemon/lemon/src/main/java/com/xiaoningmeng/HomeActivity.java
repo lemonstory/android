@@ -32,7 +32,6 @@ import com.xiaoningmeng.fragment.DiscoverFragment;
 import com.xiaoningmeng.fragment.ForumIndexFragment;
 import com.xiaoningmeng.fragment.MineFragment;
 import com.xiaoningmeng.fragment.ShopFragment;
-import com.xiaoningmeng.fragment.SimpleDialogFragment;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.MusicService;
 import com.xiaoningmeng.player.PlayObserver;
@@ -76,7 +75,6 @@ public class HomeActivity extends BaseActivity implements
 	public static final String FRAG_FORUM = "FRAG_FORUM";
 	//public static final String FRAG_SHOP = "FRAG_SHOP";
 	public static final String FRAG_ACCOUNT = "FRAG_ACCOUNT";
-
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -448,7 +446,7 @@ public class HomeActivity extends BaseActivity implements
 
 		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
 			if(!mSearchBarView.checkIsFocus()) { //检查mSearchView是否还有焦点
-				//showCancelAppDialog();
+				showCancelAppDialog();
 				if(!PlayerManager.getInstance().isPlaying()){
 					MusicService.stopService(HomeActivity.this);
 				}

@@ -157,12 +157,15 @@ public class AblumDetailPlayListFragment extends BaseFragment {
 	}
 
 	public void onFailure(){
-		mEmptyHelper.setEmptyView(EmptyHelper.FAILURE, false, getString(R.string.failure_tip)/*, new View.OnClickListener() {
+
+		if(this.isAdded()) {
+			mEmptyHelper.setEmptyView(EmptyHelper.FAILURE, false, getString(R.string.failure_tip)/*, new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				mEmptyHelper.setEmptyView(EmptyHelper.LOADING,false,getString(R.string.loading_tip));
 				((AblumDetailActivity)getActivity()).requestAlbumDetailData();
 			}
 		}*/);
+		}
 	}
 }

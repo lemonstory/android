@@ -23,7 +23,7 @@ import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.holder.Holder;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.AblumDetailActivity;
@@ -41,6 +41,7 @@ import com.xiaoningmeng.manager.DownloadApkManager;
 import com.xiaoningmeng.manager.EmptyHelper;
 import com.xiaoningmeng.presenter.DiscoverPresenter;
 import com.xiaoningmeng.presenter.contract.DiscoverConstract;
+import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,15 +83,13 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
         mRecyclerView.addItemDecoration(new SpaceItemDecoration(18));
         new DiscoverPresenter(getActivity(), this).subscribe();
         mPresenter.requestIndexData();
-        mRecyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
-            @Override
-            public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-
-            }
+        mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
 
             @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                super.onItemClick(adapter, view, position);
+            public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+                DebugUtils.d("############# SimpleOnItemClick #################");
+                //super.onItemClick(adapter, view, position);
                 IRecyclerItem iRecyclerItem = mAdapter.getItem(position);
                 switch (iRecyclerItem.getItemType()) {
                     case Index.ALBUM_TYPE:
@@ -104,7 +103,30 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
                 }
             }
 
-
+//            @Override
+//            public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+//
+//                DebugUtils.d("############# SimpleOnItemChildClick #################");
+//
+//            }
+//
+//            @Override
+//            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+//
+//                DebugUtils.d("############# onItemClick #################");
+//                super.onItemClick(adapter, view, position);
+//                IRecyclerItem iRecyclerItem = mAdapter.getItem(position);
+//                switch (iRecyclerItem.getItemType()) {
+//                    case Index.ALBUM_TYPE:
+//                        startAlbumInfoActivity(view, (AlbumInfo) iRecyclerItem);
+//                        break;
+//                    case Index.ALBUM_MORE_TYPE:
+//                        /*Index.AlbumSectionBean.ItemBean albumItemBean =
+//                                (Index.AlbumSectionBean.ItemBean) iRecyclerItem;
+//						startMoreActivity(1);*/
+//                        break;
+//                }
+//            }
         });
         return contentView;
     }
@@ -306,20 +328,21 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
             int pos = parent.getChildAdapterPosition(view);
             int viewType = mAdapter.getItemViewType(pos);
+            DebugUtils.d(">>>>>>>>>>>>>>> viewType = " + viewType + "; pos = " + pos + "; lastPos = " + lastPos);
             switch (viewType) {
                 case Index.ALBUM_TYPE: {
                     outRect.right = mSpace;
                     outRect.top = 0;
                     outRect.bottom = 0;
-                    if(pos - lastPos > 0) {
-                        if (Math.abs(pos - lastPos) % 2 != 0 ) {
+                    if (pos - lastPos > 0 && lastPos > 0) {
+                        if (Math.abs(pos - lastPos) % 2 != 0) {
                             outRect.left = mSpace;
                         } else {
                             outRect.left = 0;
                         }
                     } else {
 
-                        if (Math.abs(pos - lastPos) % 2 != 0 ) {
+                        if (Math.abs(pos - lastPos) % 2 != 0) {
                             outRect.left = 0;
                         } else {
                             outRect.left = mSpace;
@@ -330,9 +353,9 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
 
                 default:
                     lastPos = pos;
-                break;
+                    break;
             }
-            if(lastPos == 0) {
+            if (lastPos == 0 && pos > 0) {
                 lastPos = pos - 1;
             }
         }

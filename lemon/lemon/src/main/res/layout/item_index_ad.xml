@@ -5,8 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/ablum_play_height"
     android:background="?attr/selectableItemBackgroundBorderless"
-    android:paddingLeft="@dimen/base_margin"
-    android:paddingRight="@dimen/base_margin"
+    android:paddingLeft="@dimen/page_padding_left"
+    android:paddingRight="@dimen/page_padding_right"
     android:paddingTop="@dimen/bar_margin"
     fresco:actualImageScaleType="centerCrop"
+    fresco:backgroundImage="@color/ad_background_color"
     fresco:roundedCornerRadius="3dp" />

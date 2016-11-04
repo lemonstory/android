@@ -9,7 +9,6 @@ import com.xiaoningmeng.R;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.IRecyclerItem;
 import com.xiaoningmeng.bean.Index;
-import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.List;
 
@@ -23,7 +22,6 @@ public class IndexAdapter extends BaseMultiItemQuickAdapter<IRecyclerItem,BaseVi
     public IndexAdapter(List<IRecyclerItem> datas) {
 
         super(datas);
-        DebugUtils.d("IndexAdapter  is run");
         addItemType(Index.CATEGORY_TYPE, R.layout.item_index_category);
         addItemType(Index.ALBUM_MORE_TYPE,R.layout.item_home_discover_top);
         addItemType(Index.ALBUM_TYPE,R.layout.item_recommend2);
@@ -34,7 +32,6 @@ public class IndexAdapter extends BaseMultiItemQuickAdapter<IRecyclerItem,BaseVi
     @Override
     protected void convert(BaseViewHolder helper, IRecyclerItem item) {
 
-        DebugUtils.d("IndexAdapter convert is run");
         switch (item.getItemType()){
 
             case Index.CATEGORY_TYPE:

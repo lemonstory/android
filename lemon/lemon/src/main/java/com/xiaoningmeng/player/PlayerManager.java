@@ -1,5 +1,6 @@
 package com.xiaoningmeng.player;
 
+import android.content.Context;
 import android.database.sqlite.SQLiteFullException;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -29,6 +30,7 @@ import com.xiaoningmeng.download.DownLoadClientImpl;
 import com.xiaoningmeng.download.DownLoadObserver;
 import com.xiaoningmeng.download.DownLoadState;
 import com.xiaoningmeng.utils.AudioUtils;
+import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.utils.PreferenceUtil;
 
 import org.litepal.crud.DataSupport;
@@ -74,6 +76,7 @@ public class PlayerManager extends PlayerObservable implements
             }
         }
     };
+    private PowerManager.WakeLock mWakeLock;
 
     public static PlayerManager getInstance() {
         if (mInstance == null) {
@@ -97,6 +100,8 @@ public class PlayerManager extends PlayerObservable implements
 
     private void initMediaPlay() {
 
+        this.acquireWakeLock();
+        //TODO:http://blog.csdn.net/u010156024/article/details/47622407
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mediaPlayer.setWakeMode(MyApplication.getInstance()
@@ -138,14 +143,14 @@ public class PlayerManager extends PlayerObservable implements
                     //如果是单曲循环,播放失败后,继续播下一首放仍会继续失败进入死循环
                     if (mPlayMode != PlayMode.SINGLE) {
                         nextPlay();
-                    }else {
-                        position =+1;
+                    } else {
+                        position = +1;
                         nextPlay();
                     }
-                }else {
+                } else {
                     BuglyLog.w("xnm", "PlayerManager->startPlay fail. recentsPlayErrorStoryIds = " + recentsPlayErrorStoryIds.toString());
                     Toast.makeText(MyApplication.getInstance()
-                            .getApplicationContext(),"哎呀,该专辑无法播放,正在紧急修复中",Toast.LENGTH_SHORT).show();
+                            .getApplicationContext(), "哎呀,该专辑无法播放,正在紧急修复中", Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -321,7 +326,7 @@ public class PlayerManager extends PlayerObservable implements
                 }
             }
         });
-        MobclickAgent.onEvent(MyApplication.getContext(),"event_play");
+        MobclickAgent.onEvent(MyApplication.getContext(), "event_play");
     }
 
 
@@ -412,12 +417,12 @@ public class PlayerManager extends PlayerObservable implements
         }
         startPlay(pos, current);
         if (mPlayingStory.albumSource != AlbumSource.SEARCH) {
-            try{
+            try {
                 DataSupport.deleteAll(PlayStory.class);
                 DownLoadClientImpl.getInstance().addAlbum(albumInfo);
                 DataSupport.saveAll(playStories);
 
-            }catch (SQLiteFullException e) {
+            } catch (SQLiteFullException e) {
                 //clear image cache
                 ImagePipeline imagePipeline = Fresco.getImagePipeline();
                 imagePipeline.clearCaches();
@@ -425,7 +430,7 @@ public class PlayerManager extends PlayerObservable implements
                 DataSupport.deleteAll(PlayStory.class);
                 DownLoadClientImpl.getInstance().addAlbum(albumInfo);
                 DataSupport.saveAll(playStories);
-            }catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -560,8 +565,12 @@ public class PlayerManager extends PlayerObservable implements
     }
 
     public boolean isPlaying() {
-        return mPlayingStory.playState == PlayState.PLAY
-                || mPlayingStory.playState == PlayState.RESUME;
+
+        boolean isPlaying = false;
+        if(mPlayingStory.playState == PlayState.PLAY || mPlayingStory.playState == PlayState.RESUME) {
+            isPlaying = true;
+        }
+        return isPlaying;
     }
 
 
@@ -607,5 +616,30 @@ public class PlayerManager extends PlayerObservable implements
     public void onSeekComplete(MediaPlayer mp) {
         mp.start();
         mHandler.postDelayed(updateRunnable, PER_UPDATE_TIME);
+    }
+
+    // 申请设备电源锁
+    private void acquireWakeLock() {
+        DebugUtils.d("正在申请电源锁");
+        if (null == mWakeLock) {
+            PowerManager pm = (PowerManager) MyApplication.getInstance()
+                    .getApplicationContext().getSystemService(Context.POWER_SERVICE);
+            mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK
+                    | PowerManager.ON_AFTER_RELEASE, "");
+            if (null != mWakeLock) {
+                mWakeLock.acquire();
+                DebugUtils.d("电源锁申请成功");
+            }
+        }
+    }
+
+    // 释放设备电源锁
+    private void releaseWakeLock() {
+        DebugUtils.d("正在释放电源锁");
+        if (null != mWakeLock) {
+            mWakeLock.release();
+            mWakeLock = null;
+            DebugUtils.d("电源锁释放成功");
+        }
     }
 }

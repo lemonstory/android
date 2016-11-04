@@ -6,8 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.transition.Explode;
-import android.transition.Fade;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,8 +13,8 @@ import android.widget.TextView;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.application.ActivityManager;
-import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.http.ILoading;
+import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.view.dialog.TextDialogLoading;
 import com.zhy.http.okhttp.OkHttpUtils;
 
@@ -200,8 +198,10 @@ public class BaseActivity extends AppCompatActivity implements ILoading {
 			ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(this,
 					targetView,shareName);
 			Bundle bundle = activityOptions.toBundle();
+			DebugUtils.d("######## startActivity ##########");
 			startActivity(intent, bundle);
 		}else{
+			DebugUtils.d("######## startActivityForNew ##########");
 			startActivityForNew(intent);
 		}
 	}

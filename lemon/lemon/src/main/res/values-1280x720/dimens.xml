@@ -242,4 +242,8 @@
     <dimen name="alarm_width">266dp</dimen>
     <dimen name="switch_btn_width">60dp</dimen>
     <dimen name="switch_btn_hieght">30dp</dimen>
+
+    <!--通用-->
+    <dimen name="page_padding_left">9dp</dimen>
+    <dimen name="page_padding_right">9dp</dimen>
 </resources>

@@ -100,7 +100,7 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
 			// QQ和Qzone appid appkey
 			PlatformConfig.setQQZone(Constant.QQ_APP_ID, Constant.QQ_APP_KEY);
 		}
-		 
+		startMusicService();
 	}
 
 	public void initOkHttpClient(){

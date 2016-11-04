@@ -38,9 +38,13 @@
     </style>
 
     <style name="AiThemeSample">
-        <item name="numberPickerUpButtonStyle">@style/AiWidget.ImageButton.NumberPickerUpButton</item>
-        <item name="numberPickerDownButtonStyle">@style/AiWidget.ImageButton.NumberPickerDownButton</item>
-        <item name="numberPickerInputTextStyle">@style/AiWidget.EditText.NumberPickerInputText</item>
+        <item name="numberPickerUpButtonStyle">@style/AiWidget.ImageButton.NumberPickerUpButton
+        </item>
+        <item name="numberPickerDownButtonStyle">
+            @style/AiWidget.ImageButton.NumberPickerDownButton
+        </item>
+        <item name="numberPickerInputTextStyle">@style/AiWidget.EditText.NumberPickerInputText
+        </item>
         <item name="numberPickerStyle">@style/AiWidget.NumberPicker</item>
     </style>
 
@@ -131,7 +135,7 @@
         <item name="roundProgressColor">@color/action_bar_bg</item>
         <item name="roundWidth">3dp</item>
     </style>
-    
+
     <style name="albumCommentListViewStyle">
         <item name="footViewMarginBootom">@dimen/download_item_cover_height</item>
     </style>
@@ -139,8 +143,8 @@
     <style name="viewThreadListViewStyle">
         <item name="footViewMarginBootom">@dimen/download_item_height</item>
     </style>
-    
-     <style name="defaultListViewStyle">
+
+    <style name="defaultListViewStyle">
         <item name="footViewMarginBootom">@dimen/base_radius_size</item>
     </style>
 
@@ -148,11 +152,11 @@
         <item name="footerColor1">@color/action_bar_bg</item>
         <item name="footerLineHeight1">1dp</item>
         <item name="footerTriangleHeight">@dimen/download_tab_divider</item>
-         <item name="normaltextColor">@color/base_text_color</item>
-         <item name="textColorSelected">@color/orage_color</item>
-         <item name="textSizeNormal">@dimen/content_text_size</item>
-          <item name="textSizeSelected">@dimen/content_text_size</item>
-          <item name="android:background">@drawable/big_divider_bg</item>
+        <item name="normaltextColor">@color/base_text_color</item>
+        <item name="textColorSelected">@color/orage_color</item>
+        <item name="textSizeNormal">@dimen/content_text_size</item>
+        <item name="textSizeSelected">@dimen/content_text_size</item>
+        <item name="android:background">@drawable/big_divider_bg</item>
     </style>
 
     <style name="warpTabIndicatorView" parent="BaseTabIndicatorView">
@@ -167,8 +171,8 @@
         <item name="starEmpty">@drawable/album_comment_star_normal</item>
         <item name="starFill">@drawable/album_comment_star_select</item>
         <item name="starCount">5</item>
-         <item name="clickable">false</item>
-         <item name="starImageSize">@dimen/base_margin</item>
+        <item name="clickable">false</item>
+        <item name="starImageSize">@dimen/base_margin</item>
     </style>
 
     <style name="AlbumRatingBarStyle" parent="baseRatingBarStyle">
@@ -181,7 +185,7 @@
         <item name="starImageSize">@dimen/ablum_padding</item>
     </style>
 
-     <style name="CommentRatingBarStyle" parent="baseRatingBarStyle">
+    <style name="CommentRatingBarStyle" parent="baseRatingBarStyle">
         <item name="clickable">true</item>
         <item name="starImageSize">@dimen/home_discover_item_title_height</item>
     </style>
@@ -189,32 +193,28 @@
     <!-- application base -->
     <style name="discover_story_title">
         <item name="android:textSize">@dimen/home_tab_size</item>
-        <item name="android:textColor">@color/setting_title_text_color</item>
+        <item name="android:textColor">@color/album_title_color</item>
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">end</item>
         <item name="android:layout_marginTop">@dimen/base_radius_size</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">3dp</item>
-        <item name="android:layout_marginRight">3dp</item>
     </style>
 
     <style name="discover_recommend_style">
         <item name="android:textSize">@dimen/recomment_text_size</item>
-        <item name="android:textColor">#9da4ab</item>
+        <item name="android:textColor">#9B9B9B</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">1</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">1dp</item>
-        <item name="android:layout_marginLeft">3dp</item>
-        <item name="android:layout_marginRight">3dp</item>
     </style>
 
     <style name="discover_story_tip">
         <item name="android:textSize">@dimen/date_text_size</item>
-        <item name="android:textColor">@color/home_tab_color</item>
+        <item name="android:textColor">#9B9B9B</item>
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -228,8 +228,6 @@
     </style>
 
 
-
-
     <style name="roundImageViewStyle">
         <item name="sriv_left_bottom_corner_radius">@dimen/base_radius_size</item>
         <item name="sriv_left_top_corner_radius">@dimen/base_radius_size</item>
@@ -238,25 +236,29 @@
         <item name="sriv_right_top_corner_radius">@dimen/base_radius_size</item>
         <item name="android:scaleType">centerCrop</item>
     </style>
+
     <style name="albumProgressBarStyle" parent="@android:style/Widget.ProgressBar.Horizontal">
-          <item name="android:progressDrawable">@drawable/album_progress_bg</item>
-          <item name="android:maxHeight">@dimen/ablum_download_height</item>
-          <item name="android:minHeight">@dimen/ablum_download_height</item>
+        <item name="android:progressDrawable">@drawable/album_progress_bg</item>
+        <item name="android:maxHeight">@dimen/ablum_download_height</item>
+        <item name="android:minHeight">@dimen/ablum_download_height</item>
     </style>
+
     <style name="downloadApkProgressBarStyle" parent="@android:style/Widget.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/download_apk_progress_bg</item>
         <item name="android:maxHeight">@dimen/ablum_download_height</item>
         <item name="android:minHeight">@dimen/ablum_download_height</item>
     </style>
+
     <style name="notifyProgressBarStyle" parent="@android:style/Widget.ProgressBar.Horizontal">
-          <item name="android:progressDrawable">@drawable/notify_progress_bg</item>
-          <item name="android:maxHeight">4dp</item>
-          <item name="android:minHeight">4dp</item>
+        <item name="android:progressDrawable">@drawable/notify_progress_bg</item>
+        <item name="android:maxHeight">4dp</item>
+        <item name="android:minHeight">4dp</item>
     </style>
+
     <style name="notifyPauseProgressBarStyle" parent="@android:style/Widget.ProgressBar.Horizontal">
-          <item name="android:progressDrawable">@drawable/notify_progress_bg_pause</item>
-          <item name="android:maxHeight">4dp</item>
-          <item name="android:minHeight">4dp</item>
+        <item name="android:progressDrawable">@drawable/notify_progress_bg_pause</item>
+        <item name="android:maxHeight">4dp</item>
+        <item name="android:minHeight">4dp</item>
     </style>
 
     <style name="pop_classification_item">
@@ -268,6 +270,7 @@
         <item name="android:layout_marginTop">@dimen/base_margin</item>
         <item name="android:layout_marginBottom">@dimen/base_margin</item>
     </style>
+
     <style name="pop_top_anim">
         <item name="android:windowEnterAnimation">@anim/pop_top_in</item>
         <item name="android:windowExitAnimation">@anim/pop_top_out</item>
@@ -280,10 +283,12 @@
         <item name="android:textSize">@dimen/home_tab_size</item>
         <item name="android:gravity">center</item>
     </style>
+
     <style name="adStyle">
         <item name="adSize">0</item>
         <item name="adId">2362878</item>
     </style>
+
     <style name="page_sliding_tab_style">
 
         <item name="pstsIndicatorHeight">3dp</item>
@@ -306,7 +311,7 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:background">?android:attr/selectableItemBackgroundBorderless </item>
+        <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
         <item name="android:clickable">true</item>
         <item name="android:gravity">center</item>
         <item name="android:paddingTop">@dimen/base_radius_size</item>
@@ -323,7 +328,7 @@
         <item name="cardCornerRadius">0dp</item>
         <item name="cardElevation">1dp</item>
         <item name="contentPadding">0dp</item>
-       <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
         <item name="cardBackgroundColor">@color/white</item>
         <item name="android:layout_marginTop">@dimen/album_card_margin_top</item>
         <item name="android:layout_marginBottom">@dimen/album_card_margin_bottom</item>
@@ -358,6 +363,7 @@
         <item name="android:scrollbarSize">@dimen/base_radius_size</item>
         <item name="layoutManager">@string/mp.list.layoutManager.linear</item>
     </style>
+
     <style name="tabStrip_tab_style">
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
     </style>

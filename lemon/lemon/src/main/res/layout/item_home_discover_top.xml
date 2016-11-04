@@ -1,39 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_classify_title"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:paddingLeft="@dimen/page_padding_left"
+    android:paddingRight="@dimen/page_padding_right"
+    android:paddingTop="@dimen/mine_center_divider_height">
 
-    <RelativeLayout
-         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/rl_classify_title"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tv_classify_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-         android:paddingLeft="@dimen/base_margin"
-        android:paddingRight="@dimen/base_margin"
-        android:paddingTop="@dimen/mine_center_divider_height"
-   		 android:background="@null"
-   		  >
+        android:drawablePadding="@dimen/base_radius_size"
+        android:paddingBottom="@dimen/base_radius_size"
+        android:paddingTop="@dimen/mine_item_cover_margin_left"
+        android:text="热门推荐"
+        android:textColor="@color/discover_more_color_selector"
+        android:textSize="@dimen/home_tab_size" />
 
-        <TextView
-            android:id="@+id/tv_classify_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/base_radius_size"
-            android:paddingTop="@dimen/mine_item_cover_margin_left"
-            android:text="热门推荐"
-            android:drawablePadding="@dimen/base_radius_size"
-            android:textColor="@color/discover_more_color_selector"
-            android:textSize="@dimen/home_tab_size" />
-
-        <TextView
-            android:id="@+id/tv_classify_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:paddingBottom="@dimen/base_radius_size"
-            android:paddingLeft="@dimen/mine_item_cover_margin_left"
-            android:paddingTop="@dimen/mine_item_cover_margin_left"
-            android:drawableRight="@drawable/home_item_more"
-            android:drawablePadding="@dimen/base_radius_size"
-            android:text="更多"
-            android:textColor="@color/discover_more_color_selector"
-            android:textSize="@dimen/home_tab_size" />
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/tv_classify_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:drawablePadding="@dimen/base_radius_size"
+        android:drawableRight="@drawable/home_item_more"
+        android:paddingBottom="@dimen/base_radius_size"
+        android:paddingLeft="@dimen/mine_item_cover_margin_left"
+        android:paddingTop="@dimen/mine_item_cover_margin_left"
+        android:text="查看更多"
+        android:textColor="@color/discover_more_color_selector"
+        android:textSize="@dimen/home_tab_size" />
+</RelativeLayout>

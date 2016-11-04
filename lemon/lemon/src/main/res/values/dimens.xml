@@ -309,4 +309,8 @@
     <dimen name="mall_margin_bottom">2dp</dimen>
     <dimen name="shop_item_margin_left">7dp</dimen>
     <dimen name="shop_item_margin_bottom">10dp</dimen>
+
+    <!--通用-->
+    <dimen name="page_padding_left">9dp</dimen>
+    <dimen name="page_padding_right">9dp</dimen>
 </resources>
