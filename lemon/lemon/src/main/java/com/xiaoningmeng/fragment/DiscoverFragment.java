@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +44,6 @@ import com.xiaoningmeng.manager.DownloadApkManager;
 import com.xiaoningmeng.manager.EmptyHelper;
 import com.xiaoningmeng.presenter.DiscoverPresenter;
 import com.xiaoningmeng.presenter.contract.DiscoverConstract;
-import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,6 +58,8 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
     private DiscoverPresenter mPresenter;
     private IndexAdapter mAdapter;
     private EmptyHelper mEmptyHelper;
+    private Boolean albumClickable;
+    private boolean isAlbumLeft = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -88,12 +92,14 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
             @Override
             public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
 
-                DebugUtils.d("############# SimpleOnItemClick #################");
-                //super.onItemClick(adapter, view, position);
                 IRecyclerItem iRecyclerItem = mAdapter.getItem(position);
                 switch (iRecyclerItem.getItemType()) {
                     case Index.ALBUM_TYPE:
-                        startAlbumInfoActivity(view, (AlbumInfo) iRecyclerItem);
+                        //增加开关，避免连续点击，Activity跳转动画出现错误
+                        if(albumClickable) {
+                            startAlbumInfoActivity(view, (AlbumInfo) iRecyclerItem);
+                            albumClickable = false;
+                        }
                         break;
                     case Index.ALBUM_MORE_TYPE:
                         /*Index.AlbumSectionBean.ItemBean albumItemBean =
@@ -102,31 +108,6 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
                         break;
                 }
             }
-
-//            @Override
-//            public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-//
-//                DebugUtils.d("############# SimpleOnItemChildClick #################");
-//
-//            }
-//
-//            @Override
-//            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-//
-//                DebugUtils.d("############# onItemClick #################");
-//                super.onItemClick(adapter, view, position);
-//                IRecyclerItem iRecyclerItem = mAdapter.getItem(position);
-//                switch (iRecyclerItem.getItemType()) {
-//                    case Index.ALBUM_TYPE:
-//                        startAlbumInfoActivity(view, (AlbumInfo) iRecyclerItem);
-//                        break;
-//                    case Index.ALBUM_MORE_TYPE:
-//                        /*Index.AlbumSectionBean.ItemBean albumItemBean =
-//                                (Index.AlbumSectionBean.ItemBean) iRecyclerItem;
-//						startMoreActivity(1);*/
-//                        break;
-//                }
-//            }
         });
         return contentView;
     }
@@ -163,6 +144,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    albumClickable = true;
                     String linkUrl = data.getLinkurl();
                     //http里面有apk的下载,暂时不做改动
                     if (linkUrl != null) {
@@ -197,12 +179,13 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
 
     @Override
     public void onResume() {
+        super.onResume();
         if (convenientBanner != null)
             convenientBanner.startTurning(5000);
         if (getActivity() != null) {
             MobclickAgent.onEvent(getActivity(), "event_show_discover");
         }
-        super.onResume();
+        albumClickable = true;
     }
 
     @Override
@@ -240,59 +223,15 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
         Intent intent = new Intent(getActivity(), AblumDetailActivity.class);
         intent.putExtra("albumId", albumInfo.getAlbumid());
         intent.putExtra("albumInfo", albumInfo);
-        ((BaseActivity) getActivity()).startShareTransitionActivity(intent, view, "albumImage");
+
+        ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                ((BaseActivity) getActivity()),
+                new Pair<View, String>(view.findViewById(R.id.img_story_cover),"albumImage")
+        );
+        Bundle bundle = activityOptions.toBundle();
+        startActivity(intent, bundle);
+       // ((BaseActivity) getActivity()).startShareTransitionActivity(intent, view, "albumImage");
     }
-
-    /*public void showLoadingTip() {
-        if(mListView.getHeaderViewsCount() == 1){
-            if(loadingView == null){
-                loadingView = View.inflate(getActivity(),R.layout.fragment_loading, null);
-                loadingView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.home_banner_height), 0, 0);
-            }
-            mListView.addHeaderView(loadingView,null,false);
-        }
-    }
-
-    public void hideLoadingTip() {
-
-        if(loadingView != null && mListView.getHeaderViewsCount() > 1){
-            mListView.removeHeaderView(loadingView);
-        }
-    }
-
-
-    TextView emptyView;
-    public void showEmptyTip() {
-        if(mListView.getHeaderViewsCount() == 1 && getActivity() != null){
-            if(emptyView == null && getActivity() != null){
-                LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                 if (inflater != null) {
-                     emptyView = (TextView)inflater.inflate(R.layout.fragment_empty, null);
-                 }
-            }
-            if(emptyView != null){
-                emptyView.setText(getString(R.string.failure_tip));
-                emptyView.setClickable(true);
-                mListView.addHeaderView(emptyView,null,false);
-                emptyView.setOnClickListener(new OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    hideEmptyTip();
-                    requestData();
-                }
-            });
-            }
-        }
-    }
-
-    public void hideEmptyTip() {
-        if(emptyView != null && mListView.getHeaderViewsCount() > 1){
-            emptyView.setClickable(false);
-            mListView.removeHeaderView(emptyView);
-        }
-    }
-*/
 
     public void showTaobaoPage(String url) {
         Map<String, Object> exParams = new HashMap<String, Object>();
@@ -328,26 +267,31 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
             int pos = parent.getChildAdapterPosition(view);
             int viewType = mAdapter.getItemViewType(pos);
-            DebugUtils.d(">>>>>>>>>>>>>>> viewType = " + viewType + "; pos = " + pos + "; lastPos = " + lastPos);
+            int childCount = parent.getChildLayoutPosition(view);
+            //DebugUtils.d(">>>>>>>>>>>>>>> ChildCount = " + childCount + "; viewType = " + viewType + "; pos = " + pos + "; lastPos = " + lastPos);
             switch (viewType) {
                 case Index.ALBUM_TYPE: {
                     outRect.right = mSpace;
                     outRect.top = 0;
                     outRect.bottom = 0;
-                    if (pos - lastPos > 0 && lastPos > 0) {
-                        if (Math.abs(pos - lastPos) % 2 != 0) {
+                    if (pos - lastPos > 0 && lastPos >= 0) {
+                        if (isAlbumLeft) {
                             outRect.left = mSpace;
+                            isAlbumLeft = false;
                         } else {
                             outRect.left = 0;
+                            isAlbumLeft = true;
                         }
                     } else {
-
-                        if (Math.abs(pos - lastPos) % 2 != 0) {
+                        if (isAlbumLeft) {
                             outRect.left = 0;
+                            isAlbumLeft = false;
                         } else {
                             outRect.left = mSpace;
+                            isAlbumLeft = true;
                         }
                     }
+                    lastPos = pos;
                 }
                 break;
 

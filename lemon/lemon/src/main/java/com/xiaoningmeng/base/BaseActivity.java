@@ -14,7 +14,6 @@ import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.application.ActivityManager;
 import com.xiaoningmeng.http.ILoading;
-import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.view.dialog.TextDialogLoading;
 import com.zhy.http.okhttp.OkHttpUtils;
 
@@ -189,19 +188,17 @@ public class BaseActivity extends AppCompatActivity implements ILoading {
 	/**
 	 * 提供转场动画
 	 * @param intent
-	 * @param targetView
+	 * @param firstSharedView
 	 * @param shareName
      */
-	public void startShareTransitionActivity(Intent intent,View targetView,String shareName){
+	public void startShareTransitionActivity(Intent intent,View firstSharedView,String shareName){
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(this,
-					targetView,shareName);
+					firstSharedView,shareName);
 			Bundle bundle = activityOptions.toBundle();
-			DebugUtils.d("######## startActivity ##########");
 			startActivity(intent, bundle);
 		}else{
-			DebugUtils.d("######## startActivityForNew ##########");
 			startActivityForNew(intent);
 		}
 	}

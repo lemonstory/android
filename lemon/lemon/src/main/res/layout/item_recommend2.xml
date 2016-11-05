@@ -11,6 +11,7 @@
         android:id="@+id/img_story_cover"
         android:layout_width="match_parent"
         android:layout_height="@dimen/home_discover_item_img_height"
+        android:transitionName="albumImage"
         fresco:backgroundImage="@drawable/album_default"
         fresco:placeholderImage="@drawable/album_default"
         fresco:roundedCornerRadius="3dp"
