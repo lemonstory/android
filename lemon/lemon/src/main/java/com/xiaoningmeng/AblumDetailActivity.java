@@ -300,7 +300,6 @@ public class AblumDetailActivity extends BaseActivity implements
         mFavTv.setSelected(albumInfo.getFav() == 1);
         mFavTv.setText(albumInfo.getFavnum() == 0 ? "收藏" : (albumInfo.getFavnum() + ""));
         mListenerTv.setText(albumInfo.getListennum() + "");
-        DebugUtils.d("AgeLevel = " + albumInfo.getAge_str());
         mAgeLevelTv.setText(albumInfo.getAge_str());
 
     }
