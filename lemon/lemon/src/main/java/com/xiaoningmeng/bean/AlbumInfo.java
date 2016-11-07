@@ -27,6 +27,7 @@ public class AlbumInfo extends DataSupport implements Parcelable,IRecyclerItem {
     protected List<Story> storylist = new ArrayList<>();
 	protected Story storyinfo;
 	protected String recommenddesc;
+	protected String age_str;
 
 	@Override
 	public int getSpanSize() {
@@ -204,6 +205,14 @@ public class AlbumInfo extends DataSupport implements Parcelable,IRecyclerItem {
 		this.storyinfo = storyinfo;
 	}
 
+	public String getAge_str() {
+		return age_str;
+	}
+
+	public void setAge_str(String age_str) {
+		this.age_str = age_str;
+	}
+
 	public String getRecommenddesc() {
 		return recommenddesc;
 	}
@@ -227,6 +236,7 @@ public class AlbumInfo extends DataSupport implements Parcelable,IRecyclerItem {
 		out.writeString(listennum);
 		out.writeInt(favnum);
 		out.writeInt(commentnum);
+		out.writeString(age_str);
 
 	}
 

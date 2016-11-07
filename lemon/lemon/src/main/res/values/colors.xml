@@ -39,7 +39,7 @@
     <color name="base_text_color">#626a73</color>
     <color name="base_date_color">#8B96A1</color>
     <color name="base_title_color">#5f5f5f</color>
-    <color name="base_black_title_color">#151515</color>
+    <color name="base_black_title_color">#4A4A4A</color>
     <color name="base_orage_color">#f5a623</color>
     <!-- home -->
     <color name="home_discover_focus_picture_bg">#f2f8fe</color>
@@ -65,7 +65,7 @@
 
     <!-- download -->
     <color name="download_pb_color">#45ddc7</color>
-    <color name="download_album_pb_bg_color">#bec8d3</color>
+    <color name="download_album_pb_bg_color">#e2e7ed</color>
     <color name="download_pb_pause_color">#A9B3BD</color>
     <color name="download_pb_bg_color">#dfe4e9</color>
 

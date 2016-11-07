@@ -24,7 +24,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/ablum_play_item_margin_left"
         android:scaleType="center"
-        android:src="@drawable/album_small_audio"
+        android:src="@drawable/horn_on"
         android:visibility="invisible" />
 
     <TextView

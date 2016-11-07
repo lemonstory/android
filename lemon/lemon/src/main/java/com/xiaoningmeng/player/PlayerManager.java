@@ -42,6 +42,13 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * 已知的bug
+ *      1:  MediaPlayer: Should have subtitle controller already set
+ *      处理办法:   暂时忽略 http://stackoverflow.com/questions/20087804/should-have-subtitle-controller-already-set-mediaplayer-error-android
+ *
+ */
+
 public class PlayerManager extends PlayerObservable implements
         OnCompletionListener, OnBufferingUpdateListener, OnErrorListener, OnSeekCompleteListener,
         DownLoadObserver<AudioDownLoad> {
@@ -125,6 +132,7 @@ public class PlayerManager extends PlayerObservable implements
                 }
                 mHandler.removeCallbacks(updateRunnable);
                 mPlayingStory.playState = PlayState.START;
+                DebugUtils.d("story = " + story.toString());
                 mPlayingStory.setStory(story);
                 mPlayingStory.current = current;
                 mPlayingStory.buffer = mPlayingStory.playType == PlayType.LOCAL ? mPlayingStory.times : 0;

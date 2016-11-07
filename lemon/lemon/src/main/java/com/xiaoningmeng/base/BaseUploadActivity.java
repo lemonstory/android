@@ -3,19 +3,6 @@
  */
 package com.xiaoningmeng.base;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.List;
-
-import com.orhanobut.dialogplus.DialogPlus;
-import com.orhanobut.dialogplus.OnClickListener;
-import com.orhanobut.dialogplus.ViewHolder;
-import com.orhanobut.dialogplus.DialogPlus.Gravity;
-import com.xiaoningmeng.ChooImagePathActivity;
-import com.xiaoningmeng.R;
-import com.xiaoningmeng.utils.DebugUtils;
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -23,8 +10,21 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
+
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.OnClickListener;
+import com.orhanobut.dialogplus.ViewHolder;
+import com.xiaoningmeng.ChooImagePathActivity;
+import com.xiaoningmeng.R;
+import com.xiaoningmeng.utils.DebugUtils;
+
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.List;
 
 public abstract class BaseUploadActivity extends BaseActivity {
 
@@ -43,7 +43,7 @@ public abstract class BaseUploadActivity extends BaseActivity {
 	 */
 	protected void selectPic(final int selectedMaxCount) {
 
-		dialogPlus = new DialogPlus.Builder(this).setGravity(Gravity.BOTTOM)
+		dialogPlus = DialogPlus.newDialog(this).setGravity(Gravity.BOTTOM)
 				.setContentHolder(new ViewHolder(R.layout.dialog_select_pic))
 				.setOnClickListener(new OnClickListener() {
 

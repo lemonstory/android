@@ -2,11 +2,11 @@ package com.xiaoningmeng.view.dialog;
 
 import android.content.Context;
 import android.os.CountDownTimer;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
 import com.orhanobut.dialogplus.DialogPlus;
-import com.orhanobut.dialogplus.DialogPlus.Gravity;
 import com.orhanobut.dialogplus.ViewHolder;
 import com.xiaoningmeng.R;
 
@@ -47,16 +47,16 @@ public class TipDialog {
 					.setText(builder.enterText);
 		}
 		int bgId = builder.isNeedBg ?R.color.transparent :R.drawable.dialog_white_bg;
-		dialog = new DialogPlus.Builder(context)
+		dialog = DialogPlus.newDialog(context)
 				.setContentHolder(new ViewHolder(mTipView))
 				.setGravity(Gravity.CENTER)
-				.setInAnimation(R.anim.modal_in)
-				.setOutAnimation(R.anim.modal_out)
-				.setMargins(margin, 0, margin, 0)
-				.setIsTransparentBg(false)
-				.setShieldActionUp(builder.isShieldActionUp)
+				.setInAnimation(R.anim.abc_fade_in)
+				.setOutAnimation(R.anim.abc_fade_out)
+				.setMargin(margin, 0, margin, 0)
+				//.setIsTransparentBg(false)
+//				.setShieldActionUp(builder.isShieldActionUp)
 				.setOnClickListener(builder.onClickListener)
-				.setBackgroundColorResourceId(bgId).create();
+				.setContentBackgroundResource(bgId).create();
 	}
 
 	public void show() {

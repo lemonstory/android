@@ -9,7 +9,6 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.os.Process;
 import android.support.multidex.MultiDex;
-import android.util.Log;
 
 import com.alibaba.sdk.android.AlibabaSDK;
 import com.alibaba.sdk.android.callback.InitResultCallback;
@@ -17,8 +16,6 @@ import com.alibaba.sdk.android.trade.TradeConfigs;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.socialize.PlatformConfig;
-import com.xiaomi.channel.commonutils.logger.LoggerInterface;
-import com.xiaomi.mipush.sdk.Logger;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xiaoningmeng.bean.AppInfo;
 import com.xiaoningmeng.bean.UserInfo;
@@ -39,7 +36,6 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
-
 
 /**
  * 
@@ -130,27 +126,27 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
 
 
 
-	private void writeMILog(){
-		//打开Log
-		LoggerInterface newLogger = new LoggerInterface() {
-
-			@Override
-			public void setTag(String tag) {
-				// ignore
-			}
-
-			@Override
-			public void log(String content, Throwable t) {
-				Log.d("huang", content, t);
-			}
-
-			@Override
-			public void log(String content) {
-				Log.d("huang", content);
-			}
-		};
-		Logger.setLogger(this, newLogger);
-	}
+//	private void writeMILog(){
+//		//打开Log
+//		LoggerInterface newLogger = new LoggerInterface() {
+//
+//			@Override
+//			public void setTag(String tag) {
+//				// ignore
+//			}
+//
+//			@Override
+//			public void log(String content, Throwable t) {
+//				Log.d("huang", content, t);
+//			}
+//
+//			@Override
+//			public void log(String content) {
+//				Log.d("huang", content);
+//			}
+//		};
+//		Logger.setLogger(this, newLogger);
+//	}
 
 	private boolean shouldInit() {
 		ActivityManager am = ((ActivityManager) getSystemService(Context.ACTIVITY_SERVICE));

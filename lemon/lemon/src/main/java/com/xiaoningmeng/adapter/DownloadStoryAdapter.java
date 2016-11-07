@@ -1,6 +1,16 @@
 package com.xiaoningmeng.adapter;
 
-import java.util.List;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
+import android.widget.TextView;
 
 import com.xiaoningmeng.DownloadStoryActivity;
 import com.xiaoningmeng.R;
@@ -10,18 +20,8 @@ import com.xiaoningmeng.download.DownLoadState;
 import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.utils.FileUtils;
 import com.xiaoningmeng.utils.TimeUtils;
-import android.annotation.SuppressLint;
-import android.content.Context;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.RelativeLayout.LayoutParams;
+import java.util.List;
 
 public class DownloadStoryAdapter extends BaseAdapter {
 
@@ -98,7 +98,7 @@ public class DownloadStoryAdapter extends BaseAdapter {
 			} else {
 				if (story.getMediapath().equals(PlayerManager.getInstance().getPlayingStory().mediapath)) {
 					holder.checkImg.setVisibility(View.VISIBLE);
-					holder.checkImg.setImageResource(R.drawable.album_small_audio);
+					holder.checkImg.setImageResource(R.drawable.horn_on);
 				} else {
 					holder.checkImg.setVisibility(View.INVISIBLE);
 				}

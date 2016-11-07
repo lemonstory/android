@@ -1,5 +1,21 @@
 package com.xiaoningmeng.manager;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.ViewHolder;
+import com.xiaoningmeng.R;
+import com.xiaoningmeng.utils.FileUtils;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -7,22 +23,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
-import com.orhanobut.dialogplus.DialogPlus;
-import com.orhanobut.dialogplus.ViewHolder;
-import com.xiaoningmeng.R;
-import com.xiaoningmeng.utils.FileUtils;
-import com.xiaoningmeng.view.dialog.TipDialog;
-
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Handler;
-import android.os.Message;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 /**
  * 用于下载apk文件
@@ -96,11 +96,11 @@ public class DownloadApkManager {
 		mProgressbar = (ProgressBar) v.findViewById(R.id.rpb_download_progress);
 		mProgressTv = (TextView)v.findViewById(R.id.tv_download_progress);
 		int margin = mContext.getResources().getDimensionPixelOffset(R.dimen.dialog_margin);
-		downloadDialog =  new DialogPlus.Builder(mContext)
+		downloadDialog =  DialogPlus.newDialog(mContext)
 				.setContentHolder(new ViewHolder(v))
-				.setGravity(DialogPlus.Gravity.CENTER)
-				.setMargins(margin, 0, margin, 0)
-				.setIsTransparentBg(false)
+				.setGravity(Gravity.CENTER)
+				.setMargin(margin, 0, margin, 0)
+//				.setIsTransparentBg(false)
 				.setOnClickListener(new com.orhanobut.dialogplus.OnClickListener() {
 
 					@Override
@@ -110,7 +110,7 @@ public class DownloadApkManager {
 							interceptFlag = true;
 						}
 					}
-				}).setBackgroundColorResourceId(R.drawable.dialog_white_bg).create();
+				}).setContentBackgroundResource(R.drawable.dialog_white_bg).create();
 		downloadDialog.show();
 		downloadApk();
 	}

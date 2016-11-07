@@ -2,12 +2,12 @@ package com.xiaoningmeng.view.dialog;
 
 import android.content.Context;
 import android.os.CountDownTimer;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.orhanobut.dialogplus.DialogPlus;
-import com.orhanobut.dialogplus.DialogPlus.Gravity;
 import com.orhanobut.dialogplus.ViewHolder;
 import com.xiaoningmeng.R;
 
@@ -30,11 +30,12 @@ public class TopDialog {
 		if (tip != null) {
 			tipTextView.setText(tip);
 		}
-		dialog = new DialogPlus.Builder(context)
+		dialog = DialogPlus.newDialog(context)
 				.setContentHolder(new ViewHolder(mTipView))
-				.setDecorView(decorView)
-				.setGravity(Gravity.TOP).setIsTransparentBg(true)
-				.setBackgroundColorResourceId(R.color.logout_bg_normal)
+				//.setDecorView(decorView)
+				.setGravity(Gravity.TOP)
+				//.setIsTransparentBg(true)
+				//.setBackgroundColorResourceId(R.color.logout_bg_normal)
 				.create();
 	}
 	

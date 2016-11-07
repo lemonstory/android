@@ -10,20 +10,19 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
-
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
-
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.ViewHolder;
-import com.orhanobut.dialogplus.DialogPlus.Gravity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.utils.FileUtils;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 
@@ -57,7 +56,7 @@ public class BasePhotoFragment extends BaseFragment{
      */
     protected void selectPic(IUploadCall call,boolean isCropPhoto) {
         modifyPicture(call,isCropPhoto);
-        dialogPlus = new DialogPlus.Builder(getActivity()).setGravity(Gravity.BOTTOM)
+        dialogPlus = DialogPlus.newDialog(getActivity()).setGravity(Gravity.BOTTOM)
                 .setContentHolder(new ViewHolder(R.layout.dialog_select_pic))
                 .setOnClickListener(new OnClickListener() {
 

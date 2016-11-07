@@ -1,21 +1,17 @@
 package com.xiaoningmeng;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
@@ -25,10 +21,8 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.baoyz.swipemenulistview.SwipeMenuListView.OnMenuItemClickListener;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
-import com.orhanobut.dialogplus.DialogPlus.Gravity;
 import com.xiaoningmeng.adapter.DownloadStoryAdapter;
 import com.xiaoningmeng.base.BaseActivity;
-
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.AudioDownLoad;
 import com.xiaoningmeng.bean.PlayingStory;
@@ -42,6 +36,11 @@ import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.player.PlayerManager.AlbumSource;
 import com.xiaoningmeng.utils.UiUtils;
 import com.xiaoningmeng.view.dialog.TipDialog;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class DownloadStoryActivity extends BaseActivity implements
 		DownLoadObserver<AudioDownLoad>, PlayObserver, OnClickListener {
@@ -322,7 +321,7 @@ public class DownloadStoryActivity extends BaseActivity implements
 			break;
 		case R.id.tv_download_more:
 			if (downLoads != null && downLoads.size() > 0)
-				new DialogPlus.Builder(this)
+				DialogPlus.newDialog(this)
 						.setContentHolder(
 								new ViewHolder(R.layout.dialog_download_del))
 						.setGravity(Gravity.BOTTOM)

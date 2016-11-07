@@ -15,7 +15,6 @@ import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.event.LoginEvent;
 import com.xiaoningmeng.utils.PreferenceUtil;
 
-
 import org.litepal.crud.DataSupport;
 
 import java.util.List;
@@ -178,35 +177,28 @@ public class UserAuth {
 	// 审核用户权限
 	public static boolean auditUser(final Context context,String tip) {
 
-		if (!MyApplication.getInstance().isIsLogin()
-				|| MyApplication.getInstance().userInfo == null) {
+		if (!MyApplication.getInstance().isIsLogin() || MyApplication.getInstance().userInfo == null) {
 
-			/*new TipDialog.Builder(context)
-					.setHasBtn(true)
-					.setTipText(tip == null ?"您还未登录，请登录" : tip)
-					.setTransparent(false)
-					.setOnClickListener(
-							new com.orhanobut.dialogplus.OnClickListener() {
-
-								@Override
-								public void onClick(DialogPlus dialog, View view) {
-									switch (view.getId()) {
-									case R.id.tv_dialog_enter:*/
-			Intent intent = new Intent(context,
-					LoginActivity.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			context
-					.startActivity(intent);
-			((Activity)context).overridePendingTransition(R.anim.main_translatey100to0,
-					R.anim.main_translatey0tof100);
-										/*dialog.dismiss();
-										break;
-									case R.id.tv_dialog_cancel:
-										dialog.dismiss();
-										break;
-									}
-								}
-							}).create().show();*/
+//			new TipDialog.Builder(context)
+//					.setHasBtn(true)
+//					.setTipText(tip == null ?"您还未登录，请登录" : tip)
+//					.setTransparent(false)
+//					.setOnClickListener(
+//							new com.orhanobut.dialogplus.OnClickListener() {
+//
+//								@Override
+//								public void onClick(DialogPlus dialog, View view) {
+//									switch (view.getId()) {
+//									case R.id.tv_dialog_enter:
+									startLoginActivity(context);
+//										dialog.dismiss();
+//										break;
+//									case R.id.tv_dialog_cancel:
+//										dialog.dismiss();
+//										break;
+//									}
+//								}
+//							}).create().show();
 			return false;
 		}
 		return true;
@@ -227,5 +219,16 @@ public class UserAuth {
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			context.startActivity(intent);
 		}
+	}
+
+	public static void startLoginActivity(Context context) {
+
+		Intent intent = new Intent(context,
+				LoginActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		context
+				.startActivity(intent);
+		((Activity)context).overridePendingTransition(R.anim.main_translatey100to0,
+				R.anim.main_translatey0tof100);
 	}
 }

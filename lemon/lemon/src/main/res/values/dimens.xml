@@ -101,11 +101,11 @@
     <dimen name="ablum_play_icon_height">70dp</dimen>
     <dimen name="ablum_tip_margin_top">9dp</dimen>
     <dimen name="ablum_download_height">21dp</dimen>
-    <dimen name="ablum_download_width">67dp</dimen>
+    <dimen name="ablum_download_width">35dp</dimen>
     <dimen name="ablum_bar_width">81dp</dimen>
     <dimen name="ablum_bar_height">31dp</dimen>
     <dimen name="ablum_bar_radius">15dp</dimen>
-    <dimen name="ablum_play_item_height">61dp</dimen>
+    <dimen name="ablum_play_item_height">52dp</dimen>
     <dimen name="ablum_play_item_time_height">16dp</dimen>
     <dimen name="ablum_play_item_margin_left">12dp</dimen>
     <dimen name="ablum_play_item_margin_right">10dp</dimen>
