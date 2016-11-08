@@ -285,7 +285,7 @@ public class HomeActivity extends BaseActivity implements
 			case 2:
 				mActionBarView.setVisibility(View.VISIBLE);
 				mSearchBarView.setVisibility(View.INVISIBLE);
-				mTitleTv.setText("圈子");
+				mTitleTv.setText("伙伴");
 				mTitleTv.setVisibility(View.VISIBLE);
 				mTitleImg.setVisibility(View.INVISIBLE);
 				mSearchImg.setVisibility(View.INVISIBLE);

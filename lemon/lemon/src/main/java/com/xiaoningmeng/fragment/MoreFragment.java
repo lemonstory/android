@@ -14,7 +14,7 @@ import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.xiaoningmeng.AblumDetailActivity;
 import com.xiaoningmeng.MoreActivity;
 import com.xiaoningmeng.R;
-import com.xiaoningmeng.adapter.RecommendAdatper;
+import com.xiaoningmeng.adapter.AlbumAdatper;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.base.LazyFragment;
 import com.xiaoningmeng.bean.AlbumInfo;
@@ -32,7 +32,7 @@ public class MoreFragment extends LazyFragment
 		implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
 
 	private RecyclerView mRecyclerView;
-	private RecommendAdatper mQuickAdapter;
+	private AlbumAdatper mQuickAdapter;
 	private SwipeRefreshLayout mRefreshLayout;
 	private List<AlbumInfo> mAlbumInfos;
 	private MoreActivity.MoreParam mMoreParams;
@@ -62,7 +62,7 @@ public class MoreFragment extends LazyFragment
 
 	private void initAdapter() {
 
-		mQuickAdapter = new RecommendAdatper(mAlbumInfos);
+		mQuickAdapter = new AlbumAdatper(mAlbumInfos);
 		mQuickAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
 		mQuickAdapter.setOnLoadMoreListener(this);
 		mQuickAdapter.openLoadMore(Constant.GRID_REQ_LEN);

@@ -1,18 +1,20 @@
 package com.xiaoningmeng.base;
 
-import com.xiaoningmeng.R;
-
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.xiaoningmeng.R;
 
 public class BaseFragment extends Fragment {
 
@@ -133,5 +135,17 @@ public class BaseFragment extends Fragment {
 		}
 	}
 
-
+	protected View getListEndView() {
+		LayoutInflater layoutInflater = getActivity().getLayoutInflater();
+		View view = layoutInflater.inflate(R.layout.list_end_view, null);
+		//view.findViewById(R.id.tv).setVisibility(View.GONE);
+		view.setLayoutParams(new DrawerLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+		view.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(getActivity(), "click View", Toast.LENGTH_LONG).show();
+			}
+		});
+		return view;
+	}
 }

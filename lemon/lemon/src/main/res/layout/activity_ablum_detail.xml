@@ -12,26 +12,10 @@
         android:id="@+id/action_bar"
         layout="@layout/layout_album_header" />
 
-    <com.xiaoningmeng.view.DrawableCenterTextView
-        android:id="@+id/tv_album_detail_comment"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/download_item_cover_height"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/aciton_bar_bg_selector"
-        android:clickable="true"
-        android:drawableLeft="@drawable/album_comment_tip"
-        android:drawablePadding="@dimen/base_radius_size"
-        android:gravity="center_vertical"
-        android:onClick="onClick"
-        android:text="@string/album_comment"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size_eightteen" />
-
     <com.xiaoningmeng.view.StickyNavLayout
         android:id="@+id/StickyNavLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/tv_album_detail_comment"
         android:layout_below="@id/action_bar"
         android:orientation="vertical">
 
@@ -73,7 +57,7 @@
                     android:paddingLeft="4dp"
                     android:paddingRight="8dp"
                     android:paddingTop="4dp"
-                    android:text="16万"
+                    android:text=""
                     android:textColor="@color/white"
                     android:textSize="@dimen/date_text_size" />
             </RelativeLayout>
@@ -98,7 +82,7 @@
                 android:layout_below="@id/tv_ablum_detail_title"
                 android:layout_marginTop="@dimen/base_radius_size"
                 android:layout_toRightOf="@id/img_ablum_detail_cover"
-                android:text="适合3-6岁"
+                android:text=""
                 android:textColor="#B8B8B8"
                 android:textSize="@dimen/date_text_size" />
 

@@ -5,6 +5,7 @@
     <dimen name="text_size_eightteen">17sp</dimen>
     <dimen name="title_content_text_size">16sp</dimen>
     <dimen name="content_text_size">14sp</dimen>
+    <dimen name="story_title_text_size">15sp</dimen>
      <dimen name="home_tab_size">13sp</dimen>
     <dimen name="date_text_size">12sp</dimen>
     <dimen name="recomment_text_size">11sp</dimen>
@@ -83,7 +84,7 @@
 
     <!-- ablum detail -->
     <dimen name="ablum_cover_margin">10dp</dimen>
-    <dimen name="ablum_cover_height">130dp</dimen>
+    <dimen name="ablum_cover_height">135dp</dimen>
     <dimen name="ablun_play_btn_height">44dp</dimen>
     <dimen name="ablum_play_height">62dp</dimen>
     <dimen name="ablum_play_icon_height">75dp</dimen>

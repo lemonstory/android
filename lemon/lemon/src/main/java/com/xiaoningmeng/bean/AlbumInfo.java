@@ -259,6 +259,28 @@ public class AlbumInfo extends DataSupport implements Parcelable,IRecyclerItem {
 	public static Parcelable.Creator<AlbumInfo> getCreator() {
 		return CREATOR;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "AlbumInfo{" +
+				"id='" + id + '\'' +
+				", favid='" + favid + '\'' +
+				", albumid='" + albumid + '\'' +
+				", title='" + title + '\'' +
+				", intro='" + intro + '\'' +
+				", star_level='" + star_level + '\'' +
+				", cover='" + cover + '\'' +
+				", fav=" + fav +
+				", s_cover='" + s_cover + '\'' +
+				", add_time='" + add_time + '\'' +
+				", update_time='" + update_time + '\'' +
+				", listennum='" + listennum + '\'' +
+				", favnum=" + favnum +
+				", commentnum=" + commentnum +
+				", storylist=" + storylist +
+				", storyinfo=" + storyinfo +
+				", recommenddesc='" + recommenddesc + '\'' +
+				", age_str='" + age_str + '\'' +
+				'}';
+	}
 }

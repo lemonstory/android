@@ -31,6 +31,8 @@ public class UiUtils {
 			WindowManager mWindowManager = ((WindowManager) mContext
 					.getSystemService(Context.WINDOW_SERVICE));
 			mWindowManager.getDefaultDisplay().getMetrics(mDisplayMetrics);
+		}else {
+			DebugUtils.e("mContext is null");
 		}
 		return utils;
 	}

@@ -49,10 +49,15 @@ public class AblumDetailPlayListFragment extends BaseFragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         stories = new ArrayList<>();
         initAdapter();
+        return contentView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         if (stories.size() > 0) {
             loadingData(albumInfo, stories, playStoryId, current);
         }
-        return contentView;
     }
 
 
@@ -78,6 +83,8 @@ public class AblumDetailPlayListFragment extends BaseFragment {
         mAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         mEmptyHelper = new EmptyHelper(getContext(), mRecyclerView, mAdapter);
         mEmptyHelper.setEmptyView(EmptyHelper.LOADING, false, getString(R.string.loading_tip));
+        View footerView = this.getListEndView();
+        mAdapter.addFooterView(footerView, 0);
         mRecyclerView.setAdapter(mAdapter);
         ((SimpleItemAnimator) mRecyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         mRecyclerView.addOnItemTouchListener(new OnItemChildClickListener() {

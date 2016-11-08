@@ -230,7 +230,6 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
         );
         Bundle bundle = activityOptions.toBundle();
         startActivity(intent, bundle);
-       // ((BaseActivity) getActivity()).startShareTransitionActivity(intent, view, "albumImage");
     }
 
     public void showTaobaoPage(String url) {
