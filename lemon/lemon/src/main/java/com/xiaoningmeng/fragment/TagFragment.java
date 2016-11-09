@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.xiaoningmeng.AblumDetailActivity;
-import com.xiaoningmeng.ClassificationActivity;
+import com.xiaoningmeng.TagActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.adapter.AlbumAdatper;
 import com.xiaoningmeng.base.BaseActivity;
@@ -28,7 +28,7 @@ import com.xiaoningmeng.http.LHttpRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClassificationFragment extends LazyFragment
+public class TagFragment extends LazyFragment
 		implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener{
 
 	private RecyclerView mRecyclerView;
@@ -36,7 +36,7 @@ public class ClassificationFragment extends LazyFragment
 	private SwipeRefreshLayout mRefreshLayout;
 	private List<AlbumInfo> mAlbumInfos;
 	private List<TagAlbum> mTagAlbums;
-	private ClassificationActivity.TagParam mTagParam;
+	private TagActivity.TagParam mTagParam;
 	private boolean isAttach;
 	private boolean isPrepared;
 	private LayoutInflater mInflater;
@@ -47,7 +47,7 @@ public class ClassificationFragment extends LazyFragment
 		View contentView = View.inflate(getActivity(),
 				R.layout.fragment_classification, null);
 		if(!isAttach) {
-			mTagParam = getArguments().getParcelable(ClassificationActivity.Fragment_Tag);
+			mTagParam = getArguments().getParcelable(TagActivity.Fragment_Tag);
 		}
 		isAttach = false;
 		isLoadData = false;
@@ -134,7 +134,7 @@ public class ClassificationFragment extends LazyFragment
 		});
 	}
 
-	public void refreshData(ClassificationActivity.TagParam tagParam){
+	public void refreshData(TagActivity.TagParam tagParam){
 		isAttach = true;
 		isLoadData = false;
 		mTagParam = tagParam;

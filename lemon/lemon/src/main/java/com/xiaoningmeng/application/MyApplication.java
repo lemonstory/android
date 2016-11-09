@@ -14,6 +14,7 @@ import com.alibaba.sdk.android.AlibabaSDK;
 import com.alibaba.sdk.android.callback.InitResultCallback;
 import com.alibaba.sdk.android.trade.TradeConfigs;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.socialize.PlatformConfig;
 import com.xiaomi.mipush.sdk.MiPushClient;
@@ -26,7 +27,6 @@ import com.xiaoningmeng.player.MusicService;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.cookie.CookieJarImpl;
 import com.zhy.http.okhttp.cookie.store.PersistentCookieStore;
-import com.zhy.http.okhttp.log.LoggerInterceptor;
 
 import org.litepal.LitePalApplication;
 
@@ -65,6 +65,13 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		if (LeakCanary.isInAnalyzerProcess(this)) {
+			// This process is dedicated to LeakCanary for heap analysis.
+			// You should not init your app in this process.
+			return;
+		}
+		LeakCanary.install(this);
+		// Normal app init code...
 		mApplication = this;
 		if(shouldInit()) {
 			MiPushClient.registerPush(this, Constant.MI_APP_ID, Constant.MI_APP_KEY);
@@ -107,7 +114,7 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
 		CacheInterceptor cacheInterceptor = new CacheInterceptor();
 		OkHttpClient okHttpClient = new OkHttpClient.Builder()
 				.cookieJar(cookieJar)
-				.addInterceptor(new LoggerInterceptor("huang"))
+				//.addInterceptor(new LoggerInterceptor("huang"))
 				.addNetworkInterceptor(cacheInterceptor)
 				.addInterceptor(cacheInterceptor)
 				.cache(cache)

@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
@@ -19,7 +17,6 @@ import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.AblumDetailActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.adapter.AlbumAdatper;
-import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.manager.EmptyHelper;
@@ -40,8 +37,6 @@ public class AblumSimilarFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        DebugUtils.d("AblumSimilarFragment ----> onCreateView RUN!!");
-//        mContext = (AblumDetailActivity) getActivity();
         View contentView = View.inflate(getActivity(), R.layout.fragment_ablum_similar, null);
         mRecyclerView = (RecyclerView) contentView.findViewById(R.id.id_stickynavlayout_innerscrollview);
         mRecyclerView.setHasFixedSize(true);
@@ -50,6 +45,9 @@ public class AblumSimilarFragment extends BaseFragment {
         mRecyclerView.setLayoutManager(manager);
         albumList = new ArrayList<>();
         initAdapter();
+        if (albumList.size() > 0) {
+            loadingData(albumList);
+        }
         return contentView;
     }
 
@@ -57,10 +55,6 @@ public class AblumSimilarFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        DebugUtils.d("AblumSimilarFragment ----> onResume RUN!!");
-        if (albumList.size() > 0) {
-            loadingData(albumList);
-        }
         if (getActivity() != null) {
             MobclickAgent.onEvent(getActivity(), "event_show_similar");
         }
@@ -69,18 +63,13 @@ public class AblumSimilarFragment extends BaseFragment {
 
     public void setAlbumList(List<AlbumInfo> albumList) {
 
-        DebugUtils.d("AblumSimilarFragment ----> setAlbumList RUN!!");
         loadingData(albumList);
     }
 
     private void loadingData(List<AlbumInfo> albumList) {
 
-        DebugUtils.d("AblumSimilarFragment ----> setAlbumList 111 RUN!!");
-        DebugUtils.d("AblumSimilarFragment ----> setAlbumList mRecyclerView = " + mRecyclerView.toString());
         this.albumList = albumList;
         if (mRecyclerView != null) {
-
-            DebugUtils.d("AblumSimilarFragment ----> loadingData 222 RUN!!");
             this.mAdapter.setNewData(this.albumList);
         }
     }
@@ -139,13 +128,9 @@ public class AblumSimilarFragment extends BaseFragment {
         Intent intent = new Intent(getActivity(), AblumDetailActivity.class);
         intent.putExtra("albumId", albumInfo.getAlbumid());
         intent.putExtra("albumInfo", albumInfo);
-
-        ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                ((BaseActivity) getActivity()),
-                new Pair<View, String>(view.findViewById(R.id.img_story_cover), "albumImage")
-        );
-        Bundle bundle = activityOptions.toBundle();
-        startActivity(intent, bundle);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.slide_left_in, R.anim.slide_right_out);
     }
 
     /**
@@ -163,7 +148,6 @@ public class AblumSimilarFragment extends BaseFragment {
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
             int pos = parent.getChildAdapterPosition(view);
 
-            //DebugUtils.d(">>>>>>>>>>>>>>>  pos = " + pos + "; lastPos = " + lastPos);
             outRect.right = mSpace;
             outRect.top = 0;
             outRect.bottom = 0;

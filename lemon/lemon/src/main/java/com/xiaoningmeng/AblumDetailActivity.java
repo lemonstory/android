@@ -12,15 +12,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.drawee.drawable.ScalingUtils;
 import com.facebook.drawee.view.DraweeTransition;
@@ -47,13 +44,13 @@ import com.xiaoningmeng.event.FavEvent;
 import com.xiaoningmeng.fragment.AblumDetailCommentFragment;
 import com.xiaoningmeng.fragment.AblumDetailIntroFragment;
 import com.xiaoningmeng.fragment.AblumDetailPlayListFragment;
+import com.xiaoningmeng.fragment.AblumSimilarFragment;
 import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.player.PlayerManager.AlbumSource;
-import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.utils.ImageUtils;
 import com.xiaoningmeng.view.CircleProgressBar;
 import com.xiaoningmeng.view.RatingBar;
@@ -74,6 +71,7 @@ public class AblumDetailActivity extends BaseActivity implements
     private AblumDetailPlayListFragment mPlayListFragment;
     private AblumDetailCommentFragment mCommentFragment;
     private AblumDetailIntroFragment mIntroFragment;
+    private AblumSimilarFragment mSimilarFragment;
     private TextView mPlayListTabTv;
     private TextView mIntroTabTv;
     private TextView mFavTv;
@@ -85,7 +83,8 @@ public class AblumDetailActivity extends BaseActivity implements
     private CircleProgressBar mPlayProgressBar;
     private TextView mAlbumTitleTv;
     private ImageView mPlayBtnImg;
-    SimpleDraweeView mCoverImg;
+    private SimpleDraweeView mCoverImg;
+    private Uri albumCoverUri;
     private ImageView mWaveImg;
     private TextView mCommentTv;
 
@@ -111,14 +110,9 @@ public class AblumDetailActivity extends BaseActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ablum_detail);
-        mAlbumId = getAlbumIdWithIntent();
-        boolean isScroll = getIntent().getBooleanExtra("isScroll", false);
-        final int pager = getIntent().getIntExtra("pager", 0);
-        mPlayTime = getIntent().getIntExtra("playtimes", 0);
-        mPlayStoryId = getIntent().getStringExtra("playstoryid");
-        final AlbumInfo albumInfo = getIntent().getParcelableExtra("albumInfo");
         mContext = this;
         mViewPager = (ViewPager) findViewById(R.id.id_stickynavlayout_viewpager);
         mPlayListTabTv = (TextView) findViewById(R.id.tv_ablum_detail_play_list);
@@ -128,7 +122,6 @@ public class AblumDetailActivity extends BaseActivity implements
         mSimilarTabTv = (TextView) findViewById(R.id.tv_ablum_similar);
         mPlayBtnImg = (ImageView) findViewById(R.id.img_ablum_detail_btn);
         mWaveImg = (ImageView) findViewById(R.id.img_head_right);
-        mCommentTv = (TextView) findViewById(R.id.tv_album_detail_comment);
         mCoverImg = (SimpleDraweeView) findViewById(R.id.img_ablum_detail_cover);
         //mCommentCountTv = (TextView) findViewById(R.id.tv_ablum_detail_comment_count);
         mStickyNavLayout = (StickyNavLayout) findViewById(R.id.StickyNavLayout);
@@ -139,21 +132,30 @@ public class AblumDetailActivity extends BaseActivity implements
         mIntroTabTv.setOnClickListener(this);
         mSimilarTabTv.setOnClickListener(this);
         mPlayProgressBar = (CircleProgressBar) findViewById(R.id.circleProgressBar);
+        PlayerManager.getInstance().register(this);
+        setRightHeadIcon(R.drawable.play_flag_wave_01);
+
+        mAlbumId = getAlbumIdWithIntent();
+        boolean isScroll = getIntent().getBooleanExtra("isScroll", false);
+        final int pager = getIntent().getIntExtra("pager", 1);
+        mPlayTime = getIntent().getIntExtra("playtimes", 0);
+        mPlayStoryId = getIntent().getStringExtra("playstoryid");
+        AlbumInfo albumInfo = getIntent().getParcelableExtra("albumInfo");
         if (albumInfo != null) {
             fillAlbumInfoView(albumInfo);
         }
-        PlayerManager.getInstance().register(this);
-        setRightHeadIcon(R.drawable.play_flag_wave_01);
+
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 mPlayListFragment = new AblumDetailPlayListFragment();
                 mIntroFragment = new AblumDetailIntroFragment();
+                mSimilarFragment = new AblumSimilarFragment();
                 mCommentFragment = new AblumDetailCommentFragment();
                 mViewPager.setAdapter(new TabFragmentPagerAdapter(getSupportFragmentManager()));
                 mViewPager.setOffscreenPageLimit(2);
                 selectTab(pager);
-                mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
+                mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                     @Override
                     public void onPageScrolled(int position, float positionOffset,
                                                int positionOffsetPixels) {
@@ -172,7 +174,9 @@ public class AblumDetailActivity extends BaseActivity implements
                 });
                 mViewPager.setCurrentItem(pager);
                 DownLoadClientImpl.getInstance().registerObserver(AblumDetailActivity.this);
-                EventBus.getDefault().register(AblumDetailActivity.this);
+                if (!EventBus.getDefault().isRegistered(AblumDetailActivity.this)) {
+                    EventBus.getDefault().register(AblumDetailActivity.this);
+                }
                 requestAlbumDetailData();
             }
         }, 300);
@@ -189,9 +193,57 @@ public class AblumDetailActivity extends BaseActivity implements
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        DebugUtils.d("AblumDetailActivity --> onNewIntent");
+        overridePendingTransition(R.anim.slide_left_in, R.anim.slide_right_out);
+
+        setIntent(intent);
+        mAlbumId = getAlbumIdWithIntent();
+        AlbumInfo albumInfo = getIntent().getParcelableExtra("albumInfo");
+        if (albumInfo != null) {
+            fillAlbumInfoView(albumInfo);
+        }
+        requestAlbumDetailData();
+        mViewPager.setCurrentItem(1);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mAlbumId = getAlbumIdWithIntent();
+        PlayWaveManager.getInstance().loadWaveAnim(this, mWaveImg);
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        PlayWaveManager.getInstance().mContext = null;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
+
+    @Override
+    protected void onDestroy() {
+
+        super.onDestroy();
+        PlayerManager.getInstance().unRegister(this);
+        DownLoadClientImpl.getInstance().unregisterObserver(this);
+        EventBus.getDefault().unregister(this);
     }
 
     private void initShareSharedElementTransition() {
@@ -242,6 +294,7 @@ public class AblumDetailActivity extends BaseActivity implements
                             fillAlbumInfoView(albumInfo);
                             mPlayListFragment.setStoryList(albumInfo, storyList, mPlayStoryId, mPlayTime);
                             mIntroFragment.setIntro(albumInfo.getIntro(), data.getTagList(), data.getRecommendAlbumList());
+                            mSimilarFragment.setAlbumList(data.getRecommendAlbumList());
                             if (albumInfo.getCommentnum() == 0) {
                                 //mCommentCountTv.setVisibility(View.INVISIBLE);
                             } else {
@@ -250,7 +303,7 @@ public class AblumDetailActivity extends BaseActivity implements
                             }
                             recoveryPlayedPosition();
                             //开始播放
-                            if(!PlayerManager.getInstance().isPlaying()) {
+                            if (!PlayerManager.getInstance().isPlaying()) {
                                 playOrPauseStory();
                             }
                             mCommentFragment.setComments(albumInfo.getAlbumid(), commentList);
@@ -288,14 +341,16 @@ public class AblumDetailActivity extends BaseActivity implements
     }
 
     private void fillAlbumInfoView(AlbumInfo albumInfo) {
-        if (!isLoadImage) {
-            mAlbumTitleTv.setText(albumInfo.getTitle());
-            setTitleName(albumInfo.getTitle());
-            Uri uri = Uri.parse(albumInfo.getCover());
-            ImageUtils.displayImage(this, mCoverImg, uri, 300, 300);
-            initShareSharedElementTransition();
-            isLoadImage = true;
+
+        mAlbumTitleTv.setText(albumInfo.getTitle());
+        setTitleName(albumInfo.getTitle());
+        Uri uri = Uri.parse(albumInfo.getCover());
+        if(albumCoverUri == null || (albumCoverUri != null && albumCoverUri.compareTo(uri) != 0)) {
+            albumCoverUri = uri;
+            ImageUtils.displayImage(this, mCoverImg, albumCoverUri, 300, 300);
         }
+
+        initShareSharedElementTransition();
         mRatingBar.setStar(albumInfo.getStar_level() != null ? Integer.parseInt(albumInfo.getStar_level()) : 0);
         mFavTv.setSelected(albumInfo.getFav() == 1);
         mFavTv.setText(albumInfo.getFavnum() == 0 ? "收藏" : (albumInfo.getFavnum() + ""));
@@ -307,10 +362,10 @@ public class AblumDetailActivity extends BaseActivity implements
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.tv_ablum_detail_play_list:
+            case R.id.tv_ablum_detail_info:
                 mViewPager.setCurrentItem(0);
                 break;
-            case R.id.tv_ablum_detail_info:
+            case R.id.tv_ablum_detail_play_list:
                 mViewPager.setCurrentItem(1);
                 break;
             case R.id.tv_ablum_similar:
@@ -318,14 +373,10 @@ public class AblumDetailActivity extends BaseActivity implements
                 break;
             case R.id.tv_comment:
                 view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fav_anim_in));
-                Toast.makeText(AblumDetailActivity.this,"评论",Toast.LENGTH_SHORT).show();
+                comment();
                 break;
             case R.id.img_ablum_detail_btn:
                 playOrPauseStory();
-                break;
-            case R.id.tv_album_detail_comment:
-                view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fav_anim_in));
-                comment();
                 break;
             case R.id.tv_batch_download:
                 view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fav_anim_in));
@@ -341,7 +392,7 @@ public class AblumDetailActivity extends BaseActivity implements
                 break;
             case R.id.tv_fav:
                 view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fav_anim_in));
-                if (UserAuth.auditUser(this,null)) {
+                if (UserAuth.auditUser(this, null)) {
                     favAblum(view);
                 }
                 break;
@@ -435,18 +486,10 @@ public class AblumDetailActivity extends BaseActivity implements
     }
 
     private void selectTab(int position) {
-        mPlayListTabTv.setSelected(position == 0);
-        mIntroTabTv.setSelected(position == 1);
+
+        mIntroTabTv.setSelected(position == 0);
+        mPlayListTabTv.setSelected(position == 1);
         mSimilarTabTv.setSelected(position == 2);
-        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mStickyNavLayout.getLayoutParams();
-        if (position == 2) {
-
-            lp.addRule(RelativeLayout.ABOVE, R.id.tv_album_detail_comment);
-        } else {
-            lp.addRule(RelativeLayout.ABOVE, 0);
-        }
-        mStickyNavLayout.setLayoutParams(lp);
-
     }
 
     public class TabFragmentPagerAdapter extends FragmentPagerAdapter {
@@ -460,11 +503,11 @@ public class AblumDetailActivity extends BaseActivity implements
         public Fragment getItem(int arg0) {
             switch (arg0) {
                 case 0:
-                    return mPlayListFragment;
-                case 1:
                     return mIntroFragment;
+                case 1:
+                    return mPlayListFragment;
                 case 2:
-                    return mCommentFragment;
+                    return mSimilarFragment;
                 default:
                     return mPlayListFragment;
             }
@@ -484,18 +527,7 @@ public class AblumDetailActivity extends BaseActivity implements
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        PlayWaveManager.getInstance().loadWaveAnim(this, mWaveImg);
-    }
-
-    @Override
     public void notify(PlayingStory music) {
-
-//        DebugUtils.d(">>>>>>> AblumDetailActivity notify <<<<<<<");
-//        DebugUtils.d("albumInfo = " + albumInfo.toString());
-//        DebugUtils.d("albumInfo.getId() = " + albumInfo.getId());
-//        DebugUtils.d("music.albumid = " + music.albumid);
 
         PlayWaveManager.getInstance().notify(music);
         if (albumInfo == null || !albumInfo.getId().equals(music.albumid)) {
@@ -551,19 +583,9 @@ public class AblumDetailActivity extends BaseActivity implements
 
         if (storyList != null && storyList.size() > 0) {
             if (mPlayListFragment != null && mPlayListFragment.getAdapter() != null) {
-
                 mPlayListFragment.getAdapter().notifyDataSetChanged();
             }
         }
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        PlayerManager.getInstance().unRegister(this);
-        DownLoadClientImpl.getInstance().unregisterObserver(this);
-        EventBus.getDefault().unregister(this);
-        super.onDestroy();
     }
 
     @Override
@@ -618,9 +640,10 @@ public class AblumDetailActivity extends BaseActivity implements
 
     @Override
     public void finish() {
+
+        super.finish();
         if (ActivityManager.getScreenManager().getActivity(HomeActivity.class) == null) {
             startActivityForNew(new Intent(this, HomeActivity.class));
         }
-        super.finish();
     }
 }

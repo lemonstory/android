@@ -12,6 +12,7 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.backends.pipeline.PipelineDraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.common.RotationOptions;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
@@ -182,7 +183,7 @@ public class ImageUtils {
 	public static void displayImage(Context mContext, SimpleDraweeView imageView,Uri uri,int width,int height) {
 
 		ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri)
-				.setAutoRotateEnabled(true)
+				.setRotationOptions(RotationOptions.autoRotate())
 				.setResizeOptions(new ResizeOptions(width, height))
 				.build();
 		ImagePipelineConfig.newBuilder(mContext).setDownsampleEnabled(true).build();

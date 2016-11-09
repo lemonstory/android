@@ -110,6 +110,7 @@ public class HomeActivity extends BaseActivity implements
 		super.onResume();
 		showMessageBadge();
 		if(mDisCoverTabTv.isSelected() || mMineTabTv.isSelected() || mPerasonTabTv.isSelected()) {
+
 			PlayWaveManager.getInstance().loadWaveAnim(this, mCoverImg);
 		}
 	}

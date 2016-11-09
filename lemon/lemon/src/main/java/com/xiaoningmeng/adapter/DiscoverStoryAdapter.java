@@ -21,7 +21,7 @@ import com.baidu.mobads.AdViewListener;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.AblumDetailActivity;
-import com.xiaoningmeng.ClassificationActivity;
+import com.xiaoningmeng.TagActivity;
 import com.xiaoningmeng.MoreActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.base.BaseActivity;
@@ -552,7 +552,7 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 		case R.id.ll_classify4:
 			Tag tag = (Tag) v.getTag();
 			if (tag != null && tag.getId() != null) {
-				Intent ii = new Intent(mContext,ClassificationActivity.class);
+				Intent ii = new Intent(mContext,TagActivity.class);
 				ii.putExtra("classification",tag);
 				ii.putExtra("classification_name", tag.getName());
 				((BaseActivity) mContext).startActivityForNew(ii);

@@ -1,8 +1,5 @@
 package com.xiaoningmeng.manager;
 
-import java.lang.ref.SoftReference;
-import java.util.HashMap;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
@@ -14,8 +11,11 @@ import com.xiaoningmeng.PlayActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.player.PlayObserver;
-import com.xiaoningmeng.player.PlayerManager; 
+import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.view.dialog.TipDialog;
+
+import java.lang.ref.SoftReference;
+import java.util.HashMap;
 
 //舞动动画管理
 public class PlayWaveManager implements PlayObserver {
@@ -23,7 +23,7 @@ public class PlayWaveManager implements PlayObserver {
 	private AnimationDrawable mUniformRotateAnimDrawable;
 	private HashMap<ImageView, SoftReference<AnimationDrawable>> map;
 	private static PlayWaveManager mInstance;
-	private Activity mContext;
+	public Activity mContext;
 	private ImageView mPerImageView;
 	private PlayerManager mPlayerManager;
 	private OnClickListener mWaveClickListener = new OnClickListener() {
@@ -119,5 +119,4 @@ public class PlayWaveManager implements PlayObserver {
 			break;
 		}
 	}
-
 }

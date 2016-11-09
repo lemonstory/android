@@ -17,7 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.baidu.mobads.AdView;
-import com.xiaoningmeng.ClassificationActivity;
+import com.xiaoningmeng.TagActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.adapter.DiscoverStoryAdapter;
 import com.xiaoningmeng.adapter.RecommendStoryAdapter;
@@ -75,7 +75,7 @@ public class AblumDetailIntroFragment extends LazyFragment implements View.OnCli
 		if(v.getTag() != null){
 			Tag tag = (Tag)v.getTag();
 			if (tag != null && tag.getId() != null) {
-				Intent i = new Intent(mContext, ClassificationActivity.class);
+				Intent i = new Intent(mContext, TagActivity.class);
 				i.putExtra("classification",tag);
 				startActivityForNew(i);
 			}

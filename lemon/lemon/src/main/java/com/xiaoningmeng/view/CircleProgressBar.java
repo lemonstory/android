@@ -1,7 +1,5 @@
 package com.xiaoningmeng.view;
 
-import com.xiaoningmeng.R;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -12,8 +10,9 @@ import android.graphics.RectF;
 import android.graphics.SweepGradient;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
+
+import com.xiaoningmeng.R;
 
 public class CircleProgressBar extends View {
 	/**
@@ -127,8 +126,6 @@ public class CircleProgressBar extends View {
 		paint.setStrokeWidth(roundWidth); // 设置圆环的宽度
 		paint.setAntiAlias(true); // 消除锯齿
 		canvas.drawCircle(centre, centre, radius, paint); // 画出圆环
-
-		Log.e("log", centre + "");
 
 		/**
 		 * 画进度百分比

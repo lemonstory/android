@@ -28,7 +28,7 @@ import com.xiaoningmeng.bean.Special;
 import com.xiaoningmeng.bean.Tag;
 import com.xiaoningmeng.bean.TagDetail;
 import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.fragment.ClassificationFragment;
+import com.xiaoningmeng.fragment.TagFragment;
 import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
@@ -41,14 +41,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ClassificationActivity extends BaseActivity implements View.OnClickListener,PlayObserver {
+public class TagActivity extends BaseActivity implements View.OnClickListener,PlayObserver {
 
     private PagerSlidingTabStrip mIndicator;
     private ViewPager mViewPager;
     private TextView mClassifyTv;
     private ImageView mCoverImg;
     private ImageView mDropImg;
-    private ClassificationFragment[] mClassificationFragments;
+    private TagFragment[] mTagFragments;
     private String mSelectFristTag;
     private String mSelectSecondTag;
     private List<Tag> mFristTagList;
@@ -119,7 +119,7 @@ public class ClassificationActivity extends BaseActivity implements View.OnClick
                             mClassifyTv.setText(tag.getName());
                         }
                     }
-                    mClassificationFragments = new ClassificationFragment[mTagParams.size()];
+                    mTagFragments = new TagFragment[mTagParams.size()];
                     if(isFirst) {
                         mPagerAdapter = new TabFragmentPagerAdapter(getSupportFragmentManager());
                         mViewPager.setAdapter(mPagerAdapter);
@@ -127,7 +127,7 @@ public class ClassificationActivity extends BaseActivity implements View.OnClick
                         mIndicator.setViewPager(mViewPager);
                     }else{
                         for(int i = 0; i < mPagerAdapter.getCount();i++){
-                            ClassificationFragment fragment = (ClassificationFragment) mPagerAdapter.instantiateItem(mViewPager,i);
+                            TagFragment fragment = (TagFragment) mPagerAdapter.instantiateItem(mViewPager,i);
                             if(fragment != null && mTagParams.size() > i){
                                 fragment.refreshData(mTagParams.get(i));
                             }
@@ -216,19 +216,19 @@ public class ClassificationActivity extends BaseActivity implements View.OnClick
         @Override
         public Fragment getItem(int arg0) {
 
-            if(mClassificationFragments[arg0] == null){
-                mClassificationFragments[arg0] = new ClassificationFragment();
+            if(mTagFragments[arg0] == null){
+                mTagFragments[arg0] = new TagFragment();
             }
             Bundle bundle = new Bundle();
             bundle.putParcelable(Fragment_Tag,mTagParams.get(arg0));
-            mClassificationFragments[arg0].setArguments(bundle);
-            return mClassificationFragments[arg0];
+            mTagFragments[arg0].setArguments(bundle);
+            return mTagFragments[arg0];
         }
 
         @Override
         public int getCount() {
 
-            return mClassificationFragments.length;
+            return mTagFragments.length;
         }
         @Override
         public int getItemPosition(Object object) {

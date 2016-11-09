@@ -9,7 +9,6 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,7 +96,8 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
                     case Index.ALBUM_TYPE:
                         //增加开关，避免连续点击，Activity跳转动画出现错误
                         if(albumClickable) {
-                            startAlbumInfoActivity(view, (AlbumInfo) iRecyclerItem);
+                            AlbumInfo albumInfo = (AlbumInfo) iRecyclerItem;
+                            startAlbumInfoActivity(view, albumInfo);
                             albumClickable = false;
                         }
                         break;
