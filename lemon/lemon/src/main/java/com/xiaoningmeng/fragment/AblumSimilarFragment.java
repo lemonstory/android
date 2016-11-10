@@ -14,9 +14,9 @@ import android.view.ViewGroup;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.umeng.analytics.MobclickAgent;
-import com.xiaoningmeng.AblumDetailActivity;
+import com.xiaoningmeng.AlbumDetailActivity;
 import com.xiaoningmeng.R;
-import com.xiaoningmeng.adapter.AlbumAdatper;
+import com.xiaoningmeng.adapter.AlbumAdapter;
 import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.manager.EmptyHelper;
@@ -30,7 +30,7 @@ public class AblumSimilarFragment extends BaseFragment {
     private RecyclerView mRecyclerView;
     private List<AlbumInfo> albumList;
     private EmptyHelper mEmptyHelper;
-    private AlbumAdatper mAdapter;
+    private AlbumAdapter mAdapter;
     private Boolean albumClickable;
     private Context mContext;
 
@@ -76,7 +76,7 @@ public class AblumSimilarFragment extends BaseFragment {
 
     public void initAdapter() {
 
-        mAdapter = new AlbumAdatper(albumList);
+        mAdapter = new AlbumAdapter(albumList);
         mAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         mEmptyHelper = new EmptyHelper(getContext(), mRecyclerView, mAdapter);
         mEmptyHelper.setEmptyView(EmptyHelper.LOADING, false, getString(R.string.loading_tip));
@@ -125,7 +125,7 @@ public class AblumSimilarFragment extends BaseFragment {
 
     public void startAlbumInfoActivity(View view, AlbumInfo albumInfo) {
 
-        Intent intent = new Intent(getActivity(), AblumDetailActivity.class);
+        Intent intent = new Intent(getActivity(), AlbumDetailActivity.class);
         intent.putExtra("albumId", albumInfo.getAlbumid());
         intent.putExtra("albumInfo", albumInfo);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

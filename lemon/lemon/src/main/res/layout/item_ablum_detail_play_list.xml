@@ -28,7 +28,6 @@
         android:src="@drawable/story_horn_icon_selector"
         android:visibility="invisible" />
 
-
     <FrameLayout
         android:id="@+id/fl_download"
         android:layout_width="@dimen/ablum_download_width"

@@ -78,7 +78,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AblumDetailActivity"
+            android:name=".AlbumDetailActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -89,6 +89,11 @@
                 <data android:host="www.xiaoningmeng.net" />
                 <data android:path="/album/info.php" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".AlbumCommentActivity"
+            android:exported="false"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".HomeActivity"
@@ -104,7 +109,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".CommentActivity"
+            android:name=".CommentWriteActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity

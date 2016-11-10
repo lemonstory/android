@@ -32,7 +32,7 @@ import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.Album;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.AudioDownLoad;
-import com.xiaoningmeng.bean.Comment;
+import com.xiaoningmeng.bean.CommentInfo;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.ShareBean;
 import com.xiaoningmeng.bean.Story;
@@ -41,7 +41,6 @@ import com.xiaoningmeng.download.DownLoadClientImpl;
 import com.xiaoningmeng.download.DownLoadObserver;
 import com.xiaoningmeng.event.CommentEvent;
 import com.xiaoningmeng.event.FavEvent;
-import com.xiaoningmeng.fragment.AblumDetailCommentFragment;
 import com.xiaoningmeng.fragment.AblumDetailIntroFragment;
 import com.xiaoningmeng.fragment.AblumDetailPlayListFragment;
 import com.xiaoningmeng.fragment.AblumSimilarFragment;
@@ -51,6 +50,7 @@ import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.player.PlayerManager.AlbumSource;
+import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.utils.ImageUtils;
 import com.xiaoningmeng.view.CircleProgressBar;
 import com.xiaoningmeng.view.RatingBar;
@@ -63,13 +63,12 @@ import java.util.List;
 import de.greenrobot.event.EventBus;
 
 
-public class AblumDetailActivity extends BaseActivity implements
+public class AlbumDetailActivity extends BaseActivity implements
         OnClickListener, PlayObserver, DownLoadObserver<AudioDownLoad> {
 
     private Context mContext;
     private ViewPager mViewPager;
     private AblumDetailPlayListFragment mPlayListFragment;
-    private AblumDetailCommentFragment mCommentFragment;
     private AblumDetailIntroFragment mIntroFragment;
     private AblumSimilarFragment mSimilarFragment;
     private TextView mPlayListTabTv;
@@ -91,7 +90,7 @@ public class AblumDetailActivity extends BaseActivity implements
     private RatingBar mRatingBar;
     private AlbumInfo albumInfo;
     private List<Story> storyList;
-    private List<Comment> commentList;
+    private List<CommentInfo> commentList;
     private boolean isFirst = true;
     private boolean isLoadImage;
     private int mPlayTime;
@@ -151,7 +150,6 @@ public class AblumDetailActivity extends BaseActivity implements
                 mPlayListFragment = new AblumDetailPlayListFragment();
                 mIntroFragment = new AblumDetailIntroFragment();
                 mSimilarFragment = new AblumSimilarFragment();
-                mCommentFragment = new AblumDetailCommentFragment();
                 mViewPager.setAdapter(new TabFragmentPagerAdapter(getSupportFragmentManager()));
                 mViewPager.setOffscreenPageLimit(2);
                 selectTab(pager);
@@ -173,9 +171,9 @@ public class AblumDetailActivity extends BaseActivity implements
                     }
                 });
                 mViewPager.setCurrentItem(pager);
-                DownLoadClientImpl.getInstance().registerObserver(AblumDetailActivity.this);
-                if (!EventBus.getDefault().isRegistered(AblumDetailActivity.this)) {
-                    EventBus.getDefault().register(AblumDetailActivity.this);
+                DownLoadClientImpl.getInstance().registerObserver(AlbumDetailActivity.this);
+                if (!EventBus.getDefault().isRegistered(AlbumDetailActivity.this)) {
+                    EventBus.getDefault().register(AlbumDetailActivity.this);
                 }
                 requestAlbumDetailData();
             }
@@ -293,7 +291,7 @@ public class AblumDetailActivity extends BaseActivity implements
                             commentList = data.getCommentlist();
                             fillAlbumInfoView(albumInfo);
                             mPlayListFragment.setStoryList(albumInfo, storyList, mPlayStoryId, mPlayTime);
-                            mIntroFragment.setIntro(albumInfo.getIntro(), data.getTagList(), data.getRecommendAlbumList());
+                            mIntroFragment.setIntro(albumInfo.getIntro(), data.getTagList());
                             mSimilarFragment.setAlbumList(data.getRecommendAlbumList());
                             if (albumInfo.getCommentnum() == 0) {
                                 //mCommentCountTv.setVisibility(View.INVISIBLE);
@@ -306,8 +304,7 @@ public class AblumDetailActivity extends BaseActivity implements
                             if (!PlayerManager.getInstance().isPlaying()) {
                                 playOrPauseStory();
                             }
-                            mCommentFragment.setComments(albumInfo.getAlbumid(), commentList);
-                            AblumDetailActivity.this.notify(PlayerManager.getInstance().getPlayingStory());
+                            AlbumDetailActivity.this.notify(PlayerManager.getInstance().getPlayingStory());
                         }
 
                         @Override
@@ -372,8 +369,8 @@ public class AblumDetailActivity extends BaseActivity implements
                 mViewPager.setCurrentItem(2);
                 break;
             case R.id.tv_comment:
-                view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fav_anim_in));
-                comment();
+                //view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fav_anim_in));
+                displayAlbumComment();
                 break;
             case R.id.img_ablum_detail_btn:
                 playOrPauseStory();
@@ -419,12 +416,13 @@ public class AblumDetailActivity extends BaseActivity implements
         }
     }
 
-    private void comment() {
-        if (UserAuth.auditUser(this, "登录后,才能评论故事喔.")) {
-            Intent i = new Intent(this, CommentActivity.class);
-            i.putExtra("albumId", albumInfo.getAlbumid());
-            startActivityForResult(i, 0);
-        }
+    private void displayAlbumComment() {
+
+        DebugUtils.d("displayAlbumComment RUN!!!");
+
+        Intent intent = new Intent(this, AlbumCommentActivity.class);
+        intent.putExtra("albumId", albumInfo.getAlbumid());
+        startActivity(intent);
     }
 
     private void batchDownload() {
@@ -454,10 +452,10 @@ public class AblumDetailActivity extends BaseActivity implements
                         @Override
                         public void onGetDataSuccess(String data) {
                             view.setSelected(true);
-                            Animation favInAnim = AnimationUtils.loadAnimation(AblumDetailActivity.this, R.anim.fav_anim_in);
+                            Animation favInAnim = AnimationUtils.loadAnimation(AlbumDetailActivity.this, R.anim.fav_anim_in);
                             view.startAnimation(favInAnim);
                             albumInfo.setFav(1);
-                            new TipDialog.Builder(AblumDetailActivity.this)
+                            new TipDialog.Builder(AlbumDetailActivity.this)
                                     .setAutoDismiss(true).setTransparent(false)
                                     .setTipText("收藏成功！").create().show();
                             albumInfo.updateAll("albumid =?", albumInfo.getAlbumid());
@@ -471,10 +469,10 @@ public class AblumDetailActivity extends BaseActivity implements
                 @Override
                 public void onGetDataSuccess(String data) {
                     view.setSelected(false);
-                    Animation favOutAnim = AnimationUtils.loadAnimation(AblumDetailActivity.this, R.anim.fav_anim_out);
+                    Animation favOutAnim = AnimationUtils.loadAnimation(AlbumDetailActivity.this, R.anim.fav_anim_out);
                     view.startAnimation(favOutAnim);
                     albumInfo.setFav(0);
-                    new TipDialog.Builder(AblumDetailActivity.this)
+                    new TipDialog.Builder(AlbumDetailActivity.this)
                             .setAutoDismiss(true).setTransparent(false)
                             .setTipText("取消收藏成功！").create().show();
                     albumInfo.updateAll("albumid =?", albumInfo.getAlbumid());
@@ -610,15 +608,14 @@ public class AblumDetailActivity extends BaseActivity implements
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == 5 && data != null) {
-            Comment comment = data.getParcelableExtra("comment");
+            CommentInfo comment = data.getParcelableExtra("comment");
             int commentCount = albumInfo.getCommentnum() + 1;
             String commentCountStr = commentCount + "";
             albumInfo.setCommentnum(commentCount);
             //mCommentCountTv.setText(commentCountStr);
-            mCommentFragment.addComment(comment);
             EventBus.getDefault().post(new CommentEvent(albumInfo, commentCount));
         } else {
-            UMShareAPI.get(AblumDetailActivity.this).onActivityResult(requestCode, resultCode, data);
+            UMShareAPI.get(AlbumDetailActivity.this).onActivityResult(requestCode, resultCode, data);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -640,7 +637,6 @@ public class AblumDetailActivity extends BaseActivity implements
 
     @Override
     public void finish() {
-
         super.finish();
         if (ActivityManager.getScreenManager().getActivity(HomeActivity.class) == null) {
             startActivityForNew(new Intent(this, HomeActivity.class));

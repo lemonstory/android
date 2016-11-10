@@ -8,6 +8,7 @@ import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.bean.Address;
 import com.xiaoningmeng.bean.Album;
 import com.xiaoningmeng.bean.AlbumInfo;
+import com.xiaoningmeng.bean.Comment;
 import com.xiaoningmeng.bean.AppInfo;
 import com.xiaoningmeng.bean.HomeInfo;
 import com.xiaoningmeng.bean.Index;
@@ -19,6 +20,7 @@ import com.xiaoningmeng.bean.SearchData;
 import com.xiaoningmeng.bean.TagDetail;
 import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.constant.Constant;
+import com.xiaoningmeng.utils.DebugUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.GetBuilder;
 import com.zhy.http.okhttp.builder.OkHttpRequestBuilder;
@@ -112,6 +114,7 @@ public class LHttpRequest {
 	 * @return
      */
 	public static OkHttpRequestBuilder<GetBuilder> get(String url){
+		DebugUtils.d("url : " + url);
 		return OkHttpUtils.get().addHeader("User-Agent", AppInfo.getInstance().getUAStr())
 				.addParams("visituid", MyApplication.getInstance().getUid())
 				.addHeader("FROM", "mobile").url(url);
@@ -207,13 +210,12 @@ public class LHttpRequest {
 	}
 
 	//专辑详情
-	public void storyListReq(Context context, int len, String direction, String startId, String albumId, String uid,
-							 JsonCallback<Album> handler) {
-		get(ConstantURL.ALBUM_INFO).tag(context)
-		.addParams("albumid", albumId)
-		.addParams("iscommentpage", "1")
+	public void albumCommentReq(Context context,String albumId,String direction,String startCommentId,int len,String uid,
+							 JsonCallback<Comment> handler) {
+		get(ConstantURL.ALBUM_COMMENT).tag(context)
+		.addParams("album_id", albumId)
 		.addParams("direction", direction)
-		.addParams("startid", startId)
+		.addParams("start_comment_id", startCommentId)
 		.addParams("len", len + "")
 		.addParams("uid", uid)
 				.build().execute(handler);

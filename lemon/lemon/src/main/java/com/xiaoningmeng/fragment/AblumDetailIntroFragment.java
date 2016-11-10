@@ -1,33 +1,32 @@
 package com.xiaoningmeng.fragment;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.content.res.Resources;
+import android.graphics.Rect;
 import android.os.Bundle;
-import android.util.TypedValue;
-import android.view.Gravity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.MarginLayoutParams;
 import android.view.ViewStub;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.baidu.mobads.AdView;
-import com.xiaoningmeng.TagActivity;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.xiaoningmeng.R;
+import com.xiaoningmeng.TagActivity;
 import com.xiaoningmeng.adapter.DiscoverStoryAdapter;
-import com.xiaoningmeng.adapter.RecommendStoryAdapter;
+import com.xiaoningmeng.adapter.TagAdapter;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.base.LazyFragment;
-import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.Tag;
 import com.xiaoningmeng.constant.Constant;
+import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.view.CollapsibleTextView;
-import com.xiaoningmeng.view.FlowLayout;
 
 import java.util.List;
 
@@ -35,18 +34,14 @@ public class AblumDetailIntroFragment extends LazyFragment implements View.OnCli
 
 	private CollapsibleTextView introTv;
 	private RelativeLayout mIntroView;
-	private FlowLayout mFlowLayout;
+	private RecyclerView mRecyclerView;
 	private BaseActivity mContext;
-	private LinearLayout mRecommendLl1;
-	private LinearLayout mRecommendLl2;
-	private RecommendStoryAdapter mRecommendAdapter;
+	private TagAdapter mTagAdapter;
 	private View mContentView;
 	private String intro;
 	private List<Tag> tagList;
-	private List<AlbumInfo> recommendAlbumList;
 	private boolean isPrepared;
 	private boolean flag;
-
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,16 +54,12 @@ public class AblumDetailIntroFragment extends LazyFragment implements View.OnCli
 		return mContentView;
 	}
 
-	public void setIntro(final String intro, final List<Tag> tagList, final List<AlbumInfo> recommendAlbumList) {
+	public void setIntro(final String intro, final List<Tag> tagList) {
 		this.intro = intro;
 		this.tagList = tagList;
-		this.recommendAlbumList = recommendAlbumList;
 		flag = true;
-
 		lazyLoad();
 	}
-
-
 
 	@Override
 	public void onClick(View v) {
@@ -92,9 +83,6 @@ public class AblumDetailIntroFragment extends LazyFragment implements View.OnCli
 			viewStub.inflate();
 			introTv = (CollapsibleTextView) mContentView.findViewById(R.id.wv_album_detail_content);
 			mIntroView = (RelativeLayout) mContentView.findViewById(R.id.fl_detail_intro);
-			mFlowLayout = (FlowLayout) mContentView.findViewById(R.id.fl_album_mark);
-			mRecommendLl1 = (LinearLayout) mContentView.findViewById(R.id.ll_recommend1);
-			mRecommendLl2 = (LinearLayout) mContentView.findViewById(R.id.ll_recommend2);
 			final FrameLayout adFl = (FrameLayout) mContentView.findViewById(R.id.fl_ad);
 			AdView adView = new AdView(mContext, Constant.BAIDU_DETAIL_ID);
 			adView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -108,50 +96,69 @@ public class AblumDetailIntroFragment extends LazyFragment implements View.OnCli
 				showEmptyTip(mIntroView, "暂无简介", getResources().getDimensionPixelOffset(R.dimen.dialog_margin));
 			}
 			if (tagList != null && tagList.size() != 0) {
+
+				mRecyclerView = (RecyclerView) mContentView.findViewById(R.id.rv_tag_list);
+				mRecyclerView.setHasFixedSize(true);
+				int spanCount = 3;
+				GridLayoutManager manager = new GridLayoutManager(getContext(), spanCount);
+				mRecyclerView.setLayoutManager(manager);
 				initTag(tagList);
-			}
-			if (recommendAlbumList != null && recommendAlbumList.size() > 0) {
-				mRecommendAdapter = new RecommendStoryAdapter(mContext, recommendAlbumList, false);
-				mRecommendAdapter.getView(0, mRecommendLl1, null);
-				mRecommendAdapter.getView(1, mRecommendLl2, null);
 			}
 			isLoadData = true;
 		}
 	}
 	public void initTag(List<Tag> tagList) {
 
-		MarginLayoutParams lp = new ViewGroup.MarginLayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, mContext.getResources()
-				.getDimensionPixelOffset(R.dimen.search_et_height));
-		Resources res = mContext.getResources();
-		lp.rightMargin = res.getDimensionPixelOffset(R.dimen.base_margin);
-		lp.topMargin = res.getDimensionPixelOffset(R.dimen.base_radius_size);
-		int allSize = tagList.size();
-		int minWidth = res.getDimensionPixelOffset(R.dimen.home_discover_btn);
-		int childCount = mFlowLayout.getChildCount();
-		if (childCount > allSize) {
-			for (int i = childCount - 1; i >= allSize; i--) {
-				mFlowLayout.removeViewAt(i);
-			}
-		}
-		for (int i = 0; i < allSize; i++) {
-			TextView view;
-			if (mFlowLayout.getChildAt(i) != null) {
-				view = (TextView) mFlowLayout.getChildAt(i);
-			} else {
-				view = new TextView(mContext);
-				view.setMinWidth(minWidth);
-				ColorStateList csl = res.getColorStateList(R.color.mark_flow_color_selector);
-				view.setTextColor(csl);
-				view.setBackgroundResource(R.drawable.mark_item_bg_normal);
-				view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-				view.setGravity(Gravity.CENTER);
-				mFlowLayout.addView(view, lp);
-			}
-			Tag tag = tagList.get(i);
-			view.setOnClickListener(this);
-			view.setText(tag.getName());
-			view.setTag(tag);
-		}
+		mTagAdapter = new TagAdapter(tagList);
+		mRecyclerView.setAdapter(mTagAdapter);
+		((SimpleItemAnimator) mRecyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+		mRecyclerView.addItemDecoration(new AblumDetailIntroFragment.SpaceItemDecoration(30));
+		mRecyclerView.addOnItemTouchListener(
+				new OnItemChildClickListener() {
+					@Override
+					public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+
+
+					}
+
+					@Override
+					public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+
+
+					}
+
+					@Override
+					public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+						DebugUtils.d("AblumDetailIntroFragment  --> onItemClick RUN! Position = " + position);
+					}
+				}
+		);
 	}
 
+	/**
+	 * 设置标签间距
+	 */
+	public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
+
+		int mSpace;
+
+		public SpaceItemDecoration(int space) {
+			this.mSpace = space;
+		}
+
+		@Override
+		public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+			int pos = parent.getChildAdapterPosition(view);
+
+			outRect.right = mSpace;
+			outRect.top = 0;
+			outRect.bottom = 0;
+			if (pos % 3 == 0) {
+				outRect.left = mSpace;
+			} else {
+				outRect.left = 0;
+			}
+		}
+	}
 }

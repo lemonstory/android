@@ -15,10 +15,9 @@ import java.util.List;
  * Created by huang on 2016/9/14.
  */
 
-public class AlbumAdatper extends BaseQuickAdapter<AlbumInfo, BaseViewHolder> {
-    private int mImgHeight;
+public class AlbumAdapter extends BaseQuickAdapter<AlbumInfo, BaseViewHolder> {
 
-    public AlbumAdatper(List<AlbumInfo> data) {
+    public AlbumAdapter(List<AlbumInfo> data) {
         super(R.layout.item_recommend2, data);
     }
 
@@ -29,7 +28,7 @@ public class AlbumAdatper extends BaseQuickAdapter<AlbumInfo, BaseViewHolder> {
                 .setText(R.id.tv_story_tip, null != item.getListennum() ? item.getListennum() : "");
         SimpleDraweeView coverImg = helper.getView(R.id.img_story_cover);
 
-        Uri coverImg2Uri = Uri.parse(item.getCover());
-        coverImg.setImageURI(coverImg2Uri);
+        Uri coverImgUri = Uri.parse(item.getCover());
+        coverImg.setImageURI(coverImgUri);
     }
 }

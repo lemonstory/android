@@ -11,10 +11,10 @@ import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
-import com.xiaoningmeng.AblumDetailActivity;
+import com.xiaoningmeng.AlbumDetailActivity;
 import com.xiaoningmeng.MoreActivity;
 import com.xiaoningmeng.R;
-import com.xiaoningmeng.adapter.AlbumAdatper;
+import com.xiaoningmeng.adapter.AlbumAdapter;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.base.LazyFragment;
 import com.xiaoningmeng.bean.AlbumInfo;
@@ -32,7 +32,7 @@ public class MoreFragment extends LazyFragment
 		implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
 
 	private RecyclerView mRecyclerView;
-	private AlbumAdatper mQuickAdapter;
+	private AlbumAdapter mQuickAdapter;
 	private SwipeRefreshLayout mRefreshLayout;
 	private List<AlbumInfo> mAlbumInfos;
 	private MoreActivity.MoreParam mMoreParams;
@@ -62,7 +62,7 @@ public class MoreFragment extends LazyFragment
 
 	private void initAdapter() {
 
-		mQuickAdapter = new AlbumAdatper(mAlbumInfos);
+		mQuickAdapter = new AlbumAdapter(mAlbumInfos);
 		mQuickAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
 		mQuickAdapter.setOnLoadMoreListener(this);
 		mQuickAdapter.openLoadMore(Constant.GRID_REQ_LEN);
@@ -76,7 +76,7 @@ public class MoreFragment extends LazyFragment
 			public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 				if(position >= 0) {
 					AlbumInfo albumInfo = (AlbumInfo) adapter.getItem(position);
-					Intent intent = new Intent(getActivity(), AblumDetailActivity.class);
+					Intent intent = new Intent(getActivity(), AlbumDetailActivity.class);
 					intent.putExtra("albumId", albumInfo.getAlbumid());
 					intent.putExtra("albumInfo", albumInfo);
 					((BaseActivity) getActivity()).startShareTransitionActivity(intent, view, "albumImage");

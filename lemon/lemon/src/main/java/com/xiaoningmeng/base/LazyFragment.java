@@ -33,11 +33,6 @@ public abstract class LazyFragment extends BaseFragment {
     }
     protected abstract void lazyLoad();
 
-    protected void onInvisible(){
-    }
-
-
-
-
+    protected void onInvisible(){}
 
 }

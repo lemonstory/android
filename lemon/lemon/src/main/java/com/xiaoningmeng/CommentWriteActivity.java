@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
-import com.xiaoningmeng.bean.Comment;
+import com.xiaoningmeng.bean.CommentInfo;
 import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
@@ -27,7 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class CommentActivity extends BaseActivity {
+public class CommentWriteActivity extends BaseActivity {
 
 	private RatingBar mRatingBar;
 	private EditText mRatingEt;
@@ -41,7 +41,7 @@ public class CommentActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_rate);
+		setContentView(R.layout.activity_comment_write);
 		mRatingBar = (RatingBar) findViewById(R.id.rb_ablum_detail_rate);
 		mRatingEt = (EditText) findViewById(R.id.et_rating);
 		albumId = getIntent().getStringExtra("albumId");
@@ -148,7 +148,7 @@ public class CommentActivity extends BaseActivity {
 						UserInfo userinfo = MyApplication.getInstance().userInfo;
 						SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			             String time=  sdf.format( new  Date());
-						Comment comment = new Comment(userinfo.getUid(), userinfo.getNickname(), starLevel, commentContent, userinfo.getAvatartime(),time);
+						CommentInfo comment = new CommentInfo(userinfo.getUid(), userinfo.getNickname(), starLevel, commentContent, userinfo.getAvatartime(),time);
 						Intent i = new Intent();
 						i.putExtra("comment", comment);
 						setResult(5, i);

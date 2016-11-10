@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fl_detail_intro"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:showIn="@layout/fragment_ablum_detail_intro">
+    android:layout_height="match_parent">
 
     <com.xiaoningmeng.view.CollapsibleTextView
         android:id="@+id/wv_album_detail_content"
@@ -19,60 +18,12 @@
         android:layout_below="@id/wv_album_detail_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-
     </FrameLayout>
-    <TextView
-        android:id="@+id/tv_album_mark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/mark_tip"
-        android:text="标签"
-        android:layout_below="@id/fl_ad"
-        android:drawablePadding="@dimen/base_radius_size"
-        android:textColor="@color/home_discover_item_title"
-        android:textSize="@dimen/content_text_size"
-        android:layout_marginTop="@dimen/base_radius_size"
-        android:layout_marginBottom="@dimen/base_radius_size"
-        android:layout_marginLeft="@dimen/base_margin" />
 
-    <com.xiaoningmeng.view.FlowLayout
-        android:id="@+id/fl_album_mark"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_tag_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_album_mark"
-        android:layout_marginLeft="@dimen/base_margin"/>
-
-    <TextView
-        android:id="@+id/tv_album_recommend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/recommend_tip"
-        android:text="相关推荐"
-        android:layout_below="@id/fl_album_mark"
-        android:drawablePadding="@dimen/base_radius_size"
-        android:textColor="@color/home_discover_item_title"
-        android:textSize="@dimen/content_text_size"
-        android:layout_marginTop="@dimen/base_margin"
-        android:layout_marginBottom="@dimen/base_radius_size"
-        android:layout_marginLeft="@dimen/base_margin"/>
-
-    <include
-        layout="@layout/item_recommend"
-        android:id="@+id/ll_recommend1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_album_recommend" />
-
-    <include
-        layout="@layout/item_recommend"
-        android:id="@+id/ll_recommend2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_recommend1" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_below="@id/ll_recommend2"
-        android:layout_height="@dimen/ablum_play_height" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/fl_ad"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

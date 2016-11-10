@@ -22,9 +22,9 @@ import com.xiaoningmeng.R;
 public class CollapsibleTextView extends LinearLayout implements
         OnClickListener{
     /** 最大显示的行数 */
-    private static final int DEFAULT_MAX_LINE_COUNT = 3;
+    private static final int DEFAULT_MAX_LINE_COUNT = 6;
     /** 实际展示的行数 */
-    private static final int DEFAULT_SHOW_LINE_COUNT = 3;
+    private static final int DEFAULT_SHOW_LINE_COUNT = 6;
 
     private static final int COLLAPSIBLE_STATE_NONE = 0;
     /** View处于展开状态 **/

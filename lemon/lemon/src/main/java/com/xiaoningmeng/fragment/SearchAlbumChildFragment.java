@@ -10,7 +10,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.baoyz.swipemenu.xlistview.XListView;
 import com.baoyz.swipemenu.xlistview.XListView.IXListViewListener;
-import com.xiaoningmeng.AblumDetailActivity;
+import com.xiaoningmeng.AlbumDetailActivity;
 import com.xiaoningmeng.HomeActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.SearchActivity;
@@ -42,7 +42,7 @@ public class SearchAlbumChildFragment extends BaseFragment implements IXListView
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				int pos = position - 1;
-				Intent intent = new Intent(getActivity(), AblumDetailActivity.class);
+				Intent intent = new Intent(getActivity(), AlbumDetailActivity.class);
 				AlbumInfo albumInfo = mAlbumInfos.get(pos);
 				intent.putExtra("albumId", albumInfo.getAlbumid());
 				((BaseActivity)getActivity()).startActivityForNew(intent);

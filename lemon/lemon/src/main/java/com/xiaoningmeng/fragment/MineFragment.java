@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.baoyz.swipemenu.xlistview.XListView;
 import com.umeng.analytics.MobclickAgent;
-import com.xiaoningmeng.AblumDetailActivity;
+import com.xiaoningmeng.AlbumDetailActivity;
 import com.xiaoningmeng.DownloadActivity;
 import com.xiaoningmeng.FavActivity;
 import com.xiaoningmeng.R;
@@ -90,7 +90,7 @@ public class MineFragment extends BaseFragment implements OnClickListener,XListV
 				if(pos >= 0 && mAlbumList.size() > 0 && pos < mAlbumList.size()) {
 					ListenerAlbum listenerAlbum = mAlbumList.get(pos);
 					AlbumInfo albumInfo = listenerAlbum.getAlbuminfo();
-					Intent intent = new Intent(mContext, AblumDetailActivity.class);
+					Intent intent = new Intent(mContext, AlbumDetailActivity.class);
 					intent.putExtra("albumId", albumInfo.getAlbumid());
 					intent.putExtra("albumInfo", albumInfo);
 					intent.putExtra("playstoryid", listenerAlbum.getPlaystoryid());

@@ -98,7 +98,7 @@ public class FavActivity extends BaseActivity implements IXListViewListener {
 					int position, long id) {
 				int pos = position - 1;
 				if(pos >= 0){
-				Intent i = new Intent(FavActivity.this,AblumDetailActivity.class);
+				Intent i = new Intent(FavActivity.this,AlbumDetailActivity.class);
 				i.putExtra("albumId", mFaAlbumList.get(pos).getAlbumid());
 				startActivityForNew(i);
 				}

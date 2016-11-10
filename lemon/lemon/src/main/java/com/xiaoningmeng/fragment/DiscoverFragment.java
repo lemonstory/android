@@ -28,7 +28,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.umeng.analytics.MobclickAgent;
-import com.xiaoningmeng.AblumDetailActivity;
+import com.xiaoningmeng.AlbumDetailActivity;
 import com.xiaoningmeng.MoreActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.WebViewActivity;
@@ -220,7 +220,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
 
     public void startAlbumInfoActivity(View view, AlbumInfo albumInfo) {
 
-        Intent intent = new Intent(getActivity(), AblumDetailActivity.class);
+        Intent intent = new Intent(getActivity(), AlbumDetailActivity.class);
         intent.putExtra("albumId", albumInfo.getAlbumid());
         intent.putExtra("albumInfo", albumInfo);
 

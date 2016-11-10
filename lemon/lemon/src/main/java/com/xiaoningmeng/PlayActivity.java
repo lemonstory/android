@@ -142,7 +142,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
 		case R.id.rl_music_comment:
 			Animation commentAnim = AnimationUtils.loadAnimation(PlayActivity.this, R.anim.fav_anim_in);
 			v.startAnimation(commentAnim);
-			Intent intent = new Intent(this, AblumDetailActivity.class);
+			Intent intent = new Intent(this, AlbumDetailActivity.class);
 			intent.putExtra("isScroll", true);
 			intent.putExtra("pager", 2);
 			intent.putExtra("albumId", mPlayerManager.getPlayingStory().albumid);
@@ -378,7 +378,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
 		
 		AlbumInfo albumInfo = mPlayerManager.getPlayingStory().albumInfo;
 		if(mPlayerManager.getPlayingStory().albumSource == PlayerManager.AlbumSource.ALBUM_DETAIL){
-			Intent intent = new Intent(this, AblumDetailActivity.class);
+			Intent intent = new Intent(this, AlbumDetailActivity.class);
 			intent.putExtra("albumId", albumInfo.getAlbumid());
 			startActivityForNew(intent);
 		}else if(mPlayerManager.getPlayingStory().albumSource == PlayerManager.AlbumSource.DOWNLOAD){

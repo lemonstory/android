@@ -87,7 +87,7 @@ public class PerasonalCenterActivity extends BaseActivity implements
 				int pos = position -2;
 				ListenerAlbum album = mAlbumList.get(pos);
 				AlbumInfo albumInfo = album.getAlbuminfo();
-				Intent intent = new Intent(PerasonalCenterActivity.this, AblumDetailActivity.class);
+				Intent intent = new Intent(PerasonalCenterActivity.this, AlbumDetailActivity.class);
 				intent.putExtra("albumId", albumInfo.getAlbumid());
 				startActivityForNew(intent);
 				if(uid != null && uid.equals(MyApplication.getInstance().getUid())){

@@ -20,7 +20,7 @@ import com.baidu.mobads.AdView;
 import com.baidu.mobads.AdViewListener;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.umeng.analytics.MobclickAgent;
-import com.xiaoningmeng.AblumDetailActivity;
+import com.xiaoningmeng.AlbumDetailActivity;
 import com.xiaoningmeng.TagActivity;
 import com.xiaoningmeng.MoreActivity;
 import com.xiaoningmeng.R;
@@ -420,9 +420,9 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 							centerViewHolder.recommendTv2.setText(" ");
 						}
 
-						Uri coverImg2Uri = Uri.parse(albumInfo.getCover());
+						Uri coverImgUri = Uri.parse(albumInfo.getCover());
 						centerViewHolder.coverImg2.setBackgroundResource(Constant.getPosDrawable(coverPos + 1));
-						centerViewHolder.coverImg2.setImageURI(coverImg2Uri);
+						centerViewHolder.coverImg2.setImageURI(coverImgUri);
 						centerViewHolder.storyRl2.setTag(albumInfo);
 						centerViewHolder.storyRl2.setOnClickListener(this);
 					} else {
@@ -533,7 +533,7 @@ public class DiscoverStoryAdapter extends BaseAdapter implements
 		case R.id.rl_story1:
 		case R.id.rl_story2:
 			AlbumInfo albumInfo = (AlbumInfo) v.getTag();
-			Intent intent = new Intent(mContext, AblumDetailActivity.class);
+			Intent intent = new Intent(mContext, AlbumDetailActivity.class);
 			intent.putExtra("albumId", albumInfo.getAlbumid());
 			intent.putExtra("albumInfo",albumInfo);
 			((BaseActivity) mContext).startShareTransitionActivity(intent,v,"albumImage");

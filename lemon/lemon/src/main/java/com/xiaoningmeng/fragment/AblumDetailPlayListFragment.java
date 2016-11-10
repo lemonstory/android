@@ -168,7 +168,7 @@ public class AblumDetailPlayListFragment extends BaseFragment {
             @Override
 			public void onClick(View view) {
 				mEmptyHelper.setEmptyView(EmptyHelper.LOADING,false,getString(R.string.loading_tip));
-				((AblumDetailActivity)getActivity()).requestAlbumDetailData();
+				((AlbumDetailActivity)getActivity()).requestAlbumDetailData();
 			}
 		}*/);
         }

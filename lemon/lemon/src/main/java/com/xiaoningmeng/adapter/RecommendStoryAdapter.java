@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.xiaoningmeng.AblumDetailActivity;
+import com.xiaoningmeng.AlbumDetailActivity;
 import com.xiaoningmeng.MoreActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.base.BaseActivity;
@@ -133,9 +133,9 @@ public class RecommendStoryAdapter extends BaseAdapter implements OnClickListene
 				}else{
 					holder.tipTv2.setVisibility(View.INVISIBLE);
 				}
-				Uri coverImg2Uri = Uri.parse(albumInfo.getCover());
+				Uri coverImgUri = Uri.parse(albumInfo.getCover());
 				holder.coverImg2.setBackgroundResource(Constant.getPosDrawable(coverPos + 1));
-				holder.coverImg2.setImageURI(coverImg2Uri);
+				holder.coverImg2.setImageURI(coverImgUri);
 				RelativeLayout.LayoutParams lp1= (RelativeLayout.LayoutParams) holder.coverImg2.getLayoutParams();
 				lp1.height = mImgHeight;
 				holder.coverImg2.setLayoutParams(lp1);
@@ -192,7 +192,7 @@ public class RecommendStoryAdapter extends BaseAdapter implements OnClickListene
 		case R.id.rl_story2:
 		case R.id.rl_story3:
 			AlbumInfo albumInfo = (AlbumInfo) v.getTag();
-			Intent intent = new Intent(mContext, AblumDetailActivity.class);
+			Intent intent = new Intent(mContext, AlbumDetailActivity.class);
 			intent.putExtra("albumId", albumInfo.getAlbumid());
 			intent.putExtra("albumInfo",albumInfo);
 			((BaseActivity) mContext).startShareTransitionActivity(intent,v,"albumImage");
