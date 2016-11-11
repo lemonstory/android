@@ -6,15 +6,15 @@
     android:paddingTop="@dimen/base_margin"
     android:paddingBottom="@dimen/base_margin"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@null">
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/img_tag_cover"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/home_discover_item_img_height"
+        android:layout_height="60dp"
         android:layout_gravity="center_vertical"
-        android:background="@color/view_thread_image_background_color"
         fresco:roundedCornerRadius="3dp"
-        fresco:actualImageScaleType="centerCrop"
+        fresco:actualImageScaleType="fitCenter"
         fresco:roundAsCircle="true"
         fresco:placeholderImage="@drawable/forum_display_place_holder_image"
         />

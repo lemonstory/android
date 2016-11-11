@@ -462,7 +462,7 @@ public class AlbumDetailActivity extends BaseActivity implements
                 mHandler.sendMessageDelayed(msg, i * 10);
             }
         }
-        MobclickAgent.onEvent(this, "event_download");
+        MobclickAgent.onEvent(this, "event_batch_download");
     }
 
     private void favAblum(final View view) {

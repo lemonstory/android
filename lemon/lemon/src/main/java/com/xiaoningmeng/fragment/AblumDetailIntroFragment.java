@@ -1,7 +1,6 @@
 package com.xiaoningmeng.fragment;
 
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,12 +24,11 @@ import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.base.LazyFragment;
 import com.xiaoningmeng.bean.Tag;
 import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.view.CollapsibleTextView;
 
 import java.util.List;
 
-public class AblumDetailIntroFragment extends LazyFragment implements View.OnClickListener{
+public class AblumDetailIntroFragment extends LazyFragment {
 
 	private CollapsibleTextView introTv;
 	private RelativeLayout mIntroView;
@@ -59,18 +57,6 @@ public class AblumDetailIntroFragment extends LazyFragment implements View.OnCli
 		this.tagList = tagList;
 		flag = true;
 		lazyLoad();
-	}
-
-	@Override
-	public void onClick(View v) {
-		if(v.getTag() != null){
-			Tag tag = (Tag)v.getTag();
-			if (tag != null && tag.getId() != null) {
-				Intent i = new Intent(mContext, TagActivity.class);
-				i.putExtra("classification",tag);
-				startActivityForNew(i);
-			}
-		}
 	}
 
 	@Override
@@ -112,7 +98,6 @@ public class AblumDetailIntroFragment extends LazyFragment implements View.OnCli
 		mTagAdapter = new TagAdapter(tagList);
 		mRecyclerView.setAdapter(mTagAdapter);
 		((SimpleItemAnimator) mRecyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
-		mRecyclerView.addItemDecoration(new AblumDetailIntroFragment.SpaceItemDecoration(30));
 		mRecyclerView.addOnItemTouchListener(
 				new OnItemChildClickListener() {
 					@Override
@@ -130,35 +115,15 @@ public class AblumDetailIntroFragment extends LazyFragment implements View.OnCli
 					@Override
 					public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
-						DebugUtils.d("AblumDetailIntroFragment  --> onItemClick RUN! Position = " + position);
+						Tag tag = (Tag) adapter.getData().get(position);
+						if (tag != null && tag.getId() != null) {
+							Intent i = new Intent(mContext, TagActivity.class);
+							i.putExtra("classification",tag);
+							startActivityForNew(i);
+						}
+
 					}
 				}
 		);
-	}
-
-	/**
-	 * 设置标签间距
-	 */
-	public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
-
-		int mSpace;
-
-		public SpaceItemDecoration(int space) {
-			this.mSpace = space;
-		}
-
-		@Override
-		public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-			int pos = parent.getChildAdapterPosition(view);
-
-			outRect.right = mSpace;
-			outRect.top = 0;
-			outRect.bottom = 0;
-			if (pos % 3 == 0) {
-				outRect.left = mSpace;
-			} else {
-				outRect.left = 0;
-			}
-		}
 	}
 }

@@ -62,7 +62,7 @@ public class TagActivity extends BaseActivity implements View.OnClickListener,Pl
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         Fresco.initialize(this);
-        setContentView(R.layout.activity_classification);
+        setContentView(R.layout.activity_tag);
         Tag selectTag = getIntent().getParcelableExtra("classification");
         String classificationName = getIntent().getStringExtra("classification_name");
         mIndicator = (PagerSlidingTabStrip) findViewById(R.id.tab_indicator);
