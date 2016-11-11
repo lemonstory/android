@@ -37,7 +37,7 @@
     <string name="account_recommend">应用推荐</string>
     <string name="account_setting">设置</string>
     <string name="album_comment">发表评论</string>
-    <string name="share_other_str">喜欢小柠檬，把Ta分享给你的好朋友们，就是对我们最大的支持，么么哒~</string>
+    <string name="share_other_str">喜欢小柠檬,把Ta分享给你的小伙伴们(朋友圈).就是对小柠檬最大的支持，么么哒~</string>
 
     <string-array name="reminder">
         <item>一直放，不限时</item>

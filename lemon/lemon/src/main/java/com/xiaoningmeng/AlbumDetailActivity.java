@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.facebook.drawee.drawable.ScalingUtils;
 import com.facebook.drawee.view.DraweeTransition;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.orhanobut.dialogplus.DialogPlus;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
@@ -50,7 +51,6 @@ import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.player.PlayerManager.AlbumSource;
-import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.utils.ImageUtils;
 import com.xiaoningmeng.view.CircleProgressBar;
 import com.xiaoningmeng.view.RatingBar;
@@ -122,7 +122,7 @@ public class AlbumDetailActivity extends BaseActivity implements
         mPlayBtnImg = (ImageView) findViewById(R.id.img_ablum_detail_btn);
         mWaveImg = (ImageView) findViewById(R.id.img_head_right);
         mCoverImg = (SimpleDraweeView) findViewById(R.id.img_ablum_detail_cover);
-        //mCommentCountTv = (TextView) findViewById(R.id.tv_ablum_detail_comment_count);
+        mCommentTv = (TextView) findViewById(R.id.tv_comment);
         mStickyNavLayout = (StickyNavLayout) findViewById(R.id.StickyNavLayout);
         mAlbumTitleTv = (TextView) findViewById(R.id.tv_ablum_detail_title);
         mRatingBar = (RatingBar) findViewById(R.id.rb_ablum_detail_rate);
@@ -293,12 +293,6 @@ public class AlbumDetailActivity extends BaseActivity implements
                             mPlayListFragment.setStoryList(albumInfo, storyList, mPlayStoryId, mPlayTime);
                             mIntroFragment.setIntro(albumInfo.getIntro(), data.getTagList());
                             mSimilarFragment.setAlbumList(data.getRecommendAlbumList());
-                            if (albumInfo.getCommentnum() == 0) {
-                                //mCommentCountTv.setVisibility(View.INVISIBLE);
-                            } else {
-                                //mCommentCountTv.setVisibility(View.VISIBLE);
-                                //mCommentCountTv.setText(albumInfo.getCommentnum() + "");
-                            }
                             recoveryPlayedPosition();
                             //开始播放
                             if (!PlayerManager.getInstance().isPlaying()) {
@@ -311,8 +305,6 @@ public class AlbumDetailActivity extends BaseActivity implements
                         public void onFailure(String failureResponse) {
                             mPlayListFragment.onFailure();
                         }
-
-
                     });
         }
     }
@@ -342,7 +334,7 @@ public class AlbumDetailActivity extends BaseActivity implements
         mAlbumTitleTv.setText(albumInfo.getTitle());
         setTitleName(albumInfo.getTitle());
         Uri uri = Uri.parse(albumInfo.getCover());
-        if(albumCoverUri == null || (albumCoverUri != null && albumCoverUri.compareTo(uri) != 0)) {
+        if (albumCoverUri == null || (albumCoverUri != null && albumCoverUri.compareTo(uri) != 0)) {
             albumCoverUri = uri;
             ImageUtils.displayImage(this, mCoverImg, albumCoverUri, 300, 300);
         }
@@ -351,6 +343,7 @@ public class AlbumDetailActivity extends BaseActivity implements
         mRatingBar.setStar(albumInfo.getStar_level() != null ? Integer.parseInt(albumInfo.getStar_level()) : 0);
         mFavTv.setSelected(albumInfo.getFav() == 1);
         mFavTv.setText(albumInfo.getFavnum() == 0 ? "收藏" : (albumInfo.getFavnum() + ""));
+        mCommentTv.setText(albumInfo.getCommentnum() == 0 ? "评论" : (albumInfo.getCommentnum() + ""));
         mListenerTv.setText(albumInfo.getListennum() + "");
         mAgeLevelTv.setText(albumInfo.getAge_str());
 
@@ -377,7 +370,7 @@ public class AlbumDetailActivity extends BaseActivity implements
                 break;
             case R.id.tv_batch_download:
                 view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fav_anim_in));
-                batchDownload();
+                batchDownloadClick();
                 break;
             case R.id.tv_share:
                 view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fav_anim_in));
@@ -418,23 +411,55 @@ public class AlbumDetailActivity extends BaseActivity implements
 
     private void displayAlbumComment() {
 
-        DebugUtils.d("displayAlbumComment RUN!!!");
-
         Intent intent = new Intent(this, AlbumCommentActivity.class);
         intent.putExtra("albumId", albumInfo.getAlbumid());
         startActivity(intent);
     }
 
-    private void batchDownload() {
-        if (UserAuth.auditUser(this, "登录后,才能批量故事喔.")) {
-            if (storyList != null && storyList.size() > 0) {
-                for (int i = 0; i < storyList.size(); i++) {
-                    Story story = storyList.get(i);
-                    Message msg = mHandler.obtainMessage();
-                    msg.obj = story;
-                    msg.arg1 = i;
-                    mHandler.sendMessageDelayed(msg, i * 10);
-                }
+    private TipDialog tipDialog;
+
+    private void showShareDialog(final String albumTitle) {
+
+        String context = String.format("好喜欢\"%s\",分享给小伙伴~\\(≧▽≦)/~啦啦啦", albumTitle);
+        tipDialog = new TipDialog.Builder(mContext)
+                .setLayoutId(R.layout.dialog_prompt)
+                .setHasBtn(true)
+                .setTipText(context)
+                .setEnterText("确定")
+                .setOnClickListener(
+                        new com.orhanobut.dialogplus.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogPlus dialog, View view) {
+                                switch (view.getId()) {
+                                    case R.id.tv_dialog_enter:
+                                        String app_name = AlbumDetailActivity.this.getString(R.string.app_name);
+                                        String app_desc = AlbumDetailActivity.this.getString(R.string.app_desc);
+                                        new ShareDialog().show(AlbumDetailActivity.this, new ShareBean(app_name, app_desc, Constant.SHARE_OFFCAIL_ICON_URL, null, Constant.SHARE_OFFCAIL_URL));
+                                        tipDialog.dimiss();
+                                        break;
+                                    case R.id.tv_dialog_cancel:
+                                        tipDialog.dimiss();
+                                        break;
+                                }
+                            }
+                        }).create();
+        tipDialog.show();
+    }
+
+    private void batchDownloadClick() {
+
+        //推荐分享
+        this.showShareDialog(albumInfo.getTitle());
+
+        //批量下载
+        if (storyList != null && storyList.size() > 0) {
+            for (int i = 0; i < storyList.size(); i++) {
+                Story story = storyList.get(i);
+                Message msg = mHandler.obtainMessage();
+                msg.obj = story;
+                msg.arg1 = i;
+                mHandler.sendMessageDelayed(msg, i * 10);
             }
         }
         MobclickAgent.onEvent(this, "event_download");
@@ -522,6 +547,7 @@ public class AlbumDetailActivity extends BaseActivity implements
 
             return PagerAdapter.POSITION_NONE;
         }
+
     }
 
     @Override

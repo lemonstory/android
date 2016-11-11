@@ -3,58 +3,60 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_dialog_tip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/dialog_margin_bottom"
+        android:layout_marginTop="@dimen/dialog_margin_top"
         android:gravity="center"
         android:maxLines="2"
         android:paddingLeft="@dimen/dialog_padding"
         android:paddingRight="@dimen/dialog_padding"
-        android:layout_marginTop="@dimen/dialog_margin_top"
-        android:layout_marginBottom="@dimen/dialog_margin_bottom"
         android:text="请输入正确的手机号码"
         android:textColor="@color/base_black_title_color"
         android:textSize="@dimen/title_content_text_size" />
-      <View
-            style="@style/dividerStyle" />	
+
+    <View style="@style/dividerStyle" />
 
     <LinearLayout
         android:id="@+id/ll_dialog_btn"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dialog_btn_height"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
-           <TextView
+        <TextView
+            android:id="@+id/tv_dialog_cancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/base_listview_item_bg_selector"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="#9b9b9b"
+            android:textSize="@dimen/title_content_text_size" />
+
+
+        <View style="@style/verticalDividerStyle" />
+        />
+
+        <TextView
             android:id="@+id/tv_dialog_enter"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="@drawable/base_listview_item_bg_selector"
-              android:layout_weight="1"
             android:clickable="true"
             android:gravity="center"
             android:text="确定"
             android:textColor="@color/action_bar_bg"
             android:textSize="@dimen/title_content_text_size" />
 
-       
-              <View
-            style="@style/verticalDividerStyle" />																			 />
- <TextView
-            android:id="@+id/tv_dialog_cancel"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/base_listview_item_bg_selector"
-            android:clickable="true"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="取消"
-            android:textColor="#9b9b9b"
-            android:textSize="@dimen/title_content_text_size" />	
-   
+
     </LinearLayout>
 
 </LinearLayout>
