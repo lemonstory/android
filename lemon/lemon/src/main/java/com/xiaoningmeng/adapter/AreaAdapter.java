@@ -1,22 +1,21 @@
 package com.xiaoningmeng.adapter;
 
-import java.util.List;
-
-import com.xiaoningmeng.ModifyPerasonalActivity;
-import com.xiaoningmeng.R;
-import com.xiaoningmeng.bean.City;
-import com.xiaoningmeng.bean.Province;
-import com.xiaoningmeng.bean.Zone;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.xiaoningmeng.AccountModifyInfoActivity;
+import com.xiaoningmeng.R;
+import com.xiaoningmeng.bean.City;
+import com.xiaoningmeng.bean.Province;
+import com.xiaoningmeng.bean.Zone;
+
+import java.util.List;
 
 public class AreaAdapter<T> extends BaseAdapter {
 
@@ -68,13 +67,13 @@ public class AreaAdapter<T> extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		if (type == ModifyPerasonalActivity.MODIFY_ADDRESS_PROVINCES) {
+		if (type == AccountModifyInfoActivity.MODIFY_ADDRESS_PROVINCES) {
 			Province province = (Province) getItem(position);
 			holder.areaNameTv.setText(province.getProName());
-		} else if (type == ModifyPerasonalActivity.MODIFY_ADDRESS_CITIES) {
+		} else if (type == AccountModifyInfoActivity.MODIFY_ADDRESS_CITIES) {
 			City city = (City) getItem(position);
 			holder.areaNameTv.setText(city.getCityName());
-		} else if (type == ModifyPerasonalActivity.MODIFY_ADDRESS_ZONES) {
+		} else if (type == AccountModifyInfoActivity.MODIFY_ADDRESS_ZONES) {
 			Zone area = (Zone) getItem(position);
 			holder.rightImg.setVisibility(View.INVISIBLE);
 			holder.areaNameTv.setText(area.getZoneName());

@@ -1,7 +1,7 @@
 package com.xiaoningmeng.fragment;
 
 import com.xiaoningmeng.GuideActivity;
-import com.xiaoningmeng.PerasonalActivity;
+import com.xiaoningmeng.accountActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.base.BaseActivity;
@@ -94,7 +94,7 @@ public class WeclomeFragment extends BaseFragment implements OnClickListener {
 							mYearEt.setText(data[0]);
 							mMonthEt.setText(data[1]);
 							mDayEt.setText(data[2]);
-							int ageBegin = PerasonalActivity.getAge(birthday);
+							int ageBegin = accountActivity.getAge(birthday);
 							final int age = ageBegin <0 ? 0 : ageBegin;
 							mDialog.dismiss();
 							LHttpRequest.getInstance().setUserInfoReq(mContext, null, null, birthday, null, null, null, null, null,null, new JsonCallback<String>() {

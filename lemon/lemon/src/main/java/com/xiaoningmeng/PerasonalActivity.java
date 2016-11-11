@@ -3,391 +3,164 @@ package com.xiaoningmeng;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.alibaba.sdk.android.oss.callback.SaveCallback;
-import com.alibaba.sdk.android.oss.model.OSSException;
+import com.baoyz.swipemenu.xlistview.XListView;
+import com.baoyz.swipemenu.xlistview.XListView.IXListViewListener;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.gson.Gson;
+import com.xiaoningmeng.adapter.PerasonalAdapter;
 import com.xiaoningmeng.application.MyApplication;
-import com.xiaoningmeng.base.BasePohotoActivity;
-import com.xiaoningmeng.base.BasePohotoActivity.IUploadCall;
-import com.xiaoningmeng.bean.Address;
-import com.xiaoningmeng.bean.City;
+import com.xiaoningmeng.base.BaseActivity;
+import com.xiaoningmeng.bean.AlbumInfo;
+import com.xiaoningmeng.bean.HomeInfo;
+import com.xiaoningmeng.bean.ListenerAlbum;
 import com.xiaoningmeng.bean.PlayingStory;
-import com.xiaoningmeng.bean.Province;
-import com.xiaoningmeng.bean.UserInfo;
-import com.xiaoningmeng.bean.Zone;
+import com.xiaoningmeng.constant.Constant;
+import com.xiaoningmeng.event.HistoryEvent;
 import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.utils.AvatarUtils;
-import com.xiaoningmeng.view.dialog.BaseDialog;
-import com.xiaoningmeng.view.picker.DatePicker;
 
-import org.litepal.crud.DataSupport;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.io.File;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.List;
 
 import de.greenrobot.event.EventBus;
 
-public class PerasonalActivity extends BasePohotoActivity implements
-		OnClickListener, PlayObserver,IUploadCall{
-
-	private BaseDialog mDialog;
-	private View mAgeView;
-	private TextView mSexTv;
-	private TextView mAddressTv;
-	private SimpleDraweeView mAvatarImg;
-	private ProgressBar mUploadingProgress;
-	private TextView mNameTv;
-	private TextView mPhoneTv;
-	private TextView mGoodsAddressTv;
-	private TextView mAgeTv;
-	private UserInfo mUserInfo;
-	private int type = -1;
-	private ImageView mWaveImg;
+public class PerasonalActivity extends BaseActivity implements
+		PlayObserver, OnClickListener,IXListViewListener {
+	private XListView mListView;
+	private ImageView mCoverImg;
+	private TextView mAccountNameTv;
+	private TextView mAccountContentTv;
+	private TextView mAccountPostTv;
+	private LinearLayout mAccountPostContainer;
+	private SimpleDraweeView mAvatarView;
+	private List<ListenerAlbum> mAlbumList;
+	private BaseAdapter mAdapter;
+	private String uid;
+	private String nickname;
+	private View headerView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+
 		super.onCreate(savedInstanceState);
-		setTheme(R.style.PickTheme);
+		Fresco.initialize(this);
 		setContentView(R.layout.activity_perasonal);
-		mUserInfo = MyApplication.getInstance().userInfo;
 		initView();
+		uid = getIntent().getStringExtra("uid");
+		requestHomeInfo(Constant.FRIST, Constant.FRIST_ID);
+		getUserProfileData(uid);
 		PlayerManager.getInstance().register(this);
+		EventBus.getDefault().register(this);
 	}
 
-	public void initView() {
-		setTitleName("个人信息");
-		mWaveImg = (ImageView) findViewById(R.id.img_head_right);
-		setRightHeadIcon(R.drawable.play_flag_wave_01);
-		mSexTv = (TextView) findViewById(R.id.tv_perasonal_sex);
-		mAddressTv = (TextView) findViewById(R.id.tv_perasonal_address);
-		mAvatarImg = (SimpleDraweeView) findViewById(R.id.img_perasonal_icon);
-		mAvatarImg.setOnClickListener(this);
-		mNameTv = (TextView) findViewById(R.id.tv_perasonal_name);
-		mPhoneTv = (TextView) findViewById(R.id.tv_perasonal_phone);
-		mGoodsAddressTv = (TextView) findViewById(R.id.tv_perasonal_goods_address);
-		mAgeTv = (TextView) findViewById(R.id.tv_perasonal_age);
-		mUploadingProgress = (ProgressBar) findViewById(R.id.pb_perasonal_progress);
-		setUserView();
-		requestUserInfo();
+	private void initView() {
 		
-	new Handler().postDelayed(new Runnable() {
-			
-			@Override
-			public void run() {
-				setLoadingTip("修改中");
-				
-			}
-		}, 500);
-	}
+		mListView = (XListView) findViewById(R.id.lv_home_discover);
+		mCoverImg = (ImageView) findViewById(R.id.img_head_right);
+		setRightHeadIcon(R.drawable.play_flag_wave_01);
+		mListView.setPullLoadEnable(false);
+		mListView.setPullRefreshEnable(false);
+		mListView.setXListViewListener(this);
+		headerView = View.inflate(this, R.layout.layout_perasonal_head,null);
+		mListView.setOnItemClickListener(new OnItemClickListener() {
 
-	private void setUserView() {
-		if (mUserInfo != null) {
-			mNameTv.setText(mUserInfo.getNickname());
-			String province = mUserInfo.getProvince() == null ?" ":(" "+mUserInfo.getProvince()+" ");
-			String city = mUserInfo.getCity() == null?"":mUserInfo.getCity();
-			String area = mUserInfo.getArea() == null?"":(" "+mUserInfo.getArea());
-			mAddressTv.setText(province+city+area);
-			if(mUserInfo.getGender() != null){
-				mSexTv.setText(Integer.parseInt(mUserInfo.getGender()) == 1 ? "男" : "女");
-			}else{
-				mSexTv.setText("");
-			}
-			mPhoneTv.setText(mUserInfo.getPhonenumber());
-			mAgeTv.setText(mUserInfo.getAge());
-			Address address = mUserInfo.getAddressinfo();
-			if(address != null && address.getProvince()!= null){
-				mGoodsAddressTv.setText(address.getProvince()+" "+address.getCity()+(address.getArea()!= null ?" "+address.getArea():" ")+address.getAddress());
-			}
-			String avatarUrl = AvatarUtils.getAvatarUrl(mUserInfo.getUid(), mUserInfo.getAvatartime(), -1);
-			mAvatarImg.setImageURI(Uri.parse(avatarUrl));
-			//ImageLoader.getInstance().displayImage(avatarUrl, mAvatarImg,Constant.AVARAR_OPTIONS);
-		}		
-	}
-
-	public void requestUserInfo(){
-		LHttpRequest.getInstance().getUserInfoReq(this, new JsonCallback<UserInfo>() {
-			
 			@Override
-			public void onGetDataSuccess(UserInfo data) {
-				if(data != null){
-					MyApplication.getInstance().userInfo = data;
-					mUserInfo= data;
-					DataSupport.deleteAll(UserInfo.class);
-					mUserInfo.save();
-					setUserView();
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				int pos = position -2;
+				ListenerAlbum album = mAlbumList.get(pos);
+				AlbumInfo albumInfo = album.getAlbuminfo();
+				Intent intent = new Intent(PerasonalActivity.this, AlbumDetailActivity.class);
+				intent.putExtra("albumId", albumInfo.getAlbumid());
+				startActivityForNew(intent);
+				if(uid != null && uid.equals(MyApplication.getInstance().getUid())){
+				mAlbumList.add(0, mAlbumList.remove(pos));
+				mAdapter.notifyDataSetChanged();
+				}	
+			}
+		});
+		mAccountNameTv = (TextView) headerView.findViewById(R.id.tv_account_name);
+		mAccountContentTv = (TextView) headerView.findViewById(R.id.tv_account_content);
+		mAvatarView = (SimpleDraweeView)headerView.findViewById(R.id.img_perasonal_icon);
+		mAccountPostTv = (TextView) headerView.findViewById(R.id.tv_account_post);
+		mAccountPostContainer = (LinearLayout) headerView.findViewById(R.id.ll_account_post_container);
+		mAlbumList = new ArrayList<>();
+		mAdapter = new PerasonalAdapter(this,mAlbumList);
+		mListView.setAdapter(mAdapter);
+	}
+	
+	public void requestHomeInfo(final String direction,String startStroyId){
+		
+		if(uid == null || uid.equals(MyApplication.getInstance().getUid())){
+			uid = MyApplication.getInstance().getUid();
+		}
+		LHttpRequest.getInstance().getHomeInfoReq(this,uid, direction, startStroyId, Constant.MAX_REQ_LEN, new JsonCallback<HomeInfo>() {
+
+			@Override
+			public void onGetDataSuccess(HomeInfo data) {
+				List<ListenerAlbum> albums = data.getListenalbumlist();
+				if(direction == Constant.FRIST){
+					mListView.addHeaderView(headerView,null,false);
+					nickname = data.getNickname();
+					mAccountNameTv.setText(nickname);
+					setTitleName(nickname);
+					String age = data.getAge() == null ?"":(data.getAge()+"岁");
+					String province = data.getProvince() == null ?" ":(" "+data.getProvince()+" ");
+					String city = data.getCity() == null?"":data.getCity();
+					mAccountContentTv.setText(age + province + city);
+					String avatarUrl = AvatarUtils.getAvatarUrl(data.getUid(), data.getAvatartime(), -1);
+					Uri avatarUri = Uri.parse(avatarUrl);
+					mAvatarView.setImageURI(avatarUri);
+				}
+				if(albums != null && albums.size() > 0){
+					if(direction == Constant.FRIST){
+						if(albums.size() == Constant.MAX_REQ_LEN){
+							mListView.setPullLoadEnable(true);
+						}else{
+							mListView.setPullLoadEnable(false);
+						}
+					}else{
+						if(albums.size() == 0){
+							mListView.setFootViewNoMore(true);
+						}
+					}
+					mAlbumList.addAll(albums);
+					mAdapter.notifyDataSetChanged();
+				}
+				if(mAlbumList.size() == 0){
+					showEmptyTip("Ta还没收听的故事喔");
 				}
 			}
-		});
-	}
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.rl_perasonal_icon:
-			selectPic(this,true);
-			break;
-		case R.id.rl_perasonal_address:
-			type = ModifyPerasonalActivity.MODIFY_ADDRESS_PROVINCES;
-			ModifyPerasonalActivity.start(this, type);
-			break;
-		case R.id.rl_perasonal_name:
-			type = ModifyPerasonalActivity.MODIFY_NAME;
-			ModifyPerasonalActivity.start(this, type);
-			break;
-		case R.id.rl_perasonal_sex:
-			type = ModifyPerasonalActivity.MODIFY_SEX;
-			ModifyPerasonalActivity.start(this, type);
-			break;
-		case R.id.rl_perasonal_phone:
-			type = ModifyPerasonalActivity.MODIFY_PHONE;
-			ModifyPerasonalActivity.start(this, type);
-			break;
-		case R.id.rl_perasonal_goods_address:
-			type = ModifyPerasonalActivity.MODIFY_GOODS_ADDRESS;
-			ModifyPerasonalActivity.start(this, type);
-			break;
-		case R.id.rl_perasonal_age:
-			initAgeDialog();
-			break;
-		case R.id.img_perasonal_icon:
-			String avatarUrl = AvatarUtils.getAvatarUrl(mUserInfo.getUid(), mUserInfo.getAvatartime(), -1);
-			Intent i = new Intent(this,ImageViewerPagerActivity.class);
-			ArrayList<String> imageUrls = new ArrayList<>();
-			imageUrls.add(avatarUrl);
-			i.putStringArrayListExtra("imagesUrl",imageUrls);
-			startActivity(i);
-			break;
-		}
-	}
-
-	
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-		}
-		return super.onKeyDown(keyCode, event);
-	}
-	
-
-	private void initAgeDialog() {
-		
-		if(mDialog == null){
-			mDialog = new BaseDialog.Builder(this)
-			.setGravity(android.view.Gravity.BOTTOM)
-			.setAnimStyle(R.style.bottom_dialog_animation).create();
-		}
-		if (mAgeView == null) {
-			mAgeView = View.inflate(this, R.layout.dialog_modify_age, null);
-			final DatePicker mDataPicker = (DatePicker) mAgeView
-					.findViewById(R.id.datePicker);
-
-			mAgeView.findViewById(R.id.tv_dialog_select).setOnClickListener(
-					new View.OnClickListener() {
-
-						@Override
-						public void onClick(View v) {
-							String birthday = mDataPicker.getDate();
-							int ageBegin = getAge(birthday);
-							final int age = ageBegin <0 ? 0 : ageBegin;
-							mDialog.dismiss();
-							LHttpRequest.getInstance().setUserInfoReq(PerasonalActivity.this, null, null, birthday, null, null, null, null, null,null, new JsonCallback<String>(PerasonalActivity.this) {
-
-								@Override
-								public void onGetDataSuccess(String data) {
-									mAgeTv.setText(age+"");
-									MyApplication.getInstance().userInfo.setAge(age+"");
-									EventBus.getDefault().post(mUserInfo);
-								}
-							});
-
-						}
-					});
-			mAgeView.findViewById(R.id.tv_dialog_cancel).setOnClickListener(
-					new View.OnClickListener() {
-
-						@Override
-						public void onClick(View v) {
-							mDialog.dismiss();
-						}
-					});
-		}
-		mDialog.show(mAgeView);
-	}
-	
-	public static int getAge(String birth){
-		Date birthDay;
-		try {
-			birthDay = new SimpleDateFormat("yyyy-MM-dd").parse(birth);
-			 Calendar cal = Calendar.getInstance();
-
-		        if (cal.before(birthDay)) {
-		           return 0;
-		        }
-		        int yearNow = cal.get(Calendar.YEAR);
-		        int monthNow = cal.get(Calendar.MONTH);
-		        int dayOfMonthNow = cal.get(Calendar.DAY_OF_MONTH);
-		        cal.setTime(birthDay);
-
-		        int yearBirth = cal.get(Calendar.YEAR);
-		        int monthBirth = cal.get(Calendar.MONTH);
-		        int dayOfMonthBirth = cal.get(Calendar.DAY_OF_MONTH);
-
-		        int age = yearNow - yearBirth;
-		        if (monthNow <= monthBirth) {
-		            if (monthNow == monthBirth) {
-		                //monthNow==monthBirth
-		                if (dayOfMonthNow < dayOfMonthBirth) {
-		                    age--;
-		                } else {
-		                    //do nothing
-		                }
-		            } else {
-		                //monthNow>monthBirth
-		                age--;
-		            }
-		        } else {
-		            //monthNow<monthBirth
-		            //donothing
-		        }
-		        return age;
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-       
-        return 0;
-    }
-
-
-
-	private void uploadAvatar(String filePath) {
-
-		File avatarFile = new File(filePath);
-		mAvatarImg.setImageURI(Uri.fromFile(avatarFile));
-		mUploadingProgress.setVisibility(View.VISIBLE);
-		if(avatarFile.exists()){
-			LHttpRequest.getInstance().setAvatarReq(this, filePath,new SaveCallback(){
-						
-						@Override
-						public void onProgress(String arg0, int arg1, int arg2) {
-							
-						}
-						
-						@Override
-						public void onFailure(String arg0, OSSException arg1) {
-							String avatarUrl = AvatarUtils.getAvatarUrl(mUserInfo.getUid(), mUserInfo.getAvatartime(), -1);
-							mAvatarImg.setImageURI(Uri.parse(avatarUrl));
-							Toast.makeText(PerasonalActivity.this, "修改头像失败", Toast.LENGTH_SHORT).show();
-							mUploadingProgress.setVisibility(View.INVISIBLE);
-							
-						}
-						
-						@Override
-						public void onSuccess(String arg0) {
-							uploadAvatartime();
-							
-						}
-
-					
-						
-					});
-		}else{
-			Toast.makeText(this, "修改头像失败", Toast.LENGTH_SHORT).show();
-		}
-		
-	}
-
-	private void uploadAvatartime() {
-		final long avatartime = System.currentTimeMillis()/1000;
-		LHttpRequest.getInstance().setUserInfoReq(PerasonalActivity.this, null, null, null, null, null, null, null, null,avatartime+"", new JsonCallback<String>() {
-
-			@Override
-			public void onGetDataSuccess(String data) {
-				MyApplication.getInstance().userInfo.setAvatartime(avatartime+"");
-				mUserInfo.setAvatartime(avatartime+"");
-				EventBus.getDefault().post(mUserInfo);
-				mUploadingProgress.setVisibility(View.INVISIBLE);
-			}
 			
 			@Override
-			public void onFailure(String responseString) {
-				String avatarUrl = AvatarUtils.getAvatarUrl(mUserInfo.getUid(), mUserInfo.getAvatartime(), -1);
-				mAvatarImg.setImageURI(Uri.parse(avatarUrl));
-				Toast.makeText(PerasonalActivity.this, "修改头像失败", Toast.LENGTH_SHORT).show();
-				mUploadingProgress.setVisibility(View.INVISIBLE);
-
+			public void onFinish() {
+				onLoad();
+				super.onFinish();
 			}
 		});
-		
-	}
-
-	@Override
-	protected void onNewIntent(Intent intent) {
-		if ("modifyAddress".equals(intent.getAction())) {
-			Province province = intent.getParcelableExtra("province");
-			City city = intent.getParcelableExtra("city");
-			Zone zone = null;
-			if (intent.hasExtra("zone")) {
-				zone = intent.getParcelableExtra("zone");
-			}
-			mAddressTv.setText(province.getProName() + " " + city.getCityName()
-					+ (zone != null ? " " + zone.getZoneName() : ""));
-			mUserInfo = MyApplication.getInstance().userInfo;
-			EventBus.getDefault().post(mUserInfo);
-		}else{
-			super.onNewIntent(intent);
-		}
 	}
 
 	@Override
 	protected void onResume() {
-
+		PlayWaveManager.getInstance().loadWaveAnim(this, mCoverImg);
 		super.onResume();
-		PlayWaveManager.getInstance().loadWaveAnim(this, mWaveImg);
-		if (type == -1) {
-			return;
-		}
-		mUserInfo = MyApplication.getInstance().userInfo;
-		switch (type) {
-		case ModifyPerasonalActivity.MODIFY_NAME:
-			mNameTv.setText(mUserInfo.getNickname());
-			EventBus.getDefault().post(mUserInfo);
-			break;
-		case ModifyPerasonalActivity.MODIFY_GOODS_ADDRESS:
-			Address address = mUserInfo.getAddressinfo();
-			if(address != null && address.getProvince() != null){
-				mGoodsAddressTv.setText(address.getProvince()+" "+address.getCity()+
-						(address.getArea()!= null ?" "+address.getArea():" ")+address.getAddress());
-			}
-			break;
-		case ModifyPerasonalActivity.MODIFY_SEX:
-			if(mUserInfo.getGender() != null){
-				mSexTv.setText(Integer.parseInt(mUserInfo.getGender()) == 1 ? "男" : "女");
-			}
-			break;
-		case ModifyPerasonalActivity.MODIFY_PHONE:
-			mPhoneTv.setText(mUserInfo.getPhonenumber());
-			break;
-		default:
-			break;
-		}
 
 	}
 
@@ -401,17 +174,145 @@ public class PerasonalActivity extends BasePohotoActivity implements
 	@Override
 	public void onDestroy() {
 		PlayerManager.getInstance().unRegister(this);
-		if(mUserInfo!= null){
-			DataSupport.deleteAll(UserInfo.class);
-			mUserInfo.save();
-		}
+		EventBus.getDefault().unregister(this);
 		super.onDestroy();
 	}
 
 	@Override
-	public void gpuback(File file) {
-		uploadAvatar(file.getAbsolutePath());
+	public void onClick(View v) {
+		switch (v.getId()) {
+
+		case R.id.ll_perasonal_head:
+			break;
+
+		case R.id.ll_account_post_container:
+			Intent intent = new Intent(this, MyThreadActivity.class);
+			intent.putExtra("uid", uid);
+			intent.putExtra("nickname",nickname);
+			this.startActivityForNew(intent);
+			break;
+
+		default:
+			break;
+		}
+
+	}
+
+	@Override
+	public void onRefresh() {
+		if(mAlbumList.size() > 0){
+			requestHomeInfo(Constant.UP, mAlbumList.get(0).getAlbumid());
+		}else{
+			requestHomeInfo(Constant.FRIST, Constant.FRIST_ID);
+		}
 		
 	}
 
+	@Override
+	public void onLoadMore() {
+		int size= mAlbumList.size();
+		if(size > 0){
+			requestHomeInfo(Constant.DOWN, mAlbumList.get(size-1).getAlbumid());
+		}else{
+			requestHomeInfo(Constant.FRIST, Constant.FRIST_ID);
+		}
+	}
+	
+	private void onLoad() {
+
+		mListView.stopRefresh();
+		mListView.stopLoadMore();
+	}
+	
+	public void onEventMainThread(HistoryEvent historyEvent){
+		if(uid != null && uid.equals(MyApplication.getInstance().getUid())){
+			hideEmptyTip();
+			int albumSzie = mAlbumList.size();
+				for(int i = 0; i <albumSzie ; i++){
+					ListenerAlbum album = mAlbumList.get(i);
+					if(album.getAlbumid().equals(historyEvent.albumId)){
+						if(historyEvent.listenerAlbum == null){
+							album.setPlaystoryid(historyEvent.storyId);
+							album.setUptime(System.currentTimeMillis()/1000+"");
+							if(i != 0){
+								mAlbumList.remove(album);
+								mAlbumList.add(0,album);
+						}
+							mAdapter.notifyDataSetChanged();
+							return;
+						}else{
+							mAlbumList.remove(album);
+							break;
+						}
+					}
+				}
+		mAlbumList.add(0,historyEvent.listenerAlbum);
+		mAdapter.notifyDataSetChanged();
+		}
+	}
+	
+	TextView emptyView;
+	public void showEmptyTip(String tip) {
+		emptyView = (TextView) View.inflate(this,R.layout.fragment_empty, null);
+		emptyView.setText(tip);
+		emptyView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.home_discover_item_img_height), 0, 0);
+		mListView.addHeaderView(emptyView, null, false);
+		mListView.setPullLoadEnable(false);
+
+	}
+	
+
+	public void hideEmptyTip() {
+		if(emptyView != null && mListView.getHeaderViewsCount()>2){
+			mListView.removeHeaderView(emptyView);
+		}
+		mListView.setPullLoadEnable(true);
+	}
+
+		public void getUserProfileData(final String uid) {
+
+		LHttpRequest.getInstance().getUserProfile(this,
+				new JsonCallback<String>() {
+
+					@Override
+					public void onGetDataSuccess(String data) {
+
+						try {
+
+							JSONObject jsonObject = new JSONObject(data);
+							JSONObject variablesObject = new JSONObject(jsonObject.getString("Variables"));
+
+							Gson gson = new Gson();
+							if (variablesObject.has("space")) {
+
+								//设置帖子数
+								JSONObject spaceObject = new JSONObject(variablesObject.getString("space"));
+
+
+								if (spaceObject.has("uid") && spaceObject.has("threads")) {
+									if (uid.equals(spaceObject.getString("uid"))) {
+										mAccountPostContainer.setVisibility(View.VISIBLE);
+										mAccountPostTv.setText(spaceObject.getString("threads"));
+										int postCount = Integer.parseInt(spaceObject.getString("threads"));
+										if (postCount > 0) {
+											mAccountPostContainer.setEnabled(true);
+										}else {
+											mAccountPostContainer.setEnabled(false);
+										}
+									}else {
+										//到这来就是系统出错了
+									}
+								}else {
+									mAccountPostContainer.setEnabled(false);
+									mAccountPostTv.setText("0");
+								}
+							}
+
+						} catch (JSONException e) {
+
+							e.printStackTrace();
+						}
+					}
+				},uid);
+	}
 }

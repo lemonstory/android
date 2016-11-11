@@ -5,10 +5,14 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.R;
@@ -201,6 +205,20 @@ public class BaseActivity extends AppCompatActivity implements ILoading {
 		}else{
 			startActivityForNew(intent);
 		}
+	}
+
+	protected View getListEndView() {
+		LayoutInflater layoutInflater = this.getLayoutInflater();
+		View view = layoutInflater.inflate(R.layout.list_end_view, null);
+		//view.findViewById(R.id.tv).setVisibility(View.GONE);
+		view.setLayoutParams(new DrawerLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+		view.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(getParent(), "click View", Toast.LENGTH_LONG).show();
+			}
+		});
+		return view;
 	}
 
 }

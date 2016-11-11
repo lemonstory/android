@@ -121,7 +121,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".PerasonalActivity"
+            android:name=".accountActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
@@ -129,7 +129,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".PerasonalCenterActivity"
+            android:name=".PerasonalActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
@@ -151,7 +151,7 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name=".ModifyPerasonalActivity"
+            android:name=".AccountModifyInfoActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity

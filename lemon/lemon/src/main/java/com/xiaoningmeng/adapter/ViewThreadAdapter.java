@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.xiaoningmeng.ImageViewerPagerActivity;
-import com.xiaoningmeng.PerasonalCenterActivity;
+import com.xiaoningmeng.PerasonalActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.ViewThreadActivity;
 import com.xiaoningmeng.bean.Attachment;
@@ -362,7 +362,7 @@ public class ViewThreadAdapter extends BaseAdapter {
 
         @Override
         public void onClick(View v) {
-            Intent i = new Intent(mContext, PerasonalCenterActivity.class);
+            Intent i = new Intent(mContext, PerasonalActivity.class);
             i.putExtra("uid", uid);
             ((ViewThreadActivity) mContext).startActivityForNew(i);
         }

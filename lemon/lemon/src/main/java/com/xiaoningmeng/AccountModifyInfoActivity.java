@@ -1,8 +1,5 @@
 package com.xiaoningmeng;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,9 +12,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,7 +44,10 @@ import com.xiaoningmeng.view.dialog.BaseDialog;
 import com.xiaoningmeng.view.dialog.TipDialog;
 import com.xiaoningmeng.view.picker.AreaPicker;
 
-public class ModifyPerasonalActivity extends BaseActivity implements
+import java.util.ArrayList;
+import java.util.List;
+
+public class AccountModifyInfoActivity extends BaseActivity implements
 		OnClickListener {
 
 	private int type = 0;
@@ -133,7 +133,7 @@ public class ModifyPerasonalActivity extends BaseActivity implements
 
 	private void initAddGoodsAddress() {
 		setTheme(R.style.PickTheme);
-		setContentView(R.layout.activity_modify_goods_address);
+		setContentView(R.layout.activity_account_modify_address);
 		if(getIntent().getSerializableExtra("address")!= null){
 			mAddress = (Address) getIntent().getSerializableExtra("address");
 		}
@@ -213,8 +213,8 @@ public class ModifyPerasonalActivity extends BaseActivity implements
 					int position, long id) {
 				int pos = position -2;
 				Address address = mAddresses.get(pos);
-				Intent i = new Intent(ModifyPerasonalActivity.this, ModifyPerasonalActivity.class);
-				i.putExtra("type", ModifyPerasonalActivity.ADD_GOODS_ADDRESS);
+				Intent i = new Intent(AccountModifyInfoActivity.this, AccountModifyInfoActivity.class);
+				i.putExtra("type", AccountModifyInfoActivity.ADD_GOODS_ADDRESS);
 				i.putExtra("address", address);
 				startActivityForResult(i, 0);
 				//saveUserInfo(null, null, null, null,null, null, null, address);
@@ -226,11 +226,11 @@ public class ModifyPerasonalActivity extends BaseActivity implements
 			public void create(SwipeMenu menu) {
 
 				SwipeMenuItem openItem = new SwipeMenuItem(
-						ModifyPerasonalActivity.this);
+						AccountModifyInfoActivity.this);
 				openItem.setBackground(new ColorDrawable(getResources()
 						.getColor(R.color.logout_bg_normal)));
 				openItem.setWidth(UiUtils.getInstance(
-						ModifyPerasonalActivity.this).DipToPixels(90));
+						AccountModifyInfoActivity.this).DipToPixels(90));
 				openItem.setTitle("删除");
 				openItem.setTitleSize(18);
 				openItem.setTitleColor(Color.WHITE);
@@ -259,7 +259,7 @@ public class ModifyPerasonalActivity extends BaseActivity implements
 	
 	private void delAddress(final int position) {
 		String addressId = mAddresses.get(position).getId();
-		LHttpRequest.getInstance().delAddressReq(ModifyPerasonalActivity.this, addressId, new JsonCallback<Address>(this) {
+		LHttpRequest.getInstance().delAddressReq(AccountModifyInfoActivity.this, addressId, new JsonCallback<Address>(this) {
 
 			@Override
 			public void onGetDataSuccess(Address data) {
@@ -321,15 +321,15 @@ public class ModifyPerasonalActivity extends BaseActivity implements
 				mAdapter.notifyDataSetChanged();
 				if (type == MODIFY_ADDRESS_PROVINCES) {
 					province = provinces.get(pos);
-					Intent i = new Intent(ModifyPerasonalActivity.this,
-							ModifyPerasonalActivity.class);
+					Intent i = new Intent(AccountModifyInfoActivity.this,
+							AccountModifyInfoActivity.class);
 					i.putExtra("type", MODIFY_ADDRESS_CITIES);
 					i.putExtra("province", province);
 					startActivityForResult(i, 0);
 				} else if (type == MODIFY_ADDRESS_CITIES) {
 					city = cities.get(pos);
-					Intent i = new Intent(ModifyPerasonalActivity.this,
-							ModifyPerasonalActivity.class);
+					Intent i = new Intent(AccountModifyInfoActivity.this,
+							AccountModifyInfoActivity.class);
 					i.putExtra("type", MODIFY_ADDRESS_ZONES);
 					i.putExtra("province", province);
 					i.putExtra("city", city);
@@ -345,7 +345,7 @@ public class ModifyPerasonalActivity extends BaseActivity implements
 
 	private void initModifyName() {
 
-		setContentView(R.layout.activity_modify_perasonal_name);
+		setContentView(R.layout.activity_account_modify_name);
 		mModifyDelImg = (ImageView) findViewById(R.id.img_perasonal_modify);
 		mModifyNameEt = (EditText) findViewById(R.id.et_perasonal_modify);
 		setTitleName("宝宝姓名");
@@ -377,7 +377,7 @@ public class ModifyPerasonalActivity extends BaseActivity implements
 	}
 
 	private void initModifySex() {
-		setContentView(R.layout.activity_modify_perasonal_sex);
+		setContentView(R.layout.activity_account_modify_sex);
 		setTitleName("宝宝性别");
 		mFemaleImg = (ImageView) findViewById(R.id.img_perasonal_select_female);
 		mMaleImg = (ImageView) findViewById(R.id.img_perasonal_select_male);
@@ -390,7 +390,7 @@ public class ModifyPerasonalActivity extends BaseActivity implements
 	}
 
 	private void initModifyPhone() {
-		setContentView(R.layout.activity_modify_perasonal_name);
+		setContentView(R.layout.activity_account_modify_name);
 		mModifyDelImg = (ImageView) findViewById(R.id.img_perasonal_modify);
 		mModifyPhoneEt = (EditText) findViewById(R.id.et_perasonal_modify);
 		mModifyPhoneEt.setInputType(EditorInfo.TYPE_CLASS_PHONE);
@@ -432,7 +432,7 @@ public class ModifyPerasonalActivity extends BaseActivity implements
 	}
 
 	public static void start(Context context, int type) {
-		Intent i = new Intent(context, ModifyPerasonalActivity.class);
+		Intent i = new Intent(context, AccountModifyInfoActivity.class);
 		i.putExtra("type", type);
 		((BaseActivity) context).startActivityForResult(i, 0);
 	}
@@ -552,7 +552,7 @@ public class ModifyPerasonalActivity extends BaseActivity implements
 			LHttpRequest.getInstance().addAddressReq(this, address, new JsonCallback<Address>(this) {
 			@Override
 			public void onGetDataSuccess(Address data) {
-				Intent i = new Intent(ModifyPerasonalActivity.this,ModifyPerasonalActivity.class);
+				Intent i = new Intent(AccountModifyInfoActivity.this,AccountModifyInfoActivity.class);
 				i.putExtra("address", data);
 				setResult(ADD_GOODS_ADDRESS,i);
 				finish();
@@ -564,7 +564,7 @@ public class ModifyPerasonalActivity extends BaseActivity implements
 			
 			@Override
 			public void onGetDataSuccess(Address data) {
-				Intent i = new Intent(ModifyPerasonalActivity.this,ModifyPerasonalActivity.class);
+				Intent i = new Intent(AccountModifyInfoActivity.this,AccountModifyInfoActivity.class);
 				i.putExtra("address", data);
 				data.setId(address.getId());
 				setResult(ADD_GOODS_ADDRESS,i);
@@ -582,7 +582,7 @@ public class ModifyPerasonalActivity extends BaseActivity implements
 
 			@Override
 			public void onGetDataSuccess(String data) {
-				Toast.makeText(ModifyPerasonalActivity.this, "修改成功！", Toast.LENGTH_SHORT).show();
+				Toast.makeText(AccountModifyInfoActivity.this, "修改成功！", Toast.LENGTH_SHORT).show();
 				if(nickName != null){
 					MyApplication.getInstance().userInfo.setNickname(nickName);
 					return;
@@ -616,7 +616,7 @@ public class ModifyPerasonalActivity extends BaseActivity implements
 			@Override
 			public void onFinish() {
 				if(province != null){
-					Intent i = new Intent(ModifyPerasonalActivity.this, PerasonalActivity.class);
+					Intent i = new Intent(AccountModifyInfoActivity.this, accountActivity.class);
 					i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 					i.setAction("modifyAddress");

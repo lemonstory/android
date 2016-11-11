@@ -66,7 +66,7 @@ public class RankActivity extends BaseActivity implements PlayObserver {
 				int pos = position - 1;
 				if(pos>= 0 && mUserInfos.size() > pos){
 					String uid = mUserInfos.get(pos).getUid();
-					Intent i = new Intent(RankActivity.this,PerasonalCenterActivity.class);
+					Intent i = new Intent(RankActivity.this,PerasonalActivity.class);
 					i.putExtra("uid", uid);
 					startActivityForNew(i);
 				}
