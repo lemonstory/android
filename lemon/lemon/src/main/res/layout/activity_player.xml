@@ -259,7 +259,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/album_comment"
-                    android:src="@drawable/play_btn_comment_selecotr" />
+                    android:src="@drawable/play_btn_comment_selector" />
 
                 <TextView
                     android:id="@+id/tv_album_comment"
@@ -267,7 +267,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="top|right"
                     android:layout_marginLeft="15dp"
-                    android:text="2348"
+                    android:text=""
                     android:textColor="#4A4A4A"
                     android:textSize="@dimen/small_text_size"
                     tools:ignore="HardcodedText" />

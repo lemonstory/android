@@ -61,6 +61,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
     private ImageView mFavImg;
     private ImageView mPauseImg;
     private TextView mCommentTv;
+    private ImageView mCommentImg;
     private boolean isFirst = true;
     private boolean isTrackingTouch = false;
     private Animation coverRotateAnim;
@@ -91,6 +92,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
         mDownloadImg = (ImageView) this.findViewById(R.id.img_album_download);
         mPauseImg = (ImageView) this.findViewById(R.id.img_album_pause);
         mCommentTv = (TextView) this.findViewById(R.id.tv_album_comment);
+        mCommentImg = (ImageView) this.findViewById(R.id.img_album_comment);
         setRightHeadIcon(R.drawable.play_btn_reminder_selecotr);
         mFavImg = (ImageView) findViewById(R.id.img_album_fav);
         findViewById(R.id.img_head_right).setOnClickListener(this);
@@ -431,10 +433,13 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
         if (music.albumInfo != null) {
             mFavImg.setSelected(music.albumInfo.getFav() == 1);
             DebugUtils.d("comment num = " + music.albumInfo.getCommentnum());
-            mCommentTv.setText(music.albumInfo.getCommentnum() != 0 ? (music.albumInfo.getCommentnum() + "") : "");
+            if(music.albumInfo.getCommentnum() > 0) {
+
+                mCommentImg.setImageResource(R.drawable.play_btn_comments_selector);
+                mCommentTv.setText(music.albumInfo.getCommentnum() != 0 ? (music.albumInfo.getCommentnum() + "") : "");
+            }
         } else {
             mFavImg.setSelected(false);
-            mCommentTv.setText(1 + "");
         }
         mLeaveTimeTv.setText(TimeUtils.getShortTimeShot(music.times));
         notifyDownload();
