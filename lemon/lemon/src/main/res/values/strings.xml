@@ -36,7 +36,6 @@
     <string name="account_shop">商城</string>
     <string name="account_recommend">应用推荐</string>
     <string name="account_setting">设置</string>
-    <string name="album_comment">发表评论</string>
     <string name="share_other_str">喜欢小柠檬,把Ta分享给你的小伙伴们(朋友圈).就是对小柠檬最大的支持，么么哒~</string>
 
     <string-array name="reminder">
@@ -109,4 +108,23 @@
     <string name="mp.play_list.dialog.add_to">Add to play list</string>
     <string name="mp.cancel">Cancel</string>
     <string name="mp.Confirm">Confirm</string>
+
+    <!--导航栏-->
+    <string name="nav_back">返回</string>
+    <string name="nav_share">分享</string>
+
+    <!--播放-->
+    <string name="player_reminder">睡眠定时</string>
+    <string name="player_playlist">播放列表</string>
+    <string name="player_pre">上一首</string>
+    <string name="player_next">下一首</string>
+    <string name="player_pause">暂停</string>
+    <string name="player_mode">播放模式</string>
+
+    
+    <!--专辑-->
+    <string name="album_fav">收藏</string>
+    <string name="album_download">下载</string>
+    <string name="album_comment">评论</string>
+
 </resources>

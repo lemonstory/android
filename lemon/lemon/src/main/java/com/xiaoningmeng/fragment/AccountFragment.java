@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.MyThreadActivity;
-import com.xiaoningmeng.accountActivity;
+import com.xiaoningmeng.AccountActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.RankActivity;
 import com.xiaoningmeng.SettingActivity;
@@ -131,7 +131,7 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
 			if (UserAuth.auditUser(getActivity(), null)) {
 				((BaseActivity) getActivity())
 						.startActivityForNew(new Intent(getActivity(),
-								accountActivity.class));
+								AccountActivity.class));
 			}
 			break;
 //		case R.id.rl_account_shop:

@@ -44,7 +44,7 @@ import java.util.Date;
 
 import de.greenrobot.event.EventBus;
 
-public class accountActivity extends BasePohotoActivity implements
+public class AccountActivity extends BasePohotoActivity implements
 		OnClickListener, PlayObserver,IUploadCall{
 
 	private BaseDialog mDialog;
@@ -207,7 +207,7 @@ public class accountActivity extends BasePohotoActivity implements
 							int ageBegin = getAge(birthday);
 							final int age = ageBegin <0 ? 0 : ageBegin;
 							mDialog.dismiss();
-							LHttpRequest.getInstance().setUserInfoReq(accountActivity.this, null, null, birthday, null, null, null, null, null,null, new JsonCallback<String>(accountActivity.this) {
+							LHttpRequest.getInstance().setUserInfoReq(AccountActivity.this, null, null, birthday, null, null, null, null, null,null, new JsonCallback<String>(AccountActivity.this) {
 
 								@Override
 								public void onGetDataSuccess(String data) {
@@ -294,7 +294,7 @@ public class accountActivity extends BasePohotoActivity implements
 						public void onFailure(String arg0, OSSException arg1) {
 							String avatarUrl = AvatarUtils.getAvatarUrl(mUserInfo.getUid(), mUserInfo.getAvatartime(), -1);
 							mAvatarImg.setImageURI(Uri.parse(avatarUrl));
-							Toast.makeText(accountActivity.this, "修改头像失败", Toast.LENGTH_SHORT).show();
+							Toast.makeText(AccountActivity.this, "修改头像失败", Toast.LENGTH_SHORT).show();
 							mUploadingProgress.setVisibility(View.INVISIBLE);
 							
 						}
@@ -316,7 +316,7 @@ public class accountActivity extends BasePohotoActivity implements
 
 	private void uploadAvatartime() {
 		final long avatartime = System.currentTimeMillis()/1000;
-		LHttpRequest.getInstance().setUserInfoReq(accountActivity.this, null, null, null, null, null, null, null, null,avatartime+"", new JsonCallback<String>() {
+		LHttpRequest.getInstance().setUserInfoReq(AccountActivity.this, null, null, null, null, null, null, null, null,avatartime+"", new JsonCallback<String>() {
 
 			@Override
 			public void onGetDataSuccess(String data) {
@@ -330,7 +330,7 @@ public class accountActivity extends BasePohotoActivity implements
 			public void onFailure(String responseString) {
 				String avatarUrl = AvatarUtils.getAvatarUrl(mUserInfo.getUid(), mUserInfo.getAvatartime(), -1);
 				mAvatarImg.setImageURI(Uri.parse(avatarUrl));
-				Toast.makeText(accountActivity.this, "修改头像失败", Toast.LENGTH_SHORT).show();
+				Toast.makeText(AccountActivity.this, "修改头像失败", Toast.LENGTH_SHORT).show();
 				mUploadingProgress.setVisibility(View.INVISIBLE);
 
 			}

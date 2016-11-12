@@ -62,7 +62,7 @@
     <dimen name="mine_item_cover_margin_left">7dp</dimen>
     <dimen name="mine_item_cover_height">45dp</dimen>
     <dimen name="mine_item_small_height">38dp</dimen>
-    <dimen name="mine_item_small_margin_top">16dp</dimen>
+    <dimen name="mine_item_small_margin_top">8dp</dimen>
     <!-- home account -->
     <dimen name="account_perasonal_height">90dp</dimen>
     <dimen name="account_perasonal_icon_height">59dp</dimen>
@@ -174,7 +174,7 @@
     <dimen name="play_cover_padding">4dp</dimen>
     <dimen name="play_tab_height">50dp</dimen>
     <dimen name="play_tab_margin_top">38dp</dimen>
-    <dimen name="play_seekbar_height">4dp</dimen>
+    <dimen name="play_seekbar_height">2.3dp</dimen>
     <dimen name="play_seekbar_margin">23dp</dimen>
     <dimen name="play_seekbar_margin_top">18dp</dimen>
     <dimen name="play_seekbar_margin_bottom">23dp</dimen>

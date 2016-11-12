@@ -1,7 +1,14 @@
 package com.xiaoningmeng.fragment;
 
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.xiaoningmeng.AccountActivity;
 import com.xiaoningmeng.GuideActivity;
-import com.xiaoningmeng.accountActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.base.BaseActivity;
@@ -10,13 +17,6 @@ import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.view.dialog.BaseDialog;
 import com.xiaoningmeng.view.picker.DatePicker;
-
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 public class WeclomeFragment extends BaseFragment implements OnClickListener {
 
@@ -94,7 +94,7 @@ public class WeclomeFragment extends BaseFragment implements OnClickListener {
 							mYearEt.setText(data[0]);
 							mMonthEt.setText(data[1]);
 							mDayEt.setText(data[2]);
-							int ageBegin = accountActivity.getAge(birthday);
+							int ageBegin = AccountActivity.getAge(birthday);
 							final int age = ageBegin <0 ? 0 : ageBegin;
 							mDialog.dismiss();
 							LHttpRequest.getInstance().setUserInfoReq(mContext, null, null, birthday, null, null, null, null, null,null, new JsonCallback<String>() {

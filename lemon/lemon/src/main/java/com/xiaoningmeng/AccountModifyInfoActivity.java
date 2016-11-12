@@ -616,7 +616,7 @@ public class AccountModifyInfoActivity extends BaseActivity implements
 			@Override
 			public void onFinish() {
 				if(province != null){
-					Intent i = new Intent(AccountModifyInfoActivity.this, accountActivity.class);
+					Intent i = new Intent(AccountModifyInfoActivity.this, AccountActivity.class);
 					i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 					i.setAction("modifyAddress");
