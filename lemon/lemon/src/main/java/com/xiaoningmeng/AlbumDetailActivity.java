@@ -350,7 +350,7 @@ public class AlbumDetailActivity extends BaseActivity implements
         mListenerTv.setText(albumInfo.getListennum() + "");
         mAgeLevelTv.setText(albumInfo.getAge_str());
         String albumBuyLink = albumInfo.getBuy_link();
-        if(albumBuyLink != null && albumBuyLink != "") {
+        if(albumBuyLink != null && !albumBuyLink.equals("")) {
             mBuyFl.setVisibility(View.VISIBLE);
         }
     }
@@ -403,7 +403,7 @@ public class AlbumDetailActivity extends BaseActivity implements
 
             case R.id.fl_buy:
                 String albumBuyLink = albumInfo.getBuy_link();
-                if(albumBuyLink != null && albumBuyLink != "") {
+                if(albumBuyLink != null && !albumBuyLink.equals("")) {
                     if (albumBuyLink.startsWith("http:") || albumBuyLink.startsWith("https:")) {
                         if (albumBuyLink.contains("taobao")) {
                             AppUtils.showTaobaoPage(AlbumDetailActivity.this,albumBuyLink);
