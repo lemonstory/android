@@ -44,7 +44,7 @@ public class MoreFragment extends LazyFragment
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View contentView = View.inflate(getActivity(), R.layout.fragment_classification, null);
+		View contentView = View.inflate(getActivity(), R.layout.fragment_tag, null);
 		isLoadData = false;
 		mMoreParams = getArguments().getParcelable(MoreActivity.MoreParams);
 		mRecyclerView = (RecyclerView) contentView.findViewById(R.id.rv_list);

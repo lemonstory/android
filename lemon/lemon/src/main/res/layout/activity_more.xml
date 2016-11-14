@@ -2,15 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    android:fitsSystemWindows="true">
 
     <RelativeLayout
         android:id="@+id/action_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/action_bar_height"
-        android:background="@color/action_bar_bg"
-        >
+        android:background="@color/action_bar_bg">
 
         <ImageView
             android:id="@+id/img_home_back"
@@ -33,48 +32,46 @@
             android:paddingRight="@dimen/bar_margin"
             android:src="@drawable/play_flag_wave_01"
             android:visibility="visible" />
+
         <ImageView
             android:id="@+id/img_head_search"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:src="@drawable/search_icon"
             android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/img_head_right"
+            android:clickable="true"
+            android:onClick="onClick"
             android:paddingLeft="@dimen/bar_margin"
             android:paddingRight="@dimen/base_margin"
-            android:onClick="onClick"
-            android:clickable="true"
-            android:layout_toLeftOf="@id/img_head_right"
+            android:src="@drawable/search_icon"
             android:visibility="visible" />
+
         <TextView
             android:id="@+id/tv_head_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:gravity="center_horizontal"
             android:ellipsize="end"
+            android:gravity="center_horizontal"
             android:singleLine="true"
             android:textColor="@color/white"
             android:textSize="@dimen/title_text_size" />
-
-
     </RelativeLayout>
 
-
-
-    <com.xiaoningmeng.view.PagerSlidingTabStrip
+    <com.astuetz.PagerSlidingTabStrip
         android:id="@+id/tab_indicator"
+        style="@style/page_sliding_tab_style"
         android:layout_width="match_parent"
         android:layout_height="@dimen/home_inc_height"
-        android:gravity="center_vertical"
-        style="@style/page_sliding_tab_style"
-        android:layout_below="@id/action_bar" />
+        android:layout_below="@id/action_bar"
+        android:gravity="center_vertical" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/white"
-        android:layout_below="@+id/tab_indicator" />
+        android:layout_below="@+id/tab_indicator"
+        android:background="@color/white" />
 
 
 </RelativeLayout>

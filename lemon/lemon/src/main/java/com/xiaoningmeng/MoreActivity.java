@@ -24,7 +24,7 @@ import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
-import com.xiaoningmeng.view.PagerSlidingTabStrip;
+import com.astuetz.PagerSlidingTabStrip;
 import com.xiaoningmeng.view.dialog.DrawableDialogLoading;
 
 import java.util.ArrayList;

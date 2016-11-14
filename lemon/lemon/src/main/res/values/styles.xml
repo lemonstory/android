@@ -290,13 +290,15 @@
     </style>
 
     <style name="page_sliding_tab_style">
-
-        <item name="pstsIndicatorHeight">3dp</item>
+        <item name="pstsIndicatorHeight">2dp</item>
         <item name="pstsIndicatorColor">@color/action_bar_bg</item>
         <item name="pstsTabTextColor">@color/download_tab_color_selector</item>
-        <item name="pstsUnderlineHeight">1dp</item>
-        <item name="pstsUnderlineColor">@color/setting_divider_color</item>
+        <item name="pstsUnderlineHeight">0dp</item>
+        <item name="pstsTabPaddingLeftRight">12dp</item>
+        <item name="pstsUnderlineColor">@color/white</item>
+        <item name="pstsDividerColor">@color/white</item>
         <item name="android:background">@color/white</item>
+        <item name="android:textSize">@dimen/home_tab_size</item>
     </style>
 
     <style name="classification_ll">

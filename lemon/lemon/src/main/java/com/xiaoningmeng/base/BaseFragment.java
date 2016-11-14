@@ -2,9 +2,11 @@ package com.xiaoningmeng.base;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -147,5 +149,32 @@ public class BaseFragment extends Fragment {
 			}
 		});
 		return view;
+	}
+
+	/**
+	 * 设置专辑间距
+	 */
+	public int spanCount;
+	public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
+
+		int mSpace;
+
+		public SpaceItemDecoration(int space) {
+			this.mSpace = space;
+		}
+
+		@Override
+		public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+			int pos = parent.getChildAdapterPosition(view);
+
+			outRect.right = mSpace;
+			outRect.top = 0;
+			outRect.bottom = 0;
+			if (pos % spanCount == 0) {
+				outRect.left = mSpace;
+			} else {
+				outRect.left = 0;
+			}
+		}
 	}
 }

@@ -226,7 +226,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
 
         ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
                 ((BaseActivity) getActivity()),
-                new Pair<View, String>(view.findViewById(R.id.img_story_cover),"albumImage")
+                new Pair<View, String>(view.findViewById(R.id.img_album_cover),"albumImage")
         );
         Bundle bundle = activityOptions.toBundle();
         startActivity(intent, bundle);

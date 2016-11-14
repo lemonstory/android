@@ -2,7 +2,6 @@ package com.xiaoningmeng.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,7 +39,7 @@ public class AblumSimilarFragment extends BaseFragment {
         View contentView = View.inflate(getActivity(), R.layout.fragment_ablum_similar, null);
         mRecyclerView = (RecyclerView) contentView.findViewById(R.id.id_stickynavlayout_innerscrollview);
         mRecyclerView.setHasFixedSize(true);
-        int spanCount = 2;
+        this.spanCount = 2;
         GridLayoutManager manager = new GridLayoutManager(getContext(), spanCount);
         mRecyclerView.setLayoutManager(manager);
         albumList = new ArrayList<>();
@@ -118,7 +117,6 @@ public class AblumSimilarFragment extends BaseFragment {
         );
     }
 
-
     public BaseQuickAdapter getAdapter() {
         return mAdapter;
     }
@@ -131,32 +129,6 @@ public class AblumSimilarFragment extends BaseFragment {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         getActivity().overridePendingTransition(R.anim.slide_left_in, R.anim.slide_right_out);
-    }
-
-    /**
-     * 设置专辑间距
-     */
-    public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
-
-        int mSpace;
-
-        public SpaceItemDecoration(int space) {
-            this.mSpace = space;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            int pos = parent.getChildAdapterPosition(view);
-
-            outRect.right = mSpace;
-            outRect.top = 0;
-            outRect.bottom = 0;
-            if (pos % 2 == 0) {
-                outRect.left = mSpace;
-            } else {
-                outRect.left = 0;
-            }
-        }
     }
 }
 

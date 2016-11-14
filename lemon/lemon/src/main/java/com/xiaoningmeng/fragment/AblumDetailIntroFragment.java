@@ -118,7 +118,7 @@ public class AblumDetailIntroFragment extends LazyFragment {
 						Tag tag = (Tag) adapter.getData().get(position);
 						if (tag != null && tag.getId() != null) {
 							Intent i = new Intent(mContext, TagActivity.class);
-							i.putExtra("classification",tag);
+							i.putExtra("tag",tag);
 							startActivityForNew(i);
 						}
 

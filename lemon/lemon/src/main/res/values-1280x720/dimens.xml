@@ -247,4 +247,7 @@
     <!--通用-->
     <dimen name="page_padding_left">9dp</dimen>
     <dimen name="page_padding_right">9dp</dimen>
+
+    <!--tag-->
+    <dimen name="tag_indicator_height">38dp</dimen>
 </resources>

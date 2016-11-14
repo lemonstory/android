@@ -24,7 +24,7 @@ public class IndexAdapter extends BaseMultiItemQuickAdapter<IRecyclerItem,BaseVi
         super(datas);
         addItemType(Index.CATEGORY_TYPE, R.layout.item_index_category);
         addItemType(Index.ALBUM_MORE_TYPE,R.layout.item_home_discover_top);
-        addItemType(Index.ALBUM_TYPE,R.layout.item_recommend2);
+        addItemType(Index.ALBUM_TYPE,R.layout.item_album_info);
         addItemType(Index.AD_TYPE,R.layout.item_index_ad);
     }
 
@@ -51,10 +51,10 @@ public class IndexAdapter extends BaseMultiItemQuickAdapter<IRecyclerItem,BaseVi
                 break;
             case Index.ALBUM_TYPE:
                 AlbumInfo albumInfo = (AlbumInfo) item;
-                helper.setText(R.id.tv_story_cover,albumInfo.getTitle())
-                        .setText(R.id.tv_story_recommend,albumInfo.getRecommenddesc())
-                        .setText(R.id.tv_story_tip,albumInfo.getListennum()+"");
-                SimpleDraweeView albumImg = helper.getView(R.id.img_story_cover);
+                helper.setText(R.id.tv_album_title,albumInfo.getTitle())
+                        .setText(R.id.tv_album_recommend,albumInfo.getRecommenddesc())
+                        .setText(R.id.tv_album_listen_num,albumInfo.getListennum()+"");
+                SimpleDraweeView albumImg = helper.getView(R.id.img_album_cover);
                 albumImg.setImageURI(Uri.parse(albumInfo.getCover()));
                 break;
             case Index.AD_TYPE:

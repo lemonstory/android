@@ -1,41 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/ll_story"
-    android:orientation="vertical"
-    android:paddingTop="@dimen/base_margin"
-    android:paddingBottom="@dimen/base_margin"
+    android:id="@+id/ll_album_info_container"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/base_margin"
+    android:paddingTop="@dimen/base_margin">
+
     <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/img_story_cover"
+        android:id="@+id/img_album_cover"
         android:layout_width="match_parent"
         android:layout_height="@dimen/home_discover_item_img_height"
+        android:layout_gravity="center_vertical"
         android:transitionName="albumImage"
+        fresco:actualImageScaleType="centerCrop"
         fresco:backgroundImage="@drawable/album_default"
         fresco:placeholderImage="@drawable/album_default"
-        fresco:roundedCornerRadius="3dp"
-        fresco:actualImageScaleType="centerCrop"
-        android:layout_gravity="center_vertical" />
+        fresco:roundedCornerRadius="3dp" />
+
     <TextView
-        android:id="@+id/tv_story_cover"
+        android:id="@+id/tv_album_title"
         style="@style/discover_story_title"
         android:layout_marginTop="@dimen/album_title_margin"
         android:text="下雨的小兔子" />
+
     <TextView
-        android:id="@+id/tv_story_recommend"
-        android:layout_marginTop="@dimen/album_recommend_text_margin"
+        android:id="@+id/tv_album_recommend"
         style="@style/discover_recommend_style"
-        android:text="推荐语"/>
+        android:layout_marginTop="@dimen/album_recommend_text_margin"
+        android:text="推荐语" />
+
     <TextView
-        android:id="@+id/tv_story_tip"
-        android:textSize="@dimen/date_text_size"
+        android:id="@+id/tv_album_listen_num"
+        style="@style/discover_recommend_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/base_date_color"
         android:drawableLeft="@drawable/home_listener_num_tip"
         android:drawablePadding="@dimen/base_radius_size"
-        style="@style/discover_recommend_style"
-        android:text="10万" />
-
+        android:text="10万"
+        android:textColor="@color/base_date_color"
+        android:textSize="@dimen/date_text_size" />
 </LinearLayout>
