@@ -39,6 +39,7 @@ public class TagFragment extends LazyFragment
     private boolean isAttach;
     private boolean isPrepared;
     private LayoutInflater mInflater;
+    private View notLoadingView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -123,6 +124,11 @@ public class TagFragment extends LazyFragment
                             mTagAlbums.addAll(tagAlbumList);
                             if (direction == Constant.DOWN && tagAlbumList.size() == 0) {
                                 mQuickAdapter.loadComplete();
+                                if (notLoadingView == null) {
+                                    notLoadingView = TagFragment.this.getActivity().getLayoutInflater().inflate(R.layout.list_end_view, (ViewGroup) mRecyclerView.getParent(), false);
+                                }
+                                mQuickAdapter.addFooterView(notLoadingView);
+
                             }
                             mQuickAdapter.addData(albumInfos);
                         }
@@ -131,8 +137,6 @@ public class TagFragment extends LazyFragment
                     @Override
                     public void onFailure(String responseString) {
                         isLoadData = true;
-
-
                     }
                 });
     }

@@ -35,7 +35,6 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
     private String mAblumId;
     private String mStartCommentId = "0";
     private int pageSize = 20;
-    private View footerView;
     private boolean isErr;
     private View notLoadingView;
     private int delayMillis = 1000;
@@ -80,7 +79,6 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
 
         mEmptyHelper = new EmptyHelper(this, mRecyclerView, mAdapter);
         mEmptyHelper.setEmptyView(EmptyHelper.LOADING, true, getString(R.string.loading_tip));
-        footerView = this.getListEndView();
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnLoadMoreListener(this);
         mAdapter.openLoadMore(pageSize);
@@ -148,8 +146,8 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
                                 }
                                 mCurrentCounter = mAdapter.getData().size();
 
-                                //评论数量不足page_size 显示加载完成view
-                                if(mCurrentCounter == mTotalCounter && mCurrentCounter < pageSize) {
+                                //数量不足page_size 显示加载完成view
+                                if (mCurrentCounter == mTotalCounter && mCurrentCounter < pageSize) {
                                     if (notLoadingView == null) {
                                         notLoadingView = getLayoutInflater().inflate(R.layout.list_end_view, (ViewGroup) mRecyclerView.getParent(), false);
                                     }
