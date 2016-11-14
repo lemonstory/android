@@ -36,7 +36,6 @@ public class TagActivity extends BaseActivity implements View.OnClickListener, P
     private PagerSlidingTabStrip mIndicator;
     private ViewPager mViewPager;
     private ImageView mWaveImg;
-    private ImageView mDropImg;
     private TagFragment[] mTagFragments;
     private String mSelectFristTag;
     private String mSelectSecondTag;
@@ -135,7 +134,6 @@ public class TagActivity extends BaseActivity implements View.OnClickListener, P
 
         }
     }
-
 
     public class TabFragmentPagerAdapter extends FragmentPagerAdapter {
 

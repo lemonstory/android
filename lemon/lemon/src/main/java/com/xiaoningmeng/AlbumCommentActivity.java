@@ -122,7 +122,6 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
     };
 
     private void requestAlbumCommentData(final String direction, String startId, final Boolean isRefreshing) {
-
         LHttpRequest.getInstance().albumCommentReq(this, mAblumId, direction, startId, pageSize,
                 MyApplication.getInstance().getUid(),
                 new JsonCallback<Comment>() {
@@ -148,10 +147,18 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
                                     mAdapter.addData(mCurrentComments);
                                 }
                                 mCurrentCounter = mAdapter.getData().size();
+
+                                //评论数量不足page_size 显示加载完成view
+                                if(mCurrentCounter == mTotalCounter && mCurrentCounter < pageSize) {
+                                    if (notLoadingView == null) {
+                                        notLoadingView = getLayoutInflater().inflate(R.layout.list_end_view, (ViewGroup) mRecyclerView.getParent(), false);
+                                    }
+                                    mAdapter.addFooterView(notLoadingView);
+                                }
+
                             } else {
                                 mEmptyHelper.setEmptyView(EmptyHelper.EMPTY, true, getString(R.string.empty_album_comment));
                             }
-
                         }
                     }
 
@@ -170,6 +177,7 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
     }
 
     private void writeComment() {
+
         if (UserAuth.auditUser(this, "登录后,才能评论故事喔.")) {
             Intent i = new Intent(this, CommentWriteActivity.class);
             i.putExtra("albumId", mAblumId);
@@ -179,6 +187,7 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
 
     @Override
     public void onRefresh() {
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
