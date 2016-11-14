@@ -15,6 +15,16 @@ import android.util.Log;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
+import com.alibaba.sdk.android.AlibabaSDK;
+import com.alibaba.sdk.android.trade.TradeConstants;
+import com.alibaba.sdk.android.trade.TradeService;
+import com.alibaba.sdk.android.trade.callback.TradeProcessCallback;
+import com.alibaba.sdk.android.trade.model.TaokeParams;
+import com.alibaba.sdk.android.trade.model.TradeResult;
+import com.alibaba.sdk.android.trade.page.Page;
+import com.xiaoningmeng.constant.Constant;
+
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -157,4 +167,22 @@ public class AppUtils {
    	    
    	    return screenInches;
     }
+
+	public static void showTaobaoPage(Activity activity, String url) {
+		Map<String, Object> exParams = new HashMap<String, Object>();
+		exParams.put(TradeConstants.ISV_CODE, "xiaoningmeng");
+		Page page = new Page(url, exParams);
+		TaokeParams taokeParams = new TaokeParams();
+		taokeParams.pid = Constant.DEFAULT_TAOKE_PID;
+		AlibabaSDK.getService(TradeService.class).show(page, taokeParams, activity, null, new TradeProcessCallback() {
+			@Override
+			public void onPaySuccess(TradeResult tradeResult) {
+			}
+
+			@Override
+			public void onFailure(int code, String msg) {
+
+			}
+		});
+	}
 }

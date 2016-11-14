@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -51,6 +52,7 @@ import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.player.PlayerManager.AlbumSource;
+import com.xiaoningmeng.utils.AppUtils;
 import com.xiaoningmeng.utils.ImageUtils;
 import com.xiaoningmeng.view.CircleProgressBar;
 import com.xiaoningmeng.view.RatingBar;
@@ -77,7 +79,7 @@ public class AlbumDetailActivity extends BaseActivity implements
     private TextView mListenerTv;
     private TextView mAgeLevelTv;
     private TextView mSimilarTabTv;
-    //private TextView mCommentCountTv;
+    private FrameLayout mBuyFl;
     private StickyNavLayout mStickyNavLayout;
     private CircleProgressBar mPlayProgressBar;
     private TextView mAlbumTitleTv;
@@ -119,6 +121,7 @@ public class AlbumDetailActivity extends BaseActivity implements
         mListenerTv = (TextView) findViewById(R.id.tv_ablum_listen_num);
         mAgeLevelTv = (TextView) findViewById(R.id.tv_ablum_age_level);
         mSimilarTabTv = (TextView) findViewById(R.id.tv_ablum_similar);
+        mBuyFl = (FrameLayout) findViewById(R.id.fl_buy);
         mPlayBtnImg = (ImageView) findViewById(R.id.img_ablum_detail_btn);
         mWaveImg = (ImageView) findViewById(R.id.img_head_right);
         mCoverImg = (SimpleDraweeView) findViewById(R.id.img_ablum_detail_cover);
@@ -346,32 +349,42 @@ public class AlbumDetailActivity extends BaseActivity implements
         mCommentTv.setText(albumInfo.getCommentnum() == 0 ? "评论" : (albumInfo.getCommentnum() + ""));
         mListenerTv.setText(albumInfo.getListennum() + "");
         mAgeLevelTv.setText(albumInfo.getAge_str());
-
+        String albumBuyLink = albumInfo.getBuy_link();
+        if(albumBuyLink != null && albumBuyLink != "") {
+            mBuyFl.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+
             case R.id.tv_ablum_detail_info:
                 mViewPager.setCurrentItem(0);
                 break;
+
             case R.id.tv_ablum_detail_play_list:
                 mViewPager.setCurrentItem(1);
                 break;
+
             case R.id.tv_ablum_similar:
                 mViewPager.setCurrentItem(2);
                 break;
+
             case R.id.tv_comment:
                 //view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fav_anim_in));
                 displayAlbumComment();
                 break;
+
             case R.id.img_ablum_detail_btn:
                 playOrPauseStory();
                 break;
+
             case R.id.tv_batch_download:
                 view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fav_anim_in));
                 batchDownloadClick();
                 break;
+
             case R.id.tv_share:
                 view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fav_anim_in));
                 if (albumInfo != null) {
@@ -380,17 +393,31 @@ public class AlbumDetailActivity extends BaseActivity implements
                     mController = new ShareDialog().show(this, shareBean);
                 }
                 break;
+
             case R.id.tv_fav:
                 view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fav_anim_in));
                 if (UserAuth.auditUser(this, null)) {
                     favAblum(view);
                 }
                 break;
+
+            case R.id.fl_buy:
+                String albumBuyLink = albumInfo.getBuy_link();
+                if(albumBuyLink != null && albumBuyLink != "") {
+                    if (albumBuyLink.startsWith("http:") || albumBuyLink.startsWith("https:")) {
+                        if (albumBuyLink.contains("taobao")) {
+                            AppUtils.showTaobaoPage(AlbumDetailActivity.this,albumBuyLink);
+                        } else {
+                            WebViewActivity.openWebView(this,albumBuyLink);
+                        }
+                    }
+                }
+                break;
+
             default:
                 break;
         }
     }
-
 
     private void playOrPauseStory() {
 
