@@ -87,7 +87,7 @@ public class ForumIndexFragment extends BaseFragment  implements IXListViewListe
             }
         }else{
             if(mListView != null){
-                showEmptyTip(loadingView, "没有圈子 o(>ω<)o", getResources().getDimensionPixelOffset(R.dimen.dialog_margin));
+                showEmptyTip(loadingView, "没有伙伴 o(>ω<)o", getResources().getDimensionPixelOffset(R.dimen.dialog_margin));
             }
         }
     }

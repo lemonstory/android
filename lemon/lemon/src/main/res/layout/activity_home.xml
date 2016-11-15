@@ -52,7 +52,7 @@
             android:id="@+id/tv_home_forum"
             style="@style/home_tab_style"
             android:drawableTop="@drawable/tab_forum_selector"
-            android:text="圈子" />
+            android:text="伙伴" />
 
         <!--<TextView
             android:id="@+id/tv_home_shop"
