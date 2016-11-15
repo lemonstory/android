@@ -138,7 +138,7 @@ public class Index {
         public static class ItemBean implements IRecyclerItem {
             private String cover;
             private String title;
-            private String linkUrl;
+            private String linkurl;
 
             @Override
             public int getSpanSize() {
@@ -165,12 +165,12 @@ public class Index {
                 this.title = title;
             }
 
-            public String getLinkUrl() {
-                return linkUrl;
+            public String getLinkurl() {
+                return linkurl;
             }
 
-            public void setLinkUrl(String linkUrl) {
-                this.linkUrl = linkUrl;
+            public void setLinkurl(String linkurl) {
+                this.linkurl = linkurl;
             }
         }
     }

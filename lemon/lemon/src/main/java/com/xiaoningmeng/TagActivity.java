@@ -1,5 +1,7 @@
 package com.xiaoningmeng;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -46,13 +48,14 @@ public class TagActivity extends BaseActivity implements View.OnClickListener, P
     private List<TagParam> mTagParams;
     private TabFragmentPagerAdapter mPagerAdapter;
     private boolean isFirst = true;
+    private String tagId;
 
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         Fresco.initialize(this);
         setContentView(R.layout.activity_tag);
-        Tag selectTag = getIntent().getParcelableExtra("tag");
+        tagId = this.getTagIdWithIntent();
         mIndicator = (PagerSlidingTabStrip) findViewById(R.id.tab_indicator);
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         mWaveImg = (ImageView) findViewById(R.id.img_head_right);
@@ -64,11 +67,11 @@ public class TagActivity extends BaseActivity implements View.OnClickListener, P
         PlayerManager.getInstance().register(this);
         setRightHeadIcon(R.drawable.play_flag_wave_01);
         setLoading(new DrawableDialogLoading(this));
-        String selectTagId = Constant.DEFAULT_TAG_ID;//避免空指针,给个默认值
-        if (selectTag != null && selectTag.getId() != null && !selectTag.getId().equals("")) {
-            selectTagId = selectTag.getId();
+        String defaultTagId = Constant.DEFAULT_TAG_ID;//避免空指针,给个默认值
+        if (tagId == null || tagId.equals("")) {
+            tagId = defaultTagId;
         }
-        requestData(selectTagId);
+        requestData(tagId);
     }
 
     private void requestData(String selectTagId) {
@@ -124,6 +127,27 @@ public class TagActivity extends BaseActivity implements View.OnClickListener, P
                         }
                     }
                 });
+    }
+
+    private String getTagIdWithIntent() {
+
+        String tagIdWithIntent = "";
+        String tagIdWithExtar = "";
+        String tagIdWithData = "";
+
+        Intent intent = this.getIntent();
+        Uri data = intent.getData();
+        tagIdWithExtar = intent.getStringExtra("tag_id");
+        if (null != data) {
+            tagIdWithData = data.getQueryParameter("tag_id");
+        }
+
+        if (tagIdWithExtar != null && !tagIdWithExtar.equals("")) {
+            tagIdWithIntent = tagIdWithExtar;
+        } else if (tagIdWithData != null && !tagIdWithData.equals("")) {
+            tagIdWithIntent = tagIdWithData;
+        }
+        return tagIdWithIntent;
     }
 
 

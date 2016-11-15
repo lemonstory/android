@@ -137,7 +137,6 @@
     <dimen name="album_play_count_margin">2dp</dimen>
 
 
-
     <!--cardView-->
     <dimen name="album_card_margin_top">1dp</dimen>
     <dimen name="album_card_margin_bottom">1dp</dimen>

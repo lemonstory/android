@@ -18,7 +18,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.TagActivity;
-import com.xiaoningmeng.adapter.DiscoverStoryAdapter;
 import com.xiaoningmeng.adapter.TagAdapter;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.base.LazyFragment;
@@ -73,7 +72,6 @@ public class AblumDetailIntroFragment extends LazyFragment {
 			AdView adView = new AdView(mContext, Constant.BAIDU_DETAIL_ID);
 			adView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 			adView.setVisibility(View.GONE);
-			adView.setListener(new DiscoverStoryAdapter.MyAdListener(adView));
 			adFl.addView(adView);
 			//-- baidu ad end
 			if (intro != null && !"".equals(intro)) {
@@ -118,7 +116,7 @@ public class AblumDetailIntroFragment extends LazyFragment {
 						Tag tag = (Tag) adapter.getData().get(position);
 						if (tag != null && tag.getId() != null) {
 							Intent i = new Intent(mContext, TagActivity.class);
-							i.putExtra("tag",tag);
+							i.putExtra("tag_id",tag.getId());
 							startActivityForNew(i);
 						}
 

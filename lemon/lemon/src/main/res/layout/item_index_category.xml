@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/ll_classify"
+    android:id="@+id/ll_tag"
     android:orientation="vertical"
     android:paddingTop="@dimen/home_discover_cover_height"
     android:layout_height="wrap_content"
@@ -9,15 +9,15 @@
     android:layout_width="match_parent">
 
     <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/img_classify"
+        android:id="@+id/img_tag_cover"
         android:layout_width="@dimen/classifiction_item_height"
         android:layout_height="@dimen/classifiction_item_height"
         android:background="?attr/selectableItemBackgroundBorderless"
         fresco:actualImageScaleType="centerCrop"
-        fresco:placeholderImage="@drawable/default_classifiction" />
+        fresco:placeholderImage="@drawable/default_tag" />
 
     <TextView
-        android:id="@+id/tv_classify"
+        android:id="@+id/tv_tag_name"
         style="@style/home_classtification_item_style"
         android:layout_marginTop="@dimen/classifiction_text_margin"
         android:text="故事" />

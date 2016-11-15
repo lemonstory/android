@@ -8,6 +8,7 @@ import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.bean.Address;
 import com.xiaoningmeng.bean.Album;
 import com.xiaoningmeng.bean.AlbumInfo;
+import com.xiaoningmeng.bean.Category;
 import com.xiaoningmeng.bean.Comment;
 import com.xiaoningmeng.bean.AppInfo;
 import com.xiaoningmeng.bean.HomeInfo;
@@ -227,6 +228,14 @@ public class LHttpRequest {
 		get(ConstantURL.ALBUM_INFO).tag(context)
 		.addParams("storyid", storyId)
 		.addParams("uid", uid)
+				.build().execute(handler);
+	}
+
+	//全部分类
+	public void categoryReq(Context context,String uid,
+								JsonCallback<Category> handler) {
+		get(ConstantURL.CATEGORY).tag(context)
+				.addParams("uid", uid)
 				.build().execute(handler);
 	}
 

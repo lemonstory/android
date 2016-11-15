@@ -84,6 +84,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
 
                 IRecyclerItem iRecyclerItem = mAdapter.getItem(position);
                 switch (iRecyclerItem.getItemType()) {
+
                     case Index.ALBUM_TYPE:
                         //增加开关，避免连续点击，Activity跳转动画出现错误
                         if(albumClickable) {
@@ -92,11 +93,23 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
                             albumClickable = false;
                         }
                         break;
+
                     case Index.ALBUM_MORE_TYPE:
                         /*Index.AlbumSectionBean.ItemBean albumItemBean =
                                 (Index.AlbumSectionBean.ItemBean) iRecyclerItem;
 						startMoreActivity(1);*/
                         break;
+
+                    case Index.CATEGORY_TYPE:
+                        Index.ContentCategoryBean.ItemBean categoryInfo = (Index.ContentCategoryBean.ItemBean) iRecyclerItem;
+                        Uri linkUri = Uri.parse(categoryInfo.getLinkurl());
+                        linkUri.getPath();
+                        Intent intent = new Intent();
+                        intent.setData(linkUri);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        DiscoverFragment.this.getActivity().startActivity(intent);
+                        break;
+
                 }
             }
         });

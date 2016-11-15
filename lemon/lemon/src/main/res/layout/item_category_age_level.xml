@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
+
+    <ImageView
+        android:id="@+id/iv_age_level_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/default_tag"/>
+
+    <TextView
+        android:id="@+id/tv_age_level_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0-2岁"
+        android:layout_below="@+id/iv_age_level_icon"
+        android:layout_alignEnd="@+id/iv_age_level_icon"
+        android:layout_marginEnd="14dp"
+        android:layout_marginTop="14dp" />
+</RelativeLayout>

@@ -61,13 +61,13 @@
         <activity
             android:name=".LoginActivity"
             android:exported="false"
-            android:theme="@style/LoadingTheme"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/LoadingTheme" />
         <activity
             android:name=".GuideActivity"
             android:exported="false"
-            android:theme="@style/LoadingTheme"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/LoadingTheme" />
         <activity
             android:name=".NewThreadActivity"
             android:exported="false"
@@ -83,8 +83,10 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="com.xiaoningmeng.intent.category.album" />
+
                 <data android:scheme="xnm" />
                 <data android:host="www.xiaoningmeng.net" />
                 <data android:path="/album/info.php" />
@@ -93,8 +95,7 @@
         <activity
             android:name=".AlbumCommentActivity"
             android:exported="false"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".HomeActivity"
             android:exported="false"
@@ -112,10 +113,22 @@
             android:name=".CommentWriteActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+        <!--TODO:后面使用android:pathPattern-->
         <activity
             android:name=".TagActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.xiaoningmeng.intent.category.tag" />
+
+                <data android:scheme="xnm" />
+                <data android:host="www.xiaoningmeng.net" />
+                <data android:path="/default/v2.6/tag_album_list.php" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".SearchActivity"
             android:exported="false"
@@ -221,11 +234,11 @@
             android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
 
         <service
             android:name="com.sina.weibo.sdk.net.DownloadService"
-            android:exported="false"></service>
+            android:exported="false" />
 
         <receiver
             android:name=".reminder.RemindBroadcastReceiver"
@@ -344,7 +357,6 @@
             android:name=".ForumDisplayActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".ViewThreadActivity"
             android:screenOrientation="portrait"
@@ -361,7 +373,6 @@
                 <data android:sspPattern=".*mod=viewthread.*" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".AddedImageViewPager"
             android:exported="false"
@@ -379,7 +390,22 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
+        <!--TODO:后面使用android:pathPattern-->
+        <activity
+            android:name=".CategoryActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.xiaoningmeng.intent.category.tag" />
+
+                <data android:scheme="xnm" />
+                <data android:host="www.xiaoningmeng.net" />
+                <data android:path="/default/v2.6/category.php" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
