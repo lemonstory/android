@@ -2,17 +2,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/holo_red_dark"
+    android:background="#F8F8F8"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_section_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginStart="30dp"
-        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="@dimen/page_padding_left"
+        android:gravity="left|center"
+        android:background="#FFFFFF"
         android:text="故事"
-        android:textColor="@android:color/black"
-        android:textSize="14sp"
-        android:layout_alignParentStart="true" />
+        android:textColor="#9B9B9B"
+        android:textSize="@dimen/home_tab_size"
+        android:layout_alignParentTop="true" />
 </RelativeLayout>

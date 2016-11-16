@@ -1,9 +1,11 @@
 package com.xiaoningmeng.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.bean.Category;
 import com.xiaoningmeng.bean.IRecyclerItem;
@@ -31,11 +33,22 @@ public class CategoryAdapter extends BaseMultiItemQuickAdapter<IRecyclerItem, Ba
             case Category.TYPE_AGE_LEVEL:
                 Category.AgeLevelBean.AgeItemsBean ageItemsBean = (Category.AgeLevelBean.AgeItemsBean) item;
                 helper.setText(R.id.tv_age_level_title,ageItemsBean.getTitle());
+                if(ageItemsBean.getCover() != null && !ageItemsBean.getCover().equals("")) {
+                    SimpleDraweeView imgAgeLevelIcon = helper.getView(R.id.img_age_level_icon);
+                    Uri imgAgeLevelIconUri = Uri.parse(ageItemsBean.getCover());
+                    imgAgeLevelIcon.setImageURI(imgAgeLevelIconUri);
+                }
                 break;
 
             case Category.TYPE_TAG:
                 Category.TagBean.TagItemsBean.ChildItemsBean tagChildItemsBean = (Category.TagBean.TagItemsBean.ChildItemsBean) item;
                 helper.setText(R.id.tv_tag_name,tagChildItemsBean.getName());
+                if(tagChildItemsBean.getCover() != null && !tagChildItemsBean.getCover().equals("")) {
+                    SimpleDraweeView imgTagCover = helper.getView(R.id.img_tag_cover);
+                    Uri imgTagCoverUri = Uri.parse(tagChildItemsBean.getCover());
+                    imgTagCover.setImageURI(imgTagCoverUri);
+                }
+
                 break;
 
             case Category.TYPE_SECTION:

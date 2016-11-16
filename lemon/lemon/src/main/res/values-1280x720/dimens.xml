@@ -112,7 +112,7 @@
     <dimen name="ablum_comment_item_margin_left">11dp</dimen>
     <dimen name="ablum_comment_item_margin_right">11dp</dimen>
     <dimen name="classifiction_item_height">42dp</dimen>
-    <dimen name="classifiction_text_margin">8dp</dimen>
+    <dimen name="tag_text_margin">8dp</dimen>
 
     <!-- 首页推荐专辑-->
     <dimen name="album_title_margin">4dp</dimen>
@@ -250,4 +250,7 @@
 
     <!--tag-->
     <dimen name="tag_indicator_height">38dp</dimen>
+
+    <!--category-->
+    <dimen name="category_age_level_icon_height">26dp</dimen>
 </resources>

@@ -1,5 +1,6 @@
 package com.xiaoningmeng;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +21,7 @@ import com.xiaoningmeng.manager.EmptyHelper;
 import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class CategoryActivity extends BaseActivity {
@@ -57,7 +59,7 @@ public class CategoryActivity extends BaseActivity {
         });
         mRecyclerView.setAdapter(mAdapter);
         ((SimpleItemAnimator) mRecyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
-        //mRecyclerView.addItemDecoration(new BaseFragment.SpaceItemDecoration(18));
+        mRecyclerView.addItemDecoration(new SpaceItemDecoration(18));
         mRecyclerView.addOnItemTouchListener(
                 new OnItemChildClickListener() {
                     @Override
@@ -130,5 +132,46 @@ public class CategoryActivity extends BaseActivity {
                         super.onFinish();
                     }
                 });
+    }
+
+    public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
+
+        int mSpace;
+        HashMap<Integer, Integer> tagSecctionMap = new HashMap<Integer, Integer>();
+        int lastSectionPos;
+        int spanCount = 2;
+
+        public SpaceItemDecoration(int space) {
+            this.mSpace = space;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+
+            int pos = parent.getChildAdapterPosition(view);
+            int viewType = mAdapter.getItemViewType(pos);
+
+            if(viewType == Category.TYPE_SECTION) {
+                lastSectionPos = pos;
+            }
+
+            if(viewType == Category.TYPE_TAG) {
+                int relativePos = 0;
+                if(pos > lastSectionPos && !tagSecctionMap.containsKey(pos)) {
+                    tagSecctionMap.put(pos,lastSectionPos);
+                }else {
+                    lastSectionPos = tagSecctionMap.get(pos);
+                }
+                relativePos = pos - lastSectionPos;
+                outRect.right = mSpace;
+                outRect.top = 0;
+                outRect.bottom = 0;
+                if (relativePos % spanCount == 0) {
+                    outRect.left = 0;
+                } else {
+                    outRect.left = mSpace;
+                }
+            }
+        }
     }
 }

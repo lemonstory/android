@@ -8,8 +8,9 @@ import java.util.List;
 public class Category {
 
     public static final int TYPE_AGE_LEVEL = 0;
-    public static final int TYPE_TAG = 1;
-    public static final int TYPE_SECTION = 2;
+    public static final int TYPE_SECTION = 1;
+    public static final int TYPE_TAG = 2;
+
 
     /**
      * age_level : {"total":4,"items":[{"title":"0-2岁","cover":"http://p.xiaoningmeng.net/age_level/0-2.png","link":"xnm://api.xiaoningmeng.net/default/v2.6/age_level_list.php?min_age=0&min_age=2"},{"title":"3-6岁","cover":"http://p.xiaoningmeng.net/age_level/3-6.png","link":"xnm://api.xiaoningmeng.net/default/v2.6/age_level_list.php?min_age=3&min_age=6"},{"title":"7-10岁","cover":"http://p.xiaoningmeng.net/age_level/7-10.png","link":"xnm://api.xiaoningmeng.net/default/v2.6/age_level_list.php?min_age=7&min_age=10"},{"title":"11-14岁","cover":"http://p.xiaoningmeng.net/age_level/11-14.png","link":"xnm://api.xiaoningmeng.net/default/v2.6/age_level_list.php?min_age=11&min_age=14"}]}
@@ -203,7 +204,8 @@ public class Category {
 
                 private String id;
                 private String name;
-                private String link;
+                private String linkurl;
+                private String cover;
 
                 public String getId() {
                     return id;
@@ -221,12 +223,20 @@ public class Category {
                     this.name = name;
                 }
 
-                public String getLink() {
-                    return link;
+                public String getLinkurl() {
+                    return linkurl;
                 }
 
-                public void setLink(String link) {
-                    this.link = link;
+                public void setLinkurl(String linkurl) {
+                    this.linkurl = linkurl;
+                }
+
+                public String getCover() {
+                    return cover;
+                }
+
+                public void setCover(String cover) {
+                    this.cover = cover;
                 }
 
                 @Override

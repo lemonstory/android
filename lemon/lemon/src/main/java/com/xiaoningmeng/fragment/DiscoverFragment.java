@@ -38,6 +38,7 @@ import com.xiaoningmeng.presenter.contract.DiscoverConstract;
 import com.xiaoningmeng.utils.AppUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class DiscoverFragment extends BaseFragment implements DiscoverConstract.View<DiscoverPresenter> {
@@ -87,7 +88,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
 
                     case Index.ALBUM_TYPE:
                         //增加开关，避免连续点击，Activity跳转动画出现错误
-                        if(albumClickable) {
+                        if (albumClickable) {
                             AlbumInfo albumInfo = (AlbumInfo) iRecyclerItem;
                             startAlbumInfoActivity(view, albumInfo);
                             albumClickable = false;
@@ -156,7 +157,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
                             if (linkUrl.endsWith(".apk")) {
                                 DownloadApkManager.getInstance().showDownloadDialog(getActivity(), linkUrl);
                             } else if (linkUrl.contains("taobao")) {
-                                AppUtils.showTaobaoPage(getActivity(),linkUrl);
+                                AppUtils.showTaobaoPage(getActivity(), linkUrl);
                             } else {
                                 WebViewActivity.openWebView(context, data.getLinkurl());
                             }
@@ -229,7 +230,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
 
         ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
                 ((BaseActivity) getActivity()),
-                new Pair<View, String>(view.findViewById(R.id.img_album_cover),"albumImage")
+                new Pair<View, String>(view.findViewById(R.id.img_album_cover), "albumImage")
         );
         Bundle bundle = activityOptions.toBundle();
         startActivity(intent, bundle);
@@ -241,7 +242,9 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
     public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
 
         int mSpace;
-        int lastPos;
+        int lastSectionPos;
+        int spanCount = 2;
+        HashMap<Integer, Integer> tagSecctionMap = new HashMap<Integer, Integer>();
 
         public SpaceItemDecoration(int space) {
             this.mSpace = space;
@@ -251,40 +254,39 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
             int pos = parent.getChildAdapterPosition(view);
             int viewType = mAdapter.getItemViewType(pos);
-            int childCount = parent.getChildLayoutPosition(view);
-            //DebugUtils.d(">>>>>>>>>>>>>>> ChildCount = " + childCount + "; viewType = " + viewType + "; pos = " + pos + "; lastPos = " + lastPos);
             switch (viewType) {
+
+                case Index.ALBUM_MORE_TYPE: {
+                    lastSectionPos = pos;
+                    break;
+                }
+
                 case Index.ALBUM_TYPE: {
+
                     outRect.right = mSpace;
                     outRect.top = 0;
                     outRect.bottom = 0;
-                    if (pos - lastPos > 0 && lastPos >= 0) {
-                        if (isAlbumLeft) {
-                            outRect.left = mSpace;
-                            isAlbumLeft = false;
-                        } else {
-                            outRect.left = 0;
-                            isAlbumLeft = true;
-                        }
+                    int relativePos = 0;
+                    if (pos > lastSectionPos && !tagSecctionMap.containsKey(pos)) {
+                        tagSecctionMap.put(pos, lastSectionPos);
                     } else {
-                        if (isAlbumLeft) {
-                            outRect.left = 0;
-                            isAlbumLeft = false;
-                        } else {
-                            outRect.left = mSpace;
-                            isAlbumLeft = true;
-                        }
+                        lastSectionPos = tagSecctionMap.get(pos);
                     }
-                    lastPos = pos;
+
+                    relativePos = pos - lastSectionPos;
+                    outRect.right = mSpace;
+                    outRect.top = 0;
+                    outRect.bottom = 0;
+                    if (relativePos % spanCount == 0) {
+                        outRect.left = 0;
+                    } else {
+                        outRect.left = mSpace;
+                    }
                 }
                 break;
 
                 default:
-                    lastPos = pos;
                     break;
-            }
-            if (lastPos == 0 && pos > 0) {
-                lastPos = pos - 1;
             }
         }
     }

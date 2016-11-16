@@ -19,7 +19,7 @@
     <TextView
         android:id="@+id/tv_tag_name"
         style="@style/home_classtification_item_style"
-        android:layout_marginTop="@dimen/classifiction_text_margin"
+        android:layout_marginTop="@dimen/tag_text_margin"
         android:text="故事" />
 
 </LinearLayout>
