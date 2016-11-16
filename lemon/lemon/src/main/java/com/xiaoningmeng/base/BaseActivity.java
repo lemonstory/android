@@ -207,7 +207,7 @@ public class BaseActivity extends AppCompatActivity implements ILoading {
 		}
 	}
 
-	protected View getListEndView() {
+	protected View getFooterView() {
 		LayoutInflater layoutInflater = this.getLayoutInflater();
 		View view = layoutInflater.inflate(R.layout.list_end_view, null);
 		//view.findViewById(R.id.tv).setVisibility(View.GONE);

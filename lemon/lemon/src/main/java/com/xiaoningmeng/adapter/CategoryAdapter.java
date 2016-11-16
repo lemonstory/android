@@ -43,11 +43,12 @@ public class CategoryAdapter extends BaseMultiItemQuickAdapter<IRecyclerItem, Ba
             case Category.TYPE_TAG:
                 Category.TagBean.TagItemsBean.ChildItemsBean tagChildItemsBean = (Category.TagBean.TagItemsBean.ChildItemsBean) item;
                 helper.setText(R.id.tv_tag_name,tagChildItemsBean.getName());
-                if(tagChildItemsBean.getCover() != null && !tagChildItemsBean.getCover().equals("")) {
+//                if(tagChildItemsBean.getCover() != null && !tagChildItemsBean.getCover().equals("")) {
                     SimpleDraweeView imgTagCover = helper.getView(R.id.img_tag_cover);
-                    Uri imgTagCoverUri = Uri.parse(tagChildItemsBean.getCover());
+//                    Uri imgTagCoverUri = Uri.parse(tagChildItemsBean.getCover());
+                    Uri imgTagCoverUri = Uri.parse("http://p.xiaoningmeng.net/album/2016/11/15/37f87a140bf3047362a857e05ce7a40f.jpg");
                     imgTagCover.setImageURI(imgTagCoverUri);
-                }
+//                }
 
                 break;
 

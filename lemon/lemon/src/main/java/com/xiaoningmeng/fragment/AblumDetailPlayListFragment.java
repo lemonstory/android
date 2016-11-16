@@ -83,7 +83,7 @@ public class AblumDetailPlayListFragment extends BaseFragment {
         mAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         mEmptyHelper = new EmptyHelper(getContext(), mRecyclerView, mAdapter);
         mEmptyHelper.setEmptyView(EmptyHelper.LOADING, false, getString(R.string.loading_tip));
-        View footerView = this.getListEndView();
+        View footerView = this.getFooterView();
         mAdapter.addFooterView(footerView, 0);
         mRecyclerView.setAdapter(mAdapter);
         ((SimpleItemAnimator) mRecyclerView.getItemAnimator()).setSupportsChangeAnimations(false);

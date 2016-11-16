@@ -71,7 +71,7 @@ public class Category {
 
             private String title;
             private String cover;
-            private String link;
+            private String linkurl;
 
             public String getTitle() {
                 return title;
@@ -89,12 +89,12 @@ public class Category {
                 this.cover = cover;
             }
 
-            public String getLink() {
-                return link;
+            public String getLinkurl() {
+                return linkurl;
             }
 
-            public void setLink(String link) {
-                this.link = link;
+            public void setLinkurl(String linkurl) {
+                this.linkurl = linkurl;
             }
 
             @Override

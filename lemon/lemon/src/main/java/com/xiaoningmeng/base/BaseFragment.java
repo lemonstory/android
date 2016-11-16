@@ -137,7 +137,7 @@ public class BaseFragment extends Fragment {
 		}
 	}
 
-	protected View getListEndView() {
+	protected View getFooterView() {
 		LayoutInflater layoutInflater = getActivity().getLayoutInflater();
 		View view = layoutInflater.inflate(R.layout.list_end_view, null);
 		//view.findViewById(R.id.tv).setVisibility(View.GONE);

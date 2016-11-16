@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.AlbumDetailActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.TagActivity;
@@ -40,6 +41,7 @@ public class TagFragment extends LazyFragment
     private boolean isPrepared;
     private LayoutInflater mInflater;
     private View notLoadingView;
+    private Boolean albumClickable;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,6 +68,15 @@ public class TagFragment extends LazyFragment
         return contentView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getActivity() != null) {
+            MobclickAgent.onEvent(getActivity(), "event_show_tag");
+        }
+        albumClickable = true;
+    }
+
     private void initAdapter() {
 
         mQuickAdapter = new AlbumAdapter(mAlbumInfos);
@@ -80,12 +91,13 @@ public class TagFragment extends LazyFragment
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 super.onItemChildClick(adapter, view, position);
-                if (position >= 0) {
+                if (position >= 0 && albumClickable) {
                     AlbumInfo albumInfo = (AlbumInfo) adapter.getItem(position);
                     Intent intent = new Intent(getActivity(), AlbumDetailActivity.class);
                     intent.putExtra("albumId", albumInfo.getAlbumid());
                     intent.putExtra("albumInfo", albumInfo);
                     ((BaseActivity) getActivity()).startShareTransitionActivity(intent, view, "albumImage");
+                    albumClickable = false;
                 }
             }
 

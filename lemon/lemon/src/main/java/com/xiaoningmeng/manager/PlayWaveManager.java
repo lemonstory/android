@@ -78,13 +78,13 @@ public class PlayWaveManager implements PlayObserver {
 					}
 					SoftReference<AnimationDrawable> reference = map.get(imageView);
 					AnimationDrawable drawable = null;
-					if (reference == null || reference.get() == null) {
-						drawable = (AnimationDrawable) mContext.getResources()
-								.getDrawable(R.drawable.play_anim_list);
-						reference = new SoftReference<AnimationDrawable>(
-								drawable);
+					if ((reference == null || reference.get() == null) && mContext != null) {
+						drawable = (AnimationDrawable) mContext.getResources().getDrawable(R.drawable.play_anim_list,null);
+						reference = new SoftReference<AnimationDrawable>(drawable);
 						imageView.setImageDrawable(drawable);
-					} else {
+					}
+
+					if (reference != null && reference.get() != null){
 						drawable = reference.get();
 					}
 					mPerImageView = imageView;
@@ -93,7 +93,6 @@ public class PlayWaveManager implements PlayObserver {
 				}
 			}, 100);
 		}
-
 	}
 
 	@Override

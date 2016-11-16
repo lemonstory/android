@@ -439,8 +439,13 @@ public class AlbumDetailActivity extends BaseActivity implements
     private void displayAlbumComment() {
 
         Intent intent = new Intent(this, AlbumCommentActivity.class);
-        intent.putExtra("albumId", albumInfo.getAlbumid());
-        startActivity(intent);
+        if(albumInfo != null) {
+            String albumId = albumInfo.getAlbumid();
+            if(albumId != null && !albumId.equals("")) {
+                intent.putExtra("albumId", albumId);
+                startActivity(intent);
+            }
+        }
     }
 
     private TipDialog tipDialog;

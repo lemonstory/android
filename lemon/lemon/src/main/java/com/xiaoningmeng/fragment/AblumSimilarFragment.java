@@ -19,7 +19,6 @@ import com.xiaoningmeng.adapter.AlbumAdapter;
 import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.manager.EmptyHelper;
-import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +78,7 @@ public class AblumSimilarFragment extends BaseFragment {
         mAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         mEmptyHelper = new EmptyHelper(getContext(), mRecyclerView, mAdapter);
         mEmptyHelper.setEmptyView(EmptyHelper.LOADING, false, getString(R.string.loading_tip));
-        View footerView = this.getListEndView();
+        View footerView = this.getFooterView();
         mAdapter.addFooterView(footerView, 0);
         mRecyclerView.setAdapter(mAdapter);
         ((SimpleItemAnimator) mRecyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
@@ -101,17 +100,13 @@ public class AblumSimilarFragment extends BaseFragment {
                     @Override
                     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
-                        DebugUtils.d("AblumSimilarFragment  --> onItemClick RUN! Position = " + position);
                         super.onItemClick(adapter, view, position);
                         AlbumInfo albumInfo = albumList.get(position);
                         //增加开关，避免连续点击，Activity跳转动画出现错误
                         if (albumClickable) {
-                            DebugUtils.d("albumClickable = " + albumClickable);
-                            DebugUtils.d("AlbumInfo = " + albumInfo.toString());
                             startAlbumInfoActivity(view, albumInfo);
                             albumClickable = false;
                         }
-
                     }
                 }
         );

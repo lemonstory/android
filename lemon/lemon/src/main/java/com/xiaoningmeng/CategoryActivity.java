@@ -1,11 +1,14 @@
 package com.xiaoningmeng;
 
+import android.content.Intent;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -15,28 +18,36 @@ import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.Category;
 import com.xiaoningmeng.bean.IRecyclerItem;
+import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.EmptyHelper;
-import com.xiaoningmeng.utils.DebugUtils;
+import com.xiaoningmeng.manager.PlayWaveManager;
+import com.xiaoningmeng.player.PlayObserver;
+import com.xiaoningmeng.player.PlayerManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class CategoryActivity extends BaseActivity {
+public class CategoryActivity extends BaseActivity implements PlayObserver {
     private RecyclerView mRecyclerView;
     private CategoryAdapter mAdapter;
     private EmptyHelper mEmptyHelper;
     private List<IRecyclerItem> mCategoryDatas;
+    private ImageView mWaveImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
+        setTitleName("全部分类");
         mCategoryDatas = new ArrayList<>();
         mRecyclerView = (RecyclerView) findViewById(R.id.id_stickynavlayout_innerscrollview);
         mRecyclerView.setHasFixedSize(true);
+        mWaveImg = (ImageView) findViewById(R.id.img_head_right);
+        PlayerManager.getInstance().register(this);
+        setRightHeadIcon(R.drawable.play_flag_wave_01);
         initAdapter();
         requestCategoryData();
     }
@@ -48,6 +59,8 @@ public class CategoryActivity extends BaseActivity {
         mAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         mEmptyHelper = new EmptyHelper(this, mRecyclerView, mAdapter);
         mEmptyHelper.setEmptyView(EmptyHelper.LOADING, false, getString(R.string.loading_tip));
+        View footerView = this.getFooterView();
+        mAdapter.addFooterView(footerView, 0);
         int spanCount = 4;
         GridLayoutManager manager = new GridLayoutManager(this, spanCount);
         mRecyclerView.setLayoutManager(manager);
@@ -77,11 +90,33 @@ public class CategoryActivity extends BaseActivity {
                     @Override
                     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
-                        DebugUtils.d("AblumSimilarFragment  --> onItemClick RUN! Position = " + position);
                         super.onItemClick(adapter, view, position);
+                        int viewType = mAdapter.getItemViewType(position);
+                        switch (viewType) {
+                            case Category.TYPE_AGE_LEVEL:
+                                Category.AgeLevelBean.AgeItemsBean ageItem =  (Category.AgeLevelBean.AgeItemsBean) mAdapter.getItem(position);
+                                String ageItemLinkurl = ageItem.getLinkurl();
+                                //TODO 打开年龄页面
+                                break;
+                            case Category.TYPE_TAG:
+                                Category.TagBean.TagItemsBean.ChildItemsBean tagItem =  (Category.TagBean.TagItemsBean.ChildItemsBean) mAdapter.getItem(position);
+                                Uri tagItemLinkuri = Uri.parse(tagItem.getLinkurl());
+                                Intent intent = new Intent();
+                                intent.setData(tagItemLinkuri);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                CategoryActivity.this.startActivity(intent);
+                        }
+
                     }
                 }
         );
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        PlayWaveManager.getInstance().loadWaveAnim(this, mWaveImg);
+
     }
 
     private void requestCategoryData() {
@@ -132,6 +167,11 @@ public class CategoryActivity extends BaseActivity {
                         super.onFinish();
                     }
                 });
+    }
+
+    @Override
+    public void notify(PlayingStory music) {
+        PlayWaveManager.getInstance().notify(music);
     }
 
     public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
