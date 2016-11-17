@@ -8,9 +8,10 @@ import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.bean.Address;
 import com.xiaoningmeng.bean.Album;
 import com.xiaoningmeng.bean.AlbumInfo;
+import com.xiaoningmeng.bean.AlbumRecommend;
+import com.xiaoningmeng.bean.AppInfo;
 import com.xiaoningmeng.bean.Category;
 import com.xiaoningmeng.bean.Comment;
-import com.xiaoningmeng.bean.AppInfo;
 import com.xiaoningmeng.bean.HomeInfo;
 import com.xiaoningmeng.bean.Index;
 import com.xiaoningmeng.bean.Mine;
@@ -21,7 +22,6 @@ import com.xiaoningmeng.bean.SearchData;
 import com.xiaoningmeng.bean.TagDetail;
 import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.utils.DebugUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.GetBuilder;
 import com.zhy.http.okhttp.builder.OkHttpRequestBuilder;
@@ -115,7 +115,7 @@ public class LHttpRequest {
 	 * @return
      */
 	public static OkHttpRequestBuilder<GetBuilder> get(String url){
-		DebugUtils.d("url : " + url);
+
 		return OkHttpUtils.get().addHeader("User-Agent", AppInfo.getInstance().getUAStr())
 				.addParams("visituid", MyApplication.getInstance().getUid())
 				.addHeader("FROM", "mobile").url(url);
@@ -541,5 +541,15 @@ public class LHttpRequest {
 		get(ConstantURL.SHOP_INDEX).tag(context)
 		.addParams("page", page + "")
 				.build().execute(handler);
+	}
+
+	//得到标签专辑列表
+	public void getAlbumRecommendReq(Context ctx, String url, String minAge, String maxAge, String startAlbumId, String len, JsonCallback<AlbumRecommend> handler) {
+		GetBuilder builder = get(url).tag(ctx)
+				.addParams("min_age", minAge)
+				.addParams("max_age", maxAge)
+				.addParams("start_album_id", startAlbumId)
+				.addParams("len", len);
+		builder.build().execute(handler);
 	}
 }

@@ -292,7 +292,7 @@
     <style name="page_sliding_tab_style">
         <item name="pstsIndicatorHeight">2dp</item>
         <item name="pstsIndicatorColor">@color/action_bar_bg</item>
-        <item name="pstsTabTextColor">@color/download_tab_color_selector</item>
+        <item name="pstsTabTextColor">@color/index_more_text_selector</item>
         <item name="pstsUnderlineHeight">0dp</item>
         <item name="pstsTabPaddingLeftRight">12dp</item>
         <item name="pstsUnderlineColor">@color/white</item>

@@ -43,6 +43,19 @@ public class AlbumInfo extends DataSupport implements Parcelable, IRecyclerItem 
     public AlbumInfo() {
     }
 
+    public AlbumInfo(String id, String title, String intro, String star_level, String cover, String listennum, int favnum, int commentnum, String recommenddesc, String age_str, String buy_link) {
+        this.id = id;
+        this.title = title;
+        this.intro = intro;
+        this.star_level = star_level;
+        this.cover = cover;
+        this.listennum = listennum;
+        this.favnum = favnum;
+        this.commentnum = commentnum;
+        this.recommenddesc = recommenddesc;
+        this.age_str = age_str;
+        this.buy_link = buy_link;
+    }
 
     public AlbumInfo(Parcel in) {
         id = in.readString();

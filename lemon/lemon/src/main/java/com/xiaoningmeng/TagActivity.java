@@ -99,7 +99,6 @@ public class TagActivity extends BaseActivity implements View.OnClickListener, P
                                     if (tag.getId() != null && tag.getId().equals(mSelectSecondTag)) {
                                         selectTabPos = mTagParams.size() - 1;
                                     }
-
                                 }
                             }
                             for (Tag tag : mFristTagList) {

@@ -53,6 +53,7 @@ import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.player.PlayerManager.AlbumSource;
 import com.xiaoningmeng.utils.AppUtils;
+import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.utils.ImageUtils;
 import com.xiaoningmeng.view.CircleProgressBar;
 import com.xiaoningmeng.view.RatingBar;
@@ -67,6 +68,9 @@ import de.greenrobot.event.EventBus;
 
 public class AlbumDetailActivity extends BaseActivity implements
         OnClickListener, PlayObserver, DownLoadObserver<AudioDownLoad> {
+
+    private static final String ARG_ALBUM_ID = "albumId";
+    private static final String ARG_ALBUM_INFO = "albumInfo";
 
     private Context mContext;
     private ViewPager mViewPager;
@@ -142,9 +146,13 @@ public class AlbumDetailActivity extends BaseActivity implements
         final int pager = getIntent().getIntExtra("pager", 1);
         mPlayTime = getIntent().getIntExtra("playtimes", 0);
         mPlayStoryId = getIntent().getStringExtra("playstoryid");
-        AlbumInfo albumInfo = getIntent().getParcelableExtra("albumInfo");
+        AlbumInfo albumInfo = getIntent().getParcelableExtra(this.ARG_ALBUM_INFO);
         if (albumInfo != null) {
+
+            DebugUtils.d("========= mAlbumId : " + mAlbumId);
+            mAlbumId = albumInfo.getId();
             fillAlbumInfoView(albumInfo);
+            DebugUtils.d("========= mAlbumId : " + mAlbumId);
         }
 
         mHandler.postDelayed(new Runnable() {
@@ -206,8 +214,9 @@ public class AlbumDetailActivity extends BaseActivity implements
 
         setIntent(intent);
         mAlbumId = getAlbumIdWithIntent();
-        AlbumInfo albumInfo = getIntent().getParcelableExtra("albumInfo");
+        AlbumInfo albumInfo = getIntent().getParcelableExtra(this.ARG_ALBUM_INFO);
         if (albumInfo != null) {
+            mAlbumId = albumInfo.getId();
             fillAlbumInfoView(albumInfo);
         }
         requestAlbumDetailData();
@@ -217,7 +226,6 @@ public class AlbumDetailActivity extends BaseActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        mAlbumId = getAlbumIdWithIntent();
         PlayWaveManager.getInstance().loadWaveAnim(this, mWaveImg);
 
     }
@@ -265,7 +273,7 @@ public class AlbumDetailActivity extends BaseActivity implements
 
         Intent intent = this.getIntent();
         Uri data = intent.getData();
-        albumIdWithExtar = intent.getStringExtra("albumId");
+        albumIdWithExtar = intent.getStringExtra(this.ARG_ALBUM_ID);
         if (null != data) {
             albumIdWithData = data.getQueryParameter("albumid");
         }
@@ -280,6 +288,8 @@ public class AlbumDetailActivity extends BaseActivity implements
 
     public void requestAlbumDetailData() {
 
+        DebugUtils.d(" ===================== requestAlbumDetailData ================");
+        DebugUtils.d("========= mAlbumId : " + mAlbumId);
         if (mAlbumId != null && !mAlbumId.equals("")) {
 
             LHttpRequest.getInstance().albumInfoReq(this, 10, mAlbumId,
@@ -350,7 +360,7 @@ public class AlbumDetailActivity extends BaseActivity implements
         mListenerTv.setText(albumInfo.getListennum() + "");
         mAgeLevelTv.setText(albumInfo.getAge_str());
         String albumBuyLink = albumInfo.getBuy_link();
-        if(albumBuyLink != null && !albumBuyLink.equals("")) {
+        if (albumBuyLink != null && !albumBuyLink.equals("")) {
             mBuyFl.setVisibility(View.VISIBLE);
         }
     }
@@ -403,12 +413,12 @@ public class AlbumDetailActivity extends BaseActivity implements
 
             case R.id.fl_buy:
                 String albumBuyLink = albumInfo.getBuy_link();
-                if(albumBuyLink != null && !albumBuyLink.equals("")) {
+                if (albumBuyLink != null && !albumBuyLink.equals("")) {
                     if (albumBuyLink.startsWith("http:") || albumBuyLink.startsWith("https:")) {
                         if (albumBuyLink.contains("taobao")) {
-                            AppUtils.showTaobaoPage(AlbumDetailActivity.this,albumBuyLink);
+                            AppUtils.showTaobaoPage(AlbumDetailActivity.this, albumBuyLink);
                         } else {
-                            WebViewActivity.openWebView(this,albumBuyLink);
+                            WebViewActivity.openWebView(this, albumBuyLink);
                         }
                     }
                 }
@@ -439,9 +449,9 @@ public class AlbumDetailActivity extends BaseActivity implements
     private void displayAlbumComment() {
 
         Intent intent = new Intent(this, AlbumCommentActivity.class);
-        if(albumInfo != null) {
+        if (albumInfo != null) {
             String albumId = albumInfo.getAlbumid();
-            if(albumId != null && !albumId.equals("")) {
+            if (albumId != null && !albumId.equals("")) {
                 intent.putExtra("albumId", albumId);
                 startActivity(intent);
             }

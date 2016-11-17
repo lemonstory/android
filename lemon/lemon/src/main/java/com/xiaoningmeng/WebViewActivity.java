@@ -132,7 +132,7 @@ public class WebViewActivity extends BaseActivity {
 			public void onReceivedTitle(WebView view, String title) {
 				super.onReceivedTitle(view, title);
 				if (!TextUtils.isEmpty(title)) {
-					WebViewActivity.this.setTitleName(title);
+					WebViewActivity.this.setTitleName("title");
 				}
 			}
 

@@ -24,9 +24,11 @@ import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.CacheInterceptor;
 import com.xiaoningmeng.http.OSSAuth;
 import com.xiaoningmeng.player.MusicService;
+import com.xiaoningmeng.utils.DebugUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.cookie.CookieJarImpl;
 import com.zhy.http.okhttp.cookie.store.PersistentCookieStore;
+import com.zhy.http.okhttp.log.LoggerInterceptor;
 
 import org.litepal.LitePalApplication;
 
@@ -106,6 +108,7 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
 		startMusicService();
 	}
 
+	//参考文档:https://github.com/hongyangAndroid/okhttputils
 	public void initOkHttpClient(){
 
 		File cacheFile = new File(getExternalCacheDir(), "HttpCache");
@@ -114,7 +117,7 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
 		CacheInterceptor cacheInterceptor = new CacheInterceptor();
 		OkHttpClient okHttpClient = new OkHttpClient.Builder()
 				.cookieJar(cookieJar)
-				//.addInterceptor(new LoggerInterceptor("huang"))
+				.addInterceptor(new LoggerInterceptor(DebugUtils.TAG))
 				.addNetworkInterceptor(cacheInterceptor)
 				.addInterceptor(cacheInterceptor)
 				.cache(cache)
@@ -125,8 +128,6 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
 				.build();
 
 		OkHttpUtils.initClient(okHttpClient);
-
-
 	}
 
 

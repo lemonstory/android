@@ -9,12 +9,12 @@
         android:id="@+id/tv_section_name"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_alignParentTop="true"
         android:layout_marginTop="10dp"
-        android:paddingLeft="@dimen/page_padding_left"
-        android:gravity="left|center"
         android:background="#FFFFFF"
+        android:gravity="left|center"
+        android:paddingLeft="@dimen/page_padding_left"
         android:text="故事"
         android:textColor="#9B9B9B"
-        android:textSize="@dimen/home_tab_size"
-        android:layout_alignParentTop="true" />
+        android:textSize="@dimen/home_tab_size" />
 </RelativeLayout>

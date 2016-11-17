@@ -23,7 +23,7 @@ public class IndexAdapter extends BaseMultiItemQuickAdapter<IRecyclerItem, BaseV
 
         super(datas);
         addItemType(Index.CATEGORY_TYPE, R.layout.item_index_category);
-        addItemType(Index.ALBUM_MORE_TYPE, R.layout.item_home_discover_top);
+        addItemType(Index.ALBUM_MORE_TYPE, R.layout.item_index_more);
         addItemType(Index.ALBUM_TYPE, R.layout.item_album_info);
         addItemType(Index.AD_TYPE, R.layout.item_index_ad);
     }
@@ -42,11 +42,9 @@ public class IndexAdapter extends BaseMultiItemQuickAdapter<IRecyclerItem, BaseV
                 break;
 
             case Index.ALBUM_MORE_TYPE:
-
                 Index.AlbumSectionBean.ItemBean albumItemBean = (Index.AlbumSectionBean.ItemBean) item;
-                helper.setText(R.id.tv_classify_title, albumItemBean.getTitle())
-                        .addOnClickListener(R.id.tv_classify_title)
-                        .addOnClickListener(R.id.tv_classify_more);
+                helper.setText(R.id.tv_tag_title, albumItemBean.getTitle())
+                        .addOnClickListener(R.id.tv_tag_more);
                 break;
 
             case Index.ALBUM_TYPE:

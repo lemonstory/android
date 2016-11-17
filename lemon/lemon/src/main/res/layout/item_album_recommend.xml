@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_album_info_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/base_margin"
+    android:paddingTop="@dimen/base_margin">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/img_album_cover"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/home_discover_item_img_height"
+        android:layout_gravity="center_vertical"
+        android:transitionName="albumImage"
+        fresco:actualImageScaleType="centerCrop"
+        fresco:backgroundImage="@drawable/album_default"
+        fresco:placeholderImage="@drawable/album_default"
+        fresco:roundedCornerRadius="3dp" />
+
+    <TextView
+        android:id="@+id/tv_album_title"
+        style="@style/discover_story_title"
+        android:layout_marginTop="@dimen/album_title_margin"
+        android:text="下雨的小兔子" />
+
+    <TextView
+        android:id="@+id/tv_album_recommend"
+        style="@style/discover_recommend_style"
+        android:layout_marginTop="@dimen/album_recommend_text_margin"
+        android:text="推荐语" />
+
+    <TextView
+        android:id="@+id/tv_album_listen_num"
+        style="@style/discover_recommend_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/home_listener_num_tip"
+        android:drawablePadding="@dimen/base_radius_size"
+        android:text="10万"
+        android:textColor="@color/base_date_color"
+        android:textSize="@dimen/date_text_size" />
+    <TextView
+        android:id="@+id/tv_tag_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/album_recommend_text_margin"
+        android:textSize="@dimen/recomment_text_size"
+        android:textColor="#FFB946"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:background="@drawable/tag_border"
+        android:text="绘本"/>
+</LinearLayout>

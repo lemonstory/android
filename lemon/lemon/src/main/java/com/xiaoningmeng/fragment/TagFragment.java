@@ -28,8 +28,7 @@ import com.xiaoningmeng.http.LHttpRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TagFragment extends LazyFragment
-        implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
+public class TagFragment extends LazyFragment implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
 
     private RecyclerView mRecyclerView;
     private AlbumAdapter mQuickAdapter;

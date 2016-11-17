@@ -95,7 +95,7 @@
         <activity
             android:name=".AlbumCommentActivity"
             android:exported="false"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".HomeActivity"
             android:exported="false"
@@ -113,7 +113,7 @@
             android:name=".CommentWriteActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-        <!--TODO:后面使用android:pathPattern-->
+        <!-- TODO:后面使用android:pathPattern -->
         <activity
             android:name=".TagActivity"
             android:exported="true"
@@ -390,7 +390,7 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <!--TODO:后面使用android:pathPattern-->
+        <!-- TODO:后面使用android:pathPattern -->
         <activity
             android:name=".CategoryActivity"
             android:exported="true"
@@ -404,6 +404,20 @@
                 <data android:scheme="xnm" />
                 <data android:host="www.xiaoningmeng.net" />
                 <data android:path="/default/v2.6/category.php" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".AlbumRecommendActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.xiaoningmeng.intent.category.recommend" />
+
+                <data android:scheme="xnm" />
+                <data android:host="dev.xiaoningmeng.net" />
+                <data android:path="/default/v2.6/recommend_list.php" />
+                <data android:path="/default/v2.6/same_age_list.php" />
+                <data android:path="/default/v2.6/online_list.php" />
             </intent-filter>
         </activity>
     </application>

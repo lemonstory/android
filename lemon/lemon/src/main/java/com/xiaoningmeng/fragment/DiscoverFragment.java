@@ -22,7 +22,6 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.AlbumDetailActivity;
-import com.xiaoningmeng.MoreActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.WebViewActivity;
 import com.xiaoningmeng.adapter.IndexAdapter;
@@ -53,7 +52,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
     private boolean isAlbumLeft = true;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View contentView = View.inflate(getActivity(),
                 R.layout.fragment_discover, null);
@@ -96,33 +95,45 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
                         break;
 
                     case Index.ALBUM_MORE_TYPE:
-                        /*Index.AlbumSectionBean.ItemBean albumItemBean =
-                                (Index.AlbumSectionBean.ItemBean) iRecyclerItem;
-						startMoreActivity(1);*/
                         break;
 
                     case Index.CATEGORY_TYPE:
                         Index.ContentCategoryBean.ItemBean categoryInfo = (Index.ContentCategoryBean.ItemBean) iRecyclerItem;
-                        Uri linkUri = Uri.parse(categoryInfo.getLinkurl());
-                        linkUri.getPath();
+                        Uri categoryLinkUri = Uri.parse(categoryInfo.getLinkurl());
                         Intent intent = new Intent();
-                        intent.setData(linkUri);
+                        intent.setData(categoryLinkUri);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         DiscoverFragment.this.getActivity().startActivity(intent);
+                        break;
+                }
+            }
+
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+
+                super.onItemChildClick(adapter, view, position);
+                IRecyclerItem iRecyclerItem = mAdapter.getItem(position);
+                switch (iRecyclerItem.getItemType()) {
+                    case Index.ALBUM_MORE_TYPE:
+                        Index.AlbumSectionBean.ItemBean albumSectionItem = (Index.AlbumSectionBean.ItemBean) iRecyclerItem;
+                        Uri albumSectionItemLinkUri = Uri.parse(albumSectionItem.getLinkurl());
+                        Intent moreIntent = new Intent();
+                        moreIntent.putExtra("pageTitle", albumSectionItem.getTitle());
+                        moreIntent.setData(albumSectionItemLinkUri);
+                        DiscoverFragment.this.getActivity().startActivity(moreIntent);
                         break;
 
                 }
             }
+
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+                super.onItemClick(adapter, view, position);
+            }
         });
         return contentView;
     }
-
-    private void startMoreActivity(int type) {
-        Intent i = new Intent(getActivity(), MoreActivity.class);
-        i.putExtra(MoreActivity.MORE_TYPE, type);
-        getBaseActivity().startActivityForNew(i);
-    }
-
 
     @Override
     public void setPresenter(DiscoverPresenter presenter) {
@@ -135,7 +146,6 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
         @Override
         public View createView(Context context) {
             imageView = new SimpleDraweeView(context);
-//            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             return imageView;
         }

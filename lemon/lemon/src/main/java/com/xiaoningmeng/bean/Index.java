@@ -149,6 +149,7 @@ public class Index {
             public int getItemType() {
                 return CATEGORY_TYPE;
             }
+
             public String getCover() {
                 return cover;
             }
@@ -194,6 +195,8 @@ public class Index {
             private List<AlbumInfo> items;
             private String tag_id;
             private String title;
+            private String linkurl;
+
 
             public List<AlbumInfo> getItems() {
                 return items;
@@ -227,6 +230,14 @@ public class Index {
 
             public void setTitle(String title) {
                 this.title = title;
+            }
+
+            public String getLinkurl() {
+                return linkurl;
+            }
+
+            public void setLinkurl(String linkurl) {
+                this.linkurl = linkurl;
             }
         }
     }

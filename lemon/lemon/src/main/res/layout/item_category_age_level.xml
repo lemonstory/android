@@ -20,11 +20,11 @@
         android:id="@+id/tv_age_level_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="0-2岁"
-        android:textSize="@dimen/home_tab_size"
-        android:gravity="center"
-        android:textColor="#656565"
         android:layout_below="@+id/img_age_level_icon"
+        android:layout_marginBottom="12dp"
         android:layout_marginTop="4dp"
-        android:layout_marginBottom="12dp"/>
+        android:gravity="center"
+        android:text="0-2岁"
+        android:textColor="#656565"
+        android:textSize="@dimen/home_tab_size" />
 </RelativeLayout>
