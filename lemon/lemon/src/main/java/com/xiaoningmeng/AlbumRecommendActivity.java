@@ -14,6 +14,7 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.AlbumRecommend;
 import com.xiaoningmeng.bean.PlayingStory;
+import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.fragment.AlbumRecommendFragment;
 import com.xiaoningmeng.fragment.AlbumRecommendFragment.OnFragmentInteractionListener;
 import com.xiaoningmeng.http.JsonCallback;
@@ -25,21 +26,26 @@ import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.List;
 
+/**
+ * TODO:现在实现方案的不足：
+ *      1:AlbumRecommendActivity 先做一次Api请求,得到age_level后初始化pageview及fragment
+ *        然后fragemnt里面在做一次相同Api请求获取专辑数据。第二次根据age_level发起新的请求.
+ */
 public class AlbumRecommendActivity extends BaseActivity implements OnFragmentInteractionListener, PlayObserver {
 
     private PagerSlidingTabStrip mIndicator;
     private ViewPager mViewPager;
     private ImageView mWaveImg;
     private AlbumRecommendFragment[] mAlbumRecommendFragments;
-    public static final String Fragment_Tag = "Fragment_Tag";
-    private List<TagActivity.TagParam> mTagParams;
     private AlbumRecommendActivity.AlbumRecommendFragmentPagerAdapter mPagerAdapter;
-    private boolean isFirst = true;
-
     private List<AlbumRecommend.AgeLevelBean.AgeLevelItemBean> mAgeLevelItems;
-    private List<AlbumRecommend.AlbumItemBean> mAlbumItems;
+
     private String pageTitle;
     private String recommendUrl;
+    private String minAge = String.valueOf(Constant.MIN_AGE);
+    private String maxAge = String.valueOf(Constant.MAX_AGE);
+    private int pageSize = 20;
+    private int mCurrentPage = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,14 +60,13 @@ public class AlbumRecommendActivity extends BaseActivity implements OnFragmentIn
         Intent intent = this.getIntent();
         parseIntent(intent);
         setPageTitle();
-        requestAlbumRecommendData(recommendUrl, "0", "2", "0", "20");
+        requestAlbumRecommendData(recommendUrl, minAge, maxAge, mCurrentPage, pageSize);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         PlayWaveManager.getInstance().loadWaveAnim(this, mWaveImg);
-
     }
 
     @Override
@@ -69,11 +74,19 @@ public class AlbumRecommendActivity extends BaseActivity implements OnFragmentIn
         super.onPause();
         PlayWaveManager.getInstance().mContext = null;
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PlayerManager.getInstance().unRegister(this);
+        PlayWaveManager.getInstance().mContext = null;
+    }
+
     private void parseIntent(Intent intent) {
 
         pageTitle = intent.getStringExtra("pageTitle");
         String dataUrl = String.valueOf(intent.getData());
-        recommendUrl = dataUrl.replace("xnm://","http://");
+        recommendUrl = dataUrl.replace("xnm://", "http://");
     }
 
     private void setPageTitle() {
@@ -87,16 +100,14 @@ public class AlbumRecommendActivity extends BaseActivity implements OnFragmentIn
         PlayWaveManager.getInstance().notify(music);
     }
 
-    private void requestAlbumRecommendData(final String url, String minAge, String maxAge, String startAlbumId, String len) {
+    private void requestAlbumRecommendData(final String url, String minAge, String maxAge, int page, int len) {
 
-
-        if(url != null && !url.equals("")) {
-            LHttpRequest.getInstance().getAlbumRecommendReq(this, url, minAge, maxAge, startAlbumId, len, new JsonCallback<AlbumRecommend>() {
+        if (url != null && !url.equals("")) {
+            LHttpRequest.getInstance().getAlbumRecommendReq(this, url, minAge, maxAge, mCurrentPage, pageSize, new JsonCallback<AlbumRecommend>() {
 
                 @Override
                 public void onGetDataSuccess(AlbumRecommend data) {
 
-                    mAlbumItems = data.getItems();
                     mAgeLevelItems = data.getAge_level().getItems();
                     int albumRecommendFragmentCount = Integer.parseInt(data.getAge_level().getTotal());
                     mAlbumRecommendFragments = new AlbumRecommendFragment[albumRecommendFragmentCount];
@@ -108,11 +119,11 @@ public class AlbumRecommendActivity extends BaseActivity implements OnFragmentIn
 
                         String minAge = data.getAge_level().getItems().get(i).getMin_age();
                         String maxAge = data.getAge_level().getItems().get(i).getMax_age();
-                        mAlbumRecommendFragments[i] = AlbumRecommendFragment.newInstance(url,minAge, maxAge);
+                        mAlbumRecommendFragments[i] = AlbumRecommendFragment.newInstance(url, minAge, maxAge);
                     }
                     mPagerAdapter = new AlbumRecommendFragmentPagerAdapter(getSupportFragmentManager());
                     mViewPager.setAdapter(mPagerAdapter);
-                    mViewPager.setOffscreenPageLimit(0);
+                    //mViewPager.setOffscreenPageLimit(0);
                     mIndicator.setViewPager(mViewPager);
                     mViewPager.setCurrentItem(selectTabPos);
                 }
@@ -142,9 +153,7 @@ public class AlbumRecommendActivity extends BaseActivity implements OnFragmentIn
             if (mAlbumRecommendFragments[position] == null) {
                 mAlbumRecommendFragments[position] = new AlbumRecommendFragment();
             }
-//            Bundle bundle = new Bundle();
-//            bundle.putParcelable(Fragment_Tag, mAlbumRecommendFragments.get(position));
-//            mAlbumRecommendFragments[position].setArguments(bundle);
+
             Fragment fragment = mAlbumRecommendFragments[position];
             return fragment;
         }
@@ -160,7 +169,6 @@ public class AlbumRecommendActivity extends BaseActivity implements OnFragmentIn
         @Override
         public CharSequence getPageTitle(int position) {
 
-            DebugUtils.d("========== getPageTitle is RUN!!!======= Position = " + position);
             String title = "";
             title = mAgeLevelItems.get(position).getAge_level_str();
             return title;

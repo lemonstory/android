@@ -118,7 +118,7 @@
 -keep class com.ta.** {*;}
 -dontwarn com.ta.**
 
-#http://bugly.qq.com/androidfast
+#https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20161115202144
 -dontwarn com.tencent.bugly.**
 -keep public class com.tencent.bugly.**{*;}
 #end

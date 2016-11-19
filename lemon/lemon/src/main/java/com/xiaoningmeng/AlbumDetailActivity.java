@@ -440,7 +440,7 @@ public class AlbumDetailActivity extends BaseActivity implements
             }
         } else if (mPlayStoryId != null) {
             PlayerManager.getInstance().playStory(albumInfo, storyList, mPlayStoryPosition, mPlayTime, AlbumSource.ALBUM_DETAIL);
-        } else {
+        } else if (albumInfo.getStorylist() != null && albumInfo.getStorylist().size() > 0) {
             PlayerManager.getInstance().playStory(albumInfo, storyList, 0, AlbumSource.ALBUM_DETAIL);
             mPlayStoryId = albumInfo.getStorylist().get(0).getId();
         }

@@ -39,7 +39,7 @@ public class TagFragment extends LazyFragment implements SwipeRefreshLayout.OnRe
     private boolean isAttach;
     private boolean isPrepared;
     private LayoutInflater mInflater;
-    private View notLoadingView;
+    private View mFooterView;
     private Boolean albumClickable;
 
     @Override
@@ -133,15 +133,20 @@ public class TagFragment extends LazyFragment implements SwipeRefreshLayout.OnRe
                                 albumInfos.add(tagAlbum.getAlbuminfo());
                             }
                             mTagAlbums.addAll(tagAlbumList);
-                            if (direction == Constant.DOWN && tagAlbumList.size() == 0) {
-                                mQuickAdapter.loadComplete();
-                                if (notLoadingView == null) {
-                                    notLoadingView = TagFragment.this.getActivity().getLayoutInflater().inflate(R.layout.list_end_view, (ViewGroup) mRecyclerView.getParent(), false);
-                                }
-                                mQuickAdapter.addFooterView(notLoadingView);
-
-                            }
                             mQuickAdapter.addData(albumInfos);
+
+                            if (tagAlbumList.size() < Constant.GRID_REQ_LEN ) {
+
+                                if (mFooterView != null && mFooterView.getParent() != null) {
+                                    { ((ViewGroup) mFooterView.getParent()).removeView(mFooterView); }
+                                }
+
+                                mQuickAdapter.loadComplete();
+                                if (mFooterView == null) {
+                                    mFooterView = TagFragment.this.getActivity().getLayoutInflater().inflate(R.layout.list_end_view, (ViewGroup) mRecyclerView.getParent(), false);
+                                }
+                                mQuickAdapter.addFooterView(mFooterView);
+                            }
                         }
                     }
 

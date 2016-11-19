@@ -16,6 +16,7 @@ import com.alibaba.sdk.android.trade.TradeConfigs;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.tencent.bugly.crashreport.CrashReport.UserStrategy;
 import com.umeng.socialize.PlatformConfig;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xiaoningmeng.bean.AppInfo;
@@ -24,6 +25,7 @@ import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.CacheInterceptor;
 import com.xiaoningmeng.http.OSSAuth;
 import com.xiaoningmeng.player.MusicService;
+import com.xiaoningmeng.utils.AppUtils;
 import com.xiaoningmeng.utils.DebugUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.cookie.CookieJarImpl;
@@ -80,7 +82,18 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
 			AppInfo.getInstance();
 			Fresco.initialize(this);
 			OSSAuth.getInstance().init(this);
-			CrashReport.initCrashReport(this, "900008353", false);
+
+			//https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20161115202144
+			//Bugly上报进程的策略配置
+			Context context = getApplicationContext();
+			String packageName = context.getPackageName();
+			String processName = AppUtils.getProcessName(android.os.Process.myPid());
+			UserStrategy strategy = new UserStrategy(context);
+			strategy.setUploadProcess(processName == null || processName.equals(packageName));
+
+			//Bugly上报进程的策略配置
+			CrashReport.initCrashReport(getApplicationContext(),strategy);
+
 			initOkHttpClient();
 			//阿里百川
 			TradeConfigs.defaultTaokePid = Constant.DEFAULT_TAOKE_PID;

@@ -410,6 +410,9 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
 
     @Override
     protected void onDestroy() {
+
+        mPlayerManager = null;
+        PlayerManager.getInstance().mOnPlayingDownloadListener = null ;
         PlayerManager.getInstance().unRegister(this);
         EventBus.getDefault().unregister(this);
         super.onDestroy();

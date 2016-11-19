@@ -48,13 +48,27 @@
         android:largeHeap="true"
         android:theme="@style/LemonTheme"
         tools:replace="android:icon, android:theme,android:allowBackup">
+
+        <!--bugly 初始化-->
+        <!--https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20161115202144-->
+        <meta-data
+            android:name="BUGLY_APPID"
+            android:value="900008353" />
+        <meta-data
+            android:name="BUGLY_APP_VERSION"
+            android:value="2.6" />
+        <meta-data
+            android:name="BUGLY_APP_CHANNEL"
+            android:value="official" />
+        <meta-data
+            android:name="BUGLY_ENABLE_DEBUG"
+            android:value="true" />
         <activity
             android:name=".LoadingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/LoadingTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

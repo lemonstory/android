@@ -1,17 +1,14 @@
 
 package com.xiaoningmeng.utils;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.provider.Settings;
-import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
@@ -24,9 +21,10 @@ import com.alibaba.sdk.android.trade.model.TradeResult;
 import com.alibaba.sdk.android.trade.page.Page;
 import com.xiaoningmeng.constant.Constant;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Locale;
 import java.util.Map;
 
 
@@ -184,5 +182,34 @@ public class AppUtils {
 
 			}
 		});
+	}
+
+	/**
+	 * 获取进程号对应的进程名
+	 *
+	 * @param pid 进程号
+	 * @return 进程名
+	 */
+	public static String getProcessName(int pid) {
+		BufferedReader reader = null;
+		try {
+			reader = new BufferedReader(new FileReader("/proc/" + pid + "/cmdline"));
+			String processName = reader.readLine();
+			if (!TextUtils.isEmpty(processName)) {
+				processName = processName.trim();
+			}
+			return processName;
+		} catch (Throwable throwable) {
+			throwable.printStackTrace();
+		} finally {
+			try {
+				if (reader != null) {
+					reader.close();
+				}
+			} catch (IOException exception) {
+				exception.printStackTrace();
+			}
+		}
+		return null;
 	}
 }

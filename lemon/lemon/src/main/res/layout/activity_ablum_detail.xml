@@ -98,13 +98,15 @@
                 android:onClick="onClick"
                 android:src="@drawable/album_play"
                 android:layout_below="@+id/rb_ablum_detail_rate"
-                android:layout_alignBottom="@+id/img_ablum_detail_cover" />
+                android:layout_alignBottom="@+id/img_ablum_detail_cover"
+                android:adjustViewBounds="true"
+                android:cropToPadding="true" />
 
             <com.xiaoningmeng.view.CircleProgressBar
                 android:id="@+id/circleProgressBar"
                 android:layout_width="@dimen/ablum_play_height"
                 android:layout_height="@dimen/ablum_play_height"
-                android:layout_marginBottom="1dp"
+                android:layout_marginBottom="5dp"
                 app:roundColor2="@color/transparent"
                 app:roundWidth2="4dp"
                 app:style2="STROKE"

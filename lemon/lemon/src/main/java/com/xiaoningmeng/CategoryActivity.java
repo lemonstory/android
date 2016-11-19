@@ -94,12 +94,12 @@ public class CategoryActivity extends BaseActivity implements PlayObserver {
                         int viewType = mAdapter.getItemViewType(position);
                         switch (viewType) {
                             case Category.TYPE_AGE_LEVEL:
-                                Category.AgeLevelBean.AgeItemsBean ageItem =  (Category.AgeLevelBean.AgeItemsBean) mAdapter.getItem(position);
+                                Category.AgeLevelBean.AgeItemsBean ageItem = (Category.AgeLevelBean.AgeItemsBean) mAdapter.getItem(position);
                                 String ageItemLinkurl = ageItem.getLinkurl();
                                 //TODO 打开年龄页面
                                 break;
                             case Category.TYPE_TAG:
-                                Category.TagBean.TagItemsBean.ChildItemsBean tagItem =  (Category.TagBean.TagItemsBean.ChildItemsBean) mAdapter.getItem(position);
+                                Category.TagBean.TagItemsBean.ChildItemsBean tagItem = (Category.TagBean.TagItemsBean.ChildItemsBean) mAdapter.getItem(position);
                                 Uri tagItemLinkuri = Uri.parse(tagItem.getLinkurl());
                                 Intent intent = new Intent();
                                 intent.setData(tagItemLinkuri);
@@ -116,7 +116,13 @@ public class CategoryActivity extends BaseActivity implements PlayObserver {
     protected void onResume() {
         super.onResume();
         PlayWaveManager.getInstance().loadWaveAnim(this, mWaveImg);
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PlayerManager.getInstance().unRegister(this);
+        PlayWaveManager.getInstance().mContext = null;
     }
 
     private void requestCategoryData() {
@@ -191,15 +197,15 @@ public class CategoryActivity extends BaseActivity implements PlayObserver {
             int pos = parent.getChildAdapterPosition(view);
             int viewType = mAdapter.getItemViewType(pos);
 
-            if(viewType == Category.TYPE_SECTION) {
+            if (viewType == Category.TYPE_SECTION) {
                 lastSectionPos = pos;
             }
 
-            if(viewType == Category.TYPE_TAG) {
+            if (viewType == Category.TYPE_TAG) {
                 int relativePos = 0;
-                if(pos > lastSectionPos && !tagSecctionMap.containsKey(pos)) {
-                    tagSecctionMap.put(pos,lastSectionPos);
-                }else {
+                if (pos > lastSectionPos && !tagSecctionMap.containsKey(pos)) {
+                    tagSecctionMap.put(pos, lastSectionPos);
+                } else {
                     lastSectionPos = tagSecctionMap.get(pos);
                 }
                 relativePos = pos - lastSectionPos;

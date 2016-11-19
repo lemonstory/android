@@ -544,12 +544,12 @@ public class LHttpRequest {
 	}
 
 	//得到标签专辑列表
-	public void getAlbumRecommendReq(Context ctx, String url, String minAge, String maxAge, String startAlbumId, String len, JsonCallback<AlbumRecommend> handler) {
+	public void getAlbumRecommendReq(Context ctx, String url, String minAge, String maxAge, int page, int len, JsonCallback<AlbumRecommend> handler) {
 		GetBuilder builder = get(url).tag(ctx)
 				.addParams("min_age", minAge)
 				.addParams("max_age", maxAge)
-				.addParams("start_album_id", startAlbumId)
-				.addParams("len", len);
+				.addParams("page", page + "")
+				.addParams("len", len + "");
 		builder.build().execute(handler);
 	}
 }
