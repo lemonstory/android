@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.socialize.Config;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.xiaoningmeng.application.MyApplication;
@@ -112,87 +113,116 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
             case R.id.img_album_next:
                 mPlayerManager.nextPlay();
                 break;
+
             case R.id.img_album_per:
                 mPlayerManager.prevPlay();
                 break;
+
             case R.id.img_album_mode:
                 Animation modeAnim = AnimationUtils.loadAnimation(PlayActivity.this, R.anim.fav_anim_in);
                 v.startAnimation(modeAnim);
                 changePlayMode();
                 break;
+
             case R.id.img_head_right:
                 startActivityForNew(new Intent(this, ReminderActivity.class));
                 break;
+
             case R.id.img_album_pause:
                 if (mPlayerManager.isPlaying()) {
                     mPlayerManager.pausePlay();
                     ((ImageView) v).setImageResource(R.drawable.player_btn_play_normal);
-                    if(coverRotateAnim != null) {
+                    if (coverRotateAnim != null) {
                         mPlayCover.clearAnimation();
                     }
                 } else {
                     ((ImageView) v).setImageResource(R.drawable.player_btn_pause_normal);
-                    if(coverRotateAnim != null) {
+                    if (coverRotateAnim != null) {
                         mPlayCover.startAnimation(coverRotateAnim);
                     }
                     mPlayerManager.resumePlay();
                 }
                 break;
+
             case R.id.img_album_list:
                 Animation listAnim = AnimationUtils.loadAnimation(PlayActivity.this, R.anim.fav_anim_in);
                 v.startAnimation(listAnim);
                 showPlayingList();
                 break;
+
             case R.id.img_album_fav:
                 if (UserAuth.auditUser(this, "登录后,才能收藏故事喔.")) {
                     favAblum(v);
                 }
                 break;
+
             case R.id.rl_album_comment:
                 Animation commentAnim = AnimationUtils.loadAnimation(PlayActivity.this, R.anim.fav_anim_in);
                 v.startAnimation(commentAnim);
                 this.displayAlbumComment();
                 break;
+
             case R.id.img_album_download:
                 downloadStory(v);
                 break;
+
             case R.id.img_album_share:
+                DebugUtils.d("img_album_share Click!!!");
                 shareStory(v);
                 break;
+
             case R.id.tv_play_list_close:
                 break;
+
             default:
                 break;
         }
     }
 
-    //分享
+    //TODO:这里PlayingStory构造垃圾，播放的数据逻辑实现垃圾
     private void shareStory(View v) {
+
+        DebugUtils.d("shareStory Click!!!!");
         Animation shareAnim = AnimationUtils.loadAnimation(PlayActivity.this, R.anim.fav_anim_in);
         v.startAnimation(shareAnim);
-        final AlbumInfo albumInfo = mPlayerManager.getPlayingStory().albumInfo;
-        //如果是搜索过来则没有专辑信息，需要重新加载
-        if (albumInfo == null || albumInfo.getStorylist().size() == 0) {
-            LHttpRequest.getInstance().albumInfoReq(this, 10, mPlayerManager.getPlayingStory().albumid,
-                    MyApplication.getInstance().getUid(),
-                    new JsonCallback<Album>() {
+        PlayingStory playingStory = mPlayerManager.getPlayingStory();
+        final AlbumInfo albumInfo = playingStory.albumInfo;
 
-                        @Override
-                        public void onGetDataSuccess(Album data) {
-                            AlbumInfo albumInfo2 = data.getAlbumInfo();
-                            Story story = albumInfo.getStorylist().get(0);
-                            ShareBean shareBean = new ShareBean(albumInfo2.getTitle(), albumInfo.getIntro(), albumInfo2.getCover(), story.getMediapath(), Constant.SHARE_ALBUM_URL + albumInfo2.getAlbumid());
-                            mController = new ShareDialog().show(PlayActivity.this, shareBean);
-                        }
-                    });
+        //如果是搜索过来则没有专辑信息，需要重新加载
+        String title = "";
+        String content = "";
+        String iconUrl = "";
+        String musicUrl = playingStory.mediapath;
+        String url =  Constant.SHARE_ALBUM_URL + playingStory.albumid;
+
+        if (albumInfo == null || albumInfo.getStorylist().size() == 0) {
+
+            title = playingStory.title;
+            content = playingStory.intro;
+            iconUrl = playingStory.playcover;
+            url =  Constant.SHARE_ALBUM_URL + playingStory.albumid;
+
         } else {
-            Story story = albumInfo.getStorylist().get(0);
-            ShareBean shareBean = new ShareBean(albumInfo.getTitle(), albumInfo.getIntro(), albumInfo.getCover(), story.getMediapath(), Constant.SHARE_ALBUM_URL + albumInfo.getAlbumid());
-            mController = new ShareDialog().show(this, shareBean);
+
+            title = albumInfo.getTitle();
+            content = albumInfo.getIntro();
+            iconUrl = albumInfo.getCover();
         }
+
+        if(title == null || title.equals("")) {
+            title = this.getString(R.string.app_name);
+        }
+
+        if(content == null || content.equals("")) {
+            content = this.getString(R.string.app_desc);
+        }
+
+        ShareBean shareBean = new ShareBean(title, content, iconUrl, musicUrl, url);
+        mController = new ShareDialog().show(this, shareBean);
     }
 
     //下载
@@ -379,14 +409,14 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
         mSeekBar.setSecondaryProgress(music.buffer);
 
         //按住SeekBar时进度不更改
-        if(!isTrackingTouch) {
+        if (!isTrackingTouch) {
             mSeekBar.setProgress(music.current);
             mFinishTimeTv.setText(TimeUtils.getShortTimeShot(music.current));
         }
 
         if (isFirst) {
             isFirst = false;
-            if(coverRotateAnim != null) {
+            if (coverRotateAnim != null) {
                 mPlayCover.startAnimation(coverRotateAnim);
             }
         }
@@ -411,11 +441,12 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
     @Override
     protected void onDestroy() {
 
+        super.onDestroy();
         mPlayerManager = null;
-        PlayerManager.getInstance().mOnPlayingDownloadListener = null ;
+        PlayerManager.getInstance().mOnPlayingDownloadListener = null;
         PlayerManager.getInstance().unRegister(this);
         EventBus.getDefault().unregister(this);
-        super.onDestroy();
+        Config.dialog = null;
     }
 
 
@@ -436,7 +467,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
         if (music.albumInfo != null) {
             mFavImg.setSelected(music.albumInfo.getFav() == 1);
             DebugUtils.d("comment num = " + music.albumInfo.getCommentnum());
-            if(music.albumInfo.getCommentnum() > 0) {
+            if (music.albumInfo.getCommentnum() > 0) {
 
                 mCommentImg.setImageResource(R.drawable.play_btn_comments_selector);
                 mCommentTv.setText(music.albumInfo.getCommentnum() != 0 ? (music.albumInfo.getCommentnum() + "") : "");

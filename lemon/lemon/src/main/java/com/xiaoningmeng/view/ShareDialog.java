@@ -155,6 +155,6 @@ public class ShareDialog implements View.OnClickListener{
             android.text.ClipboardManager cmb = (android.text.ClipboardManager)mContext.getSystemService(Context.CLIPBOARD_SERVICE);
             cmb.setText(url);
         }
-        Toast.makeText(mContext, "复制链接成功", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, "链接已复制", Toast.LENGTH_SHORT).show();
     }
 }
