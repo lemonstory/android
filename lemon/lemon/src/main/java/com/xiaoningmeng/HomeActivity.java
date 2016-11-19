@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -445,16 +444,16 @@ public class HomeActivity extends BaseActivity implements
     };
 
     //TODO:第一次运行正常,重复点击back键dialog会自动消失.原因待查
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (!mSearchBarView.checkIsFocus()) { //检查mSearchView是否还有焦点
-                showCancelAppDialog();
-            }
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//
+//        if (keyCode == KeyEvent.KEYCODE_BACK) {
+//            if (!mSearchBarView.checkIsFocus()) { //检查mSearchView是否还有焦点
+//                showCancelAppDialog();
+//            }
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
 
     //显示退出应用的dialog
     private void showCancelAppDialog() {

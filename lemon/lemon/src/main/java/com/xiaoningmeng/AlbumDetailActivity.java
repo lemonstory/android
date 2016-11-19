@@ -53,7 +53,6 @@ import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.player.PlayerManager.AlbumSource;
 import com.xiaoningmeng.utils.AppUtils;
-import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.utils.ImageUtils;
 import com.xiaoningmeng.view.CircleProgressBar;
 import com.xiaoningmeng.view.RatingBar;
@@ -149,10 +148,8 @@ public class AlbumDetailActivity extends BaseActivity implements
         AlbumInfo albumInfo = getIntent().getParcelableExtra(this.ARG_ALBUM_INFO);
         if (albumInfo != null) {
 
-            DebugUtils.d("========= mAlbumId : " + mAlbumId);
             mAlbumId = albumInfo.getId();
             fillAlbumInfoView(albumInfo);
-            DebugUtils.d("========= mAlbumId : " + mAlbumId);
         }
 
         mHandler.postDelayed(new Runnable() {
@@ -288,8 +285,6 @@ public class AlbumDetailActivity extends BaseActivity implements
 
     public void requestAlbumDetailData() {
 
-        DebugUtils.d(" ===================== requestAlbumDetailData ================");
-        DebugUtils.d("========= mAlbumId : " + mAlbumId);
         if (mAlbumId != null && !mAlbumId.equals("")) {
 
             LHttpRequest.getInstance().albumInfoReq(this, 10, mAlbumId,
@@ -491,17 +486,19 @@ public class AlbumDetailActivity extends BaseActivity implements
 
     private void batchDownloadClick() {
 
-        //推荐分享
-        this.showShareDialog(albumInfo.getTitle());
+        if(albumInfo != null) {
+            //推荐分享
+            this.showShareDialog(albumInfo.getTitle());
 
-        //批量下载
-        if (storyList != null && storyList.size() > 0) {
-            for (int i = 0; i < storyList.size(); i++) {
-                Story story = storyList.get(i);
-                Message msg = mHandler.obtainMessage();
-                msg.obj = story;
-                msg.arg1 = i;
-                mHandler.sendMessageDelayed(msg, i * 10);
+            //批量下载
+            if (storyList != null && storyList.size() > 0) {
+                for (int i = 0; i < storyList.size(); i++) {
+                    Story story = storyList.get(i);
+                    Message msg = mHandler.obtainMessage();
+                    msg.obj = story;
+                    msg.arg1 = i;
+                    mHandler.sendMessageDelayed(msg, i * 10);
+                }
             }
         }
         MobclickAgent.onEvent(this, "event_batch_download");
