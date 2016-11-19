@@ -53,7 +53,7 @@
             android:clickable="true"
             android:gravity="center"
             android:text="确定"
-            android:textColor="@color/action_bar_bg"
+            android:textColor="#FDC772"
             android:textSize="@dimen/title_content_text_size" />
 
 

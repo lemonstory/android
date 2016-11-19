@@ -86,6 +86,15 @@ public class AlbumRecommendActivity extends BaseActivity implements OnFragmentIn
 
         pageTitle = intent.getStringExtra("pageTitle");
         String dataUrl = String.valueOf(intent.getData());
+        Uri uri = Uri.parse(dataUrl);
+        String arg_min_age = uri.getQueryParameter("min_age");
+        String arg_max_age = uri.getQueryParameter("max_age");
+        if(arg_min_age != null && !arg_min_age.equals("")) {
+            minAge = arg_min_age;
+        }
+        if(arg_max_age != null && !arg_max_age.equals("")) {
+            maxAge = arg_max_age;
+        }
         recommendUrl = dataUrl.replace("xnm://", "http://");
     }
 

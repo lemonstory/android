@@ -25,6 +25,7 @@ import com.xiaoningmeng.manager.EmptyHelper;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
+import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -96,6 +97,12 @@ public class CategoryActivity extends BaseActivity implements PlayObserver {
                             case Category.TYPE_AGE_LEVEL:
                                 Category.AgeLevelBean.AgeItemsBean ageItem = (Category.AgeLevelBean.AgeItemsBean) mAdapter.getItem(position);
                                 String ageItemLinkurl = ageItem.getLinkurl();
+                                DebugUtils.d("ageItemLinkurl = " + ageItemLinkurl);
+                                Intent ageLevelIntent = new Intent();
+                                ageLevelIntent.putExtra("pageTitle","最新上架");
+                                Uri uri = Uri.parse(ageItemLinkurl);
+                                ageLevelIntent.setData(uri);
+                                CategoryActivity.this.startActivity(ageLevelIntent);
                                 //TODO 打开年龄页面
                                 break;
                             case Category.TYPE_TAG:

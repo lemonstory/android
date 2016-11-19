@@ -19,6 +19,7 @@
     <color name="action_bar_dialog_bg">#9E804C</color>
     <color name="system_bar_tint_color">#4A4A4A</color>
     <color name="action_bar_bg_press">#e5ab48</color>
+    <color name="action_bar_bg_normal">#FDC772</color>
     <color name="black_p50">#7f000000</color>
     <color name="list_view_item_bg">#f9fcff</color>
     <color name="dialong_top_bg">#f24c4c</color>
@@ -92,4 +93,7 @@
 
     <!-- 专辑 标题-->
     <color name="album_title_color">#4A4A4A</color>
+
+    <!-- reminder -->
+    <color name="reminder_bg_press">#FDC772</color>
 </resources>

@@ -26,7 +26,6 @@ import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.EmptyHelper;
-import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -182,12 +181,15 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
             @Override
             public void onGetDataSuccess(AlbumRecommend data) {
 
+                mAlbumItems = data.getItems();
+                if (mSwipeRefreshLayout.isRefreshing()) {
+                    mAdapter.setNewData(mAlbumItems);
+                } else {
+                    mAdapter.addData(mAlbumItems);
+                }
                 isLoadData = true;
                 mSwipeRefreshLayout.setRefreshing(false);
-
-                mAlbumItems = data.getItems();
-                mAdapter.addData(mAlbumItems);
-         }
+            }
 
             @Override
             public void onFailure(String responseString) {
@@ -213,7 +215,9 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
                         notLoadingView = getActivity().getLayoutInflater().inflate(R.layout.list_end_view, (ViewGroup) mRecyclerView.getParent(), false);
                     }
                     if (notLoadingView != null && notLoadingView.getParent() != null) {
-                        { ((ViewGroup) notLoadingView.getParent()).removeView(notLoadingView); }
+                        {
+                            ((ViewGroup) notLoadingView.getParent()).removeView(notLoadingView);
+                        }
                     }
                     mAdapter.addFooterView(notLoadingView);
                 } else {

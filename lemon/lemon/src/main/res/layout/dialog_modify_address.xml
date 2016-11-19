@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/guide_input_height"
-        android:background="@color/action_bar_bg" >
+        android:background="#FDC772" >
 
         <TextView
             android:id="@+id/tv_dialog_cancel"

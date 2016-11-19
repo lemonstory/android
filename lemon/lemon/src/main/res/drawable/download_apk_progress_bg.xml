@@ -15,7 +15,7 @@
             <shape android:shape="rectangle" >
                 <corners android:radius="@dimen/perasonal_margin_left" />
 
-                <solid android:color="@color/action_bar_bg" />
+                <solid android:color="#FDC772" />
             </shape>
         </clip>
     </item>

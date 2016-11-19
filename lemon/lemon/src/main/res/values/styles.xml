@@ -132,7 +132,7 @@
     <!-- 进度加载样式 -->
     <style name="load_progress">
         <item name="roundColor">@color/white</item>
-        <item name="roundProgressColor">@color/action_bar_bg</item>
+        <item name="roundProgressColor">#FDC772</item>
         <item name="roundWidth">3dp</item>
     </style>
 
@@ -149,7 +149,7 @@
     </style>
 
     <style name="BaseTabIndicatorView">
-        <item name="footerColor1">@color/action_bar_bg</item>
+        <item name="footerColor1">#FDC772</item>
         <item name="footerLineHeight1">1dp</item>
         <item name="footerTriangleHeight">@dimen/download_tab_divider</item>
         <item name="normaltextColor">@color/base_text_color</item>
@@ -291,7 +291,7 @@
 
     <style name="page_sliding_tab_style">
         <item name="pstsIndicatorHeight">2dp</item>
-        <item name="pstsIndicatorColor">@color/action_bar_bg</item>
+        <item name="pstsIndicatorColor">#FDC772</item>
         <item name="pstsTabTextColor">@color/index_more_text_selector</item>
         <item name="pstsUnderlineHeight">0dp</item>
         <item name="pstsTabPaddingLeftRight">12dp</item>
@@ -347,7 +347,7 @@
         <item name="progress">0</item>
 
         <item name="progress_unreached_color">#F8F4F5</item>
-        <item name="progress_reached_color">@color/action_bar_bg</item>
+        <item name="progress_reached_color">#FDC772</item>
 
         <item name="progress_text_size">10sp</item>
         <item name="progress_text_color">@color/orage_color</item>

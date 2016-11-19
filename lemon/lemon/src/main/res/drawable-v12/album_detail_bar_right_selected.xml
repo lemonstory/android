@@ -8,6 +8,6 @@
         android:topRightRadius="@dimen/ablum_bar_radius" >
     </corners>
 
-    <solid android:color="@color/action_bar_bg" />
+    <solid android:color="#FDC772" />
 
 </shape>
