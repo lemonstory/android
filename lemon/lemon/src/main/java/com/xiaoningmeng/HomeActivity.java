@@ -151,7 +151,7 @@ public class HomeActivity extends BaseActivity implements
             if (remindCountDown == Constant.REMINDER_COUNTDOWN) {
                 new TipDialog.Builder(this).setHasBtn(true)
                         .setTipText(getResources().getString(R.string.remider_tip))
-                        .setEnterText("设置")
+                        .setEnterText("好")
                         .setTransparent(false)
                         .setOnClickListener(
                                 new com.orhanobut.dialogplus.OnClickListener() {
@@ -415,8 +415,8 @@ public class HomeActivity extends BaseActivity implements
             case R.id.tv_home_forum:
                 setTabSelect(2);
                 break;
-			/*case R.id.tv_home_shop:
-				setTabSelect(3);
+            /*case R.id.tv_home_shop:
+                setTabSelect(3);
 				break;*/
             case R.id.tv_home_account:
                 setTabSelect(4);
@@ -444,25 +444,21 @@ public class HomeActivity extends BaseActivity implements
         }
     };
 
+    //TODO:第一次运行正常,重复点击back键dialog会自动消失.原因待查
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (!mSearchBarView.checkIsFocus()) { //检查mSearchView是否还有焦点
                 showCancelAppDialog();
-                if (!PlayerManager.getInstance().isPlaying()) {
-                    MusicService.stopService(HomeActivity.this);
-                }
-                oldFinish();
             }
-            return true;
         }
         return super.onKeyDown(keyCode, event);
     }
 
     //显示退出应用的dialog
     private void showCancelAppDialog() {
-        new TipDialog.Builder(this)
+        TipDialog tipDialog = new TipDialog.Builder(this)
                 .setHasBtn(true)
                 .setTipText("确定退出小柠檬？")
                 .setShieldActionUp(true)
@@ -473,20 +469,29 @@ public class HomeActivity extends BaseActivity implements
 
                             @Override
                             public void onClick(DialogPlus dialog, View view) {
-                                dialog.dismiss();
+
                                 switch (view.getId()) {
+
                                     case R.id.tv_dialog_enter:
+                                        dialog.dismiss();
                                         MusicService.stopService(HomeActivity.this);
                                         oldFinish();
 
                                         break;
+
                                     case R.id.tv_dialog_min:
+                                        dialog.dismiss();
                                         oldFinish();
+                                        break;
+
+                                    default:
+                                        dialog.dismiss();
                                         break;
                                 }
 
                             }
-                        }).create().show();
+                        }).create();
+        tipDialog.show();
     }
 
     @Override
