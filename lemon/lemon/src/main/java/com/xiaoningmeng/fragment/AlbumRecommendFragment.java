@@ -212,7 +212,7 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
                 if (mAlbumItems.size() < pageSize) {
                     mAdapter.loadComplete();
                     if (notLoadingView == null) {
-                        notLoadingView = getActivity().getLayoutInflater().inflate(R.layout.list_end_view, (ViewGroup) mRecyclerView.getParent(), false);
+                        notLoadingView = getActivity().getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);
                     }
                     if (notLoadingView != null && notLoadingView.getParent() != null) {
                         {

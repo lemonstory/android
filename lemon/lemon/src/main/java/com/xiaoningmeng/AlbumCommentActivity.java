@@ -149,7 +149,7 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
                                 //数量不足page_size 显示加载完成view
                                 if (mCurrentCounter == mTotalCounter && mCurrentCounter < pageSize) {
                                     if (notLoadingView == null) {
-                                        notLoadingView = getLayoutInflater().inflate(R.layout.list_end_view, (ViewGroup) mRecyclerView.getParent(), false);
+                                        notLoadingView = getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);
                                     }
                                     mAdapter.addFooterView(notLoadingView);
                                 }
@@ -208,7 +208,7 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
                 if (mCurrentCounter >= mTotalCounter) {
                     mAdapter.loadComplete();
                     if (notLoadingView == null) {
-                        notLoadingView = getLayoutInflater().inflate(R.layout.list_end_view, (ViewGroup) mRecyclerView.getParent(), false);
+                        notLoadingView = getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);
                     }
                     mAdapter.addFooterView(notLoadingView);
                 } else {

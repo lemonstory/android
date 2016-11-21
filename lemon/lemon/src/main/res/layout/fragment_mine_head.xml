@@ -61,7 +61,7 @@
         >
     <ImageView 
         android:id="@+id/img_mine_download"
-        android:src="@drawable/mine_tab_download"
+        android:src="@drawable/album_share"
         android:layout_width="@dimen/mine_head_img_width"
         android:layout_height="match_parent"
         android:scaleType="center"

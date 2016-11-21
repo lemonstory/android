@@ -30,7 +30,7 @@ public class PlayWaveManager implements PlayObserver {
 
 		@Override
 		public void onClick(View v) {
-			if(mPlayerManager.getPlayList().size() > 0){
+			if(mPlayerManager.getPlayList().size() > 0 && null != mContext){
 				Intent i = new Intent(mContext, PlayActivity.class);
 				mContext.startActivity(i);
 				mContext.overridePendingTransition(R.anim.main_translatey100to0,

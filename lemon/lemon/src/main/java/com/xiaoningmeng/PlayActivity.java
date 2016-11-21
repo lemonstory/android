@@ -94,9 +94,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
         mPauseImg = (ImageView) this.findViewById(R.id.img_album_pause);
         mCommentTv = (TextView) this.findViewById(R.id.tv_album_comment);
         mCommentImg = (ImageView) this.findViewById(R.id.img_album_comment);
-        setRightHeadIcon(R.drawable.play_btn_reminder_selecotr);
         mFavImg = (ImageView) findViewById(R.id.img_album_fav);
-        findViewById(R.id.img_head_right).setOnClickListener(this);
         mMusicModeImg.setOnClickListener(this);
         mSeekBar.setOnSeekBarChangeListener(this);
         mSeekBar.setOnClickListener(new OnClickListener() {
@@ -128,7 +126,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
                 changePlayMode();
                 break;
 
-            case R.id.img_head_right:
+            case R.id.img_player_reminder:
                 startActivityForNew(new Intent(this, ReminderActivity.class));
                 break;
 
@@ -171,7 +169,6 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
                 break;
 
             case R.id.img_album_share:
-                DebugUtils.d("img_album_share Click!!!");
                 shareStory(v);
                 break;
 
@@ -197,14 +194,14 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
         String content = "";
         String iconUrl = "";
         String musicUrl = playingStory.mediapath;
-        String url =  Constant.SHARE_ALBUM_URL + playingStory.albumid;
+        String url = Constant.SHARE_ALBUM_URL + playingStory.albumid;
 
         if (albumInfo == null || albumInfo.getStorylist().size() == 0) {
 
             title = playingStory.title;
             content = playingStory.intro;
             iconUrl = playingStory.playcover;
-            url =  Constant.SHARE_ALBUM_URL + playingStory.albumid;
+            url = Constant.SHARE_ALBUM_URL + playingStory.albumid;
 
         } else {
 
@@ -213,11 +210,11 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
             iconUrl = albumInfo.getCover();
         }
 
-        if(title == null || title.equals("")) {
+        if (title == null || title.equals("")) {
             title = this.getString(R.string.app_name);
         }
 
-        if(content == null || content.equals("")) {
+        if (content == null || content.equals("")) {
             content = this.getString(R.string.app_desc);
         }
 

@@ -79,7 +79,6 @@
 -keep class com.baidu.** {*;}
 -keep class vi.com.** {*;}
 -keep class com.google.gson.**{*;}
--keep class com.android.volley.**{*;}
 -keep class com.alibaba.sdk.** { *; }
 -keep class com.squareup.okhttp.** { *; }
 -keep class okio.** { *; }
@@ -215,6 +214,18 @@
 }
 -keep class com.linkedin.** { *; }
 -keepattributes Signature
+
+#https://github.com/ReactiveX/RxJava/issues/3097
+-keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
+    long producerIndex;
+    long consumerIndex;
+}
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {
+    rx.internal.util.atomic.LinkedQueueNode producerNode;
+}
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
+    rx.internal.util.atomic.LinkedQueueNode consumerNode;
+}
 #end
 -ignorewarnings
 

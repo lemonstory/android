@@ -209,7 +209,7 @@ public class BaseActivity extends AppCompatActivity implements ILoading {
 
 	protected View getFooterView() {
 		LayoutInflater layoutInflater = this.getLayoutInflater();
-		View view = layoutInflater.inflate(R.layout.list_end_view, null);
+		View view = layoutInflater.inflate(R.layout.list_footer_view, null);
 		//view.findViewById(R.id.tv).setVisibility(View.GONE);
 		view.setLayoutParams(new DrawerLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 		view.setOnClickListener(new View.OnClickListener() {

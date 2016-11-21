@@ -143,7 +143,7 @@ public class TagFragment extends LazyFragment implements SwipeRefreshLayout.OnRe
 
                                 mQuickAdapter.loadComplete();
                                 if (mFooterView == null) {
-                                    mFooterView = TagFragment.this.getActivity().getLayoutInflater().inflate(R.layout.list_end_view, (ViewGroup) mRecyclerView.getParent(), false);
+                                    mFooterView = TagFragment.this.getActivity().getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);
                                 }
                                 mQuickAdapter.addFooterView(mFooterView);
                             }
