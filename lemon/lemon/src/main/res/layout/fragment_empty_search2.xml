@@ -18,5 +18,4 @@
         android:layout_height="match_parent"
         android:background="@color/home_bg"/>
     <include layout="@layout/fragment_empty"/>
-
 </LinearLayout>

@@ -29,13 +29,12 @@ import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.view.SearchView;
 import com.xiaoningmeng.view.TabIndicatorView;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
-public class SearchActivity extends BaseActivity implements SearchView.OnSearchViewListener,View.OnClickListener{
+public class SearchActivity extends BaseActivity implements SearchView.OnSearchViewListener, View.OnClickListener {
     private XListView mListView;
     private SearchAdapter mSearchAdapter;
     private SearchDefaultAdapter2 mDefaultAdapter;
@@ -48,11 +47,10 @@ public class SearchActivity extends BaseActivity implements SearchView.OnSearchV
     private SearchView mSearchView;
     private View mSearchContentView;
     private FrameLayout mSearchFl;
-    public static String[] TAB_TITLES = new String[]{"声音","专辑"};
+    public static String[] TAB_TITLES = new String[]{"专辑", "声音"};
     public BaseFragment[] mSearchFragments = new BaseFragment[2];
-    private int mPager  = 1;
+    private int mPager = 1;
     private String mSearchContent;
-
 
 
     @Override
@@ -60,8 +58,8 @@ public class SearchActivity extends BaseActivity implements SearchView.OnSearchV
         super.onCreate(savedInstanceState);
         Fresco.initialize(this);
         setContentView(R.layout.activity_search);
-        mListView = (XListView)findViewById(R.id.id_stickynavlayout_innerscrollview);
-        mSearchView = ((SearchView)findViewById(R.id.search_bar));
+        mListView = (XListView) findViewById(R.id.id_stickynavlayout_innerscrollview);
+        mSearchView = ((SearchView) findViewById(R.id.search_bar));
         mSearchFl = (FrameLayout) findViewById(R.id.fl_search_content);
         mListView.setPullLoadEnable(false);
         mListView.setPullRefreshEnable(false);
@@ -69,21 +67,21 @@ public class SearchActivity extends BaseActivity implements SearchView.OnSearchV
         mHotContents = new ArrayList<>();
         mLastContents = new ArrayList<>();
         mLastContents.addAll(SearchDao.getInstance().getSearchContentList(20));
-        mDefaultAdapter = new SearchDefaultAdapter2(this,mHotContents,mLastContents);
+        mDefaultAdapter = new SearchDefaultAdapter2(this, mHotContents, mLastContents);
         mSearchAdapter = new SearchAdapter(this, mAlbumInfos);
         mListView.setAdapter(mDefaultAdapter);
         requestDefaultSearchReq();
         mSearchView.loadView(true);
         mSearchView.setOnSearchViewListener(SearchActivity.this);
     }
-    public void requestDefaultSearchReq(){
 
+    public void requestDefaultSearchReq() {
 
         LHttpRequest.getInstance().getHotSearchReq(this, 20, new JsonCallback<List<SearchContent>>() {
 
             @Override
             public void onGetDataSuccess(List<SearchContent> data) {
-                if(data != null && data.size() >0){
+                if (data != null && data.size() > 0) {
                     mHotContents.addAll(data);
                     mDefaultAdapter.notifyDataSetChanged();
                 }
@@ -101,20 +99,21 @@ public class SearchActivity extends BaseActivity implements SearchView.OnSearchV
         mAlbumInfos.clear();
         setLoadingTip("搜索中...");
         mPager = 1;
-        LHttpRequest.getInstance().searchReq(this, searchContent, 10,mPager,null,
+        String searchType = "";
+        LHttpRequest.getInstance().searchReq(this, searchContent, 10, mPager, searchType,
                 new JsonCallback<SearchData>(this) {
 
                     @Override
                     public void onGetDataSuccess(SearchData data) {
                         mPager++;
                         mSearchContentView.setVisibility(View.VISIBLE);
-                        if (data != null && (data.getAlbumcount()!=0 || data.getStorycount()!= 0)) {
+                        if (data != null && (data.getAlbumcount() != 0 || data.getStorycount() != 0)) {
                             hideEmptyTip();
-                            ((TextView)mIndicator.getChildAt(1)).setText(TAB_TITLES[1]+"（"+data.getAlbumcount()+"）");
-                            ((TextView)mIndicator.getChildAt(0)).setText(TAB_TITLES[0]+"（"+data.getStorycount()+"）");
-                            ((SearchStoryChildFragment)mSearchFragments[0]).setStoryList(data.getStorylist());
-                            ((SearchAlbumChildFragment)mSearchFragments[1]).setAlbumList(data.getAlbumlist());
-                        }else{
+                            ((TextView) mIndicator.getChildAt(0)).setText(TAB_TITLES[0] + "（" + data.getAlbumcount() + "）");
+                            ((TextView) mIndicator.getChildAt(1)).setText(TAB_TITLES[1] + "（" + data.getStorycount() + "）");
+                            ((SearchAlbumChildFragment) mSearchFragments[0]).setAlbumList(data.getAlbumlist());
+                            ((SearchStoryChildFragment) mSearchFragments[1]).setStoryList(data.getStorylist());
+                        } else {
                             showEmptyTip();
                         }
                     }
@@ -130,8 +129,8 @@ public class SearchActivity extends BaseActivity implements SearchView.OnSearchV
                     @Override
                     public void onFinish() {
                         isReq.set(false);
-                        if(SearchDao.getInstance().addSearch(searchContent)){
-                            mLastContents.add(0,new SearchContent(searchContent));
+                        if (SearchDao.getInstance().addSearch(searchContent)) {
+                            mLastContents.add(0, new SearchContent(searchContent));
                             mDefaultAdapter.notifyDataSetChanged();
                         }
                         super.onFinish();
@@ -141,37 +140,36 @@ public class SearchActivity extends BaseActivity implements SearchView.OnSearchV
 
     public void moreSearch(String searchType) {
 
-        if (mSearchContent== null && isReq.get()) {
+        if (mSearchContent == null && isReq.get()) {
             return;
         }
         isReq.set(true);
 
         mAlbumInfos.clear();
-        LHttpRequest.getInstance().searchReq(this, mSearchContent, 10,mPager,searchType,
+        LHttpRequest.getInstance().searchReq(this, mSearchContent, 10, mPager, searchType,
                 new JsonCallback<SearchData>() {
 
                     @Override
                     public void onGetDataSuccess(SearchData data) {
                         mPager++;
                         mSearchContentView.setVisibility(View.VISIBLE);
-                        ((SearchStoryChildFragment)mSearchFragments[0]).addStoryList(data.getStorylist());
-                        ((SearchAlbumChildFragment)mSearchFragments[1]).addAlbumList(data.getAlbumlist());
-
+                        ((SearchAlbumChildFragment) mSearchFragments[0]).addAlbumList(data.getAlbumlist());
+                        ((SearchStoryChildFragment) mSearchFragments[1]).addStoryList(data.getStorylist());
                     }
+
                     @Override
                     public void onFinish() {
                         isReq.set(false);
-                        ((SearchStoryChildFragment)mSearchFragments[0]).stopLoadMore();
-                        ((SearchAlbumChildFragment)mSearchFragments[1]).stopLoadMore();
+                        ((SearchAlbumChildFragment) mSearchFragments[0]).stopLoadMore();
+                        ((SearchStoryChildFragment) mSearchFragments[1]).stopLoadMore();
                         super.onFinish();
-
                     }
                 });
     }
 
     @Override
     public void showDefault() {
-        if(mSearchContentView != null){
+        if (mSearchContentView != null) {
             mSearchContentView.setVisibility(View.INVISIBLE);
         }
     }
@@ -179,48 +177,45 @@ public class SearchActivity extends BaseActivity implements SearchView.OnSearchV
     @Override
     public void showEmpty(boolean isShowListView) {
 
-            ViewGroup contentView =  mSearchFl;
-            if(mSearchContentView == null){
-                mSearchContentView = View.inflate(this, R.layout.fragment_empty_search2, null);
-                mIndicator = (TabIndicatorView) mSearchContentView.findViewById(R.id.tab_indicator);
-                mViewPager = (ViewPager) mSearchContentView.findViewById(R.id.viewpager);
-                emptyView = (TextView) mSearchContentView.findViewById(R.id.tv_empty_tip);
-                emptyView.setBackgroundColor(getResources().getColor(R.color.white));
-                emptyView.setText("没有搜索匹配的内容");
-                mIndicator.init(0, TAB_TITLES, mViewPager);
-                mIndicator.getChildAt(0).setOnClickListener(this);
-                mIndicator.getChildAt(1).setOnClickListener(this);
-                mViewPager.setOffscreenPageLimit(1);
-                mViewPager.setAdapter(new TabFragmentPagerAdapter(getSupportFragmentManager()));
-                mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                    @Override
-                    public void onPageScrolled(int position, float positionOffset,
-                                               int positionOffsetPixels) {
+        ViewGroup contentView = mSearchFl;
+        if (mSearchContentView == null) {
+            mSearchContentView = View.inflate(this, R.layout.fragment_empty_search2, null);
+            mIndicator = (TabIndicatorView) mSearchContentView.findViewById(R.id.tab_indicator);
+            mViewPager = (ViewPager) mSearchContentView.findViewById(R.id.viewpager);
+            emptyView = (TextView) mSearchContentView.findViewById(R.id.tv_empty_tip);
+            emptyView.setBackgroundColor(getResources().getColor(R.color.white));
+            emptyView.setText("没有搜索匹配的内容");
+            mIndicator.init(0, TAB_TITLES, mViewPager);
+            mIndicator.getChildAt(0).setOnClickListener(this);
+            mIndicator.getChildAt(1).setOnClickListener(this);
+            mViewPager.setOffscreenPageLimit(1);
+            mViewPager.setAdapter(new TabFragmentPagerAdapter(getSupportFragmentManager()));
+            mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset,
+                                           int positionOffsetPixels) {
 
-                        mIndicator.onScrolled((mViewPager.getWidth() + mViewPager.getPageMargin()) * position + positionOffsetPixels);
-                    }
+                    mIndicator.onScrolled((mViewPager.getWidth() + mViewPager.getPageMargin()) * position + positionOffsetPixels);
+                }
 
-                    @Override
-                    public void onPageSelected(int position) {
-                        mIndicator.onSwitched(position);
-                    }
-                    @Override
-                    public void onPageScrollStateChanged(int state) {
+                @Override
+                public void onPageSelected(int position) {
+                    mIndicator.onSwitched(position);
+                }
 
-                    }
-                });
+                @Override
+                public void onPageScrollStateChanged(int state) {
 
-                contentView.addView(mSearchContentView);
-
-            }
-            emptyView.setVisibility(View.GONE);
-            mIndicator.setVisibility(View.INVISIBLE);
-            mViewPager.setVisibility(View.INVISIBLE);
-            mSearchContentView.setVisibility(View.VISIBLE);
-            mAlbumInfos.clear();
-            mSearchAdapter.notifyDataSetChanged();
-
-
+                }
+            });
+            contentView.addView(mSearchContentView);
+        }
+        emptyView.setVisibility(View.GONE);
+        mIndicator.setVisibility(View.INVISIBLE);
+        mViewPager.setVisibility(View.INVISIBLE);
+        mSearchContentView.setVisibility(View.VISIBLE);
+        mAlbumInfos.clear();
+        mSearchAdapter.notifyDataSetChanged();
     }
 
     TextView emptyView;
@@ -253,10 +248,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnSearchV
     }
 
 
-    public  class TabFragmentPagerAdapter extends FragmentPagerAdapter {
-
-
-
+    public class TabFragmentPagerAdapter extends FragmentPagerAdapter {
         public TabFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
 
@@ -265,13 +257,13 @@ public class SearchActivity extends BaseActivity implements SearchView.OnSearchV
         @Override
         public Fragment getItem(int position) {
 
-            if(mSearchFragments[position] == null){
+            if (mSearchFragments[position] == null) {
                 switch (position) {
                     case 0:
-                        mSearchFragments[position] = new SearchStoryChildFragment();
+                        mSearchFragments[position] = new SearchAlbumChildFragment();
                         break;
                     case 1:
-                        mSearchFragments[position] = new SearchAlbumChildFragment();
+                        mSearchFragments[position] = new SearchStoryChildFragment();
                         break;
                 }
 
@@ -284,6 +276,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnSearchV
 
             return mSearchFragments.length;
         }
+
         @Override
         public int getItemPosition(Object object) {
 
@@ -295,13 +288,14 @@ public class SearchActivity extends BaseActivity implements SearchView.OnSearchV
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if(mSearchView.checkIsFocus()){ //检查mSearchView是否还有焦点
+            if (mSearchView.checkIsFocus()) { //检查mSearchView是否还有焦点
                 return true;
             }
         }
         return super.onKeyDown(keyCode, event);
     }
-    public void search1(String content){
+
+    public void search1(String content) {
         mSearchView.search(content);
     }
 
@@ -311,7 +305,4 @@ public class SearchActivity extends BaseActivity implements SearchView.OnSearchV
         overridePendingTransition(R.anim.search_translateyf100to0,
                 R.anim.search_translatey0to100);
     }
-
-
 }
-
