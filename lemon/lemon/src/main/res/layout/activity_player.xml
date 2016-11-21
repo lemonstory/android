@@ -109,7 +109,7 @@
             android:onClick="back"
             android:paddingLeft="@dimen/bar_margin"
             android:paddingRight="@dimen/base_margin"
-            android:src="@drawable/bar_back_selector" />
+            android:src="@drawable/bar_back" />
 
         <ImageView
             android:id="@+id/img_album_share"

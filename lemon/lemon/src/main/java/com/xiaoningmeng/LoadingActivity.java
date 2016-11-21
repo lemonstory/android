@@ -1,8 +1,6 @@
 package com.xiaoningmeng;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -23,7 +21,7 @@ import com.xiaoningmeng.utils.PreferenceUtil;
 public class LoadingActivity extends BaseActivity {
 
 	private Handler mHandler = new Handler();
-	public static final int LOGIN_TIME = 800;
+	public static final int LOGIN_TIME = 1600;
 	private TextView mAdCountDownTv;
 	private int countDown = 5;
 
@@ -43,7 +41,7 @@ public class LoadingActivity extends BaseActivity {
 			return;
 		}
 		int loadCountDown = PreferenceUtil.getInt("load_countdown");
-		if(loadCountDown <3){
+		if(loadCountDown < 3){
 			PreferenceUtil.putInt("load_countdown",loadCountDown+1);
 			mHandler.postDelayed(new Runnable() {
 				@Override

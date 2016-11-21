@@ -14,15 +14,43 @@
         android:src="@drawable/login_head" />
 
 
+    <com.xiaoningmeng.view.DrawableCenterTextView
+        android:id="@+id/tv_login_weixin"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/login_btn_height"
+        android:layout_above="@+id/ll_login_bottom"
+        android:layout_marginLeft="@dimen/login_margin_left"
+        android:layout_marginRight="@dimen/login_margin_left"
+        android:layout_marginTop="@dimen/login_btn_padding"
+        android:background="@drawable/login_weixin_btn_selector"
+        android:clickable="true"
+        android:drawableLeft="@drawable/login_wechat_tip"
+        android:drawablePadding="@dimen/base_radius_size"
+        android:gravity="center_vertical"
+        android:onClick="onClick"
+        android:text="微信登录"
+        android:textColor="@color/white"
+        android:textSize="@dimen/title_text_size"
+        android:visibility="gone" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tv_login_qq"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/login_tip_margin_bottom"
+        android:text="使用第三方社交软件登录"
+        android:textColor="#8b96a1"
+        android:textSize="@dimen/date_text_size" />
+
     <LinearLayout
         android:id="@+id/ll_login_bottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="68dp"
+        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/login_margin_bottom"
-        android:layout_marginTop="@dimen/login_btn_margin_bottom"
-        android:orientation="horizontal">
+        android:layout_centerHorizontal="true">
 
         <TextView
             android:id="@+id/tv_login_agreement"
@@ -49,29 +77,9 @@
     </LinearLayout>
 
     <com.xiaoningmeng.view.DrawableCenterTextView
-        android:id="@+id/tv_login_weixin"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/login_btn_height"
-        android:layout_above="@id/ll_login_bottom"
-        android:layout_marginLeft="@dimen/login_margin_left"
-        android:layout_marginRight="@dimen/login_margin_left"
-        android:layout_marginTop="@dimen/login_btn_padding"
-        android:background="@drawable/login_weixin_btn_selector"
-        android:clickable="true"
-        android:drawableLeft="@drawable/login_wechat_tip"
-        android:drawablePadding="@dimen/base_radius_size"
-        android:gravity="center_vertical"
-        android:onClick="onClick"
-        android:text="微信登录"
-        android:textColor="@color/white"
-        android:textSize="@dimen/title_text_size"
-        android:visibility="gone" />
-
-    <com.xiaoningmeng.view.DrawableCenterTextView
         android:id="@+id/tv_login_qq"
         android:layout_width="match_parent"
         android:layout_height="@dimen/login_btn_height"
-        android:layout_above="@id/tv_login_weixin"
         android:layout_marginLeft="@dimen/login_margin_left"
         android:layout_marginRight="@dimen/login_margin_left"
         android:background="@drawable/login_qq_btn_selector"
@@ -82,15 +90,8 @@
         android:onClick="onClick"
         android:text="QQ登录"
         android:textColor="@color/login_qq_btn_text_color"
-        android:textSize="@dimen/title_text_size" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/tv_login_qq"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/login_tip_margin_bottom"
-        android:text="使用第三方社交软件登录"
-        android:textColor="#8b96a1"
-        android:textSize="@dimen/date_text_size" />
+        android:textSize="@dimen/title_text_size"
+        android:layout_marginBottom="48dp"
+        android:layout_above="@+id/ll_login_bottom"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
