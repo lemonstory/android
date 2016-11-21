@@ -429,7 +429,7 @@
                 <category android:name="com.xiaoningmeng.intent.category.recommend" />
 
                 <data android:scheme="xnm" />
-                <data android:host="dev.xiaoningmeng.net" />
+                <data android:host="api.xiaoningmeng.net" />
                 <data android:path="/default/v2.6/recommend_list.php" />
                 <data android:path="/default/v2.6/same_age_list.php" />
                 <data android:path="/default/v2.6/online_list.php" />
