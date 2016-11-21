@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -14,7 +13,6 @@ import android.webkit.WebStorage.QuotaUpdater;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.xiaoningmeng.application.ActivityManager;
 import com.xiaoningmeng.base.BaseActivity;
@@ -25,7 +23,6 @@ import com.xiaoningmeng.utils.NetUtils;
 public class WebViewActivity extends BaseActivity {
 
 	private WebView webView;
-	private ViewGroup loadingView;
 	private String webUrl;
 	private ProgressBar progressBar;
 	@Override
@@ -37,6 +34,9 @@ public class WebViewActivity extends BaseActivity {
 		progressBar = (ProgressBar)findViewById(R.id.myProgressBar);
 		settingWebView();
 		webUrl = getIntent().getStringExtra("web_url");
+		if(null == webUrl) {
+			webUrl = String.valueOf(getIntent().getData());
+		}
 		reRequestLoading();
 		CookieSyncManager.getInstance().sync();
 		//synCookies(WebViewActivity.this, url);
@@ -132,7 +132,7 @@ public class WebViewActivity extends BaseActivity {
 			public void onReceivedTitle(WebView view, String title) {
 				super.onReceivedTitle(view, title);
 				if (!TextUtils.isEmpty(title)) {
-					WebViewActivity.this.setTitleName("title");
+					WebViewActivity.this.setTitleName(title);
 				}
 			}
 
@@ -171,38 +171,14 @@ public class WebViewActivity extends BaseActivity {
 
 	private void reRequestLoading(){
 
-		if(loadingView == null){
-			loadingView = (ViewGroup)findViewById(R.id.rl_loading);
-		}
-		loadingView.setClickable(false);
-		loadingView.setVisibility(View.VISIBLE);
-		((TextView)loadingView.getChildAt(0)).setText("正在努力加载中");
-		loadingView.getChildAt(1).setVisibility(View.VISIBLE);
 	}
 
 	private void reqeuestSuccess(){
 
-		loadingView.setVisibility(View.INVISIBLE);
-		loadingView.setClickable(false);
 	}
 
 	private void onFailure(){
 
-		if(loadingView == null){
-			loadingView = (ViewGroup)findViewById(R.id.rl_loading);
-		}
-		loadingView.setVisibility(View.VISIBLE);
-		((TextView)loadingView.getChildAt(0)).setText("请连接网络后点击屏幕重试");
-		loadingView.getChildAt(1).setVisibility(View.INVISIBLE);
-		loadingView.setClickable(true);
-		loadingView.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				reRequestLoading();
-				webView.loadUrl(webUrl/*, headers*/);
-			}
-		});
 	}
 
 	public boolean onKeyDown(int keyCode, KeyEvent event) {

@@ -89,7 +89,7 @@
     <color name="forum_icon_background_color">#f5f8fc</color>
 
     <!--首页 广告背景-->
-    <color name="ad_background_color">#A9B3BD</color>
+    <color name="ad_background_color">#e2e7ed</color>
 
     <!-- 专辑 标题-->
     <color name="album_title_color">#4A4A4A</color>

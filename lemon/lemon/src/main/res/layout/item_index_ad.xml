@@ -4,7 +4,6 @@
     android:id="@+id/img_index_ad"
     android:layout_width="match_parent"
     android:layout_height="@dimen/ablum_play_height"
-    android:background="?attr/selectableItemBackgroundBorderless"
     android:paddingLeft="@dimen/page_padding_left"
     android:paddingRight="@dimen/page_padding_right"
     android:paddingTop="@dimen/bar_margin"

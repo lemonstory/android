@@ -30,11 +30,13 @@ import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.IRecyclerItem;
 import com.xiaoningmeng.bean.Index;
+import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.manager.DownloadApkManager;
 import com.xiaoningmeng.manager.EmptyHelper;
 import com.xiaoningmeng.presenter.DiscoverPresenter;
 import com.xiaoningmeng.presenter.contract.DiscoverConstract;
 import com.xiaoningmeng.utils.AppUtils;
+import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -105,6 +107,16 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         DiscoverFragment.this.getActivity().startActivity(intent);
                         break;
+
+                    case Index.AD_TYPE:
+                        DebugUtils.d("------Click! AD_TYPE");
+                        Index.AdBean.ItemsBean adInfo = (Index.AdBean.ItemsBean) iRecyclerItem;
+                        DebugUtils.d("------adInfo linkurl = " + adInfo.getLinkurl());
+                        Uri adLinkUri = Uri.parse(adInfo.getLinkurl());
+                        Intent adIntent = new Intent();
+                        adIntent.setData(adLinkUri);
+                        DiscoverFragment.this.getActivity().startActivity(adIntent);
+                        break;
                 }
             }
 
@@ -121,6 +133,15 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
                         moreIntent.putExtra("pageTitle", albumSectionItem.getTitle());
                         moreIntent.setData(albumSectionItemLinkUri);
                         DiscoverFragment.this.getActivity().startActivity(moreIntent);
+                        break;
+
+                    case Index.AD_TYPE:
+                        Index.AdBean.ItemsBean adInfo = (Index.AdBean.ItemsBean) iRecyclerItem;
+                        Uri adLinkUri = Uri.parse(adInfo.getLinkurl());
+                        Intent adIntent = new Intent();
+                        adIntent.setData(adLinkUri);
+                        adIntent.addCategory(Constant.DEFAULT_INTENT_CATEGORY);
+                        DiscoverFragment.this.getActivity().startActivity(adIntent);
                         break;
 
                 }

@@ -25,38 +25,40 @@ public class TipDialog {
 
 		this.builder = builder;
 		Context context = builder.context;
-		int margin = context.getResources().getDimensionPixelOffset(
-				R.dimen.dialog_margin);
-		if (builder.layoutId != INVALID) {
-			mTipView = View.inflate(context, builder.layoutId, null);
-		} else {
-			if (builder.hasBtn) {
-				mTipView = View.inflate(context, R.layout.dialog_btn_tip, null);
+		if(null != context) {
+			int margin = context.getResources().getDimensionPixelOffset(
+					R.dimen.dialog_margin);
+			if (builder.layoutId != INVALID) {
+				mTipView = View.inflate(context, builder.layoutId, null);
 			} else {
-				mTipView = View.inflate(context, R.layout.dialog_text_tip, null);
+				if (builder.hasBtn) {
+					mTipView = View.inflate(context, R.layout.dialog_btn_tip, null);
+				} else {
+					mTipView = View.inflate(context, R.layout.dialog_text_tip, null);
+				}
 			}
-		}
-		TextView tipTextView = (TextView) mTipView
-				.findViewById(R.id.tv_dialog_tip);
-		if (builder.tipText != null) {
-			tipTextView.setText(builder.tipText);
-		}
+			TextView tipTextView = (TextView) mTipView
+					.findViewById(R.id.tv_dialog_tip);
+			if (builder.tipText != null) {
+				tipTextView.setText(builder.tipText);
+			}
 
-		if (builder.enterText != null) {
-			((TextView) mTipView.findViewById(R.id.tv_dialog_enter))
-					.setText(builder.enterText);
-		}
-		int bgId = builder.isNeedBg ?R.color.transparent :R.drawable.dialog_white_bg;
-		dialog = DialogPlus.newDialog(context)
-				.setContentHolder(new ViewHolder(mTipView))
-				.setGravity(Gravity.CENTER)
-				.setInAnimation(R.anim.abc_fade_in)
-				.setOutAnimation(R.anim.abc_fade_out)
-				.setMargin(margin, 0, margin, 0)
-				//.setIsTransparentBg(false)
+			if (builder.enterText != null) {
+				((TextView) mTipView.findViewById(R.id.tv_dialog_enter))
+						.setText(builder.enterText);
+			}
+			int bgId = builder.isNeedBg ?R.color.transparent :R.drawable.dialog_white_bg;
+			dialog = DialogPlus.newDialog(context)
+					.setContentHolder(new ViewHolder(mTipView))
+					.setGravity(Gravity.CENTER)
+					.setInAnimation(R.anim.abc_fade_in)
+					.setOutAnimation(R.anim.abc_fade_out)
+					.setMargin(margin, 0, margin, 0)
+					//.setIsTransparentBg(false)
 //				.setShieldActionUp(builder.isShieldActionUp)
-				.setOnClickListener(builder.onClickListener)
-				.setContentBackgroundResource(bgId).create();
+					.setOnClickListener(builder.onClickListener)
+					.setContentBackgroundResource(bgId).create();
+		}
 	}
 
 	public void show() {
