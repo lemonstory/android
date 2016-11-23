@@ -21,8 +21,8 @@
         indic:indicator_count="2"
         indic:indicator_height="@dimen/bar_margin"
         indic:indicator_margin="@dimen/bar_margin"
-        indic:indicator_normal_icon="@drawable/guide_unselect_indicator"
-        indic:indicator_selected_icon="@drawable/guide_select_indicator"
+        indic:indicator_normal_icon="@drawable/ic_guide_indicator_normal"
+        indic:indicator_selected_icon="@drawable/ic_guide_indicator_selected"
         indic:indicator_width="@dimen/bar_margin" />
 
     <include

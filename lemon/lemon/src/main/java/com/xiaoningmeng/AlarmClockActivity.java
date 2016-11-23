@@ -1,8 +1,5 @@
 package com.xiaoningmeng;
 
-import java.io.Serializable;
-import java.util.List;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +13,9 @@ import com.xiaoningmeng.utils.PreferenceUtil;
 import com.xiaoningmeng.view.SwitchButton;
 import com.xiaoningmeng.view.picker.TimePicker;
 import com.xiaoningmeng.view.picker.TimePicker.Time;
+
+import java.io.Serializable;
+import java.util.List;
 
 public class AlarmClockActivity extends BaseActivity implements 
 		OnClickListener {
@@ -34,7 +34,7 @@ public class AlarmClockActivity extends BaseActivity implements
 		super.onCreate(savedInstanceState);
 		setTheme(R.style.PickTheme);
 		setContentView(R.layout.activity_alarm_clock);
-		setRightHeadIcon(R.drawable.play_flag_wave_01);
+		setRightHeadIcon(R.drawable.ic_player_flag_wave_01);
 		setTitleName("定时提醒");
 		setRightHeadText("保存");
 		timePicker = (TimePicker) findViewById(R.id.timePicker);

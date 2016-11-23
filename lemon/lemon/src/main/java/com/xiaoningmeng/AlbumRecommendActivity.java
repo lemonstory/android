@@ -56,7 +56,7 @@ public class AlbumRecommendActivity extends BaseActivity implements OnFragmentIn
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         mWaveImg = (ImageView) findViewById(R.id.img_head_right);
         PlayerManager.getInstance().register(this);
-        setRightHeadIcon(R.drawable.play_flag_wave_01);
+        setRightHeadIcon(R.drawable.ic_player_flag_wave_01);
         Intent intent = this.getIntent();
         parseIntent(intent);
         setPageTitle();

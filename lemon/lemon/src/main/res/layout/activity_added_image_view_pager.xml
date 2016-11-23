@@ -53,7 +53,7 @@
             android:layout_centerVertical="true"
             android:paddingLeft="@dimen/base_margin"
             android:paddingRight="@dimen/bar_margin"
-            android:src="@drawable/trash"
+            android:src="@drawable/btn_trash"
             android:visibility="visible" />
     </RelativeLayout>
 

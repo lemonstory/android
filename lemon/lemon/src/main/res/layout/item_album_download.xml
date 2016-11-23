@@ -18,7 +18,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/download_item_margin_left"
         android:layout_marginRight="@dimen/download_item_padding"
-        fresco:placeholderImage="@drawable/album_default"
+        fresco:placeholderImage="@drawable/bg_album_default"
         fresco:roundedCornerRadius="@dimen/base_radius_size"/>
 
    
@@ -30,7 +30,7 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/download_item_margin_right"
-        android:src="@drawable/tab_right_back" />
+        android:src="@drawable/ic_item_right_arrow" />
   <View
         android:id="@+id/v_download_divider"
         style="@style/dividerStyle"

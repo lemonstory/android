@@ -39,7 +39,7 @@
         <TextView
             android:id="@+id/tv_home_discover"
             style="@style/home_tab_style"
-            android:drawableTop="@drawable/tab_discover_selector"
+            android:drawableTop="@drawable/selector_tab_discover"
 
             android:text="发现" />
 
@@ -52,7 +52,7 @@
         <TextView
             android:id="@+id/tv_home_forum"
             style="@style/home_tab_style"
-            android:drawableTop="@drawable/tab_forum_selector"
+            android:drawableTop="@drawable/selector_tab_forum"
             android:text="伙伴" />
 
         <!--<TextView

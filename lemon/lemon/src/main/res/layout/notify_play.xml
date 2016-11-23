@@ -31,7 +31,7 @@
                 android:id="@+id/notify_per"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/notice_play_previous_song" />
+                android:src="@drawable/btn_notice_play_previous" />
 
             <ImageView
                 android:id="@+id/notify_pause"
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/widget_pause_margin"
                 android:layout_marginRight="@dimen/widget_pause_margin"
-                android:src="@drawable/notice_play_pause" />
+                android:src="@drawable/btn_notice_play_pause" />
 
             <ImageView
                 android:id="@+id/notify_resume"
@@ -47,14 +47,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/widget_pause_margin"
                 android:layout_marginRight="@dimen/widget_pause_margin"
-                android:src="@drawable/notice_play"
+                android:src="@drawable/btn_notice_play"
                 android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/notify_next"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/notice_play_next_song" />
+                android:src="@drawable/btn_notice_play_next" />
         </LinearLayout>
 
         <LinearLayout

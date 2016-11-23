@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login_bg"
+    android:background="@drawable/bg_login"
     android:clipToPadding="false"
     android:fitsSystemWindows="true">
 
@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/login_margin_top"
-        android:src="@drawable/login_head" />
+        android:src="@drawable/bg_splash_header" />
 
 
     <com.xiaoningmeng.view.DrawableCenterTextView
@@ -22,9 +22,9 @@
         android:layout_marginLeft="@dimen/login_margin_left"
         android:layout_marginRight="@dimen/login_margin_left"
         android:layout_marginTop="@dimen/login_btn_padding"
-        android:background="@drawable/login_weixin_btn_selector"
+        android:background="@drawable/selector_bg_wechat"
         android:clickable="true"
-        android:drawableLeft="@drawable/login_wechat_tip"
+        android:drawableLeft="@drawable/ic_wechat"
         android:drawablePadding="@dimen/base_radius_size"
         android:gravity="center_vertical"
         android:onClick="onClick"
@@ -84,7 +84,7 @@
         android:layout_marginRight="@dimen/login_margin_left"
         android:background="@drawable/login_qq_btn_selector"
         android:clickable="true"
-        android:drawableLeft="@drawable/login_qq_tip"
+        android:drawableLeft="@drawable/ic_qq"
         android:drawablePadding="@dimen/base_radius_size"
         android:gravity="center_vertical"
         android:onClick="onClick"

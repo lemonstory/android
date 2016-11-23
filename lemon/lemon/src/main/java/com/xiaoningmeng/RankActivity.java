@@ -47,7 +47,7 @@ public class RankActivity extends BaseActivity implements PlayObserver {
 		mCoverImg = (ImageView) findViewById(R.id.img_head_right);
 		mPositionTv = (TextView) findViewById(R.id.tv_rank_position);
 		mTimeTv = (TextView) findViewById(R.id.tv_rank_time);
-		setRightHeadIcon(R.drawable.play_flag_wave_01);
+		setRightHeadIcon(R.drawable.ic_player_flag_wave_01);
 		mUserInfos = new ArrayList<>();
 		mListView.setPullLoadEnable(false);
 		mListView.setPullRefreshEnable(false);

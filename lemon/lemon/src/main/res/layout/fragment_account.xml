@@ -30,7 +30,7 @@
                 android:layout_marginLeft="@dimen/account_item_margin_left"
                 android:layout_marginRight="@dimen/account_perasonal_padding"
                 fresco:roundAsCircle="true"
-                fresco:placeholderImage="@drawable/default_cover"
+                fresco:placeholderImage="@drawable/bg_avatar_default"
                 />
 
             <ImageView
@@ -40,7 +40,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/account_item_margin_right"
-                android:src="@drawable/tab_right_back" />
+                android:src="@drawable/ic_item_right_arrow" />
 
             <TextView
                 android:id="@+id/tv_account_unlogin"
@@ -102,7 +102,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/account_item_margin_left"
                 android:layout_marginRight="@dimen/account_item_padding"
-                android:src="@drawable/account_post" />
+                android:src="@drawable/ic_account_post" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -119,7 +119,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/account_item_margin_right"
-                android:src="@drawable/tab_right_back" />
+                android:src="@drawable/ic_item_right_arrow" />
 
             <View
                 style="@style/dividerStyle"
@@ -143,7 +143,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/account_item_margin_left"
                 android:layout_marginRight="@dimen/account_item_padding"
-                android:src="@drawable/account_rating" />
+                android:src="@drawable/ic_account_rating" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -160,7 +160,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/account_item_margin_right"
-                android:src="@drawable/tab_right_back" />
+                android:src="@drawable/ic_item_right_arrow" />
             <!--android:layout_marginLeft="@dimen/account_item_margin_left"-->
             <View
                 style="@style/dividerStyle"
@@ -182,14 +182,14 @@
                 <!--android:layout_centerVertical="true"-->
                 <!--android:layout_marginLeft="@dimen/account_item_margin_left"-->
                 <!--android:layout_marginRight="@dimen/account_item_padding"-->
-                <!--android:src="@drawable/account_shop" />-->
+                <!--android:src="@drawable/ic_account_shop" />-->
 
             <!--<TextView-->
                 <!--android:layout_width="wrap_content"-->
                 <!--android:layout_height="wrap_content"-->
                 <!--android:layout_centerVertical="true"-->
                 <!--android:layout_toRightOf="@id/img_account_shop"-->
-                <!--android:text="@string/account_shop"-->
+                <!--android:text="@string/ic_account_shop"-->
                 <!--android:textColor="@color/base_black_title_color"-->
                 <!--android:textSize="@dimen/title_content_text_size" />-->
 
@@ -221,14 +221,14 @@
                 <!--android:layout_centerVertical="true"-->
                 <!--android:layout_marginLeft="@dimen/account_item_margin_left"-->
                 <!--android:layout_marginRight="@dimen/account_item_padding"-->
-                <!--android:src="@drawable/account_recommend" />-->
+                <!--android:src="@drawable/ic_account_recommend" />-->
 
             <!--<TextView-->
                 <!--android:layout_width="wrap_content"-->
                 <!--android:layout_height="wrap_content"-->
                 <!--android:layout_centerVertical="true"-->
                 <!--android:layout_toRightOf="@id/img_account_Recommend"-->
-                <!--android:text="@string/account_recommend"-->
+                <!--android:text="@string/ic_account_recommend"-->
                 <!--android:textColor="@color/base_black_title_color"-->
                 <!--android:textSize="@dimen/title_content_text_size" />-->
 
@@ -262,7 +262,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/account_item_margin_left"
                 android:layout_marginRight="@dimen/account_item_padding"
-                android:src="@drawable/account_setting" />
+                android:src="@drawable/ic_account_setting" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -279,7 +279,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/account_item_margin_right"
-                android:src="@drawable/tab_right_back" />
+                android:src="@drawable/ic_item_right_arrow" />
 
             <View
                 style="@style/dividerStyle"

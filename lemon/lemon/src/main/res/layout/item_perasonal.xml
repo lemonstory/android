@@ -39,7 +39,7 @@
             android:layout_height="8dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="6dp"
-            android:background="@drawable/mine_item_point" />
+            android:background="@drawable/ic_mystory_item_point" />
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/img_mine_item_cover"
@@ -48,7 +48,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/mine_item_small_margin_top"
             android:layout_toRightOf="@id/v_mine_header"
-            fresco:placeholderImage="@drawable/album_default"
+            fresco:placeholderImage="@drawable/bg_album_default"
             fresco:roundedCornerRadius="@dimen/base_radius_size" />
 
         <LinearLayout
@@ -66,7 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/ablum_comment_head_margin_top"
-                android:drawableLeft="@drawable/album_listener"
+                android:drawableLeft="@drawable/ic_album_listener"
                 android:drawablePadding="@dimen/base_radius_size"
                 android:textColor="@color/base_date_color"
                 android:textSize="@dimen/content_text_size" />
@@ -76,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/ablum_comment_head_margin_top"
-                android:drawableLeft="@drawable/album_item_fav_selector"
+                android:drawableLeft="@drawable/selector_btn_album_item_fav"
                 android:drawablePadding="@dimen/base_radius_size"
                 android:textColor="@color/base_date_color"
                 android:textSize="@dimen/content_text_size" />
@@ -85,7 +85,7 @@
                 android:id="@+id/tv_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/album_comment"
+                android:drawableLeft="@drawable/ic_album_comment"
                 android:drawablePadding="@dimen/base_radius_size"
                 android:textColor="@color/base_date_color"
                 android:textSize="@dimen/content_text_size" />

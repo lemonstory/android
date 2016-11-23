@@ -54,7 +54,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/account_item_margin_right"
-            android:src="@drawable/tab_right_back" />
+            android:src="@drawable/ic_item_right_arrow" />
 
         <View
             style="@style/dividerStyle"
@@ -86,7 +86,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/account_item_margin_right"
-            android:src="@drawable/tab_right_back" />
+            android:src="@drawable/ic_item_right_arrow" />
 
         <TextView
             android:id="@+id/tv_alarm_repeat"
@@ -128,7 +128,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/account_item_margin_right"
-            android:src="@drawable/tab_right_back" />
+            android:src="@drawable/ic_item_right_arrow" />
 
         <TextView
             android:id="@+id/tv_alarm_ring"

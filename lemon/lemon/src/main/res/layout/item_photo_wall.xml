@@ -32,7 +32,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginTop="@dimen/base_rect_corners"
             android:layout_marginRight="@dimen/base_rect_corners"
-            android:src="@drawable/item_selected" />
+            android:src="@drawable/ic_item_selected" />
     </RelativeLayout>
 
 </com.xiaoningmeng.view.SquareRelativeLayout>

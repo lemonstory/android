@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:drawableTop="@drawable/tip_loading"
+        android:drawableTop="@drawable/ic_tip_loading"
        android:layout_centerInParent="true"
         android:text="正在努力加载中"
         android:textColor="@color/base_text_color"

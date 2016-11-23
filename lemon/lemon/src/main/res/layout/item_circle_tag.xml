@@ -16,7 +16,7 @@
         fresco:roundedCornerRadius="3dp"
         fresco:actualImageScaleType="fitCenter"
         fresco:roundAsCircle="true"
-        fresco:placeholderImage="@drawable/album_default"
+        fresco:placeholderImage="@drawable/bg_album_default"
         />
     <TextView
         android:id="@+id/tv_title"

@@ -16,7 +16,7 @@
         android:id="@+id/ll_download_tab"
         android:layout_width="match_parent"
         android:layout_height="@dimen/download_tab_height"
-        android:background="@drawable/big_divider_bg"
+        android:background="@drawable/bg_download_divider"
         android:orientation="horizontal" >
 
         <com.xiaoningmeng.view.DrawableCenterTextView
@@ -29,7 +29,7 @@
             android:onClick="onClick"
             android:text="全部开始"
             android:textColor="@color/download_tab_color_selector"
-            android:drawableLeft="@drawable/download_start_download_selector"
+            android:drawableLeft="@drawable/selector_ic_start_download"
             android:drawablePadding="@dimen/base_radius_size"
             android:textSize="@dimen/text_size_eightteen" />
 
@@ -46,7 +46,7 @@
             android:gravity="center_vertical"
             android:onClick="onClick"
             android:text="批量删除"
-              android:drawableLeft="@drawable/download_del_selector"
+              android:drawableLeft="@drawable/selector_ic_download_del"
             android:drawablePadding="@dimen/base_radius_size"
             android:textColor="@color/download_tab_color_selector"
             android:textSize="@dimen/text_size_eightteen" />
@@ -57,7 +57,7 @@
         android:id="@+id/rl_history_tab"
         android:layout_width="match_parent"
         android:layout_height="@dimen/download_item_cover_height"
-        android:background="@drawable/big_divider_bg"
+        android:background="@drawable/bg_download_divider"
         android:orientation="horizontal" >
 
         <TextView
@@ -66,7 +66,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/mine_magin_right"
             android:clickable="true"
-            android:drawableLeft="@drawable/download_play"
+            android:drawableLeft="@drawable/ic_download_play"
             android:drawablePadding="@dimen/mine_magin_right"
             android:gravity="center"
             android:onClick="onClick"
@@ -84,7 +84,7 @@
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
             android:layout_marginRight="@dimen/base_radius_size"
-            android:src="@drawable/download_more" />
+            android:src="@drawable/ic_download_more" />
     </RelativeLayout>
      </LinearLayout>
      
@@ -106,7 +106,7 @@
         android:drawablePadding="@dimen/base_radius_size"
         android:onClick="onClick"
         android:clickable="true"
-		android:drawableLeft="@drawable/download_del_tip"
+		android:drawableLeft="@drawable/ic_download_del_white"
         />
     </FrameLayout>
 

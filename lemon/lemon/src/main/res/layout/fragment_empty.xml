@@ -5,7 +5,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:drawablePadding="@dimen/home_discover_cover_height"
-            android:drawableTop="@drawable/tip_empty"
+            android:drawableTop="@drawable/ic_tip_empty"
             android:paddingTop="@dimen/home_banner_height"
 
             android:gravity="center_horizontal"

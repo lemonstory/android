@@ -35,7 +35,7 @@
            /> 
         <ImageView 
                android:id="@+id/img_perasonal_select_male"
-             android:src="@drawable/item_selected"
+             android:src="@drawable/ic_item_selected"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -68,7 +68,7 @@
            /> 
         <ImageView 
                android:id="@+id/img_perasonal_select_female"
-            android:src="@drawable/item_selected"
+            android:src="@drawable/ic_item_selected"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

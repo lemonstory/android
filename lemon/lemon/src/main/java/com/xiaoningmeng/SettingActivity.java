@@ -50,7 +50,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener,
 		PlayerManager.getInstance().register(this);
 		mCoverImg = (ImageView) findViewById(R.id.img_head_right);
 
-		setRightHeadIcon(R.drawable.play_flag_wave_01);
+		setRightHeadIcon(R.drawable.ic_player_flag_wave_01);
 		findViewById(R.id.tv_setting_logout).setVisibility(MyApplication.getInstance().isIsLogin() ? View.VISIBLE :View.INVISIBLE);
 
 

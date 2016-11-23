@@ -247,7 +247,7 @@ public class HomeActivity extends BaseActivity implements
                 mSearchBarView.setVisibility(View.INVISIBLE);
                 mSearchImg.setVisibility(View.VISIBLE);
                 mCoverImg.setVisibility(View.VISIBLE);
-                mCoverImg.setImageResource(R.drawable.play_flag_wave_01);
+                mCoverImg.setImageResource(R.drawable.ic_player_flag_wave_01);
                 messageBadge.hide();
                 PlayWaveManager.getInstance().loadWaveAnim(this, mCoverImg);
                 mDiscoverFragment = (DiscoverFragment) manager.findFragmentByTag(FRAG_DISCOVER);
@@ -266,7 +266,7 @@ public class HomeActivity extends BaseActivity implements
                 mActionBarView.setVisibility(View.VISIBLE);
                 mSearchImg.setVisibility(View.VISIBLE);
                 mCoverImg.setVisibility(View.VISIBLE);
-                mCoverImg.setImageResource(R.drawable.play_flag_wave_01);
+                mCoverImg.setImageResource(R.drawable.ic_player_flag_wave_01);
                 messageBadge.hide();
                 PlayWaveManager.getInstance().loadWaveAnim(this, mCoverImg);
                 mSearchBarView.setVisibility(View.INVISIBLE);
@@ -334,7 +334,7 @@ public class HomeActivity extends BaseActivity implements
                 mSearchBarView.setVisibility(View.INVISIBLE);
                 mSearchImg.setVisibility(View.VISIBLE);
                 mCoverImg.setVisibility(View.VISIBLE);
-                mCoverImg.setImageResource(R.drawable.play_flag_wave_01);
+                mCoverImg.setImageResource(R.drawable.ic_player_flag_wave_01);
                 messageBadge.hide();
                 PlayWaveManager.getInstance().loadWaveAnim(this, mCoverImg);
                 mTitleImg.setVisibility(View.INVISIBLE);
@@ -387,7 +387,7 @@ public class HomeActivity extends BaseActivity implements
 
         if (MyApplication.getInstance().isIsLogin() && MyApplication.getInstance().userInfo != null && mForumTabTv.isSelected()) {
             mCoverImg.setVisibility(View.VISIBLE);
-            mCoverImg.setImageResource(R.drawable.message);
+            mCoverImg.setImageResource(R.drawable.ic_message);
             mCoverImg.setOnClickListener(messageImgClick);
 
             if (null != newMyPost && !newMyPost.equals("")) {

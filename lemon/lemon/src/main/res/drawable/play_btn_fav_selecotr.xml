@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/play_fav_select" android:state_pressed="true"></item>
-    <item android:drawable="@drawable/play_fav_select" android:state_selected="true"></item>
-    <item android:drawable="@drawable/player_btn_fav_normal"></item>
+    <item android:drawable="@drawable/btn_player_fav_pressed" android:state_pressed="true"></item>
+    <item android:drawable="@drawable/btn_player_fav_pressed" android:state_selected="true"></item>
+    <item android:drawable="@drawable/btn_player_fav_normal"></item>
 </selector>

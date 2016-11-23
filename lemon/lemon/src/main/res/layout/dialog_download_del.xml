@@ -10,7 +10,7 @@
         android:background="@color/white"
         android:text="批量删除"
         android:gravity="center_vertical"
-        android:drawableLeft="@drawable/download_del_black_tip"
+        android:drawableLeft="@drawable/ic_download_del_black"
         android:drawablePadding="@dimen/base_radius_size"
         android:textColor="#494949"
         android:textSize="@dimen/text_size_eightteen"

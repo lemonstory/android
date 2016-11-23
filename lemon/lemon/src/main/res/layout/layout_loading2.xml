@@ -7,7 +7,7 @@
     <ImageView
         android:layout_width="@dimen/def_height"
         android:layout_height="@dimen/def_height"
-        android:src="@drawable/tip_empty"/>
+        android:src="@drawable/ic_tip_empty"/>
     <TextView
         android:id="@+id/tv_empty_tip"
         android:layout_marginTop="5dp"

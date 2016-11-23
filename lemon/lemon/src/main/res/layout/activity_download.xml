@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/download_tab_height"
         android:layout_below="@id/action_bar"
-        android:background="@drawable/big_divider_bg"
+        android:background="@drawable/bg_download_divider"
         android:orientation="horizontal" >
 
         <LinearLayout

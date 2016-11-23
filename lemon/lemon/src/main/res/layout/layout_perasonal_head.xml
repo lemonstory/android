@@ -28,7 +28,7 @@
             android:layout_marginRight="@dimen/perasonal_margin_right"
             android:layout_marginTop="@dimen/perasonal_head_icon_margin_top"
             fresco:roundAsCircle="true"
-            fresco:placeholderImage="@drawable/default_cover"/>
+            fresco:placeholderImage="@drawable/bg_avatar_default"/>
 
         <LinearLayout
             android:id="@+id/ll_perasonal_info"
@@ -100,7 +100,7 @@
       android:paddingTop="@dimen/perasonal_item_head_margin_left"
       android:paddingBottom="@dimen/bar_margin"
       android:text="收听历史"
-      android:drawableLeft="@drawable/mine_history"
+      android:drawableLeft="@drawable/ic_listen_history"
       android:drawablePadding="3dp"
       android:textColor="#8b96a1"
       android:paddingLeft="@dimen/ablum_play_item_padding"

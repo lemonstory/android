@@ -32,7 +32,7 @@
            /> 
         <ImageView 
                android:id="@+id/img_perasonal_modify"
-            android:src="@drawable/login_delete_bt"
+            android:src="@drawable/btn_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

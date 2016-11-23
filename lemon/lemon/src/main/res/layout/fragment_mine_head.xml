@@ -11,7 +11,7 @@
         >
     <ImageView 
         android:id="@+id/img_mine_fav"
-        android:src="@drawable/mine_tab_fav"
+        android:src="@drawable/ic_album_fav"
         android:layout_width="@dimen/mine_head_img_width"
         android:layout_height="match_parent"
         android:scaleType="center"
@@ -33,7 +33,7 @@
         android:layout_centerVertical="true"
       	android:layout_alignParentRight="true"
         android:scaleType="center"
-        android:src="@drawable/tab_right_back"
+        android:src="@drawable/ic_item_right_arrow"
         android:padding="4dp"
         android:layout_marginRight="@dimen/mine_magin_right"
         />
@@ -61,7 +61,7 @@
         >
     <ImageView 
         android:id="@+id/img_mine_download"
-        android:src="@drawable/album_share"
+        android:src="@drawable/btn_album_share"
         android:layout_width="@dimen/mine_head_img_width"
         android:layout_height="match_parent"
         android:scaleType="center"
@@ -83,7 +83,7 @@
         android:layout_centerVertical="true"
       	android:layout_alignParentRight="true"
         android:scaleType="center"
-        android:src="@drawable/tab_right_back"
+        android:src="@drawable/ic_item_right_arrow"
         android:padding="4dp"
         android:layout_marginRight="@dimen/mine_magin_right"
         />
@@ -108,7 +108,7 @@
       android:paddingTop="@dimen/perasonal_item_head_margin_left"
       android:paddingBottom="@dimen/bar_margin"
       android:text="收听历史"
-      android:drawableLeft="@drawable/mine_history"
+      android:drawableLeft="@drawable/ic_listen_history"
       android:drawablePadding="3dp"
       android:textColor="#8b96a1"
       android:paddingLeft="@dimen/ablum_play_item_padding"

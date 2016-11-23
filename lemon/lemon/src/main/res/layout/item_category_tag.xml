@@ -32,9 +32,9 @@
         android:layout_centerVertical="true"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="12dp"
-        android:src="@drawable/album_default"
+        android:src="@drawable/bg_album_default"
         fresco:actualImageScaleType="centerCrop"
-        fresco:backgroundImage="@drawable/album_default"
-        fresco:placeholderImage="@drawable/album_default"
+        fresco:backgroundImage="@drawable/bg_album_default"
+        fresco:placeholderImage="@drawable/bg_album_default"
         fresco:roundedCornerRadius="3dp" />
 </RelativeLayout>

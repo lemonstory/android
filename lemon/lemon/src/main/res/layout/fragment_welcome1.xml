@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login_bg" >
+    android:background="@drawable/bg_login" >
 
 
     <RelativeLayout
@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:src="@drawable/login_icon" />
+                android:src="@drawable/ic_login_head" />
 
             <LinearLayout
                 android:layout_width="wrap_content"

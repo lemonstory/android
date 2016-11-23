@@ -74,7 +74,7 @@ public class PerasonalActivity extends BaseActivity implements
 		
 		mListView = (XListView) findViewById(R.id.lv_home_discover);
 		mCoverImg = (ImageView) findViewById(R.id.img_head_right);
-		setRightHeadIcon(R.drawable.play_flag_wave_01);
+		setRightHeadIcon(R.drawable.ic_player_flag_wave_01);
 		mListView.setPullLoadEnable(false);
 		mListView.setPullRefreshEnable(false);
 		mListView.setXListViewListener(this);

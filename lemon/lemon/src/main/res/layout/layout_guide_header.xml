@@ -15,7 +15,7 @@
         android:layout_centerVertical="true"
         android:clickable="true"
         android:onClick="back"
-        android:src="@drawable/bar_back_clicking" />
+        android:src="@drawable/btn_bar_back_pressed" />
 
     <TextView
         android:id="@+id/tv_head_right"

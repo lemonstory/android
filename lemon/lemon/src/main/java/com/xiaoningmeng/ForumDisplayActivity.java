@@ -87,7 +87,7 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
         pbEmptyTip = loadingView.findViewById(R.id.pb_empty_tip);
         imgHeadRight = (ImageView) findViewById(R.id.img_head_right);
         badge = new BadgeView(this, imgHeadRight);
-        setRightHeadIcon(R.drawable.message);
+        setRightHeadIcon(R.drawable.ic_message);
         addThreadIv = (ImageView) findViewById(R.id.iv_add);
         setHeadTitle(title);
         this.page = 1;

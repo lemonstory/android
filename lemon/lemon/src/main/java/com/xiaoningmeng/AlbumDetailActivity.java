@@ -138,7 +138,7 @@ public class AlbumDetailActivity extends BaseActivity implements
         mSimilarTabTv.setOnClickListener(this);
         mPlayProgressBar = (CircleProgressBar) findViewById(R.id.circleProgressBar);
         PlayerManager.getInstance().register(this);
-        setRightHeadIcon(R.drawable.play_flag_wave_01);
+        setRightHeadIcon(R.drawable.ic_player_flag_wave_01);
 
         mAlbumId = getAlbumIdWithIntent();
         boolean isScroll = getIntent().getBooleanExtra("isScroll", false);
@@ -601,7 +601,7 @@ public class AlbumDetailActivity extends BaseActivity implements
             case PLAY:
                 if (isFirst) {
                     setTitleName(music.title);
-                    mPlayBtnImg.setImageResource(R.drawable.album_pause);
+                    mPlayBtnImg.setImageResource(R.drawable.btn_album_pause);
                     notifyPlayList();
                 }
                 mPlayProgressBar.setVisibility(View.VISIBLE);
@@ -610,7 +610,7 @@ public class AlbumDetailActivity extends BaseActivity implements
                 break;
             case START:
                 setTitleName(music.title);
-                mPlayBtnImg.setImageResource(R.drawable.album_pause);
+                mPlayBtnImg.setImageResource(R.drawable.btn_album_pause);
                 mPlayProgressBar.setVisibility(View.VISIBLE);
                 mPlayProgressBar.setMax(music.times);
                 notifyPlayList();
@@ -620,18 +620,18 @@ public class AlbumDetailActivity extends BaseActivity implements
                 setTitleName(music.title);
                 mPlayProgressBar.setMax(music.times);
                 mPlayProgressBar.setProgress(music.current);
-                mPlayBtnImg.setImageResource(R.drawable.album_play);
+                mPlayBtnImg.setImageResource(R.drawable.btn_album_play);
                 notifyPlayList();
                 break;
             case RESUME:
-                mPlayBtnImg.setImageResource(R.drawable.album_pause);
+                mPlayBtnImg.setImageResource(R.drawable.btn_album_pause);
                 notifyPlayList();
                 break;
             case STOP:
                 setTitleName(music.title);
                 mPlayProgressBar.setMax(music.times == 0 ? 100 : music.times);
                 mPlayProgressBar.setProgress(music.current);
-                mPlayBtnImg.setImageResource(R.drawable.album_play);
+                mPlayBtnImg.setImageResource(R.drawable.btn_album_play);
                 notifyPlayList();
                 break;
             default:

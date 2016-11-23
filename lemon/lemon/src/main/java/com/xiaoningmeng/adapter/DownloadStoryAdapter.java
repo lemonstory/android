@@ -98,7 +98,7 @@ public class DownloadStoryAdapter extends BaseAdapter {
 			} else {
 				if (story.getMediapath().equals(PlayerManager.getInstance().getPlayingStory().mediapath)) {
 					holder.checkImg.setVisibility(View.VISIBLE);
-					holder.checkImg.setImageResource(R.drawable.horn_on);
+					holder.checkImg.setImageResource(R.drawable.ic_horn_on);
 				} else {
 					holder.checkImg.setVisibility(View.INVISIBLE);
 				}

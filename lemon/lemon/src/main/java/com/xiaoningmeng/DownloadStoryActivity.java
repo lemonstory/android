@@ -96,7 +96,7 @@ public class DownloadStoryActivity extends BaseActivity implements
 			findViewById(R.id.ll_download_tab).setVisibility(View.GONE);
 			downLoads = DownLoadClientImpl.getInstance().mHistoryMap.get(albumId);
 			setTitleName(albumInfo.getTitle());
-			setRightHeadIcon(R.drawable.play_flag_wave_01);
+			setRightHeadIcon(R.drawable.ic_player_flag_wave_01);
 			mDelBtnTv.setVisibility(View.GONE);
 			isCheck = false;
 			tip = "该专辑没有已下载的故事";
@@ -104,7 +104,7 @@ public class DownloadStoryActivity extends BaseActivity implements
 			findViewById(R.id.rl_history_tab).setVisibility(View.GONE);
 			downLoads = DownLoadClientImpl.getInstance().mDownloadMap.get(albumId);
 			setTitleName(albumInfo.getTitle());
-			setRightHeadIcon(R.drawable.play_flag_wave_01);
+			setRightHeadIcon(R.drawable.ic_player_flag_wave_01);
 			mDelBtnTv.setVisibility(View.GONE);
 			isCheck = false;
 			tip = "该专辑没有正在下载的故事";

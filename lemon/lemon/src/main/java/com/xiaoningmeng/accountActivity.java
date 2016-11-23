@@ -74,7 +74,7 @@ public class AccountActivity extends BasePohotoActivity implements
 	public void initView() {
 		setTitleName("个人信息");
 		mWaveImg = (ImageView) findViewById(R.id.img_head_right);
-		setRightHeadIcon(R.drawable.play_flag_wave_01);
+		setRightHeadIcon(R.drawable.ic_player_flag_wave_01);
 		mSexTv = (TextView) findViewById(R.id.tv_perasonal_sex);
 		mAddressTv = (TextView) findViewById(R.id.tv_perasonal_address);
 		mAvatarImg = (SimpleDraweeView) findViewById(R.id.img_perasonal_icon);

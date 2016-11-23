@@ -51,7 +51,6 @@
 -dontwarn com.facebook.**
 -dontwarn com.baidu.**
 
-
 -keep enum com.facebook.**
 -keepattributes Exceptions,InnerClasses,Signature
 -keepattributes *Annotation*
@@ -94,19 +93,26 @@
 -dontwarn com.zhy.http.**
 -keep class com.zhy.http.**{*;}
 
-
 #okhttp
 -dontwarn okhttp3.**
 -keep class okhttp3.**{*;}
-
 
 #okio
 -dontwarn okio.**
 -keep class okio.**{*;}
 
+#https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20161115202144
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}
+#end
+
+#http://stackoverflow.com/questions/35796144/progaurd-issue-warningignoring-innerclasses-attribute-for-an-anonymous-inner-c
+#http://baichuan.taobao.com/docs/doc.htm?spm=a3c0d.7629140.0.0.R9SvdI&treeId=129&articleId=105647&docType=1
 -keepattributes Signature
--keep class sun.misc.Unsafe { *; }
--keep class com.taobao.** {*;}
+-keepattributes EnclosingMethod
+-keepattributes InnerClasses
+-keep class sun.misc.Unsafe { ; }
+-keep class com.taobao.* {*;}
 -keep class com.alibaba.** {*;}
 -keep class com.alipay.** {*;}
 -dontwarn com.taobao.**
@@ -116,25 +122,8 @@
 -dontwarn com.ut.**
 -keep class com.ta.** {*;}
 -dontwarn com.ta.**
-
-#https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20161115202144
--dontwarn com.tencent.bugly.**
--keep public class com.tencent.bugly.**{*;}
-#end
-
-#http://baichuan.taobao.com/doc2/detail?spm=a3c0d.7662649.4.2.VtAIKw&treeId=51&articleId=102861&docType=1
--keepattributes Signature
--keep class sun.misc.Unsafe { *; }
--keep class com.taobao.** {*;}
--keep class com.alibaba.** {*;}
--keep class com.alipay.** {*;}
--dontwarn com.taobao.**
--dontwarn com.alibaba.**
--dontwarn com.alipay.**
--keep class com.ut.** {*;}
--dontwarn com.ut.**
--keep class com.ta.** {*;}
--dontwarn com.ta.*
+-keep class org.json.** {*;}
+-keep class com.ali.auth.** {*;}
 #end
 
 #http://dev.umeng.com/social/android/android-update#14
@@ -145,7 +134,6 @@
 -dontwarn com.umeng.**
 -dontwarn com.tencent.weibo.sdk.**
 -dontwarn com.facebook.**
-
 
 -keep enum com.facebook.**
 -keepattributes Exceptions,InnerClasses,Signature
@@ -192,18 +180,7 @@
 -keep class com.tencent.open.PKDialog {*;}
 -keep class com.tencent.open.PKDialog$*
 -keep class com.tencent.open.PKDialog$* {*;}
--keepattributes Signature
--keep class sun.misc.Unsafe { *; }
--keep class com.taobao.** {*;}
--keep class com.alibaba.** {*;}
--keep class com.alipay.** {*;}
--dontwarn com.taobao.**
--dontwarn com.alibaba.**
--dontwarn com.alipay.**
--keep class com.ut.** {*;}
--dontwarn com.ut.**
--keep class com.ta.** {*;}
--dontwarn com.ta.**
+
 -keep class com.sina.** {*;}
 -dontwarn com.sina.**
 -keep class  com.alipay.share.sdk.** {
@@ -228,5 +205,3 @@
 }
 #end
 -ignorewarnings
-
-

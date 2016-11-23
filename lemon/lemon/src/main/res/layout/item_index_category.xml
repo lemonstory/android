@@ -14,7 +14,7 @@
         android:layout_height="@dimen/classifiction_item_height"
         android:background="?attr/selectableItemBackgroundBorderless"
         fresco:actualImageScaleType="centerCrop"
-        fresco:placeholderImage="@drawable/default_tag" />
+        fresco:placeholderImage="@drawable/bg_tag_default" />
 
     <TextView
         android:id="@+id/tv_tag_name"

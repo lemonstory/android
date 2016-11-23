@@ -30,7 +30,7 @@
             android:layout_centerVertical="true"
             android:paddingLeft="@dimen/base_margin"
             android:paddingRight="@dimen/bar_margin"
-            android:src="@drawable/play_flag_wave_01"
+            android:src="@drawable/ic_player_flag_wave_01"
             android:visibility="visible" />
 
         <ImageView
@@ -43,7 +43,7 @@
             android:onClick="onClick"
             android:paddingLeft="@dimen/bar_margin"
             android:paddingRight="@dimen/base_margin"
-            android:src="@drawable/search_icon"
+            android:src="@drawable/selector_btn_search"
             android:visibility="visible" />
 
         <TextView

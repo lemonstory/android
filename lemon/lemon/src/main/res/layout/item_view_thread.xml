@@ -17,7 +17,7 @@
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/cv_avatar"
             fresco:roundAsCircle="true"
-            fresco:placeholderImage="@drawable/default_cover"
+            fresco:placeholderImage="@drawable/bg_avatar_default"
             android:layout_width="@dimen/post_item_anthor_icon_height"
             android:layout_height="@dimen/post_item_anthor_icon_height" />
         <TextView
@@ -60,7 +60,7 @@
             android:id="@+id/iv_post_icon"
             android:layout_width="@dimen/forum_item_post_icon_height"
             android:layout_height="@dimen/forum_item_post_icon_height"
-            android:src="@drawable/thread_comment_icon"
+            android:src="@drawable/btn_thread_comment"
             android:layout_above="@+id/tv_dateline"
             android:layout_marginBottom="@dimen/forum_item_padding"
             android:layout_marginRight="@dimen/forum_item_padding"

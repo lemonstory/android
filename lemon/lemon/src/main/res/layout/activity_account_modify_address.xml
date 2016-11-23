@@ -36,7 +36,7 @@
                     android:layout_marginLeft="@dimen/account_item_margin_left"
                     android:layout_marginRight="@dimen/account_item_padding"
                     android:gravity="center"
-                    android:src="@drawable/discover_tab_normal"
+                    android:src="@drawable/tab_discover_normal"
                     android:text="收货人   "
                     android:textColor="@color/base_black_title_color"
                     android:textSize="@dimen/title_content_text_size" />

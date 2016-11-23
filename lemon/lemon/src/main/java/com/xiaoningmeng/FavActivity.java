@@ -50,7 +50,7 @@ public class FavActivity extends BaseActivity implements IXListViewListener {
 		setContentView(R.layout.activity_fav);
 		setTitleName("我的收藏");
 		mCoverImg = (ImageView) findViewById(R.id.img_head_right);
-		setRightHeadIcon(R.drawable.play_flag_wave_01);
+		setRightHeadIcon(R.drawable.ic_player_flag_wave_01);
 		mListView = (SwipeMenuListView) findViewById(R.id.lv_home_discover);
 		mListView.setPullLoadEnable(false);
 		mListView.setPullRefreshEnable(true);

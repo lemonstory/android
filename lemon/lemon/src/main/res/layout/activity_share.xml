@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:scaleType="centerInside"
-                android:src="@drawable/share_wechat_circle" />
+                android:src="@drawable/btn_share_wechat_circle" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:scaleType="centerInside"
-                android:src="@drawable/share_wechat" />
+                android:src="@drawable/btn_share_wechat" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -81,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:scaleType="centerInside"
-                android:src="@drawable/share_qzone" />
+                android:src="@drawable/btn_share_qzone" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -107,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:scaleType="centerInside"
-                android:src="@drawable/share_qq" />
+                android:src="@drawable/btn_share_qq" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -142,7 +142,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:scaleType="centerInside"
-                android:src="@drawable/share_weibo" />
+                android:src="@drawable/btn_share_weibo" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -169,7 +169,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:scaleType="centerInside"
-                android:src="@drawable/share_copy" />
+                android:src="@drawable/btn_share_copy" />
 
             <TextView
                 android:layout_width="wrap_content"

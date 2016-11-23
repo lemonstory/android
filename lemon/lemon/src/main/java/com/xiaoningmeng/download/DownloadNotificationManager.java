@@ -82,7 +82,7 @@ public class DownloadNotificationManager implements DownLoadObserver<AudioDownLo
             notifyId = downloadNotification.notifyId;
             albumInfo = downloadNotification.albumInfo;
         } else {
-            notification = new Notification(R.drawable.logo, mContext.getString(R.string.app_name), System.currentTimeMillis());
+            notification = new Notification(R.drawable.ic_app_logo, mContext.getString(R.string.app_name), System.currentTimeMillis());
             notification.flags |= Notification.FLAG_AUTO_CANCEL;
             albumInfo = DownLoadClientImpl.getInstance().getAlbum(albumId);
             notifyView = new RemoteViews(mContext.getPackageName(), R.layout.notity_download);
@@ -99,7 +99,7 @@ public class DownloadNotificationManager implements DownLoadObserver<AudioDownLo
             List<AudioDownLoad> downLoads = DownLoadClientImpl.getInstance().mHistoryMap.get(albumId);
             notifyView.setTextViewText(R.id.notify_download_tip, "本次累计下载故事" + downLoads.size() + "个");
             notifyView.setViewVisibility(R.id.rpb_notify_progress, View.GONE);
-            notifyView.setImageViewResource(R.id.notify_logo, R.drawable.notice_icon_download_complete);
+            notifyView.setImageViewResource(R.id.notify_logo, R.drawable.ic_notice_download_complete);
             notifyView.setViewVisibility(R.id.notify_download_tip, View.VISIBLE);
             notifyView.setViewVisibility(R.id.notify_download_see, View.VISIBLE);
             type = DownloadStoryActivity.HISTORY_TYPE;
@@ -121,7 +121,7 @@ public class DownloadNotificationManager implements DownLoadObserver<AudioDownLo
             int progress = allLength != 0 ? currentLength * 100 / allLength : 0;
             notifyView.setTextViewText(R.id.notify_download_title, "正在下载：" + albumInfo.getTitle());
             notifyView.setProgressBar(R.id.rpb_notify_progress, 100, progress, false);
-            notifyView.setImageViewResource(R.id.notify_logo, R.drawable.notice_icon_download);
+            notifyView.setImageViewResource(R.id.notify_logo, R.drawable.ic_notice_download);
             notifyView.setViewVisibility(R.id.rpb_notify_progress, View.VISIBLE);
             notifyView.setViewVisibility(R.id.notify_download_tip, View.GONE);
             notifyView.setViewVisibility(R.id.notify_download_see, View.GONE);

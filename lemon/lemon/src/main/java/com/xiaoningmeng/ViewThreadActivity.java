@@ -189,7 +189,7 @@ public class ViewThreadActivity extends BaseActivity implements XListView.IXList
     private void  setShareIconVisible() {
 
         headRightImg = (ImageView) findViewById(R.id.img_head_right);
-        headRightImg.setImageResource(R.drawable.share_icon_ormal);
+        headRightImg.setImageResource(R.drawable.btn_player_share_normal);
         headRightImg.setClickable(false);
         headRightImg.setAlpha((float) 0.5);
         headRightImg.setVisibility(View.VISIBLE);

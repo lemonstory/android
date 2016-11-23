@@ -15,7 +15,7 @@
         android:layout_marginTop="10dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         fresco:actualImageScaleType="fitCenter"
-        fresco:placeholderImage="@drawable/default_tag" />
+        fresco:placeholderImage="@drawable/bg_tag_default" />
 
     <TextView
         android:id="@+id/tv_age_level_title"

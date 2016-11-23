@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/login_bottom_text_margin"
-            android:src="@drawable/notice_icon_clock" />
+            android:src="@drawable/ic_notice_clock" />
 
         <TextView
             android:id="@+id/tv_dialog_tip"

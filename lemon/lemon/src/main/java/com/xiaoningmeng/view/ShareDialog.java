@@ -53,7 +53,7 @@ public class ShareDialog implements View.OnClickListener{
         mController.withTitle(mShareBean.getTitle());
         // 设置分享图片, 参数2为图片的url地址
         if(mShareBean.getIconUrl() == null) {
-            UMImage image = new UMImage(mContext,BitmapFactory.decodeResource(mContext.getResources(), R.drawable.logo));
+            UMImage image = new UMImage(mContext,BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_app_logo));
             mController.withMedia(image);
         } else{
             UMImage image = new UMImage(mContext, mShareBean.getIconUrl());

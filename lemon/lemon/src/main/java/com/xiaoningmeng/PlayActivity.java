@@ -133,12 +133,12 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
             case R.id.img_album_pause:
                 if (mPlayerManager.isPlaying()) {
                     mPlayerManager.pausePlay();
-                    ((ImageView) v).setImageResource(R.drawable.player_btn_play_normal);
+                    ((ImageView) v).setImageResource(R.drawable.btn_player_play_normal);
                     if (coverRotateAnim != null) {
                         mPlayCover.clearAnimation();
                     }
                 } else {
-                    ((ImageView) v).setImageResource(R.drawable.player_btn_pause_normal);
+                    ((ImageView) v).setImageResource(R.drawable.btn_player_pause_normal);
                     if (coverRotateAnim != null) {
                         mPlayCover.startAnimation(coverRotateAnim);
                     }
@@ -324,15 +324,15 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
         int mode = mPlayerManager.getPlayMode();
         if (mode == PlayMode.CYCLE) {
             mPlayerManager.setPlayMode(PlayMode.SINGLE);
-            mMusicModeImg.setImageResource(R.drawable.play_btn_once_selecotr);
+            mMusicModeImg.setImageResource(R.drawable.selector_btn_player_single);
             TopDialog.create(this, (ViewGroup) findViewById(R.id.rl_content), "已经切换到单曲循环模式").show();
         } else if (mode == PlayMode.SINGLE) {
             mPlayerManager.setPlayMode(PlayMode.RANDOM);
-            mMusicModeImg.setImageResource(R.drawable.play_btn_random_selecotr);
+            mMusicModeImg.setImageResource(R.drawable.selector_btn_player_random);
             TopDialog.create(this, (ViewGroup) findViewById(R.id.rl_content), "已经切换到随机播放模式").show();
         } else {
             mPlayerManager.setPlayMode(PlayMode.CYCLE);
-            mMusicModeImg.setImageResource(R.drawable.play_btn_repat_selecotr);
+            mMusicModeImg.setImageResource(R.drawable.selector_btn_player_repeat);
             TopDialog.create(this, (ViewGroup) findViewById(R.id.rl_content), "已经切换到顺序循环模式").show();
         }
     }
@@ -340,11 +340,11 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
     private void setPlayMode() {
         int mode = mPlayerManager.getPlayMode();
         if (mode == PlayMode.CYCLE) {
-            mMusicModeImg.setImageResource(R.drawable.play_btn_repat_selecotr);
+            mMusicModeImg.setImageResource(R.drawable.selector_btn_player_repeat);
         } else if (mode == PlayMode.SINGLE) {
-            mMusicModeImg.setImageResource(R.drawable.play_btn_once_selecotr);
+            mMusicModeImg.setImageResource(R.drawable.selector_btn_player_single);
         } else {
-            mMusicModeImg.setImageResource(R.drawable.play_btn_random_selecotr);
+            mMusicModeImg.setImageResource(R.drawable.selector_btn_player_random);
         }
     }
 
@@ -376,28 +376,28 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
         switch (music.playState) {
             case PLAY:
                 if (isFirst) {
-                    mPauseImg.setImageResource(R.drawable.player_btn_pause_normal);
+                    mPauseImg.setImageResource(R.drawable.btn_player_pause_normal);
                     initPlayView();
                 }
                 break;
             case START:
-                mPauseImg.setImageResource(R.drawable.player_btn_pause_normal);
+                mPauseImg.setImageResource(R.drawable.btn_player_pause_normal);
                 initPlayView();
                 break;
             case PAUSE:
                 if (isFirst)
                     initPlayView();
-                mPauseImg.setImageResource(R.drawable.player_btn_play_normal);
+                mPauseImg.setImageResource(R.drawable.btn_player_play_normal);
                 break;
             case RESUME:
                 if (isFirst)
                     initPlayView();
-                mPauseImg.setImageResource(R.drawable.player_btn_pause_normal);
+                mPauseImg.setImageResource(R.drawable.btn_player_pause_normal);
                 break;
             case STOP:
                 if (isFirst)
                     initPlayView();
-                mPauseImg.setImageResource(R.drawable.player_btn_play_normal);
+                mPauseImg.setImageResource(R.drawable.btn_player_play_normal);
                 break;
             case ERROR:
                 break;

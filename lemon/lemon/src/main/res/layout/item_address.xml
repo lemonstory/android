@@ -21,7 +21,7 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/base_margin"
         android:padding="5dp"
-        android:src="@drawable/perasonal_info" />
+        android:src="@drawable/ic_info" />
 
     <TextView
         android:id="@+id/tv_address_name"

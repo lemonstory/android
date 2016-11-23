@@ -46,7 +46,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/ablum_play_item_padding"
             android:layout_toLeftOf="@id/tv_download_size"
-            android:src="@drawable/item_selected" />
+            android:src="@drawable/ic_item_selected" />
 
         <View
             android:id="@+id/v_download_divider"

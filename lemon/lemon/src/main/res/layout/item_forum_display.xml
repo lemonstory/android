@@ -75,7 +75,7 @@
             android:longClickable="false"
             android:layout_marginRight="8dp"
             fresco:actualImageScaleType="centerCrop"
-            fresco:placeholderImage="@drawable/forum_display_place_holder_image"
+            fresco:placeholderImage="@drawable/bg_forum_img"
             android:background="@color/view_thread_image_background_color"/>
 
         <com.facebook.drawee.view.SimpleDraweeView
@@ -88,7 +88,7 @@
             android:longClickable="false"
             android:layout_marginRight="8dp"
             fresco:actualImageScaleType="centerCrop"
-            fresco:placeholderImage="@drawable/forum_display_place_holder_image"
+            fresco:placeholderImage="@drawable/bg_forum_img"
             android:background="@color/view_thread_image_background_color"/>
 
         <com.facebook.drawee.view.SimpleDraweeView
@@ -101,7 +101,7 @@
             android:longClickable="false"
             android:layout_marginRight="8dp"
             fresco:actualImageScaleType="centerCrop"
-            fresco:placeholderImage="@drawable/forum_display_place_holder_image"
+            fresco:placeholderImage="@drawable/bg_forum_img"
             android:background="@color/view_thread_image_background_color"
             />
     </LinearLayout>
@@ -120,7 +120,7 @@
             android:layout_width="@dimen/forum_item_anthor_icon_height"
             android:layout_height="@dimen/forum_item_anthor_icon_height"
             fresco:roundAsCircle="true"
-            fresco:placeholderImage="@drawable/default_cover"
+            fresco:placeholderImage="@drawable/bg_avatar_default"
             android:layout_centerVertical="true"
             />
         <TextView
@@ -162,7 +162,7 @@
             android:layout_width="@dimen/forum_item_post_icon_height"
             android:layout_height="@dimen/forum_item_post_icon_height"
             android:scaleType="fitCenter"
-            android:src="@drawable/thread_comment_icon"
+            android:src="@drawable/btn_thread_comment"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/forum_item_padding"
             android:layout_marginRight="@dimen/forum_item_padding"

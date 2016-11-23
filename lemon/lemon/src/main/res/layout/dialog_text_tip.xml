@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/ablum_padding"
         android:layout_marginTop="@dimen/account_item_padding"
-        android:src="@drawable/tip_dialog" />
+        android:src="@drawable/dg_bg_head" />
 
     <TextView
         android:id="@+id/tv_dialog_tip"

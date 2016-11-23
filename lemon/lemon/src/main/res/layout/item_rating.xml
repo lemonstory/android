@@ -19,7 +19,7 @@
         android:layout_marginRight="@dimen/base_radius_size"
         android:scaleType="center"
         android:layout_centerInParent="true"
-        android:src="@drawable/rating_item_number_bg" />
+        android:src="@drawable/bg_rating_number" />
 
     <LinearLayout
        
@@ -60,7 +60,7 @@
         android:layout_marginRight="@dimen/perasonal_item_head_margin_left"
         android:layout_toRightOf="@id/rl_rating_number"
         fresco:roundAsCircle="true"
-        fresco:placeholderImage="@drawable/default_cover"/>
+        fresco:placeholderImage="@drawable/bg_avatar_default"/>
 
     <TextView
         android:id="@+id/tv_rating_listener"
@@ -69,7 +69,7 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/rating_item_margin_left"
-        android:drawableLeft="@drawable/rating_book"
+        android:drawableLeft="@drawable/ic_rating_book"
         android:drawablePadding="@dimen/base_radius_size"
         android:gravity="center"
         android:text="268"

@@ -16,7 +16,7 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:paddingLeft="@dimen/base_margin"
         android:paddingRight="@dimen/base_margin"
-        android:src="@drawable/bar_back" />
+        android:src="@drawable/btn_bar_back_normal" />
 
     <ImageView
         android:id="@+id/img_head_right"

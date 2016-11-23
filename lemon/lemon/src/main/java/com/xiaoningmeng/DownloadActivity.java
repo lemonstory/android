@@ -55,7 +55,7 @@ public class DownloadActivity extends BaseActivity implements
 		Fresco.initialize(this);
 		setContentView(R.layout.activity_download);
 		setTitleName("我的下载");
-		setRightHeadIcon(R.drawable.play_flag_wave_01);
+		setRightHeadIcon(R.drawable.ic_player_flag_wave_01);
 		mHasDownloadTv = (TextView) findViewById(R.id.tv_download_tab_has);
 		mDownloadingTv = (TextView) findViewById(R.id.tv_download_tab_ing);
 		mHasDownloadDivider = findViewById(R.id.v_download_tab_has);

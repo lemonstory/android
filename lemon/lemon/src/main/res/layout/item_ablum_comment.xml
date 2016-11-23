@@ -12,7 +12,7 @@
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/img_avatar"
             fresco:roundAsCircle="true"
-            fresco:placeholderImage="@drawable/default_cover"
+            fresco:placeholderImage="@drawable/bg_avatar_default"
             android:layout_width="@dimen/ablum_comment_item_cover_height"
             android:layout_height="@dimen/ablum_comment_item_cover_height"
             android:layout_marginLeft="@dimen/ablum_comment_item_margin_left"

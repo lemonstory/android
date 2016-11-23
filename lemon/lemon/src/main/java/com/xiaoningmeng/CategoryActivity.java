@@ -48,7 +48,7 @@ public class CategoryActivity extends BaseActivity implements PlayObserver {
         mRecyclerView.setHasFixedSize(true);
         mWaveImg = (ImageView) findViewById(R.id.img_head_right);
         PlayerManager.getInstance().register(this);
-        setRightHeadIcon(R.drawable.play_flag_wave_01);
+        setRightHeadIcon(R.drawable.ic_player_flag_wave_01);
         initAdapter();
         requestCategoryData();
     }

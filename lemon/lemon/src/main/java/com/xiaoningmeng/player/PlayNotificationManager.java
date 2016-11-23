@@ -58,7 +58,7 @@ public class PlayNotificationManager {
         }
         if (notification == null) {
             String title = (playingMusic.albumInfo != null ? playingMusic.albumInfo.getTitle() : mContext.getString(R.string.app_name));
-            notification = new Notification(R.drawable.logo, title, System.currentTimeMillis());
+            notification = new Notification(R.drawable.ic_app_logo, title, System.currentTimeMillis());
             notification.flags |= Notification.FLAG_NO_CLEAR;
             notifyView = new RemoteViews(mContext.getPackageName(),
                     R.layout.notify_play);
@@ -126,7 +126,7 @@ public class PlayNotificationManager {
 
                                      @Override
                                      public void onFailureImpl(DataSource dataSource) {
-                                         notifyView.setImageViewResource(R.id.notify_logo, R.drawable.notice_icon_clock);
+                                         notifyView.setImageViewResource(R.id.notify_logo, R.drawable.ic_notice_clock);
                                          mNotificationManager.notify(MusicService.PLAYING_NOTIFY_ID, notification);
                                      }
                                  },

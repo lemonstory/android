@@ -34,7 +34,7 @@ public class ReminderActivity extends BaseActivity implements OnClickListener,
 		setTitleName("睡眠定时");
 		mListView = (XListView) findViewById(R.id.lv_home_discover);
 		mCoverImg = (ImageView) findViewById(R.id.img_head_right);
-		setRightHeadIcon(R.drawable.play_flag_wave_01);
+		setRightHeadIcon(R.drawable.ic_player_flag_wave_01);
 		mListView.setPullLoadEnable(false);
 		mListView.setPullRefreshEnable(false);
 		reminderTimeInt = getResources().getIntArray(R.array.reminder_int);

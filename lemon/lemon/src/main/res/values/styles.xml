@@ -156,7 +156,7 @@
         <item name="textColorSelected">@color/orage_color</item>
         <item name="textSizeNormal">@dimen/content_text_size</item>
         <item name="textSizeSelected">@dimen/content_text_size</item>
-        <item name="android:background">@drawable/big_divider_bg</item>
+        <item name="android:background">@drawable/bg_download_divider</item>
     </style>
 
     <style name="warpTabIndicatorView" parent="BaseTabIndicatorView">
@@ -168,8 +168,8 @@
     </style>
 
     <style name="baseRatingBarStyle">
-        <item name="starEmpty">@drawable/album_comment_star_normal</item>
-        <item name="starFill">@drawable/album_comment_star_select</item>
+        <item name="starEmpty">@drawable/ic_album_star_normal</item>
+        <item name="starFill">@drawable/ic_album_star_selected</item>
         <item name="starCount">5</item>
         <item name="clickable">false</item>
         <item name="starImageSize">@dimen/base_margin</item>
@@ -223,7 +223,7 @@
         <item name="android:paddingLeft">4dp</item>
         <item name="android:paddingRight">4dp</item>
         <item name="android:gravity">center</item>
-        <item name="android:drawableLeft">@drawable/discover_item_listener_tip</item>
+        <item name="android:drawableLeft">@drawable/ic_headset</item>
         <item name="android:drawablePadding">3dp</item>
     </style>
 

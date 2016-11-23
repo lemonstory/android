@@ -39,7 +39,7 @@
             android:layout_height="8dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="6dp"
-            android:background="@drawable/mine_item_point" />
+            android:background="@drawable/ic_mystory_item_point" />
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/img_mine_item_cover"

@@ -126,7 +126,7 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
                 case R.id.editEmojicon:
                     hideEmojicons();
                     hideAddImg();
-                    mSwitchIv.setImageResource(R.drawable.sent_emotion_normal);
+                    mSwitchIv.setImageResource(R.drawable.btn_emotion_sent_normal);
                     break;
             }
         }
@@ -143,7 +143,7 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
                     if (hasFocus) {
                         hideEmojicons();
                         hideAddImg();
-                        mSwitchIv.setImageResource(R.drawable.sent_emotion_normal);
+                        mSwitchIv.setImageResource(R.drawable.btn_emotion_sent_normal);
                         break;
                     }
             }
@@ -219,7 +219,7 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
         AppUtils.openKeyboard(getActivity());
         mEditEmojicon.setFocusable(true);
         mEditEmojicon.requestFocus();
-        mSwitchIv.setImageResource(R.drawable.sent_emotion_normal);
+        mSwitchIv.setImageResource(R.drawable.btn_emotion_sent_normal);
     }
 
     //收起键盘
@@ -227,7 +227,7 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         AppUtils.hiddenKeyboard(getActivity());
-        mSwitchIv.setImageResource(R.drawable.sent_keyboard_normal);
+        mSwitchIv.setImageResource(R.drawable.btn_keyboard_sent_normal);
     }
 
 
@@ -260,7 +260,7 @@ public class KeyboardFragment extends Fragment implements EmojiconGridFragment.O
         mEditEmojicon.getText().clear();
         mEditEmojicon.setHint(null);
         mEditEmojicon.clearComposingText();
-        mSwitchIv.setImageResource(R.drawable.sent_emotion_normal);
+        mSwitchIv.setImageResource(R.drawable.btn_emotion_sent_normal);
     }
 
     public void setmEditEmojiconHint(String hint) {

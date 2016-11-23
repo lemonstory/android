@@ -51,7 +51,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/account_item_margin_right"
-                    android:src="@drawable/tab_right_back" />
+                    android:src="@drawable/ic_item_right_arrow" />
                 <FrameLayout 
                      android:layout_width="@dimen/ablum_play_item_height"
                     android:layout_height="@dimen/ablum_play_item_height"
@@ -64,7 +64,7 @@
                         android:id="@+id/img_perasonal_icon"
                         android:layout_width="@dimen/ablum_play_item_height"
                         android:layout_height="@dimen/ablum_play_item_height"
-                        fresco:placeholderImage="@drawable/default_cover"
+                        fresco:placeholderImage="@drawable/bg_avatar_default"
                         fresco:roundedCornerRadius="@dimen/base_radius_size"
                         fresco:actualImageScaleType="centerCrop"/>
 <!--
@@ -117,7 +117,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/account_item_margin_right"
-                    android:src="@drawable/tab_right_back" />
+                    android:src="@drawable/ic_item_right_arrow" />
 
                 <TextView
                     android:id="@+id/tv_perasonal_name"
@@ -162,7 +162,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/account_item_margin_right"
-                    android:src="@drawable/tab_right_back" />
+                    android:src="@drawable/ic_item_right_arrow" />
 
                 <TextView
                     android:id="@+id/tv_perasonal_sex"
@@ -205,7 +205,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/account_item_margin_right"
-                    android:src="@drawable/tab_right_back" />
+                    android:src="@drawable/ic_item_right_arrow" />
 
                 <TextView
                     android:id="@+id/tv_perasonal_age"
@@ -248,7 +248,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/account_item_margin_right"
-                    android:src="@drawable/tab_right_back" />
+                    android:src="@drawable/ic_item_right_arrow" />
 
                 <TextView
                     android:id="@+id/tv_perasonal_address"
@@ -291,7 +291,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/account_item_margin_right"
-                    android:src="@drawable/tab_right_back" />
+                    android:src="@drawable/ic_item_right_arrow" />
 
                 <TextView
                     android:id="@+id/tv_perasonal_phone"
@@ -334,7 +334,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/account_item_margin_right"
-                    android:src="@drawable/tab_right_back" />
+                    android:src="@drawable/ic_item_right_arrow" />
 
                 <TextView
                     android:id="@+id/tv_perasonal_goods_address"

@@ -29,7 +29,7 @@
                 android:focusable="true"
                 android:longClickable="false"
                 fresco:actualImageScaleType="centerCrop"
-                fresco:placeholderImage="@drawable/forum_display_place_holder_image" />
+                fresco:placeholderImage="@drawable/bg_forum_img" />
 
             <TextView
                 android:id="@+id/tv_title1"
@@ -136,7 +136,7 @@
                 android:focusable="true"
                 android:longClickable="false"
                 fresco:actualImageScaleType="centerCrop"
-                fresco:placeholderImage="@drawable/forum_display_place_holder_image" />
+                fresco:placeholderImage="@drawable/bg_forum_img" />
 
             <TextView
                 android:id="@+id/tv_title2"

@@ -65,7 +65,7 @@ public class TagActivity extends BaseActivity implements View.OnClickListener, P
         mSecondTagList = new ArrayList<>();
         mSpecialList = new ArrayList<>();
         PlayerManager.getInstance().register(this);
-        setRightHeadIcon(R.drawable.play_flag_wave_01);
+        setRightHeadIcon(R.drawable.ic_player_flag_wave_01);
         setLoading(new DrawableDialogLoading(this));
         String defaultTagId = Constant.DEFAULT_TAG_ID;//避免空指针,给个默认值
         if (tagId == null || tagId.equals("")) {

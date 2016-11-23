@@ -16,7 +16,7 @@
             android:layout_height="@dimen/search_item_cover_height"
             android:layout_centerVertical="true"
             fresco:roundedCornerRadius="@dimen/base_radius_size"
-            fresco:placeholderImage="@drawable/album_default"
+            fresco:placeholderImage="@drawable/bg_album_default"
             android:layout_marginLeft="@dimen/base_margin" />
 
         <LinearLayout
@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/ablum_comment_head_margin_top"
-                android:drawableLeft="@drawable/album_listener"
+                android:drawableLeft="@drawable/ic_album_listener"
                 android:drawablePadding="@dimen/base_radius_size"
                 android:textColor="@color/base_date_color"
                 android:textSize="@dimen/content_text_size" />
@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/ablum_comment_head_margin_top"
-                android:drawableLeft="@drawable/album_item_fav_selector"
+                android:drawableLeft="@drawable/selector_btn_album_item_fav"
                 android:drawablePadding="@dimen/base_radius_size"
                 android:textColor="@color/base_date_color"
                 android:textSize="@dimen/content_text_size" />
@@ -53,7 +53,7 @@
                  android:id="@+id/tv_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/album_comment"
+                android:drawableLeft="@drawable/ic_album_comment"
                 android:drawablePadding="@dimen/base_radius_size"
                 android:textColor="@color/base_date_color"
                 android:textSize="@dimen/content_text_size" />
@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/mine_center_divider_height"
             android:layout_alignParentRight="true"
-             android:src="@drawable/tab_right_back"
+             android:src="@drawable/ic_item_right_arrow"
             android:layout_above="@id/ll_history_bottom"
             />
 
