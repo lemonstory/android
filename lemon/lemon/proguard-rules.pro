@@ -109,9 +109,10 @@
 #http://stackoverflow.com/questions/35796144/progaurd-issue-warningignoring-innerclasses-attribute-for-an-anonymous-inner-c
 #http://baichuan.taobao.com/docs/doc.htm?spm=a3c0d.7629140.0.0.R9SvdI&treeId=129&articleId=105647&docType=1
 -keepattributes Signature
--keepattributes EnclosingMethod
 -keepattributes InnerClasses
--keep class sun.misc.Unsafe { ; }
+-keepattributes EnclosingMethod
+
+-keep class sun.misc.Unsafe {*;}
 -keep class com.taobao.* {*;}
 -keep class com.alibaba.** {*;}
 -keep class com.alipay.** {*;}

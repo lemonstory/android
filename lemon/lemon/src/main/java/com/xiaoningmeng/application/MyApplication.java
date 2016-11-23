@@ -9,7 +9,6 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.os.Process;
 import android.support.multidex.MultiDex;
-import android.widget.Toast;
 
 import com.alibaba.baichuan.android.trade.AlibcTradeSDK;
 import com.alibaba.baichuan.android.trade.callback.AlibcTradeInitCallback;
@@ -98,16 +97,14 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
                 public void onSuccess() {
                     //初始化成功，设置相关的全局配置参数
 
-                    Toast.makeText(MyApplication.this, "TaeSDK 初始化成功", Toast.LENGTH_SHORT)
-                            .show();
+//                    Toast.makeText(MyApplication.this, "TaeSDK 初始化成功", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onFailure(int code, String msg) {
                     //初始化失败，可以根据code和msg判断失败原因，详情参见错误说明
-                    String content = "初始化异常，code = " + code + ", info = " + msg;
-                    Toast.makeText(MyApplication.this, content, Toast.LENGTH_SHORT)
-                            .show();
+//                    String content = "初始化异常，code = " + code + ", info = " + msg;
+//                    Toast.makeText(MyApplication.this, content, Toast.LENGTH_SHORT).show();
                 }
             });
 

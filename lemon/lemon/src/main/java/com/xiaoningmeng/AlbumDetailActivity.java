@@ -486,9 +486,10 @@ public class AlbumDetailActivity extends BaseActivity implements
 
     private void batchDownloadClick() {
 
-        if(albumInfo != null) {
+        if (albumInfo != null) {
             //推荐分享
-            this.showShareDialog(albumInfo.getTitle());
+            //三星市场不容许下载前出现提示框.
+            //this.showShareDialog(albumInfo.getTitle());
 
             //批量下载
             if (storyList != null && storyList.size() > 0) {

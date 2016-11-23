@@ -82,13 +82,13 @@ public class RatingAdapter extends BaseAdapter implements OnClickListener {
 		holder.listenTv.setText(userInfo.getListennum()!= null ?userInfo.getListennum():"0");
 		int pos = position +1;
 		if(pos <=3){
-			int bitId = mContext.getResources().getIdentifier("rating_w_" + pos, "drawable",mContext.getPackageName());
+			int bitId = mContext.getResources().getIdentifier("ic_rating_w_" + pos, "drawable",mContext.getPackageName());
 			holder.numberBitImg.setImageResource(bitId);
 			holder.numberBitImg.setVisibility(View.VISIBLE);
 			holder.numberTenImg.setVisibility(View.GONE);
 			holder.numberHundredImg.setVisibility(View.GONE);
 		}else if(pos < 10){
-			int bitId = mContext.getResources().getIdentifier("rating_" + pos, "drawable",mContext.getPackageName());
+			int bitId = mContext.getResources().getIdentifier("ic_rating_" + pos, "drawable",mContext.getPackageName());
 			holder.numberBitImg.setImageResource(bitId);
 			holder.numberBitImg.setVisibility(View.VISIBLE);
 			holder.numberTenImg.setVisibility(View.GONE);
@@ -97,8 +97,8 @@ public class RatingAdapter extends BaseAdapter implements OnClickListener {
 		}else if(pos <100){
 			int bit = pos % 10;
 			int ten = pos % 100 / 10;
-			int bitId = mContext.getResources().getIdentifier("rating_" + bit, "drawable",mContext.getPackageName());
-			int tenId = mContext.getResources().getIdentifier("rating_" + ten, "drawable",mContext.getPackageName());
+			int bitId = mContext.getResources().getIdentifier("ic_rating_" + bit, "drawable",mContext.getPackageName());
+			int tenId = mContext.getResources().getIdentifier("ic_rating_" + ten, "drawable",mContext.getPackageName());
 			holder.numberBitImg.setImageResource(bitId);
 			holder.numberTenImg.setImageResource(tenId);
 			holder.numberBitImg.setVisibility(View.VISIBLE);
@@ -108,9 +108,9 @@ public class RatingAdapter extends BaseAdapter implements OnClickListener {
 			int bit = pos % 10;
 			int ten = pos % 100 / 10;
 			int hunsband = pos /100;
-			int bitId = mContext.getResources().getIdentifier("rating_" + bit, "drawable",mContext.getPackageName());
-			int tenId = mContext.getResources().getIdentifier("rating_" + ten, "drawable",mContext.getPackageName());
-			int hunsbandId = mContext.getResources().getIdentifier("rating_" + hunsband, "drawable",mContext.getPackageName());
+			int bitId = mContext.getResources().getIdentifier("ic_rating_" + bit, "drawable",mContext.getPackageName());
+			int tenId = mContext.getResources().getIdentifier("ic_rating_" + ten, "drawable",mContext.getPackageName());
+			int hunsbandId = mContext.getResources().getIdentifier("ic_rating_" + hunsband, "drawable",mContext.getPackageName());
 			holder.numberBitImg.setImageResource(bitId);
 			holder.numberTenImg.setImageResource(tenId);
 			holder.numberHundredImg.setImageResource(hunsbandId);

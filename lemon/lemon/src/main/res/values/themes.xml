@@ -29,7 +29,7 @@
         <item name="android:dropDownHorizontalOffset">-24dp</item>
     </style>
 
-    <style name="PickTheme" parent="LoadingTheme">
+    <style name="PickTheme" parent="LemonTheme">
         <item name="numberPickerUpButtonStyle">@style/AiWidget.ImageButton.NumberPickerUpButton</item>
         <item name="numberPickerDownButtonStyle">@style/AiWidget.ImageButton.NumberPickerDownButton</item>
         <item name="numberPickerInputTextStyle">@style/AiWidget.EditText.NumberPickerInputText</item>
@@ -39,10 +39,6 @@
 
     <style name="PlayTheme" parent="LemonTheme">
         <item name="colorPrimaryDark">@color/system_bar_tint_color</item>
-    </style>
-
-    <style name="LoadingTheme" parent="LemonTheme">
-        <item name="colorPrimaryDark">@color/item_press_bg</item>
     </style>
 
     <!-- Dialog弹框样式 -->

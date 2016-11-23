@@ -46,7 +46,7 @@
             android:onClick="onClick"
             android:padding="10dp"
             android:scaleType="center"
-            android:src="@drawable/selector_btn_player_play" />
+            android:src="@drawable/selector_btn_player_previous" />
 
         <ImageView
             android:id="@+id/img_album_pause"
