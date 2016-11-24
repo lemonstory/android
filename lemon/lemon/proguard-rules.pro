@@ -75,7 +75,11 @@
     public static final int *;
 }
 
--keep class com.baidu.** {*;}
+#baidu --start
+-keep class com.baidu.** {
+    public protected *;
+}
+#baidu --end
 -keep class vi.com.** {*;}
 -keep class com.google.gson.**{*;}
 -keep class com.alibaba.sdk.** { *; }

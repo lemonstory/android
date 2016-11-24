@@ -13,17 +13,18 @@
         android:layout_marginRight="@dimen/album_intro_margin_left"
         android:layout_marginTop="@dimen/ablum_bar_radius"
         android:layout_marginBottom="@dimen/album_intro_margin" />
-    <FrameLayout
-        android:id="@+id/fl_ad"
-        android:layout_below="@id/wv_album_detail_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </FrameLayout>
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_tag_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/fl_ad"
+        android:layout_below="@+id/wv_album_detail_content"
         android:layout_alignParentStart="true" />
+    <RelativeLayout
+        android:id="@+id/fl_ad"
+        android:background="@color/dialong_top_bg"
+        android:layout_margin="18dp"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+    </RelativeLayout>
 </RelativeLayout>
