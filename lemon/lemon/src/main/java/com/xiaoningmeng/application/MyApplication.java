@@ -116,7 +116,17 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
             // QQ和Qzone appid appkey
             PlatformConfig.setQQZone(Constant.QQ_APP_ID, Constant.QQ_APP_KEY);
         }
-        startMusicService();
+
+        //OPPO A53M报错
+        //相关文档：
+        //https://bugly.qq.com/v2/crash/apps/900008353/issues/4751?pid=1
+        //https://github.com/Coolerfall/Android-AppDaemon/issues/11
+        //http://bbs.coloros.com/thread-174655-1-1.html
+        try {
+            startMusicService();
+        } catch (RuntimeException e) {
+            DebugUtils.e(e.toString());
+        }
     }
 
     //参考文档:https://github.com/hongyangAndroid/okhttputils
@@ -256,7 +266,7 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
 	*//**
      * httpClient的cookie传给Client
      *//*
-	public void setClientCookieFromHttpClient() {
+    public void setClientCookieFromHttpClient() {
 		
 		cookieStore = mHttpClient.getCookieStore();
 		cookies = cookieStore.getCookies();

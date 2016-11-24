@@ -107,12 +107,16 @@ public class SearchActivity extends BaseActivity implements SearchView.OnSearchV
                     public void onGetDataSuccess(SearchData data) {
                         mPager++;
                         mSearchContentView.setVisibility(View.VISIBLE);
-                        if (data != null && (data.getAlbumcount() != 0 || data.getStorycount() != 0)) {
+                        if (data != null && (data.getAlbumcount() > 0 || data.getStorycount() > 0)) {
                             hideEmptyTip();
                             ((TextView) mIndicator.getChildAt(0)).setText(TAB_TITLES[0] + "（" + data.getAlbumcount() + "）");
                             ((TextView) mIndicator.getChildAt(1)).setText(TAB_TITLES[1] + "（" + data.getStorycount() + "）");
-                            ((SearchAlbumChildFragment) mSearchFragments[0]).setAlbumList(data.getAlbumlist());
-                            ((SearchStoryChildFragment) mSearchFragments[1]).setStoryList(data.getStorylist());
+                            if (data.getAlbumcount() > 0 && null != data.getAlbumlist()) {
+                                ((SearchAlbumChildFragment) mSearchFragments[0]).setAlbumList(data.getAlbumlist());
+                            }
+                            if (data.getStorycount() > 0 && null != data.getStorylist()) {
+                                ((SearchStoryChildFragment) mSearchFragments[1]).setStoryList(data.getStorylist());
+                            }
                         } else {
                             showEmptyTip();
                         }

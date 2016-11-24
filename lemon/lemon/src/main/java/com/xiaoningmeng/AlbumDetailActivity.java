@@ -427,17 +427,20 @@ public class AlbumDetailActivity extends BaseActivity implements
     private void playOrPauseStory() {
 
         String albumId = PlayerManager.getInstance().getPlayingStory().albumid;
-        if (albumInfo != null && albumInfo.getId().equals(albumId)) {
-            if (PlayerManager.getInstance().isPlaying()) {
-                PlayerManager.getInstance().pausePlay();
-            } else {
-                PlayerManager.getInstance().resumePlay();
+        if (albumInfo != null) {
+
+            if (albumInfo.getId().equals(albumId)) {
+                if (PlayerManager.getInstance().isPlaying()) {
+                    PlayerManager.getInstance().pausePlay();
+                } else {
+                    PlayerManager.getInstance().resumePlay();
+                }
+            } else if (albumInfo.getStorylist() != null && albumInfo.getStorylist().size() > 0) {
+                PlayerManager.getInstance().playStory(albumInfo, storyList, 0, AlbumSource.ALBUM_DETAIL);
+                mPlayStoryId = albumInfo.getStorylist().get(0).getId();
             }
         } else if (mPlayStoryId != null) {
             PlayerManager.getInstance().playStory(albumInfo, storyList, mPlayStoryPosition, mPlayTime, AlbumSource.ALBUM_DETAIL);
-        } else if (albumInfo.getStorylist() != null && albumInfo.getStorylist().size() > 0) {
-            PlayerManager.getInstance().playStory(albumInfo, storyList, 0, AlbumSource.ALBUM_DETAIL);
-            mPlayStoryId = albumInfo.getStorylist().get(0).getId();
         }
     }
 
