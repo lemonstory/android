@@ -463,9 +463,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
 
         if (music.albumInfo != null) {
             mFavImg.setSelected(music.albumInfo.getFav() == 1);
-            DebugUtils.d("comment num = " + music.albumInfo.getCommentnum());
             if (music.albumInfo.getCommentnum() > 0) {
-
                 mCommentImg.setImageResource(R.drawable.play_btn_comments_selector);
                 mCommentTv.setText(music.albumInfo.getCommentnum() != 0 ? (music.albumInfo.getCommentnum() + "") : "");
             }

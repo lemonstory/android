@@ -122,7 +122,6 @@ public class AblumDetailIntroFragment extends LazyFragment {
 
     @Override
     public void onDestroy() {
-        adView.destroy();
         super.onDestroy();
     }
 }
