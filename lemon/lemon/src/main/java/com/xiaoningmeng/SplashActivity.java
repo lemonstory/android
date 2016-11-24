@@ -24,6 +24,7 @@ public class SplashActivity extends BaseActivity {
     public static final int LOGIN_TIME = 1600;
     private TextView mAdCountDownTv;
     private int countDown = 5;
+    private boolean isLoadAd = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,9 @@ public class SplashActivity extends BaseActivity {
             return;
         }
         int loadCountDown = PreferenceUtil.getInt("load_countdown");
-        if (loadCountDown < 3) {
+        if (isLoadAd && loadCountDown > 3) {
+            loadAd();
+        } else {
             PreferenceUtil.putInt("load_countdown", loadCountDown + 1);
             mHandler.postDelayed(new Runnable() {
                 @Override
@@ -52,8 +55,6 @@ public class SplashActivity extends BaseActivity {
                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
             }, LOGIN_TIME);
-        } else {
-            loadAd();
         }
     }
 
