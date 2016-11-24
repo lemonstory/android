@@ -30,12 +30,11 @@ import com.xiaoningmeng.view.SearchView;
 import com.xiaoningmeng.view.SearchView.OnSearchViewListener;
 import com.xiaoningmeng.view.TabIndicatorView;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class SearchFragment extends BaseFragment implements OnSearchViewListener,OnClickListener{
+public class SearchFragment extends BaseFragment implements OnSearchViewListener, OnClickListener {
 
     private XListView mListView;
     private BaseActivity mContext;
@@ -49,18 +48,18 @@ public class SearchFragment extends BaseFragment implements OnSearchViewListener
     private AtomicBoolean isReq = new AtomicBoolean();
     private SearchView mSearchView;
     private View mSearchContentView;
-    public static String[] TAB_TITLES = new String[]{"声音","专辑"};
+    public static String[] TAB_TITLES = new String[]{"声音", "专辑"};
     public BaseFragment[] mSearchFragments = new BaseFragment[2];
-    private int mPager  = 1;
+    private int mPager = 1;
     private String mSearchContent;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mContext = (BaseActivity) getActivity();
-        View contentView = View.inflate(mContext,R.layout.fragment_search, null);
+        View contentView = View.inflate(mContext, R.layout.fragment_search, null);
         mListView = (XListView) contentView.findViewById(R.id.id_stickynavlayout_innerscrollview);
-        mSearchView = ((SearchView)getActivity().findViewById(R.id.search_bar));
+        mSearchView = ((SearchView) getActivity().findViewById(R.id.search_bar));
         mListView.setPullLoadEnable(false);
         mListView.setPullRefreshEnable(false);
         mAlbumInfos = new ArrayList<>();
@@ -68,7 +67,7 @@ public class SearchFragment extends BaseFragment implements OnSearchViewListener
         mHotContents = new ArrayList<>();
         mLastContents = new ArrayList<>();
         mLastContents.addAll(SearchDao.getInstance().getSearchContentList(20));
-        mDefaultAdapter = new SearchDefaultAdapter2(getActivity(),mHotContents,mLastContents);
+        mDefaultAdapter = new SearchDefaultAdapter2(getActivity(), mHotContents, mLastContents);
         mSearchAdapter = new SearchAdapter(getActivity(), mAlbumInfos);
         mListView.setAdapter(mDefaultAdapter);
         requestDefaultSearchReq();
@@ -77,19 +76,17 @@ public class SearchFragment extends BaseFragment implements OnSearchViewListener
         return contentView;
     }
 
-    public void requestDefaultSearchReq(){
-
+    public void requestDefaultSearchReq() {
 
         LHttpRequest.getInstance().getHotSearchReq(mContext, 20, new JsonCallback<List<SearchContent>>(mContext) {
 
             @Override
             public void onGetDataSuccess(List<SearchContent> data) {
-                if(data != null && data.size() >0){
+                if (data != null && data.size() > 0) {
                     mHotContents.addAll(data);
                     mDefaultAdapter.notifyDataSetChanged();
                 }
             }
-
         });
     }
 
@@ -102,20 +99,20 @@ public class SearchFragment extends BaseFragment implements OnSearchViewListener
         mAlbumInfos.clear();
         mContext.setLoadingTip("搜索中...");
         mPager = 1;
-        LHttpRequest.getInstance().searchReq(getActivity(), searchContent, 10,mPager,null,
+        LHttpRequest.getInstance().searchReq(getActivity(), searchContent, 10, mPager, null,
                 new JsonCallback<SearchData>(mContext) {
 
                     @Override
                     public void onGetDataSuccess(SearchData data) {
                         mPager++;
                         mSearchContentView.setVisibility(View.VISIBLE);
-                        if (data != null && (data.getAlbumcount()!=0 || data.getStorycount()!= 0)) {
+                        if (data != null && (data.getAlbumcount() != 0 || data.getStorycount() != 0)) {
                             hideEmptyTip();
-                            ((TextView)mIndicator.getChildAt(1)).setText(TAB_TITLES[1]+"（"+data.getAlbumcount()+"）");
-                            ((TextView)mIndicator.getChildAt(0)).setText(TAB_TITLES[0]+"（"+data.getStorycount()+"）");
-                            ((SearchStoryChildFragment)mSearchFragments[0]).setStoryList(data.getStorylist());
-                            ((SearchAlbumChildFragment)mSearchFragments[1]).setAlbumList(data.getAlbumlist());
-                        }else{
+                            ((TextView) mIndicator.getChildAt(1)).setText(TAB_TITLES[1] + "（" + data.getAlbumcount() + "）");
+                            ((TextView) mIndicator.getChildAt(0)).setText(TAB_TITLES[0] + "（" + data.getStorycount() + "）");
+                            ((SearchStoryChildFragment) mSearchFragments[0]).setStoryList(data.getStorylist());
+                            ((SearchAlbumChildFragment) mSearchFragments[1]).setAlbumList(data.getAlbumlist());
+                        } else {
                             showEmptyTip();
                         }
                     }
@@ -131,8 +128,8 @@ public class SearchFragment extends BaseFragment implements OnSearchViewListener
                     @Override
                     public void onFinish() {
                         isReq.set(false);
-                        if(SearchDao.getInstance().addSearch(searchContent)){
-                            mLastContents.add(0,new SearchContent(searchContent));
+                        if (SearchDao.getInstance().addSearch(searchContent)) {
+                            mLastContents.add(0, new SearchContent(searchContent));
                             mDefaultAdapter.notifyDataSetChanged();
                         }
                         super.onFinish();
@@ -142,28 +139,29 @@ public class SearchFragment extends BaseFragment implements OnSearchViewListener
     }
 
     public void moreSearch(String searchType) {
-        if (mSearchContent== null && isReq.get()) {
+        if (mSearchContent == null && isReq.get()) {
             return;
         }
         isReq.set(true);
 
         mAlbumInfos.clear();
-        LHttpRequest.getInstance().searchReq(getActivity(), mSearchContent, 10,mPager,searchType,
+        LHttpRequest.getInstance().searchReq(getActivity(), mSearchContent, 10, mPager, searchType,
                 new JsonCallback<SearchData>() {
 
                     @Override
                     public void onGetDataSuccess(SearchData data) {
                         mPager++;
                         mSearchContentView.setVisibility(View.VISIBLE);
-                        ((SearchStoryChildFragment)mSearchFragments[0]).addStoryList(data.getStorylist());
-                        ((SearchAlbumChildFragment)mSearchFragments[1]).addAlbumList(data.getAlbumlist());
+                        ((SearchStoryChildFragment) mSearchFragments[0]).addStoryList(data.getStorylist());
+                        ((SearchAlbumChildFragment) mSearchFragments[1]).addAlbumList(data.getAlbumlist());
 
                     }
+
                     @Override
                     public void onFinish() {
                         isReq.set(false);
-                        ((SearchStoryChildFragment)mSearchFragments[0]).stopLoadMore();
-                        ((SearchAlbumChildFragment)mSearchFragments[1]).stopLoadMore();
+                        ((SearchStoryChildFragment) mSearchFragments[0]).stopLoadMore();
+                        ((SearchAlbumChildFragment) mSearchFragments[1]).stopLoadMore();
                         super.onFinish();
 
                     }
@@ -172,16 +170,16 @@ public class SearchFragment extends BaseFragment implements OnSearchViewListener
 
     @Override
     public void showDefault() {
-        if(mSearchContentView != null){
+        if (mSearchContentView != null) {
             mSearchContentView.setVisibility(View.INVISIBLE);
         }
     }
 
     @Override
     public void showEmpty(boolean isShowListView) {
-        if(getView()!= null){
+        if (getView() != null) {
             ViewGroup contentView = (ViewGroup) getView();
-            if(mSearchContentView == null){
+            if (mSearchContentView == null) {
                 mSearchContentView = View.inflate(mContext, R.layout.fragment_empty_search2, null);
                 mIndicator = (TabIndicatorView) mSearchContentView.findViewById(R.id.tab_indicator);
                 mViewPager = (ViewPager) mSearchContentView.findViewById(R.id.viewpager);
@@ -205,6 +203,7 @@ public class SearchFragment extends BaseFragment implements OnSearchViewListener
                     public void onPageSelected(int position) {
                         mIndicator.onSwitched(position);
                     }
+
                     @Override
                     public void onPageScrollStateChanged(int state) {
 
@@ -253,8 +252,7 @@ public class SearchFragment extends BaseFragment implements OnSearchViewListener
 
     }
 
-    public  class TabFragmentPagerAdapter extends FragmentPagerAdapter{
-
+    public class TabFragmentPagerAdapter extends FragmentPagerAdapter {
 
 
         public TabFragmentPagerAdapter(FragmentManager fm) {
@@ -265,7 +263,7 @@ public class SearchFragment extends BaseFragment implements OnSearchViewListener
         @Override
         public Fragment getItem(int position) {
 
-            if(mSearchFragments[position] == null){
+            if (mSearchFragments[position] == null) {
                 switch (position) {
                     case 0:
                         mSearchFragments[position] = new SearchStoryChildFragment();
@@ -284,6 +282,7 @@ public class SearchFragment extends BaseFragment implements OnSearchViewListener
 
             return mSearchFragments.length;
         }
+
         @Override
         public int getItemPosition(Object object) {
 

@@ -106,6 +106,8 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
                         intent.setData(categoryLinkUri);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         DiscoverFragment.this.getActivity().startActivity(intent);
+                        //点击计数
+                        DiscoverFragment.this.tagCountStat(categoryInfo.getTitle(),categoryInfo.getLinkurl());
                         break;
 
                     case Index.AD_TYPE:
@@ -322,6 +324,24 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
         }
     }
 
+    /**
+     * 标签点击计数
+     * @param title
+     * @param linkurl
+     */
+    private void tagCountStat(String title,String linkurl) {
+
+        //计数统计
+        Uri uri = Uri.parse(linkurl);
+        String tagId = uri.getQueryParameter("tag_id");
+        DebugUtils.d("tagId ======= " + tagId);
+        if(null != tagId) {
+            HashMap<String, String> tagMap = new HashMap<String, String>();
+            tagMap.put("tagId", tagId);
+            tagMap.put("tagName", title);
+            MobclickAgent.onEvent(getActivity(), "event_click_tag", tagMap);
+        }
+    }
 }
 
 

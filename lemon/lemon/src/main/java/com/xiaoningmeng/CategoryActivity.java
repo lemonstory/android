@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.adapter.CategoryAdapter;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.base.BaseActivity;
@@ -99,10 +100,16 @@ public class CategoryActivity extends BaseActivity implements PlayObserver {
                                 String ageItemLinkurl = ageItem.getLinkurl();
                                 DebugUtils.d("ageItemLinkurl = " + ageItemLinkurl);
                                 Intent ageLevelIntent = new Intent();
-                                ageLevelIntent.putExtra("pageTitle","最新上架");
+                                ageLevelIntent.putExtra("pageTitle", "最新上架");
                                 Uri uri = Uri.parse(ageItemLinkurl);
                                 ageLevelIntent.setData(uri);
                                 CategoryActivity.this.startActivity(ageLevelIntent);
+
+                                //记数统计
+                                HashMap<String, String> ageMap = new HashMap<String, String>();
+                                ageMap.put("ageTitle", ageItem.getTitle());
+                                MobclickAgent.onEvent(CategoryActivity.this, "event_age_level", ageMap);
+
                                 //TODO 打开年龄页面
                                 break;
                             case Category.TYPE_TAG:
@@ -112,8 +119,13 @@ public class CategoryActivity extends BaseActivity implements PlayObserver {
                                 intent.setData(tagItemLinkuri);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 CategoryActivity.this.startActivity(intent);
-                        }
 
+                                //计数统计
+                                HashMap<String, String> tagMap = new HashMap<String, String>();
+                                tagMap.put("tagId", tagItem.getId());
+                                tagMap.put("tagName", tagItem.getName());
+                                MobclickAgent.onEvent(CategoryActivity.this, "event_click_tag", tagMap);
+                        }
                     }
                 }
         );
@@ -123,6 +135,7 @@ public class CategoryActivity extends BaseActivity implements PlayObserver {
     protected void onResume() {
         super.onResume();
         PlayWaveManager.getInstance().loadWaveAnim(this, mWaveImg);
+        MobclickAgent.onEvent(this, "event_category");
     }
 
     @Override
