@@ -264,7 +264,7 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@string/album_comment"
                     android:layout_marginTop="6dp"
-                    android:src="@drawable/play_btn_comments_selector" />
+                    android:src="@drawable/play_btn_comment_selector" />
 
                 <TextView
                     android:id="@+id/tv_album_comment"

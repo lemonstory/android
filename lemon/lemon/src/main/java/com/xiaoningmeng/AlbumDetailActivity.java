@@ -492,7 +492,7 @@ public class AlbumDetailActivity extends BaseActivity implements
         if (albumInfo != null) {
             //推荐分享
             //三星市场不容许下载前出现提示框.
-            //this.showShareDialog(albumInfo.getTitle());
+            this.showShareDialog(albumInfo.getTitle());
             //批量下载
             if (storyList != null && storyList.size() > 0) {
                 for (int i = 0; i < storyList.size(); i++) {
