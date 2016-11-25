@@ -258,7 +258,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
     public void startAlbumInfoActivity(View view, AlbumInfo albumInfo) {
 
         Intent intent = new Intent(getActivity(), AlbumDetailActivity.class);
-        intent.putExtra("albumId", albumInfo.getAlbumid());
+        intent.putExtra("albumId", albumInfo.getId());
         intent.putExtra("albumInfo", albumInfo);
 
         ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(

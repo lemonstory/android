@@ -44,12 +44,14 @@ public class AblumPlayListAdapter extends BaseQuickAdapter<Story, BaseViewHolder
 
 
     private void getPlayView(BaseViewHolder helper, Story story) {
+
+
+        boolean isHornOn = mPlayingStory.playState == PlayState.RESUME || mPlayingStory.playState == PlayState.START || mPlayingStory.playState == PlayState.PLAY;
         if (story.getAlbum_id() != null && story.getAlbum_id().equals(mPlayingStory.albumid)) {
             if (story.getMediapath().equals(mPlayingStory.mediapath)) {
                 helper.getView(R.id.tv_play_list_number).setVisibility(View.INVISIBLE);
                 helper.getView(R.id.img_play_list_status).setVisibility(View.VISIBLE);
-                helper.getView(R.id.img_play_list_status).setSelected(mPlayingStory.playState == PlayState.RESUME
-                        || mPlayingStory.playState == PlayState.START || mPlayingStory.playState == PlayState.PLAY);
+                helper.getView(R.id.img_play_list_status).setSelected(isHornOn);
             } else {
                 helper.getView(R.id.tv_play_list_number).setVisibility(View.VISIBLE);
                 helper.getView(R.id.img_play_list_status).setVisibility(View.INVISIBLE);
@@ -58,15 +60,17 @@ public class AblumPlayListAdapter extends BaseQuickAdapter<Story, BaseViewHolder
         } else if (story.getId() != null && story.getId().equals(playStoryId)) {
             helper.getView(R.id.tv_play_list_number).setVisibility(View.INVISIBLE);
             helper.getView(R.id.img_play_list_status).setVisibility(View.VISIBLE);
-            helper.getView(R.id.img_play_list_status).setSelected(false);
+            helper.getView(R.id.img_play_list_status).setSelected(isHornOn);
         } else {
+
             helper.getView(R.id.tv_play_list_number).setVisibility(View.VISIBLE);
             helper.getView(R.id.img_play_list_status).setVisibility(View.INVISIBLE);
-            //helper.getView(R.id.tv_play_list_title).setSelected(false);
+            helper.getView(R.id.img_play_list_status).setSelected(false);
         }
     }
 
     private void getDownloadView(BaseViewHolder helper, Story story) {
+
         int downloadStatus = DownLoadClientImpl.getInstance().getDownloadStatus(story.getMediapath());
         ProgressBar progressBar = helper.getView(R.id.rpb_download_progress);
         TextView downloadTv = helper.getView(R.id.tv_play_list_download);
@@ -93,6 +97,4 @@ public class AblumPlayListAdapter extends BaseQuickAdapter<Story, BaseViewHolder
             downloadTv.setText("下载中");
         }
     }
-
-
 }

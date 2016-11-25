@@ -44,7 +44,7 @@ public class SearchAlbumChildFragment extends BaseFragment implements IXListView
 				int pos = position - 1;
 				Intent intent = new Intent(getActivity(), AlbumDetailActivity.class);
 				AlbumInfo albumInfo = mAlbumInfos.get(pos);
-				intent.putExtra("albumId", albumInfo.getAlbumid());
+				intent.putExtra("albumId", albumInfo.getId());
 				((BaseActivity)getActivity()).startActivityForNew(intent);
 			}
 		});

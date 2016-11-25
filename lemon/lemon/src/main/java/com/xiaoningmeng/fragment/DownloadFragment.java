@@ -1,7 +1,5 @@
 package com.xiaoningmeng.fragment;
 
-import java.util.List;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -28,6 +26,8 @@ import com.xiaoningmeng.bean.AudioDownLoad;
 import com.xiaoningmeng.download.DownLoadClientImpl;
 import com.xiaoningmeng.utils.UiUtils;
 import com.xiaoningmeng.view.dialog.TipDialog;
+
+import java.util.List;
 
 public class DownloadFragment extends BaseFragment {
 
@@ -138,7 +138,7 @@ public class DownloadFragment extends BaseFragment {
 
 	private void delDownloadAlbum(int position) {
 		if (downLoads != null && downLoads.size() > position) {
-			String albumId = downLoads.get(position).getAlbumid();
+			String albumId = downLoads.get(position).getId();
 			List<AudioDownLoad> downLoads;
 			if (type == DownloadStoryActivity.HISTORY_TYPE) {
 				downLoads = DownLoadClientImpl.getInstance().mHistoryMap

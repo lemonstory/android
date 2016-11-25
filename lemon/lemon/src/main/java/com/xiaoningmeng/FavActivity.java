@@ -99,7 +99,7 @@ public class FavActivity extends BaseActivity implements IXListViewListener {
 				int pos = position - 1;
 				if(pos >= 0){
 				Intent i = new Intent(FavActivity.this,AlbumDetailActivity.class);
-				i.putExtra("albumId", mFaAlbumList.get(pos).getAlbumid());
+				i.putExtra("albumId", mFaAlbumList.get(pos).getId());
 				startActivityForNew(i);
 				}
 
@@ -135,7 +135,7 @@ public class FavActivity extends BaseActivity implements IXListViewListener {
 	}
 	private void delFavAblum(final int position) {
 			final AlbumInfo albumInfo = mFaAlbumList.get(position);
-			final String albumId = albumInfo.getAlbumid();
+			final String albumId = albumInfo.getId();
 			LHttpRequest.getInstance().delFavAlbumRequest(this,albumId,
 					new JsonCallback<String>() {
 
@@ -275,7 +275,7 @@ public class FavActivity extends BaseActivity implements IXListViewListener {
 			mFaAlbumList.add(favEvent.albumInfo);
 		}else{
 			for(int i = 0; i<mFaAlbumList.size();i++){
-				if(favEvent.albumInfo.getAlbumid().equals(mFaAlbumList.get(i).getAlbumid())){
+				if(favEvent.albumInfo.getId().equals(mFaAlbumList.get(i).getId())){
 					mFaAlbumList.remove(i);
 				}
 			}

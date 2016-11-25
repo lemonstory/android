@@ -36,10 +36,10 @@ public class HistoryDao {
 	}
 	//新增历史数据
 	public void add(final AlbumInfo albumInfo,final String storyId,final int current){
-			String albumId = albumInfo.getAlbumid();
+			String albumId = albumInfo.getId();
 			String uid = MyApplication.getInstance().getUid();
 			long uploadTime = System.currentTimeMillis()/1000;
-			ListenerAlbum listenerAlbum = new ListenerAlbum(uid, storyId, albumInfo.getAlbumid(), uploadTime+"",current,albumInfo);
+			ListenerAlbum listenerAlbum = new ListenerAlbum(uid, storyId, albumInfo.getId(), uploadTime+"",current,albumInfo);
 			if(findHistoryAlbum(albumId)){
 					deleteAlbumStory(albumId);
 					updateAlbum(listenerAlbum);
@@ -254,7 +254,7 @@ public class HistoryDao {
 		album.setUptime(cursor.getLong(cursor.getColumnIndex("uptime"))+"");
 		album.setPlaytimes(cursor.getInt(cursor.getColumnIndex("current")));
 		AlbumInfo albuminfo = new AlbumInfo();
-		albuminfo.setAlbumid(ablumId);
+		albuminfo.setId(ablumId);
 		albuminfo.setTitle(cursor.getString(cursor.getColumnIndex("title")));
 		albuminfo.setIntro(cursor.getString(cursor.getColumnIndex("intro")));
 		albuminfo.setStar_level(cursor.getString(cursor.getColumnIndex("star_level")));

@@ -12,7 +12,6 @@ public class AlbumInfo extends DataSupport implements Parcelable, IRecyclerItem 
 
     protected String id;
     protected String favid;
-    private String albumid;
     private String title;
     private String intro;
     private String star_level;
@@ -24,11 +23,13 @@ public class AlbumInfo extends DataSupport implements Parcelable, IRecyclerItem 
     private String listennum;
     private int favnum;
     private int commentnum;
+    private int story_num;
     protected List<Story> storylist = new ArrayList<>();
     protected Story storyinfo;
     protected String recommenddesc;
     protected String age_str;
     protected String buy_link;
+    private Tag tag;
 
     @Override
     public int getSpanSize() {
@@ -43,13 +44,14 @@ public class AlbumInfo extends DataSupport implements Parcelable, IRecyclerItem 
     public AlbumInfo() {
     }
 
-    public AlbumInfo(String id, String title, String intro, String star_level, String cover, String listennum, int favnum, int commentnum, String recommenddesc, String age_str, String buy_link) {
+    public AlbumInfo(String id, String title, String intro, String star_level, String cover, String listennum, int story_num, int favnum, int commentnum, String recommenddesc, String age_str, String buy_link) {
         this.id = id;
         this.title = title;
         this.intro = intro;
         this.star_level = star_level;
         this.cover = cover;
         this.listennum = listennum;
+        this.story_num = story_num;
         this.favnum = favnum;
         this.commentnum = commentnum;
         this.recommenddesc = recommenddesc;
@@ -59,11 +61,11 @@ public class AlbumInfo extends DataSupport implements Parcelable, IRecyclerItem 
 
     public AlbumInfo(Parcel in) {
         id = in.readString();
-        albumid = in.readString();
         title = in.readString();
         intro = in.readString();
         star_level = in.readString();
         cover = in.readString();
+        story_num = in.readInt();
         fav = in.readInt();
         s_cover = in.readString();
         add_time = in.readString();
@@ -108,9 +110,6 @@ public class AlbumInfo extends DataSupport implements Parcelable, IRecyclerItem 
     }
 
     public String getId() {
-        if (id == null) {
-            id = albumid;
-        }
         return id;
     }
 
@@ -118,16 +117,6 @@ public class AlbumInfo extends DataSupport implements Parcelable, IRecyclerItem 
         this.id = id;
     }
 
-    public String getAlbumid() {
-        if (albumid == null) {
-            albumid = id;
-        }
-        return albumid;
-    }
-
-    public void setAlbumid(String albumid) {
-        this.albumid = albumid;
-    }
 
 
     public int getFav() {
@@ -187,6 +176,13 @@ public class AlbumInfo extends DataSupport implements Parcelable, IRecyclerItem 
         this.storylist = storylist;
     }
 
+    public int getStory_num() {
+        return story_num;
+    }
+
+    public void setStory_num(int story_num) {
+        this.story_num = story_num;
+    }
 
     public int getFavnum() {
         return favnum;
@@ -243,10 +239,17 @@ public class AlbumInfo extends DataSupport implements Parcelable, IRecyclerItem 
         this.recommenddesc = recommenddesc;
     }
 
+    public Tag getTag() {
+        return tag;
+    }
+
+    public void setTag(Tag tag) {
+        this.tag = tag;
+    }
+
     @Override
     public void writeToParcel(Parcel out, int flags) {
         out.writeString(id);
-        out.writeString(albumid);
         out.writeString(title);
         out.writeString(intro);
         out.writeString(star_level);
@@ -256,6 +259,7 @@ public class AlbumInfo extends DataSupport implements Parcelable, IRecyclerItem 
         out.writeString(add_time);
         out.writeString(update_time);
         out.writeString(listennum);
+        out.writeInt(story_num);
         out.writeInt(favnum);
         out.writeInt(commentnum);
         out.writeString(age_str);
@@ -288,7 +292,6 @@ public class AlbumInfo extends DataSupport implements Parcelable, IRecyclerItem 
         return "AlbumInfo{" +
                 "id='" + id + '\'' +
                 ", favid='" + favid + '\'' +
-                ", albumid='" + albumid + '\'' +
                 ", title='" + title + '\'' +
                 ", intro='" + intro + '\'' +
                 ", star_level='" + star_level + '\'' +
@@ -298,6 +301,7 @@ public class AlbumInfo extends DataSupport implements Parcelable, IRecyclerItem 
                 ", add_time='" + add_time + '\'' +
                 ", update_time='" + update_time + '\'' +
                 ", listennum='" + listennum + '\'' +
+                ", story_num='" + story_num + '\'' +
                 ", favnum=" + favnum +
                 ", commentnum=" + commentnum +
                 ", storylist=" + storylist +

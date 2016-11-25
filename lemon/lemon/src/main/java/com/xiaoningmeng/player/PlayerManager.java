@@ -44,9 +44,8 @@ import java.util.concurrent.Executors;
 
 /**
  * 已知的bug
- *      1:  MediaPlayer: Should have subtitle controller already set
- *      处理办法:   暂时忽略 http://stackoverflow.com/questions/20087804/should-have-subtitle-controller-already-set-mediaplayer-error-android
- *
+ * 1:  MediaPlayer: Should have subtitle controller already set
+ * 处理办法:   暂时忽略 http://stackoverflow.com/questions/20087804/should-have-subtitle-controller-already-set-mediaplayer-error-android
  */
 
 public class PlayerManager extends PlayerObservable implements
@@ -132,7 +131,6 @@ public class PlayerManager extends PlayerObservable implements
                 }
                 mHandler.removeCallbacks(updateRunnable);
                 mPlayingStory.playState = PlayState.START;
-                DebugUtils.d("story = " + story.toString());
                 mPlayingStory.setStory(story);
                 mPlayingStory.current = current;
                 mPlayingStory.buffer = mPlayingStory.playType == PlayType.LOCAL ? mPlayingStory.times : 0;
@@ -386,15 +384,14 @@ public class PlayerManager extends PlayerObservable implements
         playStory(albumInfo, stories, position, 0, albumSource);
     }
 
-    public void playStory(AlbumInfo albumInfo, List<Story> stories,
-                          int position, int current, int albumSource) {
+    public void playStory(AlbumInfo albumInfo, List<Story> stories, int position, int current, int albumSource) {
+
         if (albumInfo == null || stories == null || stories.size() == 0) {
             return;
         }
         recordHistoryData();
         mErrorMonitor.clearError();
-        if (!albumInfo.getAlbumid().equals(mPlayingStory.albumid)
-                || albumSource != mPlayingStory.albumSource) {
+        if (!albumInfo.getId().equals(mPlayingStory.albumid) || albumSource != mPlayingStory.albumSource) {
             mPlayingStory.albumSource = albumSource;
             newStoryList(albumInfo, stories, position, current);
             return;
@@ -575,7 +572,7 @@ public class PlayerManager extends PlayerObservable implements
     public boolean isPlaying() {
 
         boolean isPlaying = false;
-        if(mPlayingStory.playState == PlayState.PLAY || mPlayingStory.playState == PlayState.RESUME) {
+        if (mPlayingStory.playState == PlayState.PLAY || mPlayingStory.playState == PlayState.RESUME) {
             isPlaying = true;
         }
         return isPlaying;

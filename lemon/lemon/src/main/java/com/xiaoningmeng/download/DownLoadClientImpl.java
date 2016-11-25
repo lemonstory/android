@@ -1,5 +1,17 @@
 package com.xiaoningmeng.download;
 
+import android.database.Cursor;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+
+import com.xiaoningmeng.application.MyApplication;
+import com.xiaoningmeng.bean.AlbumInfo;
+import com.xiaoningmeng.bean.AudioDownLoad;
+import com.xiaoningmeng.utils.FileUtil;
+
+import org.litepal.crud.DataSupport;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,23 +19,10 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.WeakHashMap;
 import java.util.Map.Entry;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.Set;
-
-import org.litepal.crud.DataSupport;
-
-import com.umeng.socialize.utils.Log;
-import com.xiaoningmeng.application.MyApplication;
-import com.xiaoningmeng.bean.AlbumInfo;
-import com.xiaoningmeng.bean.AudioDownLoad;
-import com.xiaoningmeng.utils.FileUtil;
-
-import android.database.Cursor;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
+import java.util.WeakHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class DownLoadClientImpl extends
 		DownloadObservable<DownLoadObserver<AudioDownLoad>> implements
@@ -200,7 +199,7 @@ public class DownLoadClientImpl extends
 						.findAll(AlbumInfo.class);
 				if (albumInfos != null && albumInfos.size() > 0) {
 					for (AlbumInfo albumInfo : albumInfos) {
-						albumArray.put(albumInfo.getAlbumid(), albumInfo);
+						albumArray.put(albumInfo.getId(), albumInfo);
 					}
 				}
 				List<AudioDownLoad> mList = DataSupport.findAll(AudioDownLoad.class);
@@ -525,9 +524,9 @@ public class DownLoadClientImpl extends
 
 	public void addAlbum(AlbumInfo albumInfo) {
 
-		if (!albumArray.containsKey(albumInfo.getAlbumid())) {
+		if (!albumArray.containsKey(albumInfo.getId())) {
 			albumInfo.save();
-			albumArray.put(albumInfo.getAlbumid(), albumInfo);
+			albumArray.put(albumInfo.getId(), albumInfo);
 		}
 	}
 

@@ -94,6 +94,7 @@ public class AlbumDetailActivity extends BaseActivity implements
 
     private RatingBar mRatingBar;
     private AlbumInfo albumInfo;
+    private int storysPage = 1;
     private List<Story> storyList;
     private List<CommentInfo> commentList;
     private boolean isFirst = true;
@@ -287,7 +288,7 @@ public class AlbumDetailActivity extends BaseActivity implements
 
         if (mAlbumId != null && !mAlbumId.equals("")) {
 
-            LHttpRequest.getInstance().albumInfoReq(this, 10, mAlbumId,
+            LHttpRequest.getInstance().albumInfoReq(this, mAlbumId, storysPage,
                     MyApplication.getInstance().getUid(),
                     new JsonCallback<Album>() {
 
@@ -298,7 +299,7 @@ public class AlbumDetailActivity extends BaseActivity implements
                             albumInfo.setStorylist(storyList);
                             commentList = data.getCommentlist();
                             fillAlbumInfoView(albumInfo);
-                            mPlayListFragment.setStoryList(albumInfo, storyList, mPlayStoryId, mPlayTime);
+                            mPlayListFragment.setStoryList(albumInfo, storyList, storysPage, mPlayStoryId, mPlayTime);
                             mIntroFragment.setIntro(albumInfo.getIntro(), data.getTagList());
                             mSimilarFragment.setAlbumList(data.getRecommendAlbumList());
                             recoveryPlayedPosition();
@@ -310,8 +311,8 @@ public class AlbumDetailActivity extends BaseActivity implements
                         }
 
                         @Override
-                        public void onFailure(String failureResponse) {
-                            mPlayListFragment.onFailure();
+                        public void onFailure(int statusCode, String failureResponse) {
+                            mPlayListFragment.onFailure(statusCode, failureResponse);
                         }
                     });
         }
@@ -394,7 +395,7 @@ public class AlbumDetailActivity extends BaseActivity implements
                 view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fav_anim_in));
                 if (albumInfo != null) {
                     Story story = albumInfo.getStorylist().get(0);
-                    ShareBean shareBean = new ShareBean(albumInfo.getTitle(), albumInfo.getIntro(), albumInfo.getCover(), story.getMediapath(), Constant.SHARE_ALBUM_URL + albumInfo.getAlbumid());
+                    ShareBean shareBean = new ShareBean(albumInfo.getTitle(), albumInfo.getIntro(), albumInfo.getCover(), story.getMediapath(), Constant.SHARE_ALBUM_URL + albumInfo.getId());
                     mController = new ShareDialog().show(this, shareBean);
                 }
                 break;
@@ -448,7 +449,7 @@ public class AlbumDetailActivity extends BaseActivity implements
 
         Intent intent = new Intent(this, AlbumCommentActivity.class);
         if (albumInfo != null) {
-            String albumId = albumInfo.getAlbumid();
+            String albumId = albumInfo.getId();
             if (albumId != null && !albumId.equals("")) {
                 intent.putExtra("albumId", albumId);
                 startActivity(intent);
@@ -525,7 +526,7 @@ public class AlbumDetailActivity extends BaseActivity implements
                             new TipDialog.Builder(AlbumDetailActivity.this)
                                     .setAutoDismiss(true).setTransparent(false)
                                     .setTipText("收藏成功！").create().show();
-                            albumInfo.updateAll("albumid =?", albumInfo.getAlbumid());
+                            albumInfo.updateAll("albumid =?", albumInfo.getId());
                             EventBus.getDefault().post(new FavEvent(albumInfo, 1));
 
                         }
@@ -542,7 +543,7 @@ public class AlbumDetailActivity extends BaseActivity implements
                     new TipDialog.Builder(AlbumDetailActivity.this)
                             .setAutoDismiss(true).setTransparent(false)
                             .setTipText("取消收藏成功！").create().show();
-                    albumInfo.updateAll("albumid =?", albumInfo.getAlbumid());
+                    albumInfo.updateAll("albumid =?", albumInfo.getId());
                     EventBus.getDefault().post(new FavEvent(albumInfo, 0));
                 }
             });
@@ -596,9 +597,10 @@ public class AlbumDetailActivity extends BaseActivity implements
     public void notify(PlayingStory music) {
 
         PlayWaveManager.getInstance().notify(music);
-        if (albumInfo == null || !albumInfo.getId().equals(music.albumid)) {
-            return;
-        }
+//        if (albumInfo == null || !albumInfo.getId().equals(music.albumid)) {
+//            DebugUtils.d("FUCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCK!!!!");
+//            return;
+//        }
 
         switch (music.playState) {
             case PLAY:
@@ -689,7 +691,7 @@ public class AlbumDetailActivity extends BaseActivity implements
     }
 
     public void onEventMainThread(FavEvent favEvent) {
-        if (albumInfo != null && favEvent.albumInfo.getAlbumid().equals(albumInfo.getAlbumid())) {
+        if (albumInfo != null && favEvent.albumInfo.getId().equals(albumInfo.getId())) {
             if (favEvent.fav == 1) {
                 mFavTv.setSelected(true);
                 albumInfo.setFav(1);

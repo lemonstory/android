@@ -19,6 +19,7 @@ import com.xiaoningmeng.bean.MoreAblum;
 import com.xiaoningmeng.bean.Rank;
 import com.xiaoningmeng.bean.SearchContent;
 import com.xiaoningmeng.bean.SearchData;
+import com.xiaoningmeng.bean.StoryList;
 import com.xiaoningmeng.bean.TagDetail;
 import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.constant.Constant;
@@ -155,7 +156,7 @@ public class LHttpRequest {
 		get(ConstantURL.GET_FAV_LIST).tag(context)
 				.addParams("direction", direction)
 				.addParams("startfavid", startId)
-			.addParams("len", len + "")
+			.addParams("len", Integer.toString(len))
 		.build().execute(handler);
 
 	}
@@ -181,9 +182,9 @@ public class LHttpRequest {
 		if (url != null) {
 			get(url).tag(context)
 					.addParams("currentfirsttagid", currentfirsttagid)
-			.addParams("p", p + "")
-			.addParams("len", len + "")
-			.addParams("isgettag", isGetTag + "")
+			.addParams("p", Integer.toString(p))
+			.addParams("len", Integer.toString(len))
+			.addParams("isgettag", Integer.toString(isGetTag))
 					.build().execute(handler);
 		}
 
@@ -193,34 +194,43 @@ public class LHttpRequest {
 	public void rankListenerUserListReq(Context context, int len,
 										JsonCallback<Rank> handler) {
 		get(ConstantURL.RANK_LISTENER_LIST).tag(context)
-		.addParams("len", len + "")
+		.addParams("len", Integer.toString(len))
 				.build().execute(handler);
 	}
 
 	//专辑详情
-	public void albumInfoReq(Context context, int len, String albumId, String uid,
+	public void albumInfoReq(Context context, String albumId, int storysPage,  String uid,
 							 JsonCallback<Album> handler) {
 		get(ConstantURL.ALBUM_INFO).tag(context)
 		.addParams("album_id", albumId)
-		.addParams("iscommentpage", "0")
-		.addParams("direction", Constant.FRIST)
-		.addParams("startid", Constant.FRIST_ID)
-		.addParams("len", len + "")
+		.addParams("storys_page", Integer.toString(storysPage))
 		.addParams("uid", uid)
 				.build().execute(handler);
 	}
 
-	//专辑详情
+	//专辑评论
 	public void albumCommentReq(Context context,String albumId,String direction,String startCommentId,int len,String uid,
 							 JsonCallback<Comment> handler) {
 		get(ConstantURL.ALBUM_COMMENT).tag(context)
 		.addParams("album_id", albumId)
 		.addParams("direction", direction)
 		.addParams("start_comment_id", startCommentId)
-		.addParams("len", len + "")
+		.addParams("len", Integer.toString(len))
 		.addParams("uid", uid)
 				.build().execute(handler);
 	}
+
+	//专辑故事
+	public void albumStorysReq(Context context,int albumId,int pageSize,int page,String uid,
+								JsonCallback<StoryList> handler) {
+		get(ConstantURL.ALBUM_STORYS).tag(context)
+				.addParams("album_id", Integer.toString(albumId))
+				.addParams("page", Integer.toString(page))
+				.addParams("len", Integer.toString(pageSize))
+				.addParams("uid", uid)
+				.build().execute(handler);
+	}
+
 
 	//故事信息
 	public void storyInfoReq(Context context, String storyId, String uid,
@@ -259,8 +269,8 @@ public class LHttpRequest {
 
 		get(ConstantURL.ALBUM_STORY_SEARCH).tag(context)
 		.addParams("searchcontent", searchContent)
-		.addParams("len", len + "")
-		.addParams("page", pager + "")
+		.addParams("len", Integer.toString(len))
+		.addParams("page", Integer.toString(pager))
 		.addParams("searchtype", searchtype)
 				.build().execute(handler);
 	}
@@ -271,17 +281,17 @@ public class LHttpRequest {
 		get(ConstantURL.COMMENT_ADD).tag(context)
 		.addParams("albumid", albumId)
 		.addParams("content", content)
-		.addParams("star_level", starLevel + "")
+		.addParams("star_level", Integer.toString(starLevel))
 		.build().execute(handler);
 	}
 
 	//我的故事
 	public void myStoryReq(Context context, String direction, String startId, int len, JsonCallback<Mine> handler) {
 		get(ConstantURL.MY_STORY).tag(context)
-				.addParams("isgetcount",direction == Constant.FRIST?"1" :"0")
+				.addParams("isgetcount",direction == Constant.FRIST ? "1" :"0")
 		.addParams("direction", direction)
 		.addParams("startalbumid", startId)
-		.addParams("len", len + "")
+		.addParams("len", Integer.toString(len))
 				.build().execute(handler);
 	}
 
@@ -312,7 +322,7 @@ public class LHttpRequest {
 		.addParams("direction", direction)
 		.addParams("startalbumid", startAlbumId)
 		.addParams("uid", uid)
-		.addParams("len", len + "")
+		.addParams("len", Integer.toString(len))
 				.build().execute(handler);
 	}
 
@@ -392,7 +402,7 @@ public class LHttpRequest {
 	//热门搜索
 	public void getHotSearchReq(Context ctx, int len, JsonCallback<List<SearchContent>> handler) {
 		get(ConstantURL.HOt_SEARCH).tag(ctx)
-		.addParams("len", len + "")
+		.addParams("len", Integer.toString(len))
 				.build().execute(handler);
 	}
 
@@ -404,12 +414,12 @@ public class LHttpRequest {
 	public void getTagAblumListReq(Context ctx, String tagId, int isGetTag, String direction, String relationId, String specialtag, int len, JsonCallback<TagDetail> handler) {
 		GetBuilder builder = get(ConstantURL.GET_TAG_ALBUM_LIST).tag(ctx)
 		.addParams("currenttagid", tagId)
-		.addParams("isgettag", isGetTag + "")
+		.addParams("isgettag", Integer.toString(isGetTag))
 		.addParams("direction", direction)
 		.addParams("startrelationid", relationId)
-		.addParams("len", len + "");
+		.addParams("len", Integer.toString(len));
 		if (specialtag != null) {
-			builder.addParams(specialtag, 1 + "");
+			builder.addParams(specialtag, "1");
 		}
 		builder.build().execute(handler);
 	}
@@ -428,8 +438,8 @@ public class LHttpRequest {
 		get(ConstantURL.FORUM_INDEX).tag(context)
 		.addParams("version", "4")
 		.addParams("module", "forumdisplay")
-		.addParams("fid", fid + "")
-		.addParams("page", page + "")
+		.addParams("fid", Integer.toString(fid))
+		.addParams("page", Integer.toString(page))
 				.build().execute(handler);
 	}
 
@@ -439,8 +449,8 @@ public class LHttpRequest {
 		get(ConstantURL.FORUM_INDEX).tag(context)
 		.addParams("version", "4")
 		.addParams("module", "viewthread")
-		.addParams("tid", tid + "")
-		.addParams("page", page + "")
+		.addParams("tid", Integer.toString(tid))
+		.addParams("page", Integer.toString(page))
 				.build().execute(handler);
 	}
 
@@ -457,8 +467,8 @@ public class LHttpRequest {
 		.addParams("visituid", MyApplication.getInstance().getUid())
 
 		//回复某楼
-		.addParams("reppid", reppid + "")
-		.addParams("reppost", reppost + "")
+		.addParams("reppid", Integer.toString(reppid))
+		.addParams("reppost", Integer.toString(reppost))
 		.addParams("noticetrimstr", noticetrimstr);
 
 		if(aids != null && aids.size() > 0) {
@@ -485,7 +495,7 @@ public class LHttpRequest {
 	public void newThread(Context context, JsonCallback<String> handler, int fid, String subject,String message,ArrayList<String> aids,String forumHash) {
 		String url = ConstantURL.FORUM_INDEX + "?version=4&module=newthread&fid=" + fid +"&formhash=" + forumHash + "&visituid=" + MyApplication.getInstance().getUid();
 		PostFormBuilder builder = post(url).tag(context)
-		.addParams("fid", fid+"")
+		.addParams("fid", Integer.toString(fid))
 		.addParams("allownoticeauthor", "1")
 		.addParams("usesig", "1")
 		.addParams("wysiwyg","1")
@@ -509,7 +519,7 @@ public class LHttpRequest {
 		get(ConstantURL.FORUM_INDEX).tag(context)
 		.addParams("version", "4")
 		.addParams("module", "mythread")
-		.addParams("page", page + "")
+		.addParams("page", Integer.toString(page))
 		.addParams("uid", uid)
 				.build().execute(handler);
 	}
@@ -521,7 +531,7 @@ public class LHttpRequest {
 		get(ConstantURL.FORUM_INDEX).tag(context)
 		.addParams("version", "3")
 		.addParams("module", "mynotelist")
-		.addParams("page", page + "")
+		.addParams("page", Integer.toString(page))
 				.build().execute(handler);
 	}
 
@@ -539,7 +549,7 @@ public class LHttpRequest {
 	public void getShopItems(Context context, JsonCallback<String> handler,int page) {
 
 		get(ConstantURL.SHOP_INDEX).tag(context)
-		.addParams("page", page + "")
+		.addParams("page", Integer.toString(page))
 				.build().execute(handler);
 	}
 
@@ -548,8 +558,8 @@ public class LHttpRequest {
 		GetBuilder builder = get(url).tag(ctx)
 				.addParams("min_age", minAge)
 				.addParams("max_age", maxAge)
-				.addParams("page", page + "")
-				.addParams("len", len + "");
+				.addParams("page", Integer.toString(page))
+				.addParams("len", Integer.toString(len));
 		builder.build().execute(handler);
 	}
 }

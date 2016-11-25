@@ -91,7 +91,7 @@ public class MineFragment extends BaseFragment implements OnClickListener,XListV
 					ListenerAlbum listenerAlbum = mAlbumList.get(pos);
 					AlbumInfo albumInfo = listenerAlbum.getAlbuminfo();
 					Intent intent = new Intent(mContext, AlbumDetailActivity.class);
-					intent.putExtra("albumId", albumInfo.getAlbumid());
+					intent.putExtra("albumId", albumInfo.getId());
 					intent.putExtra("albumInfo", albumInfo);
 					intent.putExtra("playstoryid", listenerAlbum.getPlaystoryid());
 					intent.putExtra("playtimes", listenerAlbum.getPlaytimes());

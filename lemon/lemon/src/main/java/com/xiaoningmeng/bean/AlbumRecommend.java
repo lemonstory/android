@@ -1,8 +1,5 @@
 package com.xiaoningmeng.bean;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.util.List;
 
 /**
@@ -19,7 +16,7 @@ public class AlbumRecommend {
 
     private AgeLevelBean age_level;
     private String total;
-    private List<AlbumItemBean> items;
+    private List<AlbumInfo> items;
 
     public AgeLevelBean getAge_level() {
         return age_level;
@@ -37,11 +34,11 @@ public class AlbumRecommend {
         this.total = total;
     }
 
-    public List<AlbumItemBean> getItems() {
+    public List<AlbumInfo> getItems() {
         return items;
     }
 
-    public void setItems(List<AlbumItemBean> items) {
+    public void setItems(List<AlbumInfo> items) {
         this.items = items;
     }
 
@@ -125,179 +122,5 @@ public class AlbumRecommend {
                 this.selected = selected;
             }
         }
-    }
-
-    public static class AlbumItemBean implements Parcelable {
-        /**
-         * id : 3894
-         * title : 夏洛的网
-         * cover : http://p.xiaoningmeng.net/album/2016/11/15/5c8e07660e3000f141dda8b83107ed6e.png@!460x460?v=1479178446
-         * listennum : 49
-         * recommenddesc : 关于爱，关于友情，关于生死
-         * age_str : (3-10)岁
-         * tag : {"id":"2","name":"故事"}
-         */
-
-        private String id;
-        private String title;
-        private String cover;
-        private String listennum;
-        private String recommenddesc;
-        private String age_str;
-        private TagBean tag;
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public String getCover() {
-            return cover;
-        }
-
-        public void setCover(String cover) {
-            this.cover = cover;
-        }
-
-        public String getListennum() {
-            return listennum;
-        }
-
-        public void setListennum(String listennum) {
-            this.listennum = listennum;
-        }
-
-        public String getRecommenddesc() {
-            return recommenddesc;
-        }
-
-        public void setRecommenddesc(String recommenddesc) {
-            this.recommenddesc = recommenddesc;
-        }
-
-        public String getAge_str() {
-            return age_str;
-        }
-
-        public void setAge_str(String age_str) {
-            this.age_str = age_str;
-        }
-
-        public TagBean getTag() {
-            return tag;
-        }
-
-        public void setTag(TagBean tag) {
-            this.tag = tag;
-        }
-
-        public static class TagBean implements Parcelable {
-            /**
-             * id : 2
-             * name : 故事
-             */
-
-            private String id;
-            private String name;
-
-            public String getId() {
-                return id;
-            }
-
-            public void setId(String id) {
-                this.id = id;
-            }
-
-            public String getName() {
-                return name;
-            }
-
-            public void setName(String name) {
-                this.name = name;
-            }
-
-            @Override
-            public int describeContents() {
-                return 0;
-            }
-
-            @Override
-            public void writeToParcel(Parcel dest, int flags) {
-                dest.writeString(this.id);
-                dest.writeString(this.name);
-            }
-
-            public TagBean() {
-            }
-
-            protected TagBean(Parcel in) {
-                this.id = in.readString();
-                this.name = in.readString();
-            }
-
-            public static final Creator<TagBean> CREATOR = new Creator<TagBean>() {
-                @Override
-                public TagBean createFromParcel(Parcel source) {
-                    return new TagBean(source);
-                }
-
-                @Override
-                public TagBean[] newArray(int size) {
-                    return new TagBean[size];
-                }
-            };
-        }
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(this.id);
-            dest.writeString(this.title);
-            dest.writeString(this.cover);
-            dest.writeString(this.listennum);
-            dest.writeString(this.recommenddesc);
-            dest.writeString(this.age_str);
-            dest.writeParcelable(this.tag, flags);
-        }
-
-        public AlbumItemBean() {
-        }
-
-        protected AlbumItemBean(Parcel in) {
-            this.id = in.readString();
-            this.title = in.readString();
-            this.cover = in.readString();
-            this.listennum = in.readString();
-            this.recommenddesc = in.readString();
-            this.age_str = in.readString();
-            this.tag = in.readParcelable(TagBean.class.getClassLoader());
-        }
-
-        public static final Parcelable.Creator<AlbumItemBean> CREATOR = new Parcelable.Creator<AlbumItemBean>() {
-            @Override
-            public AlbumItemBean createFromParcel(Parcel source) {
-                return new AlbumItemBean(source);
-            }
-
-            @Override
-            public AlbumItemBean[] newArray(int size) {
-                return new AlbumItemBean[size];
-            }
-        };
     }
 }

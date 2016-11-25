@@ -88,7 +88,7 @@ public class PerasonalActivity extends BaseActivity implements
 				ListenerAlbum album = mAlbumList.get(pos);
 				AlbumInfo albumInfo = album.getAlbuminfo();
 				Intent intent = new Intent(PerasonalActivity.this, AlbumDetailActivity.class);
-				intent.putExtra("albumId", albumInfo.getAlbumid());
+				intent.putExtra("albumId", albumInfo.getId());
 				startActivityForNew(intent);
 				if(uid != null && uid.equals(MyApplication.getInstance().getUid())){
 				mAlbumList.add(0, mAlbumList.remove(pos));

@@ -119,7 +119,7 @@ public class AblumSimilarFragment extends BaseFragment {
     public void startAlbumInfoActivity(View view, AlbumInfo albumInfo) {
 
         Intent intent = new Intent(getActivity(), AlbumDetailActivity.class);
-        intent.putExtra("albumId", albumInfo.getAlbumid());
+        intent.putExtra("albumId", albumInfo.getId());
         intent.putExtra("albumInfo", albumInfo);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);

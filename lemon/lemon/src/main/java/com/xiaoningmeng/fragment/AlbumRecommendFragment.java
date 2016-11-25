@@ -48,7 +48,7 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
     private boolean isErr;
     private View notLoadingView;
     private int delayMillis = 1000;
-    private List<AlbumRecommend.AlbumItemBean> mAlbumItems;
+    private List<AlbumInfo> mAlbumItems;
     private String recommendUrl = "";
     private String minAge = String.valueOf(Constant.MIN_AGE);
     private String maxAge = String.valueOf(Constant.MAX_AGE);
@@ -147,9 +147,17 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
 
                         super.onItemClick(adapter, view, position);
 //                        DebugUtils.d("AlbumRecommendFragment -- onItemClick -- RUN!");
-                        AlbumRecommend.AlbumItemBean item = (AlbumRecommend.AlbumItemBean) adapter.getData().get(position);
+                        AlbumInfo item = (AlbumInfo) adapter.getData().get(position);
                         Intent i = new Intent(getActivity(), AlbumDetailActivity.class);
-                        AlbumInfo albumInfo = new AlbumInfo(item.getId(), item.getTitle(), "", "0", item.getCover(), item.getListennum(), 0, 0, item.getRecommenddesc(), item.getAge_str(), "");
+                        AlbumInfo albumInfo = new AlbumInfo(
+                                item.getId(),
+                                item.getTitle(),
+                                "",
+                                "0",
+                                item.getCover(),
+                                item.getListennum(),
+                                item.getStory_num(),
+                                0, 0, item.getRecommenddesc(), item.getAge_str(), "");
                         i.putExtra("albumInfo", (Parcelable) albumInfo);
                         startActivityForNew(i);
                     }

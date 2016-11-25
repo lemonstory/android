@@ -7,7 +7,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.xiaoningmeng.R;
-import com.xiaoningmeng.bean.AlbumRecommend;
+import com.xiaoningmeng.bean.AlbumInfo;
 
 import java.util.List;
 
@@ -15,15 +15,15 @@ import java.util.List;
  * 今日精选-更多-专辑
  */
 
-public class AblumRecommendAdapter extends BaseQuickAdapter<AlbumRecommend.AlbumItemBean, BaseViewHolder> {
+public class AblumRecommendAdapter extends BaseQuickAdapter<AlbumInfo, BaseViewHolder> {
 
 
-    public AblumRecommendAdapter(List<AlbumRecommend.AlbumItemBean> data) {
+    public AblumRecommendAdapter(List<AlbumInfo> data) {
         super(R.layout.item_album_recommend, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder baseViewHolder, AlbumRecommend.AlbumItemBean item) {
+    protected void convert(BaseViewHolder baseViewHolder, AlbumInfo item) {
 
         baseViewHolder.setText(R.id.tv_album_title, item.getTitle() != null ? Html.fromHtml(item.getTitle()) : "")
                 .setVisible(R.id.tv_album_listen_num, !"0".equals(item.getListennum()) && null != item.getListennum())

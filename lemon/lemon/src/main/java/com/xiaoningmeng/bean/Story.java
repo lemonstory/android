@@ -11,6 +11,7 @@ public class Story extends DataSupport {
     private String times;
     private String file_size;
     private String mediapath;
+    private String view_order;
     private String playcover;
     private static Story mInstance;
 
@@ -31,7 +32,7 @@ public class Story extends DataSupport {
     }
 
     public Story(String storyId, String albumId, String title, String intro,
-                 String times, String file_size, String mediapath, String cover, String playcover) {
+                 String times, String file_size, String mediapath, String view_order, String playcover) {
         this.id = storyId;
         this.title = title;
         this.intro = intro;
@@ -39,6 +40,7 @@ public class Story extends DataSupport {
         this.album_id = albumId;
         this.file_size = file_size;
         this.mediapath = mediapath;
+        this.view_order = view_order;
         this.playcover = playcover;
     }
 
@@ -98,6 +100,13 @@ public class Story extends DataSupport {
         this.album_id = album_id;
     }
 
+    public String getView_order() {
+        return view_order;
+    }
+
+    public void setView_order(String view_order) {
+        this.view_order = view_order;
+    }
 
     public String getPlaycover() {
         return playcover;
@@ -117,6 +126,7 @@ public class Story extends DataSupport {
                 ", times='" + times + '\'' +
                 ", file_size='" + file_size + '\'' +
                 ", mediapath='" + mediapath + '\'' +
+                ", view_order='" + view_order + '\'' +
                 ", playcover='" + playcover + '\'' +
                 '}';
     }

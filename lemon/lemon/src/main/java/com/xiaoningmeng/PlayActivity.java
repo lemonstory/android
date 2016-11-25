@@ -230,7 +230,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
         Toast.makeText(this, "开始下载...", Toast.LENGTH_SHORT).show();
         //如果是搜索过来则没有专辑信息，需要重新加载
         if (mPlayerManager.getPlayingStory().albumInfo == null) {
-            LHttpRequest.getInstance().albumInfoReq(this, 10, mPlayerManager.getPlayingStory().albumid,
+            LHttpRequest.getInstance().albumInfoReq(this, mPlayerManager.getPlayingStory().albumid, 1,
                     MyApplication.getInstance().getUid(),
                     new JsonCallback<Album>(this) {
 
@@ -263,7 +263,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
         final AlbumInfo albumInfo = mPlayerManager.getPlayingStory().albumInfo;
         //如果是搜索过来则没有专辑信息，需要重新加载
         if (albumInfo == null) {
-            LHttpRequest.getInstance().albumInfoReq(this, 10, mPlayerManager.getPlayingStory().albumid,
+            LHttpRequest.getInstance().albumInfoReq(this,mPlayerManager.getPlayingStory().albumid,1,
                     MyApplication.getInstance().getUid(),
                     new JsonCallback<Album>() {
 
@@ -295,7 +295,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
                                     .setAutoDismiss(true).setTransparent(false)
                                     .setTipText("收藏成功！").create().show();
                             albumInfo.updateAll("albumid =?",
-                                    albumInfo.getAlbumid());
+                                    albumInfo.getId());
 
                         }
                     });
@@ -314,7 +314,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
                                     .setAutoDismiss(true).setTransparent(false)
                                     .setTipText("取消收藏成功！").create().show();
                             albumInfo.updateAll("albumid =?",
-                                    albumInfo.getAlbumid());
+                                    albumInfo.getId());
                         }
                     });
         }
@@ -424,7 +424,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
         AlbumInfo albumInfo = mPlayerManager.getPlayingStory().albumInfo;
         if (mPlayerManager.getPlayingStory().albumSource == PlayerManager.AlbumSource.ALBUM_DETAIL) {
             Intent intent = new Intent(this, AlbumDetailActivity.class);
-            intent.putExtra("albumId", albumInfo.getAlbumid());
+            intent.putExtra("albumId", albumInfo.getId());
             startActivityForNew(intent);
         } else if (mPlayerManager.getPlayingStory().albumSource == PlayerManager.AlbumSource.DOWNLOAD) {
             Intent i = new Intent(this, DownloadStoryActivity.class);
@@ -495,7 +495,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
     public void onEventMainThread(FavEvent favEvent) {
 
         AlbumInfo albumInfo = PlayerManager.getInstance().getPlayingStory().albumInfo;
-        if (albumInfo != null && favEvent.albumInfo.getAlbumid().equals(albumInfo.getAlbumid())) {
+        if (albumInfo != null && favEvent.albumInfo.getId().equals(albumInfo.getId())) {
             if (favEvent.fav == 1) {
                 albumInfo.setFav(1);
                 mFavImg.setSelected(true);
@@ -508,7 +508,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
 
     public void onEventMainThread(CommentEvent commentEvent) {
         AlbumInfo albumInfo = PlayerManager.getInstance().getPlayingStory().albumInfo;
-        if (albumInfo != null && commentEvent.albumInfo.getAlbumid().equals(albumInfo.getAlbumid())) {
+        if (albumInfo != null && commentEvent.albumInfo.getId().equals(albumInfo.getId())) {
             mCommentTv.setText(commentEvent.commentCount + "");
             albumInfo.setCommentnum(commentEvent.commentCount);
         }

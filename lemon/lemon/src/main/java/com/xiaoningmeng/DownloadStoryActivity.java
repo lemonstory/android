@@ -90,7 +90,7 @@ public class DownloadStoryActivity extends BaseActivity implements
 			finish();
 			return;
 		}
-		albumId = albumInfo.getAlbumid();
+		albumId = albumInfo.getId();
 		boolean isCheck = false;
 		if (type == HISTORY_TYPE) {
 			findViewById(R.id.ll_download_tab).setVisibility(View.GONE);

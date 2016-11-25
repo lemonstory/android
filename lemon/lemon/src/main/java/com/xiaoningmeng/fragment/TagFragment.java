@@ -93,7 +93,7 @@ public class TagFragment extends LazyFragment implements SwipeRefreshLayout.OnRe
                 if (position >= 0 && albumClickable) {
                     AlbumInfo albumInfo = (AlbumInfo) adapter.getItem(position);
                     Intent intent = new Intent(getActivity(), AlbumDetailActivity.class);
-                    intent.putExtra("albumId", albumInfo.getAlbumid());
+                    intent.putExtra("albumId", albumInfo.getId());
                     intent.putExtra("albumInfo", albumInfo);
                     ((BaseActivity) getActivity()).startShareTransitionActivity(intent, view, "albumImage");
                     albumClickable = false;

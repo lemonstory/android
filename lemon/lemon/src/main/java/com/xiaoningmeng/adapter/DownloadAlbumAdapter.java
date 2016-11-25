@@ -94,14 +94,14 @@ public class DownloadAlbumAdapter extends BaseAdapter implements
 			HashMap<String, List<AudioDownLoad>> map = DownLoadClientImpl
 					.getInstance().mHistoryMap;
 			holder.downStatusTv.setText("已下载");
-			holder.downSizeTv.setText(map.get(albumInfo.getAlbumid()).size()
+			holder.downSizeTv.setText(map.get(albumInfo.getId()).size()
 					+ "");
 
 		} else {
 			HashMap<String, List<AudioDownLoad>> map = DownLoadClientImpl
 					.getInstance().mDownloadMap;
 			holder.downStatusTv.setText("下载中");
-			holder.downSizeTv.setText(map.get(albumInfo.getAlbumid()).size()
+			holder.downSizeTv.setText(map.get(albumInfo.getId()).size()
 					+ "");
 		}
 		RelativeLayout.LayoutParams lp = (LayoutParams) holder.dividerView.getLayoutParams();
