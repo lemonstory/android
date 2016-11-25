@@ -111,9 +111,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
                         break;
 
                     case Index.AD_TYPE:
-                        DebugUtils.d("------Click! AD_TYPE");
                         Index.AdBean.ItemsBean adInfo = (Index.AdBean.ItemsBean) iRecyclerItem;
-                        DebugUtils.d("------adInfo linkurl = " + adInfo.getLinkurl());
                         Uri adLinkUri = Uri.parse(adInfo.getLinkurl());
                         Intent adIntent = new Intent();
                         adIntent.setData(adLinkUri);
@@ -145,7 +143,6 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
                         adIntent.addCategory(Constant.DEFAULT_INTENT_CATEGORY);
                         DiscoverFragment.this.getActivity().startActivity(adIntent);
                         break;
-
                 }
             }
 
