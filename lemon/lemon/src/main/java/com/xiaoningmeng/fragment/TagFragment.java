@@ -142,7 +142,8 @@ public class TagFragment extends LazyFragment implements SwipeRefreshLayout.OnRe
                                 }
 
                                 mQuickAdapter.loadComplete();
-                                if (mFooterView == null) {
+                                //http://stackoverflow.com/questions/11631408/android-fragment-getactivity-sometime-returns-null
+                                if (mFooterView == null && null != TagFragment.this.getActivity() && TagFragment.this.isAdded()) {
                                     mFooterView = TagFragment.this.getActivity().getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);
                                 }
                                 mQuickAdapter.addFooterView(mFooterView);

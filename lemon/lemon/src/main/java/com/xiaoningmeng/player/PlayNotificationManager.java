@@ -118,7 +118,7 @@ public class PlayNotificationManager {
 
                                      @Override
                                      public void onNewResultImpl(Bitmap bitmap) {
-                                         if (bitmap != null) {
+                                         if (null != bitmap && !bitmap.isRecycled()) {
                                              notifyView.setImageViewBitmap(R.id.notify_logo, bitmap);
                                              mNotificationManager.notify(MusicService.PLAYING_NOTIFY_ID, notification);
                                          }

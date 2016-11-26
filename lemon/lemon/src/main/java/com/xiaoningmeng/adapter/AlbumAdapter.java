@@ -30,7 +30,10 @@ public class AlbumAdapter extends BaseQuickAdapter<AlbumInfo, BaseViewHolder> {
                 .setText(R.id.tv_album_recommend,null != item.getRecommenddesc() ? item.getRecommenddesc() : "");
 
         SimpleDraweeView coverImg = helper.getView(R.id.img_album_cover);
-        Uri coverImgUri = Uri.parse(item.getCover());
-        coverImg.setImageURI(coverImgUri);
+        String albumCover = item.getCover();
+        if(null != albumCover && !albumCover.equals("")) {
+            Uri coverImgUri = Uri.parse(item.getCover());
+            coverImg.setImageURI(coverImgUri);
+        }
     }
 }
