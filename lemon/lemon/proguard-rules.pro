@@ -1,5 +1,3 @@
--dontwarn okio.**
--dontwarn com.alibaba.**
 -optimizationpasses 5          # 指定代码的压缩级别
 -dontusemixedcaseclassnames   # 是否使用大小写混合
 -dontpreverify           # 混淆时是否做预校验
@@ -82,9 +80,9 @@
 #baidu --end
 -keep class vi.com.** {*;}
 -keep class com.google.gson.**{*;}
--keep class com.alibaba.sdk.** { *; }
 -keep class com.squareup.okhttp.** { *; }
 -keep class okio.** { *; }
+-dontwarn okio.**
 -keep class com.nostra13.universalimageloader.**{*;}
 -keep class com.ypy.eventbus.**{*;}
 -keep class org.litepal.**{*;}
@@ -100,6 +98,11 @@
 #okhttp
 -dontwarn okhttp3.**
 -keep class okhttp3.**{*;}
+
+#androidquery
+-dontwarn com.androidquery.auth.**
+
+-dontwarn InnerClasses
 
 #okio
 -dontwarn okio.**
@@ -117,11 +120,12 @@
 -keepattributes EnclosingMethod
 
 -keep class sun.misc.Unsafe {*;}
+-dontwarn sun.misc.**
 -keep class com.taobao.* {*;}
--keep class com.alibaba.** {*;}
--keep class com.alipay.** {*;}
 -dontwarn com.taobao.**
+-keep class com.alibaba.** {*;}
 -dontwarn com.alibaba.**
+-keep class com.alipay.** {*;}
 -dontwarn com.alipay.**
 -keep class com.ut.** {*;}
 -dontwarn com.ut.**
@@ -129,6 +133,12 @@
 -dontwarn com.ta.**
 -keep class org.json.** {*;}
 -keep class com.ali.auth.** {*;}
+
+#忽略警告
+-ignorewarnings
+-keep class javax.ws.rs.** { *; }
+-dontwarn com.alibaba.fastjson.**
+-keep class com.alibaba.fastjson.** { *; }
 #end
 
 #http://dev.umeng.com/social/android/android-update#14

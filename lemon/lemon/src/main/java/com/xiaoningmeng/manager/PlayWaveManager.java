@@ -3,6 +3,7 @@ package com.xiaoningmeng.manager;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -79,7 +80,7 @@ public class PlayWaveManager implements PlayObserver {
                     SoftReference<AnimationDrawable> reference = map.get(imageView);
                     AnimationDrawable drawable = null;
                     if ((reference == null || reference.get() == null) && mContext != null) {
-                        drawable = (AnimationDrawable) mContext.getResources().getDrawable(R.drawable.play_anim_list, null);
+                        drawable = (AnimationDrawable) ContextCompat.getDrawable(mContext,R.drawable.play_anim_list);
                         reference = new SoftReference<AnimationDrawable>(drawable);
                         imageView.setImageDrawable(drawable);
                     }

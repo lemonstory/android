@@ -6,10 +6,11 @@
     android:background="@color/home_bg"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
+
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/action_bar_height"
-        >
+        android:layout_height="@dimen/action_bar_height">
+
         <include
             android:id="@+id/action_bar"
             layout="@layout/layout_header" />
@@ -40,7 +41,6 @@
             android:id="@+id/tv_home_discover"
             style="@style/home_tab_style"
             android:drawableTop="@drawable/selector_tab_discover"
-
             android:text="发现" />
 
         <TextView
