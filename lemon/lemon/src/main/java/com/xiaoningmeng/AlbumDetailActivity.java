@@ -351,8 +351,8 @@ public class AlbumDetailActivity extends BaseActivity implements
         initShareSharedElementTransition();
         mRatingBar.setStar(albumInfo.getStar_level() != null ? Integer.parseInt(albumInfo.getStar_level()) : 0);
         mFavTv.setSelected(albumInfo.getFav() == 1);
-        mFavTv.setText(albumInfo.getFavnum() == 0 ? "收藏" : (albumInfo.getFavnum() + ""));
-        mCommentTv.setText(albumInfo.getCommentnum() <= 0 ? "评论" : (albumInfo.getCommentnum() + ""));
+        mFavTv.setText(albumInfo.getFavnum() <= 0 ? "收藏" : Integer.toString(albumInfo.getFavnum()));
+        mCommentTv.setText(albumInfo.getCommentnum() <= 0 ? "评论" : Integer.toString(albumInfo.getCommentnum()));
         mListenerTv.setText(albumInfo.getListennum() != null ? String.valueOf(albumInfo.getListennum()) : "");
         mAgeLevelTv.setText(albumInfo.getAge_str());
         String albumBuyLink = albumInfo.getBuy_link();
