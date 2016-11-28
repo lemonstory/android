@@ -197,7 +197,7 @@ public class BaseActivity extends AppCompatActivity implements ILoading {
      */
 	public void startShareTransitionActivity(Intent intent,View firstSharedView,String shareName){
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && firstSharedView.getParent() instanceof ViewGroup) {
 			ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(this,
 					firstSharedView,shareName);
 			Bundle bundle = activityOptions.toBundle();
