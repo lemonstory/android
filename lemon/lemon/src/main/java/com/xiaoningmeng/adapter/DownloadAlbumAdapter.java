@@ -80,30 +80,33 @@ public class DownloadAlbumAdapter extends BaseAdapter implements
 		}
 
 		AlbumInfo albumInfo = getItem(position);
-		Uri coverImgUri = null;
-		if (albumInfo.getCover() != null) {
-			coverImgUri = Uri.parse(albumInfo.getCover());
-		}
-		GenericDraweeHierarchy hierarchy = holder.coverImg.getHierarchy();
-		hierarchy.setPlaceholderImage(Constant.getPosDrawable(position));
-		if (coverImgUri != null) {
-			holder.coverImg.setImageURI(coverImgUri);
-		}
-		holder.storyTitle.setText(albumInfo.getTitle());
-		if (type == 0) {
-			HashMap<String, List<AudioDownLoad>> map = DownLoadClientImpl
-					.getInstance().mHistoryMap;
-			holder.downStatusTv.setText("已下载");
-			holder.downSizeTv.setText(map.get(albumInfo.getId()).size()
-					+ "");
+		if(null != albumInfo) {
+			Uri coverImgUri = null;
+			if (null != albumInfo.getCover()) {
+				coverImgUri = Uri.parse(albumInfo.getCover());
+			}
+			GenericDraweeHierarchy hierarchy = holder.coverImg.getHierarchy();
+			hierarchy.setPlaceholderImage(Constant.getPosDrawable(position));
+			if (coverImgUri != null) {
+				holder.coverImg.setImageURI(coverImgUri);
+			}
+			holder.storyTitle.setText(albumInfo.getTitle());
+			if (type == 0) {
+				HashMap<String, List<AudioDownLoad>> map = DownLoadClientImpl
+						.getInstance().mHistoryMap;
+				holder.downStatusTv.setText("已下载");
+				holder.downSizeTv.setText(map.get(albumInfo.getId()).size()
+						+ "");
 
-		} else {
-			HashMap<String, List<AudioDownLoad>> map = DownLoadClientImpl
-					.getInstance().mDownloadMap;
-			holder.downStatusTv.setText("下载中");
-			holder.downSizeTv.setText(map.get(albumInfo.getId()).size()
-					+ "");
+			} else {
+				HashMap<String, List<AudioDownLoad>> map = DownLoadClientImpl
+						.getInstance().mDownloadMap;
+				holder.downStatusTv.setText("下载中");
+				holder.downSizeTv.setText(map.get(albumInfo.getId()).size()
+						+ "");
+			}
 		}
+
 		RelativeLayout.LayoutParams lp = (LayoutParams) holder.dividerView.getLayoutParams();
 		lp.addRule(RelativeLayout.RIGHT_OF,position == getCount() -1 ? 0 : R.id.img_download_item_cover);
 		return convertView;

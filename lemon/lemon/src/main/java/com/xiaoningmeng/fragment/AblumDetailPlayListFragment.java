@@ -207,7 +207,9 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
     public void onFailure(int statusCode, String failureResponse) {
 
         isErr = true;
-        Toast.makeText(getActivity(), R.string.network_err, Toast.LENGTH_LONG).show();
+        if(null != getActivity() && AblumDetailPlayListFragment.this.isAdded()) {
+            Toast.makeText(getActivity(), R.string.network_err, Toast.LENGTH_LONG).show();
+        }
         mAdapter.showLoadMoreFailedView();
     }
 
