@@ -19,6 +19,7 @@ import com.facebook.imagepipeline.core.ImagePipeline;
 import com.tencent.bugly.crashreport.BuglyLog;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.ReminderActivity;
+import com.xiaoningmeng.application.ActivityManager;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.AudioDownLoad;
@@ -179,8 +180,7 @@ public class PlayerManager extends PlayerObservable implements
     }
 
     private void close() {
-        com.xiaoningmeng.application.ActivityManager activityManager = com.xiaoningmeng.application.ActivityManager
-                .getScreenManager();
+        ActivityManager activityManager = ActivityManager.getScreenManager();
         if (activityManager.getActivitiesSize() == 0) {
             MusicService.stopService(MyApplication.getInstance());
             System.exit(0);
