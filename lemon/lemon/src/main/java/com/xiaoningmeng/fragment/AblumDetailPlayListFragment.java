@@ -248,7 +248,9 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
                         }, delayMillis);
                     } else {
                         isErr = true;
-                        Toast.makeText(getActivity(), R.string.network_err, Toast.LENGTH_LONG).show();
+                        if(null != getActivity() && AblumDetailPlayListFragment.this.isAdded()) {
+                            Toast.makeText(getActivity(), R.string.network_err, Toast.LENGTH_LONG).show();
+                        }
                         mAdapter.showLoadMoreFailedView();
                     }
                 }
