@@ -19,6 +19,8 @@ import com.google.gson.reflect.TypeToken;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
+import com.xiaoningmeng.view.ShareDialog;
+
 import com.xiaoningmeng.adapter.ViewThreadAdapter;
 import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
@@ -34,7 +36,6 @@ import com.xiaoningmeng.http.ConstantURL;
 import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.utils.ImageUtils;
-import com.xiaoningmeng.view.ShareDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,7 +52,7 @@ public class ViewThreadActivity extends BaseActivity implements XListView.IXList
     private Context mContext;
     private ViewGroup loadingView;
     private XListView mListView;
-    public  ViewThreadAdapter mAdapter;
+    public ViewThreadAdapter mAdapter;
     private TextView title;
     private ImageView headRightImg;
     public KeyboardFragment keyBoardfragment;
@@ -217,7 +218,7 @@ public class ViewThreadActivity extends BaseActivity implements XListView.IXList
 //                ShareBean shareBean = new ShareBean(forumThread.getSubject(), shareIconUrl, url);
                 String app_name = ViewThreadActivity.this.getString(R.string.app_name);
                 String app_desc = ViewThreadActivity.this.getString(R.string.app_desc);
-                ShareBean shareBean = new ShareBean(app_name, app_desc,Constant.SHARE_OFFCAIL_ICON_URL,null,Constant.SHARE_OFFCAIL_URL);
+                ShareBean shareBean = new ShareBean(app_name, app_desc, Constant.SHARE_OFFCAIL_ICON_URL,null,Constant.SHARE_OFFCAIL_URL);
                 mController = new ShareDialog().show(ViewThreadActivity.this, shareBean);
             }
         });

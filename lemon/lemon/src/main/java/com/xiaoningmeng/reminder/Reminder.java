@@ -1,15 +1,11 @@
 package com.xiaoningmeng.reminder;
 
-import java.util.Calendar;
-import java.util.Date;
-
-import com.umeng.socialize.utils.Log;
-import com.xiaoningmeng.utils.TimeUtils;
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+
+import java.util.Calendar;
 
 public class Reminder {
 

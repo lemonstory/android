@@ -13,9 +13,9 @@ import android.widget.TextView;
 
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.xiaoningmeng.R;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.constant.Constant;
+import com.xiaoningmeng.R;
 
 import java.util.List;
 

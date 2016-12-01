@@ -12,13 +12,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.xiaoningmeng.AddedImageViewPager;
-import com.xiaoningmeng.R;
 import com.xiaoningmeng.base.BasePhotoFragment;
 import com.xiaoningmeng.event.AddedImageEvent;
-import de.greenrobot.event.EventBus;
 
 import java.io.File;
 import java.util.ArrayList;
+
+import de.greenrobot.event.EventBus;
 
 
 public class AddedImageFragment extends BasePhotoFragment implements BasePhotoFragment.IUploadCall {
@@ -65,24 +65,24 @@ public class AddedImageFragment extends BasePhotoFragment implements BasePhotoFr
             i.putExtra("addedImageFiles",addedImageFiles);
             switch (id) {
 
-                case R.id.iv_add_image_control:
+                case com.xiaoningmeng.R.id.iv_add_image_control:
                     addImage();
                     mListener.onAddImageControlClick(v);
                     break;
 
-                case R.id.add_image_0:
+                case com.xiaoningmeng.R.id.add_image_0:
                     position = 0;
                     i.putExtra("position", position);
                     startActivityForNew(i);
                     break;
 
-                case R.id.add_image_1:
+                case com.xiaoningmeng.R.id.add_image_1:
                     position = 1;
                     i.putExtra("position", position);
                     startActivityForNew(i);
                     break;
 
-                case R.id.add_image_2:
+                case com.xiaoningmeng.R.id.add_image_2:
                     position = 2;
                     i.putExtra("position", position);
                     startActivityForNew(i);
@@ -95,9 +95,9 @@ public class AddedImageFragment extends BasePhotoFragment implements BasePhotoFr
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mView =  inflater.inflate(R.layout.fragment_added_image, container, false);
-        addedImageContainerLl = (LinearLayout) mView.findViewById(R.id.ll_added_image_container);
-        ivAddImageControl = (ImageView) mView.findViewById(R.id.iv_add_image_control);
+        mView =  inflater.inflate(com.xiaoningmeng.R.layout.fragment_added_image, container, false);
+        addedImageContainerLl = (LinearLayout) mView.findViewById(com.xiaoningmeng.R.id.ll_added_image_container);
+        ivAddImageControl = (ImageView) mView.findViewById(com.xiaoningmeng.R.id.iv_add_image_control);
         EventBus.getDefault().register(this);
         return mView;
     }
@@ -196,15 +196,15 @@ public class AddedImageFragment extends BasePhotoFragment implements BasePhotoFr
         switch (addedImageCount) {
 
             case 0:
-                id = R.id.add_image_0;
+                id = com.xiaoningmeng.R.id.add_image_0;
                 lp.setMargins(0, 0, 22, 0);
                 break;
             case 1:
-                id = R.id.add_image_1;
+                id = com.xiaoningmeng.R.id.add_image_1;
                 lp.setMargins(0, 0, 22, 0);
                 break;
             case 2:
-                id = R.id.add_image_2;
+                id = com.xiaoningmeng.R.id.add_image_2;
                 break;
         }
 

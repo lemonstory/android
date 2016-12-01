@@ -11,6 +11,7 @@ import com.xiaoningmeng.bean.AlbumInfo;
 
 import java.util.List;
 
+
 /**
  * Created by huang on 2016/9/14.
  */

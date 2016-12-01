@@ -10,10 +10,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.Story;
-import com.xiaoningmeng.player.PlayerManager;
 
 import java.util.List;
 

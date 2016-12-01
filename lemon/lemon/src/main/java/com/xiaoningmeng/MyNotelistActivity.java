@@ -21,15 +21,16 @@ import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.xiaoningmeng.adapter.MyNoteListAdapter;
 import com.xiaoningmeng.auth.UserAuth;
-import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.ForumThread;
 import com.xiaoningmeng.bean.NoteList;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.fragment.KeyboardFragment;
-import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.utils.ImageUtils;
 import com.xiaoningmeng.utils.UiUtils;
+
+import com.xiaoningmeng.base.BaseActivity;
+import com.xiaoningmeng.http.JsonCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;

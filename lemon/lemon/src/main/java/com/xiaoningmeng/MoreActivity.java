@@ -13,18 +13,19 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.xiaoningmeng.fragment.MoreFragment;
+import com.xiaoningmeng.player.PlayerManager;
+
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.MoreAblum;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.Tag;
-import com.xiaoningmeng.fragment.MoreFragment;
 import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
-import com.xiaoningmeng.player.PlayerManager;
-import com.astuetz.PagerSlidingTabStrip;
 import com.xiaoningmeng.view.dialog.DrawableDialogLoading;
 
 import java.util.ArrayList;

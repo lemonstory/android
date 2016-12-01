@@ -16,15 +16,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.xiaoningmeng.R;
 import com.xiaoningmeng.ViewThreadActivity;
+import com.xiaoningmeng.bean.ForumThread;
+import com.xiaoningmeng.utils.AvatarUtils;
+import com.xiaoningmeng.utils.ImageUtils;
+import com.xiaoningmeng.R;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.Attachment;
 import com.xiaoningmeng.bean.ForumName;
-import com.xiaoningmeng.bean.ForumThread;
 import com.xiaoningmeng.http.ConstantURL;
-import com.xiaoningmeng.utils.AvatarUtils;
-import com.xiaoningmeng.utils.ImageUtils;
 
 import java.util.HashMap;
 import java.util.List;

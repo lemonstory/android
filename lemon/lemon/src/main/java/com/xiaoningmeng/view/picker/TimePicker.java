@@ -1,16 +1,14 @@
 package com.xiaoningmeng.view.picker;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
-import com.xiaoningmeng.R;
-import com.xiaoningmeng.view.picker.NumberPicker.OnValueChangeListener;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
+
+import com.xiaoningmeng.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TimePicker extends FrameLayout {
 

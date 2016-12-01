@@ -18,13 +18,15 @@ import com.xiaoningmeng.utils.FileUtils;
 import com.xiaoningmeng.utils.Utility;
 import com.xiaoningmeng.view.dialog.TipDialog;
 
+import com.xiaoningmeng.base.BaseActivity;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class PhotoWallActivity extends com.xiaoningmeng.base.BaseActivity {
+public class PhotoWallActivity extends BaseActivity {
 
     public int max_count = 3;
     public final static int EACH_COUNT = 10;

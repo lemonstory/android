@@ -13,18 +13,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
-import com.xiaoningmeng.MyThreadActivity;
 import com.xiaoningmeng.AccountActivity;
+import com.xiaoningmeng.auth.UserAuth;
+import com.xiaoningmeng.bean.UserInfo;
+import com.xiaoningmeng.utils.AvatarUtils;
+import com.xiaoningmeng.MyThreadActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.RankActivity;
 import com.xiaoningmeng.SettingActivity;
 import com.xiaoningmeng.application.MyApplication;
-import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.base.BaseFragment;
-import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.event.LoginEvent;
-import com.xiaoningmeng.utils.AvatarUtils;
 
 import de.greenrobot.event.EventBus;
 

@@ -1,6 +1,9 @@
 package com.xiaoningmeng.reminder;
 
-import java.util.Calendar;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+
 import com.xiaoningmeng.AlarmActivity;
 import com.xiaoningmeng.DownloadStoryActivity;
 import com.xiaoningmeng.PlayActivity;
@@ -9,10 +12,7 @@ import com.xiaoningmeng.bean.WeekDay;
 import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.utils.PreferenceUtil;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
+import java.util.Calendar;
 
 public class RemindBroadcastReceiver extends BroadcastReceiver {
 

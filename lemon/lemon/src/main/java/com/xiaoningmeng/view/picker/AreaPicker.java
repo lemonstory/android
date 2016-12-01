@@ -1,21 +1,20 @@
 package com.xiaoningmeng.view.picker;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.umeng.socialize.utils.Log;
-import com.xiaoningmeng.R;
-import com.xiaoningmeng.bean.City;
-import com.xiaoningmeng.bean.Province;
-import com.xiaoningmeng.bean.Zone;
-import com.xiaoningmeng.db.AreaDao;
-import com.xiaoningmeng.view.picker.NumberPicker.OnValueChangeListener;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+
+import com.xiaoningmeng.bean.City;
+import com.xiaoningmeng.bean.Province;
+import com.xiaoningmeng.bean.Zone;
+import com.xiaoningmeng.R;
+import com.xiaoningmeng.db.AreaDao;
+import com.xiaoningmeng.view.picker.NumberPicker.OnValueChangeListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AreaPicker extends FrameLayout {
 

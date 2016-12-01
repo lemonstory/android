@@ -8,10 +8,11 @@ import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xiaoningmeng.LoginActivity;
+import com.xiaoningmeng.bean.UserInfo;
+
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.application.ActivityManager;
 import com.xiaoningmeng.application.MyApplication;
-import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.event.LoginEvent;
 import com.xiaoningmeng.utils.PreferenceUtil;
 

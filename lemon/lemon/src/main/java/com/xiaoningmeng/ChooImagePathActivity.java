@@ -14,9 +14,10 @@ import android.widget.ListView;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.xiaoningmeng.adapter.PhotoAlbumLVAdapter;
 import com.xiaoningmeng.base.BaseActivity;
-import com.xiaoningmeng.bean.PhotoAlbumLVItem;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.utils.Utility;
+
+import com.xiaoningmeng.bean.PhotoAlbumLVItem;
 
 import java.io.File;
 import java.util.ArrayList;

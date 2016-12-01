@@ -2,8 +2,6 @@ package com.xiaoningmeng.view;
 
 
 
-import com.xiaoningmeng.R;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
@@ -17,6 +15,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+
+import com.xiaoningmeng.R;
 
 public class SwitchButton extends View {
 	

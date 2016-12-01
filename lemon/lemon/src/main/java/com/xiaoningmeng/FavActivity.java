@@ -19,6 +19,7 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.baoyz.swipemenulistview.SwipeMenuListView.OnMenuItemClickListener;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.orhanobut.dialogplus.DialogPlus;
+
 import com.xiaoningmeng.adapter.MoreAdapter;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.AlbumInfo;
@@ -29,7 +30,6 @@ import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.utils.UiUtils;
 import com.xiaoningmeng.view.dialog.TipDialog;
-
 
 import java.util.ArrayList;
 import java.util.List;

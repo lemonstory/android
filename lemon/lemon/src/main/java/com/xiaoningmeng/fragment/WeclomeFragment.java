@@ -7,8 +7,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.xiaoningmeng.AccountActivity;
 import com.xiaoningmeng.GuideActivity;
+import com.xiaoningmeng.AccountActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.base.BaseActivity;

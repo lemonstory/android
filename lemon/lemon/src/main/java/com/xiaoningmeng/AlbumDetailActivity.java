@@ -30,35 +30,35 @@ import com.umeng.socialize.UMShareAPI;
 import com.xiaoningmeng.application.ActivityManager;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.auth.UserAuth;
-import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.Album;
 import com.xiaoningmeng.bean.AlbumInfo;
-import com.xiaoningmeng.bean.AudioDownLoad;
 import com.xiaoningmeng.bean.CommentInfo;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.ShareBean;
-import com.xiaoningmeng.bean.Story;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.download.DownLoadClientImpl;
-import com.xiaoningmeng.download.DownLoadObserver;
 import com.xiaoningmeng.event.CommentEvent;
-import com.xiaoningmeng.event.FavEvent;
 import com.xiaoningmeng.fragment.AblumDetailIntroFragment;
 import com.xiaoningmeng.fragment.AblumDetailPlayListFragment;
-import com.xiaoningmeng.fragment.AblumSimilarFragment;
-import com.xiaoningmeng.http.JsonCallback;
-import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
-import com.xiaoningmeng.player.PlayerManager.AlbumSource;
 import com.xiaoningmeng.utils.AppUtils;
 import com.xiaoningmeng.utils.ImageUtils;
 import com.xiaoningmeng.view.CircleProgressBar;
-import com.xiaoningmeng.view.RatingBar;
 import com.xiaoningmeng.view.ShareDialog;
-import com.xiaoningmeng.view.StickyNavLayout;
 import com.xiaoningmeng.view.dialog.TipDialog;
+
+import com.xiaoningmeng.base.BaseActivity;
+import com.xiaoningmeng.bean.AudioDownLoad;
+import com.xiaoningmeng.bean.Story;
+import com.xiaoningmeng.download.DownLoadObserver;
+import com.xiaoningmeng.event.FavEvent;
+import com.xiaoningmeng.fragment.AblumSimilarFragment;
+import com.xiaoningmeng.http.JsonCallback;
+import com.xiaoningmeng.http.LHttpRequest;
+import com.xiaoningmeng.view.RatingBar;
+import com.xiaoningmeng.view.StickyNavLayout;
 
 import java.util.List;
 
@@ -437,11 +437,11 @@ public class AlbumDetailActivity extends BaseActivity implements
                     PlayerManager.getInstance().resumePlay();
                 }
             } else if (albumInfo.getStorylist() != null && albumInfo.getStorylist().size() > 0) {
-                PlayerManager.getInstance().playStory(albumInfo, storyList, 0, AlbumSource.ALBUM_DETAIL);
+                PlayerManager.getInstance().playStory(albumInfo, storyList, 0, PlayerManager.AlbumSource.ALBUM_DETAIL);
                 mPlayStoryId = albumInfo.getStorylist().get(0).getId();
             }
         } else if (mPlayStoryId != null) {
-            PlayerManager.getInstance().playStory(albumInfo, storyList, mPlayStoryPosition, mPlayTime, AlbumSource.ALBUM_DETAIL);
+            PlayerManager.getInstance().playStory(albumInfo, storyList, mPlayStoryPosition, mPlayTime, PlayerManager.AlbumSource.ALBUM_DETAIL);
         }
     }
 

@@ -10,6 +10,7 @@ import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
 import com.xiaoningmeng.R;
 
+
 public class TipDialog {
 
     public static final int TIME_COUNT = 1500;

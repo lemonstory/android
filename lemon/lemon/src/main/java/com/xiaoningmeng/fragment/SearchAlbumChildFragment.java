@@ -83,7 +83,7 @@ public class SearchAlbumChildFragment extends BaseFragment implements IXListView
 
 	@Override
 	public void onLoadMore() {
-		if(getActivity() instanceof  SearchActivity) {
+		if(getActivity() instanceof SearchActivity) {
 			((SearchActivity) getActivity()).moreSearch("album");
 		}else if(getActivity() instanceof HomeActivity){
 			//TODO:已被社区替换

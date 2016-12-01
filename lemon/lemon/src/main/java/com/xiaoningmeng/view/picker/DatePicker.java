@@ -1,19 +1,18 @@
 package com.xiaoningmeng.view.picker;
 
+import android.content.Context;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.widget.FrameLayout;
+
+import com.xiaoningmeng.R;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import com.xiaoningmeng.R;
-import com.xiaoningmeng.view.picker.NumberPicker.OnValueChangeListener;
-
-import android.content.Context;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.widget.FrameLayout;
 
 public class DatePicker extends FrameLayout {
 
@@ -53,7 +52,7 @@ public class DatePicker extends FrameLayout {
 		mYearPicker.setMaxValue(2100);
 		mYearPicker.setValue(mCalendar.get(Calendar.YEAR));
 
-		mMonthPicker.setOnValueChangedListener(new OnValueChangeListener() {
+		mMonthPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
 
 			@Override
 			public void onValueChange(NumberPicker picker, int oldVal,
@@ -70,7 +69,7 @@ public class DatePicker extends FrameLayout {
 				updateDate();
 			}
 		});
-		mDayPicker.setOnValueChangedListener(new OnValueChangeListener() {
+		mDayPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
 
 			@Override
 			public void onValueChange(NumberPicker picker, int oldVal,
@@ -86,7 +85,7 @@ public class DatePicker extends FrameLayout {
 				updateDate();
 			}
 		});
-		mYearPicker.setOnValueChangedListener(new OnValueChangeListener() {
+		mYearPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
 
 			@Override
 			public void onValueChange(NumberPicker picker, int oldVal,

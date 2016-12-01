@@ -20,16 +20,17 @@ import com.umeng.socialize.PlatformConfig;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xiaoningmeng.bean.AppInfo;
 import com.xiaoningmeng.bean.UserInfo;
-import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.CacheInterceptor;
 import com.xiaoningmeng.http.OSSAuth;
-import com.xiaoningmeng.player.MusicService;
 import com.xiaoningmeng.utils.AppUtils;
 import com.xiaoningmeng.utils.DebugUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.cookie.CookieJarImpl;
 import com.zhy.http.okhttp.cookie.store.PersistentCookieStore;
 import com.zhy.http.okhttp.log.LoggerInterceptor;
+
+import com.xiaoningmeng.constant.Constant;
+import com.xiaoningmeng.player.MusicService;
 
 import org.litepal.LitePalApplication;
 

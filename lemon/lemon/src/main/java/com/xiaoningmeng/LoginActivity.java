@@ -11,11 +11,12 @@ import com.google.gson.Gson;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.xiaoningmeng.bean.UserInfo;
+
 import com.xiaoningmeng.application.ActivityManager;
 import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.ForumLoginVar;
-import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.event.ForumLoginEvent;
 import com.xiaoningmeng.event.LoginEvent;

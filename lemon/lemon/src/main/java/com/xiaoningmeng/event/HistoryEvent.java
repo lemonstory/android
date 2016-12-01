@@ -5,7 +5,7 @@ import com.xiaoningmeng.bean.ListenerAlbum;
 public class HistoryEvent {
 
 	
-	public ListenerAlbum listenerAlbum; 
+	public ListenerAlbum listenerAlbum;
 	public String albumId;
 	public String storyId;
 

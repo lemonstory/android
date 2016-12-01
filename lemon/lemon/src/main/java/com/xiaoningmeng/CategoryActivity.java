@@ -14,19 +14,20 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.umeng.analytics.MobclickAgent;
+import com.xiaoningmeng.bean.IRecyclerItem;
+import com.xiaoningmeng.bean.PlayingStory;
+import com.xiaoningmeng.player.PlayObserver;
+import com.xiaoningmeng.player.PlayerManager;
+import com.xiaoningmeng.utils.DebugUtils;
+
 import com.xiaoningmeng.adapter.CategoryAdapter;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.Category;
-import com.xiaoningmeng.bean.IRecyclerItem;
-import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.EmptyHelper;
 import com.xiaoningmeng.manager.PlayWaveManager;
-import com.xiaoningmeng.player.PlayObserver;
-import com.xiaoningmeng.player.PlayerManager;
-import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

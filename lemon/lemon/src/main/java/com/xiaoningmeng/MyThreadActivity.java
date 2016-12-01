@@ -13,11 +13,12 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xiaoningmeng.adapter.ForumDisplayAdapter;
 import com.xiaoningmeng.application.MyApplication;
-import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.ForumName;
 import com.xiaoningmeng.bean.ForumThread;
-import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
+
+import com.xiaoningmeng.base.BaseActivity;
+import com.xiaoningmeng.http.JsonCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -14,24 +14,24 @@ import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.AlbumDetailActivity;
 import com.xiaoningmeng.DownloadActivity;
 import com.xiaoningmeng.FavActivity;
-import com.xiaoningmeng.R;
 import com.xiaoningmeng.adapter.MineHistoryAdapter;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
-import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.ListenerAlbum;
 import com.xiaoningmeng.bean.Mine;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.db.HistoryDao;
 import com.xiaoningmeng.download.DownLoadClientImpl;
+import com.xiaoningmeng.event.HistoryEvent;
+import com.xiaoningmeng.http.LHttpRequest;
+import com.xiaoningmeng.R;
+import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.download.OnDownloadCountChangedListener;
 import com.xiaoningmeng.event.FavEvent;
-import com.xiaoningmeng.event.HistoryEvent;
 import com.xiaoningmeng.event.LoginEvent;
 import com.xiaoningmeng.http.JsonCallback;
-import com.xiaoningmeng.http.LHttpRequest;
 
 
 import java.util.ArrayList;

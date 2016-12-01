@@ -6,11 +6,12 @@ import android.net.Uri;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.xiaoningmeng.bean.IRecyclerItem;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.bean.Category;
-import com.xiaoningmeng.bean.IRecyclerItem;
 
 import java.util.List;
+
 
 /**
  * 全部分类-(年龄段, 一级标签, 二级标签)

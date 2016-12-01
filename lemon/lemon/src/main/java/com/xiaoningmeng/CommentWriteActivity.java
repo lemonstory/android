@@ -13,11 +13,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.auth.UserAuth;
-import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.CommentInfo;
 import com.xiaoningmeng.bean.UserInfo;
+import com.xiaoningmeng.application.MyApplication;
+import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.view.RatingBar;

@@ -1,13 +1,7 @@
 package com.xiaoningmeng.manager;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
+import android.annotation.SuppressLint;
+import android.os.AsyncTask;
 
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.bean.AppInfo;
@@ -18,8 +12,13 @@ import com.xiaoningmeng.download.DownLoadClientImpl;
 import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 
-import android.annotation.SuppressLint;
-import android.os.AsyncTask;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 
 public class UploadManager {
@@ -104,7 +103,7 @@ public class UploadManager {
 			AudioDownLoad downLoad = entry.getValue();
 			if(!downLoad.isUpload()){
 				uploadCount++;
-				record.append("{\"clientid\":\""+AppInfo.getInstance().getIMEI()+"\",\"albumid\":\""+downLoad.getAlbumid()
+				record.append("{\"clientid\":\""+ AppInfo.getInstance().getIMEI()+"\",\"albumid\":\""+downLoad.getAlbumid()
 						+"\",\"storyid\":\""+downLoad.getStoryId()+"\",\"status\":\""+2+"\"}");
 				record.append(",");
 			}

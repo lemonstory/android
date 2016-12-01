@@ -1,14 +1,13 @@
 package com.xiaoningmeng.http;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-
 import com.alibaba.sdk.android.oss.OSSService;
 import com.alibaba.sdk.android.oss.callback.SaveCallback;
 import com.alibaba.sdk.android.oss.storage.OSSBucket;
 import com.alibaba.sdk.android.oss.storage.OSSFile;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.constant.Constant;
+
+import java.io.FileNotFoundException;
 
 
 public class UploadFile {

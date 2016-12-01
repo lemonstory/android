@@ -16,11 +16,9 @@ import com.umeng.update.UmengUpdateListener;
 import com.umeng.update.UpdateResponse;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.auth.UserAuth;
-import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.ShareBean;
 import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayNotificationManager;
@@ -29,6 +27,9 @@ import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.utils.PreferenceUtil;
 import com.xiaoningmeng.view.ShareDialog;
 import com.xiaoningmeng.view.dialog.TextDialogLoading;
+
+import com.xiaoningmeng.base.BaseActivity;
+import com.xiaoningmeng.http.JsonCallback;
 
 
 public class SettingActivity extends BaseActivity implements OnClickListener,
@@ -97,7 +98,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener,
 		case R.id.rl_setting_share:
 			String app_name = this.getString(R.string.app_name);
 			String app_desc = this.getString(R.string.app_desc);
-			mController = new ShareDialog().show(this,new ShareBean(app_name,app_desc,Constant.SHARE_OFFCAIL_ICON_URL,null,Constant.SHARE_OFFCAIL_URL));
+			mController = new ShareDialog().show(this,new ShareBean(app_name,app_desc, Constant.SHARE_OFFCAIL_ICON_URL,null,Constant.SHARE_OFFCAIL_URL));
 			break;
 		case R.id.rl_setting_check:
 			checkVersion();

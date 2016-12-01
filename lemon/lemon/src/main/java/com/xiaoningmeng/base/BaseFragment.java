@@ -16,7 +16,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.xiaoningmeng.R;
 
 public class BaseFragment extends Fragment {
 
@@ -40,13 +39,13 @@ public class BaseFragment extends Fragment {
 	}
 
 	public void animationForNew() {
-		getActivity().overridePendingTransition(R.anim.main_translatex100to0,
-				R.anim.main_translatex0tof100);
+		getActivity().overridePendingTransition(com.xiaoningmeng.R.anim.main_translatex100to0,
+				com.xiaoningmeng.R.anim.main_translatex0tof100);
 	}
 
 	public void animationForOld() {
-		getActivity().overridePendingTransition(R.anim.main_translatexf100to0,
-				R.anim.main_translatex0to100);
+		getActivity().overridePendingTransition(com.xiaoningmeng.R.anim.main_translatexf100to0,
+				com.xiaoningmeng.R.anim.main_translatex0to100);
 	}
 
 	public BaseActivity getBaseActivity() {
@@ -54,13 +53,13 @@ public class BaseFragment extends Fragment {
 	}
 
 	public void animationForBottom() {
-		getActivity().overridePendingTransition(R.anim.main_translatey100to0,
-				R.anim.main_translatey0tof100);
+		getActivity().overridePendingTransition(com.xiaoningmeng.R.anim.main_translatey100to0,
+				com.xiaoningmeng.R.anim.main_translatey0tof100);
 	}
 
 	public void animationForOTop() {
-		getActivity().overridePendingTransition(R.anim.main_translateyf100to0,
-				R.anim.main_translatey0to100);
+		getActivity().overridePendingTransition(com.xiaoningmeng.R.anim.main_translateyf100to0,
+				com.xiaoningmeng.R.anim.main_translatey0to100);
 	}
 
 
@@ -75,9 +74,9 @@ public class BaseFragment extends Fragment {
 		if(this.parent == null){
 			return;
 		}
-		TextView emptyTv = (TextView) parent.findViewById(R.id.tv_empty_tip);
+		TextView emptyTv = (TextView) parent.findViewById(com.xiaoningmeng.R.id.tv_empty_tip);
 		if (emptyTv == null) {
-			emptyTv = (TextView) View.inflate(getActivity(),R.layout.fragment_empty, null);
+			emptyTv = (TextView) View.inflate(getActivity(), com.xiaoningmeng.R.layout.fragment_empty, null);
 			parent.addView(emptyTv);
 		}
 		if (onClickListener != null)
@@ -99,11 +98,11 @@ public class BaseFragment extends Fragment {
 		} else {
 			this.parent = parentView;
 		}
-		TextView emptyTv = (TextView) parent.findViewById(R.id.tv_empty_tip);
+		TextView emptyTv = (TextView) parent.findViewById(com.xiaoningmeng.R.id.tv_empty_tip);
 	
 		if (emptyTv == null) {
 			emptyTv = (TextView) View.inflate(getActivity(),
-					R.layout.fragment_empty, null);
+					com.xiaoningmeng.R.layout.fragment_empty, null);
 			if(parent instanceof RelativeLayout){
 				RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
 				lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
@@ -125,7 +124,7 @@ public class BaseFragment extends Fragment {
 	public void hideEmptyTip() {
 		if (parent != null) {
 			TextView emptyTv = (TextView) parent
-					.findViewById(R.id.tv_empty_tip);
+					.findViewById(com.xiaoningmeng.R.id.tv_empty_tip);
 			if (emptyTv != null && emptyTv.getVisibility() == View.VISIBLE) {
 				int childCount = parent.getChildCount();
 				for (int i = 0; i < childCount; i++) {
@@ -139,7 +138,7 @@ public class BaseFragment extends Fragment {
 
 	protected View getFooterView() {
 		LayoutInflater layoutInflater = getActivity().getLayoutInflater();
-		View view = layoutInflater.inflate(R.layout.list_footer_view, null);
+		View view = layoutInflater.inflate(com.xiaoningmeng.R.layout.list_footer_view, null);
 		//view.findViewById(R.id.tv).setVisibility(View.GONE);
 		view.setLayoutParams(new DrawerLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 		view.setOnClickListener(new View.OnClickListener() {

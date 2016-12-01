@@ -13,22 +13,21 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.umeng.analytics.MobclickAgent;
-import com.xiaoningmeng.R;
 import com.xiaoningmeng.adapter.AblumPlayListAdapter;
 import com.xiaoningmeng.application.MyApplication;
-import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.bean.AlbumInfo;
-import com.xiaoningmeng.bean.AudioDownLoad;
 import com.xiaoningmeng.bean.PlayingStory;
-import com.xiaoningmeng.bean.Story;
-import com.xiaoningmeng.bean.StoryList;
 import com.xiaoningmeng.download.DownLoadClientImpl;
-import com.xiaoningmeng.http.JsonCallback;
-import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.EmptyHelper;
 import com.xiaoningmeng.player.PlayerManager;
-import com.xiaoningmeng.player.PlayerManager.AlbumSource;
-import com.xiaoningmeng.player.PlayerManager.PlayState;
+
+import com.xiaoningmeng.R;
+import com.xiaoningmeng.base.BaseFragment;
+import com.xiaoningmeng.bean.AudioDownLoad;
+import com.xiaoningmeng.bean.Story;
+import com.xiaoningmeng.bean.StoryList;
+import com.xiaoningmeng.http.JsonCallback;
+import com.xiaoningmeng.http.LHttpRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -123,13 +122,13 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
                     AblumDetailPlayListFragment.this.playStoryId = story.getId();
                     mAdapter.setPlayStoryId(story.getId());
                         if (story.getMediapath().equals(playingStory.mediapath)) {
-                            if (playingStory.playState == PlayState.RESUME || playingStory.playState == PlayState.START || playingStory.playState == PlayState.PLAY) {
+                            if (playingStory.playState == PlayerManager.PlayState.RESUME || playingStory.playState == PlayerManager.PlayState.START || playingStory.playState == PlayerManager.PlayState.PLAY) {
                                 PlayerManager.getInstance().pausePlay();
                             } else {
                                 PlayerManager.getInstance().resumePlay();
                             }
                         } else {
-                            PlayerManager.getInstance().playStory(albumInfo, mStories, position,AblumDetailPlayListFragment.this.mCurrentPlayTime, AlbumSource.ALBUM_DETAIL);
+                            PlayerManager.getInstance().playStory(albumInfo, mStories, position,AblumDetailPlayListFragment.this.mCurrentPlayTime, PlayerManager.AlbumSource.ALBUM_DETAIL);
                         }
                 }
             }

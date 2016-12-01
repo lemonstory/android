@@ -14,13 +14,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.xiaoningmeng.fragment.KeyboardFragment;
+import com.xiaoningmeng.utils.AppUtils;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.fragment.AddedImageFragment;
-import com.xiaoningmeng.fragment.KeyboardFragment;
 import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
-import com.xiaoningmeng.utils.AppUtils;
 import com.xiaoningmeng.utils.FileUtils;
 import com.xiaoningmeng.utils.ImageUtils;
 import com.xiaoningmeng.utils.UiUtils;

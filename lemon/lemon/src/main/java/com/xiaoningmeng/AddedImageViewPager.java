@@ -17,9 +17,10 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.backends.pipeline.PipelineDraweeControllerBuilder;
 import com.facebook.drawee.controller.BaseControllerListener;
 import com.facebook.imagepipeline.image.ImageInfo;
+import com.xiaoningmeng.view.HackyViewPager;
+
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.event.AddedImageEvent;
-import com.xiaoningmeng.view.HackyViewPager;
 
 import java.io.File;
 import java.util.ArrayList;

@@ -11,12 +11,12 @@ import android.widget.TextView;
 
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.xiaoningmeng.utils.TimeUtils;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.ListenerAlbum;
 import com.xiaoningmeng.bean.Story;
 import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.utils.TimeUtils;
 
 import java.util.Calendar;
 import java.util.List;
@@ -84,7 +84,7 @@ public class MineHistoryAdapter extends BaseAdapter {
 			if(listenerAlbum.getPlaytimes() >= Integer.parseInt(story.getTimes()) -3) {
 				holder.playTimeTv.setText("播放完成");
 			}else{
-				holder.playTimeTv.setText("播放至"+TimeUtils.getShortTimeShot(listenerAlbum.getPlaytimes()));
+				holder.playTimeTv.setText("播放至"+ TimeUtils.getShortTimeShot(listenerAlbum.getPlaytimes()));
 			}
 		}else{
 			holder.storyTv.setText("");

@@ -16,12 +16,13 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
-import com.xiaoningmeng.AlbumDetailActivity;
-import com.xiaoningmeng.R;
 import com.xiaoningmeng.adapter.AblumRecommendAdapter;
 import com.xiaoningmeng.base.LazyFragment;
-import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.AlbumRecommend;
+
+import com.xiaoningmeng.AlbumDetailActivity;
+import com.xiaoningmeng.R;
+import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;

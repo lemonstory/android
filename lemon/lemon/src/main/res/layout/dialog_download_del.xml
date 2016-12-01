@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
-    <com.xiaoningmeng.view.DrawableCenterTextView 
+    <com.xiaoningmeng.view.DrawableCenterTextView
         android:id="@+id/tv_download_del"
         android:layout_width="match_parent"
         android:layout_height="@dimen/account_item_height"

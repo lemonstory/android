@@ -13,6 +13,7 @@ import android.widget.TextView.BufferType;
 
 import com.xiaoningmeng.R;
 
+
 /**
  * @Explain: Text过长收起 带有查看全文/收起功能控件;
  * @Author：LYl

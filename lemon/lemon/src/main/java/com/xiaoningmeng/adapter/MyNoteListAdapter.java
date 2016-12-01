@@ -15,14 +15,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.xiaoningmeng.ViewThreadActivity;
+import com.xiaoningmeng.bean.NoteList;
+import com.xiaoningmeng.utils.AvatarUtils;
 import com.xiaoningmeng.MyNotelistActivity;
 import com.xiaoningmeng.R;
-import com.xiaoningmeng.ViewThreadActivity;
 import com.xiaoningmeng.bean.ForumThread;
-import com.xiaoningmeng.bean.NoteList;
 import com.xiaoningmeng.bean.NoteVar;
 import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.utils.AvatarUtils;
 import com.xiaoningmeng.utils.UiUtils;
 
 import java.lang.ref.WeakReference;

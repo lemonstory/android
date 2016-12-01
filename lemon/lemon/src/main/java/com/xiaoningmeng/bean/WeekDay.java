@@ -1,10 +1,10 @@
 package com.xiaoningmeng.bean;
 
+import com.xiaoningmeng.utils.PreferenceUtil;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.xiaoningmeng.utils.PreferenceUtil;
 
 public class WeekDay implements Serializable{
 

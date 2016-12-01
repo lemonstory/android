@@ -5,17 +5,17 @@
  **/
 package com.xiaoningmeng.view;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.xiaoningmeng.R;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import com.xiaoningmeng.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CricleIndicator extends LinearLayout {
 

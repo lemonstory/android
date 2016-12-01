@@ -1,14 +1,14 @@
 package com.xiaoningmeng.view.dialog;
 
-import com.xiaoningmeng.R;
-import com.xiaoningmeng.utils.UiUtils;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager.LayoutParams;
+
+import com.xiaoningmeng.R;
+import com.xiaoningmeng.utils.UiUtils;
 
 public class BaseDialog extends Dialog {
 

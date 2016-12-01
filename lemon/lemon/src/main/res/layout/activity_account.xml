@@ -68,7 +68,7 @@
                         fresco:roundedCornerRadius="@dimen/base_radius_size"
                         fresco:actualImageScaleType="centerCrop"/>
 <!--
-                <com.xiaoningmeng.view.PhotoRoundedImageView
+                <PhotoRoundedImageView
                     android:id="@+id/img_perasonal_icon"
                     style="@style/roundImageViewStyle"
                     android:layout_width="match_parent"

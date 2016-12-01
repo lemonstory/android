@@ -7,15 +7,15 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.xiaoningmeng.bean.PlayingStory;
+import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.bean.AudioDownLoad;
-import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.Story;
 import com.xiaoningmeng.download.DownLoadClientImpl;
-import com.xiaoningmeng.player.PlayerManager;
-import com.xiaoningmeng.player.PlayerManager.PlayState;
 
 import java.util.List;
+
 
 public class AblumPlayListAdapter extends BaseQuickAdapter<Story, BaseViewHolder> {
 
@@ -46,7 +46,7 @@ public class AblumPlayListAdapter extends BaseQuickAdapter<Story, BaseViewHolder
     private void getPlayView(BaseViewHolder helper, Story story) {
 
 
-        boolean isHornOn = mPlayingStory.playState == PlayState.RESUME || mPlayingStory.playState == PlayState.START || mPlayingStory.playState == PlayState.PLAY;
+        boolean isHornOn = mPlayingStory.playState == PlayerManager.PlayState.RESUME || mPlayingStory.playState == PlayerManager.PlayState.START || mPlayingStory.playState == PlayerManager.PlayState.PLAY;
         if (story.getAlbum_id() != null && story.getAlbum_id().equals(mPlayingStory.albumid)) {
             if (story.getMediapath().equals(mPlayingStory.mediapath)) {
                 helper.getView(R.id.tv_play_list_number).setVisibility(View.INVISIBLE);

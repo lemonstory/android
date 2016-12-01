@@ -5,10 +5,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
-import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.bean.AlbumInfo;
-import com.xiaoningmeng.bean.AudioDownLoad;
 import com.xiaoningmeng.utils.FileUtil;
+import com.xiaoningmeng.application.MyApplication;
+import com.xiaoningmeng.bean.AudioDownLoad;
 
 import org.litepal.crud.DataSupport;
 

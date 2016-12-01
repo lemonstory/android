@@ -26,6 +26,8 @@ import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.baoyz.swipemenulistview.SwipeMenuListView.OnMenuItemClickListener;
+import com.xiaoningmeng.bean.UserInfo;
+
 import com.xiaoningmeng.adapter.AddressAdapter;
 import com.xiaoningmeng.adapter.AreaAdapter;
 import com.xiaoningmeng.application.MyApplication;
@@ -33,7 +35,6 @@ import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.Address;
 import com.xiaoningmeng.bean.City;
 import com.xiaoningmeng.bean.Province;
-import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.bean.Zone;
 import com.xiaoningmeng.db.AreaDao;
 import com.xiaoningmeng.http.JsonCallback;

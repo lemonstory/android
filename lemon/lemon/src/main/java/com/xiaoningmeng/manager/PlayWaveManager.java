@@ -9,10 +9,10 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 
 import com.xiaoningmeng.PlayActivity;
-import com.xiaoningmeng.R;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
+import com.xiaoningmeng.R;
 import com.xiaoningmeng.view.dialog.TipDialog;
 
 import java.lang.ref.SoftReference;

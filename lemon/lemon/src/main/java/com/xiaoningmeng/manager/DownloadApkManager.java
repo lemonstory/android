@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
-import com.xiaoningmeng.R;
 import com.xiaoningmeng.utils.FileUtils;
+import com.xiaoningmeng.R;
 
 import java.io.File;
 import java.io.FileOutputStream;

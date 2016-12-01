@@ -12,14 +12,14 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
+import com.xiaoningmeng.player.PlayerManager;
+import com.xiaoningmeng.utils.TimeUtils;
 import com.xiaoningmeng.DownloadStoryActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.bean.AudioDownLoad;
 import com.xiaoningmeng.bean.Story;
 import com.xiaoningmeng.download.DownLoadState;
-import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.utils.FileUtils;
-import com.xiaoningmeng.utils.TimeUtils;
 
 import java.util.List;
 

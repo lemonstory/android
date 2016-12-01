@@ -1,14 +1,6 @@
 package com.xiaoningmeng;
 
-import java.lang.reflect.Field;
-
-import com.xiaoningmeng.application.ActivityManager;
-import com.xiaoningmeng.base.BaseActivity;
-import com.xiaoningmeng.fragment.WeclomeFragment;
-import com.xiaoningmeng.view.CricleIndicator;
-
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,7 +13,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import com.xiaoningmeng.application.ActivityManager;
+import com.xiaoningmeng.base.BaseActivity;
+import com.xiaoningmeng.fragment.WeclomeFragment;
+import com.xiaoningmeng.view.CricleIndicator;
+
+import java.lang.reflect.Field;
 
 public class GuideActivity extends BaseActivity implements
 		OnClickListener {

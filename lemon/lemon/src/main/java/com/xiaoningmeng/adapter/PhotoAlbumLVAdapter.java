@@ -9,9 +9,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.bean.PhotoAlbumLVItem;
-import com.xiaoningmeng.constant.Constant;
 
 import java.io.File;
 import java.util.ArrayList;

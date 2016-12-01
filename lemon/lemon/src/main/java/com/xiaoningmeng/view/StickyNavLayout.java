@@ -1,6 +1,5 @@
 package com.xiaoningmeng.view;
 
-import com.xiaoningmeng.R;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -19,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.OverScroller;
 import android.widget.ScrollView;
+
+import com.xiaoningmeng.R;
 
 public class StickyNavLayout extends LinearLayout {
 

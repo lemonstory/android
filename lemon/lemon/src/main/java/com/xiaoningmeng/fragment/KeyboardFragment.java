@@ -18,8 +18,8 @@ import com.rockerhieu.emojicon.EmojiconEditText;
 import com.rockerhieu.emojicon.EmojiconGridFragment;
 import com.rockerhieu.emojicon.EmojiconsFragment;
 import com.rockerhieu.emojicon.emoji.Emojicon;
-import com.xiaoningmeng.R;
 import com.xiaoningmeng.utils.AppUtils;
+import com.xiaoningmeng.R;
 import com.xiaoningmeng.utils.UiUtils;
 
 import java.io.File;

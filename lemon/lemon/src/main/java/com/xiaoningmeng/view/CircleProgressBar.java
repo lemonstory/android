@@ -14,6 +14,7 @@ import android.view.View;
 
 import com.xiaoningmeng.R;
 
+
 public class CircleProgressBar extends View {
 	/**
 	 * 画笔对象的引用 因为渲染会对整个画笔进行渲染，所以定义了两个
@@ -36,7 +37,7 @@ public class CircleProgressBar extends View {
 	 */
 	private SweepGradient sweepGradient = null;
 
-	private int[] colors = { getResources().getColor(R.color.circle_progressBar_begin), 
+	private int[] colors = { getResources().getColor(R.color.circle_progressBar_begin),
 			getResources().getColor(R.color.circle_progressBar_end),
 			getResources().getColor(R.color.circle_progressBar_begin)};
 	/**

@@ -8,10 +8,6 @@
  */
 package com.xiaoningmeng.view;
 
-import com.baoyz.swipemenu.xlistview.XListViewFooter;
-import com.baoyz.swipemenu.xlistview.XListViewHeader;
-import com.xiaoningmeng.R;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
@@ -25,6 +21,11 @@ import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.RelativeLayout;
 import android.widget.Scroller;
+
+import com.baoyz.swipemenu.xlistview.XListViewFooter;
+import com.baoyz.swipemenu.xlistview.XListViewHeader;
+
+import com.xiaoningmeng.R;
 
 public class XExpandableListView extends ExpandableListView implements OnScrollListener {
 

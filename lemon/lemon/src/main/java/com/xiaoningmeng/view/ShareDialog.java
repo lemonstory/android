@@ -16,6 +16,7 @@ import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMusic;
+
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.bean.ShareBean;
 import com.xiaoningmeng.view.dialog.BaseDialog;
@@ -32,7 +33,7 @@ public class ShareDialog implements View.OnClickListener{
         mContext = activity;
         mShareBean.setTitle(mShareBean.getTitle());
         mDialog = new BaseDialog.Builder(mContext).setGravity(Gravity.BOTTOM).create();
-        View shareView  = View.inflate(mContext,R.layout.activity_share,null);
+        View shareView  = View.inflate(mContext, R.layout.activity_share,null);
         shareView.findViewById(R.id.share_rl_qq).setOnClickListener(this);
         shareView.findViewById(R.id.share_rl_circle).setOnClickListener(this);
         shareView.findViewById(R.id.share_rl_wechat).setOnClickListener(this);

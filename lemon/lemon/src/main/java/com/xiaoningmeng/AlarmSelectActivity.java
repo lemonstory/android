@@ -1,22 +1,23 @@
 package com.xiaoningmeng;
 
-import java.io.Serializable;
-import java.util.List;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
 
 import com.baoyz.swipemenu.xlistview.XListView;
 import com.xiaoningmeng.adapter.AlarmSoundSelectAdapter;
-import com.xiaoningmeng.adapter.AlarmWeekSelectAdapter;
-import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.WeekDay;
 import com.xiaoningmeng.player.SoundManager;
+
+import com.xiaoningmeng.adapter.AlarmWeekSelectAdapter;
+import com.xiaoningmeng.base.BaseActivity;
+
+import java.io.Serializable;
+import java.util.List;
 
 public class AlarmSelectActivity extends BaseActivity implements OnClickListener{
 

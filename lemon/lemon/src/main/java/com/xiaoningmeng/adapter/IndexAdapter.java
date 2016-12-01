@@ -5,12 +5,13 @@ import android.net.Uri;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.xiaoningmeng.R;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.IRecyclerItem;
 import com.xiaoningmeng.bean.Index;
+import com.xiaoningmeng.R;
 
 import java.util.List;
+
 
 /**
  * Created by huang on 2016/10/15.

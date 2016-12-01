@@ -6,13 +6,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
-import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.WeekDay;
 import com.xiaoningmeng.reminder.Reminder;
 import com.xiaoningmeng.utils.PreferenceUtil;
 import com.xiaoningmeng.view.SwitchButton;
 import com.xiaoningmeng.view.picker.TimePicker;
-import com.xiaoningmeng.view.picker.TimePicker.Time;
+import com.xiaoningmeng.base.BaseActivity;
 
 import java.io.Serializable;
 import java.util.List;
@@ -107,7 +106,7 @@ public class AlarmClockActivity extends BaseActivity implements
 			PreferenceUtil.putInt("alarmSound", selectRingPos);
 			boolean isOpen = mSwitchButton.isChecked();
 			PreferenceUtil.putBoolean("isOpenAlarm",isOpen);
-			Time time = timePicker.getTime();
+			TimePicker.Time time = timePicker.getTime();
 			PreferenceUtil.putInt("alarmHour",time.hour);
 			PreferenceUtil.putInt("alarmMinute",time.minute);
 			if(isOpen){

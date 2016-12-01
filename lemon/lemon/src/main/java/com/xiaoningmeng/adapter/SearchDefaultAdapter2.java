@@ -1,18 +1,8 @@
 package com.xiaoningmeng.adapter;
 
-import java.util.List;
-
-import com.xiaoningmeng.HomeActivity;
-import com.xiaoningmeng.R;
-import com.xiaoningmeng.SearchActivity;
-import com.xiaoningmeng.bean.SearchContent;
-import com.xiaoningmeng.db.SearchDao;
-import com.xiaoningmeng.view.FlowLayout;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
-
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -21,8 +11,17 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 import android.widget.RelativeLayout.LayoutParams;
+import android.widget.TextView;
+
+import com.xiaoningmeng.HomeActivity;
+import com.xiaoningmeng.R;
+import com.xiaoningmeng.SearchActivity;
+import com.xiaoningmeng.bean.SearchContent;
+import com.xiaoningmeng.db.SearchDao;
+import com.xiaoningmeng.view.FlowLayout;
+
+import java.util.List;
 
 public class SearchDefaultAdapter2 extends BaseAdapter implements OnClickListener{
 

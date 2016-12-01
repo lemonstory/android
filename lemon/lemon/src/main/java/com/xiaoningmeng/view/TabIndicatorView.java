@@ -1,25 +1,23 @@
 package com.xiaoningmeng.view;
 
-import com.xiaoningmeng.R;
-import com.xiaoningmeng.utils.UiUtils;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.RectF;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.TypedValue;
-
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.xiaoningmeng.utils.UiUtils;
+import com.xiaoningmeng.R;
 
 import java.util.List;
 

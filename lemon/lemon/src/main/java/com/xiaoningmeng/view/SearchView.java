@@ -1,7 +1,5 @@
 package com.xiaoningmeng.view;
 
-import com.xiaoningmeng.R;
-
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.xiaoningmeng.R;
 
 public class SearchView extends LinearLayout implements OnClickListener{
 

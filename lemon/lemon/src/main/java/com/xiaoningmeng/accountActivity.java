@@ -15,21 +15,21 @@ import android.widget.Toast;
 import com.alibaba.sdk.android.oss.callback.SaveCallback;
 import com.alibaba.sdk.android.oss.model.OSSException;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.base.BasePohotoActivity;
-import com.xiaoningmeng.base.BasePohotoActivity.IUploadCall;
-import com.xiaoningmeng.bean.Address;
 import com.xiaoningmeng.bean.City;
+import com.xiaoningmeng.bean.UserInfo;
+import com.xiaoningmeng.player.PlayerManager;
+import com.xiaoningmeng.utils.AvatarUtils;
+
+import com.xiaoningmeng.application.MyApplication;
+import com.xiaoningmeng.bean.Address;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.Province;
-import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.bean.Zone;
 import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
-import com.xiaoningmeng.player.PlayerManager;
-import com.xiaoningmeng.utils.AvatarUtils;
 import com.xiaoningmeng.view.dialog.BaseDialog;
 import com.xiaoningmeng.view.picker.DatePicker;
 
@@ -45,7 +45,7 @@ import java.util.Date;
 import de.greenrobot.event.EventBus;
 
 public class AccountActivity extends BasePohotoActivity implements
-		OnClickListener, PlayObserver,IUploadCall{
+		OnClickListener, PlayObserver,BasePohotoActivity.IUploadCall {
 
 	private BaseDialog mDialog;
 	private View mAgeView;

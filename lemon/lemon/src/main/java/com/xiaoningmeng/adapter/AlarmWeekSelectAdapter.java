@@ -9,8 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.xiaoningmeng.R;
 import com.xiaoningmeng.bean.WeekDay;
+import com.xiaoningmeng.R;
 
 import java.util.List;
 

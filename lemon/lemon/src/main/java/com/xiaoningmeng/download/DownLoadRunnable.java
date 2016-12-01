@@ -1,7 +1,8 @@
 package com.xiaoningmeng.download;
 
-import java.io.File;
-import java.net.URI;
+import android.util.Log;
+
+import com.xiaoningmeng.bean.AudioDownLoad;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -14,12 +15,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.DefaultRedirectHandler;
 import org.apache.http.protocol.HttpContext;
 
-import com.xiaoningmeng.application.MyApplication;
-import com.xiaoningmeng.bean.AudioDownLoad;
-import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.utils.AppUtils;
-
-import android.util.Log;
+import java.io.File;
+import java.net.URI;
 
 public abstract class DownLoadRunnable<T extends AudioDownLoad> implements
 		Runnable {

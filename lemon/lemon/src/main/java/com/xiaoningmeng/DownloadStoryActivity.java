@@ -24,18 +24,18 @@ import com.orhanobut.dialogplus.ViewHolder;
 import com.xiaoningmeng.adapter.DownloadStoryAdapter;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.AlbumInfo;
-import com.xiaoningmeng.bean.AudioDownLoad;
 import com.xiaoningmeng.bean.PlayingStory;
-import com.xiaoningmeng.bean.Story;
 import com.xiaoningmeng.download.DownLoadClientImpl;
 import com.xiaoningmeng.download.DownLoadObserver;
 import com.xiaoningmeng.download.DownLoadState;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
-import com.xiaoningmeng.player.PlayerManager.AlbumSource;
 import com.xiaoningmeng.utils.UiUtils;
 import com.xiaoningmeng.view.dialog.TipDialog;
+
+import com.xiaoningmeng.bean.AudioDownLoad;
+import com.xiaoningmeng.bean.Story;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -178,7 +178,7 @@ public class DownloadStoryActivity extends BaseActivity implements
 						Story s = downLoad.getStory();
 						stories.add(s);
 					}
-					PlayerManager.getInstance().playStory(albumInfo, stories,pos, AlbumSource.DOWNLOAD);
+					PlayerManager.getInstance().playStory(albumInfo, stories,pos, PlayerManager.AlbumSource.DOWNLOAD);
 				} else if (type == DOWNLOAD_TYPE) {
 					if (!mAdapter.isCheck()) {
 						AudioDownLoad downLoad = downLoads.get(pos);
@@ -288,14 +288,14 @@ public class DownloadStoryActivity extends BaseActivity implements
 		if (type == HISTORY_TYPE || type == DOWNLOAD_TYPE)
 			PlayWaveManager.getInstance().notify(music);
 		switch (music.playState) {
-		case PLAY:
+		case PlayerManager.PlayState.PLAY:
 			if (music.current == 0) {
 				if (type == HISTORY_TYPE&& albumId.equals(PlayerManager.getInstance().getPlayingStory().albumid)) {
 					mAdapter.notifyDataSetChanged();
 				}
 			}
 			break;
-		case START:
+		case PlayerManager.PlayState.START:
 			if (type == HISTORY_TYPE&& albumId.equals(PlayerManager.getInstance().getPlayingStory().albumid)) {
 				mAdapter.notifyDataSetChanged();
 			}
@@ -317,7 +317,7 @@ public class DownloadStoryActivity extends BaseActivity implements
 				Story s = downLoad.getStory();
 				stories.add(s);
 			}
-			PlayerManager.getInstance().playStory(albumInfo, stories, 0,AlbumSource.DOWNLOAD);
+			PlayerManager.getInstance().playStory(albumInfo, stories, 0, PlayerManager.AlbumSource.DOWNLOAD);
 			break;
 		case R.id.tv_download_more:
 			if (downLoads != null && downLoads.size() > 0)

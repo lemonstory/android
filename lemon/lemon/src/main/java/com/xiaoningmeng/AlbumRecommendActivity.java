@@ -11,18 +11,18 @@ import android.widget.ImageView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.AlbumRecommend;
 import com.xiaoningmeng.bean.PlayingStory;
-import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.fragment.AlbumRecommendFragment;
-import com.xiaoningmeng.fragment.AlbumRecommendFragment.OnFragmentInteractionListener;
+import com.xiaoningmeng.player.PlayerManager;
+import com.xiaoningmeng.utils.DebugUtils;
+
+import com.xiaoningmeng.base.BaseActivity;
+import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
-import com.xiaoningmeng.player.PlayerManager;
-import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ import java.util.List;
  *      1:AlbumRecommendActivity 先做一次Api请求,得到age_level后初始化pageview及fragment
  *        然后fragemnt里面在做一次相同Api请求获取专辑数据。第二次根据age_level发起新的请求.
  */
-public class AlbumRecommendActivity extends BaseActivity implements OnFragmentInteractionListener, PlayObserver {
+public class AlbumRecommendActivity extends BaseActivity implements AlbumRecommendFragment.OnFragmentInteractionListener, PlayObserver {
 
     private PagerSlidingTabStrip mIndicator;
     private ViewPager mViewPager;

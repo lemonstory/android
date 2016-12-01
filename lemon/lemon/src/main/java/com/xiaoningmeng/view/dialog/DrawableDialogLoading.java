@@ -1,15 +1,14 @@
 package com.xiaoningmeng.view.dialog;
 
 import android.content.Context;
-import android.graphics.drawable.AnimationDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.xiaoningmeng.R;
 import com.xiaoningmeng.http.ILoading;
+import com.xiaoningmeng.R;
+
 
 public class DrawableDialogLoading implements ILoading {
 

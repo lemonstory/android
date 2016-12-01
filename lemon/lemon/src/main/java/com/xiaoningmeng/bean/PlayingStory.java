@@ -1,7 +1,6 @@
 package com.xiaoningmeng.bean;
 
-import com.xiaoningmeng.player.PlayerManager.PlayState;
-import com.xiaoningmeng.player.PlayerManager.PlayType;
+import com.xiaoningmeng.player.PlayerManager;
 
 public class PlayingStory {
 
@@ -15,10 +14,10 @@ public class PlayingStory {
 	public int current;
 	public int buffer;
 	public String albumid;
-	public PlayType playType;
+	public PlayerManager.PlayType playType;
 	public int albumSource;
 	public String playcover;
-	public PlayState playState = PlayState.STOP;
+	public PlayerManager.PlayState playState = PlayerManager.PlayState.STOP;
 	public AlbumInfo albumInfo;
 
 	public void setStory(Story story) {

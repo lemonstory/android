@@ -19,16 +19,16 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.xiaoningmeng.ImageViewerPagerActivity;
+import com.xiaoningmeng.ViewThreadActivity;
+import com.xiaoningmeng.utils.AvatarUtils;
+import com.xiaoningmeng.utils.ImageUtils;
 import com.xiaoningmeng.PerasonalActivity;
 import com.xiaoningmeng.R;
-import com.xiaoningmeng.ViewThreadActivity;
 import com.xiaoningmeng.bean.Attachment;
 import com.xiaoningmeng.bean.ForumThread;
 import com.xiaoningmeng.bean.Post;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.ConstantURL;
-import com.xiaoningmeng.utils.AvatarUtils;
-import com.xiaoningmeng.utils.ImageUtils;
 import com.xiaoningmeng.utils.PostImageUtils;
 import com.xiaoningmeng.utils.UiUtils;
 

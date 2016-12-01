@@ -21,6 +21,10 @@ import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
+import com.xiaoningmeng.utils.TimeUtils;
+import com.xiaoningmeng.view.ShareDialog;
+import com.xiaoningmeng.view.dialog.TopDialog;
+
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
@@ -38,19 +42,13 @@ import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
-import com.xiaoningmeng.player.PlayerManager.OnPlayingDownloadListener;
-import com.xiaoningmeng.player.PlayerManager.PlayMode;
-import com.xiaoningmeng.player.PlayerManager.PlayType;
 import com.xiaoningmeng.utils.DebugUtils;
-import com.xiaoningmeng.utils.TimeUtils;
-import com.xiaoningmeng.view.ShareDialog;
 import com.xiaoningmeng.view.dialog.TipDialog;
-import com.xiaoningmeng.view.dialog.TopDialog;
 
 import de.greenrobot.event.EventBus;
 
 public class PlayActivity extends BaseActivity implements OnClickListener,
-        PlayObserver, OnSeekBarChangeListener, OnPlayingDownloadListener {
+        PlayObserver, OnSeekBarChangeListener, PlayerManager.OnPlayingDownloadListener {
 
     private SeekBar mSeekBar;
     private TextView mFinishTimeTv;
@@ -247,7 +245,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
     }
 
     private void download() {
-        if (mPlayerManager.getPlayingStory().playType == PlayType.NET) {
+        if (mPlayerManager.getPlayingStory().playType == PlayerManager.PlayType.NET) {
             Story music = mPlayerManager.getPlayList().get(mPlayerManager.position).getStory();
             AudioDownLoad downLoad = new AudioDownLoad(music, mPlayerManager.position);
             DownLoadClientImpl.getInstance().download(downLoad);
@@ -322,16 +320,16 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
 
     private void changePlayMode() {
         int mode = mPlayerManager.getPlayMode();
-        if (mode == PlayMode.CYCLE) {
-            mPlayerManager.setPlayMode(PlayMode.SINGLE);
+        if (mode == PlayerManager.PlayMode.CYCLE) {
+            mPlayerManager.setPlayMode(PlayerManager.PlayMode.SINGLE);
             mMusicModeImg.setImageResource(R.drawable.selector_btn_player_single);
             TopDialog.create(this, (ViewGroup) findViewById(R.id.rl_content), "已经切换到单曲循环模式").show();
-        } else if (mode == PlayMode.SINGLE) {
-            mPlayerManager.setPlayMode(PlayMode.RANDOM);
+        } else if (mode == PlayerManager.PlayMode.SINGLE) {
+            mPlayerManager.setPlayMode(PlayerManager.PlayMode.RANDOM);
             mMusicModeImg.setImageResource(R.drawable.selector_btn_player_random);
             TopDialog.create(this, (ViewGroup) findViewById(R.id.rl_content), "已经切换到随机播放模式").show();
         } else {
-            mPlayerManager.setPlayMode(PlayMode.CYCLE);
+            mPlayerManager.setPlayMode(PlayerManager.PlayMode.CYCLE);
             mMusicModeImg.setImageResource(R.drawable.selector_btn_player_repeat);
             TopDialog.create(this, (ViewGroup) findViewById(R.id.rl_content), "已经切换到顺序循环模式").show();
         }
@@ -339,9 +337,9 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
 
     private void setPlayMode() {
         int mode = mPlayerManager.getPlayMode();
-        if (mode == PlayMode.CYCLE) {
+        if (mode == PlayerManager.PlayMode.CYCLE) {
             mMusicModeImg.setImageResource(R.drawable.selector_btn_player_repeat);
-        } else if (mode == PlayMode.SINGLE) {
+        } else if (mode == PlayerManager.PlayMode.SINGLE) {
             mMusicModeImg.setImageResource(R.drawable.selector_btn_player_single);
         } else {
             mMusicModeImg.setImageResource(R.drawable.selector_btn_player_random);
@@ -487,7 +485,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
     public void notifyDownload() {
 
         PlayingStory music = mPlayerManager.getPlayingStory();
-        mDownloadImg.setSelected(music.playType == PlayType.LOCAL);
+        mDownloadImg.setSelected(music.playType == PlayerManager.PlayType.LOCAL);
 
     }
 

@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.xiaoningmeng.AccountModifyInfoActivity;
-import com.xiaoningmeng.R;
 import com.xiaoningmeng.bean.City;
+import com.xiaoningmeng.R;
 import com.xiaoningmeng.bean.Province;
 import com.xiaoningmeng.bean.Zone;
 

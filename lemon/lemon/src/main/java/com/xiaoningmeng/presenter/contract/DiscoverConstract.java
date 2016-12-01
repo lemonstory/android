@@ -14,7 +14,7 @@ import java.util.List;
 public interface DiscoverConstract {
 
 
-    interface View<T> extends BaseView<T>{
+    interface View<T> extends BaseView<T> {
         public void requestDataSuccess(List<IRecyclerItem> datas);
         public void requestBannderSuccess(Index.FocusPicBean focusPicBean);
 

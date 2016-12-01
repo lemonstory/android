@@ -8,13 +8,14 @@ import android.view.LayoutInflater;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.xiaoningmeng.R;
-import com.xiaoningmeng.bean.Comment;
 import com.xiaoningmeng.bean.CommentInfo;
 import com.xiaoningmeng.utils.AvatarUtils;
+import com.xiaoningmeng.R;
+import com.xiaoningmeng.bean.Comment;
 import com.xiaoningmeng.view.RatingBar;
 
 import java.util.List;
+
 
 public class AblumCommentAdapter extends BaseQuickAdapter<Comment.ItemsBean, BaseViewHolder> {
 

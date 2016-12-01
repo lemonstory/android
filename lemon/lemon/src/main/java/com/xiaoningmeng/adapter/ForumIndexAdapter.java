@@ -14,8 +14,8 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.xiaoningmeng.ForumDisplayActivity;
-import com.xiaoningmeng.R;
 import com.xiaoningmeng.base.BaseActivity;
+import com.xiaoningmeng.R;
 import com.xiaoningmeng.bean.Forum;
 
 import java.util.List;

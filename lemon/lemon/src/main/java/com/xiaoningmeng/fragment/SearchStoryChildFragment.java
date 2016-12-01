@@ -11,18 +11,19 @@ import android.widget.BaseAdapter;
 import com.baoyz.swipemenu.xlistview.XListView;
 import com.baoyz.swipemenu.xlistview.XListView.IXListViewListener;
 import com.xiaoningmeng.HomeActivity;
-import com.xiaoningmeng.R;
-import com.xiaoningmeng.SearchActivity;
 import com.xiaoningmeng.adapter.SearchStoryListAdapter;
-import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.bean.PlayingStory;
-import com.xiaoningmeng.bean.Story;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
 
+import com.xiaoningmeng.R;
+import com.xiaoningmeng.SearchActivity;
+import com.xiaoningmeng.base.BaseFragment;
+import com.xiaoningmeng.bean.Story;
+
 import java.util.List;
 
-public class SearchStoryChildFragment extends BaseFragment implements IXListViewListener,PlayObserver{
+public class SearchStoryChildFragment extends BaseFragment implements IXListViewListener,PlayObserver {
 	private XListView mListView;
 	private SearchStoryListAdapter mAdapter;
 	private List<Story> stories;
@@ -86,7 +87,7 @@ public class SearchStoryChildFragment extends BaseFragment implements IXListView
 
 	@Override
 	public void onLoadMore() {
-		if(getActivity() instanceof  SearchActivity) {
+		if(getActivity() instanceof SearchActivity) {
 			((SearchActivity) getActivity()).moreSearch("story");
 		}else if(getActivity() instanceof HomeActivity){
 			//已被社区替换

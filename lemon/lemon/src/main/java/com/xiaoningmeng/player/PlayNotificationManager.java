@@ -22,7 +22,6 @@ import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.bean.PlayingStory;
-import com.xiaoningmeng.player.PlayerManager.PlayState;
 import com.xiaoningmeng.reminder.RemindBroadcastReceiver;
 
 public class PlayNotificationManager {
@@ -53,7 +52,7 @@ public class PlayNotificationManager {
     @SuppressWarnings("deprecation")
     public void show(PlayingStory playingMusic) {
 
-        if (playingMusic.playState == PlayState.STOP) {
+        if (playingMusic.playState == PlayerManager.PlayState.STOP) {
             return;
         }
         if (notification == null) {
@@ -94,7 +93,7 @@ public class PlayNotificationManager {
 
     private void showNotify(PlayingStory playingMusic) {
 
-        if (playingMusic.playState == PlayState.PAUSE) {
+        if (playingMusic.playState == PlayerManager.PlayState.PAUSE) {
             notifyView.setViewVisibility(R.id.notify_resume, View.VISIBLE);
             notifyView.setViewVisibility(R.id.notify_pause, View.GONE);
         } else {

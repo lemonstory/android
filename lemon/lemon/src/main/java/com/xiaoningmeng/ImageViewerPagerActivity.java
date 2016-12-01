@@ -1,6 +1,5 @@
 package com.xiaoningmeng;
 
-import android.graphics.Bitmap;
 import android.graphics.drawable.Animatable;
 import android.net.Uri;
 import android.os.Bundle;

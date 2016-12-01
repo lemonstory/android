@@ -15,11 +15,12 @@ import android.widget.TextView;
 import com.baidu.mobads.AdView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
-import com.xiaoningmeng.R;
 import com.xiaoningmeng.TagActivity;
 import com.xiaoningmeng.adapter.TagAdapter;
-import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.base.LazyFragment;
+
+import com.xiaoningmeng.R;
+import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.Tag;
 import com.xiaoningmeng.view.CollapsibleTextView;
 

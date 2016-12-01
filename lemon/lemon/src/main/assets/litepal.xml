@@ -3,17 +3,17 @@
 
     <!-- 数据库名称 -->
     <dbname value="audiodownload" />
-    
+
     <!-- 数据库版本号 -->
     <version value="1" />
-    
+
     <!-- 用于设定所有的映射模型 -->
     <list>
         <mapping class="com.xiaoningmeng.bean.Story" />
-         <mapping class="com.xiaoningmeng.bean.PlayStory" />
+        <mapping class="com.xiaoningmeng.bean.PlayStory" />
         <mapping class="com.xiaoningmeng.bean.AudioDownLoad" />
-        <mapping class="com.xiaoningmeng.bean.UserInfo"/>
-        <mapping class="com.xiaoningmeng.bean.AlbumInfo"/>
+        <mapping class="com.xiaoningmeng.bean.UserInfo" />
+        <mapping class="com.xiaoningmeng.bean.AlbumInfo" />
     </list>
 
 </litepal>

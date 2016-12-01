@@ -1,7 +1,7 @@
 package com.xiaoningmeng.http;
 
-import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.utils.NetUtils;
+import com.xiaoningmeng.application.MyApplication;
 
 import java.io.IOException;
 

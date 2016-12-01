@@ -17,17 +17,18 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.xiaoningmeng.adapter.SearchAdapter;
 import com.xiaoningmeng.adapter.SearchDefaultAdapter2;
 import com.xiaoningmeng.base.BaseActivity;
-import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.SearchContent;
 import com.xiaoningmeng.bean.SearchData;
 import com.xiaoningmeng.db.SearchDao;
 import com.xiaoningmeng.fragment.SearchAlbumChildFragment;
 import com.xiaoningmeng.fragment.SearchStoryChildFragment;
-import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.view.SearchView;
 import com.xiaoningmeng.view.TabIndicatorView;
+
+import com.xiaoningmeng.base.BaseFragment;
+import com.xiaoningmeng.http.JsonCallback;
 
 import java.util.ArrayList;
 import java.util.List;

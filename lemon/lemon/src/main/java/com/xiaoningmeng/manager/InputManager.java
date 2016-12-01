@@ -1,14 +1,13 @@
 package com.xiaoningmeng.manager;
 
-import com.xiaoningmeng.view.KeyboardRelativeLayout;
-import com.xiaoningmeng.view.KeyboardRelativeLayout.IOnKeyboardStateChangedListener;
-
 import android.content.Context;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ScrollView;
 
-public class InputManager implements IOnKeyboardStateChangedListener {
+import com.xiaoningmeng.view.KeyboardRelativeLayout;
+
+public class InputManager implements KeyboardRelativeLayout.IOnKeyboardStateChangedListener {
 	private InputMethodManager mInputMethodManager;// 键盘
 	private ScrollView scrollview;
 	private OnKeyBoardChangeListener listener;

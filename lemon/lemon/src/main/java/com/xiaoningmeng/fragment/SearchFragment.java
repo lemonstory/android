@@ -15,26 +15,25 @@ import android.widget.TextView;
 
 import com.baoyz.swipemenu.xlistview.XListView;
 import com.umeng.analytics.MobclickAgent;
-import com.xiaoningmeng.R;
 import com.xiaoningmeng.adapter.SearchAdapter;
 import com.xiaoningmeng.adapter.SearchDefaultAdapter2;
 import com.xiaoningmeng.base.BaseActivity;
-import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.SearchContent;
 import com.xiaoningmeng.bean.SearchData;
 import com.xiaoningmeng.db.SearchDao;
-import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.view.SearchView;
-import com.xiaoningmeng.view.SearchView.OnSearchViewListener;
 import com.xiaoningmeng.view.TabIndicatorView;
+import com.xiaoningmeng.R;
+import com.xiaoningmeng.base.BaseFragment;
+import com.xiaoningmeng.http.JsonCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class SearchFragment extends BaseFragment implements OnSearchViewListener, OnClickListener {
+public class SearchFragment extends BaseFragment implements SearchView.OnSearchViewListener, OnClickListener {
 
     private XListView mListView;
     private BaseActivity mContext;

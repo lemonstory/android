@@ -11,16 +11,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.xiaoningmeng.fragment.DownloadFragment;
+import com.xiaoningmeng.player.PlayerManager;
+
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.AudioDownLoad;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.download.DownLoadClientImpl;
 import com.xiaoningmeng.download.DownLoadObserver;
 import com.xiaoningmeng.download.DownLoadState;
-import com.xiaoningmeng.fragment.DownloadFragment;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
-import com.xiaoningmeng.player.PlayerManager;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 

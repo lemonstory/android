@@ -12,9 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.xiaoningmeng.R;
 import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.utils.AvatarUtils;
+import com.xiaoningmeng.R;
 
 import java.util.List;
 

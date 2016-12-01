@@ -4,9 +4,9 @@ import android.content.Context;
 
 import com.xiaoningmeng.bean.IRecyclerItem;
 import com.xiaoningmeng.bean.Index;
-import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.presenter.contract.DiscoverConstract;
+import com.xiaoningmeng.http.JsonCallback;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -15,7 +15,6 @@
 -keep public class * extends android.app.backup.BackupAgentHelper # 保持哪些类不被混淆
 -keep public class * extends android.preference.Preference        # 保持哪些类不被混淆
 -keep public class com.android.vending.licensing.ILicensingService    # 保持哪些类不被混淆
--keep public class com.xiaoningmeng.bean.**
 
 -keepclasseswithmembernames class * {  # 保持 native 方法不被混淆
     native <methods>;
@@ -91,6 +90,9 @@
 -keep class com.baoyz.**{*;}
 -keep class com.xiaoningmeng.bean.** { *; }
 -keep class com.xiaoningmeng.reminder.LMessageReceiver {*;}
+#小柠檬-儿歌故事精选
+-keep class net.xiaoningmeng.bean.** { *; }
+-keep class net.xiaoningmeng.reminder.LMessageReceiver {*;}
 #okhttputils
 -dontwarn com.zhy.http.**
 -keep class com.zhy.http.**{*;}
