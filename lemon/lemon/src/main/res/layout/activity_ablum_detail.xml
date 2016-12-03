@@ -111,6 +111,7 @@
                 app:roundWidth2="4dp"
                 app:style2="STROKE"
                 android:layout_alignBottom="@+id/img_ablum_detail_btn"
+                android:layout_alignRight="@+id/img_ablum_detail_btn"
                 android:layout_alignEnd="@+id/img_ablum_detail_btn" />
 
             <com.xiaoningmeng.view.RatingBar

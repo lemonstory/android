@@ -21,10 +21,6 @@ import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
-import com.xiaoningmeng.utils.TimeUtils;
-import com.xiaoningmeng.view.ShareDialog;
-import com.xiaoningmeng.view.dialog.TopDialog;
-
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
@@ -43,7 +39,10 @@ import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.utils.DebugUtils;
+import com.xiaoningmeng.utils.TimeUtils;
+import com.xiaoningmeng.view.ShareDialog;
 import com.xiaoningmeng.view.dialog.TipDialog;
+import com.xiaoningmeng.view.dialog.TopDialog;
 
 import de.greenrobot.event.EventBus;
 
@@ -261,7 +260,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
         final AlbumInfo albumInfo = mPlayerManager.getPlayingStory().albumInfo;
         //如果是搜索过来则没有专辑信息，需要重新加载
         if (albumInfo == null) {
-            LHttpRequest.getInstance().albumInfoReq(this,mPlayerManager.getPlayingStory().albumid,1,
+            LHttpRequest.getInstance().albumInfoReq(this, mPlayerManager.getPlayingStory().albumid, 1,
                     MyApplication.getInstance().getUid(),
                     new JsonCallback<Album>() {
 
@@ -411,7 +410,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
 
         if (isFirst) {
             isFirst = false;
-            if (coverRotateAnim != null) {
+            if (coverRotateAnim != null && (music.playState == PlayerManager.PlayState.PLAY || music.playState == PlayerManager.PlayState.START || music.playState == PlayerManager.PlayState.RESUME)) {
                 mPlayCover.startAnimation(coverRotateAnim);
             }
         }

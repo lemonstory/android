@@ -153,12 +153,16 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
                         AlbumInfo albumInfo = new AlbumInfo(
                                 item.getId(),
                                 item.getTitle(),
-                                "",
-                                "0",
+                                item.getIntro(),
+                                item.getStar_level(),
                                 item.getCover(),
                                 item.getListennum(),
                                 item.getStory_num(),
-                                0, 0, item.getRecommenddesc(), item.getAge_str(), "");
+                                item.getFavnum(),
+                                item.getCommentnum(),
+                                item.getRecommenddesc(),
+                                item.getAge_str(),
+                                item.getBuy_link());
                         i.putExtra("albumInfo", (Parcelable) albumInfo);
                         startActivityForNew(i);
                     }

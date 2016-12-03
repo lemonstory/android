@@ -20,6 +20,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.xiaoningmeng.R;
+
 /**
  * 圆形头像
  * 

@@ -12,6 +12,8 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="10dp"
         android:background="#FFFFFF"
+        android:drawablePadding="4dp"
+        android:drawableLeft="@drawable/bg_home_category_divider"
         android:gravity="left|center"
         android:paddingLeft="@dimen/page_padding_left"
         android:text="故事"

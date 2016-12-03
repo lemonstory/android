@@ -288,14 +288,14 @@ public class DownloadStoryActivity extends BaseActivity implements
 		if (type == HISTORY_TYPE || type == DOWNLOAD_TYPE)
 			PlayWaveManager.getInstance().notify(music);
 		switch (music.playState) {
-		case PlayerManager.PlayState.PLAY:
+		case PLAY:
 			if (music.current == 0) {
 				if (type == HISTORY_TYPE&& albumId.equals(PlayerManager.getInstance().getPlayingStory().albumid)) {
 					mAdapter.notifyDataSetChanged();
 				}
 			}
 			break;
-		case PlayerManager.PlayState.START:
+		case START:
 			if (type == HISTORY_TYPE&& albumId.equals(PlayerManager.getInstance().getPlayingStory().albumid)) {
 				mAdapter.notifyDataSetChanged();
 			}

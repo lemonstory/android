@@ -13,11 +13,12 @@
         android:id="@+id/tv_tag_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawablePadding="@dimen/base_radius_size"
+        android:drawablePadding="4dp"
+        android:drawableLeft="@drawable/bg_home_category_divider"
         android:paddingBottom="@dimen/base_radius_size"
         android:paddingTop="@dimen/mine_item_cover_margin_left"
         android:text="热门推荐"
-        android:textSize="@dimen/home_tab_size" />
+        android:textSize="@dimen/content_text_size" />
 
     <TextView
         android:id="@+id/tv_tag_more"

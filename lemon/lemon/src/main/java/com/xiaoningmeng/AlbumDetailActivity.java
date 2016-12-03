@@ -30,35 +30,35 @@ import com.umeng.socialize.UMShareAPI;
 import com.xiaoningmeng.application.ActivityManager;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.auth.UserAuth;
+import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.Album;
 import com.xiaoningmeng.bean.AlbumInfo;
+import com.xiaoningmeng.bean.AudioDownLoad;
 import com.xiaoningmeng.bean.CommentInfo;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.ShareBean;
+import com.xiaoningmeng.bean.Story;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.download.DownLoadClientImpl;
+import com.xiaoningmeng.download.DownLoadObserver;
 import com.xiaoningmeng.event.CommentEvent;
+import com.xiaoningmeng.event.FavEvent;
 import com.xiaoningmeng.fragment.AblumDetailIntroFragment;
 import com.xiaoningmeng.fragment.AblumDetailPlayListFragment;
+import com.xiaoningmeng.fragment.AblumSimilarFragment;
+import com.xiaoningmeng.http.JsonCallback;
+import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.utils.AppUtils;
+import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.utils.ImageUtils;
 import com.xiaoningmeng.view.CircleProgressBar;
-import com.xiaoningmeng.view.ShareDialog;
-import com.xiaoningmeng.view.dialog.TipDialog;
-
-import com.xiaoningmeng.base.BaseActivity;
-import com.xiaoningmeng.bean.AudioDownLoad;
-import com.xiaoningmeng.bean.Story;
-import com.xiaoningmeng.download.DownLoadObserver;
-import com.xiaoningmeng.event.FavEvent;
-import com.xiaoningmeng.fragment.AblumSimilarFragment;
-import com.xiaoningmeng.http.JsonCallback;
-import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.view.RatingBar;
+import com.xiaoningmeng.view.ShareDialog;
 import com.xiaoningmeng.view.StickyNavLayout;
+import com.xiaoningmeng.view.dialog.TipDialog;
 
 import java.util.List;
 
@@ -117,6 +117,7 @@ public class AlbumDetailActivity extends BaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        DebugUtils.d("AlbumDetailActivity -- onCreate --- is run");
         setContentView(R.layout.activity_ablum_detail);
         mContext = this;
         mViewPager = (ViewPager) findViewById(R.id.id_stickynavlayout_viewpager);
@@ -148,7 +149,6 @@ public class AlbumDetailActivity extends BaseActivity implements
         mPlayStoryId = getIntent().getStringExtra("playstoryid");
         AlbumInfo albumInfo = getIntent().getParcelableExtra(this.ARG_ALBUM_INFO);
         if (albumInfo != null) {
-
             mAlbumId = albumInfo.getId();
             fillAlbumInfoView(albumInfo);
         }
@@ -351,8 +351,19 @@ public class AlbumDetailActivity extends BaseActivity implements
         initShareSharedElementTransition();
         mRatingBar.setStar(albumInfo.getStar_level() != null ? Integer.parseInt(albumInfo.getStar_level()) : 0);
         mFavTv.setSelected(albumInfo.getFav() == 1);
-        mFavTv.setText(albumInfo.getFavnum() <= 0 ? "收藏" : Integer.toString(albumInfo.getFavnum()));
-        mCommentTv.setText(albumInfo.getCommentnum() <= 0 ? "评论" : Integer.toString(albumInfo.getCommentnum()));
+
+        //TODO:如果数字长度超过5位则需要格式化
+        String favNumStr = "收藏";
+        if(albumInfo.getFavnum() > 0 && Integer.toString(albumInfo.getFavnum()).length() < 5) {
+            favNumStr = Integer.toString(albumInfo.getFavnum());
+        }
+        mFavTv.setText(favNumStr);
+
+        String commentNumStr = "评论";
+        if(albumInfo.getCommentnum() > 0 && Integer.toString(albumInfo.getCommentnum()).length() < 5) {
+            commentNumStr = Integer.toString(albumInfo.getCommentnum());
+        }
+        mCommentTv.setText(commentNumStr);
         mListenerTv.setText(albumInfo.getListennum() != null ? String.valueOf(albumInfo.getListennum()) : "");
         mAgeLevelTv.setText(albumInfo.getAge_str());
         String albumBuyLink = albumInfo.getBuy_link();
@@ -602,49 +613,52 @@ public class AlbumDetailActivity extends BaseActivity implements
 //            return;
 //        }
 
-        switch (music.playState) {
-            case PLAY:
-                if (isFirst) {
+        if(mAlbumId.equals(music.albumid)) {
+            switch (music.playState) {
+                case PLAY:
+                    if (isFirst) {
+                        setTitleName(music.title);
+                        mPlayBtnImg.setImageResource(R.drawable.btn_album_pause);
+                        notifyPlayList();
+                    }
+                    mPlayProgressBar.setVisibility(View.VISIBLE);
+                    mPlayProgressBar.setMax(music.times);
+                    mPlayProgressBar.setProgress(music.current);
+                    break;
+                case START:
                     setTitleName(music.title);
                     mPlayBtnImg.setImageResource(R.drawable.btn_album_pause);
+                    mPlayProgressBar.setVisibility(View.VISIBLE);
+                    mPlayProgressBar.setMax(music.times);
                     notifyPlayList();
-                }
-                mPlayProgressBar.setVisibility(View.VISIBLE);
-                mPlayProgressBar.setMax(music.times);
-                mPlayProgressBar.setProgress(music.current);
-                break;
-            case START:
-                setTitleName(music.title);
-                mPlayBtnImg.setImageResource(R.drawable.btn_album_pause);
-                mPlayProgressBar.setVisibility(View.VISIBLE);
-                mPlayProgressBar.setMax(music.times);
-                notifyPlayList();
-                mPlayProgressBar.setProgress(music.current);
-                break;
-            case PAUSE:
-                setTitleName(music.title);
-                mPlayProgressBar.setMax(music.times);
-                mPlayProgressBar.setProgress(music.current);
-                mPlayBtnImg.setImageResource(R.drawable.btn_album_play);
-                notifyPlayList();
-                break;
-            case RESUME:
-                mPlayBtnImg.setImageResource(R.drawable.btn_album_pause);
-                notifyPlayList();
-                break;
-            case STOP:
-                setTitleName(music.title);
-                mPlayProgressBar.setMax(music.times == 0 ? 100 : music.times);
-                mPlayProgressBar.setProgress(music.current);
-                mPlayBtnImg.setImageResource(R.drawable.btn_album_play);
-                notifyPlayList();
-                break;
-            default:
-                break;
+                    mPlayProgressBar.setProgress(music.current);
+                    break;
+                case PAUSE:
+                    setTitleName(music.title);
+                    mPlayProgressBar.setMax(music.times);
+                    mPlayProgressBar.setProgress(music.current);
+                    mPlayBtnImg.setImageResource(R.drawable.btn_album_play);
+                    notifyPlayList();
+                    break;
+                case RESUME:
+                    mPlayBtnImg.setImageResource(R.drawable.btn_album_pause);
+                    notifyPlayList();
+                    break;
+                case STOP:
+                    setTitleName(music.title);
+                    mPlayProgressBar.setMax(music.times == 0 ? 100 : music.times);
+                    mPlayProgressBar.setProgress(music.current);
+                    mPlayBtnImg.setImageResource(R.drawable.btn_album_play);
+                    notifyPlayList();
+                    break;
+                default:
+                    break;
+            }
+            if (isFirst) {
+                isFirst = false;
+            }
         }
-        if (isFirst) {
-            isFirst = false;
-        }
+
     }
 
     public void notifyPlayList() {

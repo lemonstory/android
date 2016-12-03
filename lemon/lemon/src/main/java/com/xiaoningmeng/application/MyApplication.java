@@ -137,9 +137,11 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
         Cache cache = new Cache(cacheFile, 1024 * 1024 * 50); //50Mb
         CookieJarImpl cookieJar = new CookieJarImpl(new PersistentCookieStore(getApplicationContext()));
         CacheInterceptor cacheInterceptor = new CacheInterceptor();
+//        StethoInterceptor stethoInterceptor = new StethoInterceptor();
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .cookieJar(cookieJar)
                 .addInterceptor(new LoggerInterceptor(DebugUtils.TAG))
+                .addNetworkInterceptor(cacheInterceptor)
                 .addNetworkInterceptor(cacheInterceptor)
                 .addInterceptor(cacheInterceptor)
                 .cache(cache)
