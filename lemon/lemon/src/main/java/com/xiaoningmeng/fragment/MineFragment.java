@@ -280,9 +280,11 @@ public class MineFragment extends BaseFragment implements OnClickListener,XListV
 		int albumSzie = mAlbumList.size();
 		for(int i = 0; i <albumSzie ; i++){
 			ListenerAlbum album = mAlbumList.get(i);
-			if(album.getAlbumid().equals(historyEvent.albumId)){
-				mAlbumList.remove(album);
-				break;
+			if(null != album && null != album.getAlbumid() && null != historyEvent && null != historyEvent.albumId) {
+				if(album.getAlbumid().equals(historyEvent.albumId)){
+					mAlbumList.remove(album);
+					break;
+				}
 			}
 		}
 		mAlbumList.add(0,historyEvent.listenerAlbum);

@@ -37,10 +37,7 @@ public class SplashActivity extends BaseActivity {
         PlayerManager.getInstance(); // 初始化音乐播放器
         DownloadNotificationManager.getInstance();//初始化下载通知栏
         UploadManager.getInstance().uploadRecord();
-        if (UserAuth.getInstance().isFirst()) {
-            jumpGuideActivity();
-            return;
-        }
+
         int loadCountDown = PreferenceUtil.getInt("load_countdown");
         if (isLoadAd && loadCountDown > 3) {
             loadAd();
@@ -49,10 +46,7 @@ public class SplashActivity extends BaseActivity {
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Intent i = new Intent(SplashActivity.this, HomeActivity.class);
-                    startActivity(i);
-                    oldFinish();
-                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    jumpHomeActivity();
                 }
             }, LOGIN_TIME);
         }
@@ -116,11 +110,14 @@ public class SplashActivity extends BaseActivity {
 
     private void jumpWhenCanClick() {
         if (this.hasWindowFocus() || waitingOnRestart) {
-            jumpHomeActivity();
+            if (UserAuth.getInstance().isFirst()) {
+                jumpGuideActivity();
+            } else {
+                jumpHomeActivity();
+            }
         } else {
             waitingOnRestart = true;
         }
-
     }
 
     private void jumpHomeActivity() {

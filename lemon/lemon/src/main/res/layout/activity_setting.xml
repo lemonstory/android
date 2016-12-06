@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-     android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true">
 
     <include
         android:id="@+id/action_bar"
@@ -13,12 +13,12 @@
         android:layout_height="match_parent"
         android:layout_below="@id/action_bar"
         android:background="@color/home_bg"
-        android:scrollbars="none" >
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:id="@+id/rl_setting_reminder"
@@ -27,7 +27,7 @@
                 android:layout_marginTop="@dimen/account_item_margin_right"
                 android:background="@drawable/base_item_bg_selector"
                 android:clickable="true"
-                android:onClick="onClick" >
+                android:onClick="onClick">
 
                 <View style="@style/dividerStyle" />
 
@@ -81,7 +81,7 @@
                 android:layout_marginTop="@dimen/account_item_inv"
                 android:background="@drawable/base_item_bg_selector"
                 android:clickable="true"
-                android:onClick="onClick" >
+                android:onClick="onClick">
 
                 <View style="@style/dividerStyle" />
 
@@ -124,7 +124,7 @@
                 android:layout_height="@dimen/account_item_height"
                 android:background="@drawable/base_item_bg_selector"
                 android:clickable="true"
-                android:onClick="onClick" >
+                android:onClick="onClick">
 
                 <ImageView
                     android:id="@+id/img_setting_rate"
@@ -158,13 +158,14 @@
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="@dimen/account_item_margin_left" />
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/rl_setting_share"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/account_item_height"
                 android:background="@drawable/base_item_bg_selector"
                 android:clickable="true"
-                android:onClick="onClick" >
+                android:onClick="onClick">
 
                 <ImageView
                     android:id="@+id/img_setting_share"
@@ -198,13 +199,14 @@
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="@dimen/account_item_margin_left" />
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/rl_setting_check"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/account_item_height"
                 android:background="@drawable/base_item_bg_selector"
                 android:clickable="true"
-                android:onClick="onClick" >
+                android:onClick="onClick">
 
                 <ImageView
                     android:id="@+id/img_setting_check"
@@ -226,12 +228,27 @@
                     android:textSize="@dimen/title_content_text_size" />
 
                 <ImageView
+                    android:id="@+id/check_item_right_arrow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/account_item_margin_right"
                     android:src="@drawable/ic_item_right_arrow" />
+
+                <TextView
+                    android:id="@+id/tv_new_version_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:drawablePadding="4dp"
+                    android:drawableLeft="@drawable/red_dot_divider"
+                    android:layout_toLeftOf="@id/check_item_right_arrow"
+                    android:layout_marginRight="6dp"
+                    android:text="有新版本"
+                    android:textColor="@color/base_title_color"
+                    android:textSize="@dimen/home_tab_size"
+                    android:visibility="invisible"/>
 
                 <View
                     style="@style/dividerStyle"
@@ -245,7 +262,7 @@
                 android:layout_height="@dimen/account_item_height"
                 android:background="@drawable/base_item_bg_selector"
                 android:clickable="true"
-                android:onClick="onClick" >
+                android:onClick="onClick">
 
                 <ImageView
                     android:id="@+id/img_setting_feedback"
@@ -327,9 +344,9 @@
                 android:layout_marginRight="@dimen/account_item_margin_right"
                 android:layout_marginTop="@dimen/account_item_inv"
                 android:background="@drawable/setting_logout_bg_selector"
+                android:clickable="true"
                 android:drawableLeft="@drawable/ic_setting_logout"
                 android:drawablePadding="@dimen/base_radius_size"
-                android:clickable="true"
                 android:gravity="center_vertical"
                 android:onClick="onClick"
                 android:text="切换账号"

@@ -20,6 +20,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.drawable.ScalingUtils;
 import com.facebook.drawee.view.DraweeTransition;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -118,6 +119,7 @@ public class AlbumDetailActivity extends BaseActivity implements
 
         super.onCreate(savedInstanceState);
         DebugUtils.d("AlbumDetailActivity -- onCreate --- is run");
+        Fresco.initialize(this);
         setContentView(R.layout.activity_ablum_detail);
         mContext = this;
         mViewPager = (ViewPager) findViewById(R.id.id_stickynavlayout_viewpager);
@@ -504,7 +506,7 @@ public class AlbumDetailActivity extends BaseActivity implements
         if (albumInfo != null) {
             //推荐分享
             //三星市场不容许下载前出现提示框.
-            this.showShareDialog(albumInfo.getTitle());
+            //this.showShareDialog(albumInfo.getTitle());
             //批量下载
             if (storyList != null && storyList.size() > 0) {
                 for (int i = 0; i < storyList.size(); i++) {

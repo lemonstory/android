@@ -14,23 +14,20 @@ import com.alibaba.baichuan.android.trade.AlibcTradeSDK;
 import com.alibaba.baichuan.android.trade.callback.AlibcTradeInitCallback;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.squareup.leakcanary.LeakCanary;
-import com.tencent.bugly.crashreport.CrashReport;
-import com.tencent.bugly.crashreport.CrashReport.UserStrategy;
+import com.tencent.bugly.Bugly;
 import com.umeng.socialize.PlatformConfig;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xiaoningmeng.bean.AppInfo;
 import com.xiaoningmeng.bean.UserInfo;
+import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.CacheInterceptor;
 import com.xiaoningmeng.http.OSSAuth;
-import com.xiaoningmeng.utils.AppUtils;
+import com.xiaoningmeng.player.MusicService;
 import com.xiaoningmeng.utils.DebugUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.cookie.CookieJarImpl;
 import com.zhy.http.okhttp.cookie.store.PersistentCookieStore;
 import com.zhy.http.okhttp.log.LoggerInterceptor;
-
-import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.player.MusicService;
 
 import org.litepal.LitePalApplication;
 
@@ -80,16 +77,8 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
             Fresco.initialize(this);
             OSSAuth.getInstance().init(this);
 
-            //https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20161115202144
-            //Bugly上报进程的策略配置
-            Context context = getApplicationContext();
-            String packageName = context.getPackageName();
-            String processName = AppUtils.getProcessName(android.os.Process.myPid());
-            UserStrategy strategy = new UserStrategy(context);
-            strategy.setUploadProcess(processName == null || processName.equals(packageName));
-
-            //Bugly上报进程的策略配置
-            CrashReport.initCrashReport(getApplicationContext(), strategy);
+            //https://bugly.qq.com/docs/user-guide/instruction-manual-android-upgrade/
+            Bugly.init(getApplicationContext(), "900008353", false);
 
             initOkHttpClient();
             //阿里百川
