@@ -45,6 +45,8 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
     private String playStoryId;
     private int mCurrentPlayTime = 0;
     private int pageSize = 50;
+    //单屏显示的数据量
+    private int singleScreenItemNum = 6;
     private int delayMillis = 1000;
     private EmptyHelper mEmptyHelper;
     private boolean isErr;
@@ -164,7 +166,7 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
         }
         isErr = false;
 
-        if(this.mStories.size() < pageSize) {
+        if(this.mStories.size() < pageSize && this.mStories.size() > singleScreenItemNum) {
             mAdapter.addFooterView(notLoadingView);
         }
     }
@@ -233,7 +235,8 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
             @Override
             public void run() {
 
-                if (mAdapter.getData().size() >= storysTotal) {
+                int mAdapterItemsTotal = mAdapter.getData().size();
+                if (mAdapterItemsTotal >= storysTotal && mAdapterItemsTotal > singleScreenItemNum) {
                     mAdapter.loadComplete();
                     mAdapter.addFooterView(notLoadingView);
                 } else {
