@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/img_avatar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="@dimen/ablum_comment_item_margin_bottom"
+            android:layout_marginLeft="@dimen/ablum_comment_item_margin_left"
+            android:layout_marginRight="@dimen/ablum_comment_item_margin_bottom"
+            android:layout_marginTop="@dimen/ablum_comment_item_margin_left"
+            fresco:placeholderImage="@drawable/bg_avatar_default"
+            fresco:roundAsCircle="true"
+            fresco:roundWithOverlayColor="@color/white"/>
+
+        <TextView
+            android:id="@+id/tv_author_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@id/img_avatar"
+            android:text="甜心姐姐"
+            android:textColor="#4A4A4A"
+            android:textSize="@dimen/content_text_size" />
+
+        <TextView
+            android:id="@+id/tv_album_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="@dimen/ablum_comment_item_margin_bottom"
+            android:layout_toRightOf="@+id/tv_author_name"
+            android:layout_alignBaseline="@+id/tv_author_name"
+            android:background="@drawable/bg_album_num"
+            android:text="36"
+            android:textColor="#c6cdd3"
+            android:textSize="@dimen/content_text_size"
+            />
+
+        <TextView
+            android:id="@+id/tv_author_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_author_name"
+            android:layout_marginTop="4dp"
+            android:layout_toRightOf="@id/img_avatar"
+            android:text="一句话介绍"
+            android:textColor="@color/base_date_color"
+            android:textSize="@dimen/date_text_size" />
+
+        <View
+            android:id="@+id/v_divider"
+            style="@style/dividerStyle"
+            android:layout_below="@id/tv_author_card"
+            android:layout_marginTop="@dimen/ablum_comment_item_margin_bottom"
+            android:layout_toRightOf="@id/img_avatar" />
+    </RelativeLayout>
+</FrameLayout>

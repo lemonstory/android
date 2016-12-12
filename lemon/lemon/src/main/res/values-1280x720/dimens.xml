@@ -6,7 +6,7 @@
     <dimen name="title_content_text_size">16sp</dimen>
     <dimen name="content_text_size">14sp</dimen>
     <dimen name="story_title_text_size">15sp</dimen>
-     <dimen name="home_tab_size">13sp</dimen>
+    <dimen name="home_tab_size">13sp</dimen>
     <dimen name="date_text_size">12sp</dimen>
     <dimen name="recomment_text_size">11sp</dimen>
     <dimen name="small_text_size">10sp</dimen>
@@ -178,20 +178,20 @@
     <dimen name="play_seekbar_margin">23dp</dimen>
     <dimen name="play_seekbar_margin_top">18dp</dimen>
     <dimen name="play_seekbar_margin_bottom">23dp</dimen>
-    
+
     <dimen name="play_bottom_height">148dp</dimen>
-    
+
     <dimen name="play_center_margin">33dp</dimen>
-      <dimen name="play_center_margin_bottom">17dp</dimen>
-       <dimen name="play_center_margin_top">17dp</dimen>
-       <dimen name="play_cover_width">250dp</dimen>
-        <dimen name="play_cover_new_margin_top">10dp</dimen>
-        
-         <dimen name="play_bottom_height2">135dp</dimen>
-      <dimen name="play_center_margin_bottom2">10dp</dimen>
-       <dimen name="play_center_margin_top2">8dp</dimen>
-       <dimen name="play_cover_width2">235dp</dimen>
-        <dimen name="play_cover_new_margin_top2">8dp</dimen>
+    <dimen name="play_center_margin_bottom">17dp</dimen>
+    <dimen name="play_center_margin_top">17dp</dimen>
+    <dimen name="play_cover_width">250dp</dimen>
+    <dimen name="play_cover_new_margin_top">10dp</dimen>
+
+    <dimen name="play_bottom_height2">135dp</dimen>
+    <dimen name="play_center_margin_bottom2">10dp</dimen>
+    <dimen name="play_center_margin_top2">8dp</dimen>
+    <dimen name="play_cover_width2">235dp</dimen>
+    <dimen name="play_cover_new_margin_top2">8dp</dimen>
     <!-- dialog -->
     <dimen name="home_info_pic_size">36dp</dimen>
 
@@ -204,11 +204,11 @@
     <dimen name="share_item_margin">16dp</dimen>
     <dimen name="share_new_title_margin_top">30dp</dimen>
     <dimen name="share_new_title_margin_bottom">22dp</dimen>
-      <dimen name="share_new_item_margin">6dp</dimen>
-       <dimen name="share_new_item_margin_bottom">36dp</dimen>
-        <dimen name="share_new_btn_margin_bottom">6dp</dimen>
-         <dimen name="share_new_btn_margin_left">22dp</dimen>
-            <dimen name="share_new_margin_bottom">12dp</dimen>
+    <dimen name="share_new_item_margin">6dp</dimen>
+    <dimen name="share_new_item_margin_bottom">36dp</dimen>
+    <dimen name="share_new_btn_margin_bottom">6dp</dimen>
+    <dimen name="share_new_btn_margin_left">22dp</dimen>
+    <dimen name="share_new_margin_bottom">12dp</dimen>
     <!-- login -->
 
     <dimen name="login_btn_margin_bottom">56dp</dimen>
@@ -253,4 +253,12 @@
 
     <!--category-->
     <dimen name="category_age_level_icon_height">26dp</dimen>
+
+    <!-- author albums -->
+    <dimen name="author_albums_item_img_width">146dp</dimen>
+    <dimen name="author_albums_item_img_height">100dp</dimen>
+
+    <dimen name="author_albums_avatar_width">60dp</dimen>
+    <dimen name="author_albums_avatar_height">60dp</dimen>
+
 </resources>

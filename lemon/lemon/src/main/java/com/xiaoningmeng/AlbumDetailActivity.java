@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.URLUtil;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -53,7 +54,6 @@ import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.utils.AppUtils;
-import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.utils.ImageUtils;
 import com.xiaoningmeng.view.CircleProgressBar;
 import com.xiaoningmeng.view.RatingBar;
@@ -118,7 +118,6 @@ public class AlbumDetailActivity extends BaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        DebugUtils.d("AlbumDetailActivity -- onCreate --- is run");
         Fresco.initialize(this);
         setContentView(R.layout.activity_ablum_detail);
         mContext = this;
@@ -344,10 +343,12 @@ public class AlbumDetailActivity extends BaseActivity implements
 
         mAlbumTitleTv.setText(albumInfo.getTitle());
         setTitleName(albumInfo.getTitle());
-        Uri uri = Uri.parse(albumInfo.getCover());
-        if (albumCoverUri == null || (albumCoverUri != null && albumCoverUri.compareTo(uri) != 0)) {
-            albumCoverUri = uri;
-            ImageUtils.displayImage(this, mCoverImg, albumCoverUri, 300, 300);
+        if (URLUtil.isValidUrl(albumInfo.getCover())) {
+            Uri uri = Uri.parse(albumInfo.getCover());
+            if (albumCoverUri == null || (albumCoverUri != null && albumCoverUri.compareTo(uri) != 0)) {
+                albumCoverUri = uri;
+                ImageUtils.displayImage(this, mCoverImg, albumCoverUri, 300, 300);
+            }
         }
 
         initShareSharedElementTransition();
@@ -356,13 +357,13 @@ public class AlbumDetailActivity extends BaseActivity implements
 
         //TODO:如果数字长度超过5位则需要格式化
         String favNumStr = "收藏";
-        if(albumInfo.getFavnum() > 0 && Integer.toString(albumInfo.getFavnum()).length() < 5) {
+        if (albumInfo.getFavnum() > 0 && Integer.toString(albumInfo.getFavnum()).length() < 5) {
             favNumStr = Integer.toString(albumInfo.getFavnum());
         }
         mFavTv.setText(favNumStr);
 
         String commentNumStr = "评论";
-        if(albumInfo.getCommentnum() > 0 && Integer.toString(albumInfo.getCommentnum()).length() < 5) {
+        if (albumInfo.getCommentnum() > 0 && Integer.toString(albumInfo.getCommentnum()).length() < 5) {
             commentNumStr = Integer.toString(albumInfo.getCommentnum());
         }
         mCommentTv.setText(commentNumStr);
@@ -611,11 +612,10 @@ public class AlbumDetailActivity extends BaseActivity implements
 
         PlayWaveManager.getInstance().notify(music);
 //        if (albumInfo == null || !albumInfo.getId().equals(music.albumid)) {
-//            DebugUtils.d("FUCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCK!!!!");
 //            return;
 //        }
 
-        if(mAlbumId.equals(music.albumid)) {
+        if (mAlbumId.equals(music.albumid)) {
             switch (music.playState) {
                 case PLAY:
                     if (isFirst) {

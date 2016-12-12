@@ -319,4 +319,10 @@
 
     <!--category-->
     <dimen name="category_age_level_icon_height">23dp</dimen>
+
+    <!-- author albums -->
+    <dimen name="author_albums_item_img_width">146dp</dimen>
+    <dimen name="author_albums_item_img_height">100dp</dimen>
+    <dimen name="author_albums_avatar_width">60dp</dimen>
+    <dimen name="author_albums_avatar_height">60dp</dimen>
 </resources>

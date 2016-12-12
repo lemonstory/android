@@ -43,7 +43,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/img_ablum_detail_cover"
                 android:layout_alignTop="@+id/img_ablum_detail_cover"
-                android:background="@drawable/bg_listen_num">
+                android:background="@drawable/bg_listen_num"
+                android:layout_alignLeft="@+id/img_ablum_detail_cover">
 
                 <TextView
                     android:id="@+id/tv_ablum_listen_num"
@@ -51,6 +52,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
                     android:drawableLeft="@drawable/ic_album_listener"
                     android:drawablePadding="4dp"
                     android:gravity="right"
@@ -74,7 +76,8 @@
                 android:textColor="#4A4A4A"
                 android:textSize="@dimen/title_content_text_size"
                 android:layout_alignTop="@+id/img_ablum_detail_cover"
-                android:layout_toEndOf="@+id/img_ablum_detail_cover" />
+                android:layout_toEndOf="@+id/img_ablum_detail_cover"
+                android:layout_toRightOf="@+id/img_ablum_detail_cover" />
 
             <TextView
                 android:id="@+id/tv_ablum_age_level"

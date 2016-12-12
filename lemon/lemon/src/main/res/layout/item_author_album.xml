@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_album_info_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/base_margin"
+    android:paddingTop="@dimen/base_margin"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/img_album_cover"
+        android:layout_width="@dimen/author_albums_item_img_width"
+        android:layout_height="@dimen/author_albums_item_img_height"
+        android:layout_gravity="center_vertical"
+        android:transitionName="albumImage"
+        fresco:actualImageScaleType="centerCrop"
+        fresco:backgroundImage="@drawable/bg_album_default"
+        fresco:placeholderImage="@drawable/bg_album_default"
+        fresco:roundedCornerRadius="3dp" />
+
+    <TextView
+        android:id="@+id/tv_album_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_toEndOf="@+id/img_album_cover"
+        android:layout_toRightOf="@+id/img_album_cover"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text=""
+        android:textColor="#4A4A4A"
+        android:textSize="@dimen/content_text_size" />
+
+    <TextView
+        android:id="@+id/tv_album_age_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tv_album_title"
+        android:layout_alignStart="@+id/tv_album_title"
+        android:layout_below="@+id/tv_album_title"
+        android:layout_marginTop="4dp"
+        android:text=""
+        android:textColor="#B8B8B8"
+        android:textSize="@dimen/date_text_size" />
+
+    <TextView
+        android:id="@+id/tv_album_listen_num"
+        style="@style/discover_recommend_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tv_album_age_level"
+        android:layout_alignStart="@+id/tv_album_age_level"
+        android:layout_below="@+id/tv_album_age_level"
+        android:layout_marginTop="4dp"
+        android:drawableLeft="@drawable/ic_player"
+        android:drawablePadding="@dimen/base_radius_size"
+        android:text=""
+        android:textColor="@color/base_date_color"
+        android:textSize="@dimen/date_text_size" />
+
+    <TextView
+        android:id="@+id/tv_album_recommend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tv_album_listen_num"
+        android:layout_alignStart="@+id/tv_album_listen_num"
+        android:layout_below="@+id/tv_album_listen_num"
+        android:layout_marginTop="4dp"
+        android:lineSpacingExtra="2dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text=""
+        android:textColor="#656565"
+        android:textSize="@dimen/date_text_size" />
+
+</RelativeLayout>

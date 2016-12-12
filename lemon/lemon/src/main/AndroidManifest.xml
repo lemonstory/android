@@ -49,18 +49,18 @@
         android:theme="@style/LemonTheme"
         tools:replace="android:icon, android:theme,android:allowBackup">
 
-        <!--bugly 初始化-start-->
-        <!--https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20161115202144-->
-        <!--小柠檬-听儿歌故事-start-->
+        <!-- bugly 初始化-start -->
+        <!-- https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20161115202144 -->
+        <!-- 小柠檬-听儿歌故事-start -->
         <meta-data
             android:name="BUGLY_APPID"
             android:value="900008353" />
-        <!--小柠檬-听儿歌故事-end-->
-        <!--小柠檬-儿歌故事精选-start-->
-        <!--<meta-data-->
-        <!--android:name="BUGLY_APPID"-->
-        <!--android:value="656ef962af" />-->
-        <!--小柠檬-儿歌故事精选-end-->
+        <!-- 小柠檬-听儿歌故事-end -->
+        <!-- 小柠檬-儿歌故事精选-start -->
+        <!-- <meta-data -->
+        <!-- android:name="BUGLY_APPID" -->
+        <!-- android:value="656ef962af" /> -->
+        <!-- 小柠檬-儿歌故事精选-end -->
 
         <meta-data
             android:name="BUGLY_APP_VERSION"
@@ -71,19 +71,23 @@
         <meta-data
             android:name="BUGLY_ENABLE_DEBUG"
             android:value="true" />
-        <!--bugly 初始化-end-->
+        <!-- bugly 初始化-end -->
 
-        <!--baidu -start-->
+
+        <!-- baidu -start -->
         <meta-data
             android:name="BaiduMobAd_APP_ID"
             android:value="dc0666d1" />
-        <activity android:name="com.baidu.mobads.AppActivity"
+
+        <activity
+            android:name="com.baidu.mobads.AppActivity"
             android:configChanges="keyboard|keyboardHidden|orientation"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <!--baidu -end-->
+        <!-- baidu -end -->
 
-        <!--tencent -start-->
-        <!--https://bugly.qq.com/docs/user-guide/instruction-manual-android-upgrade/-->
+
+        <!-- tencent -start -->
+        <!-- https://bugly.qq.com/docs/user-guide/instruction-manual-android-upgrade/ -->
         <activity
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
             android:theme="@android:style/Theme.Translucent" />
@@ -95,18 +99,19 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
-        <!--tencent -end-->
+        <!-- tencent -end -->
 
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/LemonTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".LoginActivity"
@@ -388,14 +393,14 @@
             android:name="com.umeng.update.UpdateDialogActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        <!--小柠檬-听儿歌故事-->
+        <!-- 小柠檬-听儿歌故事 -->
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="55dea25567e58ec201004d4e" />
-        <!--小柠檬-儿歌故事精选-->
-        <!--<meta-data-->
-            <!--android:name="UMENG_APPKEY"-->
-            <!--android:value="583d338075ca3555b3000658" />-->
+        <!-- 小柠檬-儿歌故事精选 -->
+        <!-- <meta-data -->
+        <!-- android:name="UMENG_APPKEY" -->
+        <!-- android:value="583d338075ca3555b3000658" /> -->
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}" />
@@ -466,6 +471,10 @@
                 <data android:path="/default/v2.6/same_age_list.php" />
                 <data android:path="/default/v2.6/online_list.php" />
             </intent-filter>
+        </activity>
+        <activity android:name=".AuthorAlbumsActivity">
+        </activity>
+        <activity android:name=".AuthorsActivity">
         </activity>
     </application>
 

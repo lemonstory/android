@@ -21,8 +21,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.umeng.analytics.MobclickAgent;
-import com.xiaoningmeng.bean.IRecyclerItem;
-import com.xiaoningmeng.utils.AppUtils;
 import com.xiaoningmeng.AlbumDetailActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.WebViewActivity;
@@ -30,13 +28,14 @@ import com.xiaoningmeng.adapter.IndexAdapter;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.bean.AlbumInfo;
+import com.xiaoningmeng.bean.IRecyclerItem;
 import com.xiaoningmeng.bean.Index;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.manager.DownloadApkManager;
 import com.xiaoningmeng.manager.EmptyHelper;
 import com.xiaoningmeng.presenter.DiscoverPresenter;
 import com.xiaoningmeng.presenter.contract.DiscoverConstract;
-import com.xiaoningmeng.utils.DebugUtils;
+import com.xiaoningmeng.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -107,7 +106,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         DiscoverFragment.this.getActivity().startActivity(intent);
                         //点击计数
-                        DiscoverFragment.this.tagCountStat(categoryInfo.getTitle(),categoryInfo.getLinkurl());
+                        DiscoverFragment.this.tagCountStat(categoryInfo.getTitle(), categoryInfo.getLinkurl());
                         break;
 
                     case Index.AD_TYPE:
@@ -323,16 +322,16 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
 
     /**
      * 标签点击计数
+     *
      * @param title
      * @param linkurl
      */
-    private void tagCountStat(String title,String linkurl) {
+    private void tagCountStat(String title, String linkurl) {
 
         //计数统计
         Uri uri = Uri.parse(linkurl);
         String tagId = uri.getQueryParameter("tag_id");
-        DebugUtils.d("tagId ======= " + tagId);
-        if(null != tagId) {
+        if (null != tagId) {
             HashMap<String, String> tagMap = new HashMap<String, String>();
             tagMap.put("tagId", tagId);
             tagMap.put("tagName", title);

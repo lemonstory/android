@@ -52,7 +52,7 @@ public class IndexAdapter extends BaseMultiItemQuickAdapter<IRecyclerItem, BaseV
                 AlbumInfo albumInfo = (AlbumInfo) item;
                 helper.setText(R.id.tv_album_title, albumInfo.getTitle())
                         .setText(R.id.tv_album_recommend, albumInfo.getRecommenddesc())
-                        .setText(R.id.tv_album_listen_num, albumInfo.getListennum() + "");
+                        .setText(R.id.tv_album_listen_num, albumInfo.getListennum());
                 SimpleDraweeView albumImg = helper.getView(R.id.img_album_cover);
                 albumImg.setImageURI(Uri.parse(albumInfo.getCover()));
                 break;
