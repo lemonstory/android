@@ -46,7 +46,7 @@ public class IndexAdapter extends BaseMultiItemQuickAdapter<IRecyclerItem, BaseV
                 break;
 
             case Index.ALBUM_MORE_TYPE:
-                Index.AlbumSectionBean.ItemBean albumItemBean = (Index.AlbumSectionBean.ItemBean) item;
+                Index.MoreItemBean albumItemBean = (Index.MoreItemBean) item;
                 helper.setText(R.id.tv_tag_title, albumItemBean.getTitle())
                         .addOnClickListener(R.id.tv_tag_more);
                 break;
@@ -68,12 +68,12 @@ public class IndexAdapter extends BaseMultiItemQuickAdapter<IRecyclerItem, BaseV
                 break;
 
             case Index.AUTHOR_TYPE:
-                Index.AuthorSectionBean.AuthorItemBean author = (Index.AuthorSectionBean.AuthorItemBean) item;
+                Index.AuthorItemBean author = (Index.AuthorItemBean) item;
                 helper.setText(R.id.tv_author_name, author.getNickname());
 
                 //头像
                 SimpleDraweeView avatarImg = helper.getView(R.id.img_avatar);
-                if(URLUtil.isValidUrl(author.getAvatar())) {
+                if (URLUtil.isValidUrl(author.getAvatar())) {
                     Uri avatarUri = Uri.parse(author.getAvatar());
                     avatarImg.setImageURI(avatarUri);
                 }

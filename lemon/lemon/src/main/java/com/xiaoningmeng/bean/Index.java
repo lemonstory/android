@@ -20,7 +20,7 @@ public class Index {
     private ContentCategoryBean content_category;
     private AlbumSectionBean album_section;
     private AdBean ad;
-    private AuthorSectionBean author_section;
+    private MoreItemBean<AuthorItemBean> author_section;
 
     public FocusPicBean getFocus_pic() {
         return focus_pic;
@@ -55,11 +55,11 @@ public class Index {
         this.ad = ad;
     }
 
-    public AuthorSectionBean getAuthor_section() {
+    public MoreItemBean<AuthorItemBean> getAuthor_section() {
         return author_section;
     }
 
-    public void setAuthor_section(AuthorSectionBean author_section) {
+    public void setAuthor_section(MoreItemBean<AuthorItemBean> author_section) {
         this.author_section = author_section;
     }
 
@@ -189,66 +189,55 @@ public class Index {
     public static class AlbumSectionBean {
 
 
-        private List<ItemBean> items;
+        private List<MoreItemBean<AlbumInfo>> items;
 
-        public List<ItemBean> getItems() {
+        public List<MoreItemBean<AlbumInfo>> getItems() {
             return items;
         }
 
-        public void setItems(List<ItemBean> items) {
+        public void setItems(List<MoreItemBean<AlbumInfo>> items) {
+            this.items = items;
+        }
+    }
+
+    public static class MoreItemBean<T> implements IRecyclerItem {
+
+        private List<T> items;
+        private String title;
+        private String linkurl;
+
+        public List<T> getItems() {
+            return items;
+        }
+
+        public void setItems(List<T> items) {
             this.items = items;
         }
 
+        @Override
+        public int getSpanSize() {
+            return 4;
+        }
 
-        public static class ItemBean implements IRecyclerItem {
+        @Override
+        public int getItemType() {
+            return ALBUM_MORE_TYPE;
+        }
 
-            private List<AlbumInfo> items;
-            private String tag_id;
-            private String title;
-            private String linkurl;
+        public String getTitle() {
+            return title;
+        }
 
+        public void setTitle(String title) {
+            this.title = title;
+        }
 
-            public List<AlbumInfo> getItems() {
-                return items;
-            }
+        public String getLinkurl() {
+            return linkurl;
+        }
 
-            public void setItems(List<AlbumInfo> items) {
-                this.items = items;
-            }
-
-            @Override
-            public int getSpanSize() {
-                return 4;
-            }
-
-            @Override
-            public int getItemType() {
-                return ALBUM_MORE_TYPE;
-            }
-
-            public String getTag_id() {
-                return tag_id;
-            }
-
-            public void setTag_id(String tag_id) {
-                this.tag_id = tag_id;
-            }
-
-            public String getTitle() {
-                return title;
-            }
-
-            public void setTitle(String title) {
-                this.title = title;
-            }
-
-            public String getLinkurl() {
-                return linkurl;
-            }
-
-            public void setLinkurl(String linkurl) {
-                this.linkurl = linkurl;
-            }
+        public void setLinkurl(String linkurl) {
+            this.linkurl = linkurl;
         }
     }
 
@@ -306,47 +295,16 @@ public class Index {
         }
     }
 
-    public static class AuthorSectionBean {
+    public static class AuthorItemBean extends Author implements IRecyclerItem {
 
-        private int total;
-        private String linkurl;
-        private List<AuthorItemBean> items;
-
-        public int getTotal() {
-            return total;
+        @Override
+        public int getSpanSize() {
+            return 1;
         }
 
-        public void setTotal(int total) {
-            this.total = total;
-        }
-
-        public String getLinkurl() {
-            return linkurl;
-        }
-
-        public void setLinkurl(String linkurl) {
-            this.linkurl = linkurl;
-        }
-
-        public List<AuthorItemBean> getItems() {
-            return items;
-        }
-
-        public void setItems(List<AuthorItemBean> items) {
-            this.items = items;
-        }
-
-        public static class AuthorItemBean extends Author implements IRecyclerItem {
-
-            @Override
-            public int getSpanSize() {
-                return 1;
-            }
-
-            @Override
-            public int getItemType() {
-                return AUTHOR_TYPE;
-            }
+        @Override
+        public int getItemType() {
+            return AUTHOR_TYPE;
         }
     }
 }

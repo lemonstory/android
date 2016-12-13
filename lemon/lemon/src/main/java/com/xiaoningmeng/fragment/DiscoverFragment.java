@@ -118,7 +118,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
                         break;
 
                     case Index.AUTHOR_TYPE:
-                        Index.AuthorSectionBean.AuthorItemBean authorItem = (Index.AuthorSectionBean.AuthorItemBean) iRecyclerItem;
+                        Index.AuthorItemBean authorItem = (Index.AuthorItemBean) iRecyclerItem;
                         Intent authorIntent = new Intent(DiscoverFragment.this.getActivity(), AuthorAlbumsActivity.class);
                         authorIntent.putExtra("author_uid", authorItem.getUid());
                         authorIntent.putExtra("author", authorItem);
@@ -133,7 +133,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
                 IRecyclerItem iRecyclerItem = mAdapter.getItem(position);
                 switch (iRecyclerItem.getItemType()) {
                     case Index.ALBUM_MORE_TYPE:
-                        Index.AlbumSectionBean.ItemBean albumSectionItem = (Index.AlbumSectionBean.ItemBean) iRecyclerItem;
+                        Index.MoreItemBean albumSectionItem = (Index.MoreItemBean) iRecyclerItem;
                         Uri albumSectionItemLinkUri = Uri.parse(albumSectionItem.getLinkurl());
                         Intent moreIntent = new Intent();
                         moreIntent.putExtra("pageTitle", albumSectionItem.getTitle());

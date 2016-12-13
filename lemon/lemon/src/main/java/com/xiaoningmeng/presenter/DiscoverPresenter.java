@@ -2,12 +2,12 @@ package com.xiaoningmeng.presenter;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
 import com.xiaoningmeng.bean.IRecyclerItem;
 import com.xiaoningmeng.bean.Index;
 import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.presenter.contract.DiscoverConstract;
-import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +51,7 @@ public class DiscoverPresenter implements DiscoverConstract.Presenter {
             @Override
             public void onGetDataSuccess(Index data) {
                 if (null != data) {
+                    final Gson gsonObj = new Gson();
                     discoverView.requestBannderSuccess(data.getFocus_pic());
                     Observable.just(data).map(new Func1<Index, List<IRecyclerItem>>() {
 
@@ -64,7 +65,7 @@ public class DiscoverPresenter implements DiscoverConstract.Presenter {
                             }
 
                             for (int i = 0; i < data.getAlbum_section().getItems().size(); i++) {
-                                Index.AlbumSectionBean.ItemBean itemBean = data.getAlbum_section().getItems().get(i);
+                                Index.MoreItemBean itemBean = data.getAlbum_section().getItems().get(i);
                                 iRecyclerItems.add(itemBean);
                                 iRecyclerItems.addAll(itemBean.getItems());
                                 if (data.getAd().getItems().size() > i) {
@@ -72,12 +73,11 @@ public class DiscoverPresenter implements DiscoverConstract.Presenter {
                                 }
                             }
 
-                            for (int i = 0; i < data.getAuthor_section().getItems().size(); i++) {
-                                Index.AuthorSectionBean.AuthorItemBean itemBean = data.getAuthor_section().getItems().get(i);
-                                DebugUtils.d("itemBean = " + itemBean);
-                                iRecyclerItems.add(itemBean);
-                            }
+                            Index.MoreItemBean authorSectionBean = data.getAuthor_section();
+                            iRecyclerItems.add(authorSectionBean);
+                            iRecyclerItems.addAll(authorSectionBean.getItems());
                             return iRecyclerItems;
+
                         }
                     }).subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
