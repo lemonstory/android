@@ -4,27 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:gravity="center">
+    android:paddingBottom="@dimen/base_margin"
+    android:paddingTop="@dimen/base_margin">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/img_avatar"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="@dimen/ablum_comment_item_margin_bottom"
-        android:layout_marginTop="@dimen/ablum_comment_item_margin_left"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         fresco:placeholderImage="@drawable/bg_avatar_default"
         fresco:roundAsCircle="true"
-        fresco:roundWithOverlayColor="@color/white" />
+        fresco:roundWithOverlayColor="@color/white"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/tv_author_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_below="@id/img_avatar"
+        android:gravity="center"
         android:text=""
         android:textColor="#4A4A4A"
-        android:textSize="@dimen/content_text_size" />
+        android:textSize="@dimen/home_tab_size" />
 
 </RelativeLayout>

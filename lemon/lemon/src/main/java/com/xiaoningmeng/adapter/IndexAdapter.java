@@ -28,7 +28,6 @@ public class IndexAdapter extends BaseMultiItemQuickAdapter<IRecyclerItem, BaseV
         addItemType(Index.ALBUM_MORE_TYPE, R.layout.item_index_more);
         addItemType(Index.ALBUM_TYPE, R.layout.item_album_info);
         addItemType(Index.AD_TYPE, R.layout.item_index_ad);
-        addItemType(Index.AD_TYPE, R.layout.item_index_ad);
         addItemType(Index.AUTHOR_TYPE, R.layout.item_author_vertical);
     }
 
