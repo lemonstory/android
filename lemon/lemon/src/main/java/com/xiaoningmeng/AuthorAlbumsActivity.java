@@ -308,7 +308,10 @@ public class AuthorAlbumsActivity extends BaseActivity implements BaseQuickAdapt
             authorTvName.setText(author.getNickname());
 
             TextView authorTvIntro = (TextView) mHeaderView.findViewById(R.id.tv_author_intro);
-            String intro = author.getIntro().trim();
+            String intro = "";
+            if(null != author.getIntro()) {
+                intro = author.getIntro().trim();
+            }
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                 authorTvIntro.setText(Html.fromHtml(intro,Html.FROM_HTML_MODE_LEGACY));
             } else {

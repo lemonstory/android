@@ -4,9 +4,10 @@ import android.content.Context;
 
 import com.xiaoningmeng.bean.IRecyclerItem;
 import com.xiaoningmeng.bean.Index;
+import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.presenter.contract.DiscoverConstract;
-import com.xiaoningmeng.http.JsonCallback;
+import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +70,12 @@ public class DiscoverPresenter implements DiscoverConstract.Presenter {
                                 if (data.getAd().getItems().size() > i) {
                                     iRecyclerItems.add(data.getAd().getItems().get(i));
                                 }
+                            }
+
+                            for (int i = 0; i < data.getAuthor_section().getItems().size(); i++) {
+                                Index.AuthorSectionBean.AuthorItemBean itemBean = data.getAuthor_section().getItems().get(i);
+                                DebugUtils.d("itemBean = " + itemBean);
+                                iRecyclerItems.add(itemBean);
                             }
                             return iRecyclerItems;
                         }

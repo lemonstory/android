@@ -14,11 +14,13 @@ public class Index {
     public static final int ALBUM_MORE_TYPE = 2;
     public static final int ALBUM_TYPE = 3;
     public static final int AD_TYPE = 4;
+    public static final int AUTHOR_TYPE = 5;
 
     private FocusPicBean focus_pic;
     private ContentCategoryBean content_category;
     private AlbumSectionBean album_section;
     private AdBean ad;
+    private AuthorSectionBean author_section;
 
     public FocusPicBean getFocus_pic() {
         return focus_pic;
@@ -51,6 +53,14 @@ public class Index {
 
     public void setAd(AdBean ad) {
         this.ad = ad;
+    }
+
+    public AuthorSectionBean getAuthor_section() {
+        return author_section;
+    }
+
+    public void setAuthor_section(AuthorSectionBean author_section) {
+        this.author_section = author_section;
     }
 
     public static class FocusPicBean implements IRecyclerItem {
@@ -292,6 +302,50 @@ public class Index {
             @Override
             public int getItemType() {
                 return AD_TYPE;
+            }
+        }
+    }
+
+    public static class AuthorSectionBean {
+
+        private int total;
+        private String linkurl;
+        private List<AuthorItemBean> items;
+
+        public int getTotal() {
+            return total;
+        }
+
+        public void setTotal(int total) {
+            this.total = total;
+        }
+
+        public String getLinkurl() {
+            return linkurl;
+        }
+
+        public void setLinkurl(String linkurl) {
+            this.linkurl = linkurl;
+        }
+
+        public List<AuthorItemBean> getItems() {
+            return items;
+        }
+
+        public void setItems(List<AuthorItemBean> items) {
+            this.items = items;
+        }
+
+        public static class AuthorItemBean extends Author implements IRecyclerItem {
+
+            @Override
+            public int getSpanSize() {
+                return 1;
+            }
+
+            @Override
+            public int getItemType() {
+                return AUTHOR_TYPE;
             }
         }
     }

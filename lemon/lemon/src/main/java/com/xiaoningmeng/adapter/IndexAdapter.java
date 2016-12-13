@@ -1,14 +1,15 @@
 package com.xiaoningmeng.adapter;
 
 import android.net.Uri;
+import android.webkit.URLUtil;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.xiaoningmeng.R;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.IRecyclerItem;
 import com.xiaoningmeng.bean.Index;
-import com.xiaoningmeng.R;
 
 import java.util.List;
 
@@ -27,6 +28,8 @@ public class IndexAdapter extends BaseMultiItemQuickAdapter<IRecyclerItem, BaseV
         addItemType(Index.ALBUM_MORE_TYPE, R.layout.item_index_more);
         addItemType(Index.ALBUM_TYPE, R.layout.item_album_info);
         addItemType(Index.AD_TYPE, R.layout.item_index_ad);
+        addItemType(Index.AD_TYPE, R.layout.item_index_ad);
+        addItemType(Index.AUTHOR_TYPE, R.layout.item_author_vertical);
     }
 
 
@@ -63,6 +66,17 @@ public class IndexAdapter extends BaseMultiItemQuickAdapter<IRecyclerItem, BaseV
                 adImg.setImageURI(Uri.parse(itemsBean.getCover()));
                 helper.addOnClickListener(R.id.img_index_ad);
                 break;
+
+            case Index.AUTHOR_TYPE:
+                Index.AuthorSectionBean.AuthorItemBean author = (Index.AuthorSectionBean.AuthorItemBean) item;
+                helper.setText(R.id.tv_author_name, author.getNickname());
+
+                //头像
+                SimpleDraweeView avatarImg = helper.getView(R.id.img_avatar);
+                if(URLUtil.isValidUrl(author.getAvatar())) {
+                    Uri avatarUri = Uri.parse(author.getAvatar());
+                    avatarImg.setImageURI(avatarUri);
+                }
         }
     }
 }

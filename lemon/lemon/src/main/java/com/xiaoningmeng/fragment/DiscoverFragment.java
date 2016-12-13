@@ -22,6 +22,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.AlbumDetailActivity;
+import com.xiaoningmeng.AuthorAlbumsActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.WebViewActivity;
 import com.xiaoningmeng.adapter.IndexAdapter;
@@ -50,7 +51,6 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
     private IndexAdapter mAdapter;
     private EmptyHelper mEmptyHelper;
     private Boolean albumClickable;
-    private boolean isAlbumLeft = true;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
@@ -116,6 +116,13 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
                         adIntent.setData(adLinkUri);
                         DiscoverFragment.this.getActivity().startActivity(adIntent);
                         break;
+
+                    case Index.AUTHOR_TYPE:
+                        Index.AuthorSectionBean.AuthorItemBean authorItem = (Index.AuthorSectionBean.AuthorItemBean) iRecyclerItem;
+                        Intent authorIntent = new Intent(DiscoverFragment.this.getActivity(), AuthorAlbumsActivity.class);
+                        authorIntent.putExtra("author_uid", authorItem.getUid());
+                        authorIntent.putExtra("author", authorItem);
+                        startActivityForNew(authorIntent);
                 }
             }
 
