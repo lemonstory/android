@@ -16,35 +16,35 @@ public class Index {
     public static final int AD_TYPE = 4;
     public static final int AUTHOR_TYPE = 5;
 
-    private FocusPicBean focus_pic;
-    private ContentCategoryBean content_category;
-    private AlbumSectionBean album_section;
+    private FocusBean focus;
+    private CategoryBean category;
+    private SectionBean section;
     private AdBean ad;
-    private MoreItemBean<AuthorItemBean> author_section;
+//    private MoreItemBean<AuthorItemBean> author_section;
 
-    public FocusPicBean getFocus_pic() {
-        return focus_pic;
+    public FocusBean getFocus() {
+        return focus;
     }
 
-    public void setFocus_pic(FocusPicBean focus_pic) {
-        this.focus_pic = focus_pic;
+    public void setFocus(FocusBean focus) {
+        this.focus = focus;
     }
 
 
-    public ContentCategoryBean getContent_category() {
-        return content_category;
+    public CategoryBean getCategory() {
+        return category;
     }
 
-    public void setContent_category(ContentCategoryBean content_category) {
-        this.content_category = content_category;
+    public void setCategory(CategoryBean category) {
+        this.category = category;
     }
 
-    public AlbumSectionBean getAlbum_section() {
-        return album_section;
+    public SectionBean getSection() {
+        return section;
     }
 
-    public void setAlbum_section(AlbumSectionBean album_section) {
-        this.album_section = album_section;
+    public void setSection(SectionBean section) {
+        this.section = section;
     }
 
     public AdBean getAd() {
@@ -55,15 +55,15 @@ public class Index {
         this.ad = ad;
     }
 
-    public MoreItemBean<AuthorItemBean> getAuthor_section() {
-        return author_section;
-    }
+//    public MoreItemBean<AuthorItemBean> getAuthor_section() {
+//        return author_section;
+//    }
+//
+//    public void setAuthor_section(MoreItemBean<AuthorItemBean> author_section) {
+//        this.author_section = author_section;
+//    }
 
-    public void setAuthor_section(MoreItemBean<AuthorItemBean> author_section) {
-        this.author_section = author_section;
-    }
-
-    public static class FocusPicBean implements IRecyclerItem {
+    public static class FocusBean implements IRecyclerItem {
         private int total;
         /**
          * cover : http://p.xiaoningmeng.net/focus/32.png@!640x260?v=1475734342
@@ -124,7 +124,7 @@ public class Index {
         }
     }
 
-    public static class ContentCategoryBean {
+    public static class CategoryBean {
 
         private int total;
         private List<ItemBean> items;
@@ -186,25 +186,44 @@ public class Index {
         }
     }
 
-    public static class AlbumSectionBean {
+    public static class SectionBean {
 
 
-        private List<MoreItemBean<AlbumInfo>> items;
+        private List<SectionItemBean> items;
 
-        public List<MoreItemBean<AlbumInfo>> getItems() {
+        public List<SectionItemBean> getItems() {
+
             return items;
         }
 
-        public void setItems(List<MoreItemBean<AlbumInfo>> items) {
+        public void setItems(List<SectionItemBean> items) {
             this.items = items;
         }
     }
 
-    public static class MoreItemBean<T> implements IRecyclerItem {
+    public static class SectionItemBean<T> implements IRecyclerItem {
 
-        private List<T> items;
+        private String type;
         private String title;
+        private int total;
         private String linkurl;
+        private List<T> items;
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public int getTotal() {
+            return total;
+        }
+
+        public void setTotal(int total) {
+            this.total = total;
+        }
 
         public List<T> getItems() {
             return items;
@@ -305,6 +324,11 @@ public class Index {
         @Override
         public int getItemType() {
             return AUTHOR_TYPE;
+        }
+
+        public AuthorItemBean(String uid, String nickname,  String avatar, String wiki_url) {
+
+            super(uid, nickname,  avatar, wiki_url);
         }
     }
 }

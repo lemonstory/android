@@ -475,6 +475,16 @@
 
         </activity>
         <activity android:name=".AuthorsActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.xiaoningmeng.intent.category.recommend" />
+
+                <data android:scheme="xnm" />
+                <data android:host="api.xiaoningmeng.net" />
+                <data android:path="/default/v2.6/authors.php" />
+            </intent-filter>
         </activity>
     </application>
 

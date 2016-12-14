@@ -16,7 +16,7 @@ public interface DiscoverConstract {
 
     interface View<T> extends BaseView<T> {
         public void requestDataSuccess(List<IRecyclerItem> datas);
-        public void requestBannderSuccess(Index.FocusPicBean focusPicBean);
+        public void requestBannderSuccess(Index.FocusBean focusBean);
 
     }
 

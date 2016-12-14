@@ -105,6 +105,14 @@ public class Author implements Parcelable {
 
     }
 
+    public Author(String uid, String nickname,  String avatar, String wiki_url) {
+
+        this.uid = uid;
+        this.nickname = nickname;
+        this.avatar = avatar;
+        this.wiki_url = wiki_url;
+    }
+
     public Author(String uid, String avatar, String nickname, String card, String intro, int album_num, String wiki_url) {
         this.uid = uid;
         this.avatar = avatar;

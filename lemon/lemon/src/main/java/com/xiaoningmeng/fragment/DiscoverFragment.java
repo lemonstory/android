@@ -24,7 +24,6 @@ import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.AlbumDetailActivity;
 import com.xiaoningmeng.AuthorAlbumsActivity;
 import com.xiaoningmeng.R;
-import com.xiaoningmeng.WebViewActivity;
 import com.xiaoningmeng.adapter.IndexAdapter;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.base.BaseFragment;
@@ -32,7 +31,6 @@ import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.IRecyclerItem;
 import com.xiaoningmeng.bean.Index;
 import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.manager.DownloadApkManager;
 import com.xiaoningmeng.manager.EmptyHelper;
 import com.xiaoningmeng.presenter.DiscoverPresenter;
 import com.xiaoningmeng.presenter.contract.DiscoverConstract;
@@ -44,7 +42,7 @@ import java.util.List;
 
 public class DiscoverFragment extends BaseFragment implements DiscoverConstract.View<DiscoverPresenter> {
 
-    private ConvenientBanner<Index.FocusPicBean.ItemsBean> convenientBanner;// 顶部广告栏控件
+    private ConvenientBanner<Index.FocusBean.ItemsBean> convenientBanner;// 顶部广告栏控件
     private RecyclerView mRecyclerView;
     private List<IRecyclerItem> mIndexDatas;
     private DiscoverPresenter mPresenter;
@@ -99,7 +97,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
                         break;
 
                     case Index.CATEGORY_TYPE:
-                        Index.ContentCategoryBean.ItemBean categoryInfo = (Index.ContentCategoryBean.ItemBean) iRecyclerItem;
+                        Index.CategoryBean.ItemBean categoryInfo = (Index.CategoryBean.ItemBean) iRecyclerItem;
                         Uri categoryLinkUri = Uri.parse(categoryInfo.getLinkurl());
                         Intent intent = new Intent();
                         intent.setData(categoryLinkUri);
@@ -111,10 +109,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
 
                     case Index.AD_TYPE:
                         Index.AdBean.ItemsBean adInfo = (Index.AdBean.ItemsBean) iRecyclerItem;
-                        Uri adLinkUri = Uri.parse(adInfo.getLinkurl());
-                        Intent adIntent = new Intent();
-                        adIntent.setData(adLinkUri);
-                        DiscoverFragment.this.getActivity().startActivity(adIntent);
+                        AppUtils.openLinkUrl(null,DiscoverFragment.this,adInfo.getLinkurl());
                         break;
 
                     case Index.AUTHOR_TYPE:
@@ -133,7 +128,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
                 IRecyclerItem iRecyclerItem = mAdapter.getItem(position);
                 switch (iRecyclerItem.getItemType()) {
                     case Index.ALBUM_MORE_TYPE:
-                        Index.MoreItemBean albumSectionItem = (Index.MoreItemBean) iRecyclerItem;
+                        Index.SectionItemBean albumSectionItem = (Index.SectionItemBean) iRecyclerItem;
                         Uri albumSectionItemLinkUri = Uri.parse(albumSectionItem.getLinkurl());
                         Intent moreIntent = new Intent();
                         moreIntent.putExtra("pageTitle", albumSectionItem.getTitle());
@@ -166,7 +161,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
         this.mPresenter = presenter;
     }
 
-    public class ImageHolder implements Holder<Index.FocusPicBean.ItemsBean> {
+    public class ImageHolder implements Holder<Index.FocusBean.ItemsBean> {
         private SimpleDraweeView imageView;
 
         @Override
@@ -177,7 +172,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
         }
 
         @Override
-        public void UpdateUI(final Context context, final int position, final Index.FocusPicBean.ItemsBean data) {
+        public void UpdateUI(final Context context, final int position, final Index.FocusBean.ItemsBean data) {
 
             final Uri coverUri = Uri.parse(data.getCover());
             imageView.setImageURI(coverUri);
@@ -187,24 +182,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
                 public void onClick(View view) {
                     albumClickable = true;
                     String linkUrl = data.getLinkurl();
-                    //http里面有apk的下载,暂时不做改动
-                    if (linkUrl != null) {
-                        if (linkUrl.startsWith("http:") || linkUrl.startsWith("https:")) {
-                            if (linkUrl.endsWith(".apk")) {
-                                DownloadApkManager.getInstance().showDownloadDialog(getActivity(), linkUrl);
-                            } else if (linkUrl.contains("taobao")) {
-                                AppUtils.showTaobaoPage(getActivity(), linkUrl);
-                            } else {
-                                WebViewActivity.openWebView(context, data.getLinkurl());
-                            }
-                        } else if (linkUrl.startsWith("xnm:")) {
-                            Uri linkUri = Uri.parse(linkUrl);
-                            Intent intent = new Intent();
-                            intent.setData(linkUri);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
-                        }
-                    }
+                    AppUtils.openLinkUrl(null,DiscoverFragment.this,linkUrl);
                 }
             });
         }
@@ -240,8 +218,8 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
     }
 
     @Override
-    public void requestBannderSuccess(Index.FocusPicBean focusPicBean) {
-        if (focusPicBean != null && focusPicBean.getItems().size() != 0) {
+    public void requestBannderSuccess(Index.FocusBean focusBean) {
+        if (focusBean != null && focusBean.getItems().size() != 0) {
             convenientBanner = new ConvenientBanner<>(getActivity());
             convenientBanner.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT,
                     getResources().getDimensionPixelSize(R.dimen.home_banner_height)));
@@ -252,7 +230,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
                         public ImageHolder createHolder() {
                             return new ImageHolder();
                         }
-                    }, focusPicBean.getItems())
+                    }, focusBean.getItems())
                     .setPageIndicator(new int[]{R.drawable.ic_page_indicator, R.drawable.ic_page_indicator_focused});
         }
 

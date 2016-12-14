@@ -1,6 +1,7 @@
 package com.xiaoningmeng.adapter;
 
 import android.net.Uri;
+import android.text.TextUtils;
 import android.webkit.URLUtil;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -32,6 +33,10 @@ public class AuthorAdapter extends BaseQuickAdapter<Author, BaseViewHolder> {
         baseViewHolder.setText(R.id.tv_author_name, author.getNickname());
         if ( author.getAlbum_num() > 0) {
             baseViewHolder.setText(R.id.tv_album_num, Integer.toString(author.getAlbum_num()));
+        }
+
+        if(!TextUtils.isEmpty(author.getCard())) {
+            baseViewHolder.setText(R.id.tv_author_card,author.getCard());
         }
 
         //头像

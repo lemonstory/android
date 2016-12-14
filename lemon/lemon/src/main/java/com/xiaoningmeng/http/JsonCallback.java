@@ -2,6 +2,7 @@ package com.xiaoningmeng.http;
 
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.utils.DebugUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -32,13 +33,15 @@ public abstract class JsonCallback<T> extends StringCallback{
     private ILoading mLoading;
     private int responseCode = JSON_PARSE_CODE;
 
+    public GsonBuilder builder;
+
 
     public JsonCallback(ILoading mLoading) {
         this.mLoading = mLoading;
     }
 
     public JsonCallback() {
-
+        builder = new GsonBuilder();
     }
 
     @Override
@@ -77,6 +80,8 @@ public abstract class JsonCallback<T> extends StringCallback{
 
     }
 
+
+
     /**
      * 通过gson将response转换成所需的对象
      * @param response
@@ -93,7 +98,10 @@ public abstract class JsonCallback<T> extends StringCallback{
                 T t = null;
                 try {
                     DebugUtils.e(response);
-                    Gson gson = new Gson();
+                    //Gson gson = new Gson();
+                    //GsonBuilder builder = new GsonBuilder();
+                    //builder.registerTypeAdapter(FavoriteRecordPo.class, new FavoriteRecordJsonType());
+                    Gson gson = builder.create();
                     JSONObject jsonObject = new JSONObject(response);
                     Type type = getType();
                     code = jsonObject.has("code") ? jsonObject.getInt("code") : code;

@@ -2,9 +2,9 @@ package com.xiaoningmeng.presenter;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
 import com.xiaoningmeng.bean.IRecyclerItem;
 import com.xiaoningmeng.bean.Index;
+import com.xiaoningmeng.bean.SectionItemBeanDeserializer;
 import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.presenter.contract.DiscoverConstract;
@@ -28,6 +28,7 @@ public class DiscoverPresenter implements DiscoverConstract.Presenter {
     private Context context;
 
     public DiscoverPresenter(Context context, DiscoverConstract.View discoverView) {
+
         this.discoverView = discoverView;
         this.context = context;
         this.discoverView.setPresenter(this);
@@ -47,37 +48,37 @@ public class DiscoverPresenter implements DiscoverConstract.Presenter {
 
     @Override
     public void requestIndexData() {
-        LHttpRequest.getInstance().indexRequest(context, new JsonCallback<Index>() {
+
+        JsonCallback<Index> jsonCallBack = new JsonCallback<Index>() {
             @Override
             public void onGetDataSuccess(Index data) {
                 if (null != data) {
-                    final Gson gsonObj = new Gson();
-                    discoverView.requestBannderSuccess(data.getFocus_pic());
+
+                    discoverView.requestBannderSuccess(data.getFocus());
                     Observable.just(data).map(new Func1<Index, List<IRecyclerItem>>() {
 
                         @Override
                         public List<IRecyclerItem> call(final Index data) {
 
                             ArrayList<IRecyclerItem> iRecyclerItems = new ArrayList<>();
-                            for (int i = 0; i < data.getContent_category().getItems().size(); i++) {
-                                Index.ContentCategoryBean.ItemBean itemBean = data.getContent_category().getItems().get(i);
+                            for (int i = 0; i < data.getCategory().getItems().size(); i++) {
+
+                                Index.CategoryBean.ItemBean itemBean = data.getCategory().getItems().get(i);
                                 iRecyclerItems.add(itemBean);
                             }
 
-                            for (int i = 0; i < data.getAlbum_section().getItems().size(); i++) {
-                                Index.MoreItemBean itemBean = data.getAlbum_section().getItems().get(i);
+                            for (int i = 0; i < data.getSection().getItems().size(); i++) {
+
+                                Index.SectionItemBean itemBean = (Index.SectionItemBean) data.getSection().getItems().get(i);
                                 iRecyclerItems.add(itemBean);
                                 iRecyclerItems.addAll(itemBean.getItems());
+
                                 if (data.getAd().getItems().size() > i) {
                                     iRecyclerItems.add(data.getAd().getItems().get(i));
                                 }
                             }
 
-                            Index.MoreItemBean authorSectionBean = data.getAuthor_section();
-                            iRecyclerItems.add(authorSectionBean);
-                            iRecyclerItems.addAll(authorSectionBean.getItems());
                             return iRecyclerItems;
-
                         }
                     }).subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
@@ -99,6 +100,9 @@ public class DiscoverPresenter implements DiscoverConstract.Presenter {
                             });
                 }
             }
-        });
+        };
+
+        jsonCallBack.builder.registerTypeAdapter(Index.SectionItemBean.class,new SectionItemBeanDeserializer());
+        LHttpRequest.getInstance().indexRequest(context,jsonCallBack);
     }
 }

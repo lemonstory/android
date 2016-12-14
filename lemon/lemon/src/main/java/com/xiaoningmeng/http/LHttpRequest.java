@@ -578,10 +578,10 @@ public class LHttpRequest {
     }
 
     //获取作者列表
-    public void getAuthorsReq(Context context, int startAuthorId, int len, String uid, JsonCallback<AuthorList> handler) {
+    public void getAuthorsReq(Context context, int page, int len, String uid, JsonCallback<AuthorList> handler) {
 
         get(ConstantURL.AUTHORS).tag(context)
-                .addParams("start_author_id", Integer.toString(startAuthorId))
+                .addParams("p", Integer.toString(page))
                 .addParams("len", Integer.toString(len))
                 .addParams("uid", uid)
                 .build().execute(handler);

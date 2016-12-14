@@ -53,7 +53,7 @@ public class AuthorAlbumsActivity extends BaseActivity implements BaseQuickAdapt
 
     private int pageSize = 50;
     //单屏显示的数据量
-    private int singleScreenItemNum = 6;
+    private int singleScreenItemNum = 3;
     private int delayMillis = 1000;
     private int mAuthorId = 0;
     private Author mAuthorObj = null;
@@ -188,7 +188,7 @@ public class AuthorAlbumsActivity extends BaseActivity implements BaseQuickAdapt
                                 }
 
                                 //数量不足page_size 显示加载完成view
-                                if (mCurrentCounter == mTotalCounter && mCurrentCounter < pageSize) {
+                                if ( mCurrentCounter < pageSize && mTotalCounter > singleScreenItemNum) {
                                     if (notLoadingView == null) {
                                         notLoadingView = getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);
                                     }
@@ -288,7 +288,7 @@ public class AuthorAlbumsActivity extends BaseActivity implements BaseQuickAdapt
 
     private View getHeaderView() {
 
-        View view = getLayoutInflater().inflate(R.layout.author_albums_header, null);
+        View view = getLayoutInflater().inflate(R.layout.header_author_albums, null);
         view.setLayoutParams(new DrawerLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         return view;
     }

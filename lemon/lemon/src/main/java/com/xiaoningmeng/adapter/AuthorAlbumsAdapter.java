@@ -31,7 +31,8 @@ public class AuthorAlbumsAdapter extends BaseQuickAdapter<AlbumInfo, BaseViewHol
                 .setVisible(R.id.tv_album_listen_num, !"0".equals(albumInfo.getListennum()) && null != albumInfo.getListennum())
                 .setText(R.id.tv_album_listen_num, null != albumInfo.getListennum() ? albumInfo.getListennum() : "")
                 .setVisible(R.id.tv_album_recommend, !"".equals(albumInfo.getRecommenddesc()) && null != albumInfo.getRecommenddesc())
-                .setText(R.id.tv_album_recommend, null != albumInfo.getRecommenddesc() ? albumInfo.getRecommenddesc().replaceAll("[ |　]", " ").trim() : "");
+                .setText(R.id.tv_album_recommend, null != albumInfo.getRecommenddesc() ? albumInfo.getRecommenddesc().replaceAll("[ |　]", " ").trim() : "")
+                .setText(R.id.tv_album_age_level,albumInfo.getAge_str());
 
         SimpleDraweeView coverImg = baseViewHolder.getView(R.id.img_album_cover);
         String albumCover = albumInfo.getCover();

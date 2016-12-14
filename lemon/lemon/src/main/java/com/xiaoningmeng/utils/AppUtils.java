@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
@@ -22,7 +23,11 @@ import com.alibaba.baichuan.android.trade.model.OpenType;
 import com.alibaba.baichuan.android.trade.model.TradeResult;
 import com.alibaba.baichuan.android.trade.page.AlibcBasePage;
 import com.alibaba.baichuan.android.trade.page.AlibcPage;
+import com.xiaoningmeng.WebViewActivity;
+import com.xiaoningmeng.base.BaseActivity;
+import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.constant.Constant;
+import com.xiaoningmeng.manager.DownloadApkManager;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -224,5 +229,38 @@ public class AppUtils {
             }
         }
         return null;
+    }
+
+    public static void openLinkUrl(BaseActivity activity, BaseFragment fragment, String linkUrl) {
+
+        if ((null != activity || null != fragment) && !TextUtils.isEmpty(linkUrl)) {
+            Context context = null;
+            if (null != activity) {
+                context = activity;
+            } else if (null != fragment) {
+                context = fragment.getActivity();
+            }
+            Uri linkUri = Uri.parse(linkUrl);
+            String linkUriFilename = linkUri.getLastPathSegment();
+            String linkUriHost = linkUri.getHost();
+            if (linkUriHost.contains("taobao")) {
+                if (null != activity) {
+                    AppUtils.showTaobaoPage(activity, linkUrl);
+                } else if (null != fragment) {
+                    AppUtils.showTaobaoPage(fragment.getActivity(), linkUrl);
+                }
+            } else if (linkUriFilename.endsWith(".apk")) {
+                DownloadApkManager.getInstance().showDownloadDialog(context, linkUrl);
+            } else if (linkUri.getScheme().equals(Constant.APP_SCHEME)) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(linkUrl));
+                if (null != activity) {
+                    activity.startActivityForNew(intent);
+                } else if (null != fragment) {
+                    fragment.startActivityForNew(intent);
+                }
+            } else {
+                WebViewActivity.openWebView(context, linkUrl);
+            }
+        }
     }
 }

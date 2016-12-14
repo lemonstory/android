@@ -38,14 +38,14 @@ public class IndexAdapter extends BaseMultiItemQuickAdapter<IRecyclerItem, BaseV
         switch (item.getItemType()) {
 
             case Index.CATEGORY_TYPE:
-                Index.ContentCategoryBean.ItemBean categoryItemBean = (Index.ContentCategoryBean.ItemBean) item;
+                Index.CategoryBean.ItemBean categoryItemBean = (Index.CategoryBean.ItemBean) item;
                 helper.setText(R.id.tv_tag_name, categoryItemBean.getTitle());
                 SimpleDraweeView coverImg = helper.getView(R.id.img_tag_cover);
                 coverImg.setImageURI(Uri.parse(categoryItemBean.getCover()));
                 break;
 
             case Index.ALBUM_MORE_TYPE:
-                Index.MoreItemBean albumItemBean = (Index.MoreItemBean) item;
+                Index.SectionItemBean albumItemBean = (Index.SectionItemBean) item;
                 helper.setText(R.id.tv_tag_title, albumItemBean.getTitle())
                         .addOnClickListener(R.id.tv_tag_more);
                 break;

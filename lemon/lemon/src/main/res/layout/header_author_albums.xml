@@ -61,11 +61,11 @@
             android:layout_toLeftOf="@+id/img_right_arrow"
             android:layout_toRightOf="@+id/img_avatar"
             android:ellipsize="end"
-            android:lineSpacingExtra="2dp"
-            android:maxLines="3"
-            android:paddingRight="4dp"
+            android:lineSpacingExtra="3dp"
+            android:maxLines="2"
+            android:paddingRight="6dp"
             android:text=""
-            android:textColor="#B8B8B8"
+            android:textColor="@color/base_date_color"
             android:textSize="@dimen/date_text_size" />
 
     </RelativeLayout>

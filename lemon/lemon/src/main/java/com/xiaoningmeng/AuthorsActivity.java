@@ -37,12 +37,12 @@ public class AuthorsActivity extends BaseActivity implements RequestLoadMoreList
     private ImageView mWaveImg;
     private AuthorAdapter mAdapter;
     private List<Author> mCurrentAuthors;
-    private int mTotalCounter;
-    private int mCurrentCounter;
-    private int mStartAuthorId = 0;
+    private int mTotalCounter = 0;
+    private int mCurrentCounter = 0;
 
     private View notLoadingView;
     private int delayMillis = 1000;
+    private int mPage = 1;
     private int pageSize = 50;
     private boolean isErr;
 
@@ -92,7 +92,7 @@ public class AuthorsActivity extends BaseActivity implements RequestLoadMoreList
         mAdapter.openLoadMore(pageSize);
         isErr = false;
         mRecyclerView.setAdapter(mAdapter);
-        AuthorsActivity.this.requestAuthorsData(mStartAuthorId, pageSize, true);
+        AuthorsActivity.this.requestAuthorsData(mPage, pageSize, true);
 
         mRecyclerView.addOnItemTouchListener(
                 new OnItemChildClickListener() {
@@ -121,10 +121,10 @@ public class AuthorsActivity extends BaseActivity implements RequestLoadMoreList
         );
     }
 
-    private void requestAuthorsData(int startAuthorId, final int pageSize, final Boolean isRefreshing) {
+    private void requestAuthorsData(int page, final int pageSize, final Boolean isRefreshing) {
 
         String uid = MyApplication.getInstance().getUid();
-        LHttpRequest.getInstance().getAuthorsReq(this, startAuthorId, pageSize, uid,
+        LHttpRequest.getInstance().getAuthorsReq(this, page, pageSize, uid,
                 new JsonCallback<AuthorList>() {
 
                     @Override
@@ -135,25 +135,27 @@ public class AuthorsActivity extends BaseActivity implements RequestLoadMoreList
                             if (data.getTotal() > 0) {
                                 mTotalCounter = data.getTotal();
                             }
-                            if (data.getItems() != null && data.getItems().size() > 0) {
+                            if (data.getItems() != null) {
 
-                                mCurrentCounter = data.getItems().size();
-                                mCurrentAuthors = data.getItems();
-                                Author lastAuthorItem = data.getItems().get(data.getItems().size() - 1);
-                                mStartAuthorId = Integer.parseInt(lastAuthorItem.getUid());
+                                if(data.getItems().size() > 0) {
+                                    mCurrentCounter = data.getItems().size();
+                                    mCurrentAuthors = data.getItems();
 
-                                if (isRefreshing) {
-                                    mAdapter.setNewData(mCurrentAuthors);
-                                } else {
-                                    mAdapter.addData(mCurrentAuthors);
+                                    if (isRefreshing) {
+                                        mAdapter.setNewData(mCurrentAuthors);
+                                    } else {
+                                        mAdapter.addData(mCurrentAuthors);
+                                    }
                                 }
+
                                 //数量不足page_size 显示加载完成view
-                                if (mCurrentCounter == mTotalCounter && mCurrentCounter < pageSize) {
+                                if (mCurrentCounter < pageSize) {
                                     if (notLoadingView == null) {
                                         notLoadingView = getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);
                                     }
                                     mAdapter.addFooterView(notLoadingView);
                                 }
+
                             } else {
                                 mEmptyHelper.setEmptyView(EmptyHelper.EMPTY, true, getString(R.string.empty_tip));
                             }
@@ -195,10 +197,11 @@ public class AuthorsActivity extends BaseActivity implements RequestLoadMoreList
                     mAdapter.addFooterView(notLoadingView);
                 } else {
                     if (!isErr) {
+                        mPage = mPage + 1;
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                AuthorsActivity.this.requestAuthorsData(mStartAuthorId, pageSize, false);
+                                AuthorsActivity.this.requestAuthorsData(mPage, pageSize, false);
                             }
                         }, delayMillis);
                     } else {
@@ -217,8 +220,8 @@ public class AuthorsActivity extends BaseActivity implements RequestLoadMoreList
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mStartAuthorId = 0;
-                AuthorsActivity.this.requestAuthorsData(mStartAuthorId, pageSize, true);
+                mPage = 1;
+                AuthorsActivity.this.requestAuthorsData(mPage, pageSize, true);
                 mAdapter.removeAllFooterView();
                 mSwipeRefreshLayout.setRefreshing(false);
                 isErr = false;
