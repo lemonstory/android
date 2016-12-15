@@ -94,7 +94,7 @@
 
     <View style="@style/dividerStyle" />
     <TextView 
-     android:background="@color/mine_history_unSelect"
+     android:background="@color/home_bg"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:paddingTop="@dimen/perasonal_item_head_margin_left"

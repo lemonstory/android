@@ -3,7 +3,7 @@
     android:id="@+id/rl_bar_head"
     android:layout_width="match_parent"
     android:layout_height="@dimen/action_bar_height"
-    android:background="@color/white">
+    android:background="#FAFAFA">
 
     <ImageView
         android:id="@+id/img_home_cover"

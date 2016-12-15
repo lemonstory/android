@@ -41,6 +41,7 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
     private int delayMillis = 1000;
     private int mCurrentCounter = 0;
     private int mTotalCounter = 0;
+    private int singleScreenItemNum = 6;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,7 +149,7 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
                                 mCurrentCounter = mAdapter.getData().size();
 
                                 //数量不足page_size 显示加载完成view
-                                if (mCurrentCounter == mTotalCounter && mCurrentCounter < pageSize) {
+                                if (mCurrentCounter == mTotalCounter && mCurrentCounter < pageSize && singleScreenItemNum < mTotalCounter) {
                                     if (notLoadingView == null) {
                                         notLoadingView = getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);
                                     }

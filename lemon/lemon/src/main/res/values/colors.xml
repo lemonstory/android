@@ -13,7 +13,7 @@
     <color name="black_dialog_bg">#80000000</color>
     <color name="black_dialog_divider_color">#313131</color>
     <color name="dialog_cancel_text_color">#F24C4C</color>
-    <color name="home_bg">#f9fcff</color>
+    <color name="home_bg">#F5F5F5</color>
     <color name="orage_color">#F5A623</color>
     <color name="action_bar_bg">#FFFFFF</color>
     <color name="action_bar_dialog_bg">#9E804C</color>
