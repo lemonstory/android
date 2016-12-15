@@ -37,6 +37,7 @@ public abstract class JsonCallback<T> extends StringCallback{
 
 
     public JsonCallback(ILoading mLoading) {
+        builder = new GsonBuilder();
         this.mLoading = mLoading;
     }
 

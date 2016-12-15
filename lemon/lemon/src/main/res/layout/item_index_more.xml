@@ -1,36 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rl_more_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@null"
-    android:paddingLeft="@dimen/page_padding_left"
-    android:paddingRight="@dimen/page_padding_right"
-    android:paddingTop="@dimen/mine_center_divider_height">
+    android:layout_marginTop="12dp"
+    android:background="#F5F5F5">
 
-    <TextView
-        android:id="@+id/tv_tag_title"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawablePadding="4dp"
-        android:drawableLeft="@drawable/bg_home_category_divider"
-        android:paddingBottom="@dimen/base_radius_size"
-        android:paddingTop="@dimen/mine_item_cover_margin_left"
-        android:text="热门推荐"
-        android:textSize="@dimen/content_text_size" />
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/page_padding_left"
+        android:paddingRight="@dimen/page_padding_right"
+        android:paddingTop="5dp">
 
-    <TextView
-        android:id="@+id/tv_tag_more"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:drawablePadding="@dimen/base_radius_size"
-        android:drawableRight="@drawable/ic_item_more"
-        android:paddingBottom="@dimen/base_radius_size"
-        android:paddingLeft="@dimen/mine_item_cover_margin_left"
-        android:paddingTop="@dimen/mine_item_cover_margin_left"
-        android:text="查看更多"
-        android:textColor="@color/index_more_text_selector"
-        android:textSize="@dimen/home_tab_size" />
+        <TextView
+            android:id="@+id/tv_tag_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/bg_home_category_divider"
+            android:drawablePadding="4dp"
+            android:paddingBottom="@dimen/base_radius_size"
+            android:paddingTop="@dimen/mine_item_cover_margin_left"
+            android:text="热门推荐"
+            android:textSize="@dimen/content_text_size" />
+
+        <TextView
+            android:id="@+id/tv_tag_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:drawablePadding="@dimen/base_radius_size"
+            android:drawableRight="@drawable/ic_item_right_arrow"
+            android:paddingBottom="@dimen/base_radius_size"
+            android:paddingLeft="@dimen/mine_item_cover_margin_left"
+            android:paddingTop="@dimen/mine_item_cover_margin_left"
+            android:text="更多"
+            android:textColor="@color/index_more_text_selector"
+            android:textSize="@dimen/home_tab_size" />
+    </RelativeLayout>
 </RelativeLayout>

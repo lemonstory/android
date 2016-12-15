@@ -63,7 +63,7 @@ public class MoreFragment extends LazyFragment
 	private void initAdapter() {
 
 		mQuickAdapter = new AlbumAdapter(mAlbumInfos);
-		mQuickAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+		//mQuickAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
 		mQuickAdapter.setOnLoadMoreListener(this);
 		mQuickAdapter.openLoadMore(Constant.GRID_REQ_LEN);
 		mRefreshLayout.setRefreshing(true);

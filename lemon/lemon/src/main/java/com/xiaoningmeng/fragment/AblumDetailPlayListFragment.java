@@ -76,7 +76,7 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
 
         mAdapter = new AblumPlayListAdapter(mCurrentStories);
         mAdapter.setPlayStoryId(playStoryId);
-        mAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+        //mAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         mEmptyHelper = new EmptyHelper(getContext(), mRecyclerView, mAdapter);
         mEmptyHelper.setEmptyView(EmptyHelper.LOADING, false, getString(R.string.loading_tip));
         notLoadingView = getActivity().getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);

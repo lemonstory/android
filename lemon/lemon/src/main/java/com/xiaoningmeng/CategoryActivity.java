@@ -59,7 +59,7 @@ public class CategoryActivity extends BaseActivity implements PlayObserver {
     public void initAdapter() {
 
         mAdapter = new CategoryAdapter(this, mCategoryDatas);
-        mAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+        //mAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         mEmptyHelper = new EmptyHelper(this, mRecyclerView, mAdapter);
         mEmptyHelper.setEmptyView(EmptyHelper.LOADING, false, getString(R.string.loading_tip));
         View footerView = this.getFooterView();

@@ -59,7 +59,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
         mRecyclerView.setHasFixedSize(true);
         mIndexDatas = new ArrayList<>();
         mAdapter = new IndexAdapter(mIndexDatas);
-        mAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+        //mAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         mAdapter.isFirstOnly(true);
         int spanCount = 4;
         final GridLayoutManager manager = new GridLayoutManager(getActivity(), spanCount);
@@ -221,8 +221,11 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
     public void requestBannderSuccess(Index.FocusBean focusBean) {
         if (focusBean != null && focusBean.getItems().size() != 0) {
             convenientBanner = new ConvenientBanner<>(getActivity());
-            convenientBanner.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT,
-                    getResources().getDimensionPixelSize(R.dimen.home_banner_height)));
+
+            RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.home_banner_height));
+            layoutParams.setMargins(0,40,0,0);
+            convenientBanner.setLayoutParams(layoutParams);
+
             mAdapter.addHeaderView(convenientBanner);
             convenientBanner.setPages(
                     new CBViewHolderCreator<ImageHolder>() {

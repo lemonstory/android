@@ -29,8 +29,9 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/account_item_margin_left"
                 android:layout_marginRight="@dimen/account_perasonal_padding"
-                fresco:roundAsCircle="true"
                 fresco:placeholderImage="@drawable/bg_avatar_default"
+                fresco:placeholderImageScaleType="center"
+                fresco:roundAsCircle="true"
                 />
 
             <ImageView

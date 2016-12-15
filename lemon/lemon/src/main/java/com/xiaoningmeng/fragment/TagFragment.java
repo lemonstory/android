@@ -12,19 +12,18 @@ import android.view.ViewGroup;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.umeng.analytics.MobclickAgent;
+import com.xiaoningmeng.AlbumDetailActivity;
+import com.xiaoningmeng.R;
 import com.xiaoningmeng.TagActivity;
 import com.xiaoningmeng.adapter.AlbumAdapter;
+import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.base.LazyFragment;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.TagAlbum;
 import com.xiaoningmeng.bean.TagDetail;
-import com.xiaoningmeng.AlbumDetailActivity;
-import com.xiaoningmeng.R;
-import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
-import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,7 +79,7 @@ public class TagFragment extends LazyFragment implements SwipeRefreshLayout.OnRe
     private void initAdapter() {
 
         mQuickAdapter = new AlbumAdapter(mAlbumInfos);
-        mQuickAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+        //mQuickAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         mQuickAdapter.setOnLoadMoreListener(this);
         mQuickAdapter.openLoadMore(20);
         setEmptyView(true);

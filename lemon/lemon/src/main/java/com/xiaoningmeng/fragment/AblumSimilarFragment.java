@@ -75,7 +75,7 @@ public class AblumSimilarFragment extends BaseFragment {
     public void initAdapter() {
 
         mAdapter = new AlbumAdapter(albumList);
-        mAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+        //mAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         mEmptyHelper = new EmptyHelper(getContext(), mRecyclerView, mAdapter);
         mEmptyHelper.setEmptyView(EmptyHelper.LOADING, false, getString(R.string.loading_tip));
         View footerView = this.getFooterView();

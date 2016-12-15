@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="LemonTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="colorPrimary">#ffc96d</item>
+        <item name="colorPrimaryDark">#757575</item>
+        <item name="colorAccent">#ffc96d</item>
+        <item name="android:statusBarColor">#757575</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowAllowEnterTransitionOverlap">
+            true
+        </item>
+        <item name="android:windowAllowReturnTransitionOverlap">
+            true
+        </item>
+        <item name="android:windowContentTransitions">true</item>
+
+        <!-- AlertDialog -->
+        <item name="alertDialogTheme">@style/MP.Theme.Widget.AlertDialog</item>
+
+        <!-- PopupMenu -->
+        <item name="popupMenuStyle">@style/MP.Theme.Widget.PopupMenu</item>
+        <item name="textAppearanceLargePopupMenu">
+            @style/MP.Theme.TextAppearance.LargePopupMenu
+        </item>
+        <item name="textAppearanceSmallPopupMenu">
+            @style/MP.Theme.TextAppearance.SmallPopupMenu
+        </item>
+    </style>
+</resources>
