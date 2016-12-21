@@ -249,7 +249,7 @@ public class AppUtils {
                 } else if (null != fragment) {
                     AppUtils.showTaobaoPage(fragment.getActivity(), linkUrl);
                 }
-            } else if (linkUriFilename.endsWith(".apk")) {
+            } else if (null != linkUriFilename && linkUriFilename.endsWith(".apk")) {
                 DownloadApkManager.getInstance().showDownloadDialog(context, linkUrl);
             } else if (linkUri.getScheme().equals(Constant.APP_SCHEME)) {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(linkUrl));

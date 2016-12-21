@@ -2,20 +2,21 @@ package com.xiaoningmeng;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.webkit.CookieSyncManager;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.WebStorage.QuotaUpdater;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.facebook.common.util.UriUtil;
+import com.tencent.smtt.sdk.CookieSyncManager;
+import com.tencent.smtt.sdk.WebChromeClient;
+import com.tencent.smtt.sdk.WebSettings;
+import com.tencent.smtt.sdk.WebStorage.QuotaUpdater;
+import com.tencent.smtt.sdk.WebView;
+import com.tencent.smtt.sdk.WebViewClient;
 import com.xiaoningmeng.application.ActivityManager;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.manager.DownloadApkManager;
@@ -36,6 +37,7 @@ public class WebViewActivity extends BaseActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
+        getWindow().setFormat(PixelFormat.TRANSLUCENT);
         webView = (WebView) findViewById(R.id.webView);
         progressBar = (ProgressBar) findViewById(R.id.myProgressBar);
         settingWebView();
@@ -44,6 +46,7 @@ public class WebViewActivity extends BaseActivity {
             webUrl = String.valueOf(getIntent().getData());
         }
         reRequestLoading();
+        CookieSyncManager.createInstance(this);
         CookieSyncManager.getInstance().sync();
         //synCookies(WebViewActivity.this, url);
         webView.loadUrl(webUrl/*, headers*/);
@@ -101,16 +104,10 @@ public class WebViewActivity extends BaseActivity {
                 String filename = uri.getLastPathSegment();
                 if (UriUtil.isNetworkUri(uri)){
 
-                    if(filename.endsWith(".apk")) {
-
+                    if(null != filename && filename.endsWith(".apk")) {
                         DownloadApkManager.getInstance().showDownloadDialog(WebViewActivity.this, url);
-                        return false;
-                    }else {
-
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                        startActivity(intent);
-                        return true;
                     }
+                    return false;
                 }
 
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));

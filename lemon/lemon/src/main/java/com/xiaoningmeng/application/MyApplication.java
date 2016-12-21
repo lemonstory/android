@@ -15,6 +15,8 @@ import com.alibaba.baichuan.android.trade.callback.AlibcTradeInitCallback;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.Bugly;
+import com.tencent.smtt.sdk.QbSdk;
+import com.tencent.smtt.sdk.TbsListener;
 import com.umeng.socialize.PlatformConfig;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xiaoningmeng.bean.AppInfo;
@@ -106,6 +108,43 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
             // QQ和Qzone appid appkey
             PlatformConfig.setQQZone(Constant.QQ_APP_ID, Constant.QQ_APP_KEY);
         }
+
+
+        //搜集本地tbs内核信息并上报服务器，服务器返回结果决定使用哪个内核。
+        //TbsDownloader.needDownload(this, false);
+        QbSdk.PreInitCallback cb = new QbSdk.PreInitCallback() {
+
+            @Override
+            public void onViewInitFinished(boolean arg0) {
+                // TODO Auto-generated method stub
+//                DebugUtils.e( "onViewInitFinished is " + arg0);
+            }
+
+            @Override
+            public void onCoreInitFinished() {
+                // TODO Auto-generated method stub
+//                DebugUtils.e( "onCoreInitFinished ");
+
+            }
+        };
+        QbSdk.setTbsListener(new TbsListener() {
+            @Override
+            public void onDownloadFinish(int i) {
+//                DebugUtils.d("onDownloadFinish");
+            }
+
+            @Override
+            public void onInstallFinish(int i) {
+//                DebugUtils.d("onInstallFinish");
+            }
+
+            @Override
+            public void onDownloadProgress(int i) {
+//                DebugUtils.d("onDownloadProgress:"+i);
+            }
+        });
+        QbSdk.initX5Environment(this,cb);
+
 
         //OPPO A53M报错
         //相关文档：

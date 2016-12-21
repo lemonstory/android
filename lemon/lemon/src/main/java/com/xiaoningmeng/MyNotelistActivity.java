@@ -252,12 +252,12 @@ public class MyNotelistActivity extends BaseActivity implements XListView.IXList
                                 setNoteLists(noteLists);
                             }
 
-                            if (variablesObject.has("count")) {
+                            if (variablesObject.has("count") && !variablesObject.isNull("count")) {
 
                                 count = Integer.parseInt(variablesObject.getString("count"));
                             }
 
-                            if (variablesObject.has("perpage")) {
+                            if (variablesObject.has("perpage") && !variablesObject.isNull("perpage")) {
 
                                 perPage = Integer.parseInt(variablesObject.getString("perpage"));
                             }

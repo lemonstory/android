@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
+    <!--首发更改下面的背景图片-->
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"

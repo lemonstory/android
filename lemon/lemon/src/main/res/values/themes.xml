@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!--参考文档:http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0430/2814.html-->
     <style name="LemonTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowIsTranslucent">false</item>
         <item name="colorPrimary">#ffc96d</item>
         <item name="colorPrimaryDark">#757575</item>
         <item name="colorAccent">#ffc96d</item>
