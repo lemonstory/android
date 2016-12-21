@@ -261,4 +261,9 @@
     <dimen name="author_albums_avatar_width">60dp</dimen>
     <dimen name="author_albums_avatar_height">60dp</dimen>
 
+
+    <dimen name="item_offset">4dp</dimen>
+
+
+
 </resources>

@@ -1,9 +1,12 @@
 package com.xiaoningmeng;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.DimenRes;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
@@ -34,17 +37,22 @@ import java.util.HashMap;
 import java.util.List;
 
 public class CategoryActivity extends BaseActivity implements PlayObserver {
+
+    private Context mContext;
     private RecyclerView mRecyclerView;
     private CategoryAdapter mAdapter;
     private EmptyHelper mEmptyHelper;
     private List<IRecyclerItem> mCategoryDatas;
     private ImageView mWaveImg;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_category);
         setTitleName("全部分类");
+        mContext = this;
         mCategoryDatas = new ArrayList<>();
         mRecyclerView = (RecyclerView) findViewById(R.id.id_stickynavlayout_innerscrollview);
         mRecyclerView.setHasFixedSize(true);
@@ -75,7 +83,8 @@ public class CategoryActivity extends BaseActivity implements PlayObserver {
         });
         mRecyclerView.setAdapter(mAdapter);
         ((SimpleItemAnimator) mRecyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
-        mRecyclerView.addItemDecoration(new SpaceItemDecoration(18));
+        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(mContext, R.dimen.item_offset);
+        mRecyclerView.addItemDecoration(itemDecoration);
         mRecyclerView.addOnItemTouchListener(
                 new OnItemChildClickListener() {
                     @Override
@@ -201,43 +210,29 @@ public class CategoryActivity extends BaseActivity implements PlayObserver {
         PlayWaveManager.getInstance().notify(music);
     }
 
-    public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
 
-        int mSpace;
-        HashMap<Integer, Integer> tagSecctionMap = new HashMap<Integer, Integer>();
-        int lastSectionPos;
-        int spanCount = 2;
+    //http://stackoverflow.com/questions/28531996/android-recyclerview-gridlayoutmanager-column-spacing
+    public class ItemOffsetDecoration extends RecyclerView.ItemDecoration {
 
-        public SpaceItemDecoration(int space) {
-            this.mSpace = space;
+        private int mItemOffset;
+
+        public ItemOffsetDecoration(int itemOffset) {
+            mItemOffset = itemOffset;
+        }
+
+        public ItemOffsetDecoration(@NonNull Context context, @DimenRes int itemOffsetId) {
+            this(mContext.getResources().getDimensionPixelSize(itemOffsetId));
         }
 
         @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
+                                   RecyclerView.State state) {
 
+            super.getItemOffsets(outRect, view, parent, state);
             int pos = parent.getChildAdapterPosition(view);
             int viewType = mAdapter.getItemViewType(pos);
-
-            if (viewType == Category.TYPE_SECTION) {
-                lastSectionPos = pos;
-            }
-
             if (viewType == Category.TYPE_TAG) {
-                int relativePos = 0;
-                if (pos > lastSectionPos && !tagSecctionMap.containsKey(pos)) {
-                    tagSecctionMap.put(pos, lastSectionPos);
-                } else {
-                    lastSectionPos = tagSecctionMap.get(pos);
-                }
-                relativePos = pos - lastSectionPos;
-                outRect.right = mSpace;
-                outRect.top = 0;
-                outRect.bottom = 0;
-                if (relativePos % spanCount == 0) {
-                    outRect.left = 0;
-                } else {
-                    outRect.left = mSpace;
-                }
+                outRect.set(mItemOffset, mItemOffset, mItemOffset, mItemOffset);
             }
         }
     }
