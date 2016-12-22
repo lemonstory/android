@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.adapter.AuthorAlbumsAdapter;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.base.BaseActivity;
@@ -94,7 +95,7 @@ public class AuthorAlbumsActivity extends BaseActivity implements BaseQuickAdapt
     protected void onResume() {
         super.onResume();
         PlayWaveManager.getInstance().loadWaveAnim(this, mWaveImg);
-
+        MobclickAgent.onEvent(this, "event_author_albums");
     }
 
     @Override

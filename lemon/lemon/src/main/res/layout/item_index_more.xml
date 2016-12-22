@@ -11,8 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@color/white"
-        android:paddingLeft="@dimen/page_padding_left"
-        android:paddingRight="@dimen/page_padding_right"
+        android:paddingLeft="@dimen/page_offset"
+        android:paddingRight="@dimen/page_offset"
         android:paddingTop="5dp">
 
         <TextView

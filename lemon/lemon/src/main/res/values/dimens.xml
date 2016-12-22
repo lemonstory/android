@@ -312,8 +312,8 @@
     <dimen name="shop_item_margin_bottom">10dp</dimen>
 
     <!--通用-->
-    <dimen name="page_padding_left">9dp</dimen>
-    <dimen name="page_padding_right">9dp</dimen>
+    <dimen name="item_offset">4dp</dimen>
+    <dimen name="page_offset">8dp</dimen>
 
     <!--tag-->
     <dimen name="tag_indicator_height">30dp</dimen>
@@ -327,6 +327,5 @@
     <dimen name="author_albums_avatar_width">60dp</dimen>
     <dimen name="author_albums_avatar_height">60dp</dimen>
 
-    <dimen name="item_offset">4dp</dimen>
-    <dimen name="page_offset">8dp</dimen>
+
 </resources>

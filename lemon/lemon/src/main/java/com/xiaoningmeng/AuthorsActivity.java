@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter.RequestLoadMoreListener;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.adapter.AuthorAdapter;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.base.BaseActivity;
@@ -27,6 +28,7 @@ import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class AuthorsActivity extends BaseActivity implements RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, PlayObserver {
@@ -68,6 +70,7 @@ public class AuthorsActivity extends BaseActivity implements RequestLoadMoreList
 
         super.onResume();
         PlayWaveManager.getInstance().loadWaveAnim(this, mWaveImg);
+        MobclickAgent.onEvent(this, "event_authors");
     }
 
     @Override
@@ -116,6 +119,12 @@ public class AuthorsActivity extends BaseActivity implements RequestLoadMoreList
                         intent.putExtra("author_uid", authorItem.getUid());
                         intent.putExtra("author", authorItem);
                         startActivity(intent);
+
+                        //计数统计
+                        HashMap<String, String> authorMap = new HashMap<String, String>();
+                        authorMap.put("uid", authorItem.getUid());
+                        authorMap.put("nickname", authorItem.getNickname());
+                        MobclickAgent.onEvent(AuthorsActivity.this, "event_click_author", authorMap);
                     }
                 }
         );
