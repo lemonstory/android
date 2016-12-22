@@ -2,7 +2,10 @@ package com.xiaoningmeng.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.annotation.DimenRes;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
@@ -14,8 +17,10 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.AlbumDetailActivity;
+import com.xiaoningmeng.CategoryActivity;
 import com.xiaoningmeng.adapter.AlbumAdapter;
 import com.xiaoningmeng.bean.AlbumInfo;
+import com.xiaoningmeng.bean.Index;
 import com.xiaoningmeng.manager.EmptyHelper;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.base.BaseFragment;
@@ -36,9 +41,10 @@ public class AblumSimilarFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View contentView = View.inflate(getActivity(), R.layout.fragment_ablum_similar, null);
+        mContext = this.getActivity();
         mRecyclerView = (RecyclerView) contentView.findViewById(R.id.id_stickynavlayout_innerscrollview);
         mRecyclerView.setHasFixedSize(true);
-        this.spanCount = 2;
+        int spanCount = 2;
         GridLayoutManager manager = new GridLayoutManager(getContext(), spanCount);
         mRecyclerView.setLayoutManager(manager);
         albumList = new ArrayList<>();
@@ -82,7 +88,8 @@ public class AblumSimilarFragment extends BaseFragment {
         mAdapter.addFooterView(footerView, 0);
         mRecyclerView.setAdapter(mAdapter);
         ((SimpleItemAnimator) mRecyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
-        mRecyclerView.addItemDecoration(new SpaceItemDecoration(18));
+        AblumSimilarFragment.ItemOffsetDecoration itemDecoration = new AblumSimilarFragment.ItemOffsetDecoration(mContext, R.dimen.page_offset,R.dimen.item_offset);
+        mRecyclerView.addItemDecoration(itemDecoration);
         mRecyclerView.addOnItemTouchListener(
                 new OnItemChildClickListener() {
                     @Override
@@ -124,6 +131,45 @@ public class AblumSimilarFragment extends BaseFragment {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         getActivity().overridePendingTransition(R.anim.slide_left_in, R.anim.slide_right_out);
+    }
+
+    //http://stackoverflow.com/questions/28531996/android-recyclerview-gridlayoutmanager-column-spacing
+    public class ItemOffsetDecoration extends RecyclerView.ItemDecoration {
+
+        private int mPageOffset;
+        private int mItemOffset;
+        private int mSpanCount = 2;
+
+
+        public ItemOffsetDecoration(int pageOffset,int itemOffset) {
+
+            mPageOffset = pageOffset;
+            mItemOffset = itemOffset;
+        }
+
+        public ItemOffsetDecoration(@NonNull Context context, @DimenRes int pageOffsetId, @DimenRes int itemOffsetId) {
+
+            this(mContext.getResources().getDimensionPixelSize(pageOffsetId),mContext.getResources().getDimensionPixelSize(itemOffsetId));
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+
+            super.getItemOffsets(outRect, view, parent, state);
+            int pos = parent.getChildAdapterPosition(view);
+            int left = 0;
+            int right = 0;
+            int top = 0;
+            int bottom = 0;
+            if (pos % mSpanCount == 0) {
+                left = mPageOffset;
+                right = mItemOffset;
+            } else {
+                left = mItemOffset;
+                right = mPageOffset;
+            }
+            outRect.set(left, top, right, bottom);
+        }
     }
 }
 

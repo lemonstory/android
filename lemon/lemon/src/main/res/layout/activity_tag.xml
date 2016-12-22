@@ -14,6 +14,8 @@
         style="@style/page_sliding_tab_style"
         android:layout_width="match_parent"
         android:layout_height="@dimen/tag_indicator_height"
+        android:paddingLeft="@dimen/page_offset"
+        android:paddingRight="@dimen/page_offset"
         android:layout_below="@id/action_bar"
         android:gravity="center_vertical" />
 
@@ -23,5 +25,4 @@
         android:layout_height="fill_parent"
         android:layout_below="@+id/tab_indicator"
         android:background="@color/white" />
-
 </RelativeLayout>

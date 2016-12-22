@@ -149,31 +149,4 @@ public class BaseFragment extends Fragment {
 		});
 		return view;
 	}
-
-	/**
-	 * 设置专辑间距
-	 */
-	public int spanCount;
-	public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
-
-		int mSpace;
-
-		public SpaceItemDecoration(int space) {
-			this.mSpace = space;
-		}
-
-		@Override
-		public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-			int pos = parent.getChildAdapterPosition(view);
-
-			outRect.right = mSpace;
-			outRect.top = 0;
-			outRect.bottom = 0;
-			if (pos % spanCount == 0) {
-				outRect.left = mSpace;
-			} else {
-				outRect.left = 0;
-			}
-		}
-	}
 }

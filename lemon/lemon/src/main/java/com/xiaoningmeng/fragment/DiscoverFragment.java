@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.DimenRes;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.GridLayoutManager;
@@ -42,6 +44,7 @@ import java.util.List;
 
 public class DiscoverFragment extends BaseFragment implements DiscoverConstract.View<DiscoverPresenter> {
 
+    private Context mContext;
     private ConvenientBanner<Index.FocusBean.ItemsBean> convenientBanner;// 顶部广告栏控件
     private RecyclerView mRecyclerView;
     private List<IRecyclerItem> mIndexDatas;
@@ -51,10 +54,10 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
     private Boolean albumClickable;
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View contentView = View.inflate(getActivity(),
-                R.layout.fragment_discover, null);
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        View contentView = View.inflate(getActivity(), R.layout.fragment_discover, null);
+        mContext = this.getActivity();
         mRecyclerView = (RecyclerView) contentView.findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mIndexDatas = new ArrayList<>();
@@ -73,7 +76,8 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
         mEmptyHelper = new EmptyHelper(getContext(), mRecyclerView, mAdapter);
         mEmptyHelper.setEmptyView(EmptyHelper.LOADING, true, getString(R.string.loading_tip));
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.addItemDecoration(new SpaceItemDecoration(18));
+        DiscoverFragment.ItemOffsetDecoration itemDecoration = new DiscoverFragment.ItemOffsetDecoration(mContext, R.dimen.page_offset,R.dimen.item_offset);
+        mRecyclerView.addItemDecoration(itemDecoration);
         new DiscoverPresenter(getActivity(), this).subscribe();
         mPresenter.requestIndexData();
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
@@ -109,7 +113,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
 
                     case Index.AD_TYPE:
                         Index.AdBean.ItemsBean adInfo = (Index.AdBean.ItemsBean) iRecyclerItem;
-                        AppUtils.openLinkUrl(null,DiscoverFragment.this,adInfo.getLinkurl());
+                        AppUtils.openLinkUrl(null, DiscoverFragment.this, adInfo.getLinkurl());
                         break;
 
                     case Index.AUTHOR_TYPE:
@@ -182,7 +186,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
                 public void onClick(View view) {
                     albumClickable = true;
                     String linkUrl = data.getLinkurl();
-                    AppUtils.openLinkUrl(null,DiscoverFragment.this,linkUrl);
+                    AppUtils.openLinkUrl(null, DiscoverFragment.this, linkUrl);
                 }
             });
         }
@@ -223,7 +227,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
             convenientBanner = new ConvenientBanner<>(getActivity());
 
             RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.home_banner_height));
-            layoutParams.setMargins(0,40,0,0);
+            layoutParams.setMargins(0, 40, 0, 0);
             convenientBanner.setLayoutParams(layoutParams);
 
             mAdapter.addHeaderView(convenientBanner);
@@ -256,23 +260,34 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
     /**
      * 设置专辑间距
      */
-    public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
+    //http://stackoverflow.com/questions/28531996/android-recyclerview-gridlayoutmanager-column-spacing
+    public class ItemOffsetDecoration extends RecyclerView.ItemDecoration {
 
-        int mSpace;
-        int lastSectionPos;
-        int spanCount = 2;
-        HashMap<Integer, Integer> tagSecctionMap = new HashMap<Integer, Integer>();
+        private int mPageOffset;
+        private int mItemOffset;
+        private int mSpanCount = 2;
+        private int lastSectionPos;
+        private HashMap<Integer, Integer> tagSecctionMap = new HashMap<Integer, Integer>();
 
-        public SpaceItemDecoration(int space) {
-            this.mSpace = space;
+        public ItemOffsetDecoration(int pageOffset,int itemOffset) {
+
+            mPageOffset = pageOffset;
+            mItemOffset = itemOffset;
+        }
+
+        public ItemOffsetDecoration(@NonNull Context context, @DimenRes int pageOffsetId, @DimenRes int itemOffsetId) {
+
+            this(mContext.getResources().getDimensionPixelSize(pageOffsetId),mContext.getResources().getDimensionPixelSize(itemOffsetId));
         }
 
         @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
+                                   RecyclerView.State state) {
+
+            super.getItemOffsets(outRect, view, parent, state);
             int pos = parent.getChildAdapterPosition(view);
             int viewType = mAdapter.getItemViewType(pos);
             switch (viewType) {
-
                 case Index.ALBUM_MORE_TYPE: {
                     lastSectionPos = pos;
                     break;
@@ -280,27 +295,27 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
 
                 case Index.ALBUM_TYPE: {
 
-                    outRect.right = mSpace;
-                    outRect.top = 0;
-                    outRect.bottom = 0;
+                    int left = 0;
+                    int right = 0;
+                    int top = 0;
+                    int bottom = 0;
                     int relativePos = 0;
                     if (pos > lastSectionPos && !tagSecctionMap.containsKey(pos)) {
                         tagSecctionMap.put(pos, lastSectionPos);
                     } else {
                         lastSectionPos = tagSecctionMap.get(pos);
                     }
-
                     relativePos = pos - lastSectionPos;
-                    outRect.right = mSpace;
-                    outRect.top = 0;
-                    outRect.bottom = 0;
-                    if (relativePos % spanCount == 0) {
-                        outRect.left = 0;
+                    if (relativePos % mSpanCount == 0) {
+                        left = mItemOffset;
+                        right = mPageOffset;
                     } else {
-                        outRect.left = mSpace;
+                        left = mPageOffset;
+                        right = mItemOffset;
                     }
+                    outRect.set(left, top, right, bottom);
+                    break;
                 }
-                break;
 
                 default:
                     break;

@@ -6,10 +6,9 @@
     android:layout_height="wrap_content"
     android:background="#FFFFFF"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/base_margin"
-    android:paddingTop="@dimen/base_margin"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp">
+    android:paddingLeft="@dimen/page_offset"
+    android:paddingRight="@dimen/page_offset"
+    android:paddingBottom="10dp">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/img_album_cover"

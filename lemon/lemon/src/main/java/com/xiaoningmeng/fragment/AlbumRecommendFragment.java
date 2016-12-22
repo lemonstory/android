@@ -2,10 +2,13 @@ package com.xiaoningmeng.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.support.annotation.DimenRes;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,6 +30,7 @@ import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.EmptyHelper;
+import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +44,7 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
     private OnFragmentInteractionListener mListener;
 
     private boolean isPrepared;
+    private Context mContext;
     private AblumRecommendAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -83,9 +88,10 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
 //        DebugUtils.d("AlbumRecommendFragment -- onCreateView -- RUN!!!");
 //        DebugUtils.d("AlbumRecommendFragment -- onCreateView -- isPrepared:" + isPrepared + " -- isVisible:" + getUserVisibleHint());
         View contentView = View.inflate(getActivity(), R.layout.fragment_album_recommend, null);
+        mContext = this.getActivity();
         mRecyclerView = (RecyclerView) contentView.findViewById(R.id.id_stickynavlayout_innerscrollview);
         mRecyclerView.setHasFixedSize(true);
-        this.spanCount = 2;
+        int spanCount = 2;
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), spanCount));
         mSwipeRefreshLayout = (SwipeRefreshLayout) contentView.findViewById(R.id.swipeLayout);
         mSwipeRefreshLayout.setOnRefreshListener(this);
@@ -128,7 +134,8 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
         mAdapter.setOnLoadMoreListener(this);
         mAdapter.openLoadMore(pageSize);
         isErr = false;
-        mRecyclerView.addItemDecoration(new SpaceItemDecoration(18));
+        AlbumRecommendFragment.ItemOffsetDecoration itemDecoration = new AlbumRecommendFragment.ItemOffsetDecoration(mContext, R.dimen.page_offset, R.dimen.item_offset);
+        mRecyclerView.addItemDecoration(itemDecoration);
         mRecyclerView.addOnItemTouchListener(
                 new OnItemChildClickListener() {
                     @Override
@@ -173,7 +180,6 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
     @Override
     public void onRefresh() {
 
-//        DebugUtils.d("AlbumRecommendFragment -- onRefresh -- RUN!!!");
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -186,9 +192,8 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
         }, delayMillis);
     }
 
-    private void requestAlbumRecommendData(String url, String minAge, String maxAge, int page, final int pageSize) {
+    private void requestAlbumRecommendData(String url, String minAge, String maxAge, final int page, final int pageSize) {
 
-//        DebugUtils.d("AlbumRecommendFragment -- requestAlbumRecommendData -- RUN!!!");
         LHttpRequest.getInstance().getAlbumRecommendReq(getActivity(), url, minAge, maxAge, page, pageSize, new JsonCallback<AlbumRecommend>() {
 
             @Override
@@ -202,6 +207,19 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
                 }
                 isLoadData = true;
                 mSwipeRefreshLayout.setRefreshing(false);
+
+                if (1 == page && mAlbumItems.size() < pageSize) {
+                    mAdapter.loadComplete();
+                    if (notLoadingView == null) {
+                        notLoadingView = getActivity().getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);
+                    }
+                    if (notLoadingView != null && notLoadingView.getParent() != null) {
+                        {
+                            ((ViewGroup) notLoadingView.getParent()).removeView(notLoadingView);
+                        }
+                    }
+                    mAdapter.addFooterView(notLoadingView);
+                }
             }
 
             @Override
@@ -255,14 +273,13 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
     @Override
     protected void lazyLoad() {
 
-//        DebugUtils.d("AlbumRecommendFragment -- lazyLoad -- RUN!!!");
+        DebugUtils.d("AlbumRecommendFragment -- lazyLoad -- RUN!!!");
 //        DebugUtils.d("AlbumRecommendFragment -- lazyLoad -- isPrepared:" + isPrepared + " -- isVisible:" + isVisible);
         if (!isPrepared || !isVisible) {
             return;
         }
         mSwipeRefreshLayout.setRefreshing(true);
-        requestAlbumRecommendData(recommendUrl, minAge, maxAge, mCurrentPage, pageSize);
-
+        onRefresh();
     }
 
     /**
@@ -278,5 +295,44 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    //http://stackoverflow.com/questions/28531996/android-recyclerview-gridlayoutmanager-column-spacing
+    public class ItemOffsetDecoration extends RecyclerView.ItemDecoration {
+
+        private int mPageOffset;
+        private int mItemOffset;
+        private int mSpanCount = 2;
+
+
+        public ItemOffsetDecoration(int pageOffset, int itemOffset) {
+
+            mPageOffset = pageOffset;
+            mItemOffset = itemOffset;
+        }
+
+        public ItemOffsetDecoration(@NonNull Context context, @DimenRes int pageOffsetId, @DimenRes int itemOffsetId) {
+
+            this(mContext.getResources().getDimensionPixelSize(pageOffsetId), mContext.getResources().getDimensionPixelSize(itemOffsetId));
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+
+            super.getItemOffsets(outRect, view, parent, state);
+            int pos = parent.getChildAdapterPosition(view);
+            int left = 0;
+            int right = 0;
+            int top = 0;
+            int bottom = 0;
+            if (pos % mSpanCount == 0) {
+                left = mPageOffset;
+                right = mItemOffset;
+            } else {
+                left = mItemOffset;
+                right = mPageOffset;
+            }
+            outRect.set(left, top, right, bottom);
+        }
     }
 }

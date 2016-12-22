@@ -1,7 +1,11 @@
 package com.xiaoningmeng.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.annotation.DimenRes;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +34,7 @@ import java.util.List;
 
 public class TagFragment extends LazyFragment implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
 
+    private Context mContext;
     private RecyclerView mRecyclerView;
     private AlbumAdapter mQuickAdapter;
     private SwipeRefreshLayout mRefreshLayout;
@@ -52,11 +57,12 @@ public class TagFragment extends LazyFragment implements SwipeRefreshLayout.OnRe
         }
         isAttach = false;
         isLoadData = false;
+        mContext = this.getActivity();
         mRecyclerView = (RecyclerView) contentView.findViewById(R.id.rv_list);
         mRefreshLayout = (SwipeRefreshLayout) contentView.findViewById(R.id.swipeLayout);
         mRecyclerView.setHasFixedSize(true);
         mRefreshLayout.setOnRefreshListener(this);
-        this.spanCount = 2;
+        int spanCount = 2;
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), spanCount));
         mAlbumInfos = new ArrayList<>();
         mTagAlbums = new ArrayList<>();
@@ -84,7 +90,8 @@ public class TagFragment extends LazyFragment implements SwipeRefreshLayout.OnRe
         mQuickAdapter.openLoadMore(20);
         setEmptyView(true);
         mQuickAdapter.isFirstOnly(true);
-        mRecyclerView.addItemDecoration(new SpaceItemDecoration(18));
+        TagFragment.ItemOffsetDecoration itemDecoration = new TagFragment.ItemOffsetDecoration(mContext, R.dimen.page_offset,R.dimen.item_offset);
+        mRecyclerView.addItemDecoration(itemDecoration);
         mRecyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
 
             @Override
@@ -217,6 +224,45 @@ public class TagFragment extends LazyFragment implements SwipeRefreshLayout.OnRe
         if (mQuickAdapter.getEmptyView() != view) {
             mQuickAdapter.setEmptyView(view);
             mQuickAdapter.notifyItemChanged(0);
+        }
+    }
+
+    //http://stackoverflow.com/questions/28531996/android-recyclerview-gridlayoutmanager-column-spacing
+    public class ItemOffsetDecoration extends RecyclerView.ItemDecoration {
+
+        private int mPageOffset;
+        private int mItemOffset;
+        private int mSpanCount = 2;
+
+
+        public ItemOffsetDecoration(int pageOffset,int itemOffset) {
+
+            mPageOffset = pageOffset;
+            mItemOffset = itemOffset;
+        }
+
+        public ItemOffsetDecoration(@NonNull Context context, @DimenRes int pageOffsetId, @DimenRes int itemOffsetId) {
+
+            this(mContext.getResources().getDimensionPixelSize(pageOffsetId),mContext.getResources().getDimensionPixelSize(itemOffsetId));
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+
+            super.getItemOffsets(outRect, view, parent, state);
+            int pos = parent.getChildAdapterPosition(view);
+            int left = 0;
+            int right = 0;
+            int top = 0;
+            int bottom = 0;
+            if (pos % mSpanCount == 0) {
+                left = mPageOffset;
+                right = mItemOffset;
+            } else {
+                left = mItemOffset;
+                right = mPageOffset;
+            }
+            outRect.set(left, top, right, bottom);
         }
     }
 }

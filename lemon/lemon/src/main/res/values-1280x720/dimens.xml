@@ -52,6 +52,7 @@
     <dimen name="home_tab_height">55dp</dimen>
     <dimen name="home_discover_cover_width">31dp</dimen>
     <dimen name="home_discover_cover_height">10dp</dimen>
+    <dimen name="home_discover_margin_bottom">16dp</dimen>
 
     <!-- home mine -->
     <dimen name="mine_head_img_width">70dp</dimen>
@@ -263,7 +264,5 @@
 
 
     <dimen name="item_offset">4dp</dimen>
-
-
-
+    <dimen name="page_offset">8dp</dimen>
 </resources>

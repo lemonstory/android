@@ -6,7 +6,8 @@
     android:paddingTop="@dimen/home_discover_cover_height"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:background="@color/white">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/img_tag_cover"

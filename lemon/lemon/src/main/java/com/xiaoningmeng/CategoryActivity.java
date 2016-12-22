@@ -83,7 +83,7 @@ public class CategoryActivity extends BaseActivity implements PlayObserver {
         });
         mRecyclerView.setAdapter(mAdapter);
         ((SimpleItemAnimator) mRecyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
-        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(mContext, R.dimen.item_offset);
+        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(mContext, R.dimen.page_offset, R.dimen.item_offset);
         mRecyclerView.addItemDecoration(itemDecoration);
         mRecyclerView.addOnItemTouchListener(
                 new OnItemChildClickListener() {
@@ -214,25 +214,61 @@ public class CategoryActivity extends BaseActivity implements PlayObserver {
     //http://stackoverflow.com/questions/28531996/android-recyclerview-gridlayoutmanager-column-spacing
     public class ItemOffsetDecoration extends RecyclerView.ItemDecoration {
 
+        private int mPageOffset;
         private int mItemOffset;
+        private int mSpanCount = 2;
+        private HashMap<Integer, Integer> tagSecctionMap = new HashMap<Integer, Integer>();
+        private int lastSectionPos;
 
-        public ItemOffsetDecoration(int itemOffset) {
+
+        public ItemOffsetDecoration(int pageOffset, int itemOffset) {
+
+            mPageOffset = pageOffset;
             mItemOffset = itemOffset;
         }
 
-        public ItemOffsetDecoration(@NonNull Context context, @DimenRes int itemOffsetId) {
-            this(mContext.getResources().getDimensionPixelSize(itemOffsetId));
+        public ItemOffsetDecoration(@NonNull Context context, @DimenRes int pageOffsetId, @DimenRes int itemOffsetId) {
+
+            this(mContext.getResources().getDimensionPixelSize(pageOffsetId), mContext.getResources().getDimensionPixelSize(itemOffsetId));
         }
 
         @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
-                                   RecyclerView.State state) {
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
 
             super.getItemOffsets(outRect, view, parent, state);
+            int left = 0;
+            int right = 0;
+            int top = 0;
+            int bottom = 0;
             int pos = parent.getChildAdapterPosition(view);
             int viewType = mAdapter.getItemViewType(pos);
-            if (viewType == Category.TYPE_TAG) {
-                outRect.set(mItemOffset, mItemOffset, mItemOffset, mItemOffset);
+
+            switch (viewType) {
+
+                case Category.TYPE_SECTION:
+
+                    lastSectionPos = pos;
+                    break;
+
+                case Category.TYPE_TAG: {
+
+                    int relativePos = 0;
+                    if (pos > lastSectionPos && !tagSecctionMap.containsKey(pos)) {
+                        tagSecctionMap.put(pos, lastSectionPos);
+                    } else {
+                        lastSectionPos = tagSecctionMap.get(pos);
+                    }
+                    relativePos = pos - lastSectionPos;
+                    if (relativePos % mSpanCount == 0) {
+                        left = mItemOffset;
+                        right = mPageOffset;
+                    } else {
+                        left = mPageOffset;
+                        right = mItemOffset;
+                    }
+                    outRect.set(left, top, right, bottom);
+                    break;
+                }
             }
         }
     }
