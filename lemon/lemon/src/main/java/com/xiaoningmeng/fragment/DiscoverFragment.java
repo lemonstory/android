@@ -40,7 +40,7 @@ import com.xiaoningmeng.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.List;;
 
 public class DiscoverFragment extends BaseFragment implements DiscoverConstract.View<DiscoverPresenter> {
 
@@ -265,7 +265,8 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
 
         private int mPageOffset;
         private int mItemOffset;
-        private int mSpanCount = 2;
+        private int mAlbumSpanCount = 2;
+        private int mCategorySpanCount = 4;
         private int lastSectionPos;
         private HashMap<Integer, Integer> tagSecctionMap = new HashMap<Integer, Integer>();
 
@@ -287,7 +288,27 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
             super.getItemOffsets(outRect, view, parent, state);
             int pos = parent.getChildAdapterPosition(view);
             int viewType = mAdapter.getItemViewType(pos);
+            int left = 0;
+            int right = 0;
+            int top = 0;
+            int bottom = 0;
+            int relativePos = 0;
+
             switch (viewType) {
+
+                case Index.CATEGORY_TYPE: {
+                    //第1行
+                    if ((pos - 1) / mCategorySpanCount == 0) {
+                        top = mPageOffset;
+                        bottom = mPageOffset;
+                    } else {
+                        bottom = mPageOffset;
+                    }
+                    outRect.set(left, top, right, bottom);
+                    break;
+                }
+
+
                 case Index.ALBUM_MORE_TYPE: {
                     lastSectionPos = pos;
                     break;
@@ -295,18 +316,14 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
 
                 case Index.ALBUM_TYPE: {
 
-                    int left = 0;
-                    int right = 0;
-                    int top = 0;
-                    int bottom = 0;
-                    int relativePos = 0;
+
                     if (pos > lastSectionPos && !tagSecctionMap.containsKey(pos)) {
                         tagSecctionMap.put(pos, lastSectionPos);
                     } else {
                         lastSectionPos = tagSecctionMap.get(pos);
                     }
                     relativePos = pos - lastSectionPos;
-                    if (relativePos % mSpanCount == 0) {
+                    if (relativePos % mAlbumSpanCount == 0) {
                         left = mItemOffset;
                         right = mPageOffset;
                     } else {
