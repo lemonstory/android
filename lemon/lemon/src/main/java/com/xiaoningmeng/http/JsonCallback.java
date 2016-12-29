@@ -5,7 +5,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.utils.DebugUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.json.JSONObject;
 
@@ -26,7 +25,7 @@ import rx.schedulers.Schedulers;
  * 重写StringCallBack
  */
 
-public abstract class JsonCallback<T> extends StringCallback{
+public abstract class JsonCallback<T> {
 
     public static final int JSON_PARSE_CODE = 708;
 
@@ -45,17 +44,17 @@ public abstract class JsonCallback<T> extends StringCallback{
         builder = new GsonBuilder();
     }
 
-    @Override
+    //    @Override
     public void onBefore(Request request, int id) {
-        super.onBefore(request, id);
+//        super.onBefore(request, id);
         if(mLoading != null){
             mLoading.startLoading();
         }
     }
 
-    @Override
+    //    @Override
     public void onAfter(int id) {
-        super.onAfter(id);
+//        super.onAfter(id);
         if(mLoading != null){
             mLoading.stopLoading();
         }
@@ -63,18 +62,18 @@ public abstract class JsonCallback<T> extends StringCallback{
     }
 
 
-
-    @Override
+    //    @Override
     public void onError(Call call, Exception e, int id) {
         onFailure(responseCode,e.getMessage());
 
     }
 
 
-    @Override
+    //    @Override
     public boolean validateReponse(Response response, int id) {
         responseCode = response.code();
-        return super.validateReponse(response, id);
+//        return super.validateReponse(response, id);
+        return true;
     }
 
     public void onFinish(){
@@ -88,7 +87,7 @@ public abstract class JsonCallback<T> extends StringCallback{
      * @param response
      * @param id
      */
-    @Override
+//    @Override
     public void onResponse(final String response, int id) {
 
         Observable.just(response).map(new Func1<String, T>() {

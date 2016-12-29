@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.facebook.common.util.UriUtil;
@@ -19,9 +20,10 @@ import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 import com.xiaoningmeng.application.ActivityManager;
 import com.xiaoningmeng.base.BaseActivity;
+import com.xiaoningmeng.bean.ShareBean;
 import com.xiaoningmeng.manager.DownloadApkManager;
-import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.utils.NetUtils;
+import com.xiaoningmeng.view.ShareDialog;
 
 //import com.r0adkll.slidr.Slidr;
 
@@ -30,17 +32,21 @@ public class WebViewActivity extends BaseActivity {
     private WebView webView;
     private String webUrl;
     private ProgressBar progressBar;
-    private static final String APP_SCHEME = "xnm:";
+    private ImageView mShareImg;
+    private String mPageTitle = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
+        setRightHeadIcon(R.drawable.btn_player_share_normal);
         getWindow().setFormat(PixelFormat.TRANSLUCENT);
         webView = (WebView) findViewById(R.id.webView);
         progressBar = (ProgressBar) findViewById(R.id.myProgressBar);
         settingWebView();
+        mShareImg = (ImageView) this.findViewById(R.id.img_head_right);
+        mShareImg.setOnClickListener(shareImgOnClick);
         webUrl = getIntent().getStringExtra("web_url");
         if (null == webUrl) {
             webUrl = String.valueOf(getIntent().getData());
@@ -50,6 +56,7 @@ public class WebViewActivity extends BaseActivity {
         CookieSyncManager.getInstance().sync();
         //synCookies(WebViewActivity.this, url);
         webView.loadUrl(webUrl/*, headers*/);
+
     }
 
     // 调用此方法打开webView
@@ -99,7 +106,6 @@ public class WebViewActivity extends BaseActivity {
              */
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
 
-                DebugUtils.d("===========shouldOverrideUrlLoading=============");
                 Uri uri = Uri.parse(url);
                 String filename = uri.getLastPathSegment();
                 if (UriUtil.isNetworkUri(uri)){
@@ -153,7 +159,8 @@ public class WebViewActivity extends BaseActivity {
             public void onReceivedTitle(WebView view, String title) {
                 super.onReceivedTitle(view, title);
                 if (!TextUtils.isEmpty(title)) {
-                    WebViewActivity.this.setTitleName(title);
+                    mPageTitle = title;
+                    WebViewActivity.this.setTitleName(mPageTitle);
                 }
             }
 
@@ -230,4 +237,14 @@ public class WebViewActivity extends BaseActivity {
             super.finish();
         }
     }
+
+
+    private View.OnClickListener shareImgOnClick = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            ShareBean shareBean = new ShareBean(mPageTitle, "", "", "", webUrl);
+            new ShareDialog().show(WebViewActivity.this, shareBean);
+        }
+    };
 }

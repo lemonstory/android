@@ -2,7 +2,7 @@ package com.xiaoningmeng.bean;
 
 import java.util.List;
 
-public class HomeInfo {
+public class PerasonalInfo {
 	
 	private String uid;
 	private String nickname;

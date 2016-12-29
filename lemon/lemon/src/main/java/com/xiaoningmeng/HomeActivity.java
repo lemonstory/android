@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.orhanobut.dialogplus.DialogPlus;
@@ -20,26 +21,26 @@ import com.umeng.update.UmengUpdateAgent;
 import com.umeng.update.UmengUpdateListener;
 import com.umeng.update.UpdateResponse;
 import com.xiaoningmeng.application.MyApplication;
+import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.ForumLoginVar;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.ShareBean;
+import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.event.ForumLoginEvent;
 import com.xiaoningmeng.fragment.AccountFragment;
 import com.xiaoningmeng.fragment.DiscoverFragment;
 import com.xiaoningmeng.fragment.ForumIndexFragment;
+import com.xiaoningmeng.fragment.MineFragment;
+import com.xiaoningmeng.fragment.ShopFragment;
 import com.xiaoningmeng.manager.PlayWaveManager;
+import com.xiaoningmeng.player.MusicService;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
+import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.utils.PreferenceUtil;
 import com.xiaoningmeng.view.BadgeView;
 import com.xiaoningmeng.view.SearchView;
 import com.xiaoningmeng.view.ShareDialog;
-
-import com.xiaoningmeng.base.BaseActivity;
-import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.fragment.MineFragment;
-import com.xiaoningmeng.fragment.ShopFragment;
-import com.xiaoningmeng.player.MusicService;
 import com.xiaoningmeng.view.dialog.TipDialog;
 
 import de.greenrobot.event.EventBus;
@@ -87,6 +88,10 @@ public class HomeActivity extends BaseActivity implements
         initView();
         PlayerManager.getInstance().register(this);
         EventBus.getDefault().register(this);
+        DebugUtils.e("==========================");
+        String content = "BuildConfig.DEBUG = " + BuildConfig.DEBUG;
+        Toast.makeText(this, content, Toast.LENGTH_SHORT).show();
+        DebugUtils.e("==========================");
     }
 
     @Override

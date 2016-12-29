@@ -13,24 +13,29 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.umeng.analytics.MobclickAgent;
-import com.xiaoningmeng.adapter.AblumPlayListAdapter;
-import com.xiaoningmeng.application.MyApplication;
-import com.xiaoningmeng.bean.AlbumInfo;
-import com.xiaoningmeng.bean.PlayingStory;
-import com.xiaoningmeng.download.DownLoadClientImpl;
-import com.xiaoningmeng.manager.EmptyHelper;
-import com.xiaoningmeng.player.PlayerManager;
-
 import com.xiaoningmeng.R;
+import com.xiaoningmeng.adapter.AblumPlayListAdapter;
 import com.xiaoningmeng.base.BaseFragment;
+import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.AudioDownLoad;
+import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.Story;
 import com.xiaoningmeng.bean.StoryList;
-import com.xiaoningmeng.http.JsonCallback;
+import com.xiaoningmeng.download.DownLoadClientImpl;
+import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
+import com.xiaoningmeng.manager.EmptyHelper;
+import com.xiaoningmeng.player.PlayerManager;
+import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.xiaoningmeng.http.LHttpRequest.mRetrofit;
 
 public class AblumDetailPlayListFragment extends BaseFragment implements BaseQuickAdapter.RequestLoadMoreListener {
 
@@ -123,15 +128,15 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
                     PlayingStory playingStory = PlayerManager.getInstance().getPlayingStory();
                     AblumDetailPlayListFragment.this.playStoryId = story.getId();
                     mAdapter.setPlayStoryId(story.getId());
-                        if (story.getMediapath().equals(playingStory.mediapath)) {
-                            if (playingStory.playState == PlayerManager.PlayState.RESUME || playingStory.playState == PlayerManager.PlayState.START || playingStory.playState == PlayerManager.PlayState.PLAY) {
-                                PlayerManager.getInstance().pausePlay();
-                            } else {
-                                PlayerManager.getInstance().resumePlay();
-                            }
+                    if (story.getMediapath().equals(playingStory.mediapath)) {
+                        if (playingStory.playState == PlayerManager.PlayState.RESUME || playingStory.playState == PlayerManager.PlayState.START || playingStory.playState == PlayerManager.PlayState.PLAY) {
+                            PlayerManager.getInstance().pausePlay();
                         } else {
-                            PlayerManager.getInstance().playStory(albumInfo, mStories, position,AblumDetailPlayListFragment.this.mCurrentPlayTime, PlayerManager.AlbumSource.ALBUM_DETAIL);
+                            PlayerManager.getInstance().resumePlay();
                         }
+                    } else {
+                        PlayerManager.getInstance().playStory(albumInfo, mStories, position, AblumDetailPlayListFragment.this.mCurrentPlayTime, PlayerManager.AlbumSource.ALBUM_DETAIL);
+                    }
                 }
             }
         });
@@ -166,7 +171,7 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
         }
         isErr = false;
 
-        if(this.mStories.size() < pageSize && this.mStories.size() > singleScreenItemNum) {
+        if (this.mStories.size() < pageSize && this.mStories.size() > singleScreenItemNum) {
             mAdapter.addFooterView(notLoadingView);
         }
     }
@@ -175,32 +180,37 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
 
         if (albumId > 0 && pageSize > 0 && page > 0) {
 
-            LHttpRequest.getInstance().albumStorysReq(getActivity(), albumId, pageSize, page,
-                    MyApplication.getInstance().getUid(),
-                    new JsonCallback<StoryList>() {
+            LHttpRequest.AlbumStorysRequest albumStorysRequest = mRetrofit.create(LHttpRequest.AlbumStorysRequest.class);
+            Call<JsonResponse<StoryList>> call = albumStorysRequest.getResult(albumId, page, pageSize);
+            call.enqueue(new Callback<JsonResponse<StoryList>>() {
 
-                        @Override
-                        public void onGetDataSuccess(StoryList data) {
+                @Override
+                public void onResponse(Call<JsonResponse<StoryList>> call, Response<JsonResponse<StoryList>> response) {
 
-                            storysTotal = Integer.parseInt(data.getTotal());
-                            if (storysTotal > 0 && data.getItems().size() > 0) {
+                    if (response.isSuccessful() && response.body().isSuccessful()) {
 
-                                mCurrentStories = data.getItems();
-                                mAdapter.addData(mCurrentStories);
-                                mStories = mAdapter.getData();
-                            }
+                        StoryList data = response.body().getData();
+                        storysTotal = Integer.parseInt(data.getTotal());
+                        if (storysTotal > 0 && data.getItems().size() > 0) {
+
+                            mCurrentStories = data.getItems();
+                            mAdapter.addData(mCurrentStories);
+                            mStories = mAdapter.getData();
                         }
+                    } else if (!response.body().isSuccessful()) {
 
-                        @Override
-                        public void onFailure(int statusCode, String failureResponse) {
-                            AblumDetailPlayListFragment.this.onFailure(statusCode,failureResponse);
-                        }
+                        AblumDetailPlayListFragment.this.onFailure(response.body().getCode(), response.body().getDesc());
+                    } else {
+                        DebugUtils.e(response.toString());
+                    }
+                }
 
-                        @Override
-                        public void onFinish() {
-                            super.onFinish();
-                        }
-                    });
+                @Override
+                public void onFailure(Call<JsonResponse<StoryList>> call, Throwable t) {
+
+                    DebugUtils.e(t.toString());
+                }
+            });
         }
 
     }
@@ -208,7 +218,7 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
     public void onFailure(int statusCode, String failureResponse) {
 
         isErr = true;
-        if(null != getActivity() && AblumDetailPlayListFragment.this.isAdded()) {
+        if (null != getActivity() && AblumDetailPlayListFragment.this.isAdded()) {
             Toast.makeText(getActivity(), R.string.network_err, Toast.LENGTH_LONG).show();
         }
         mAdapter.showLoadMoreFailedView();
@@ -250,7 +260,7 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
                         }, delayMillis);
                     } else {
                         isErr = true;
-                        if(null != getActivity() && AblumDetailPlayListFragment.this.isAdded()) {
+                        if (null != getActivity() && AblumDetailPlayListFragment.this.isAdded()) {
                             Toast.makeText(getActivity(), R.string.network_err, Toast.LENGTH_LONG).show();
                         }
                         mAdapter.showLoadMoreFailedView();

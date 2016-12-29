@@ -8,12 +8,12 @@ import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xiaoningmeng.LoginActivity;
-import com.xiaoningmeng.bean.UserInfo;
-
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.application.ActivityManager;
 import com.xiaoningmeng.application.MyApplication;
+import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.event.LoginEvent;
+import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.utils.PreferenceUtil;
 
 import org.litepal.crud.DataSupport;
@@ -85,6 +85,9 @@ public class UserAuth {
 				.getCookieStore();
 		String authToken = CookieParser.parseCookies2Json(store);*/
 		//PreferenceUtil.putString(TOKEN, authToken);
+
+		DebugUtils.d("userInfo = " + userInfo.toString());
+
 		PreferenceUtil.putString(UID, userInfo.getUid());
 		DataSupport.deleteAll(UserInfo.class);
 		userInfo.save();

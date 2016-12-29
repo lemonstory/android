@@ -16,20 +16,26 @@ import com.chad.library.adapter.base.BaseQuickAdapter.RequestLoadMoreListener;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.adapter.AuthorAdapter;
-import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.Author;
 import com.xiaoningmeng.bean.AuthorList;
 import com.xiaoningmeng.bean.PlayingStory;
-import com.xiaoningmeng.http.JsonCallback;
+import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.EmptyHelper;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
+import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.HashMap;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.xiaoningmeng.http.LHttpRequest.mRetrofit;
 
 public class AuthorsActivity extends BaseActivity implements RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, PlayObserver {
 
@@ -132,62 +138,71 @@ public class AuthorsActivity extends BaseActivity implements RequestLoadMoreList
 
     private void requestAuthorsData(int page, final int pageSize, final Boolean isRefreshing) {
 
-        String uid = MyApplication.getInstance().getUid();
-        LHttpRequest.getInstance().getAuthorsReq(this, page, pageSize, uid,
-                new JsonCallback<AuthorList>() {
+        LHttpRequest.GetAuthorsRequest getAuthorsRequest = mRetrofit.create(LHttpRequest.GetAuthorsRequest.class);
+        Call<JsonResponse<AuthorList>> call = getAuthorsRequest.getResult(page, pageSize);
+        call.enqueue(new Callback<JsonResponse<AuthorList>>() {
 
-                    @Override
-                    public void onGetDataSuccess(AuthorList data) {
+            @Override
+            public void onResponse(Call<JsonResponse<AuthorList>> call, Response<JsonResponse<AuthorList>> response) {
 
-                        if (data != null) {
+                if (response.isSuccessful() && response.body().isSuccessful()) {
 
-                            if (data.getTotal() > 0) {
-                                mTotalCounter = data.getTotal();
-                            }
-                            if (data.getItems() != null) {
+                    AuthorList data = response.body().getData();
+                    if (data != null) {
 
-                                if(data.getItems().size() > 0) {
-                                    mCurrentCounter = data.getItems().size();
-                                    mCurrentAuthors = data.getItems();
-
-                                    if (isRefreshing) {
-                                        mAdapter.setNewData(mCurrentAuthors);
-                                    } else {
-                                        mAdapter.addData(mCurrentAuthors);
-                                    }
-                                }
-
-                                //数量不足page_size 显示加载完成view
-                                if (mCurrentCounter < pageSize) {
-                                    if (notLoadingView == null) {
-                                        notLoadingView = getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);
-                                    }
-                                    mAdapter.addFooterView(notLoadingView);
-                                }
-
-                            } else {
-                                mEmptyHelper.setEmptyView(EmptyHelper.EMPTY, true, getString(R.string.empty_tip));
-                            }
+                        if (data.getTotal() > 0) {
+                            mTotalCounter = data.getTotal();
                         }
-                    }
+                        if (data.getItems() != null) {
 
-                    @Override
-                    public void onFailure(int statusCode, String failureResponse) {
+                            if (data.getItems().size() > 0) {
+                                mCurrentCounter = data.getItems().size();
+                                mCurrentAuthors = data.getItems();
 
-                        isErr = true;
-                        Toast.makeText(AuthorsActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
-                        if (mCurrentCounter > 0) {
-                            mAdapter.showLoadMoreFailedView();
+                                if (isRefreshing) {
+                                    mAdapter.setNewData(mCurrentAuthors);
+                                } else {
+                                    mAdapter.addData(mCurrentAuthors);
+                                }
+                            }
+
+                            //数量不足page_size 显示加载完成view
+                            if (mCurrentCounter < pageSize) {
+                                if (notLoadingView == null) {
+                                    notLoadingView = getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);
+                                }
+                                mAdapter.addFooterView(notLoadingView);
+                            }
+
                         } else {
                             mEmptyHelper.setEmptyView(EmptyHelper.EMPTY, true, getString(R.string.empty_tip));
                         }
                     }
 
-                    @Override
-                    public void onFinish() {
-                        super.onFinish();
+                } else {
+                    DebugUtils.e(response.toString());
+                    isErr = true;
+                    Toast.makeText(AuthorsActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
+                    if (mCurrentCounter > 0) {
+                        mAdapter.showLoadMoreFailedView();
+                    } else {
+                        mEmptyHelper.setEmptyView(EmptyHelper.EMPTY, true, getString(R.string.empty_tip));
                     }
-                });
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonResponse<AuthorList>> call, Throwable t) {
+                DebugUtils.e(t.toString());
+                isErr = true;
+                Toast.makeText(AuthorsActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
+                if (mCurrentCounter > 0) {
+                    mAdapter.showLoadMoreFailedView();
+                } else {
+                    mEmptyHelper.setEmptyView(EmptyHelper.EMPTY, true, getString(R.string.empty_tip));
+                }
+            }
+        });
     }
 
 

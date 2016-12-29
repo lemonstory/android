@@ -12,19 +12,25 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
-
 import com.xiaoningmeng.adapter.AblumCommentAdapter;
-import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.Comment;
+import com.xiaoningmeng.bean.CommentList;
 import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.http.JsonCallback;
+import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.EmptyHelper;
+import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.xiaoningmeng.http.LHttpRequest.mRetrofit;
 
 public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
 
@@ -32,7 +38,7 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private EmptyHelper mEmptyHelper;
     private AblumCommentAdapter mAdapter;
-    private List<Comment.ItemsBean> mCurrentComments = new ArrayList<>();
+    private List<Comment> mCurrentComments = new ArrayList<>();
     private String mAblumId;
     private String mStartCommentId = "0";
     private int pageSize = 20;
@@ -92,7 +98,7 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
                     @Override
                     public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 
-                        Comment.ItemsBean item = (Comment.ItemsBean) adapter.getData().get(position);
+                        Comment item = (Comment) adapter.getData().get(position);
                         String uid = item.getUid();
                         Intent i = new Intent(AlbumCommentActivity.this, PerasonalActivity.class);
                         i.putExtra("uid", uid);
@@ -122,58 +128,66 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
     };
 
     private void requestAlbumCommentData(final String direction, String startId, final Boolean isRefreshing) {
-        LHttpRequest.getInstance().albumCommentReq(this, mAblumId, direction, startId, pageSize,
-                MyApplication.getInstance().getUid(),
-                new JsonCallback<Comment>() {
 
-                    @Override
-                    public void onGetDataSuccess(Comment data) {
+        LHttpRequest.AlbumCommentRequest albumCommentRequest = mRetrofit.create(LHttpRequest.AlbumCommentRequest.class);
+        Call<JsonResponse<CommentList>> call = albumCommentRequest.getResult(mAblumId, direction, startId, pageSize);
+        call.enqueue(new Callback<JsonResponse<CommentList>>() {
 
-                        if (data != null) {
-                            if (data.getTotal() != null && Integer.parseInt(data.getTotal()) > 0) {
-                                mTotalCounter = Integer.parseInt(data.getTotal());
-                                String title = String.format("评论(%s)", mTotalCounter);
-                                AlbumCommentActivity.this.setTitleName(title);
-                            }
+            @Override
+            public void onResponse(Call<JsonResponse<CommentList>> call, Response<JsonResponse<CommentList>> response) {
 
-                            if (data.getItems() != null && data.getItems().size() > 0) {
-                                mCurrentCounter = data.getItems().size();
-                                mCurrentComments = data.getItems();
-                                Comment.ItemsBean currentCommentItem = data.getItems().get(data.getItems().size() - 1);
-                                mStartCommentId = currentCommentItem.getId();
-                                if (isRefreshing) {
-                                    mAdapter.setNewData(mCurrentComments);
-                                } else {
-                                    mAdapter.addData(mCurrentComments);
-                                }
-                                mCurrentCounter = mAdapter.getData().size();
+                if (response.isSuccessful() && response.body().isSuccessful()) {
 
-                                //数量不足page_size 显示加载完成view
-                                if (mCurrentCounter == mTotalCounter && mCurrentCounter < pageSize && singleScreenItemNum < mTotalCounter) {
-                                    if (notLoadingView == null) {
-                                        notLoadingView = getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);
-                                    }
-                                    mAdapter.addFooterView(notLoadingView);
-                                }
+                    CommentList data = response.body().getData();
+                    if (data != null) {
+                        if (data.getTotal() != null && Integer.parseInt(data.getTotal()) > 0) {
+                            mTotalCounter = Integer.parseInt(data.getTotal());
+                            String title = String.format("评论(%s)", mTotalCounter);
+                            AlbumCommentActivity.this.setTitleName(title);
+                        }
 
+                        if (data.getItems() != null && data.getItems().size() > 0) {
+                            mCurrentCounter = data.getItems().size();
+                            mCurrentComments = data.getItems();
+                            Comment currentCommentItem = data.getItems().get(data.getItems().size() - 1);
+                            mStartCommentId = currentCommentItem.getId();
+                            if (isRefreshing) {
+                                mAdapter.setNewData(mCurrentComments);
                             } else {
-                                mEmptyHelper.setEmptyView(EmptyHelper.EMPTY, true, getString(R.string.empty_album_comment));
+                                mAdapter.addData(mCurrentComments);
                             }
+                            mCurrentCounter = mAdapter.getData().size();
+
+                            //数量不足page_size 显示加载完成view
+                            if (mCurrentCounter == mTotalCounter && mCurrentCounter < pageSize && singleScreenItemNum < mTotalCounter) {
+                                if (notLoadingView == null) {
+                                    notLoadingView = getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);
+                                }
+                                mAdapter.addFooterView(notLoadingView);
+                            }
+
+                        } else {
+                            mEmptyHelper.setEmptyView(EmptyHelper.EMPTY, true, getString(R.string.empty_album_comment));
                         }
                     }
 
-                    @Override
-                    public void onFailure(int statusCode, String failureResponse) {
-                        isErr = true;
-                        Toast.makeText(AlbumCommentActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
-                        mAdapter.showLoadMoreFailedView();
-                    }
+                } else {
+                    isErr = true;
+                    Toast.makeText(AlbumCommentActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
+                    mAdapter.showLoadMoreFailedView();
+                    DebugUtils.e(response.toString());
+                }
 
-                    @Override
-                    public void onFinish() {
-                        super.onFinish();
-                    }
-                });
+            }
+
+            @Override
+            public void onFailure(Call<JsonResponse<CommentList>> call, Throwable t) {
+                DebugUtils.e(t.toString());
+                isErr = true;
+                Toast.makeText(AlbumCommentActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
+                mAdapter.showLoadMoreFailedView();
+            }
+        });
     }
 
     private void writeComment() {

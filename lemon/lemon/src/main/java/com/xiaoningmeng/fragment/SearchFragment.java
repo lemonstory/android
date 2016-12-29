@@ -15,23 +15,31 @@ import android.widget.TextView;
 
 import com.baoyz.swipemenu.xlistview.XListView;
 import com.umeng.analytics.MobclickAgent;
+import com.xiaoningmeng.R;
 import com.xiaoningmeng.adapter.SearchAdapter;
 import com.xiaoningmeng.adapter.SearchDefaultAdapter2;
 import com.xiaoningmeng.base.BaseActivity;
+import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.SearchContent;
 import com.xiaoningmeng.bean.SearchData;
+import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.db.SearchDao;
+import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
+import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.view.SearchView;
 import com.xiaoningmeng.view.TabIndicatorView;
-import com.xiaoningmeng.R;
-import com.xiaoningmeng.base.BaseFragment;
-import com.xiaoningmeng.http.JsonCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.xiaoningmeng.http.LHttpRequest.mRetrofit;
 
 public class SearchFragment extends BaseFragment implements SearchView.OnSearchViewListener, OnClickListener {
 
@@ -69,22 +77,36 @@ public class SearchFragment extends BaseFragment implements SearchView.OnSearchV
         mDefaultAdapter = new SearchDefaultAdapter2(getActivity(), mHotContents, mLastContents);
         mSearchAdapter = new SearchAdapter(getActivity(), mAlbumInfos);
         mListView.setAdapter(mDefaultAdapter);
-        requestDefaultSearchReq();
+        requestHotSearchReq();
         mSearchView.loadView(false);
         mSearchView.setOnSearchViewListener(this);
         return contentView;
     }
 
-    public void requestDefaultSearchReq() {
+    public void requestHotSearchReq() {
 
-        LHttpRequest.getInstance().getHotSearchReq(mContext, 20, new JsonCallback<List<SearchContent>>(mContext) {
+        LHttpRequest.GetHotSearchRequest getHotSearchRequest = mRetrofit.create(LHttpRequest.GetHotSearchRequest.class);
+        Call<JsonResponse<List<SearchContent>>> call = getHotSearchRequest.getResult(Constant.MAX_REQ_LEN);
+        call.enqueue(new Callback<JsonResponse<List<SearchContent>>>() {
 
             @Override
-            public void onGetDataSuccess(List<SearchContent> data) {
-                if (data != null && data.size() > 0) {
-                    mHotContents.addAll(data);
-                    mDefaultAdapter.notifyDataSetChanged();
+            public void onResponse(Call<JsonResponse<List<SearchContent>>> call, Response<JsonResponse<List<SearchContent>>> response) {
+
+                if (response.isSuccessful() && response.body().isSuccessful()) {
+
+                    List<SearchContent> data = response.body().getData();
+                    if (data != null && data.size() > 0) {
+                        mHotContents.addAll(data);
+                        mDefaultAdapter.notifyDataSetChanged();
+                    }
+                } else {
+                    DebugUtils.e(response.toString());
                 }
+            }
+
+            @Override
+            public void onFailure(Call<JsonResponse<List<SearchContent>>> call, Throwable t) {
+                DebugUtils.e(t.toString());
             }
         });
     }
@@ -98,73 +120,53 @@ public class SearchFragment extends BaseFragment implements SearchView.OnSearchV
         mAlbumInfos.clear();
         mContext.setLoadingTip("搜索中...");
         mPager = 1;
-        LHttpRequest.getInstance().searchReq(getActivity(), searchContent, 10, mPager, null,
-                new JsonCallback<SearchData>(mContext) {
 
-                    @Override
-                    public void onGetDataSuccess(SearchData data) {
-                        mPager++;
-                        mSearchContentView.setVisibility(View.VISIBLE);
-                        if (data != null && (data.getAlbumcount() != 0 || data.getStorycount() != 0)) {
-                            hideEmptyTip();
-                            ((TextView) mIndicator.getChildAt(1)).setText(TAB_TITLES[1] + "（" + data.getAlbumcount() + "）");
-                            ((TextView) mIndicator.getChildAt(0)).setText(TAB_TITLES[0] + "（" + data.getStorycount() + "）");
-                            ((SearchStoryChildFragment) mSearchFragments[0]).setStoryList(data.getStorylist());
-                            ((SearchAlbumChildFragment) mSearchFragments[1]).setAlbumList(data.getAlbumlist());
-                        } else {
-                            showEmptyTip();
-                        }
-                    }
+        LHttpRequest.SearchRequest searchRequest = mRetrofit.create(LHttpRequest.SearchRequest.class);
+        Call<JsonResponse<SearchData>> call = searchRequest.getResult(mSearchContent, null, mPager, Constant.MAX_REQ_LEN);
+        call.enqueue(new Callback<JsonResponse<SearchData>>() {
 
-                    @Override
-                    public void onFailure(String responseString) {
+            @Override
+            public void onResponse(Call<JsonResponse<SearchData>> call, Response<JsonResponse<SearchData>> response) {
 
-                        mSearchContentView.setVisibility(View.VISIBLE);
+                if (response.isSuccessful() && response.body().isSuccessful()) {
+
+                    SearchData data = response.body().getData();
+                    mPager++;
+                    mSearchContentView.setVisibility(View.VISIBLE);
+                    if (data != null && (data.getAlbumcount() != 0 || data.getStorycount() != 0)) {
+                        hideEmptyTip();
+                        ((TextView) mIndicator.getChildAt(1)).setText(TAB_TITLES[1] + "（" + data.getAlbumcount() + "）");
+                        ((TextView) mIndicator.getChildAt(0)).setText(TAB_TITLES[0] + "（" + data.getStorycount() + "）");
+                        ((SearchStoryChildFragment) mSearchFragments[0]).setStoryList(data.getStorylist());
+                        ((SearchAlbumChildFragment) mSearchFragments[1]).setAlbumList(data.getAlbumlist());
+                    } else {
                         showEmptyTip();
-
                     }
+                } else {
+                    DebugUtils.e(response.toString());
+                    mSearchContentView.setVisibility(View.VISIBLE);
+                    showEmptyTip();
+                }
 
-                    @Override
-                    public void onFinish() {
-                        isReq.set(false);
-                        if (SearchDao.getInstance().addSearch(searchContent)) {
-                            mLastContents.add(0, new SearchContent(searchContent));
-                            mDefaultAdapter.notifyDataSetChanged();
-                        }
-                        super.onFinish();
-                    }
-                });
+                isReq.set(false);
+                if (SearchDao.getInstance().addSearch(searchContent)) {
+                    mLastContents.add(0, new SearchContent(searchContent));
+                    mDefaultAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonResponse<SearchData>> call, Throwable t) {
+
+                DebugUtils.e(t.toString());
+                isReq.set(false);
+                if (SearchDao.getInstance().addSearch(searchContent)) {
+                    mLastContents.add(0, new SearchContent(searchContent));
+                    mDefaultAdapter.notifyDataSetChanged();
+                }
+            }
+        });
         MobclickAgent.onEvent(mContext, "event_search");
-    }
-
-    public void moreSearch(String searchType) {
-        if (mSearchContent == null && isReq.get()) {
-            return;
-        }
-        isReq.set(true);
-
-        mAlbumInfos.clear();
-        LHttpRequest.getInstance().searchReq(getActivity(), mSearchContent, 10, mPager, searchType,
-                new JsonCallback<SearchData>() {
-
-                    @Override
-                    public void onGetDataSuccess(SearchData data) {
-                        mPager++;
-                        mSearchContentView.setVisibility(View.VISIBLE);
-                        ((SearchStoryChildFragment) mSearchFragments[0]).addStoryList(data.getStorylist());
-                        ((SearchAlbumChildFragment) mSearchFragments[1]).addAlbumList(data.getAlbumlist());
-
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        isReq.set(false);
-                        ((SearchStoryChildFragment) mSearchFragments[0]).stopLoadMore();
-                        ((SearchAlbumChildFragment) mSearchFragments[1]).stopLoadMore();
-                        super.onFinish();
-
-                    }
-                });
     }
 
     @Override

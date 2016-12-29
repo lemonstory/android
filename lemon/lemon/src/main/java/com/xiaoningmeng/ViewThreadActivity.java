@@ -15,12 +15,12 @@ import android.widget.Toast;
 import com.baoyz.swipemenu.xlistview.XListView;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
-import com.xiaoningmeng.view.ShareDialog;
-
 import com.xiaoningmeng.adapter.ViewThreadAdapter;
 import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
@@ -34,8 +34,11 @@ import com.xiaoningmeng.event.ForumLoginEvent;
 import com.xiaoningmeng.fragment.KeyboardFragment;
 import com.xiaoningmeng.http.ConstantURL;
 import com.xiaoningmeng.http.JsonCallback;
+import com.xiaoningmeng.http.JsonForumResponse;
 import com.xiaoningmeng.http.LHttpRequest;
+import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.utils.ImageUtils;
+import com.xiaoningmeng.view.ShareDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,8 +49,13 @@ import java.util.Collections;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class ViewThreadActivity extends BaseActivity implements XListView.IXListViewListener,KeyboardFragment.OnFragmentInteractionListener {
+import static com.xiaoningmeng.http.LHttpRequest.mRetrofit;
+
+public class ViewThreadActivity extends BaseActivity implements XListView.IXListViewListener, KeyboardFragment.OnFragmentInteractionListener {
 
     private Context mContext;
     private ViewGroup loadingView;
@@ -80,10 +88,10 @@ public class ViewThreadActivity extends BaseActivity implements XListView.IXList
         setContentView(R.layout.activity_view_thread);
         mContext = this;
         tid = getTidIdWithIntent();
-        pid = getIntent().getIntExtra("pid",1);
+        pid = getIntent().getIntExtra("pid", 1);
         page = getIntent().getIntExtra("page", 1);
         initView();
-        mAdapter = new ViewThreadAdapter(this,forumThread,mPosts);
+        mAdapter = new ViewThreadAdapter(this, forumThread, mPosts);
         mListView.setAdapter(mAdapter);
         mListView.autoRefresh();
         EventBus.getDefault().register(this);
@@ -98,7 +106,7 @@ public class ViewThreadActivity extends BaseActivity implements XListView.IXList
         loadingView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.home_discover_item_img_height), 0, 0);
         pbEmptyTip = loadingView.findViewById(R.id.pb_empty_tip);
         loadingView.setVisibility(View.GONE);
-        title = (TextView)findViewById(R.id.tv_head_title);
+        title = (TextView) findViewById(R.id.tv_head_title);
         title.setText("帖子");
         setShareIconVisible();
         this.page = 1;
@@ -112,7 +120,7 @@ public class ViewThreadActivity extends BaseActivity implements XListView.IXList
         super.onResume();
         //处理键盘的发送按钮事件
         this.keyBoardfragment = (KeyboardFragment) getSupportFragmentManager().findFragmentByTag("keyboardFragment");
-        if(null != this.keyBoardfragment) {
+        if (null != this.keyBoardfragment) {
             this.keyBoardfragment.setmEditEmojiconHint("回复楼主:");
             this.keyBoardfragment.setOnKeyBoardBarViewListener(new KeyboardFragment.KeyBoardBarViewListener() {
 
@@ -120,20 +128,23 @@ public class ViewThreadActivity extends BaseActivity implements XListView.IXList
                 public void onSwitchImgClick(ImageView view) {
 
                 }
+
                 @Override
                 public void OnSendBtnClick(String msg) {
 
-                    if(UserAuth.auditUser(mContext, "登录后,才能批量故事喔.")) {
+                    if (UserAuth.auditUser(mContext, "登录后,才能批量故事喔.")) {
 
                         setLoadingTip("正在发布");
                         sendForumThreadReplyData(tid, formHash, hash, msg);
                     }
                 }
+
                 @Override
                 public void OnAddedImgInContainer(ArrayList<File> imagesfiles) {
 
                     addedImageFiles = imagesfiles;
                 }
+
                 @Override
                 public void onAddImageControlClick(View view) {
 
@@ -149,10 +160,10 @@ public class ViewThreadActivity extends BaseActivity implements XListView.IXList
                 switch (scrollState) {
                     case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
 
-//                        boolean isKeyboardVisible = UiUtils.isKeyboardShown(mListView.getRootView());
-//                        if (isKeyboardVisible) {
-                            keyBoardfragment.resetKeyboard();
-//                        }
+                        //                        boolean isKeyboardVisible = UiUtils.isKeyboardShown(mListView.getRootView());
+                        //                        if (isKeyboardVisible) {
+                        keyBoardfragment.resetKeyboard();
+                        //                        }
                         break;
                 }
             }
@@ -175,19 +186,19 @@ public class ViewThreadActivity extends BaseActivity implements XListView.IXList
         Uri data = intent.getData();
 
         tidWithExtar = intent.getIntExtra("tid", 0);
-        if(null != data) {
+        if (null != data) {
             tidWithData = Integer.parseInt(data.getQueryParameter("tid"));
         }
 
         if (tidWithExtar != 0) {
             tidWithIntent = tidWithExtar;
-        } else if(tidWithData != 0) {
+        } else if (tidWithData != 0) {
             tidWithIntent = tidWithData;
         }
         return tidWithIntent;
     }
 
-    private void  setShareIconVisible() {
+    private void setShareIconVisible() {
 
         headRightImg = (ImageView) findViewById(R.id.img_head_right);
         headRightImg.setImageResource(R.drawable.btn_player_share_normal);
@@ -199,32 +210,32 @@ public class ViewThreadActivity extends BaseActivity implements XListView.IXList
     public void setShareIconClickable() {
 
         headRightImg.setClickable(true);
-        headRightImg.setAlpha((float)1.0);
+        headRightImg.setAlpha((float) 1.0);
         headRightImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-//TODO:h5未完成
-//                String shareIconUrl = "";
-//                ArrayList<String> threadImgAttachmentsPath = getImgAttachmentsPathWithThread(forumThread, mPosts);
-//                if (threadImgAttachmentsPath.size() > 0) {
-//                    shareIconUrl = threadImgAttachmentsPath.get(0);
-//                } else {
-//                    shareIconUrl = Constant.SHARE_THREAD_DEFAULT_IMAGE_URL;
-//                }
-//
-//                String url = String.format(Constant.VIEW_THREAD_URL,forumThread.getTid());
-//
-//                ShareBean shareBean = new ShareBean(forumThread.getSubject(), shareIconUrl, url);
+                //TODO:h5未完成
+                //                String shareIconUrl = "";
+                //                ArrayList<String> threadImgAttachmentsPath = getImgAttachmentsPathWithThread(forumThread, mPosts);
+                //                if (threadImgAttachmentsPath.size() > 0) {
+                //                    shareIconUrl = threadImgAttachmentsPath.get(0);
+                //                } else {
+                //                    shareIconUrl = Constant.SHARE_THREAD_DEFAULT_IMAGE_URL;
+                //                }
+                //
+                //                String url = String.format(Constant.VIEW_THREAD_URL,forumThread.getTid());
+                //
+                //                ShareBean shareBean = new ShareBean(forumThread.getSubject(), shareIconUrl, url);
                 String app_name = ViewThreadActivity.this.getString(R.string.app_name);
                 String app_desc = ViewThreadActivity.this.getString(R.string.app_desc);
-                ShareBean shareBean = new ShareBean(app_name, app_desc, Constant.SHARE_OFFCAIL_ICON_URL,null,Constant.SHARE_OFFCAIL_URL);
+                ShareBean shareBean = new ShareBean(app_name, app_desc, Constant.SHARE_OFFCAIL_ICON_URL, null, Constant.SHARE_OFFCAIL_URL);
                 mController = new ShareDialog().show(ViewThreadActivity.this, shareBean);
             }
         });
     }
 
-    public ArrayList<String> getImgAttachmentsPathWithThread(ForumThread forumThread,ArrayList<Post> posts) {
+    public ArrayList<String> getImgAttachmentsPathWithThread(ForumThread forumThread, ArrayList<Post> posts) {
 
         ArrayList<String> imgAttachmentsPath = new ArrayList<String>();
         if (forumThread.getAttachment() != null && forumThread.getAttachment().equals("2")) {
@@ -247,20 +258,18 @@ public class ViewThreadActivity extends BaseActivity implements XListView.IXList
     }
 
     private void setKeyBoardfragment() {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fl_keyboard, KeyboardFragment.newInstance(),"keyboardFragment")
-                .commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fl_keyboard, KeyboardFragment.newInstance(), "keyboardFragment").commit();
         getSupportFragmentManager().executePendingTransactions();
     }
 
     private ShareAction mController;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-        UMShareAPI.get(this).onActivityResult( requestCode, resultCode, data);
-        this.keyBoardfragment.addedImageFragment.onActivityResult(requestCode,resultCode,data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+        this.keyBoardfragment.addedImageFragment.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -274,7 +283,7 @@ public class ViewThreadActivity extends BaseActivity implements XListView.IXList
     @Override
     public void onLoadMore() {
 
-        if(this.page < this.maxPage) {
+        if (this.page < this.maxPage) {
             int size = mPosts.size();
             if (size >= perPage) {
                 this.page++;
@@ -283,7 +292,7 @@ public class ViewThreadActivity extends BaseActivity implements XListView.IXList
                 this.page = 1;
                 requestPostsData(tid, page);
             }
-        }else {
+        } else {
 
             //获取到的数据需要做合并
             requestPostsData(tid, page);
@@ -292,7 +301,7 @@ public class ViewThreadActivity extends BaseActivity implements XListView.IXList
 
     private void onLoad() {
 
-        if(this.page < this.maxPage) {
+        if (this.page < this.maxPage) {
             mListView.setPullLoadEnable(true);
             mListView.setFootViewNoMore(false);
         } else {
@@ -314,7 +323,7 @@ public class ViewThreadActivity extends BaseActivity implements XListView.IXList
 
         if (mPosts != null && mPosts.size() > 0) {
 
-            if(this.page == 1) {
+            if (this.page == 1) {
 
                 this.mPosts.clear();
             }
@@ -322,7 +331,7 @@ public class ViewThreadActivity extends BaseActivity implements XListView.IXList
             for (Post post : mPosts) {
 
                 int freq = Collections.frequency(this.mPosts, post);
-                if(freq < 1) {
+                if (freq < 1) {
                     this.mPosts.add(post);
                 }
             }
@@ -333,7 +342,6 @@ public class ViewThreadActivity extends BaseActivity implements XListView.IXList
             }
         }
     }
-
 
     private void hideEmptyTip() {
 
@@ -346,26 +354,30 @@ public class ViewThreadActivity extends BaseActivity implements XListView.IXList
 
     private void requestPostsData(int tid, int page) {
 
-        LHttpRequest.getInstance().getViewThread(this,
-                new JsonCallback<String>() {
+        LHttpRequest.GetViewThreadRequest getViewThreadRequest = mRetrofit.create(LHttpRequest.GetViewThreadRequest.class);
+        Call<JsonForumResponse<JsonObject>> call = getViewThreadRequest.getResult(ConstantURL.FORUM_INDEX, "viewthread", tid, page);
+        call.enqueue(new Callback<JsonForumResponse<JsonObject>>() {
 
-                    @Override
-                    public void onGetDataSuccess(String data) {
+            @Override
+            public void onResponse(Call<JsonForumResponse<JsonObject>> call, Response<JsonForumResponse<JsonObject>> response) {
 
-                        loadingView.setVisibility(View.GONE);
+                onLoad();
+                if (response.isSuccessful()) {
+                    loadingView.setVisibility(View.GONE);
+                    if (response.isSuccessful() && null != response.body().getVariables()) {
+
                         Double replaysCount = 0.0;
                         Double ppp = 0.0;
                         ForumThread forumThread = null;
                         try {
 
-                            JSONObject jsonObject = new JSONObject(data);
-                            JSONObject variablesObject = new JSONObject(jsonObject.getString("Variables"));
+                            JsonObject variablesObject = response.body().getVariables();
 
                             Gson gson = new Gson();
 
                             if (variablesObject.has("thread")) {
 
-                                forumThread = gson.fromJson(variablesObject.getString("thread"), new TypeToken<ForumThread>() {
+                                forumThread = gson.fromJson(variablesObject.get("thread").getAsJsonObject(), new TypeToken<ForumThread>() {
                                 }.getType());
                                 setForumThread(forumThread);
                                 setShareIconClickable();
@@ -373,25 +385,25 @@ public class ViewThreadActivity extends BaseActivity implements XListView.IXList
 
                             if (variablesObject.has("postlist")) {
 
-                                List<Post> posts = gson.fromJson(variablesObject.getString("postlist"), new TypeToken<List<Post>>() {
+                                List<Post> posts = gson.fromJson(variablesObject.get("postlist").getAsJsonArray(), new TypeToken<List<Post>>() {
                                 }.getType());
                                 setPosts(posts);
                             }
 
-                            if(variablesObject.has("formhash")) {
+                            if (variablesObject.has("formhash")) {
 
-                                formHash = variablesObject.getString("formhash");
+                                formHash = variablesObject.get("formhash").getAsString();
                             }
 
-                            if(variablesObject.has("hash")) {
+                            if (variablesObject.has("hash")) {
 
-                                hash = variablesObject.getString("hash");
+                                hash = variablesObject.get("hash").getAsString();
                             }
 
                             if (forumThread.getReplies() != null && variablesObject.has("ppp")) {
 
-                                ppp = Double.parseDouble(variablesObject.getString("ppp"));
-                                perPage = Integer.valueOf(variablesObject.getString("ppp"));
+                                ppp = Double.parseDouble(variablesObject.get("ppp").getAsString());
+                                perPage = Integer.valueOf(variablesObject.get("ppp").getAsString());
 
                                 //TODO:接口里面有两个:replies，allreplies先用前者
                                 if (forumThread.getReplies() != null) {
@@ -401,39 +413,46 @@ public class ViewThreadActivity extends BaseActivity implements XListView.IXList
                                     ViewThreadActivity.this.maxPage = dMaxPage.intValue();
                                 }
                             }
-
-
-                        } catch (JSONException e) {
+                        } catch (JsonSyntaxException e) {
 
                             e.printStackTrace();
                         }
-                    }
 
-                    @Override
-                    public void onFailure(String responseString) {
+                        if (null != response.body().getMessage()) {
 
-                        if (loadingView != null) {
-                            loadingView.setVisibility(View.VISIBLE);
-                            ((TextView) loadingView.getChildAt(0)).setText("请连接网络后点击屏幕重试");
-                            loadingView.getChildAt(1).setVisibility(View.INVISIBLE);
-                            loadingView.setClickable(true);
-                            loadingView.setOnClickListener(new View.OnClickListener() {
-
-                                @Override
-                                public void onClick(View v) {
-                                    reRequestLoading();
-                                    ViewThreadActivity.this.requestPostsData(ViewThreadActivity.this.tid, ViewThreadActivity.this.page);
-                                }
-                            });
+                            String messageStr = response.body().getMessage().getMessagestr();
+                            String messageVal = response.body().getMessage().getMessageval();
+                            Toast.makeText(mContext, messageStr, Toast.LENGTH_SHORT).show();
                         }
                     }
+                } else {
 
-                    @Override
-                    public void onFinish() {
-                        onLoad();
-                        super.onFinish();
-                    }
-                }, tid, page);
+                    String message = response.code() + " : " + response.message();
+                    Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonForumResponse<JsonObject>> call, Throwable t) {
+
+                DebugUtils.e(t.toString());
+                onLoad();
+                if (loadingView != null) {
+                    loadingView.setVisibility(View.VISIBLE);
+                    ((TextView) loadingView.getChildAt(0)).setText("请连接网络后点击屏幕重试");
+                    loadingView.getChildAt(1).setVisibility(View.INVISIBLE);
+                    loadingView.setClickable(true);
+                    loadingView.setOnClickListener(new View.OnClickListener() {
+
+                        @Override
+                        public void onClick(View v) {
+                            reRequestLoading();
+                            ViewThreadActivity.this.requestPostsData(ViewThreadActivity.this.tid, ViewThreadActivity.this.page);
+                        }
+                    });
+                }
+            }
+        });
     }
 
     @Override
@@ -441,17 +460,17 @@ public class ViewThreadActivity extends BaseActivity implements XListView.IXList
 
     }
 
-    private void sendForumThreadReplyData(final int tid,final String formHash,String hash,final String message) {
+    private void sendForumThreadReplyData(final int tid, final String formHash, String hash, final String message) {
 
-        final ArrayList<String>aids = new ArrayList<>();//dz上传图片后返回的图片标示符
+        final ArrayList<String> aids = new ArrayList<>();//dz上传图片后返回的图片标示符
         startLoading();
         //构建一个请求队列,先逐个上传图片,在上传文字
-        if(addedImageFiles.size() > 0) {
-            for (File file: addedImageFiles) {
-                String compressFilePath =  ImageUtils.compress(file.getAbsolutePath(), Bitmap.CompressFormat.JPEG, 80);
+        if (addedImageFiles.size() > 0) {
+            for (File file : addedImageFiles) {
+                String compressFilePath = ImageUtils.compress(file.getAbsolutePath(), Bitmap.CompressFormat.JPEG, 80);
                 final File fileData = new File(compressFilePath);
                 //上传图片
-                LHttpRequest.getInstance().forumUpload(this,new JsonCallback<String>() {
+                LHttpRequest.getInstance().forumUpload(this, new JsonCallback<String>() {
                     @Override
                     public void onGetDataSuccess(String data) {
 
@@ -459,26 +478,25 @@ public class ViewThreadActivity extends BaseActivity implements XListView.IXList
 
                             JSONObject jsonObject = new JSONObject(data);
                             JSONObject variablesObject = new JSONObject(jsonObject.getString("Variables"));
-                            if(variablesObject.has("ret")) {
+                            if (variablesObject.has("ret")) {
 
                                 JSONObject retObject = new JSONObject(variablesObject.getString("ret"));
                                 String aId = retObject.getString("aId");
                                 String isImage = retObject.getString("image");
 
-                                if(isImage != null && isImage.equals("1") && aId != null && !aId.equals("")) {
+                                if (isImage != null && isImage.equals("1") && aId != null && !aId.equals("")) {
 
                                     aids.add(aId);
 
-                                    if(aids.size() == addedImageFiles.size()) {
+                                    if (aids.size() == addedImageFiles.size()) {
 
-                                        sendReplyRequest(tid,formHash,message,aids);
+                                        sendReplyRequest(tid, formHash, message, aids);
                                     }
                                 }
                             }
-
                         } catch (JSONException e) {
                             stopLoading();
-                            Toast.makeText(mContext,"系统错误",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, "系统错误", Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
                         }
                     }
@@ -486,7 +504,7 @@ public class ViewThreadActivity extends BaseActivity implements XListView.IXList
                     @Override
                     public void onFailure(String responseString) {
                         stopLoading();
-                        Toast.makeText(mContext,"请检查网络设置",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "请检查网络设置", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -495,72 +513,74 @@ public class ViewThreadActivity extends BaseActivity implements XListView.IXList
                         super.onFinish();
                         stopLoading();
                     }
-
-                },fileData,hash);
+                }, fileData, hash);
             }
-        }else {
-            sendReplyRequest(tid,formHash,message,null);
+        } else {
+            sendReplyRequest(tid, formHash, message, null);
         }
     }
 
-    private void sendReplyRequest(int tid,String formHash, String message,ArrayList<String>aids) {
+    private void sendReplyRequest(int tid, String formHash, String message, ArrayList<String> aids) {
 
-        LHttpRequest.getInstance().sendReply(this,
-                new JsonCallback<String>() {
+        String url = ConstantURL.FORUM_SEND_REPLY;
+        if (aids != null && aids.size() > 0) {
+            for (String aId : aids) {
 
-                    @Override
-                    public void onGetDataSuccess(String data) {
+                String attach = String.format("attachnew[%s][description]", aId);
+                url = url + "&" + attach;
+            }
+        }
 
-                        stopLoading();
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            JSONObject messageObject = new JSONObject(jsonObject.getString("Message"));
-                            String messageVal = messageObject.getString("messageval");
-                            String messageStr = messageObject.getString("messagestr");
+        LHttpRequest.SendReplyRequest sendReplyRequest = mRetrofit.create(LHttpRequest.SendReplyRequest.class);
+        Call<JsonForumResponse<JsonObject>> call = sendReplyRequest.getResult(url, tid, formHash, message, repPid, repPost, noticeTrimStr);
+        call.enqueue(new Callback<JsonForumResponse<JsonObject>>() {
 
-                            if (messageVal.equals(Constant.FORUM_POST_REPLY_SUCCEED)) {
+            @Override
+            public void onResponse(Call<JsonForumResponse<JsonObject>> call, Response<JsonForumResponse<JsonObject>> response) {
 
-                                //关闭键盘
-                                keyBoardfragment.resetKeyboard();
+                onLoad();
+                stopLoading();
+                try {
+                    JsonObject jsonObject = response.body().getVariables();
+                    JsonObject messageObject = jsonObject.getAsJsonObject("Message");
+                    String messageVal = messageObject.get("messageval").getAsString();
+                    String messageStr = messageObject.get("messagestr").getAsString();
 
-                                //TODO:待优化
-                                //可见的最后一条与实际全量的最后一条距离相近时,页面向下滚动
-                                int lastVisiblePosition = mListView.getLastVisiblePosition();
-                                int maxPosition = mPosts.size();
-                                if (maxPosition - lastVisiblePosition < 4) {
-                                    onLoadMore();
-                                    //页面滚动到最后
-                                    mListView.smoothScrollToPosition(mPosts.size() - 1);
-                                } else {
-                                    onLoadMore();
-                                    Toast.makeText(mContext, "发送成功", Toast.LENGTH_SHORT).show();
-                                }
+                    if (messageVal.equals(Constant.FORUM_POST_REPLY_SUCCEED)) {
 
-                            } else {
+                        //关闭键盘
+                        keyBoardfragment.resetKeyboard();
 
-                                Toast.makeText(mContext, messageStr, Toast.LENGTH_SHORT).show();
-                            }
-
-                        } catch (JSONException e) {
-
-                            Toast.makeText(mContext,"系统错误",Toast.LENGTH_SHORT).show();
-                            e.printStackTrace();
+                        //TODO:待优化
+                        //可见的最后一条与实际全量的最后一条距离相近时,页面向下滚动
+                        int lastVisiblePosition = mListView.getLastVisiblePosition();
+                        int maxPosition = mPosts.size();
+                        if (maxPosition - lastVisiblePosition < 4) {
+                            onLoadMore();
+                            //页面滚动到最后
+                            mListView.smoothScrollToPosition(mPosts.size() - 1);
+                        } else {
+                            onLoadMore();
+                            Toast.makeText(mContext, "发送成功", Toast.LENGTH_SHORT).show();
                         }
-                    }
+                    } else {
 
-                    @Override
-                    public void onFailure(String responseString) {
-                        stopLoading();
-                        Toast.makeText(mContext,"请检查网络设置",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, messageStr, Toast.LENGTH_SHORT).show();
                     }
+                } catch (JsonSyntaxException e) {
 
-                    @Override
-                    public void onFinish() {
-                        onLoad();
-                        super.onFinish();
-                        stopLoading();
-                    }
-                },tid,formHash,message,aids,repPid,repPost,noticeTrimStr);
+                    Toast.makeText(mContext, "系统错误", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonForumResponse<JsonObject>> call, Throwable t) {
+                onLoad();
+                stopLoading();
+                Toast.makeText(mContext, "请检查网络设置", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void onEventMainThread(ForumLoginEvent event) {

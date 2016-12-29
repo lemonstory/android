@@ -10,32 +10,38 @@ import android.widget.TextView;
 import com.baoyz.swipemenu.xlistview.XListView;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.xiaoningmeng.adapter.ForumDisplayAdapter;
 import com.xiaoningmeng.application.MyApplication;
+import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.ForumName;
 import com.xiaoningmeng.bean.ForumThread;
+import com.xiaoningmeng.http.ConstantURL;
+import com.xiaoningmeng.http.JsonForumResponse;
 import com.xiaoningmeng.http.LHttpRequest;
-
-import com.xiaoningmeng.base.BaseActivity;
-import com.xiaoningmeng.http.JsonCallback;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MyThreadActivity extends BaseActivity implements XListView.IXListViewListener{
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.xiaoningmeng.http.LHttpRequest.mRetrofit;
+
+public class MyThreadActivity extends BaseActivity implements XListView.IXListViewListener {
 
     private Context mContext;
     private ViewGroup loadingView;
     private XListView mListView;
     private ForumDisplayAdapter mAdapter;
     private List<ForumThread> mForumThreads = new ArrayList<ForumThread>();
-    private Map<String,ForumName> mForumNames = new HashMap<String,ForumName>();
+    private Map<String, ForumName> mForumNames = new HashMap<String, ForumName>();
     private String tip = null;
     private View pbEmptyTip;
     private String uid;
@@ -44,6 +50,7 @@ public class MyThreadActivity extends BaseActivity implements XListView.IXListVi
     private ImageView imgHeadRight;
     private int perpage;
     private int threadCount;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -52,7 +59,7 @@ public class MyThreadActivity extends BaseActivity implements XListView.IXListVi
         setContentView(R.layout.activity_my_thread);
         mContext = this;
         initView();
-        mAdapter = new ForumDisplayAdapter(this, mForumThreads,0);
+        mAdapter = new ForumDisplayAdapter(this, mForumThreads, 0);
         mAdapter.showForumName = true;
         mListView.setAdapter(mAdapter);
         mListView.autoRefresh();
@@ -72,7 +79,7 @@ public class MyThreadActivity extends BaseActivity implements XListView.IXListVi
         this.nickname = getIntent().getStringExtra("nickname");
         if (MyApplication.getInstance().isIsLogin() && MyApplication.getInstance().userInfo.getNickname().equals(nickname)) {
             setTitleName("我的帖子");
-        }else {
+        } else {
             setTitleName(this.nickname + "的帖子");
         }
     }
@@ -82,7 +89,7 @@ public class MyThreadActivity extends BaseActivity implements XListView.IXListVi
 
         this.page = 1;
         if (null != uid && !uid.equals("")) {
-            requestMyThreadData(uid,page);
+            requestMyThreadData(uid, page);
             mListView.setPullLoadEnable(false);
         }
     }
@@ -90,10 +97,10 @@ public class MyThreadActivity extends BaseActivity implements XListView.IXListVi
     @Override
     public void onLoadMore() {
 
-        if(this.threadCount == this.perpage) {
+        if (this.threadCount == this.perpage) {
             this.page++;
-            requestMyThreadData(uid,page);
-        }else {
+            requestMyThreadData(uid, page);
+        } else {
             mListView.stopLoadMore();
         }
     }
@@ -103,7 +110,7 @@ public class MyThreadActivity extends BaseActivity implements XListView.IXListVi
         mListView.stopRefresh();
         mListView.stopLoadMore();
 
-        if(this.threadCount < this.perpage) {
+        if (this.threadCount < this.perpage) {
             mListView.setFootViewNoMore(true);
         } else {
             mListView.setPullLoadEnable(true);
@@ -115,7 +122,7 @@ public class MyThreadActivity extends BaseActivity implements XListView.IXListVi
 
         if (threads != null && threads.size() > 0 && threadCount > 0) {
 
-            if(this.page == 1) {
+            if (this.page == 1) {
                 this.mForumThreads.clear();
             }
             this.mForumThreads.addAll(threads);
@@ -123,35 +130,34 @@ public class MyThreadActivity extends BaseActivity implements XListView.IXListVi
                 hideEmptyTip();
                 mAdapter.notifyDataSetChanged();
             }
-        }else {
+        } else {
             showEmptyTip("发布的帖子会出现在这里喔");
         }
     }
 
-    public void setForumNames(Map<String,ForumName> forumNames) {
+    public void setForumNames(Map<String, ForumName> forumNames) {
         if (null != forumNames) {
             mAdapter.forumNames.putAll(forumNames);
         }
     }
 
     TextView emptyView;
+
     public void showEmptyTip(String tip) {
-        if(mListView.getHeaderViewsCount() == 1){
-            if(emptyView == null){
-                emptyView = (TextView) View.inflate(this,R.layout.fragment_empty, null);
+        if (mListView.getHeaderViewsCount() == 1) {
+            if (emptyView == null) {
+                emptyView = (TextView) View.inflate(this, R.layout.fragment_empty, null);
             }
-            emptyView = (TextView) View.inflate(this,R.layout.fragment_empty, null);
+            emptyView = (TextView) View.inflate(this, R.layout.fragment_empty, null);
             emptyView.setText(tip);
             emptyView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.home_discover_item_img_height), 0, 0);
-            mListView.addHeaderView(emptyView,null,false);
+            mListView.addHeaderView(emptyView, null, false);
             mListView.setPullLoadEnable(false);
         }
-
     }
 
-
     public void hideEmptyTip() {
-        if(emptyView != null && mListView.getHeaderViewsCount()>1){
+        if (emptyView != null && mListView.getHeaderViewsCount() > 1) {
             mListView.removeHeaderView(emptyView);
         }
     }
@@ -164,74 +170,69 @@ public class MyThreadActivity extends BaseActivity implements XListView.IXListVi
     private void requestMyThreadData(String uid, int page) {
 
         if (uid != null && !uid.equals("") && page != 0) {
-            LHttpRequest.getInstance().getMyThread(this,
-                    new JsonCallback<String>() {
 
-                        @Override
-                        public void onGetDataSuccess(String data) {
+            LHttpRequest.ForumGetMyThreadRequest forumGetMyThreadRequest = mRetrofit.create(LHttpRequest.ForumGetMyThreadRequest.class);
+            Call<JsonForumResponse<JsonObject>> call = forumGetMyThreadRequest.getResult(ConstantURL.FORUM_MY_THREAD_LIST, uid, page);
+            call.enqueue(new Callback<JsonForumResponse<JsonObject>>() {
 
-                            loadingView.setVisibility(View.GONE);
-                            List<ForumThread> threadList = new ArrayList<ForumThread>();
-                            try {
+                @Override
+                public void onResponse(Call<JsonForumResponse<JsonObject>> call, Response<JsonForumResponse<JsonObject>> response) {
 
-                                JSONObject jsonObject = new JSONObject(data);
-                                JSONObject variablesObject = new JSONObject(jsonObject.getString("Variables"));
-                                JSONObject dataObject = new JSONObject(variablesObject.getString("data"));
+                    onLoad();
+                    loadingView.setVisibility(View.GONE);
+                    List<ForumThread> threadList = new ArrayList<ForumThread>();
+                    try {
 
-                                if (dataObject.has("forumnames")) {
+                        JsonObject variablesObject = response.body().getVariables();
+                        JsonObject dataObject = variablesObject.getAsJsonObject("data");
 
-                                    Gson gson = new Gson();
-                                    mForumNames = gson.fromJson(dataObject.getString("forumnames"), new TypeToken<Map<String,ForumName>>() {
-                                    }.getType());
+                        if (dataObject.has("forumnames")) {
 
-                                    setForumNames(mForumNames);
-                                }
+                            Gson gson = new Gson();
+                            mForumNames = gson.fromJson(dataObject.getAsJsonObject("forumnames"), new TypeToken<Map<String, ForumName>>() {
+                            }.getType());
 
-                                if (dataObject.has("threadlist") && dataObject.has("threadcount")) {
+                            setForumNames(mForumNames);
+                        }
 
-                                    Gson gson = new Gson();
-                                    threadList = gson.fromJson(dataObject.getString("threadlist"), new TypeToken<List<ForumThread>>() {
-                                    }.getType());
-                                    threadCount = Integer.parseInt(dataObject.getString("threadcount"));
-                                    setForumsThreads(threadList);
-                                }
+                        if (dataObject.has("threadlist") && dataObject.has("threadcount")) {
 
-                                if (variablesObject.has("perpage")) {
-                                    perpage = Integer.parseInt(variablesObject.getString("perpage"));
-                                }
+                            Gson gson = new Gson();
+                            threadList = gson.fromJson(dataObject.getAsJsonArray("threadlist"), new TypeToken<List<ForumThread>>() {
+                            }.getType());
+                            threadCount = Integer.parseInt(dataObject.get("threadcount").getAsString());
+                            setForumsThreads(threadList);
+                        }
 
-                            } catch (JSONException e) {
+                        if (variablesObject.has("perpage")) {
+                            perpage = Integer.parseInt(variablesObject.get("perpage").getAsString());
+                        }
+                    } catch (JsonSyntaxException e) {
+                        e.printStackTrace();
+                    }
+                }
 
-                                e.printStackTrace();
+                @Override
+                public void onFailure(Call<JsonForumResponse<JsonObject>> call, Throwable t) {
+
+                    DebugUtils.e(t.toString());
+                    onLoad();
+                    if (loadingView != null) {
+                        loadingView.setVisibility(View.VISIBLE);
+                        ((TextView) loadingView.getChildAt(0)).setText("请连接网络后点击屏幕重试");
+                        loadingView.getChildAt(1).setVisibility(View.INVISIBLE);
+                        loadingView.setClickable(true);
+                        loadingView.setOnClickListener(new View.OnClickListener() {
+
+                            @Override
+                            public void onClick(View v) {
+                                reRequestLoading();
+                                MyThreadActivity.this.requestMyThreadData(MyThreadActivity.this.uid, MyThreadActivity.this.page);
                             }
-                        }
-
-                        @Override
-                        public void onFailure(String responseString) {
-
-                            if (loadingView != null) {
-                                loadingView.setVisibility(View.VISIBLE);
-                                ((TextView) loadingView.getChildAt(0)).setText("请连接网络后点击屏幕重试");
-                                loadingView.getChildAt(1).setVisibility(View.INVISIBLE);
-                                loadingView.setClickable(true);
-                                loadingView.setOnClickListener(new View.OnClickListener() {
-
-                                    @Override
-                                    public void onClick(View v) {
-                                        reRequestLoading();
-                                        MyThreadActivity.this.requestMyThreadData(MyThreadActivity.this.uid,MyThreadActivity.this.page);
-                                    }
-                                });
-                            }
-                        }
-
-                        @Override
-                        public void onFinish() {
-
-                            onLoad();
-                            super.onFinish();
-                        }
-                    },uid,page);
+                        });
+                    }
+                }
+            });
         }
     }
 }

@@ -17,22 +17,29 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.xiaoningmeng.adapter.SearchAdapter;
 import com.xiaoningmeng.adapter.SearchDefaultAdapter2;
 import com.xiaoningmeng.base.BaseActivity;
+import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.SearchContent;
 import com.xiaoningmeng.bean.SearchData;
+import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.db.SearchDao;
 import com.xiaoningmeng.fragment.SearchAlbumChildFragment;
 import com.xiaoningmeng.fragment.SearchStoryChildFragment;
+import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
+import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.view.SearchView;
 import com.xiaoningmeng.view.TabIndicatorView;
-
-import com.xiaoningmeng.base.BaseFragment;
-import com.xiaoningmeng.http.JsonCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.xiaoningmeng.http.LHttpRequest.mRetrofit;
 
 
 public class SearchActivity extends BaseActivity implements SearchView.OnSearchViewListener, View.OnClickListener {
@@ -78,16 +85,29 @@ public class SearchActivity extends BaseActivity implements SearchView.OnSearchV
 
     public void requestDefaultSearchReq() {
 
-        LHttpRequest.getInstance().getHotSearchReq(this, 20, new JsonCallback<List<SearchContent>>() {
+        LHttpRequest.GetHotSearchRequest getHotSearchRequest = mRetrofit.create(LHttpRequest.GetHotSearchRequest.class);
+        Call<JsonResponse<List<SearchContent>>> call = getHotSearchRequest.getResult(20);
+        call.enqueue(new Callback<JsonResponse<List<SearchContent>>>() {
 
             @Override
-            public void onGetDataSuccess(List<SearchContent> data) {
-                if (data != null && data.size() > 0) {
-                    mHotContents.addAll(data);
-                    mDefaultAdapter.notifyDataSetChanged();
+            public void onResponse(Call<JsonResponse<List<SearchContent>>> call, Response<JsonResponse<List<SearchContent>>> response) {
+
+                if (response.isSuccessful() && response.body().isSuccessful()) {
+
+                    List<SearchContent> data = response.body().getData();
+                    if (data != null && data.size() > 0) {
+                        mHotContents.addAll(data);
+                        mDefaultAdapter.notifyDataSetChanged();
+                    }
+                } else {
+                    DebugUtils.e(response.toString());
                 }
             }
 
+            @Override
+            public void onFailure(Call<JsonResponse<List<SearchContent>>> call, Throwable t) {
+                DebugUtils.e(t.toString());
+            }
         });
     }
 
@@ -101,46 +121,55 @@ public class SearchActivity extends BaseActivity implements SearchView.OnSearchV
         setLoadingTip("搜索中...");
         mPager = 1;
         String searchType = "";
-        LHttpRequest.getInstance().searchReq(this, searchContent, 10, mPager, searchType,
-                new JsonCallback<SearchData>(this) {
 
-                    @Override
-                    public void onGetDataSuccess(SearchData data) {
-                        mPager++;
-                        mSearchContentView.setVisibility(View.VISIBLE);
-                        if (data != null && (data.getAlbumcount() > 0 || data.getStorycount() > 0)) {
-                            hideEmptyTip();
-                            ((TextView) mIndicator.getChildAt(0)).setText(TAB_TITLES[0] + "（" + data.getAlbumcount() + "）");
-                            ((TextView) mIndicator.getChildAt(1)).setText(TAB_TITLES[1] + "（" + data.getStorycount() + "）");
-                            if (data.getAlbumcount() > 0 && null != data.getAlbumlist()) {
-                                ((SearchAlbumChildFragment) mSearchFragments[0]).setAlbumList(data.getAlbumlist());
-                            }
-                            if (data.getStorycount() > 0 && null != data.getStorylist()) {
-                                ((SearchStoryChildFragment) mSearchFragments[1]).setStoryList(data.getStorylist());
-                            }
-                        } else {
-                            showEmptyTip();
+        LHttpRequest.SearchRequest searchRequest = mRetrofit.create(LHttpRequest.SearchRequest.class);
+        Call<JsonResponse<SearchData>> call = searchRequest.getResult(mSearchContent, searchType, mPager, Constant.MAX_REQ_LEN);
+        call.enqueue(new Callback<JsonResponse<SearchData>>() {
+
+            @Override
+            public void onResponse(Call<JsonResponse<SearchData>> call, Response<JsonResponse<SearchData>> response) {
+
+                if (response.isSuccessful() && response.body().isSuccessful()) {
+
+                    SearchData data = response.body().getData();
+                    mPager++;
+                    mSearchContentView.setVisibility(View.VISIBLE);
+                    if (data != null && (data.getAlbumcount() > 0 || data.getStorycount() > 0)) {
+                        hideEmptyTip();
+                        ((TextView) mIndicator.getChildAt(0)).setText(TAB_TITLES[0] + "（" + data.getAlbumcount() + "）");
+                        ((TextView) mIndicator.getChildAt(1)).setText(TAB_TITLES[1] + "（" + data.getStorycount() + "）");
+                        if (data.getAlbumcount() > 0 && null != data.getAlbumlist()) {
+                            ((SearchAlbumChildFragment) mSearchFragments[0]).setAlbumList(data.getAlbumlist());
                         }
-                    }
-
-                    @Override
-                    public void onFailure(String responseString) {
-
-                        mSearchContentView.setVisibility(View.VISIBLE);
+                        if (data.getStorycount() > 0 && null != data.getStorylist()) {
+                            ((SearchStoryChildFragment) mSearchFragments[1]).setStoryList(data.getStorylist());
+                        }
+                    } else {
                         showEmptyTip();
-
                     }
+                } else {
+                    DebugUtils.e(response.toString());
+                    mSearchContentView.setVisibility(View.VISIBLE);
+                    showEmptyTip();
+                }
+                isReq.set(false);
+                if (SearchDao.getInstance().addSearch(searchContent)) {
+                    mLastContents.add(0, new SearchContent(searchContent));
+                    mDefaultAdapter.notifyDataSetChanged();
+                }
+            }
 
-                    @Override
-                    public void onFinish() {
-                        isReq.set(false);
-                        if (SearchDao.getInstance().addSearch(searchContent)) {
-                            mLastContents.add(0, new SearchContent(searchContent));
-                            mDefaultAdapter.notifyDataSetChanged();
-                        }
-                        super.onFinish();
-                    }
-                });
+            @Override
+            public void onFailure(Call<JsonResponse<SearchData>> call, Throwable t) {
+
+                DebugUtils.e(t.toString());
+                isReq.set(false);
+                if (SearchDao.getInstance().addSearch(searchContent)) {
+                    mLastContents.add(0, new SearchContent(searchContent));
+                    mDefaultAdapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     public void moreSearch(String searchType) {
@@ -151,25 +180,37 @@ public class SearchActivity extends BaseActivity implements SearchView.OnSearchV
         isReq.set(true);
 
         mAlbumInfos.clear();
-        LHttpRequest.getInstance().searchReq(this, mSearchContent, 10, mPager, searchType,
-                new JsonCallback<SearchData>() {
 
-                    @Override
-                    public void onGetDataSuccess(SearchData data) {
-                        mPager++;
-                        mSearchContentView.setVisibility(View.VISIBLE);
-                        ((SearchAlbumChildFragment) mSearchFragments[0]).addAlbumList(data.getAlbumlist());
-                        ((SearchStoryChildFragment) mSearchFragments[1]).addStoryList(data.getStorylist());
-                    }
+        LHttpRequest.SearchRequest searchRequest = mRetrofit.create(LHttpRequest.SearchRequest.class);
+        Call<JsonResponse<SearchData>> call = searchRequest.getResult(mSearchContent, searchType, mPager, Constant.MAX_REQ_LEN);
+        call.enqueue(new Callback<JsonResponse<SearchData>>() {
 
-                    @Override
-                    public void onFinish() {
-                        isReq.set(false);
-                        ((SearchAlbumChildFragment) mSearchFragments[0]).stopLoadMore();
-                        ((SearchStoryChildFragment) mSearchFragments[1]).stopLoadMore();
-                        super.onFinish();
-                    }
-                });
+            @Override
+            public void onResponse(Call<JsonResponse<SearchData>> call, Response<JsonResponse<SearchData>> response) {
+
+                if (response.isSuccessful() && response.body().isSuccessful()) {
+                    SearchData data = response.body().getData();
+                    mPager++;
+                    mSearchContentView.setVisibility(View.VISIBLE);
+                    ((SearchAlbumChildFragment) mSearchFragments[0]).addAlbumList(data.getAlbumlist());
+                    ((SearchStoryChildFragment) mSearchFragments[1]).addStoryList(data.getStorylist());
+                } else {
+                    DebugUtils.e(response.toString());
+                }
+                isReq.set(false);
+                ((SearchAlbumChildFragment) mSearchFragments[0]).stopLoadMore();
+                ((SearchStoryChildFragment) mSearchFragments[1]).stopLoadMore();
+            }
+
+            @Override
+            public void onFailure(Call<JsonResponse<SearchData>> call, Throwable t) {
+
+                DebugUtils.e(t.toString());
+                isReq.set(false);
+                ((SearchAlbumChildFragment) mSearchFragments[0]).stopLoadMore();
+                ((SearchStoryChildFragment) mSearchFragments[1]).stopLoadMore();
+            }
+        });
     }
 
     @Override

@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by feishang on 2016/1/6.
  */
-public class TagDetail {
+public class TagAblumList {
 
     private String selectfirsttagid;
     private String selectsecondtagid;

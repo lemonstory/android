@@ -1,6 +1,7 @@
 
 package com.xiaoningmeng.utils;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +9,8 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
+import android.os.Build;
+import android.os.StrictMode;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
@@ -23,6 +26,7 @@ import com.alibaba.baichuan.android.trade.model.OpenType;
 import com.alibaba.baichuan.android.trade.model.TradeResult;
 import com.alibaba.baichuan.android.trade.page.AlibcBasePage;
 import com.alibaba.baichuan.android.trade.page.AlibcPage;
+import com.xiaoningmeng.BuildConfig;
 import com.xiaoningmeng.WebViewActivity;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.base.BaseFragment;
@@ -234,33 +238,75 @@ public class AppUtils {
     public static void openLinkUrl(BaseActivity activity, BaseFragment fragment, String linkUrl) {
 
         if ((null != activity || null != fragment) && !TextUtils.isEmpty(linkUrl)) {
+
             Context context = null;
             if (null != activity) {
+
                 context = activity;
             } else if (null != fragment) {
+
                 context = fragment.getActivity();
             }
+
             Uri linkUri = Uri.parse(linkUrl);
             String linkUriFilename = linkUri.getLastPathSegment();
             String linkUriHost = linkUri.getHost();
+
             if (linkUriHost.contains("taobao")) {
+
                 if (null != activity) {
                     AppUtils.showTaobaoPage(activity, linkUrl);
                 } else if (null != fragment) {
                     AppUtils.showTaobaoPage(fragment.getActivity(), linkUrl);
                 }
+
             } else if (null != linkUriFilename && linkUriFilename.endsWith(".apk")) {
+
                 DownloadApkManager.getInstance().showDownloadDialog(context, linkUrl);
+
             } else if (linkUri.getScheme().equals(Constant.APP_SCHEME)) {
+
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(linkUrl));
                 if (null != activity) {
                     activity.startActivityForNew(intent);
                 } else if (null != fragment) {
                     fragment.startActivityForNew(intent);
                 }
+
             } else {
                 WebViewActivity.openWebView(context, linkUrl);
             }
         }
+    }
+
+    /**
+     * enables "strict mode" for testing - should NEVER be used in release builds
+     */
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    public static void enableStrictMode() {
+        DebugUtils.e("########## enableStrictMode ##########");
+        // return if the build is not a debug build
+        if (!BuildConfig.DEBUG) {
+            DebugUtils.e("You should not call enableStrictMode() on a non debug build");
+            return;
+        }
+
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                .detectDiskReads()
+                .detectDiskWrites()
+                .detectNetwork()
+                .penaltyLog()
+                .penaltyFlashScreen()
+                .build());
+
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                .detectActivityLeaks()
+                .detectLeakedSqlLiteObjects()
+                .detectLeakedClosableObjects()
+                .detectLeakedRegistrationObjects() // <-- requires Jelly Bean
+                .penaltyLog()
+                .build());
+
+        DebugUtils.d("Strict mode enabled");
     }
 }

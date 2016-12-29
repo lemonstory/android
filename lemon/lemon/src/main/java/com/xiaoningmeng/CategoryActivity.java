@@ -17,24 +17,28 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.umeng.analytics.MobclickAgent;
+import com.xiaoningmeng.adapter.CategoryAdapter;
+import com.xiaoningmeng.base.BaseActivity;
+import com.xiaoningmeng.bean.Category;
 import com.xiaoningmeng.bean.IRecyclerItem;
 import com.xiaoningmeng.bean.PlayingStory;
+import com.xiaoningmeng.http.JsonResponse;
+import com.xiaoningmeng.http.LHttpRequest;
+import com.xiaoningmeng.manager.EmptyHelper;
+import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.utils.DebugUtils;
 
-import com.xiaoningmeng.adapter.CategoryAdapter;
-import com.xiaoningmeng.application.MyApplication;
-import com.xiaoningmeng.base.BaseActivity;
-import com.xiaoningmeng.bean.Category;
-import com.xiaoningmeng.http.JsonCallback;
-import com.xiaoningmeng.http.LHttpRequest;
-import com.xiaoningmeng.manager.EmptyHelper;
-import com.xiaoningmeng.manager.PlayWaveManager;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.xiaoningmeng.http.LHttpRequest.mRetrofit;
 
 public class CategoryActivity extends BaseActivity implements PlayObserver {
 
@@ -156,53 +160,58 @@ public class CategoryActivity extends BaseActivity implements PlayObserver {
     }
 
     private void requestCategoryData() {
-        LHttpRequest.getInstance().categoryReq(this,
-                MyApplication.getInstance().getUid(),
-                new JsonCallback<Category>() {
 
-                    @Override
-                    public void onGetDataSuccess(Category data) {
+        LHttpRequest.GetCategoryRequest getCategoryRequest = mRetrofit.create(LHttpRequest.GetCategoryRequest.class);
+        Call<JsonResponse<Category>> call = getCategoryRequest.getResult();
+        call.enqueue(new Callback<JsonResponse<Category>>() {
 
-                        if (data != null) {
-                            if (data.getAge_level().getTotal() != null && Integer.parseInt(data.getAge_level().getTotal()) > 0) {
-                                List<Category.AgeLevelBean.AgeItemsBean> ageItemsList = data.getAge_level().getItems();
-                                if (ageItemsList != null && ageItemsList.size() > 0) {
-                                    mCategoryDatas.addAll(ageItemsList);
-                                }
+            @Override
+            public void onResponse(Call<JsonResponse<Category>> call, Response<JsonResponse<Category>> response) {
+
+                if (response.isSuccessful() && response.body().isSuccessful()) {
+                    Category data = response.body().getData();
+                    if (data != null) {
+                        if (data.getAge_level().getTotal() != null && Integer.parseInt(data.getAge_level().getTotal()) > 0) {
+                            List<Category.AgeLevelBean.AgeItemsBean> ageItemsList = data.getAge_level().getItems();
+                            if (ageItemsList != null && ageItemsList.size() > 0) {
+                                mCategoryDatas.addAll(ageItemsList);
                             }
+                        }
 
-                            if (data.getTag().getTotal() != null && Integer.parseInt(data.getTag().getTotal()) > 0) {
-                                List<Category.TagBean.TagItemsBean> tagItemsList = data.getTag().getItems();
-                                if (tagItemsList != null && tagItemsList.size() > 0) {
-                                    for (int i = 0; i < tagItemsList.size(); i++) {
-                                        Category.TagBean.TagItemsBean itemBean = tagItemsList.get(i);
-                                        mCategoryDatas.add(itemBean);
-                                        List<Category.TagBean.TagItemsBean.ChildItemsBean> tagChildItemsList = itemBean.getChild_items();
-                                        if (tagChildItemsList != null && tagChildItemsList.size() > 0) {
-                                            mCategoryDatas.addAll(tagChildItemsList);
-                                        }
+                        if (data.getTag().getTotal() != null && Integer.parseInt(data.getTag().getTotal()) > 0) {
+                            List<Category.TagBean.TagItemsBean> tagItemsList = data.getTag().getItems();
+                            if (tagItemsList != null && tagItemsList.size() > 0) {
+                                for (int i = 0; i < tagItemsList.size(); i++) {
+                                    Category.TagBean.TagItemsBean itemBean = tagItemsList.get(i);
+                                    mCategoryDatas.add(itemBean);
+                                    List<Category.TagBean.TagItemsBean.ChildItemsBean> tagChildItemsList = itemBean.getChild_items();
+                                    if (tagChildItemsList != null && tagChildItemsList.size() > 0) {
+                                        mCategoryDatas.addAll(tagChildItemsList);
                                     }
                                 }
                             }
-                            mAdapter.setNewData(mCategoryDatas);
-
-                        } else {
-                            mEmptyHelper.setEmptyView(EmptyHelper.EMPTY, true, getString(R.string.empty_tip));
                         }
+                        mAdapter.setNewData(mCategoryDatas);
 
+                    } else {
+                        mEmptyHelper.setEmptyView(EmptyHelper.EMPTY, true, getString(R.string.empty_tip));
                     }
+                } else {
 
-                    @Override
-                    public void onFailure(int statusCode, String failureResponse) {
-                        Toast.makeText(CategoryActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
-                        mAdapter.showLoadMoreFailedView();
-                    }
+                    DebugUtils.e(response.toString());
+                    Toast.makeText(CategoryActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
+                    mAdapter.showLoadMoreFailedView();
+                }
+            }
 
-                    @Override
-                    public void onFinish() {
-                        super.onFinish();
-                    }
-                });
+            @Override
+            public void onFailure(Call<JsonResponse<Category>> call, Throwable t) {
+
+                DebugUtils.e(t.toString());
+                Toast.makeText(CategoryActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
+                mAdapter.showLoadMoreFailedView();
+            }
+        });
     }
 
     @Override

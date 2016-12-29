@@ -17,7 +17,7 @@
             android:id="@+id/img_index_ad"
             android:layout_width="match_parent"
             android:layout_height="@dimen/ad_height"
-            fresco:actualImageScaleType="centerCrop"
+            fresco:actualImageScaleType="centerInside"
             fresco:backgroundImage="@color/ad_background_color"
             fresco:roundedCornerRadius="3dp" />
         />

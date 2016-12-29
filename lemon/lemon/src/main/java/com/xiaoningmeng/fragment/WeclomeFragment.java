@@ -7,16 +7,23 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.xiaoningmeng.GuideActivity;
 import com.xiaoningmeng.AccountActivity;
+import com.xiaoningmeng.GuideActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.base.BaseFragment;
-import com.xiaoningmeng.http.JsonCallback;
+import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
+import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.view.dialog.BaseDialog;
 import com.xiaoningmeng.view.picker.DatePicker;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.xiaoningmeng.http.LHttpRequest.mRetrofit;
 
 public class WeclomeFragment extends BaseFragment implements OnClickListener {
 
@@ -97,16 +104,31 @@ public class WeclomeFragment extends BaseFragment implements OnClickListener {
 							int ageBegin = AccountActivity.getAge(birthday);
 							final int age = ageBegin <0 ? 0 : ageBegin;
 							mDialog.dismiss();
-							LHttpRequest.getInstance().setUserInfoReq(mContext, null, null, birthday, null, null, null, null, null,null, new JsonCallback<String>() {
+
+							LHttpRequest.SetUserInfoRequest setUserInfoRequest = mRetrofit.create(LHttpRequest.SetUserInfoRequest.class);
+							Call<JsonResponse<String>> call = setUserInfoRequest.getResult(null, null, birthday, null, null, null, null, null, null);
+							call.enqueue(new Callback<JsonResponse<String>>() {
 
 								@Override
-								public void onGetDataSuccess(String data) {
-									MyApplication.getInstance().userInfo.setAge(age+"");
-									((GuideActivity)getActivity()).setisGenderEdit();
-									//goHomeActivity();
+								public void onResponse(Call<JsonResponse<String>> call, Response<JsonResponse<String>> response) {
+
+									if (response.isSuccessful() && response.body().isSuccessful()) {
+
+										MyApplication.getInstance().userInfo.setAge(age + "");
+										((GuideActivity) getActivity()).setisGenderEdit();
+										//goHomeActivity();
+
+									} else {
+										DebugUtils.e(response.toString());
+									}
+								}
+
+								@Override
+								public void onFailure(Call<JsonResponse<String>> call, Throwable t) {
+
+									DebugUtils.e(t.toString());
 								}
 							});
-
 						}
 					});
 			mAgeView.findViewById(R.id.tv_dialog_cancel).setOnClickListener(
@@ -123,19 +145,30 @@ public class WeclomeFragment extends BaseFragment implements OnClickListener {
 	
 	
 	private void modifySex(final int sex){
-		LHttpRequest.getInstance().setUserInfoReq(mContext, null, sex+"", null, null, null, null, null, null,null, new JsonCallback<String>() {
+
+		LHttpRequest.SetUserInfoRequest setUserInfoRequest = mRetrofit.create(LHttpRequest.SetUserInfoRequest.class);
+		Call<JsonResponse<String>> call = setUserInfoRequest.getResult(null, sex + "", null, null, null, null, null, null, null);
+		call.enqueue(new Callback<JsonResponse<String>>() {
 
 			@Override
-			public void onGetDataSuccess(String data) {
-				MyApplication.getInstance().userInfo.setGender(sex+"");
-				((GuideActivity)getActivity()).setisBrithEdit();
-				//goHomeActivity();
-				
-			}
-			
-		});
-		
-	}
-	
+			public void onResponse(Call<JsonResponse<String>> call, Response<JsonResponse<String>> response) {
 
+				if (response.isSuccessful() && response.body().isSuccessful()) {
+
+					MyApplication.getInstance().userInfo.setGender(sex + "");
+					((GuideActivity) getActivity()).setisBrithEdit();
+					//goHomeActivity();
+
+				} else {
+					DebugUtils.e(response.toString());
+				}
+			}
+
+			@Override
+			public void onFailure(Call<JsonResponse<String>> call, Throwable t) {
+
+				DebugUtils.e(t.toString());
+			}
+		});
+	}
 }

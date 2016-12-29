@@ -32,7 +32,6 @@ import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.IRecyclerItem;
 import com.xiaoningmeng.bean.Index;
-import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.manager.EmptyHelper;
 import com.xiaoningmeng.presenter.DiscoverPresenter;
 import com.xiaoningmeng.presenter.contract.DiscoverConstract;
@@ -40,7 +39,9 @@ import com.xiaoningmeng.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;;
+import java.util.List;
+
+;
 
 public class DiscoverFragment extends BaseFragment implements DiscoverConstract.View<DiscoverPresenter> {
 
@@ -76,7 +77,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
         mEmptyHelper = new EmptyHelper(getContext(), mRecyclerView, mAdapter);
         mEmptyHelper.setEmptyView(EmptyHelper.LOADING, true, getString(R.string.loading_tip));
         mRecyclerView.setAdapter(mAdapter);
-        DiscoverFragment.ItemOffsetDecoration itemDecoration = new DiscoverFragment.ItemOffsetDecoration(mContext, R.dimen.page_offset,R.dimen.item_offset);
+        DiscoverFragment.ItemOffsetDecoration itemDecoration = new DiscoverFragment.ItemOffsetDecoration(mContext, R.dimen.page_offset, R.dimen.item_offset);
         mRecyclerView.addItemDecoration(itemDecoration);
         new DiscoverPresenter(getActivity(), this).subscribe();
         mPresenter.requestIndexData();
@@ -142,11 +143,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
 
                     case Index.AD_TYPE:
                         Index.AdBean.ItemsBean adInfo = (Index.AdBean.ItemsBean) iRecyclerItem;
-                        Uri adLinkUri = Uri.parse(adInfo.getLinkurl());
-                        Intent adIntent = new Intent();
-                        adIntent.setData(adLinkUri);
-                        adIntent.addCategory(Constant.DEFAULT_INTENT_CATEGORY);
-                        DiscoverFragment.this.getActivity().startActivity(adIntent);
+                        AppUtils.openLinkUrl(null, DiscoverFragment.this, adInfo.getLinkurl());
                         break;
                 }
             }
@@ -270,7 +267,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
         private int lastSectionPos;
         private HashMap<Integer, Integer> tagSecctionMap = new HashMap<Integer, Integer>();
 
-        public ItemOffsetDecoration(int pageOffset,int itemOffset) {
+        public ItemOffsetDecoration(int pageOffset, int itemOffset) {
 
             mPageOffset = pageOffset;
             mItemOffset = itemOffset;
@@ -278,7 +275,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
 
         public ItemOffsetDecoration(@NonNull Context context, @DimenRes int pageOffsetId, @DimenRes int itemOffsetId) {
 
-            this(mContext.getResources().getDimensionPixelSize(pageOffsetId),mContext.getResources().getDimensionPixelSize(itemOffsetId));
+            this(mContext.getResources().getDimensionPixelSize(pageOffsetId), mContext.getResources().getDimensionPixelSize(itemOffsetId));
         }
 
         @Override

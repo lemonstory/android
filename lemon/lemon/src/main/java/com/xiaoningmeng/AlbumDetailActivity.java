@@ -30,13 +30,12 @@ import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.xiaoningmeng.application.ActivityManager;
-import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.Album;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.AudioDownLoad;
-import com.xiaoningmeng.bean.CommentInfo;
+import com.xiaoningmeng.bean.Comment;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.ShareBean;
 import com.xiaoningmeng.bean.Story;
@@ -48,12 +47,13 @@ import com.xiaoningmeng.event.FavEvent;
 import com.xiaoningmeng.fragment.AblumDetailIntroFragment;
 import com.xiaoningmeng.fragment.AblumDetailPlayListFragment;
 import com.xiaoningmeng.fragment.AblumSimilarFragment;
-import com.xiaoningmeng.http.JsonCallback;
+import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.utils.AppUtils;
+import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.utils.ImageUtils;
 import com.xiaoningmeng.view.CircleProgressBar;
 import com.xiaoningmeng.view.RatingBar;
@@ -64,6 +64,11 @@ import com.xiaoningmeng.view.dialog.TipDialog;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.xiaoningmeng.http.LHttpRequest.mRetrofit;
 
 
 public class AlbumDetailActivity extends BaseActivity implements
@@ -97,7 +102,7 @@ public class AlbumDetailActivity extends BaseActivity implements
     private AlbumInfo albumInfo;
     private int storysPage = 1;
     private List<Story> storyList;
-    private List<CommentInfo> commentList;
+    private List<Comment> commentList;
     private boolean isFirst = true;
     private boolean isLoadImage;
     private int mPlayTime;
@@ -289,33 +294,47 @@ public class AlbumDetailActivity extends BaseActivity implements
 
         if (mAlbumId != null && !mAlbumId.equals("")) {
 
-            LHttpRequest.getInstance().albumInfoReq(this, mAlbumId, storysPage,
-                    MyApplication.getInstance().getUid(),
-                    new JsonCallback<Album>() {
+            LHttpRequest.AlbumInfoRequest albumInfoRequest = mRetrofit.create(LHttpRequest.AlbumInfoRequest.class);
+            Call<JsonResponse<Album>> call = albumInfoRequest.getResult(mAlbumId, storysPage);
+            call.enqueue(new Callback<JsonResponse<Album>>() {
 
-                        @Override
-                        public void onGetDataSuccess(Album data) {
-                            albumInfo = data.getAlbumInfo();
-                            storyList = data.getStoryListItems();
-                            albumInfo.setStorylist(storyList);
-                            commentList = data.getCommentlist();
-                            fillAlbumInfoView(albumInfo);
-                            mPlayListFragment.setStoryList(albumInfo, storyList, storysPage, mPlayStoryId, mPlayTime);
-                            mIntroFragment.setIntro(albumInfo.getIntro(), data.getTagList());
-                            mSimilarFragment.setAlbumList(data.getRecommendAlbumList());
-                            recoveryPlayedPosition();
-                            //开始播放
-                            if (!PlayerManager.getInstance().isPlaying()) {
-                                playOrPauseStory();
-                            }
-                            AlbumDetailActivity.this.notify(PlayerManager.getInstance().getPlayingStory());
-                        }
+                @Override
+                public void onResponse(Call<JsonResponse<Album>> call, Response<JsonResponse<Album>> response) {
 
-                        @Override
-                        public void onFailure(int statusCode, String failureResponse) {
-                            mPlayListFragment.onFailure(statusCode, failureResponse);
+                    if (response.isSuccessful() && response.body().isSuccessful()) {
+
+                        Album data = response.body().getData();
+                        albumInfo = data.getAlbumInfo();
+                        storyList = data.getStoryListItems();
+                        albumInfo.setStorylist(storyList);
+                        commentList = data.getCommentlist();
+                        fillAlbumInfoView(albumInfo);
+                        mPlayListFragment.setStoryList(albumInfo, storyList, storysPage, mPlayStoryId, mPlayTime);
+                        mIntroFragment.setIntro(albumInfo.getIntro(), data.getTagList());
+                        mSimilarFragment.setAlbumList(data.getRecommendAlbumList());
+                        recoveryPlayedPosition();
+                        //开始播放
+                        if (!PlayerManager.getInstance().isPlaying()) {
+                            playOrPauseStory();
                         }
-                    });
+                        AlbumDetailActivity.this.notify(PlayerManager.getInstance().getPlayingStory());
+
+                    } else if (!response.body().isSuccessful()) {
+
+                        int code = response.body().getCode();
+                        String message = response.body().getDesc();
+                        mPlayListFragment.onFailure(code, message);
+                    } else {
+                        DebugUtils.e(response.toString());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<JsonResponse<Album>> call, Throwable t) {
+
+                    DebugUtils.e(t.toString());
+                }
+            });
         }
     }
 
@@ -523,42 +542,71 @@ public class AlbumDetailActivity extends BaseActivity implements
     }
 
     private void favAblum(final View view) {
+
+
         if (albumInfo == null) {
             return;
         }
         if (albumInfo.getFav() == 0) {
-            LHttpRequest.getInstance().addFavAlbumRequest(this,
-                    mAlbumId,
-                    new JsonCallback<String>(this) {
 
-                        @Override
-                        public void onGetDataSuccess(String data) {
-                            view.setSelected(true);
-                            Animation favInAnim = AnimationUtils.loadAnimation(AlbumDetailActivity.this, R.anim.fav_anim_in);
-                            view.startAnimation(favInAnim);
-                            albumInfo.setFav(1);
-                            new TipDialog.Builder(AlbumDetailActivity.this)
-                                    .setAutoDismiss(true).setTransparent(false)
-                                    .setTipText("收藏成功！").create().show();
-                            albumInfo.updateAll("albumid =?", albumInfo.getId());
-                            EventBus.getDefault().post(new FavEvent(albumInfo, 1));
-
-                        }
-                    });
-        } else {
-            LHttpRequest.getInstance().delFavAlbumRequest(this, mAlbumId, new JsonCallback<String>(this) {
+            LHttpRequest.AddFavAlbumRequest addFavAlbumRequest = mRetrofit.create(LHttpRequest.AddFavAlbumRequest.class);
+            Call<JsonResponse<String>> call = addFavAlbumRequest.getResult(mAlbumId);
+            call.enqueue(new Callback<JsonResponse<String>>() {
 
                 @Override
-                public void onGetDataSuccess(String data) {
-                    view.setSelected(false);
-                    Animation favOutAnim = AnimationUtils.loadAnimation(AlbumDetailActivity.this, R.anim.fav_anim_out);
-                    view.startAnimation(favOutAnim);
-                    albumInfo.setFav(0);
-                    new TipDialog.Builder(AlbumDetailActivity.this)
-                            .setAutoDismiss(true).setTransparent(false)
-                            .setTipText("取消收藏成功！").create().show();
-                    albumInfo.updateAll("albumid =?", albumInfo.getId());
-                    EventBus.getDefault().post(new FavEvent(albumInfo, 0));
+                public void onResponse(Call<JsonResponse<String>> call, Response<JsonResponse<String>> response) {
+
+                    if (response.isSuccessful() && response.body().isSuccessful()) {
+                        view.setSelected(true);
+                        Animation favInAnim = AnimationUtils.loadAnimation(AlbumDetailActivity.this, R.anim.fav_anim_in);
+                        view.startAnimation(favInAnim);
+                        albumInfo.setFav(1);
+                        new TipDialog.Builder(AlbumDetailActivity.this)
+                                .setAutoDismiss(true).setTransparent(false)
+                                .setTipText("收藏成功！").create().show();
+                        albumInfo.updateAll("albumid =?", albumInfo.getId());
+                        EventBus.getDefault().post(new FavEvent(albumInfo, 1));
+                    } else {
+                        DebugUtils.e(response.toString());
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<JsonResponse<String>> call, Throwable t) {
+                    DebugUtils.e(t.toString());
+                }
+            });
+
+        } else {
+            LHttpRequest.DelFavAlbumRequest delFavAlbumRequest = mRetrofit.create(LHttpRequest.DelFavAlbumRequest.class);
+            Call<JsonResponse<String>> call = delFavAlbumRequest.getResult(mAlbumId);
+            call.enqueue(new Callback<JsonResponse<String>>() {
+
+                @Override
+                public void onResponse(Call<JsonResponse<String>> call, Response<JsonResponse<String>> response) {
+
+                    if (response.isSuccessful() && response.body().isSuccessful()) {
+
+                        view.setSelected(false);
+                        Animation favOutAnim = AnimationUtils.loadAnimation(AlbumDetailActivity.this, R.anim.fav_anim_out);
+                        view.startAnimation(favOutAnim);
+                        albumInfo.setFav(0);
+                        new TipDialog.Builder(AlbumDetailActivity.this)
+                                .setAutoDismiss(true).setTransparent(false)
+                                .setTipText("取消收藏成功！").create().show();
+                        albumInfo.updateAll("albumid =?", albumInfo.getId());
+                        EventBus.getDefault().post(new FavEvent(albumInfo, 0));
+
+                    } else {
+                        DebugUtils.e(response.toString());
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<JsonResponse<String>> call, Throwable t) {
+                    DebugUtils.e(t.toString());
                 }
             });
         }
@@ -694,7 +742,7 @@ public class AlbumDetailActivity extends BaseActivity implements
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == 5 && data != null) {
-            CommentInfo comment = data.getParcelableExtra("comment");
+            Comment comment = data.getParcelableExtra("comment");
             int commentCount = albumInfo.getCommentnum() + 1;
             String commentCountStr = commentCount + "";
             albumInfo.setCommentnum(commentCount);

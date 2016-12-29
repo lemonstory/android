@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.xiaoningmeng"
-    android:versionCode="21"
-    android:versionName="2.6.4">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.xiaoningmeng"
+          android:versionCode="23"
+          android:versionName="2.6.6">
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -254,10 +254,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".AlarmSelectActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".MoreActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
 

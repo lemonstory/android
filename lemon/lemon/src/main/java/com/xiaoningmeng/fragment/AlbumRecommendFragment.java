@@ -19,21 +19,26 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
-import com.xiaoningmeng.adapter.AblumRecommendAdapter;
-import com.xiaoningmeng.base.LazyFragment;
-import com.xiaoningmeng.bean.AlbumRecommend;
-
 import com.xiaoningmeng.AlbumDetailActivity;
 import com.xiaoningmeng.R;
+import com.xiaoningmeng.adapter.AblumRecommendAdapter;
+import com.xiaoningmeng.base.LazyFragment;
 import com.xiaoningmeng.bean.AlbumInfo;
+import com.xiaoningmeng.bean.AlbumRecommend;
 import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.http.JsonCallback;
+import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.EmptyHelper;
 import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.xiaoningmeng.http.LHttpRequest.mRetrofit;
 
 public class AlbumRecommendFragment extends LazyFragment implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
 
@@ -56,16 +61,16 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
     private int delayMillis = 1000;
     private List<AlbumInfo> mAlbumItems;
     private String recommendUrl = "";
-    private String minAge = String.valueOf(Constant.MIN_AGE);
-    private String maxAge = String.valueOf(Constant.MAX_AGE);
+    private int minAge = Constant.MIN_AGE;
+    private int maxAge = Constant.MAX_AGE;
 
-    public static AlbumRecommendFragment newInstance(String recommendUrl, String minAge, String maxAge) {
+    public static AlbumRecommendFragment newInstance(String recommendUrl, int minAge, int maxAge) {
 
         AlbumRecommendFragment fragment = new AlbumRecommendFragment();
         Bundle args = new Bundle();
         args.putString(ARG_RECOMMEND_URL, recommendUrl);
-        args.putString(ARG_MIN_AGE, minAge);
-        args.putString(ARG_MAX_AGE, maxAge);
+        args.putString(ARG_MIN_AGE, String.valueOf(minAge));
+        args.putString(ARG_MAX_AGE, String.valueOf(maxAge));
         fragment.setArguments(args);
         return fragment;
     }
@@ -77,8 +82,8 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             recommendUrl = getArguments().getString(ARG_RECOMMEND_URL);
-            minAge = getArguments().getString(ARG_MIN_AGE);
-            maxAge = getArguments().getString(ARG_MAX_AGE);
+            minAge = Integer.parseInt(getArguments().getString(ARG_MIN_AGE));
+            maxAge = Integer.parseInt(getArguments().getString(ARG_MAX_AGE));
         }
     }
 
@@ -192,43 +197,57 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
         }, delayMillis);
     }
 
-    private void requestAlbumRecommendData(String url, String minAge, String maxAge, final int page, final int pageSize) {
+    private void requestAlbumRecommendData(String url, int minAge, int maxAge, final int page, final int pageSize) {
 
-        LHttpRequest.getInstance().getAlbumRecommendReq(getActivity(), url, minAge, maxAge, page, pageSize, new JsonCallback<AlbumRecommend>() {
+        if (url != null && !url.equals("")) {
 
-            @Override
-            public void onGetDataSuccess(AlbumRecommend data) {
+            LHttpRequest.GetAlbumRecommendRequest getAlbumRecommendRequest = mRetrofit.create(LHttpRequest.GetAlbumRecommendRequest.class);
+            Call<JsonResponse<AlbumRecommend>> call = getAlbumRecommendRequest.getResult(url, minAge, maxAge, mCurrentPage, pageSize);
+            call.enqueue(new Callback<JsonResponse<AlbumRecommend>>() {
 
-                mAlbumItems = data.getItems();
-                if (mSwipeRefreshLayout.isRefreshing()) {
-                    mAdapter.setNewData(mAlbumItems);
-                } else {
-                    mAdapter.addData(mAlbumItems);
-                }
-                isLoadData = true;
-                mSwipeRefreshLayout.setRefreshing(false);
+                @Override
+                public void onResponse(Call<JsonResponse<AlbumRecommend>> call, Response<JsonResponse<AlbumRecommend>> response) {
 
-                if (1 == page && mAlbumItems.size() < pageSize) {
-                    mAdapter.loadComplete();
-                    if (notLoadingView == null) {
-                        notLoadingView = getActivity().getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);
-                    }
-                    if (notLoadingView != null && notLoadingView.getParent() != null) {
-                        {
-                            ((ViewGroup) notLoadingView.getParent()).removeView(notLoadingView);
+                    if (response.isSuccessful() && response.body().isSuccessful()) {
+
+                        AlbumRecommend data = response.body().getData();
+                        mAlbumItems = data.getItems();
+                        if (mSwipeRefreshLayout.isRefreshing()) {
+                            mAdapter.setNewData(mAlbumItems);
+                        } else {
+                            mAdapter.addData(mAlbumItems);
                         }
+                        isLoadData = true;
+                        mSwipeRefreshLayout.setRefreshing(false);
+
+                        if (1 == page && mAlbumItems.size() < pageSize) {
+                            mAdapter.loadComplete();
+                            if (notLoadingView == null) {
+                                notLoadingView = getActivity().getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);
+                            }
+                            if (notLoadingView != null && notLoadingView.getParent() != null) {
+                                {
+                                    ((ViewGroup) notLoadingView.getParent()).removeView(notLoadingView);
+                                }
+                            }
+                            mAdapter.addFooterView(notLoadingView);
+                        }
+                    } else {
+                        DebugUtils.e(response.toString());
                     }
-                    mAdapter.addFooterView(notLoadingView);
                 }
-            }
 
-            @Override
-            public void onFailure(String responseString) {
 
-                isLoadData = true;
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
-        });
+                @Override
+                public void onFailure(Call<JsonResponse<AlbumRecommend>> call, Throwable t) {
+
+                    DebugUtils.e(t.toString());
+                    isLoadData = true;
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+
+            });
+        }
     }
 
 

@@ -15,23 +15,29 @@ import android.widget.ImageView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.xiaoningmeng.bean.PlayingStory;
-import com.xiaoningmeng.player.PlayObserver;
-import com.xiaoningmeng.player.PlayerManager;
-
 import com.xiaoningmeng.base.BaseActivity;
+import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.Special;
 import com.xiaoningmeng.bean.Tag;
-import com.xiaoningmeng.bean.TagDetail;
+import com.xiaoningmeng.bean.TagAblumList;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.fragment.TagFragment;
-import com.xiaoningmeng.http.JsonCallback;
+import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
+import com.xiaoningmeng.player.PlayObserver;
+import com.xiaoningmeng.player.PlayerManager;
+import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.view.dialog.DrawableDialogLoading;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.xiaoningmeng.http.LHttpRequest.mRetrofit;
 
 
 public class TagActivity extends BaseActivity implements View.OnClickListener, PlayObserver {
@@ -76,57 +82,73 @@ public class TagActivity extends BaseActivity implements View.OnClickListener, P
     }
 
     private void requestData(String selectTagId) {
-        LHttpRequest.getInstance().getTagAblumListReq(this, selectTagId, 1,
-                Constant.FRIST, Constant.FRIST_ID, null, 0, new JsonCallback<TagDetail>(this) {
-                    @Override
-                    public void onGetDataSuccess(TagDetail data) {
 
-                        if (data != null) {
-                            mTagParams.clear();
-                            mSelectFristTag = data.getSelectfirsttagid();
-                            mSelectSecondTag = data.getSelectsecondtagid();
-                            mSecondTagList = data.getSecondtaglist();
-                            mFristTagList = data.getFirsttaglist();
-                            mSpecialList = data.getSpecialtaglist();
-                            if (mSpecialList != null) {
-                                for (Special specail : mSpecialList) {
-                                    mTagParams.add(new TagParam(specail.getName(), mSelectFristTag, specail.getParamkey()));
-                                }
+        LHttpRequest.GetTagAblumListRequest getTagAblumListRequest = mRetrofit.create(LHttpRequest.GetTagAblumListRequest.class);
+        Call<JsonResponse<TagAblumList>> call = getTagAblumListRequest.getResult(selectTagId, 1, Constant.FRIST, Constant.FRIST_ID, 0, 0);
+        call.enqueue(new Callback<JsonResponse<TagAblumList>>() {
+
+            @Override
+            public void onResponse(Call<JsonResponse<TagAblumList>> call, Response<JsonResponse<TagAblumList>> response) {
+
+                if (response.isSuccessful() && response.body().isSuccessful()) {
+
+                    TagAblumList data = response.body().getData();
+                    if (data != null) {
+                        mTagParams.clear();
+                        mSelectFristTag = data.getSelectfirsttagid();
+                        mSelectSecondTag = data.getSelectsecondtagid();
+                        mSecondTagList = data.getSecondtaglist();
+                        mFristTagList = data.getFirsttaglist();
+                        mSpecialList = data.getSpecialtaglist();
+                        if (mSpecialList != null) {
+                            for (Special specail : mSpecialList) {
+                                mTagParams.add(new TagParam(specail.getName(), mSelectFristTag, specail.getParamkey()));
                             }
-                            int selectTabPos = 0;
-                            if (mSecondTagList != null) {
-                                for (Tag tag : mSecondTagList) {
-                                    mTagParams.add(new TagParam(tag.getName(), tag.getId(), null));
-                                    if (tag.getId() != null && tag.getId().equals(mSelectSecondTag)) {
-                                        selectTabPos = mTagParams.size() - 1;
-                                    }
-                                }
-                            }
-                            for (Tag tag : mFristTagList) {
-                                if (tag.getId().equals(mSelectFristTag)) {
-                                    TagActivity.this.setTitleName(tag.getName());
-                                }
-                            }
-                            mTagFragments = new TagFragment[mTagParams.size()];
-                            if (isFirst) {
-                                mPagerAdapter = new TabFragmentPagerAdapter(getSupportFragmentManager());
-                                mViewPager.setAdapter(mPagerAdapter);
-                                mViewPager.setOffscreenPageLimit(0);
-                                mIndicator.setViewPager(mViewPager);
-                            } else {
-                                for (int i = 0; i < mPagerAdapter.getCount(); i++) {
-                                    TagFragment fragment = (TagFragment) mPagerAdapter.instantiateItem(mViewPager, i);
-                                    if (fragment != null && mTagParams.size() > i) {
-                                        fragment.refreshData(mTagParams.get(i));
-                                    }
-                                }
-                                mPagerAdapter.notifyDataSetChanged();
-                            }
-                            mViewPager.setCurrentItem(selectTabPos);
-                            isFirst = false;
                         }
+                        int selectTabPos = 0;
+                        if (mSecondTagList != null) {
+                            for (Tag tag : mSecondTagList) {
+                                mTagParams.add(new TagParam(tag.getName(), tag.getId(), null));
+                                if (tag.getId() != null && tag.getId().equals(mSelectSecondTag)) {
+                                    selectTabPos = mTagParams.size() - 1;
+                                }
+                            }
+                        }
+                        for (Tag tag : mFristTagList) {
+                            if (tag.getId().equals(mSelectFristTag)) {
+                                TagActivity.this.setTitleName(tag.getName());
+                            }
+                        }
+                        mTagFragments = new TagFragment[mTagParams.size()];
+                        if (isFirst) {
+                            mPagerAdapter = new TabFragmentPagerAdapter(getSupportFragmentManager());
+                            mViewPager.setAdapter(mPagerAdapter);
+                            mViewPager.setOffscreenPageLimit(0);
+                            mIndicator.setViewPager(mViewPager);
+                        } else {
+                            for (int i = 0; i < mPagerAdapter.getCount(); i++) {
+                                TagFragment fragment = (TagFragment) mPagerAdapter.instantiateItem(mViewPager, i);
+                                if (fragment != null && mTagParams.size() > i) {
+                                    fragment.refreshData(mTagParams.get(i));
+                                }
+                            }
+                            mPagerAdapter.notifyDataSetChanged();
+                        }
+                        mViewPager.setCurrentItem(selectTabPos);
+                        isFirst = false;
                     }
-                });
+                } else {
+                    DebugUtils.e(response.toString());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonResponse<TagAblumList>> call, Throwable t) {
+
+                DebugUtils.e(t.toString());
+            }
+        });
     }
 
     private String getTagIdWithIntent() {

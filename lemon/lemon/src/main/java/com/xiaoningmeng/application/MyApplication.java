@@ -13,6 +13,12 @@ import android.support.multidex.MultiDex;
 import com.alibaba.baichuan.android.trade.AlibcTradeSDK;
 import com.alibaba.baichuan.android.trade.callback.AlibcTradeInitCallback;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.stetho.Stetho;
+import com.facebook.stetho.okhttp3.StethoInterceptor;
+import com.franmontiel.persistentcookiejar.ClearableCookieJar;
+import com.franmontiel.persistentcookiejar.PersistentCookieJar;
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.Bugly;
 import com.tencent.smtt.sdk.QbSdk;
@@ -24,12 +30,10 @@ import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.CacheInterceptor;
 import com.xiaoningmeng.http.OSSAuth;
+import com.xiaoningmeng.http.UserAgentInterceptor;
 import com.xiaoningmeng.player.MusicService;
+import com.xiaoningmeng.utils.AppUtils;
 import com.xiaoningmeng.utils.DebugUtils;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.cookie.CookieJarImpl;
-import com.zhy.http.okhttp.cookie.store.PersistentCookieStore;
-import com.zhy.http.okhttp.log.LoggerInterceptor;
 
 import org.litepal.LitePalApplication;
 
@@ -39,6 +43,7 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
  * @author HuangYanbin
@@ -64,7 +69,10 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
 
     @Override
     public void onCreate() {
+
+        AppUtils.enableStrictMode();
         super.onCreate();
+        Stetho.initializeWithDefaults(this);
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
             // You should not init your app in this process.
@@ -158,28 +166,31 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
         }
     }
 
-    //参考文档:https://github.com/hongyangAndroid/okhttputils
-    public void initOkHttpClient() {
+    public OkHttpClient initOkHttpClient() {
 
         File cacheFile = new File(getExternalCacheDir(), "HttpCache");
         Cache cache = new Cache(cacheFile, 1024 * 1024 * 50); //50Mb
-        CookieJarImpl cookieJar = new CookieJarImpl(new PersistentCookieStore(getApplicationContext()));
+        ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(this));
+        UserAgentInterceptor userAgentInterceptor = new UserAgentInterceptor();
         CacheInterceptor cacheInterceptor = new CacheInterceptor();
-//        StethoInterceptor stethoInterceptor = new StethoInterceptor();
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC);
+        StethoInterceptor stethoInterceptor = new StethoInterceptor();
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .cookieJar(cookieJar)
-                .addInterceptor(new LoggerInterceptor(DebugUtils.TAG))
+                .addInterceptor(logging)
                 .addNetworkInterceptor(cacheInterceptor)
-                .addNetworkInterceptor(cacheInterceptor)
+                .addNetworkInterceptor(stethoInterceptor)
+                .addInterceptor(userAgentInterceptor)
                 .addInterceptor(cacheInterceptor)
                 .cache(cache)
                 .connectTimeout(10000L, TimeUnit.MILLISECONDS)
-                .readTimeout(10000L, TimeUnit
-                        .MILLISECONDS)
+                .readTimeout(10000L, TimeUnit.MILLISECONDS)
                 //其他配置
                 .build();
 
-        OkHttpUtils.initClient(okHttpClient);
+        return okHttpClient;
+
+//        OkHttpUtils.initClient(okHttpClient);
     }
 
 
@@ -307,6 +318,4 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
 	public void removeClientCookieFromHttpClient() {
 		mHttpClient.setCookieStore(null);
 	}*/
-
-
 }

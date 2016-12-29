@@ -15,12 +15,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.umeng.analytics.MobclickAgent;
+import com.xiaoningmeng.R;
 import com.xiaoningmeng.application.ActivityManager;
 import com.xiaoningmeng.http.ILoading;
 import com.xiaoningmeng.view.dialog.TextDialogLoading;
-import com.zhy.http.okhttp.OkHttpUtils;
-
-import com.xiaoningmeng.R;
 
 public class BaseActivity extends AppCompatActivity implements ILoading {
 
@@ -28,6 +26,7 @@ public class BaseActivity extends AppCompatActivity implements ILoading {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+
 		super.onCreate(savedInstanceState);
 		ActivityManager.getScreenManager().pushActivity(this);
 	}
@@ -35,7 +34,7 @@ public class BaseActivity extends AppCompatActivity implements ILoading {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		OkHttpUtils.getInstance().cancelTag(this);
+//		OkHttpUtils.getInstance().cancelTag(this);
 		ActivityManager.getScreenManager().popActivity(this);
 	}
 

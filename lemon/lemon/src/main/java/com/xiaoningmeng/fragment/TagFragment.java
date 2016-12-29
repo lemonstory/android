@@ -23,14 +23,21 @@ import com.xiaoningmeng.adapter.AlbumAdapter;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.base.LazyFragment;
 import com.xiaoningmeng.bean.AlbumInfo;
+import com.xiaoningmeng.bean.TagAblumList;
 import com.xiaoningmeng.bean.TagAlbum;
-import com.xiaoningmeng.bean.TagDetail;
 import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.http.JsonCallback;
+import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
+import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.xiaoningmeng.http.LHttpRequest.mRetrofit;
 
 public class TagFragment extends LazyFragment implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
 
@@ -90,7 +97,7 @@ public class TagFragment extends LazyFragment implements SwipeRefreshLayout.OnRe
         mQuickAdapter.openLoadMore(20);
         setEmptyView(true);
         mQuickAdapter.isFirstOnly(true);
-        TagFragment.ItemOffsetDecoration itemDecoration = new TagFragment.ItemOffsetDecoration(mContext, R.dimen.page_offset,R.dimen.item_offset);
+        TagFragment.ItemOffsetDecoration itemDecoration = new TagFragment.ItemOffsetDecoration(mContext, R.dimen.page_offset, R.dimen.item_offset);
         mRecyclerView.addItemDecoration(itemDecoration);
         mRecyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
 
@@ -115,57 +122,75 @@ public class TagFragment extends LazyFragment implements SwipeRefreshLayout.OnRe
         mRecyclerView.setAdapter(mQuickAdapter);
     }
 
-    public void requestData(final String direction, String relationId, final boolean isReafresh) {
+    public void requestData(final String direction, final String relationId, final boolean isReafresh) {
 
-        LHttpRequest.getInstance().getTagAblumListReq(getActivity(), mTagParam.tag, 0, direction, relationId,
-                mTagParam.special, Constant.GRID_REQ_LEN, new JsonCallback<TagDetail>() {
-                    @Override
-                    public void onGetDataSuccess(TagDetail data) {
-                        isLoadData = true;
-                        if (isReafresh) {
-                            mAlbumInfos.clear();
-                            mTagAlbums.clear();
-                        }
-                        if (direction == Constant.FRIST || direction == Constant.UP) {
-                            mRefreshLayout.setRefreshing(false);
-                            if (data == null || data.getTagalbumlist() == null
-                                    || data.getTagalbumlist().size() == 0) {
-                                setEmptyView(false);
-                            }
-                        }
-                        if (data != null && data.getTagalbumlist() != null) {
-                            List<TagAlbum> tagAlbumList = data.getTagalbumlist();
-                            List<AlbumInfo> albumInfos = new ArrayList<>();
-                            for (TagAlbum tagAlbum : tagAlbumList) {
-                                albumInfos.add(tagAlbum.getAlbuminfo());
-                            }
-                            mTagAlbums.addAll(tagAlbumList);
-                            mQuickAdapter.addData(albumInfos);
+        int isSpecialtTag = 0;
+        if (mTagParam.special != null) {
+            isSpecialtTag = 1;
+        }
+        LHttpRequest.GetTagAblumListRequest getTagAblumListRequest = mRetrofit.create(LHttpRequest.GetTagAblumListRequest.class);
+        Call<JsonResponse<TagAblumList>> call = getTagAblumListRequest.getResult(mTagParam.tag, 0, direction, relationId, isSpecialtTag, Constant.GRID_REQ_LEN);
+        call.enqueue(new Callback<JsonResponse<TagAblumList>>() {
 
-                            if (tagAlbumList.size() < Constant.GRID_REQ_LEN ) {
+            @Override
+            public void onResponse(Call<JsonResponse<TagAblumList>> call, Response<JsonResponse<TagAblumList>> response) {
 
-                                if (mFooterView != null && mFooterView.getParent() != null) {
-                                    { ((ViewGroup) mFooterView.getParent()).removeView(mFooterView); }
-                                }
+                if (response.isSuccessful() && response.body().isSuccessful()) {
 
-                                mQuickAdapter.loadComplete();
-                                //http://stackoverflow.com/questions/11631408/android-fragment-getactivity-sometime-returns-null
-                                if(null != TagFragment.this.getActivity() && TagFragment.this.isAdded()) {
-                                    if (mFooterView == null) {
-                                        mFooterView = TagFragment.this.getActivity().getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);
-                                    }
-                                    mQuickAdapter.addFooterView(mFooterView);
-                                }
-
-                            }
+                    TagAblumList data = response.body().getData();
+                    isLoadData = true;
+                    if (isReafresh) {
+                        mAlbumInfos.clear();
+                        mTagAlbums.clear();
+                    }
+                    if (direction == Constant.FRIST || direction == Constant.UP) {
+                        mRefreshLayout.setRefreshing(false);
+                        if (data == null || data.getTagalbumlist() == null
+                                || data.getTagalbumlist().size() == 0) {
+                            setEmptyView(false);
                         }
                     }
+                    if (data != null && data.getTagalbumlist() != null) {
+                        List<TagAlbum> tagAlbumList = data.getTagalbumlist();
+                        List<AlbumInfo> albumInfos = new ArrayList<>();
+                        for (TagAlbum tagAlbum : tagAlbumList) {
+                            albumInfos.add(tagAlbum.getAlbuminfo());
+                        }
+                        mTagAlbums.addAll(tagAlbumList);
+                        mQuickAdapter.addData(albumInfos);
 
-                    @Override
-                    public void onFailure(String responseString) {
-                        isLoadData = true;
+                        if (tagAlbumList.size() < Constant.GRID_REQ_LEN) {
+
+                            if (mFooterView != null && mFooterView.getParent() != null) {
+                                {
+                                    ((ViewGroup) mFooterView.getParent()).removeView(mFooterView);
+                                }
+                            }
+
+                            mQuickAdapter.loadComplete();
+                            //http://stackoverflow.com/questions/11631408/android-fragment-getactivity-sometime-returns-null
+                            if (null != TagFragment.this.getActivity() && TagFragment.this.isAdded()) {
+                                if (mFooterView == null) {
+                                    mFooterView = TagFragment.this.getActivity().getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);
+                                }
+                                mQuickAdapter.addFooterView(mFooterView);
+                            }
+
+                        }
                     }
-                });
+                } else {
+
+                    DebugUtils.e(response.toString());
+                    isLoadData = true;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonResponse<TagAblumList>> call, Throwable t) {
+
+                DebugUtils.e(t.toString());
+            }
+        });
     }
 
     public void refreshData(TagActivity.TagParam tagParam) {
@@ -235,7 +260,7 @@ public class TagFragment extends LazyFragment implements SwipeRefreshLayout.OnRe
         private int mSpanCount = 2;
 
 
-        public ItemOffsetDecoration(int pageOffset,int itemOffset) {
+        public ItemOffsetDecoration(int pageOffset, int itemOffset) {
 
             mPageOffset = pageOffset;
             mItemOffset = itemOffset;
@@ -243,7 +268,7 @@ public class TagFragment extends LazyFragment implements SwipeRefreshLayout.OnRe
 
         public ItemOffsetDecoration(@NonNull Context context, @DimenRes int pageOffsetId, @DimenRes int itemOffsetId) {
 
-            this(mContext.getResources().getDimensionPixelSize(pageOffsetId),mContext.getResources().getDimensionPixelSize(itemOffsetId));
+            this(mContext.getResources().getDimensionPixelSize(pageOffsetId), mContext.getResources().getDimensionPixelSize(itemOffsetId));
         }
 
         @Override

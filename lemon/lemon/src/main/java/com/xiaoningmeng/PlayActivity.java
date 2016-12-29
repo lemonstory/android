@@ -21,7 +21,6 @@ import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
-import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.Album;
@@ -34,7 +33,7 @@ import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.download.DownLoadClientImpl;
 import com.xiaoningmeng.event.CommentEvent;
 import com.xiaoningmeng.event.FavEvent;
-import com.xiaoningmeng.http.JsonCallback;
+import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
@@ -45,6 +44,11 @@ import com.xiaoningmeng.view.dialog.TipDialog;
 import com.xiaoningmeng.view.dialog.TopDialog;
 
 import de.greenrobot.event.EventBus;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.xiaoningmeng.http.LHttpRequest.mRetrofit;
 
 public class PlayActivity extends BaseActivity implements OnClickListener,
         PlayObserver, OnSeekBarChangeListener, PlayerManager.OnPlayingDownloadListener {
@@ -227,16 +231,28 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
         Toast.makeText(this, "开始下载...", Toast.LENGTH_SHORT).show();
         //如果是搜索过来则没有专辑信息，需要重新加载
         if (mPlayerManager.getPlayingStory().albumInfo == null) {
-            LHttpRequest.getInstance().albumInfoReq(this, mPlayerManager.getPlayingStory().albumid, 1,
-                    MyApplication.getInstance().getUid(),
-                    new JsonCallback<Album>(this) {
 
-                        @Override
-                        public void onGetDataSuccess(Album data) {
-                            DownLoadClientImpl.getInstance().addAlbum(data.getAlbumInfo());
-                            download();
-                        }
-                    });
+            LHttpRequest.AlbumInfoRequest albumInfoRequest = mRetrofit.create(LHttpRequest.AlbumInfoRequest.class);
+            Call<JsonResponse<Album>> call = albumInfoRequest.getResult(mPlayerManager.getPlayingStory().albumid, 1);
+            call.enqueue(new Callback<JsonResponse<Album>>() {
+
+                @Override
+                public void onResponse(Call<JsonResponse<Album>> call, Response<JsonResponse<Album>> response) {
+
+                    if (response.isSuccessful() && response.body().isSuccessful()) {
+                        Album data = response.body().getData();
+                        DownLoadClientImpl.getInstance().addAlbum(data.getAlbumInfo());
+                        download();
+                    } else {
+                        DebugUtils.e(response.toString());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<JsonResponse<Album>> call, Throwable t) {
+                    DebugUtils.e(t.toString());
+                }
+            });
         } else {
             download();
         }
@@ -252,24 +268,35 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
             new TipDialog.Builder(PlayActivity.this).setAutoDismiss(true)
                     .setTransparent(false).setTipText("嗯哈，你已经下载过啦").create().show();
         }
-
     }
 
-
     private void favAblum(final View view) {
+
         final AlbumInfo albumInfo = mPlayerManager.getPlayingStory().albumInfo;
         //如果是搜索过来则没有专辑信息，需要重新加载
         if (albumInfo == null) {
-            LHttpRequest.getInstance().albumInfoReq(this, mPlayerManager.getPlayingStory().albumid, 1,
-                    MyApplication.getInstance().getUid(),
-                    new JsonCallback<Album>() {
 
-                        @Override
-                        public void onGetDataSuccess(Album data) {
-                            DownLoadClientImpl.getInstance().addAlbum(data.getAlbumInfo());
-                            fav(view, data.getAlbumInfo());
-                        }
-                    });
+            LHttpRequest.AlbumInfoRequest albumInfoRequest = mRetrofit.create(LHttpRequest.AlbumInfoRequest.class);
+            Call<JsonResponse<Album>> call = albumInfoRequest.getResult(mPlayerManager.getPlayingStory().albumid, 1);
+            call.enqueue(new Callback<JsonResponse<Album>>() {
+
+                @Override
+                public void onResponse(Call<JsonResponse<Album>> call, Response<JsonResponse<Album>> response) {
+
+                    if (response.isSuccessful() && response.body().isSuccessful()) {
+                        Album data = response.body().getData();
+                        DownLoadClientImpl.getInstance().addAlbum(data.getAlbumInfo());
+                        fav(view, data.getAlbumInfo());
+                    } else {
+                        DebugUtils.e(response.toString());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<JsonResponse<Album>> call, Throwable t) {
+                    DebugUtils.e(t.toString());
+                }
+            });
         } else {
             fav(view, albumInfo);
         }
@@ -278,42 +305,68 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
 
     private void fav(final View view, final AlbumInfo albumInfo) {
         if (albumInfo.getFav() == 0) {
-            LHttpRequest.getInstance().addFavAlbumRequest(this,
-                    albumInfo.getId(),
-                    new JsonCallback<String>() {
 
-                        @Override
-                        public void onGetDataSuccess(String data) {
-                            view.setSelected(true);
-                            Animation favInAnim = AnimationUtils.loadAnimation(PlayActivity.this, R.anim.fav_anim_in);
-                            view.startAnimation(favInAnim);
-                            albumInfo.setFav(1);
-                            new TipDialog.Builder(PlayActivity.this)
-                                    .setAutoDismiss(true).setTransparent(false)
-                                    .setTipText("收藏成功！").create().show();
-                            albumInfo.updateAll("albumid =?",
-                                    albumInfo.getId());
+            LHttpRequest.AddFavAlbumRequest addFavAlbumRequest = mRetrofit.create(LHttpRequest.AddFavAlbumRequest.class);
+            Call<JsonResponse<String>> call = addFavAlbumRequest.getResult(mPlayerManager.getPlayingStory().albumid);
+            call.enqueue(new Callback<JsonResponse<String>>() {
 
-                        }
-                    });
+                @Override
+                public void onResponse(Call<JsonResponse<String>> call, Response<JsonResponse<String>> response) {
+
+                    if (response.isSuccessful() && response.body().isSuccessful()) {
+                        view.setSelected(true);
+                        Animation favInAnim = AnimationUtils.loadAnimation(PlayActivity.this, R.anim.fav_anim_in);
+                        view.startAnimation(favInAnim);
+                        albumInfo.setFav(1);
+                        new TipDialog.Builder(PlayActivity.this)
+                                .setAutoDismiss(true).setTransparent(false)
+                                .setTipText("收藏成功！").create().show();
+                        albumInfo.updateAll("albumid =?",
+                                albumInfo.getId());
+                    } else {
+                        DebugUtils.e(response.toString());
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<JsonResponse<String>> call, Throwable t) {
+                    DebugUtils.e(t.toString());
+                }
+            });
+
         } else {
-            LHttpRequest.getInstance().delFavAlbumRequest(this,
-                    mPlayerManager.getPlayingStory().albumid,
-                    new JsonCallback<String>() {
 
-                        @Override
-                        public void onGetDataSuccess(String data) {
-                            view.setSelected(false);
-                            albumInfo.setFav(0);
-                            Animation favOutAnim = AnimationUtils.loadAnimation(PlayActivity.this, R.anim.fav_anim_out);
-                            view.startAnimation(favOutAnim);
-                            new TipDialog.Builder(PlayActivity.this)
-                                    .setAutoDismiss(true).setTransparent(false)
-                                    .setTipText("取消收藏成功！").create().show();
-                            albumInfo.updateAll("albumid =?",
-                                    albumInfo.getId());
-                        }
-                    });
+            LHttpRequest.DelFavAlbumRequest delFavAlbumRequest = mRetrofit.create(LHttpRequest.DelFavAlbumRequest.class);
+            Call<JsonResponse<String>> call = delFavAlbumRequest.getResult(mPlayerManager.getPlayingStory().albumid);
+            call.enqueue(new Callback<JsonResponse<String>>() {
+
+                @Override
+                public void onResponse(Call<JsonResponse<String>> call, Response<JsonResponse<String>> response) {
+
+                    if (response.isSuccessful() && response.body().isSuccessful()) {
+
+                        view.setSelected(false);
+                        albumInfo.setFav(0);
+                        Animation favOutAnim = AnimationUtils.loadAnimation(PlayActivity.this, R.anim.fav_anim_out);
+                        view.startAnimation(favOutAnim);
+                        new TipDialog.Builder(PlayActivity.this)
+                                .setAutoDismiss(true).setTransparent(false)
+                                .setTipText("取消收藏成功！").create().show();
+                        albumInfo.updateAll("albumid =?",
+                                albumInfo.getId());
+
+                    } else {
+                        DebugUtils.e(response.toString());
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<JsonResponse<String>> call, Throwable t) {
+                    DebugUtils.e(t.toString());
+                }
+            });
         }
     }
 

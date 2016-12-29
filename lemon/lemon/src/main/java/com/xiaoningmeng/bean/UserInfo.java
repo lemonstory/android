@@ -113,5 +113,21 @@ public class UserInfo extends DataSupport{
 
 	public String getUcCallback() { return  uc_callback;}
 
-
+	@Override
+	public String toString() {
+		return "UserInfo{" +
+				"uid='" + uid + '\'' +
+				", nickname='" + nickname + '\'' +
+				", phonenumber='" + phonenumber + '\'' +
+				", province='" + province + '\'' +
+				", city='" + city + '\'' +
+				", area='" + area + '\'' +
+				", addressinfo=" + addressinfo +
+				", age='" + age + '\'' +
+				", gender='" + gender + '\'' +
+				", avatartime='" + avatartime + '\'' +
+				", listennum='" + listennum + '\'' +
+				", uc_callback='" + uc_callback + '\'' +
+				'}';
+	}
 }

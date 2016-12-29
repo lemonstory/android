@@ -6,7 +6,7 @@ public class Album {
 
 	private AlbumInfo albumInfo;
 	private StoryListBean storyList;
-	private List<CommentInfo> commentlist;
+	private List<Comment> commentlist;
 	private List<Tag> tagList;
 	private List<AlbumInfo> recommendAlbumList;
 	public AlbumInfo getAlbumInfo() {
@@ -29,11 +29,11 @@ public class Album {
 		return this.storyList.getItems();
 	}
 
-	public List<CommentInfo> getCommentlist() {
+	public List<Comment> getCommentlist() {
 		return commentlist;
 	}
 
-	public void setCommentlist(List<CommentInfo> commentlist) {
+	public void setCommentlist(List<Comment> commentlist) {
 		this.commentlist = commentlist;
 	}
 

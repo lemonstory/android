@@ -19,7 +19,7 @@
         android:layout_height="@dimen/guide_input_height"
         android:gravity="center"
         android:text="正在加载..."
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="@dimen/content_text_size" />
 
 </LinearLayout>

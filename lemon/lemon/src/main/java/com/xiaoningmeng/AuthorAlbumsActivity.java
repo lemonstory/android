@@ -24,14 +24,13 @@ import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.adapter.AuthorAlbumsAdapter;
-import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.Author;
 import com.xiaoningmeng.bean.AuthorAlbums;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.http.JsonCallback;
+import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.EmptyHelper;
 import com.xiaoningmeng.manager.PlayWaveManager;
@@ -40,6 +39,12 @@ import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.xiaoningmeng.http.LHttpRequest.mRetrofit;
 
 public class AuthorAlbumsActivity extends BaseActivity implements BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, PlayObserver {
 
@@ -114,7 +119,7 @@ public class AuthorAlbumsActivity extends BaseActivity implements BaseQuickAdapt
     private void parseIntent(Intent intent) {
 
         String authorUidStr = intent.getStringExtra("author_uid");
-        if(null != authorUidStr) {
+        if (null != authorUidStr) {
             this.mAuthorId = Integer.parseInt(authorUidStr);
         }
         this.mAuthorObj = intent.getParcelableExtra("author");
@@ -158,67 +163,78 @@ public class AuthorAlbumsActivity extends BaseActivity implements BaseQuickAdapt
 
     private void requestAuthorAlbumsData(int authorId, int startAlbumId, final int pageSize, final Boolean isRefreshing) {
 
-        String uid = MyApplication.getInstance().getUid();
-        LHttpRequest.getInstance().getAuthorAlbumsReq(this, authorId, startAlbumId, pageSize, uid,
-                new JsonCallback<AuthorAlbums>() {
 
-                    @Override
-                    public void onGetDataSuccess(AuthorAlbums data) {
+        LHttpRequest.GetAuthorAlbumsRequest getAuthorAlbumsRequest = mRetrofit.create(LHttpRequest.GetAuthorAlbumsRequest.class);
+        Call<JsonResponse<AuthorAlbums>> call = getAuthorAlbumsRequest.getResult(authorId, startAlbumId, pageSize);
+        call.enqueue(new Callback<JsonResponse<AuthorAlbums>>() {
 
-                        if (data != null) {
+            @Override
+            public void onResponse(Call<JsonResponse<AuthorAlbums>> call, Response<JsonResponse<AuthorAlbums>> response) {
 
-                            mAuthorObj = data.getInfo();
-                            setHeaderViewData(mAuthorObj);
-                            AuthorAlbumsActivity.this.setTitleName(data.getInfo().getNickname());
-                            if (data.getTotal() > 0) {
-                                mTotalCounter = data.getTotal();
-                            }
-                            if (data.getItems() != null && data.getItems().size() > 0) {
+                if (response.isSuccessful() && response.body().isSuccessful()) {
 
-                                mCurrentCounter = data.getItems().size();
-                                mCurrentAlbums = data.getItems();
-                                AlbumInfo lastAlbumItem = data.getItems().get(data.getItems().size() - 1);
-                                mStartAlbumId = Integer.parseInt(lastAlbumItem.getId());
+                    AuthorAlbums data = response.body().getData();
+                    if (data != null) {
 
-                                if (isRefreshing) {
-
-                                    mAdapter.setNewData(mCurrentAlbums);
-                                } else {
-
-                                    mAdapter.addData(mCurrentAlbums);
-                                }
-
-                                //数量不足page_size 显示加载完成view
-                                if ( mCurrentCounter < pageSize && mTotalCounter > singleScreenItemNum) {
-                                    if (notLoadingView == null) {
-                                        notLoadingView = getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);
-                                    }
-                                    mAdapter.addFooterView(notLoadingView);
-                                }
-
-                            } else {
-                                mEmptyHelper.setEmptyView(EmptyHelper.EMPTY, true, getString(R.string.empty_tip));
-                            }
+                        mAuthorObj = data.getInfo();
+                        setHeaderViewData(mAuthorObj);
+                        AuthorAlbumsActivity.this.setTitleName(data.getInfo().getNickname());
+                        if (data.getTotal() > 0) {
+                            mTotalCounter = data.getTotal();
                         }
-                    }
+                        if (data.getItems() != null && data.getItems().size() > 0) {
 
-                    @Override
-                    public void onFailure(int statusCode, String failureResponse) {
+                            mCurrentCounter = data.getItems().size();
+                            mCurrentAlbums = data.getItems();
+                            AlbumInfo lastAlbumItem = data.getItems().get(data.getItems().size() - 1);
+                            mStartAlbumId = Integer.parseInt(lastAlbumItem.getId());
 
-                        isErr = true;
-                        Toast.makeText(AuthorAlbumsActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
-                        if (mCurrentCounter > 0) {
-                            mAdapter.showLoadMoreFailedView();
+                            if (isRefreshing) {
+
+                                mAdapter.setNewData(mCurrentAlbums);
+                            } else {
+
+                                mAdapter.addData(mCurrentAlbums);
+                            }
+
+                            //数量不足page_size 显示加载完成view
+                            if (mCurrentCounter < pageSize && mTotalCounter > singleScreenItemNum) {
+                                if (notLoadingView == null) {
+                                    notLoadingView = getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);
+                                }
+                                mAdapter.addFooterView(notLoadingView);
+                            }
+
                         } else {
                             mEmptyHelper.setEmptyView(EmptyHelper.EMPTY, true, getString(R.string.empty_tip));
                         }
                     }
+                } else {
 
-                    @Override
-                    public void onFinish() {
-                        super.onFinish();
+                    DebugUtils.e(response.toString());
+                    isErr = true;
+                    Toast.makeText(AuthorAlbumsActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
+                    if (mCurrentCounter > 0) {
+                        mAdapter.showLoadMoreFailedView();
+                    } else {
+                        mEmptyHelper.setEmptyView(EmptyHelper.EMPTY, true, getString(R.string.empty_tip));
                     }
-                });
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonResponse<AuthorAlbums>> call, Throwable t) {
+
+                DebugUtils.e(t.toString());
+                isErr = true;
+                Toast.makeText(AuthorAlbumsActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
+                if (mCurrentCounter > 0) {
+                    mAdapter.showLoadMoreFailedView();
+                } else {
+                    mEmptyHelper.setEmptyView(EmptyHelper.EMPTY, true, getString(R.string.empty_tip));
+                }
+            }
+        });
     }
 
 
@@ -310,11 +326,11 @@ public class AuthorAlbumsActivity extends BaseActivity implements BaseQuickAdapt
 
             TextView authorTvIntro = (TextView) mHeaderView.findViewById(R.id.tv_author_intro);
             String intro = "";
-            if(null != author.getIntro()) {
+            if (null != author.getIntro()) {
                 intro = author.getIntro().trim();
             }
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                authorTvIntro.setText(Html.fromHtml(intro,Html.FROM_HTML_MODE_LEGACY));
+                authorTvIntro.setText(Html.fromHtml(intro, Html.FROM_HTML_MODE_LEGACY));
             } else {
                 authorTvIntro.setText(Html.fromHtml(intro));
             }

@@ -8,6 +8,10 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.franmontiel.persistentcookiejar.ClearableCookieJar;
+import com.franmontiel.persistentcookiejar.PersistentCookieJar;
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.beta.UpgradeInfo;
 import com.umeng.socialize.ShareAction;
@@ -18,15 +22,22 @@ import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.ShareBean;
 import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.http.JsonCallback;
+import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayNotificationManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
+import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.utils.PreferenceUtil;
 import com.xiaoningmeng.view.ShareDialog;
 import com.xiaoningmeng.view.dialog.TextDialogLoading;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.xiaoningmeng.http.LHttpRequest.mRetrofit;
 
 
 public class SettingActivity extends BaseActivity implements OnClickListener,
@@ -108,21 +119,36 @@ public class SettingActivity extends BaseActivity implements OnClickListener,
 
     private void Logout() {
 
+
         TextDialogLoading loading = new TextDialogLoading(this);
         loading.setLoadingTip("正在退出登录");
-        LHttpRequest.getInstance().logoutRequest(this,
-                new JsonCallback<String>(loading) {
 
-                    @Override
-                    public void onGetDataSuccess(String data) {
-                        PlayerManager.getInstance().pausePlay();
-                        PlayNotificationManager.getInstance().cancel();
-                        UserAuth.getInstance().invinvalidateUserIdentity(
-                                SettingActivity.this);
-                        startActivityForNew(new Intent(SettingActivity.this,
-                                LoginActivity.class));
-                    }
-                });
+        ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(this));
+        cookieJar.clear();
+
+        LHttpRequest.LogoutRequest logoutRequest = mRetrofit.create(LHttpRequest.LogoutRequest.class);
+        Call<JsonResponse<String>> call = logoutRequest.getResult();
+        call.enqueue(new Callback<JsonResponse<String>>() {
+
+            @Override
+            public void onResponse(Call<JsonResponse<String>> call, Response<JsonResponse<String>> response) {
+
+                if (response.isSuccessful() && response.body().isSuccessful()) {
+                    PlayerManager.getInstance().pausePlay();
+                    PlayNotificationManager.getInstance().cancel();
+                    UserAuth.getInstance().invinvalidateUserIdentity(SettingActivity.this);
+                    startActivityForNew(new Intent(SettingActivity.this, LoginActivity.class));
+                } else {
+                    DebugUtils.e(response.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonResponse<String>> call, Throwable t) {
+
+                DebugUtils.e(t.toString());
+            }
+        });
     }
 
 

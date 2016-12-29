@@ -13,19 +13,26 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.xiaoningmeng.auth.UserAuth;
-import com.xiaoningmeng.bean.CommentInfo;
-import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.application.MyApplication;
+import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
-import com.xiaoningmeng.http.JsonCallback;
+import com.xiaoningmeng.bean.Comment;
+import com.xiaoningmeng.bean.UserInfo;
+import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
+import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.view.RatingBar;
 import com.xiaoningmeng.view.RatingBar.OnRatingChangeListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.xiaoningmeng.http.LHttpRequest.mRetrofit;
 
 public class CommentWriteActivity extends BaseActivity {
 
@@ -139,28 +146,38 @@ public class CommentWriteActivity extends BaseActivity {
 			return;
 		}
 		isReq.set(true);
-		LHttpRequest.getInstance().addCommentReq(this, albumId, commentContent,
-				starLevel, new JsonCallback<String>( this) {
 
-			
-					@Override
-					public void onGetDataSuccess(String data) {
-						UserInfo userinfo = MyApplication.getInstance().userInfo;
-						SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			             String time=  sdf.format( new  Date());
-						CommentInfo comment = new CommentInfo(userinfo.getUid(), userinfo.getNickname(), starLevel, commentContent, userinfo.getAvatartime(),time);
-						Intent i = new Intent();
-						i.putExtra("comment", comment);
-						setResult(5, i);
-						finish();
-					}
-					
-					@Override
-					public void onFinish() {
-						isReq.set(false);
-						super.onFinish();
-					}
-				});
+		LHttpRequest.AddCommentRequest addCommentRequest = mRetrofit.create(LHttpRequest.AddCommentRequest.class);
+		Call<JsonResponse<String>> call = addCommentRequest.getResult(albumId, commentContent, starLevel);
+		call.enqueue(new Callback<JsonResponse<String>>() {
 
+			@Override
+			public void onResponse(Call<JsonResponse<String>> call, Response<JsonResponse<String>> response) {
+
+				if (response.isSuccessful() && response.body().isSuccessful()) {
+
+					String data = response.body().getData();
+					UserInfo userinfo = MyApplication.getInstance().userInfo;
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					String time = sdf.format(new Date());
+					Comment comment = new Comment(userinfo.getUid(), userinfo.getNickname(), starLevel, commentContent, userinfo.getAvatartime(), time);
+					Intent i = new Intent();
+					i.putExtra("comment", comment);
+					setResult(5, i);
+					finish();
+				} else {
+
+					DebugUtils.e(response.toString());
+				}
+				isReq.set(false);
+			}
+
+			@Override
+			public void onFailure(Call<JsonResponse<String>> call, Throwable t) {
+
+				DebugUtils.e(t.toString());
+				isReq.set(false);
+			}
+		});
 	}
 }
