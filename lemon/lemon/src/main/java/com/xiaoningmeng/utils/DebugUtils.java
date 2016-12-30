@@ -6,7 +6,7 @@ import com.xiaoningmeng.BuildConfig;
 
 public class DebugUtils {
 	public static final String TAG = "lemon";
-	public static final boolean ISTRACE = BuildConfig.LOG_DEBUG;
+	public static final boolean ISTRACE = BuildConfig.DEBUG;
 
 	public static void i(String msg) {
 
