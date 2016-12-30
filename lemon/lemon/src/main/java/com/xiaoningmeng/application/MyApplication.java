@@ -13,8 +13,6 @@ import android.support.multidex.MultiDex;
 import com.alibaba.baichuan.android.trade.AlibcTradeSDK;
 import com.alibaba.baichuan.android.trade.callback.AlibcTradeInitCallback;
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.stetho.Stetho;
-import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.franmontiel.persistentcookiejar.ClearableCookieJar;
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
@@ -25,6 +23,7 @@ import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.TbsListener;
 import com.umeng.socialize.PlatformConfig;
 import com.xiaomi.mipush.sdk.MiPushClient;
+import com.xiaoningmeng.BuildConfig;
 import com.xiaoningmeng.bean.AppInfo;
 import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.constant.Constant;
@@ -72,7 +71,9 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
 
         AppUtils.enableStrictMode();
         super.onCreate();
-        Stetho.initializeWithDefaults(this);
+        if (BuildConfig.DEBUG) {
+            BuildConfig.STETHO.init(this);
+        }
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
             // You should not init your app in this process.
@@ -151,7 +152,7 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
 //                DebugUtils.d("onDownloadProgress:"+i);
             }
         });
-        QbSdk.initX5Environment(this,cb);
+        QbSdk.initX5Environment(this, cb);
 
 
         //OPPO A53M报错
@@ -173,13 +174,16 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
         ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(this));
         UserAgentInterceptor userAgentInterceptor = new UserAgentInterceptor();
         CacheInterceptor cacheInterceptor = new CacheInterceptor();
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC);
-        StethoInterceptor stethoInterceptor = new StethoInterceptor();
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        if (!BuildConfig.DEBUG) {
+            logging.setLevel(HttpLoggingInterceptor.Level.NONE);
+        } else {
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        }
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .cookieJar(cookieJar)
                 .addInterceptor(logging)
                 .addNetworkInterceptor(cacheInterceptor)
-                .addNetworkInterceptor(stethoInterceptor)
                 .addInterceptor(userAgentInterceptor)
                 .addInterceptor(cacheInterceptor)
                 .cache(cache)
@@ -188,9 +192,10 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
                 //其他配置
                 .build();
 
+        if (BuildConfig.DEBUG) {
+            BuildConfig.STETHO.configureInterceptor(okHttpClient);
+        }
         return okHttpClient;
-
-//        OkHttpUtils.initClient(okHttpClient);
     }
 
 
