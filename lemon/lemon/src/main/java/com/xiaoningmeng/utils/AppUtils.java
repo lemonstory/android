@@ -284,7 +284,6 @@ public class AppUtils {
      */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public static void enableStrictMode() {
-        DebugUtils.e("########## enableStrictMode ##########");
         // return if the build is not a debug build
         if (!BuildConfig.DEBUG) {
             DebugUtils.e("You should not call enableStrictMode() on a non debug build");

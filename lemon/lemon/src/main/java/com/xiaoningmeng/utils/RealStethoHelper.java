@@ -19,8 +19,8 @@ public class RealStethoHelper implements StethoHelper {
     }
 
     @Override
-    public void configureInterceptor(OkHttpClient httpClient) {
-        httpClient.networkInterceptors().add(new StethoInterceptor());
+    public void configureInterceptor(OkHttpClient.Builder httpClientBuilder) {
+        httpClientBuilder.addNetworkInterceptor(new StethoInterceptor());
     }
 
 }

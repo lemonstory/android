@@ -222,3 +222,22 @@
 }
 #end
 -ignorewarnings
+
+#https://square.github.io/retrofit/ --start
+# Platform calls Class.forName on types which do not exist on Android to determine platform.
+-dontnote retrofit2.Platform
+# Platform used when running on RoboVM on iOS. Will not be used at runtime.
+-dontnote retrofit2.Platform$IOS$MainThreadExecutor
+# Platform used when running on Java 8 VMs. Will not be used at runtime.
+-dontwarn retrofit2.Platform$Java8
+# Retain generic type information for use by reflection by converters and adapters.
+-keepattributes Signature
+# Retain declared checked exceptions for use by a Proxy instance.
+-keepattributes Exceptions
+#https://square.github.io/retrofit/ --end
+
+#https://github.com/google/gson/blob/master/examples/android-proguard-example/proguard.cfg --start
+-keep class * implements com.google.gson.TypeAdapterFactory
+-keep class * implements com.google.gson.JsonSerializer
+-keep class * implements com.google.gson.JsonDeserializer
+#https://github.com/google/gson/blob/master/examples/android-proguard-example/proguard.cfg --end

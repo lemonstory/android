@@ -10,16 +10,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.umeng.onlineconfig.OnlineConfigAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
-import com.umeng.update.UmengUpdateAgent;
-import com.umeng.update.UmengUpdateListener;
-import com.umeng.update.UpdateResponse;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.ForumLoginVar;
@@ -36,7 +32,6 @@ import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.MusicService;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
-import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.utils.PreferenceUtil;
 import com.xiaoningmeng.view.BadgeView;
 import com.xiaoningmeng.view.SearchView;
@@ -88,10 +83,6 @@ public class HomeActivity extends BaseActivity implements
         initView();
         PlayerManager.getInstance().register(this);
         EventBus.getDefault().register(this);
-        DebugUtils.e("==========================");
-        String content = "BuildConfig.DEBUG = " + BuildConfig.DEBUG;
-        Toast.makeText(this, content, Toast.LENGTH_SHORT).show();
-        DebugUtils.e("==========================");
     }
 
     @Override
@@ -222,21 +213,7 @@ public class HomeActivity extends BaseActivity implements
     private void checkVersion() {
         final int updateCount = PreferenceUtil.getInt("update_countdown", 0);
         if (updateCount < Constant.UPDATE_COUNTDOWN) {
-            UmengUpdateAgent.setUpdateAutoPopup(false);
-            UmengUpdateAgent.setUpdateOnlyWifi(true);
-            UmengUpdateAgent.setUpdateListener(new UmengUpdateListener() {
-                @Override
-                public void onUpdateReturned(int updateStatus, UpdateResponse updateInfo) {
-
-                    switch (updateStatus) {
-                        case 0: // has update
-                            PreferenceUtil.putInt("update_countdown", updateCount + 1);
-                            UmengUpdateAgent.showUpdateDialog(HomeActivity.this, updateInfo);
-                            break;
-                    }
-                }
-            });
-            UmengUpdateAgent.update(this);
+            //TODO:
         }
     }
 

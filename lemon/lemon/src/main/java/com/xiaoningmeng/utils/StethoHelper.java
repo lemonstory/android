@@ -10,5 +10,5 @@ import okhttp3.OkHttpClient;
 public interface StethoHelper {
     void init(Context context);
 
-    void configureInterceptor(OkHttpClient httpClient);
+    void configureInterceptor(OkHttpClient.Builder httpClientBuilder);
 }

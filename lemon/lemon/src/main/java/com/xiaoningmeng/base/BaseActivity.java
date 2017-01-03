@@ -15,27 +15,57 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.socialize.UMAuthListener;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.application.ActivityManager;
 import com.xiaoningmeng.http.ILoading;
 import com.xiaoningmeng.view.dialog.TextDialogLoading;
+
+import java.util.Map;
+
+//umeng-qq微信新浪授权防杀死
+//http://dev.umeng.com/social/android/%E8%BF%9B%E9%98%B6%E6%96%87%E6%A1%A3#5_6
 
 public class BaseActivity extends AppCompatActivity implements ILoading {
 
 	private ILoading mLoading; // 网络加载状态显示
 
 	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		UMShareAPI.get(this).onSaveInstanceState(outState);
+	}
+
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		ActivityManager.getScreenManager().pushActivity(this);
+		UMShareAPI.get(this).fetchAuthResultWithBundle(this, savedInstanceState, new UMAuthListener() {
+			@Override
+			public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
+
+			}
+
+			@Override
+			public void onError(SHARE_MEDIA platform, int action, Throwable t) {
+
+			}
+
+			@Override
+			public void onCancel(SHARE_MEDIA platform, int action) {
+
+			}
+		});
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-//		OkHttpUtils.getInstance().cancelTag(this);
 		ActivityManager.getScreenManager().popActivity(this);
+		UMShareAPI.get(this).release();
 	}
 
 

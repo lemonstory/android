@@ -355,7 +355,7 @@ public class ViewThreadActivity extends BaseActivity implements XListView.IXList
     private void requestPostsData(int tid, int page) {
 
         LHttpRequest.GetViewThreadRequest getViewThreadRequest = mRetrofit.create(LHttpRequest.GetViewThreadRequest.class);
-        Call<JsonForumResponse<JsonObject>> call = getViewThreadRequest.getResult(ConstantURL.FORUM_INDEX, "viewthread", tid, page);
+        Call<JsonForumResponse<JsonObject>> call = getViewThreadRequest.getResult(ConstantURL.FORUM_VIEW_THREAD, tid, page);
         call.enqueue(new Callback<JsonForumResponse<JsonObject>>() {
 
             @Override

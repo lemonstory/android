@@ -21,7 +21,10 @@ import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.Bugly;
 import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.TbsListener;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xiaoningmeng.BuildConfig;
 import com.xiaoningmeng.bean.AppInfo;
@@ -116,6 +119,9 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
             PlatformConfig.setSinaWeibo(Constant.WEIBO_APP_ID, Constant.WEIN_XIN_APP_SECRET);
             // QQ和Qzone appid appkey
             PlatformConfig.setQQZone(Constant.QQ_APP_ID, Constant.QQ_APP_KEY);
+            UMShareAPI.get(this);
+            Config.REDIRECT_URL = Constant.SINA_OAUTH_CALLBACK;
+            MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL);// 设置统计场景类型为普通统计
         }
 
 
@@ -176,11 +182,12 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
         CacheInterceptor cacheInterceptor = new CacheInterceptor();
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         if (!BuildConfig.DEBUG) {
-            logging.setLevel(HttpLoggingInterceptor.Level.NONE);
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         } else {
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         }
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+
+        OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder()
                 .cookieJar(cookieJar)
                 .addInterceptor(logging)
                 .addNetworkInterceptor(cacheInterceptor)
@@ -188,13 +195,13 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
                 .addInterceptor(cacheInterceptor)
                 .cache(cache)
                 .connectTimeout(10000L, TimeUnit.MILLISECONDS)
-                .readTimeout(10000L, TimeUnit.MILLISECONDS)
-                //其他配置
-                .build();
+                .readTimeout(10000L, TimeUnit.MILLISECONDS);
 
         if (BuildConfig.DEBUG) {
-            BuildConfig.STETHO.configureInterceptor(okHttpClient);
+            BuildConfig.STETHO.configureInterceptor(okHttpClientBuilder);
         }
+        OkHttpClient okHttpClient = okHttpClientBuilder.build();
+
         return okHttpClient;
     }
 
@@ -314,7 +321,7 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
      * httpClient的cookie传给Client
      *//*
     public void setClientCookieFromHttpClient() {
-		
+
 		cookieStore = mHttpClient.getCookieStore();
 		cookies = cookieStore.getCookies();
 

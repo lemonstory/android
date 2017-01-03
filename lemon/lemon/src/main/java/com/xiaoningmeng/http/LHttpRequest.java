@@ -66,14 +66,16 @@ public class LHttpRequest {
     public interface QQLoginRequest {
 
         @GET(ConstantURL.QQ_LOGIN)
-        Call<JsonResponse<UserInfo>> getResult(@Query("accessToken") String accessToken, @Query("openId") String openId);
+        Call<JsonResponse<UserInfo>> getResult(@Query("accessToken") String accessToken,
+                                               @Query("openId") String openId);
     }
 
     // QQ联合注册
     public interface QQLoginRegRequest {
 
         @GET(ConstantURL.QQ_LOGIN_REG)
-        Call<JsonResponse<UserInfo>> getResult(@Query("accessToken") String accessToken, @Query("openId") String openId,
+        Call<JsonResponse<UserInfo>> getResult(@Query("accessToken") String accessToken,
+                                               @Query("openId") String openId,
                                                @Query("nickName") String nickName);
     }
 
@@ -135,7 +137,8 @@ public class LHttpRequest {
     public interface GetFavAlbumListRequest {
 
         @GET(ConstantURL.GET_FAV_LIST)
-        Call<JsonResponse<List<AlbumInfo>>> getResult(@Query("startfavid") String startId, @Query("direction") String direction,
+        Call<JsonResponse<List<AlbumInfo>>> getResult(@Query("startfavid") String startId,
+                                                      @Query("direction") String direction,
                                                       @Query("len") int len);
     }
 
@@ -150,22 +153,27 @@ public class LHttpRequest {
     public interface AlbumInfoRequest {
 
         @GET(ConstantURL.ALBUM_INFO)
-        Call<JsonResponse<Album>> getResult(@Query("album_id") String albumId, @Query("storysPage") int storysPage);
+        Call<JsonResponse<Album>> getResult(@Query("album_id") String albumId,
+                                            @Query("storysPage") int storysPage);
     }
 
     //专辑评论
     public interface AlbumCommentRequest {
 
         @GET(ConstantURL.ALBUM_COMMENT)
-        Call<JsonResponse<CommentList>> getResult(@Query("album_id") String albumId, @Query("direction") String direction,
-                                                  @Query("start_comment_id") String startCommentId, @Query("len") int len);
+        Call<JsonResponse<CommentList>> getResult(@Query("album_id") String albumId,
+                                                  @Query("direction") String direction,
+                                                  @Query("start_comment_id") String startCommentId,
+                                                  @Query("len") int len);
     }
 
     //专辑故事
     public interface AlbumStorysRequest {
 
         @GET(ConstantURL.ALBUM_STORYS)
-        Call<JsonResponse<StoryList>> getResult(@Query("album_id") int albumId, @Query("page") int page, @Query("len") int pageSize);
+        Call<JsonResponse<StoryList>> getResult(@Query("album_id") int albumId,
+                                                @Query("page") int page,
+                                                @Query("len") int pageSize);
     }
 
     //全部分类
@@ -201,7 +209,8 @@ public class LHttpRequest {
 
         @GET(ConstantURL.ALBUM_STORY_SEARCH)
         Call<JsonResponse<SearchData>> getResult(@Query("searchcontent") String searchContent,
-                                                 @Query("searchtype") String searchtype, @Query("page") int page,
+                                                 @Query("searchtype") String searchtype,
+                                                 @Query("page") int page,
                                                  @Query("len") int len);
     }
 
@@ -209,7 +218,8 @@ public class LHttpRequest {
     public interface AddCommentRequest {
 
         @GET(ConstantURL.COMMENT_ADD)
-        Call<JsonResponse<String>> getResult(@Query("albumid") String albumId, @Query("content") String content,
+        Call<JsonResponse<String>> getResult(@Query("albumid") String albumId,
+                                             @Query("content") String content,
                                              @Query("star_level") int starLevel);
     }
 
@@ -217,7 +227,8 @@ public class LHttpRequest {
     public interface MyStoryRequest {
 
         @GET(ConstantURL.MY_STORY)
-        Call<JsonResponse<Mine>> getResult(@Query("albumid") String albumId, @Query("content") String content,
+        Call<JsonResponse<Mine>> getResult(@Query("albumid") String albumId,
+                                           @Query("content") String content,
                                            @Query("star_level") int starLevel);
     }
 
@@ -234,7 +245,9 @@ public class LHttpRequest {
     public interface FeedbackRequest {
 
         @GET(ConstantURL.FEEDBACK)
-        Call<JsonResponse<String>> getResult(@Query("qq") String qq, @Query("tel") String tel, @Query("content") String content);
+        Call<JsonResponse<String>> getResult(@Query("qq") String qq,
+                                             @Query("tel") String tel,
+                                             @Query("content") String content);
     }
 
     //上传头像
@@ -247,9 +260,11 @@ public class LHttpRequest {
     public interface GetPerasonalInfoRequest {
 
         @GET(ConstantURL.GET_HOME_INFO)
-        Call<JsonResponse<PerasonalInfo>> getResult(@Query("uid") String uid, @Query("direction") String direction,
+        Call<JsonResponse<PerasonalInfo>> getResult(@Query("uid") String uid,
+                                                    @Query("direction") String direction,
                                                     @Query("isgetuserinfo") int isGetUserInfo,
-                                                    @Query("startalbumid") String startAlbumId, @Query("len") int len);
+                                                    @Query("startalbumid") String startAlbumId,
+                                                    @Query("len") int len);
     }
 
     //获取个人信息
@@ -263,9 +278,12 @@ public class LHttpRequest {
     public interface SetUserInfoRequest {
 
         @GET(ConstantURL.SET_USER_INFO)
-        Call<JsonResponse<String>> getResult(@Query("uid") String uid, @Query("gender") String gender,
-                                             @Query("birthday") String birthday, @Query("province") String province,
-                                             @Query("city") String city, @Query("area") String area,
+        Call<JsonResponse<String>> getResult(@Query("uid") String uid,
+                                             @Query("gender") String gender,
+                                             @Query("birthday") String birthday,
+                                             @Query("province") String province,
+                                             @Query("city") String city,
+                                             @Query("area") String area,
                                              @Query("phonenumber") String phonenumber,
                                              @Query("defaultaddressid") String defaultaddressid,
                                              @Query("avatartime") String avatartime);
@@ -275,9 +293,12 @@ public class LHttpRequest {
     public interface AddAddressRequest {
 
         @GET(ConstantURL.ADD_ADDRESS)
-        Call<JsonResponse<Address>> getResult(@Query("name") String name, @Query("phonenumber") String phoneNumber,
-                                              @Query("province") String province, @Query("city") String city,
-                                              @Query("area") String area, @Query("address") String address,
+        Call<JsonResponse<Address>> getResult(@Query("name") String name,
+                                              @Query("phonenumber") String phoneNumber,
+                                              @Query("province") String province,
+                                              @Query("city") String city,
+                                              @Query("area") String area,
+                                              @Query("address") String address,
                                               @Query("ecode") String ecode);
     }
 
@@ -285,10 +306,14 @@ public class LHttpRequest {
     public interface SetAddressRequest {
 
         @GET(ConstantURL.SET_ADDRESS)
-        Call<JsonResponse<Address>> getResult(@Query("addressid") String addressId, @Query("name") String name,
-                                              @Query("phonenumber") String phoneNumber, @Query("province") String province,
-                                              @Query("city") String city, @Query("area") String area,
-                                              @Query("address") String address, @Query("ecode") String ecode);
+        Call<JsonResponse<Address>> getResult(@Query("addressid") String addressId,
+                                              @Query("name") String name,
+                                              @Query("phonenumber") String phoneNumber,
+                                              @Query("province") String province,
+                                              @Query("city") String city,
+                                              @Query("area") String area,
+                                              @Query("address") String address,
+                                              @Query("ecode") String ecode);
     }
 
     //删除地址
@@ -309,10 +334,12 @@ public class LHttpRequest {
     public interface GetTagAblumListRequest {
 
         @GET(ConstantURL.GET_TAG_ALBUM_LIST)
-        Call<JsonResponse<TagAblumList>> getResult(@Query("currenttagid") String tagId, @Query("isgettag") int isGetTag,
+        Call<JsonResponse<TagAblumList>> getResult(@Query("currenttagid") String tagId,
+                                                   @Query("isgettag") int isGetTag,
                                                    @Query("direction") String direction,
                                                    @Query("startrelationid") String relationId,
-                                                   @Query("specialtag") int specialtag, @Query("len") int len);
+                                                   @Query("specialtag") int specialtag,
+                                                   @Query("len") int len);
     }
 
     //论坛首页
@@ -320,20 +347,28 @@ public class LHttpRequest {
     public interface GetForumIndexRequest {
 
         @GET
-        Call<JsonForumResponse<JsonObject>> getResult(@Url String url, @Query("module") String module);
+        Call<JsonForumResponse<JsonObject>> getResult(@Url String url,
+                                                      @Query("module") String module);
     }
 
     //论坛帖子列表
     //http://bbs.xiaoningmeng.net/api/mobile/index.php?version=4&module=forumdisplay&fid=39&page=1
     public interface GetForumThreadsRequest {
+
         @GET
-        Call<JsonForumResponse<JsonObject>> getResult(@Url String url, @Query("module") String module, @Query("fid") int fid, @Query("page") int page);
+        Call<JsonForumResponse<JsonObject>> getResult(@Url String url,
+                                                      @Query("module") String module,
+                                                      @Query("fid") int fid,
+                                                      @Query("page") int page);
     }
 
     //论坛帖子详情
     public interface GetViewThreadRequest {
+
         @GET
-        Call<JsonForumResponse<JsonObject>> getResult(@Url String url, @Query("module") String module, @Query("tid") int tid, @Query("page") int page);
+        Call<JsonForumResponse<JsonObject>> getResult(@Url String url,
+                                                      @Query("tid") int tid,
+                                                      @Query("page") int page);
     }
 
     //论坛帖子评论
@@ -352,8 +387,12 @@ public class LHttpRequest {
     public interface SendReplyRequest {
 
         @GET
-        Call<JsonForumResponse<JsonObject>> getResult(@Url String url, @Query("tid") int tid, @Query("formHash") String formHash,
-                                                      @Query("message") String message, @Query("reppid") int reppid, @Query("reppost") int reppost,
+        Call<JsonForumResponse<JsonObject>> getResult(@Url String url,
+                                                      @Query("tid") int tid,
+                                                      @Query("formHash") String formHash,
+                                                      @Query("message") String message,
+                                                      @Query("reppid") int reppid,
+                                                      @Query("reppost") int reppost,
                                                       @Query("noticetrimstr") String noticetrimstr);
     }
 
@@ -376,29 +415,36 @@ public class LHttpRequest {
     public interface ForumNewThreadRequest {
 
         @GET
-        Call<JsonForumResponse<JsonObject>> getResult(@Url String url, @Query("formhash") String formhash, @Query("fid") int fid,
-                                                      @Query("subject") String subject, @Query("message") String message);
+        Call<JsonForumResponse<JsonObject>> getResult(@Url String url,
+                                                      @Query("formhash") String formhash,
+                                                      @Query("fid") int fid,
+                                                      @Query("subject") String subject,
+                                                      @Query("message") String message);
     }
 
     //我的帖子列表
     public interface ForumGetMyThreadRequest {
 
         @GET
-        Call<JsonForumResponse<JsonObject>> getResult(@Url String url, @Query("uid") String uid, @Query("page") int page);
+        Call<JsonForumResponse<JsonObject>> getResult(@Url String url,
+                                                      @Query("uid") String uid,
+                                                      @Query("page") int page);
     }
 
     //我的消息->评论
     public interface ForumMyNoteListRequest {
 
         @GET
-        Call<JsonForumResponse<JsonObject>> getResult(@Url String url, @Query("page") int page);
+        Call<JsonForumResponse<JsonObject>> getResult(@Url String url,
+                                                      @Query("page") int page);
     }
 
     //社区->个人信息
     public interface ForumUserProfileRequest {
 
         @GET
-        Call<JsonForumResponse<JsonObject>> getResult(@Url String url, @Query("uid") String uid);
+        Call<JsonForumResponse<JsonObject>> getResult(@Url String url,
+                                                      @Query("uid") String uid);
     }
 
     //商城
@@ -413,7 +459,10 @@ public class LHttpRequest {
     public interface GetAlbumRecommendRequest {
 
         @GET
-        Call<JsonResponse<AlbumRecommend>> getResult(@Url String url, @Query("min_age") int minAge, @Query("max_age") int max_age, @Query("page") int page,
+        Call<JsonResponse<AlbumRecommend>> getResult(@Url String url,
+                                                     @Query("min_age") int minAge,
+                                                     @Query("max_age") int max_age,
+                                                     @Query("page") int page,
                                                      @Query("len") int len);
     }
 
@@ -421,7 +470,8 @@ public class LHttpRequest {
     public interface GetAuthorAlbumsRequest {
 
         @GET(ConstantURL.AUTHOR_ALBUM_LIST)
-        Call<JsonResponse<AuthorAlbums>> getResult(@Query("author_id") int authorId, @Query("start_album_id") int startAlbumId,
+        Call<JsonResponse<AuthorAlbums>> getResult(@Query("author_id") int authorId,
+                                                   @Query("start_album_id") int startAlbumId,
                                                    @Query("len") int len);
     }
 
@@ -429,6 +479,7 @@ public class LHttpRequest {
     public interface GetAuthorsRequest {
 
         @GET(ConstantURL.AUTHORS)
-        Call<JsonResponse<AuthorList>> getResult(@Query("page") int page, @Query("len") int len);
+        Call<JsonResponse<AuthorList>> getResult(@Query("page") int page,
+                                                 @Query("len") int len);
     }
 }

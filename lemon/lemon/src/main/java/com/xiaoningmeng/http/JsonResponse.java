@@ -1,6 +1,8 @@
 package com.xiaoningmeng.http;
 
 
+import android.util.Log;
+
 import static com.xiaoningmeng.constant.Constant.REQ_SUCCESS_STATUS;
 
 /**
@@ -27,6 +29,10 @@ public class JsonResponse<T> {
     }
 
     public boolean isSuccessful() {
+
+        Log.e("aaa", "getCode() = " + getCode());
+        Log.e("aaa", "REQ_SUCCESS_STATUS = " + REQ_SUCCESS_STATUS);
+        Log.e("aaa", "Integer.valueOf(REQ_SUCCESS_STATUS).equals(Integer.valueOf(getCode()) = " + Integer.valueOf(REQ_SUCCESS_STATUS).equals(Integer.valueOf(getCode())));
 
         if (REQ_SUCCESS_STATUS == getCode()) {
             return true;

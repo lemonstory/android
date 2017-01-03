@@ -2,6 +2,7 @@ package com.xiaoningmeng;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AbsListView;
@@ -85,6 +86,7 @@ public class RankActivity extends BaseActivity implements PlayObserver {
 
     private void requestData() {
 
+        Log.d("aaa", "requestData start");
         LHttpRequest.RankListenerUserListRequest rankListenerUserListRequest = mRetrofit.create(LHttpRequest.RankListenerUserListRequest.class);
         Call<JsonResponse<Rank>> call = rankListenerUserListRequest.getResult(200);
         call.enqueue(new Callback<JsonResponse<Rank>>() {
@@ -92,11 +94,20 @@ public class RankActivity extends BaseActivity implements PlayObserver {
             @Override
             public void onResponse(Call<JsonResponse<Rank>> call, Response<JsonResponse<Rank>> response) {
 
+                Log.d("aaa", "---------> 111111111");
+                Log.d("aaa", "---------> response.code() = " + response.code());
+                Log.d("aaa", "---------> response.body() = " + response.body().toString());
+                Log.d("aaa", "---------> response.body().getCode() = " + response.body().getCode());
+                Log.d("aaa", "---------> response.body().getData() = " + response.body().getData().toString());
+                Log.d("aaa", "---------> response.body().getDesc() = " + response.body().getDesc().toString());
                 if (response.isSuccessful() && response.body().isSuccessful()) {
-
+                    Log.d("aaa", "---------> 22222222");
                     Rank data = response.body().getData();
+                    Log.d("aaa", "---------> 33333333");
                     mUserInfos.addAll(data.getList());
+                    Log.d("aaa", "---------> 44444444");
                     mAdapter.notifyDataSetChanged();
+                    Log.d("aaa", "---------> 5555555");
                     if (MyApplication.getInstance().isIsLogin()) {
                         mPositionTv.setText("您目前排名 " + data.getUserranknum());
                         mTimeTv.setText("榜单更新时间 " + data.getUserrankuptime());
@@ -104,15 +115,20 @@ public class RankActivity extends BaseActivity implements PlayObserver {
                         mPositionTv.setText("您还未登录 ");
                     }
                 } else {
+                    Log.d("aaa", "---------> 6666666666");
+                    Log.d("aaa", "response.isSuccessful() = " + response.isSuccessful() + " , response.body().isSuccessful() = " + response.body().isSuccessful());
+
                     DebugUtils.e(response.toString());
                 }
             }
 
             @Override
             public void onFailure(Call<JsonResponse<Rank>> call, Throwable t) {
+                Log.d("aaa", "---------> 777777777777");
                 DebugUtils.e(t.toString());
             }
         });
+        Log.d("aaa", "requestData start");
     }
 
     @Override

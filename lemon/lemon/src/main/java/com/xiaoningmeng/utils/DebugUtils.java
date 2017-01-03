@@ -39,15 +39,11 @@ public class DebugUtils {
 	}
 
 	public static void e(String tag, String msg) {
-		if (ISTRACE) {
 			Log.e(tag, msg == null ? "null" : msg);
-		}
 	}
 
 	public static void e(String msg) {
-		if (ISTRACE) {
 			e(TAG, msg);
-		}
 	}
 
 	public static void exception(Exception e) {

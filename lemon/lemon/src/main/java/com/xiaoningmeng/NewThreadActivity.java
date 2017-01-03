@@ -181,6 +181,7 @@ public class NewThreadActivity extends BaseActivity
         }
     }
 
+
     //上传文字
     private void commitThreadMessage(ArrayList<String> aids) {
 
