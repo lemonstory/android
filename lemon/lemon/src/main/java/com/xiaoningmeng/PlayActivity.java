@@ -154,7 +154,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
                 break;
 
             case R.id.img_album_fav:
-                if (UserAuth.auditUser(this, "登录后,才能收藏故事喔.")) {
+                if (UserAuth.getInstance().isLogin(this)) {
                     favAblum(v);
                 }
                 break;

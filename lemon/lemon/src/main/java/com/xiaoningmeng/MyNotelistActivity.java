@@ -124,7 +124,7 @@ public class MyNotelistActivity extends BaseActivity implements XListView.IXList
                 @Override
                 public void OnSendBtnClick(String msg) {
 
-                    if (UserAuth.auditUser(mContext, "登录后,才能批量故事喔.")) {
+                    if (UserAuth.getInstance().isLogin(mContext)) {
 
                         setLoadingTip("正在发布");
                         sendForumThreadReplyData(fid, tid, formHash, hash, msg);

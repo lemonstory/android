@@ -27,6 +27,7 @@ import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xiaoningmeng.BuildConfig;
+import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.bean.AppInfo;
 import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.constant.Constant;
@@ -53,7 +54,6 @@ import okhttp3.logging.HttpLoggingInterceptor;
 public class MyApplication extends LitePalApplication implements ServiceConnection {
 
     private static MyApplication mApplication;
-    private boolean mIsLogin;
     private String uid = "";
     public UserInfo userInfo;
 
@@ -171,6 +171,10 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
         } catch (RuntimeException e) {
             DebugUtils.e(e.toString());
         }
+
+        UserInfo loginUserInfo = UserAuth.getInstance().getLoginUserInfo(this);
+        DebugUtils.d("loginUserInfo = " + loginUserInfo);
+        this.setUserInfo(loginUserInfo);
     }
 
     public OkHttpClient initOkHttpClient() {
@@ -201,32 +205,8 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
             BuildConfig.STETHO.configureInterceptor(okHttpClientBuilder);
         }
         OkHttpClient okHttpClient = okHttpClientBuilder.build();
-
         return okHttpClient;
     }
-
-
-//	private void writeMILog(){
-//		//打开Log
-//		LoggerInterface newLogger = new LoggerInterface() {
-//
-//			@Override
-//			public void setTag(String tag) {
-//				// ignore
-//			}
-//
-//			@Override
-//			public void log(String content, Throwable t) {
-//				Log.d("huang", content, t);
-//			}
-//
-//			@Override
-//			public void log(String content) {
-//				Log.d("huang", content);
-//			}
-//		};
-//		Logger.setLogger(this, newLogger);
-//	}
 
     private boolean shouldInit() {
         ActivityManager am = ((ActivityManager) getSystemService(Context.ACTIVITY_SERVICE));
@@ -241,16 +221,6 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
         return false;
     }
 
-
-    public boolean isIsLogin() {
-        return mIsLogin;
-    }
-
-    public void setIsLogin(boolean mIsLogin) {
-
-        this.mIsLogin = mIsLogin;
-    }
-
     public String getUid() {
 
         if ((uid == null || uid.equals("")) && userInfo != null) {
@@ -260,13 +230,13 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
     }
 
     public void setUserInfo(UserInfo userInfo) {
+
         this.userInfo = userInfo;
         if (userInfo == null) {
             this.uid = null;
         } else {
             this.uid = userInfo.getUid();
         }
-
     }
 
     @Override
@@ -303,31 +273,4 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
         this.unbindService(this);
 //		stopMusicService();
     }
-
-
-    /**
-     * 通过token设置cookie
-     *
-     * @param cookieStore
-     *//*
-    public void setCookieFromToken(CookieStore cookieStore) {
-
-		mHttpClient.setCookieStore(cookieStore);
-		setClientCookieFromHttpClient();
-
-	}
-
-	*//**
-     * httpClient的cookie传给Client
-     *//*
-    public void setClientCookieFromHttpClient() {
-
-		cookieStore = mHttpClient.getCookieStore();
-		cookies = cookieStore.getCookies();
-
-	}
-
-	public void removeClientCookieFromHttpClient() {
-		mHttpClient.setCookieStore(null);
-	}*/
 }

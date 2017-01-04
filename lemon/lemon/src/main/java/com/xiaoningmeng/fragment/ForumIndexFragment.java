@@ -17,6 +17,7 @@ import com.xiaoningmeng.HomeActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.adapter.ForumIndexAdapter;
 import com.xiaoningmeng.application.MyApplication;
+import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.bean.Forum;
 import com.xiaoningmeng.bean.ForumNotice;
@@ -103,8 +104,8 @@ public class ForumIndexFragment extends BaseFragment implements IXListViewListen
 
   public void setMessageBadgeNum(ForumNotice notice) {
 
-    if (MyApplication.getInstance().isIsLogin() && MyApplication.getInstance().userInfo != null) {
-      HomeActivity activity = (HomeActivity) this.getActivity();
+    HomeActivity activity = (HomeActivity) this.getActivity();
+    if (UserAuth.getInstance().isLogin(activity) && MyApplication.getInstance().userInfo != null) {
       newMyPost = notice.getNewmypost();
       //将newMyPost传给ForumIndexAdapter是为了在打开帖子详情页是,详情页有又上角即刻出现badgeNumber
       mAdapter.newMyPost = newMyPost;

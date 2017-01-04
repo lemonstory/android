@@ -104,7 +104,7 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
       @Override
       public void onClick(View v) {
 
-        if (UserAuth.auditUser(mContext, "")) {
+        if (UserAuth.getInstance().isLogin(mContext)) {
           Intent i = new Intent(ForumDisplayActivity.this, NewThreadActivity.class);
           i.putExtra("fid", fid);
           i.putExtra("hash", hash);
@@ -210,7 +210,7 @@ public class ForumDisplayActivity extends BaseActivity implements XListView.IXLi
 
   public void setBadgeNum(String newMyPost) {
 
-    if (MyApplication.getInstance().isIsLogin() && MyApplication.getInstance().userInfo != null) {
+    if (UserAuth.getInstance().isLogin(this) && MyApplication.getInstance().userInfo != null) {
 
       imgHeadRight.setVisibility(View.VISIBLE);
       if (null != newMyPost) {

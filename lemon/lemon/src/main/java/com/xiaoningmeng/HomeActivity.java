@@ -17,6 +17,7 @@ import com.umeng.onlineconfig.OnlineConfigAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.xiaoningmeng.application.MyApplication;
+import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.ForumLoginVar;
 import com.xiaoningmeng.bean.PlayingStory;
@@ -368,7 +369,7 @@ public class HomeActivity extends BaseActivity implements
 
     private void showMessageBadge() {
 
-        if (MyApplication.getInstance().isIsLogin() && MyApplication.getInstance().userInfo != null && mForumTabTv.isSelected()) {
+        if (UserAuth.getInstance().isLogin(this) && MyApplication.getInstance().userInfo != null && mForumTabTv.isSelected()) {
             mCoverImg.setVisibility(View.VISIBLE);
             mCoverImg.setImageResource(R.drawable.ic_message);
             mCoverImg.setOnClickListener(messageImgClick);

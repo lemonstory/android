@@ -39,6 +39,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import okhttp3.Cookie;
+
 
 public class AppUtils {
 
@@ -307,5 +309,9 @@ public class AppUtils {
                 .build());
 
         DebugUtils.d("Strict mode enabled");
+    }
+
+    public static boolean isCookieExpired(Cookie cookie) {
+        return cookie.expiresAt() < System.currentTimeMillis();
     }
 }

@@ -14,17 +14,17 @@ import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.AccountActivity;
-import com.xiaoningmeng.auth.UserAuth;
-import com.xiaoningmeng.bean.UserInfo;
-import com.xiaoningmeng.utils.AvatarUtils;
 import com.xiaoningmeng.MyThreadActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.RankActivity;
 import com.xiaoningmeng.SettingActivity;
 import com.xiaoningmeng.application.MyApplication;
+import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.base.BaseFragment;
+import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.event.LoginEvent;
+import com.xiaoningmeng.utils.AvatarUtils;
 
 import de.greenrobot.event.EventBus;
 
@@ -93,7 +93,7 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
 
         LinearLayout.LayoutParams linearParams = (LinearLayout.LayoutParams) mAccountRankingView.getLayoutParams();
 
-        if (MyApplication.getInstance().isIsLogin() && mUserInfo != null) {
+        if (UserAuth.getInstance().isLogin(this.getActivity()) && mUserInfo != null) {
             mAccountHeadView.setVisibility(View.VISIBLE);
             mAccountUnloginTv.setVisibility(View.INVISIBLE);
             mAccountPostView.setVisibility(View.VISIBLE);
@@ -128,10 +128,8 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
                 ((BaseActivity) getActivity()).startActivityForNew(accountSettingIntent);
                 break;
             case R.id.rl_account_perasonal:
-                if (UserAuth.auditUser(getActivity(), null)) {
-                    ((BaseActivity) getActivity())
-                            .startActivityForNew(new Intent(getActivity(),
-                                    AccountActivity.class));
+                if (UserAuth.getInstance().isLogin(getActivity())) {
+                    ((BaseActivity) getActivity()).startActivityForNew(new Intent(getActivity(), AccountActivity.class));
                 }
                 break;
 //		case R.id.rl_account_shop:

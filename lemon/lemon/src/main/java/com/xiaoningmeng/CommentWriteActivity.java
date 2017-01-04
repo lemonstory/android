@@ -118,7 +118,7 @@ public class CommentWriteActivity extends BaseActivity {
 	}
 
 	private void commentAlbum() {
-		if(UserAuth.auditUser(this, "登录后,才能评论故事喔.")){
+		if (UserAuth.getInstance().isLogin(this)) {
 			String commentContent = mRatingEt.getText().toString();
 			int length = commentContent.trim().length();
 			uploadAlbumComment(starLevel, commentContent);

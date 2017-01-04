@@ -32,7 +32,6 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         mAdCountDownTv = (TextView) findViewById(R.id.tv_ad_countdown);
-        UserAuth.getInstance().authUser(this);
         DownLoadClientImpl.getInstance();// 初始化下载器
         PlayerManager.getInstance(); // 初始化音乐播放器
         DownloadNotificationManager.getInstance();//初始化下载通知栏

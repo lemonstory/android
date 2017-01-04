@@ -16,6 +16,7 @@ public class UserInfo extends DataSupport{
 	private String avatartime;
 	protected String listennum;
 	private String uc_callback;
+	private String favcount;
 
 	public UserInfo() {
 
@@ -113,6 +114,14 @@ public class UserInfo extends DataSupport{
 
 	public String getUcCallback() { return  uc_callback;}
 
+	public String getFavcount() {
+		return favcount;
+	}
+
+	public void setFavcount(String favcount) {
+		this.favcount = favcount;
+	}
+
 	@Override
 	public String toString() {
 		return "UserInfo{" +
@@ -128,6 +137,7 @@ public class UserInfo extends DataSupport{
 				", avatartime='" + avatartime + '\'' +
 				", listennum='" + listennum + '\'' +
 				", uc_callback='" + uc_callback + '\'' +
+				", favcount='" + favcount + '\'' +
 				'}';
 	}
 }

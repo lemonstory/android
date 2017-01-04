@@ -192,7 +192,7 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
 
     private void writeComment() {
 
-        if (UserAuth.auditUser(this, "登录后,才能评论故事喔.")) {
+        if (UserAuth.getInstance().isLogin(this)) {
             Intent i = new Intent(this, CommentWriteActivity.class);
             i.putExtra("albumId", mAblumId);
             startActivityForResult(i, 0);

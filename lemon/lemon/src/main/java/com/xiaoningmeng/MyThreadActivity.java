@@ -15,6 +15,7 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.xiaoningmeng.adapter.ForumDisplayAdapter;
 import com.xiaoningmeng.application.MyApplication;
+import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.ForumName;
 import com.xiaoningmeng.bean.ForumThread;
@@ -77,7 +78,7 @@ public class MyThreadActivity extends BaseActivity implements XListView.IXListVi
         this.page = 1;
         this.uid = getIntent().getStringExtra("uid");
         this.nickname = getIntent().getStringExtra("nickname");
-        if (MyApplication.getInstance().isIsLogin() && MyApplication.getInstance().userInfo.getNickname().equals(nickname)) {
+        if (UserAuth.getInstance().isLogin(this) && MyApplication.getInstance().userInfo.getNickname().equals(nickname)) {
             setTitleName("我的帖子");
         } else {
             setTitleName(this.nickname + "的帖子");

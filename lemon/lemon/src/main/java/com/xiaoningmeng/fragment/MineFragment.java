@@ -14,25 +14,23 @@ import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.AlbumDetailActivity;
 import com.xiaoningmeng.DownloadActivity;
 import com.xiaoningmeng.FavActivity;
+import com.xiaoningmeng.R;
 import com.xiaoningmeng.adapter.MineHistoryAdapter;
-import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
+import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.ListenerAlbum;
 import com.xiaoningmeng.bean.Mine;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.db.HistoryDao;
 import com.xiaoningmeng.download.DownLoadClientImpl;
-import com.xiaoningmeng.event.HistoryEvent;
-import com.xiaoningmeng.http.LHttpRequest;
-import com.xiaoningmeng.R;
-import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.download.OnDownloadCountChangedListener;
 import com.xiaoningmeng.event.FavEvent;
+import com.xiaoningmeng.event.HistoryEvent;
 import com.xiaoningmeng.event.LoginEvent;
 import com.xiaoningmeng.http.JsonCallback;
-
+import com.xiaoningmeng.http.LHttpRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,8 +100,9 @@ public class MineFragment extends BaseFragment implements OnClickListener,XListV
 	}
 
 	private void requestListenerData(final String direction,String startId) {
-		if(MyApplication.getInstance().isIsLogin()){
-			LHttpRequest.getInstance().myStoryReq(getActivity(), direction, startId, Constant.MAX_REQ_LEN, new JsonCallback<Mine>() {
+
+		if (UserAuth.getInstance().isLogin(this.getActivity())) {
+			LHttpRequest.getInstance().myStoryReq(this.getActivity(), direction, startId, Constant.MAX_REQ_LEN, new JsonCallback<Mine>() {
 
 				@Override
 				public void onGetDataSuccess(Mine data) {
@@ -222,7 +221,7 @@ public class MineFragment extends BaseFragment implements OnClickListener,XListV
 			((BaseActivity) getActivity()).startActivityForNew(new Intent(getActivity(),DownloadActivity.class));
 			break;
 		case R.id.rl_mine_fav:
-			if(UserAuth.auditUser(mContext, null)){
+			if (UserAuth.getInstance().isLogin(mContext)) {
 				((BaseActivity) getActivity()).startActivityForNew(new Intent(getActivity(),FavActivity.class));
 			}
 			break;

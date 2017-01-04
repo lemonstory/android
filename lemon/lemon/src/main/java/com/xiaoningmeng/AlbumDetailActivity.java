@@ -435,7 +435,7 @@ public class AlbumDetailActivity extends BaseActivity implements
 
             case R.id.tv_fav:
                 view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fav_anim_in));
-                if (UserAuth.auditUser(this, null)) {
+                if (UserAuth.getInstance().isLogin(this)) {
                     favAblum(view);
                 }
                 break;

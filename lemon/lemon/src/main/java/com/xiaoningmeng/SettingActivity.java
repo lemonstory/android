@@ -16,7 +16,6 @@ import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.beta.UpgradeInfo;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
-import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.PlayingStory;
@@ -61,7 +60,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener,
         mNewVersionName = (TextView) findViewById(R.id.tv_new_version_name);
 
         setRightHeadIcon(R.drawable.ic_player_flag_wave_01);
-        findViewById(R.id.tv_setting_logout).setVisibility(MyApplication.getInstance().isIsLogin() ? View.VISIBLE : View.INVISIBLE);
+        findViewById(R.id.tv_setting_logout).setVisibility(UserAuth.getInstance().isLogin(this) ? View.VISIBLE : View.INVISIBLE);
         setNewVersionName(mNewVersionName);
     }
 
@@ -136,7 +135,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener,
                 if (response.isSuccessful() && response.body().isSuccessful()) {
                     PlayerManager.getInstance().pausePlay();
                     PlayNotificationManager.getInstance().cancel();
-                    UserAuth.getInstance().invinvalidateUserIdentity(SettingActivity.this);
+                    UserAuth.getInstance().clearLoginUserInfo(SettingActivity.this);
                     startActivityForNew(new Intent(SettingActivity.this, LoginActivity.class));
                 } else {
                     DebugUtils.e(response.toString());
