@@ -37,7 +37,7 @@ public class HistoryDao {
 	//新增历史数据
 	public void add(final AlbumInfo albumInfo,final String storyId,final int current){
 			String albumId = albumInfo.getId();
-			String uid = MyApplication.getInstance().getUid();
+		String uid = MyApplication.getInstance().getLoginUid();
 			long uploadTime = System.currentTimeMillis()/1000;
 			ListenerAlbum listenerAlbum = new ListenerAlbum(uid, storyId, albumInfo.getId(), uploadTime+"",current,albumInfo);
 			if(findHistoryAlbum(albumId)){
@@ -235,13 +235,18 @@ public class HistoryDao {
 
 		Cursor cursor = null;
 		cursor = dbhelper.sdb.rawQuery("select * from "+DBHelper.TAB_STORY+ " where albumid=? and storyId=?",new String[]{ablumIdArg,storyIdArg});
-		if(cursor != null){
-			if(cursor.moveToFirst()){
-				do{
-					story =parseStory(cursor);
-				}while(cursor.moveToNext());
+		try {
+			if (cursor != null) {
+				if (cursor.moveToFirst()) {
+					do {
+						story = parseStory(cursor);
+					} while (cursor.moveToNext());
+				}
 			}
+		} finally {
+			cursor.close();
 		}
+
 		return story;
 	}
 	
@@ -267,6 +272,7 @@ public class HistoryDao {
 		album.setAlbuminfo(albuminfo);
 		return album;
 	}
+
 	private Story parseStory(Cursor cursor) {
 		Story story = new Story();
 		story.setId(cursor.getString(cursor.getColumnIndex("storyId")));
@@ -280,6 +286,4 @@ public class HistoryDao {
 
 		return story;
 	}
-	
-	
 }

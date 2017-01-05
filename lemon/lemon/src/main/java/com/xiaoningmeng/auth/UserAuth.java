@@ -113,13 +113,12 @@ public class UserAuth {
 		DataSupport.deleteAll(UserInfo.class);
 		isSaved = userInfo.save();
 		if (isSaved) {
-			MyApplication.getInstance().setUserInfo(userInfo);
+			MyApplication.getInstance().setLoginUserInfo(userInfo);
 			MiPushClient.setUserAccount(context, userInfo.getUid(), null);
 			EventBus.getDefault().post(new LoginEvent(userInfo));
 			MobclickAgent.onEvent(context, "event_login");
 			CrashReport.setUserId(userInfo.getUid());
 		}
-		DebugUtils.d("isSaved ----> " + isSaved);
 		return isSaved;
 	}
 
@@ -135,7 +134,7 @@ public class UserAuth {
 		MiPushClient.unsetUserAccount(context,uid, null);
 		PreferenceUtil.removeString(UID);
 		UserInfo.deleteAll(UserInfo.class);
-		MyApplication.getInstance().setUserInfo(null);
+		MyApplication.getInstance().setLoginUserInfo(null);
 	}
 
 	/**
@@ -152,7 +151,8 @@ public class UserAuth {
 						uid == null ? "" : uid).find(UserInfo.class);
 				if (userList != null && userList.size() > 0) {
 					userInfo = userList.get(0);
-					DebugUtils.d("getLoginUserInfo -------> userInfo = " + userInfo);
+				} else {
+//					DebugUtils.d("getLoginUserInfo -------> userInfo = null");
 				}
 			}
 		}

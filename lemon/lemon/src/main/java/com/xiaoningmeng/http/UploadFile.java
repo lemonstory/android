@@ -35,7 +35,7 @@ public class UploadFile {
 
     // 断点上传
     public void asyncUpload(String  filePath,SaveCallback callBack) {
-        OSSFile bigfFile = ossService.getOssFile(bucket, MyApplication.getInstance().getUid());
+        OSSFile bigfFile = ossService.getOssFile(bucket, MyApplication.getInstance().getLoginUid());
         try {
             bigfFile.setUploadFilePath(filePath, "application/octet-stream");
             bigfFile.ResumableUploadInBackground(callBack);
@@ -43,5 +43,4 @@ public class UploadFile {
             e.printStackTrace();
         }
     }
-
 }

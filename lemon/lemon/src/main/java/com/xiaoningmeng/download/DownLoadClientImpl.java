@@ -5,10 +5,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
-import com.xiaoningmeng.bean.AlbumInfo;
-import com.xiaoningmeng.utils.FileUtil;
 import com.xiaoningmeng.application.MyApplication;
+import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.AudioDownLoad;
+import com.xiaoningmeng.utils.FileUtil;
 
 import org.litepal.crud.DataSupport;
 
@@ -192,8 +192,8 @@ public class DownLoadClientImpl extends
 					file.mkdirs();
 			}
 			initStatus.set(INITING);
-			String uid = MyApplication.getInstance().getUid() == null ? "" 
-					: MyApplication.getInstance().getUid();
+			String uid = MyApplication.getInstance().getLoginUid() == null ? ""
+					: MyApplication.getInstance().getLoginUid();
 			try {
 				List<AlbumInfo> albumInfos = DataSupport
 						.findAll(AlbumInfo.class);
@@ -535,7 +535,7 @@ public class DownLoadClientImpl extends
 	}
 
 	public List<AudioDownLoad> getAllDownLoads() {
-		String uid = MyApplication.getInstance().getUid();
+		String uid = MyApplication.getInstance().getLoginUid();
 		List<AudioDownLoad> mList = DataSupport.where("uid = ?",
 				uid == null ? "" : uid).find(AudioDownLoad.class);
 		return mList;

@@ -22,6 +22,7 @@ import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.ListenerAlbum;
 import com.xiaoningmeng.bean.Mine;
+import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.db.HistoryDao;
 import com.xiaoningmeng.download.DownLoadClientImpl;
@@ -29,13 +30,19 @@ import com.xiaoningmeng.download.OnDownloadCountChangedListener;
 import com.xiaoningmeng.event.FavEvent;
 import com.xiaoningmeng.event.HistoryEvent;
 import com.xiaoningmeng.event.LoginEvent;
-import com.xiaoningmeng.http.JsonCallback;
+import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
+import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.xiaoningmeng.http.LHttpRequest.mRetrofit;
 
 
 public class MineFragment extends BaseFragment implements OnClickListener,XListView.IXListViewListener,OnDownloadCountChangedListener {
@@ -48,16 +55,17 @@ public class MineFragment extends BaseFragment implements OnClickListener,XListV
 	private List<ListenerAlbum> mAlbumList;
 	private List<ListenerAlbum> mDBHistoryAlbum;
 	private List<HistoryEvent> mHistoryEvents = new ArrayList<>();
+	private UserInfo mLoginUserInfo;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View contentView = View.inflate(getActivity(),
-				R.layout.fragment_mine, null);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+		View contentView = View.inflate(getActivity(), R.layout.fragment_mine, null);
 		mContext = (BaseActivity) getActivity();
-		initView(contentView);
 		DownLoadClientImpl.getInstance().setOnDownloadCountChangedListener(this);
 		mDBHistoryAlbum = HistoryDao.getInstance().getHistoryAlbums();
+		mLoginUserInfo = UserAuth.getInstance().getLoginUserInfo(getActivity());
+		initView(contentView);
 		requestListenerData(Constant.FRIST,Constant.FRIST_ID);
 		EventBus.getDefault().register(this);
 		return contentView;
@@ -73,8 +81,13 @@ public class MineFragment extends BaseFragment implements OnClickListener,XListV
 		headView.findViewById(R.id.rl_mine_download).setOnClickListener(this);
 		mDownloadCountTv = (TextView) headView.findViewById(R.id.tv_mine_download_count);
 		mFavCountTv = (TextView)headView.findViewById(R.id.tv_mine_fav_count);
+		if (null != mLoginUserInfo && Integer.parseInt(mLoginUserInfo.getFavcount()) > 0) {
+			mFavCountTv.setText(mLoginUserInfo.getFavcount());
+		}
 		int downloadSize = DownLoadClientImpl.getInstance().getDownloadCount();
-		mDownloadCountTv.setText(downloadSize + "");
+		if (downloadSize > 0) {
+			mDownloadCountTv.setText(downloadSize + "");
+		}
 		headView.findViewById(R.id.rl_mine_fav).setOnClickListener(this);
 		mListView.addHeaderView(headView);
 		showLoadingTip();
@@ -102,65 +115,73 @@ public class MineFragment extends BaseFragment implements OnClickListener,XListV
 	private void requestListenerData(final String direction,String startId) {
 
 		if (UserAuth.getInstance().isLogin(this.getActivity())) {
-			LHttpRequest.getInstance().myStoryReq(this.getActivity(), direction, startId, Constant.MAX_REQ_LEN, new JsonCallback<Mine>() {
+
+			LHttpRequest.MyStoryRequest myStoryRequest = mRetrofit.create(LHttpRequest.MyStoryRequest.class);
+			Call<JsonResponse<Mine>> call = myStoryRequest.getResult(direction, startId, Constant.MAX_REQ_LEN);
+			call.enqueue(new Callback<JsonResponse<Mine>>() {
 
 				@Override
-				public void onGetDataSuccess(Mine data) {
-					List<ListenerAlbum> albums = data.getListenalbumlist();
-					if(direction == Constant.FRIST){
-						hideLoadingTip();
-						mFavCountTv.setText(data.getFavcount()+"");
-						mAlbumList.clear();
-						addHistoryAlbum(mDBHistoryAlbum);
-						if(albums.size() == Constant.MAX_REQ_LEN){
-							mListView.setPullLoadEnable(true);
-						}else if(albums.size() < Constant.MAX_REQ_LEN){
-							mListView.setPullLoadEnable(false);
+				public void onResponse(Call<JsonResponse<Mine>> call, Response<JsonResponse<Mine>> response) {
+
+					onLoad();
+					if (response.isSuccessful() && response.body().isSuccessful()) {
+
+						Mine data = response.body().getData();
+						List<ListenerAlbum> albums = data.getListenalbumlist();
+						if (direction == Constant.FRIST) {
+							hideLoadingTip();
+							mAlbumList.clear();
+							addHistoryAlbum(mDBHistoryAlbum);
+							if (albums.size() == Constant.MAX_REQ_LEN) {
+								mListView.setPullLoadEnable(true);
+							} else if (albums.size() < Constant.MAX_REQ_LEN) {
+								mListView.setPullLoadEnable(false);
+							}
+						} else {
+							if (albums.size() < Constant.MAX_REQ_LEN) {
+								mListView.setFootViewNoMore(true);
+							}
 						}
-					}else{
-						if(albums.size() < Constant.MAX_REQ_LEN){
-							mListView.setFootViewNoMore(true);
+						addHistoryAlbum(albums);
+						mAdapter.notifyDataSetChanged();
+						if (mAlbumList.size() == 0) {
+							showEmptyTip(null, "收听的故事会出现在这里喔", null);
 						}
-					}
-					addHistoryAlbum(albums);
-					mAdapter.notifyDataSetChanged();
-					if(mAlbumList.size() == 0){
-						showEmptyTip(null, "收听的故事会出现在这里喔", null);
+					} else {
+						DebugUtils.e(response.toString());
 					}
 				}
-				
+
 				@Override
-				public void onFailure(String responseString) {
+				public void onFailure(Call<JsonResponse<Mine>> call, Throwable t) {
+
+					onLoad();
 					mListView.postDelayed(new Runnable() {
-						
+
 						@Override
 						public void run() {
 							if(direction == Constant.FRIST && mAlbumList.size() == 0){
-								
+
 								hideLoadingTip();
 								showEmptyTip(null, "请连接网络后点击屏幕重试", new OnClickListener() {
-									
+
 									@Override
 									public void onClick(View v) {
 										hideEmptyTip();
 										showLoadingTip();
 										requestListenerData(Constant.FRIST,Constant.FRIST_ID);
-										
+
 									}
 								});
-								
+
 							}
 						}
 					}, 500);
-
-				}
-				@Override
-				public void onFinish() {
-					onLoad();
-					super.onFinish();
 				}
 			});
+
 		}else{
+
 			hideLoadingTip();
 			mListView.setPullLoadEnable(true);
 			List<ListenerAlbum> dbHistoryAlbum = HistoryDao.getInstance().getUnloginHistoryAlbums(mAlbumList.size(), Constant.MAX_REQ_LEN);
@@ -189,6 +210,7 @@ public class MineFragment extends BaseFragment implements OnClickListener,XListV
 	}
 	@Override
 	public void onRefresh() {
+
 		if(mAlbumList.size()>0){
 			requestListenerData(Constant.UP, mAlbumList.get(0).getAlbumid());
 		}else{

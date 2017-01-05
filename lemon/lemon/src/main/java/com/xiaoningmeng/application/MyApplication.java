@@ -173,8 +173,7 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
         }
 
         UserInfo loginUserInfo = UserAuth.getInstance().getLoginUserInfo(this);
-        DebugUtils.d("loginUserInfo = " + loginUserInfo);
-        this.setUserInfo(loginUserInfo);
+        this.setLoginUserInfo(loginUserInfo);
     }
 
     public OkHttpClient initOkHttpClient() {
@@ -221,7 +220,7 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
         return false;
     }
 
-    public String getUid() {
+    public String getLoginUid() {
 
         if ((uid == null || uid.equals("")) && userInfo != null) {
             uid = userInfo.getUid();
@@ -229,7 +228,7 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
         return uid;
     }
 
-    public void setUserInfo(UserInfo userInfo) {
+    public void setLoginUserInfo(UserInfo userInfo) {
 
         this.userInfo = userInfo;
         if (userInfo == null) {

@@ -227,18 +227,9 @@ public class LHttpRequest {
     public interface MyStoryRequest {
 
         @GET(ConstantURL.MY_STORY)
-        Call<JsonResponse<Mine>> getResult(@Query("albumid") String albumId,
-                                           @Query("content") String content,
-                                           @Query("star_level") int starLevel);
-    }
-
-    public void myStoryReq(Context context, String direction, String startId, int len, JsonCallback<Mine> handler) {
-        //        get(MY_STORY).tag(context)
-        //                .addParams("isgetcount", direction == Constant.FRIST ? "1" : "0")
-        //                .addParams("direction", direction)
-        //                .addParams("startalbumid", startId)
-        //                .addParams("len", Integer.toString(len))
-        //                .build().execute(handler);
+        Call<JsonResponse<Mine>> getResult(@Query("direction") String direction,
+                                           @Query("startalbumid") String startAlbumId,
+                                           @Query("len") int len);
     }
 
     //反馈

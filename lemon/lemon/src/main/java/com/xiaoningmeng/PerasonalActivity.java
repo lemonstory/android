@@ -96,7 +96,7 @@ public class PerasonalActivity extends BaseActivity implements PlayObserver, OnC
         Intent intent = new Intent(PerasonalActivity.this, AlbumDetailActivity.class);
         intent.putExtra("albumId", albumInfo.getId());
         startActivityForNew(intent);
-        if (uid != null && uid.equals(MyApplication.getInstance().getUid())) {
+        if (uid != null && uid.equals(MyApplication.getInstance().getLoginUid())) {
           mAlbumList.add(0, mAlbumList.remove(pos));
           mAdapter.notifyDataSetChanged();
         }
@@ -114,8 +114,8 @@ public class PerasonalActivity extends BaseActivity implements PlayObserver, OnC
 
   public void requestHomeInfo(final String direction, String startStroyId) {
 
-    if (uid == null || uid.equals(MyApplication.getInstance().getUid())) {
-      uid = MyApplication.getInstance().getUid();
+    if (uid == null || uid.equals(MyApplication.getInstance().getLoginUid())) {
+      uid = MyApplication.getInstance().getLoginUid();
     }
 
     int isGetUserInfo = direction == Constant.FRIST ? 1 : 0;
@@ -239,7 +239,7 @@ public class PerasonalActivity extends BaseActivity implements PlayObserver, OnC
 
   public void onEventMainThread(HistoryEvent historyEvent) {
 
-    if (uid != null && uid.equals(MyApplication.getInstance().getUid())) {
+    if (uid != null && uid.equals(MyApplication.getInstance().getLoginUid())) {
       hideEmptyTip();
       int albumSzie = mAlbumList.size();
       for (int i = 0; i < albumSzie; i++) {
