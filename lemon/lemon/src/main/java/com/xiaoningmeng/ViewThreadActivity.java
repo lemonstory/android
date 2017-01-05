@@ -36,7 +36,6 @@ import com.xiaoningmeng.http.ConstantURL;
 import com.xiaoningmeng.http.JsonCallback;
 import com.xiaoningmeng.http.JsonForumResponse;
 import com.xiaoningmeng.http.LHttpRequest;
-import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.utils.ImageUtils;
 import com.xiaoningmeng.view.ShareDialog;
 
@@ -300,14 +299,13 @@ public class ViewThreadActivity extends BaseActivity implements XListView.IXList
 
     private void onLoad() {
 
+        mListView.stopRefresh();
+        mListView.stopLoadMore();
         if (this.page < this.maxPage) {
-            mListView.setPullLoadEnable(true);
             mListView.setFootViewNoMore(false);
         } else {
             mListView.setFootViewNoMore(true);
         }
-        mListView.stopRefresh();
-        mListView.stopLoadMore();
     }
 
     public void setForumThread(ForumThread forumThread) {
@@ -434,7 +432,6 @@ public class ViewThreadActivity extends BaseActivity implements XListView.IXList
             @Override
             public void onFailure(Call<JsonForumResponse<JsonObject>> call, Throwable t) {
 
-                DebugUtils.e(t.toString());
                 onLoad();
                 if (loadingView != null) {
                     loadingView.setVisibility(View.VISIBLE);
