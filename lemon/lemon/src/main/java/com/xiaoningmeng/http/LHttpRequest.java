@@ -32,7 +32,10 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
 
@@ -186,15 +189,15 @@ public class LHttpRequest {
     //增加记录
     public interface AddRecordRequest {
 
-        @GET(ConstantURL.ADD_RECORD)
-        Call<JsonResponse<String>> getResult(@Query("content") String record);
+        @POST(ConstantURL.ADD_RECORD)
+        Call<JsonResponse<String>> getResult(@Field("content") String record);
     }
 
     //增加下载记录
     public interface AddDownRecordRequest {
 
-        @GET(ConstantURL.SYNCDOWN)
-        Call<JsonResponse<String>> getResult(@Query("syncdata") String record);
+        @POST(ConstantURL.SYNCDOWN)
+        Call<JsonResponse<String>> getResult(@Field("syncdata") String record);
     }
 
     //热门搜索
@@ -377,14 +380,15 @@ public class LHttpRequest {
     //  noticetrimstr->noticetrimstr
     public interface SendReplyRequest {
 
-        @GET
+        @FormUrlEncoded
+        @POST
         Call<JsonForumResponse<JsonObject>> getResult(@Url String url,
-                                                      @Query("tid") int tid,
-                                                      @Query("formHash") String formHash,
-                                                      @Query("message") String message,
-                                                      @Query("reppid") int reppid,
-                                                      @Query("reppost") int reppost,
-                                                      @Query("noticetrimstr") String noticetrimstr);
+                                                      @Field("tid") int tid,
+                                                      @Field("formHash") String formHash,
+                                                      @Field("message") String message,
+                                                      @Field("reppid") int reppid,
+                                                      @Field("reppost") int reppost,
+                                                      @Field("noticetrimstr") String noticetrimstr);
     }
 
     //论坛帖子上传图片
@@ -405,12 +409,13 @@ public class LHttpRequest {
     //论坛发布帖子
     public interface ForumNewThreadRequest {
 
-        @GET
+        @FormUrlEncoded
+        @POST
         Call<JsonForumResponse<JsonObject>> getResult(@Url String url,
-                                                      @Query("formhash") String formhash,
-                                                      @Query("fid") int fid,
-                                                      @Query("subject") String subject,
-                                                      @Query("message") String message);
+                                                      @Field("formhash") String formhash,
+                                                      @Field("fid") int fid,
+                                                      @Field("subject") String subject,
+                                                      @Field("message") String message);
     }
 
     //我的帖子列表

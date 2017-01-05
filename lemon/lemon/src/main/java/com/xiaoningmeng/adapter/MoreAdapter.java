@@ -13,9 +13,9 @@ import android.widget.TextView;
 
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.xiaoningmeng.R;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.R;
 
 import java.util.List;
 
@@ -66,15 +66,9 @@ public class MoreAdapter extends BaseAdapter{
 		if (convertView == null) {
 			holder = new ViewHolder();
 			convertView = mInflater.inflate(R.layout.item_fav, null);
-			holder.coverImg = (SimpleDraweeView) convertView
-					.findViewById(R.id.img_mine_item_cover);
-			holder.titleTv = (TextView) convertView
-					.findViewById(R.id.tv_fav_title);
-			holder.listenerTv = (TextView) convertView
-					.findViewById(R.id.tv_listener);
-			holder.favTv = (TextView) convertView.findViewById(R.id.tv_fav);
-			holder.commentTv = (TextView) convertView
-					.findViewById(R.id.tv_comment);
+			holder.coverImg = (SimpleDraweeView) convertView.findViewById(R.id.img_mine_item_cover);
+			holder.titleTv = (TextView) convertView.findViewById(R.id.tv_fav_title);
+			holder.listenerTv = (TextView) convertView.findViewById(R.id.tv_listener);
 			holder.albumDividerV = convertView.findViewById(R.id.v_album_divider);
 			convertView.setTag(holder);
 		} else {
@@ -88,9 +82,6 @@ public class MoreAdapter extends BaseAdapter{
 		holder.titleTv.setText(album.getTitle());
 		//holder.dateTv.setText(AvatarUtils.getShortTimeStr2(album.getAdd_time()));
 		holder.listenerTv.setText(album.getListennum()+"");
-		holder.favTv.setText(album.getFavnum()+"");
-		holder.commentTv.setText(album.getCommentnum()+"");
-		holder.favTv.setSelected(isFav||album.getFav()==1);
 		RelativeLayout.LayoutParams lp = (LayoutParams) holder.albumDividerV.getLayoutParams();
 		lp.addRule(RelativeLayout.ALIGN_LEFT,position == getCount() -1 ? 0 : R.id.ll_history_bottom);
 		return convertView;
@@ -100,8 +91,6 @@ public class MoreAdapter extends BaseAdapter{
 		SimpleDraweeView coverImg;
 		TextView titleTv;
 		TextView listenerTv;
-		TextView favTv;
-		TextView commentTv;
 		View albumDividerV;
 	}
 

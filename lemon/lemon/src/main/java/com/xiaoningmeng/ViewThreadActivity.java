@@ -541,10 +541,8 @@ public class ViewThreadActivity extends BaseActivity implements XListView.IXList
                 stopLoading();
                 try {
                     JsonObject jsonObject = response.body().getVariables();
-                    JsonObject messageObject = jsonObject.getAsJsonObject("Message");
-                    String messageVal = messageObject.get("messageval").getAsString();
-                    String messageStr = messageObject.get("messagestr").getAsString();
-
+                    String messageVal = response.body().getMessage().getMessageval();
+                    String messageStr = response.body().getMessage().getMessagestr();
                     if (messageVal.equals(Constant.FORUM_POST_REPLY_SUCCEED)) {
 
                         //关闭键盘

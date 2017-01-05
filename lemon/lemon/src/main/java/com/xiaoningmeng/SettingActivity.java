@@ -8,10 +8,6 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.franmontiel.persistentcookiejar.ClearableCookieJar;
-import com.franmontiel.persistentcookiejar.PersistentCookieJar;
-import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
-import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.beta.UpgradeInfo;
 import com.umeng.socialize.ShareAction;
@@ -121,10 +117,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener,
 
         TextDialogLoading loading = new TextDialogLoading(this);
         loading.setLoadingTip("正在退出登录");
-
-        ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(this));
-        cookieJar.clear();
-
+        UserAuth.getInstance().clearLoginUserInfo(SettingActivity.this);
         LHttpRequest.LogoutRequest logoutRequest = mRetrofit.create(LHttpRequest.LogoutRequest.class);
         Call<JsonResponse<String>> call = logoutRequest.getResult();
         call.enqueue(new Callback<JsonResponse<String>>() {
@@ -135,7 +128,6 @@ public class SettingActivity extends BaseActivity implements OnClickListener,
                 if (response.isSuccessful() && response.body().isSuccessful()) {
                     PlayerManager.getInstance().pausePlay();
                     PlayNotificationManager.getInstance().cancel();
-                    UserAuth.getInstance().clearLoginUserInfo(SettingActivity.this);
                     startActivityForNew(new Intent(SettingActivity.this, LoginActivity.class));
                 } else {
                     DebugUtils.e(response.toString());

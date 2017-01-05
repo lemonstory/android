@@ -173,7 +173,16 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
         }
 
         UserInfo loginUserInfo = UserAuth.getInstance().getLoginUserInfo(this);
-        this.setLoginUserInfo(loginUserInfo);
+        if (UserAuth.getInstance().isLogin(this)) {
+
+            if (null != loginUserInfo) {
+                this.setLoginUserInfo(loginUserInfo);
+            } else {
+
+                //TODO:如果用户已登录但是没有用户信息，则在走一遍登录流程(不合理)
+                UserAuth.getInstance().clearLoginUserInfo(this);
+            }
+        }
     }
 
     public OkHttpClient initOkHttpClient() {
