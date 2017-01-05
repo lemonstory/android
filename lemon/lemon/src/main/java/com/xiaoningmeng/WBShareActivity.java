@@ -1,4 +1,4 @@
-package com.umeng.soexample;
+package com.xiaoningmeng;
 
 import com.umeng.socialize.media.WBShareCallBackActivity;
 

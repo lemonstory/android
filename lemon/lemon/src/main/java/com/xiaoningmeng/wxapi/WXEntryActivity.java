@@ -1,4 +1,4 @@
-package com.umeng.soexample.wxapi;
+package com.xiaoningmeng.wxapi;
 
 
 //import com.umeng.weixin.callback.WXCallbackActivity;
