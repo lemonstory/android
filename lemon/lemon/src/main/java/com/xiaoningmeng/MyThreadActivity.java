@@ -78,7 +78,7 @@ public class MyThreadActivity extends BaseActivity implements XListView.IXListVi
         this.page = 1;
         this.uid = getIntent().getStringExtra("uid");
         this.nickname = getIntent().getStringExtra("nickname");
-        if (UserAuth.getInstance().isLogin(this) && MyApplication.getInstance().userInfo.getNickname().equals(nickname)) {
+        if (UserAuth.getInstance().isLogin(this) && null != MyApplication.getInstance().userInfo && MyApplication.getInstance().userInfo.getNickname().equals(nickname)) {
             setTitleName("我的帖子");
         } else {
             setTitleName(this.nickname + "的帖子");
