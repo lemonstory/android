@@ -180,6 +180,7 @@ public class FavActivity extends BaseActivity implements IXListViewListener {
             @Override
             public void onResponse(Call<JsonResponse<List<AlbumInfo>>> call, Response<JsonResponse<List<AlbumInfo>>> response) {
 
+                onLoad();
                 if (response.isSuccessful() && response.body().isSuccessful()) {
 
                     List<AlbumInfo> data = response.body().getData();
@@ -212,6 +213,8 @@ public class FavActivity extends BaseActivity implements IXListViewListener {
 
             @Override
             public void onFailure(Call<JsonResponse<List<AlbumInfo>>> call, Throwable t) {
+
+                onLoad();
                 hideLoadingTip();
                 DebugUtils.e(t.toString());
             }
@@ -220,20 +223,15 @@ public class FavActivity extends BaseActivity implements IXListViewListener {
 
     @Override
     public void onRefresh() {
-
         requestFavData(Constant.FRIST, Constant.FRIST_ID);
-
     }
 
     @Override
     public void onLoadMore() {
         int size = mFaAlbumList.size();
         if (size > 0) {
-
             String startId = mFaAlbumList.get(size - 1).getFavid();
             requestFavData(Constant.DOWN, startId);
-        } else {
-            requestFavData(Constant.FRIST, Constant.FRIST_ID);
         }
     }
 
