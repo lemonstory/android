@@ -189,6 +189,7 @@ public class LHttpRequest {
     //增加记录
     public interface AddRecordRequest {
 
+        @FormUrlEncoded
         @POST(ConstantURL.ADD_RECORD)
         Call<JsonResponse<String>> getResult(@Field("content") String record);
     }
@@ -196,6 +197,7 @@ public class LHttpRequest {
     //增加下载记录
     public interface AddDownRecordRequest {
 
+        @FormUrlEncoded
         @POST(ConstantURL.SYNCDOWN)
         Call<JsonResponse<String>> getResult(@Field("syncdata") String record);
     }

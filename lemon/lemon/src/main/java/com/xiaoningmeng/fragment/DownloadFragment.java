@@ -16,10 +16,10 @@ import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.baoyz.swipemenulistview.SwipeMenuListView.OnMenuItemClickListener;
 import com.orhanobut.dialogplus.DialogPlus;
-import com.xiaoningmeng.adapter.DownloadAlbumAdapter;
 import com.xiaoningmeng.DownloadActivity;
 import com.xiaoningmeng.DownloadStoryActivity;
 import com.xiaoningmeng.R;
+import com.xiaoningmeng.adapter.DownloadAlbumAdapter;
 import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.AudioDownLoad;
@@ -137,20 +137,23 @@ public class DownloadFragment extends BaseFragment {
 	}
 
 	private void delDownloadAlbum(int position) {
+
 		if (downLoads != null && downLoads.size() > position) {
-			String albumId = downLoads.get(position).getId();
-			List<AudioDownLoad> downLoads;
-			if (type == DownloadStoryActivity.HISTORY_TYPE) {
-				downLoads = DownLoadClientImpl.getInstance().mHistoryMap
-						.get(albumId);
-			} else {
-				downLoads = DownLoadClientImpl.getInstance().mDownloadMap
-						.get(albumId);
-			}
-			AudioDownLoad[] downloadArray = new AudioDownLoad[downLoads.size()];
-			downLoads.toArray(downloadArray);
-			for (AudioDownLoad downLoad : downloadArray) {
-				DownLoadClientImpl.getInstance().cancel(downLoad);
+			try {
+				String albumId = downLoads.get(position).getId();
+				List<AudioDownLoad> downLoads;
+				if (type == DownloadStoryActivity.HISTORY_TYPE) {
+					downLoads = DownLoadClientImpl.getInstance().mHistoryMap.get(albumId);
+				} else {
+					downLoads = DownLoadClientImpl.getInstance().mDownloadMap.get(albumId);
+				}
+				AudioDownLoad[] downloadArray = new AudioDownLoad[downLoads.size()];
+				downLoads.toArray(downloadArray);
+				for (AudioDownLoad downLoad : downloadArray) {
+					DownLoadClientImpl.getInstance().cancel(downLoad);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}

@@ -153,7 +153,7 @@ public class FavActivity extends BaseActivity implements IXListViewListener {
 
                 if (response.isSuccessful() && response.body().isSuccessful()) {
 
-                    albumInfo.updateAll("albumid =?", albumId);
+                    albumInfo.updateAll("id =?", albumId);
                     mFaAlbumList.remove(position);
                     mAdapter.notifyDataSetChanged();
                     showEmptyTip("收藏的故事会出现在这里喔.");

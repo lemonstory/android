@@ -166,7 +166,7 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
         }
         this.playStoryId = playStoryId;
         this.mCurrentPlayTime = currentPlayTime;
-        if (mRecyclerView != null) {
+        if (null != mRecyclerView) {
             this.mAdapter.setNewData(this.mCurrentStories);
         }
         isErr = false;

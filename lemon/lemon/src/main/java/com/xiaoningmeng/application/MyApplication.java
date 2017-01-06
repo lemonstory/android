@@ -194,9 +194,9 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
         CacheInterceptor cacheInterceptor = new CacheInterceptor();
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         if (!BuildConfig.DEBUG) {
-            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+            logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
         } else {
-            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+            logging.setLevel(HttpLoggingInterceptor.Level.NONE);
         }
 
         OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder()
