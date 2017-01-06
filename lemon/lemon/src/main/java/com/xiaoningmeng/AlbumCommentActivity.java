@@ -89,14 +89,14 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
         mEmptyHelper.setEmptyView(EmptyHelper.LOADING, true, getString(R.string.loading_tip));
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnLoadMoreListener(this);
-        mAdapter.openLoadMore(pageSize);
+        //mAdapter.openLoadMore(pageSize);
         isErr = false;
         AlbumCommentActivity.this.requestAlbumCommentData(Constant.DOWN, mStartCommentId, false);
 
         mRecyclerView.addOnItemTouchListener(
                 new OnItemChildClickListener() {
                     @Override
-                    public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                    public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 
                         Comment item = (Comment) adapter.getData().get(position);
                         String uid = item.getUid();
@@ -174,7 +174,7 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
                 } else {
                     isErr = true;
                     Toast.makeText(AlbumCommentActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
-                    mAdapter.showLoadMoreFailedView();
+                    mAdapter.loadMoreFail();
                     DebugUtils.e(response.toString());
                 }
 
@@ -185,7 +185,7 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
                 DebugUtils.e(t.toString());
                 isErr = true;
                 Toast.makeText(AlbumCommentActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
-                mAdapter.showLoadMoreFailedView();
+                mAdapter.loadMoreFail();
             }
         });
     }
@@ -222,7 +222,7 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
             public void run() {
 
                 if (mCurrentCounter >= mTotalCounter) {
-                    mAdapter.loadComplete();
+                    mAdapter.loadMoreComplete();
                     if (notLoadingView == null) {
                         notLoadingView = getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);
                     }
@@ -238,7 +238,7 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
                     } else {
                         isErr = true;
                         Toast.makeText(AlbumCommentActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
-                        mAdapter.showLoadMoreFailedView();
+                        mAdapter.loadMoreFail();
                     }
                 }
             }

@@ -196,7 +196,7 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
         if (!BuildConfig.DEBUG) {
             logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
         } else {
-            logging.setLevel(HttpLoggingInterceptor.Level.NONE);
+            logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
         }
 
         OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder()

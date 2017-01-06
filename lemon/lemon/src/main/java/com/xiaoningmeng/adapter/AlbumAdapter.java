@@ -24,11 +24,20 @@ public class AlbumAdapter extends BaseQuickAdapter<AlbumInfo, BaseViewHolder> {
 
     @Override
     protected void convert(BaseViewHolder helper, AlbumInfo item) {
+
+        String albumDesc = "";
+        if (null != item.getRecommenddesc() && !"".equals(item.getRecommenddesc())) {
+            albumDesc = item.getRecommenddesc();
+
+        } else if (null != item.getIntro() && !"".equals(item.getIntro())) {
+            albumDesc = item.getIntro();
+        }
+
         helper.setText(R.id.tv_album_title, item.getTitle() != null ? Html.fromHtml(item.getTitle()) : "")
                 .setVisible(R.id.tv_album_listen_num, !"0".equals(item.getListennum()) && null != item.getListennum())
                 .setText(R.id.tv_album_listen_num, null != item.getListennum() ? item.getListennum() : "")
-                .setVisible(R.id.tv_album_recommend, !"".equals(item.getRecommenddesc()) && null != item.getRecommenddesc())
-                .setText(R.id.tv_album_recommend,null != item.getRecommenddesc() ? item.getRecommenddesc() : "");
+                .setVisible(R.id.tv_album_recommend, !"".equals(albumDesc) && null != albumDesc)
+                .setText(R.id.tv_album_recommend, !"".equals(albumDesc) && null != albumDesc ? albumDesc : "");
 
         SimpleDraweeView coverImg = helper.getView(R.id.img_album_cover);
         String albumCover = item.getCover();

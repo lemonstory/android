@@ -131,7 +131,7 @@ public class AuthorAlbumsActivity extends BaseActivity implements BaseQuickAdapt
         mEmptyHelper = new EmptyHelper(this, mRecyclerView, mAdapter);
         mEmptyHelper.setEmptyView(EmptyHelper.LOADING, true, getString(R.string.loading_tip));
         mAdapter.setOnLoadMoreListener(this);
-        mAdapter.openLoadMore(pageSize);
+        //mAdapter.openLoadMore(pageSize);
         isErr = false;
         mRecyclerView.setAdapter(mAdapter);
         AuthorAlbumsActivity.this.requestAuthorAlbumsData(mAuthorId, mStartAlbumId, pageSize, true);
@@ -139,7 +139,7 @@ public class AuthorAlbumsActivity extends BaseActivity implements BaseQuickAdapt
         mRecyclerView.addOnItemTouchListener(
                 new OnItemChildClickListener() {
                     @Override
-                    public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                    public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 
                     }
 
@@ -215,7 +215,7 @@ public class AuthorAlbumsActivity extends BaseActivity implements BaseQuickAdapt
                     isErr = true;
                     Toast.makeText(AuthorAlbumsActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
                     if (mCurrentCounter > 0) {
-                        mAdapter.showLoadMoreFailedView();
+                        mAdapter.loadMoreFail();
                     } else {
                         mEmptyHelper.setEmptyView(EmptyHelper.EMPTY, true, getString(R.string.empty_tip));
                     }
@@ -229,7 +229,7 @@ public class AuthorAlbumsActivity extends BaseActivity implements BaseQuickAdapt
                 isErr = true;
                 Toast.makeText(AuthorAlbumsActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
                 if (mCurrentCounter > 0) {
-                    mAdapter.showLoadMoreFailedView();
+                    mAdapter.loadMoreFail();
                 } else {
                     mEmptyHelper.setEmptyView(EmptyHelper.EMPTY, true, getString(R.string.empty_tip));
                 }
@@ -246,7 +246,7 @@ public class AuthorAlbumsActivity extends BaseActivity implements BaseQuickAdapt
             public void run() {
 
                 if (mCurrentCounter >= mTotalCounter) {
-                    mAdapter.loadComplete();
+                    mAdapter.loadMoreComplete();
                     if (notLoadingView == null) {
                         notLoadingView = getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);
                     }
@@ -262,7 +262,7 @@ public class AuthorAlbumsActivity extends BaseActivity implements BaseQuickAdapt
                     } else {
                         isErr = true;
                         Toast.makeText(AuthorAlbumsActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
-                        mAdapter.showLoadMoreFailedView();
+                        mAdapter.loadMoreFail();
                     }
                 }
             }

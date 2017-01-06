@@ -1,7 +1,6 @@
 package com.xiaoningmeng.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
@@ -41,7 +40,7 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
 
     private RecyclerView mRecyclerView;
     private AblumPlayListAdapter mAdapter;
-    private int storysPage;
+    private int storysPage = 1;
     private int storysTotal;
     private List<Story> mStories;
     private List<Story> mCurrentStories;
@@ -55,7 +54,6 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
     private int delayMillis = 1000;
     private EmptyHelper mEmptyHelper;
     private boolean isErr;
-    private View notLoadingView;
 
 
     @Override
@@ -84,14 +82,13 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
         //mAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         mEmptyHelper = new EmptyHelper(getContext(), mRecyclerView, mAdapter);
         mEmptyHelper.setEmptyView(EmptyHelper.LOADING, false, getString(R.string.loading_tip));
-        notLoadingView = getActivity().getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnLoadMoreListener(this);
-        mAdapter.openLoadMore(pageSize);
+        mAdapter.setAutoLoadMoreSize(pageSize);
         ((SimpleItemAnimator) mRecyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         mRecyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
-            public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 
             }
 
@@ -171,8 +168,11 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
         }
         isErr = false;
 
-        if (this.mStories.size() < pageSize && this.mStories.size() > singleScreenItemNum) {
-            mAdapter.addFooterView(notLoadingView);
+        //this.mStories.size() > singleScreenItemNum
+        if (this.mStories.size() < pageSize) {
+
+            mAdapter.loadMoreEnd();
+            //mAdapter.setEnableLoadMore(false);
         }
     }
 
@@ -191,9 +191,9 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
 
                         StoryList data = response.body().getData();
                         storysTotal = Integer.parseInt(data.getTotal());
-                        if (storysTotal > 0 && data.getItems().size() > 0) {
+                        mCurrentStories = data.getItems();
+                        if (storysTotal > 0 && mCurrentStories.size() > 0) {
 
-                            mCurrentStories = data.getItems();
                             mAdapter.addData(mCurrentStories);
                             mStories = mAdapter.getData();
                         }
@@ -221,7 +221,7 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
         if (null != getActivity() && AblumDetailPlayListFragment.this.isAdded()) {
             Toast.makeText(getActivity(), R.string.network_err, Toast.LENGTH_LONG).show();
         }
-        mAdapter.showLoadMoreFailedView();
+        mAdapter.loadMoreFail();
     }
 
 
@@ -240,34 +240,30 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
     @Override
     public void onLoadMoreRequested() {
 
+        DebugUtils.d("##################### onLoadMoreRequested ########################");
         final int albumId = Integer.parseInt(this.albumInfo.getId());
-        mRecyclerView.post(new Runnable() {
+        mRecyclerView.postDelayed(new Runnable() {
             @Override
             public void run() {
 
                 int mAdapterItemsTotal = mAdapter.getData().size();
-                if (mAdapterItemsTotal >= storysTotal && mAdapterItemsTotal > singleScreenItemNum) {
-                    mAdapter.loadComplete();
-                    mAdapter.addFooterView(notLoadingView);
+                if (mAdapterItemsTotal >= storysTotal || mCurrentStories.size() == 0) {
+                    //数据全部加载完毕
+                    mAdapter.loadMoreEnd();
                 } else {
                     storysPage = storysPage + 1;
                     if (!isErr) {
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                requestAlbumStorysData(albumId, pageSize, storysPage);
-                            }
-                        }, delayMillis);
+                        requestAlbumStorysData(albumId, pageSize, storysPage);
+                        mAdapter.loadMoreComplete();
                     } else {
                         isErr = true;
                         if (null != getActivity() && AblumDetailPlayListFragment.this.isAdded()) {
                             Toast.makeText(getActivity(), R.string.network_err, Toast.LENGTH_LONG).show();
                         }
-                        mAdapter.showLoadMoreFailedView();
+                        mAdapter.loadMoreFail();
                     }
                 }
             }
-        });
-
+        }, delayMillis);
     }
 }

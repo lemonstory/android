@@ -84,7 +84,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
 
             @Override
-            public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
 
                 IRecyclerItem iRecyclerItem = mAdapter.getItem(position);
                 switch (iRecyclerItem.getItemType()) {

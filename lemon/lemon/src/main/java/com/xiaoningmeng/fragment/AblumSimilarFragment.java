@@ -17,13 +17,11 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.AlbumDetailActivity;
-import com.xiaoningmeng.CategoryActivity;
-import com.xiaoningmeng.adapter.AlbumAdapter;
-import com.xiaoningmeng.bean.AlbumInfo;
-import com.xiaoningmeng.bean.Index;
-import com.xiaoningmeng.manager.EmptyHelper;
 import com.xiaoningmeng.R;
+import com.xiaoningmeng.adapter.AlbumAdapter;
 import com.xiaoningmeng.base.BaseFragment;
+import com.xiaoningmeng.bean.AlbumInfo;
+import com.xiaoningmeng.manager.EmptyHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,7 +91,7 @@ public class AblumSimilarFragment extends BaseFragment {
         mRecyclerView.addOnItemTouchListener(
                 new OnItemChildClickListener() {
                     @Override
-                    public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                    public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 
 
                     }

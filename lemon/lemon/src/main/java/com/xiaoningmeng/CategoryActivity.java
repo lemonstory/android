@@ -92,7 +92,7 @@ public class CategoryActivity extends BaseActivity implements PlayObserver {
         mRecyclerView.addOnItemTouchListener(
                 new OnItemChildClickListener() {
                     @Override
-                    public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                    public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 
 
                     }
@@ -200,7 +200,7 @@ public class CategoryActivity extends BaseActivity implements PlayObserver {
 
                     DebugUtils.e(response.toString());
                     Toast.makeText(CategoryActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
-                    mAdapter.showLoadMoreFailedView();
+                    mAdapter.loadMoreFail();
                 }
             }
 
@@ -209,7 +209,7 @@ public class CategoryActivity extends BaseActivity implements PlayObserver {
 
                 DebugUtils.e(t.toString());
                 Toast.makeText(CategoryActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
-                mAdapter.showLoadMoreFailedView();
+                mAdapter.loadMoreFail();
             }
         });
     }

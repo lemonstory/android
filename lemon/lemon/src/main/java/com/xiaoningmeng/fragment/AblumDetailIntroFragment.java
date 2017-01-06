@@ -15,12 +15,11 @@ import android.widget.TextView;
 import com.baidu.mobads.AdView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.xiaoningmeng.R;
 import com.xiaoningmeng.TagActivity;
 import com.xiaoningmeng.adapter.TagAdapter;
-import com.xiaoningmeng.base.LazyFragment;
-
-import com.xiaoningmeng.R;
 import com.xiaoningmeng.base.BaseActivity;
+import com.xiaoningmeng.base.LazyFragment;
 import com.xiaoningmeng.bean.Tag;
 import com.xiaoningmeng.view.CollapsibleTextView;
 
@@ -92,10 +91,9 @@ public class AblumDetailIntroFragment extends LazyFragment {
         mTagAdapter = new TagAdapter(tagList);
         mRecyclerView.setAdapter(mTagAdapter);
         ((SimpleItemAnimator) mRecyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
-        mRecyclerView.addOnItemTouchListener(
-                new OnItemChildClickListener() {
+        mRecyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
                     @Override
-                    public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                    public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 
 
                     }

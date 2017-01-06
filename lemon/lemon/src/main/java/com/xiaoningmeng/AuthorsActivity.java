@@ -98,7 +98,7 @@ public class AuthorsActivity extends BaseActivity implements RequestLoadMoreList
         mEmptyHelper = new EmptyHelper(this, mRecyclerView, mAdapter);
         mEmptyHelper.setEmptyView(EmptyHelper.LOADING, true, getString(R.string.loading_tip));
         mAdapter.setOnLoadMoreListener(this);
-        mAdapter.openLoadMore(pageSize);
+        //mAdapter.openLoadMore(pageSize);
         isErr = false;
         mRecyclerView.setAdapter(mAdapter);
         AuthorsActivity.this.requestAuthorsData(mPage, pageSize, true);
@@ -106,7 +106,7 @@ public class AuthorsActivity extends BaseActivity implements RequestLoadMoreList
         mRecyclerView.addOnItemTouchListener(
                 new OnItemChildClickListener() {
                     @Override
-                    public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                    public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 
                     }
 
@@ -184,7 +184,7 @@ public class AuthorsActivity extends BaseActivity implements RequestLoadMoreList
                     isErr = true;
                     Toast.makeText(AuthorsActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
                     if (mCurrentCounter > 0) {
-                        mAdapter.showLoadMoreFailedView();
+                        mAdapter.loadMoreFail();
                     } else {
                         mEmptyHelper.setEmptyView(EmptyHelper.EMPTY, true, getString(R.string.empty_tip));
                     }
@@ -197,7 +197,7 @@ public class AuthorsActivity extends BaseActivity implements RequestLoadMoreList
                 isErr = true;
                 Toast.makeText(AuthorsActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
                 if (mCurrentCounter > 0) {
-                    mAdapter.showLoadMoreFailedView();
+                    mAdapter.loadMoreFail();
                 } else {
                     mEmptyHelper.setEmptyView(EmptyHelper.EMPTY, true, getString(R.string.empty_tip));
                 }
@@ -214,7 +214,7 @@ public class AuthorsActivity extends BaseActivity implements RequestLoadMoreList
             public void run() {
 
                 if (mCurrentCounter >= mTotalCounter) {
-                    mAdapter.loadComplete();
+                    mAdapter.loadMoreComplete();
                     if (notLoadingView == null) {
                         notLoadingView = getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);
                     }
@@ -231,7 +231,7 @@ public class AuthorsActivity extends BaseActivity implements RequestLoadMoreList
                     } else {
                         isErr = true;
                         Toast.makeText(AuthorsActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
-                        mAdapter.showLoadMoreFailedView();
+                        mAdapter.loadMoreFail();
                     }
                 }
             }
