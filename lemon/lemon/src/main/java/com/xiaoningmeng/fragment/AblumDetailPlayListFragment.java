@@ -57,12 +57,9 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View contentView = View.inflate(getActivity(),
-                R.layout.fragment_ablum_detail_playlist, null);
-        mRecyclerView = (RecyclerView) contentView
-                .findViewById(R.id.id_stickynavlayout_innerscrollview);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View contentView = View.inflate(getActivity(), R.layout.fragment_ablum_detail_playlist, null);
+        mRecyclerView = (RecyclerView) contentView.findViewById(R.id.id_stickynavlayout_innerscrollview);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mStories = new ArrayList<>();
@@ -79,7 +76,6 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
 
         mAdapter = new AblumPlayListAdapter(mCurrentStories);
         mAdapter.setPlayStoryId(playStoryId);
-        //mAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         mEmptyHelper = new EmptyHelper(getContext(), mRecyclerView, mAdapter);
         mEmptyHelper.setEmptyView(EmptyHelper.LOADING, false, getString(R.string.loading_tip));
         mRecyclerView.setAdapter(mAdapter);
@@ -167,12 +163,8 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
             this.mAdapter.setNewData(this.mCurrentStories);
         }
         isErr = false;
-
-        //this.mStories.size() > singleScreenItemNum
         if (this.mStories.size() < pageSize) {
-
-            mAdapter.loadMoreEnd();
-            //mAdapter.setEnableLoadMore(false);
+            mAdapter.loadMoreEnd(singleScreenItemNum >= this.mStories.size());
         }
     }
 
@@ -240,7 +232,6 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
     @Override
     public void onLoadMoreRequested() {
 
-        DebugUtils.d("##################### onLoadMoreRequested ########################");
         final int albumId = Integer.parseInt(this.albumInfo.getId());
         mRecyclerView.postDelayed(new Runnable() {
             @Override

@@ -7,7 +7,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -43,7 +42,6 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
     private String mStartCommentId = "0";
     private int pageSize = 20;
     private boolean isErr;
-    private View notLoadingView;
     private int delayMillis = 1000;
     private int mCurrentCounter = 0;
     private int mTotalCounter = 0;
@@ -89,7 +87,7 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
         mEmptyHelper.setEmptyView(EmptyHelper.LOADING, true, getString(R.string.loading_tip));
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnLoadMoreListener(this);
-        //mAdapter.openLoadMore(pageSize);
+        mAdapter.setAutoLoadMoreSize(pageSize);
         isErr = false;
         AlbumCommentActivity.this.requestAlbumCommentData(Constant.DOWN, mStartCommentId, false);
 
@@ -159,11 +157,8 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
                             mCurrentCounter = mAdapter.getData().size();
 
                             //数量不足page_size 显示加载完成view
-                            if (mCurrentCounter == mTotalCounter && mCurrentCounter < pageSize && singleScreenItemNum < mTotalCounter) {
-                                if (notLoadingView == null) {
-                                    notLoadingView = getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);
-                                }
-                                mAdapter.addFooterView(notLoadingView);
+                            if (mCurrentCounter == mTotalCounter && mCurrentCounter < pageSize) {
+                                mAdapter.loadMoreEnd(singleScreenItemNum >= mTotalCounter);
                             }
 
                         } else {
@@ -217,24 +212,16 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
     @Override
     public void onLoadMoreRequested() {
 
-        mRecyclerView.post(new Runnable() {
+        mRecyclerView.postDelayed(new Runnable() {
             @Override
             public void run() {
 
                 if (mCurrentCounter >= mTotalCounter) {
-                    mAdapter.loadMoreComplete();
-                    if (notLoadingView == null) {
-                        notLoadingView = getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);
-                    }
-                    mAdapter.addFooterView(notLoadingView);
+                    mAdapter.loadMoreEnd();
                 } else {
                     if (!isErr) {
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                AlbumCommentActivity.this.requestAlbumCommentData(Constant.DOWN, mStartCommentId, false);
-                            }
-                        }, delayMillis);
+                        AlbumCommentActivity.this.requestAlbumCommentData(Constant.DOWN, mStartCommentId, false);
+                        mAdapter.loadMoreComplete();
                     } else {
                         isErr = true;
                         Toast.makeText(AlbumCommentActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
@@ -242,6 +229,6 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
                     }
                 }
             }
-        });
+        }, delayMillis);
     }
 }
