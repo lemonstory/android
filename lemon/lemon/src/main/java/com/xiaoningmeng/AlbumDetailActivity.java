@@ -319,11 +319,6 @@ public class AlbumDetailActivity extends BaseActivity implements
                         }
                         AlbumDetailActivity.this.notify(PlayerManager.getInstance().getPlayingStory());
 
-                    } else if (!response.body().isSuccessful()) {
-
-                        int code = response.body().getCode();
-                        String message = response.body().getDesc();
-                        mPlayListFragment.onFailure(code, message);
                     } else {
                         DebugUtils.e(response.toString());
                     }

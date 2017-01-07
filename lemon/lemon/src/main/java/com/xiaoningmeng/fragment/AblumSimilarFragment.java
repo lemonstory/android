@@ -21,7 +21,6 @@ import com.xiaoningmeng.R;
 import com.xiaoningmeng.adapter.AlbumAdapter;
 import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.bean.AlbumInfo;
-import com.xiaoningmeng.manager.EmptyHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +29,6 @@ public class AblumSimilarFragment extends BaseFragment {
 
     private RecyclerView mRecyclerView;
     private List<AlbumInfo> albumList;
-    private EmptyHelper mEmptyHelper;
     private AlbumAdapter mAdapter;
     private Boolean albumClickable;
     private Context mContext;
@@ -47,6 +45,7 @@ public class AblumSimilarFragment extends BaseFragment {
         mRecyclerView.setLayoutManager(manager);
         albumList = new ArrayList<>();
         initAdapter();
+        mAdapter.setEmptyView(R.layout.loading_view, (ViewGroup) mRecyclerView.getParent());
         if (albumList.size() > 0) {
             loadingData(albumList);
         }
@@ -79,11 +78,6 @@ public class AblumSimilarFragment extends BaseFragment {
     public void initAdapter() {
 
         mAdapter = new AlbumAdapter(albumList);
-        //mAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
-        mEmptyHelper = new EmptyHelper(getContext(), mRecyclerView, mAdapter);
-        mEmptyHelper.setEmptyView(EmptyHelper.LOADING, false, getString(R.string.loading_tip));
-        View footerView = this.getFooterView();
-        mAdapter.addFooterView(footerView, 0);
         mRecyclerView.setAdapter(mAdapter);
         ((SimpleItemAnimator) mRecyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         AblumSimilarFragment.ItemOffsetDecoration itemDecoration = new AblumSimilarFragment.ItemOffsetDecoration(mContext, R.dimen.page_offset,R.dimen.item_offset);

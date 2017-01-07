@@ -32,7 +32,6 @@ import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.IRecyclerItem;
 import com.xiaoningmeng.bean.Index;
-import com.xiaoningmeng.manager.EmptyHelper;
 import com.xiaoningmeng.presenter.DiscoverPresenter;
 import com.xiaoningmeng.presenter.contract.DiscoverConstract;
 import com.xiaoningmeng.utils.AppUtils;
@@ -51,7 +50,6 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
     private List<IRecyclerItem> mIndexDatas;
     private DiscoverPresenter mPresenter;
     private IndexAdapter mAdapter;
-    private EmptyHelper mEmptyHelper;
     private Boolean albumClickable;
 
     @Override
@@ -63,7 +61,6 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
         mRecyclerView.setHasFixedSize(true);
         mIndexDatas = new ArrayList<>();
         mAdapter = new IndexAdapter(mIndexDatas);
-        //mAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         mAdapter.isFirstOnly(true);
         int spanCount = 4;
         final GridLayoutManager manager = new GridLayoutManager(getActivity(), spanCount);
@@ -74,13 +71,9 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
                 return mIndexDatas.get(position).getSpanSize();
             }
         });
-        mEmptyHelper = new EmptyHelper(getContext(), mRecyclerView, mAdapter);
-        mEmptyHelper.setEmptyView(EmptyHelper.LOADING, true, getString(R.string.loading_tip));
         mRecyclerView.setAdapter(mAdapter);
         DiscoverFragment.ItemOffsetDecoration itemDecoration = new DiscoverFragment.ItemOffsetDecoration(mContext, R.dimen.page_offset, R.dimen.item_offset);
         mRecyclerView.addItemDecoration(itemDecoration);
-        new DiscoverPresenter(getActivity(), this).subscribe();
-        mPresenter.requestIndexData();
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
 
             @Override
@@ -155,6 +148,15 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
             }
         });
         return contentView;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+
+        super.onActivityCreated(savedInstanceState);
+        new DiscoverPresenter(getActivity(), this).subscribe();
+        mAdapter.setEmptyView(R.layout.loading_view, (ViewGroup) mRecyclerView.getParent());
+        mPresenter.requestIndexData();
     }
 
     @Override
@@ -356,5 +358,3 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
         }
     }
 }
-
-

@@ -7,11 +7,13 @@ import android.support.v7.widget.SimpleItemAnimator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.umeng.analytics.MobclickAgent;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.adapter.AblumPlayListAdapter;
 import com.xiaoningmeng.base.BaseFragment;
@@ -20,10 +22,10 @@ import com.xiaoningmeng.bean.AudioDownLoad;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.Story;
 import com.xiaoningmeng.bean.StoryList;
+import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.download.DownLoadClientImpl;
 import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
-import com.xiaoningmeng.manager.EmptyHelper;
 import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.utils.DebugUtils;
 
@@ -51,8 +53,6 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
     private int pageSize = 50;
     //单屏显示的数据量
     private int singleScreenItemNum = 6;
-    private int delayMillis = 1000;
-    private EmptyHelper mEmptyHelper;
     private boolean isErr;
 
 
@@ -64,6 +64,7 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mStories = new ArrayList<>();
         initAdapter();
+        setLoadingView();
         return contentView;
     }
 
@@ -76,8 +77,7 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
 
         mAdapter = new AblumPlayListAdapter(mCurrentStories);
         mAdapter.setPlayStoryId(playStoryId);
-        mEmptyHelper = new EmptyHelper(getContext(), mRecyclerView, mAdapter);
-        mEmptyHelper.setEmptyView(EmptyHelper.LOADING, false, getString(R.string.loading_tip));
+        isErr = false;
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnLoadMoreListener(this);
         mAdapter.setAutoLoadMoreSize(pageSize);
@@ -133,6 +133,19 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
                 }
             }
         });
+    }
+
+    private void setLoadingView() {
+
+        ViewGroup viewGroup = (ViewGroup) mRecyclerView.getParent();
+        View loadingView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.loading_view, viewGroup, false);
+        AVLoadingIndicatorView aviImg = (AVLoadingIndicatorView) loadingView.findViewById(R.id.img_avi);
+        ViewGroup.MarginLayoutParams aviImgMlp = (ViewGroup.MarginLayoutParams) aviImg.getLayoutParams();
+        aviImgMlp.setMargins(0, 80, 20, 0);
+        TextView loadingTipTv = (TextView) loadingView.findViewById(R.id.tv_loading_tip);
+        ViewGroup.MarginLayoutParams loadingTipTvMlp = (ViewGroup.MarginLayoutParams) loadingTipTv.getLayoutParams();
+        loadingTipTvMlp.setMargins(0, 90, 280, 0);
+        mAdapter.setEmptyView(loadingView);
     }
 
 
@@ -191,7 +204,11 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
                         }
                     } else if (!response.body().isSuccessful()) {
 
-                        AblumDetailPlayListFragment.this.onFailure(response.body().getCode(), response.body().getDesc());
+                        isErr = true;
+                        if (null != getActivity() && AblumDetailPlayListFragment.this.isAdded()) {
+                            Toast.makeText(getActivity(), response.body().getDesc(), Toast.LENGTH_SHORT).show();
+                        }
+                        mAdapter.loadMoreFail();
                     } else {
                         DebugUtils.e(response.toString());
                     }
@@ -204,18 +221,7 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
                 }
             });
         }
-
     }
-
-    public void onFailure(int statusCode, String failureResponse) {
-
-        isErr = true;
-        if (null != getActivity() && AblumDetailPlayListFragment.this.isAdded()) {
-            Toast.makeText(getActivity(), R.string.network_err, Toast.LENGTH_LONG).show();
-        }
-        mAdapter.loadMoreFail();
-    }
-
 
     public void notifyDownloadView(AudioDownLoad t) {
         if (mStories != null) {
@@ -255,6 +261,6 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
                     }
                 }
             }
-        }, delayMillis);
+        }, Constant.DELAY_MILLIS);
     }
 }

@@ -7,6 +7,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -19,7 +21,6 @@ import com.xiaoningmeng.bean.CommentList;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
-import com.xiaoningmeng.manager.EmptyHelper;
 import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
 
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private EmptyHelper mEmptyHelper;
+    private View notDataView;
     private AblumCommentAdapter mAdapter;
     private List<Comment> mCurrentComments = new ArrayList<>();
     private String mAblumId;
@@ -82,14 +83,12 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
 
     private void initAdapter() {
 
-        mEmptyHelper = new EmptyHelper(this, mRecyclerView, mAdapter);
-        mEmptyHelper.setEmptyView(EmptyHelper.LOADING, true, getString(R.string.loading_tip));
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnLoadMoreListener(this);
         mAdapter.setAutoLoadMoreSize(pageSize);
         isErr = false;
+        notDataView = getLayoutInflater().inflate(R.layout.empty_view, (ViewGroup) mRecyclerView.getParent(), false);
         AlbumCommentActivity.this.requestAlbumCommentData(Constant.DOWN, mStartCommentId, false);
-
         mRecyclerView.addOnItemTouchListener(
                 new OnItemChildClickListener() {
                     @Override
@@ -137,7 +136,8 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
 
                     CommentList data = response.body().getData();
                     if (data != null) {
-                        if (data.getTotal() != null && Integer.parseInt(data.getTotal()) > 0) {
+
+                        if (data.getTotal() != null && Integer.parseInt(data.getTotal()) >= 0) {
                             mTotalCounter = Integer.parseInt(data.getTotal());
                             String title = String.format("评论(%s)", mTotalCounter);
                             AlbumCommentActivity.this.setTitleName(title);
@@ -161,7 +161,9 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
                             }
 
                         } else {
-                            mEmptyHelper.setEmptyView(EmptyHelper.EMPTY, true, getString(R.string.empty_album_comment));
+                            TextView emptyTip = (TextView) notDataView.findViewById(R.id.tv_empty_tip);
+                            emptyTip.setText(getString(R.string.empty_album_comment));
+                            mAdapter.setEmptyView(notDataView);
                         }
                     }
 
@@ -171,7 +173,6 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
                     mAdapter.loadMoreFail();
                     DebugUtils.e(response.toString());
                 }
-
             }
 
             @Override
@@ -201,7 +202,6 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
             public void run() {
                 mStartCommentId = "0";
                 AlbumCommentActivity.this.requestAlbumCommentData(Constant.DOWN, mStartCommentId, true);
-                mAdapter.removeAllFooterView();
                 mSwipeRefreshLayout.setRefreshing(false);
                 isErr = false;
             }

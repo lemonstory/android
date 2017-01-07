@@ -38,8 +38,8 @@ public class EmptyHelper {
         switch (emptyStatus){
             case EMPTY:
             case FAILURE:
-                emptyView = mInflater.inflate(isFullScreen ? R.layout.layout_empty
-                        :R.layout.layout_empty2,(ViewGroup) mRecyclerView.getParent(),false);
+                emptyView = mInflater.inflate(isFullScreen ? R.layout.loading_view
+                        : R.layout.empty_view, (ViewGroup) mRecyclerView.getParent(), false);
                 break;
             case LOADING:
             default:

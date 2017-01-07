@@ -32,7 +32,6 @@ import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
-import com.xiaoningmeng.manager.EmptyHelper;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
@@ -50,7 +49,6 @@ public class AuthorAlbumsActivity extends BaseActivity implements BaseQuickAdapt
 
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private EmptyHelper mEmptyHelper;
     private ImageView mWaveImg;
     private AuthorAlbumsAdapter mAdapter;
     private List<AlbumInfo> mCurrentAlbums;
@@ -64,11 +62,14 @@ public class AuthorAlbumsActivity extends BaseActivity implements BaseQuickAdapt
     private Author mAuthorObj = null;
     private int mStartAlbumId = 0;
     private boolean isErr;
-    private View notLoadingView;
     private View mHeaderView;
+
+    private View notDataView;
+    private View errorView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_author_albums);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
@@ -83,6 +84,7 @@ public class AuthorAlbumsActivity extends BaseActivity implements BaseQuickAdapt
         Intent intent = this.getIntent();
         parseIntent(intent);
         initAdapter();
+        onRefresh();
         mHeaderView = getHeaderView();
         mAdapter.addHeaderView(mHeaderView);
         this.setHeaderViewData(mAuthorObj);
@@ -127,14 +129,10 @@ public class AuthorAlbumsActivity extends BaseActivity implements BaseQuickAdapt
     public void initAdapter() {
 
         mAdapter = new AuthorAlbumsAdapter(mCurrentAlbums);
-        mEmptyHelper = new EmptyHelper(this, mRecyclerView, mAdapter);
-        mEmptyHelper.setEmptyView(EmptyHelper.LOADING, true, getString(R.string.loading_tip));
         mAdapter.setOnLoadMoreListener(this);
-        //mAdapter.openLoadMore(pageSize);
+        notDataView = getLayoutInflater().inflate(R.layout.empty_view, (ViewGroup) mRecyclerView.getParent(), false);
         isErr = false;
         mRecyclerView.setAdapter(mAdapter);
-        AuthorAlbumsActivity.this.requestAuthorAlbumsData(mAuthorId, mStartAlbumId, pageSize, true);
-
         mRecyclerView.addOnItemTouchListener(
                 new OnItemChildClickListener() {
                     @Override
@@ -157,6 +155,14 @@ public class AuthorAlbumsActivity extends BaseActivity implements BaseQuickAdapt
                     }
                 }
         );
+
+        errorView = getLayoutInflater().inflate(R.layout.error_view, (ViewGroup) mRecyclerView.getParent(), false);
+        errorView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onRefresh();
+            }
+        });
     }
 
 
@@ -189,23 +195,21 @@ public class AuthorAlbumsActivity extends BaseActivity implements BaseQuickAdapt
                             mStartAlbumId = Integer.parseInt(lastAlbumItem.getId());
 
                             if (isRefreshing) {
-
                                 mAdapter.setNewData(mCurrentAlbums);
                             } else {
-
                                 mAdapter.addData(mCurrentAlbums);
                             }
 
                             //数量不足page_size 显示加载完成view
                             if (mCurrentCounter < pageSize && mTotalCounter > singleScreenItemNum) {
-                                if (notLoadingView == null) {
-                                    notLoadingView = getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);
-                                }
-                                mAdapter.addFooterView(notLoadingView);
+                                mAdapter.loadMoreEnd();
                             }
 
                         } else {
-                            mEmptyHelper.setEmptyView(EmptyHelper.EMPTY, true, getString(R.string.empty_tip));
+
+                            TextView emptyTip = (TextView) notDataView.findViewById(R.id.tv_empty_tip);
+                            emptyTip.setText(getString(R.string.empty_tip));
+                            mAdapter.setEmptyView(notDataView);
                         }
                     }
                 } else {
@@ -215,8 +219,6 @@ public class AuthorAlbumsActivity extends BaseActivity implements BaseQuickAdapt
                     Toast.makeText(AuthorAlbumsActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
                     if (mCurrentCounter > 0) {
                         mAdapter.loadMoreFail();
-                    } else {
-                        mEmptyHelper.setEmptyView(EmptyHelper.EMPTY, true, getString(R.string.empty_tip));
                     }
                 }
             }
@@ -229,8 +231,6 @@ public class AuthorAlbumsActivity extends BaseActivity implements BaseQuickAdapt
                 Toast.makeText(AuthorAlbumsActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
                 if (mCurrentCounter > 0) {
                     mAdapter.loadMoreFail();
-                } else {
-                    mEmptyHelper.setEmptyView(EmptyHelper.EMPTY, true, getString(R.string.empty_tip));
                 }
             }
         });
@@ -245,11 +245,7 @@ public class AuthorAlbumsActivity extends BaseActivity implements BaseQuickAdapt
             public void run() {
 
                 if (mCurrentCounter >= mTotalCounter) {
-                    mAdapter.loadMoreComplete();
-                    if (notLoadingView == null) {
-                        notLoadingView = getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);
-                    }
-                    mAdapter.addFooterView(notLoadingView);
+                    mAdapter.loadMoreEnd();
                 } else {
                     if (!isErr) {
                         new Handler().postDelayed(new Runnable() {
@@ -271,14 +267,20 @@ public class AuthorAlbumsActivity extends BaseActivity implements BaseQuickAdapt
     @Override
     public void onRefresh() {
 
+        mAdapter.setEmptyView(R.layout.loading_view, (ViewGroup) mRecyclerView.getParent());
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mStartAlbumId = 0;
-                AuthorAlbumsActivity.this.requestAuthorAlbumsData(mAuthorId, mStartAlbumId, pageSize, true);
-                mAdapter.removeAllFooterView();
-                mSwipeRefreshLayout.setRefreshing(false);
-                isErr = false;
+
+                if (isErr) {
+                    mAdapter.setEmptyView(errorView);
+                    isErr = false;
+                } else {
+                    mStartAlbumId = 0;
+                    AuthorAlbumsActivity.this.requestAuthorAlbumsData(mAuthorId, mStartAlbumId, pageSize, true);
+                    mSwipeRefreshLayout.setRefreshing(false);
+                    isErr = false;
+                }
             }
         }, Constant.DELAY_MILLIS);
     }

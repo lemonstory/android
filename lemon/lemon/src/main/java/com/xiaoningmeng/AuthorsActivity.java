@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -23,7 +24,6 @@ import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
-import com.xiaoningmeng.manager.EmptyHelper;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
@@ -42,7 +42,6 @@ public class AuthorsActivity extends BaseActivity implements RequestLoadMoreList
 
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private EmptyHelper mEmptyHelper;
     private ImageView mWaveImg;
     private AuthorAdapter mAdapter;
     private List<Author> mCurrentAuthors;
@@ -54,8 +53,12 @@ public class AuthorsActivity extends BaseActivity implements RequestLoadMoreList
     private int pageSize = 50;
     private boolean isErr;
 
+    private View notDataView;
+    private View errorView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authors);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
@@ -69,6 +72,7 @@ public class AuthorsActivity extends BaseActivity implements RequestLoadMoreList
         setRightHeadIcon(R.drawable.ic_player_flag_wave_01);
         setTitleName("作者");
         initAdapter();
+        onRefresh();
     }
 
     @Override
@@ -95,14 +99,10 @@ public class AuthorsActivity extends BaseActivity implements RequestLoadMoreList
     public void initAdapter() {
 
         mAdapter = new AuthorAdapter(R.layout.item_author_horizontal, mCurrentAuthors);
-        mEmptyHelper = new EmptyHelper(this, mRecyclerView, mAdapter);
-        mEmptyHelper.setEmptyView(EmptyHelper.LOADING, true, getString(R.string.loading_tip));
         mAdapter.setOnLoadMoreListener(this);
-        //mAdapter.openLoadMore(pageSize);
+        notDataView = getLayoutInflater().inflate(R.layout.empty_view, (ViewGroup) mRecyclerView.getParent(), false);
         isErr = false;
         mRecyclerView.setAdapter(mAdapter);
-        AuthorsActivity.this.requestAuthorsData(mPage, pageSize, true);
-
         mRecyclerView.addOnItemTouchListener(
                 new OnItemChildClickListener() {
                     @Override
@@ -134,6 +134,14 @@ public class AuthorsActivity extends BaseActivity implements RequestLoadMoreList
                     }
                 }
         );
+
+        errorView = getLayoutInflater().inflate(R.layout.error_view, (ViewGroup) mRecyclerView.getParent(), false);
+        errorView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onRefresh();
+            }
+        });
     }
 
     private void requestAuthorsData(int page, final int pageSize, final Boolean isRefreshing) {
@@ -168,14 +176,14 @@ public class AuthorsActivity extends BaseActivity implements RequestLoadMoreList
 
                             //数量不足page_size 显示加载完成view
                             if (mCurrentCounter < pageSize) {
-                                if (notLoadingView == null) {
-                                    notLoadingView = getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);
-                                }
-                                mAdapter.addFooterView(notLoadingView);
+                                mAdapter.loadMoreEnd();
                             }
 
                         } else {
-                            mEmptyHelper.setEmptyView(EmptyHelper.EMPTY, true, getString(R.string.empty_tip));
+
+                            TextView emptyTip = (TextView) notDataView.findViewById(R.id.tv_empty_tip);
+                            emptyTip.setText(getString(R.string.empty_tip));
+                            mAdapter.setEmptyView(notDataView);
                         }
                     }
 
@@ -185,8 +193,6 @@ public class AuthorsActivity extends BaseActivity implements RequestLoadMoreList
                     Toast.makeText(AuthorsActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
                     if (mCurrentCounter > 0) {
                         mAdapter.loadMoreFail();
-                    } else {
-                        mEmptyHelper.setEmptyView(EmptyHelper.EMPTY, true, getString(R.string.empty_tip));
                     }
                 }
             }
@@ -198,8 +204,6 @@ public class AuthorsActivity extends BaseActivity implements RequestLoadMoreList
                 Toast.makeText(AuthorsActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
                 if (mCurrentCounter > 0) {
                     mAdapter.loadMoreFail();
-                } else {
-                    mEmptyHelper.setEmptyView(EmptyHelper.EMPTY, true, getString(R.string.empty_tip));
                 }
             }
         });
@@ -241,14 +245,21 @@ public class AuthorsActivity extends BaseActivity implements RequestLoadMoreList
     @Override
     public void onRefresh() {
 
+        mAdapter.setEmptyView(R.layout.loading_view, (ViewGroup) mRecyclerView.getParent());
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mPage = 1;
-                AuthorsActivity.this.requestAuthorsData(mPage, pageSize, true);
-                mAdapter.removeAllFooterView();
-                mSwipeRefreshLayout.setRefreshing(false);
-                isErr = false;
+
+                if (isErr) {
+                    mAdapter.setEmptyView(errorView);
+                    isErr = false;
+                } else {
+                    mPage = 1;
+                    AuthorsActivity.this.requestAuthorsData(mPage, pageSize, true);
+                    mAdapter.removeAllFooterView();
+                    mSwipeRefreshLayout.setRefreshing(false);
+                    isErr = false;
+                }
             }
         }, Constant.DELAY_MILLIS);
     }

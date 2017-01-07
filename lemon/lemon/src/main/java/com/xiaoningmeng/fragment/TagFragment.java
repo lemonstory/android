@@ -101,7 +101,6 @@ public class TagFragment extends LazyFragment implements SwipeRefreshLayout.OnRe
         mQuickAdapter.setOnLoadMoreListener(this);
         mQuickAdapter.setAutoLoadMoreSize(PageSize);
         isErr = false;
-        setEmptyView(true);
         mQuickAdapter.isFirstOnly(true);
         TagFragment.ItemOffsetDecoration itemDecoration = new TagFragment.ItemOffsetDecoration(mContext, R.dimen.page_offset, R.dimen.item_offset);
         mRecyclerView.addItemDecoration(itemDecoration);
@@ -152,7 +151,7 @@ public class TagFragment extends LazyFragment implements SwipeRefreshLayout.OnRe
                     if (direction == Constant.FRIST || direction == Constant.UP) {
                         mRefreshLayout.setRefreshing(false);
                         if (data == null || data.getTagalbumlist() == null || data.getTagalbumlist().size() == 0) {
-                            setEmptyView(false);
+                            mQuickAdapter.setEmptyView(R.layout.empty_view, (ViewGroup) mRecyclerView.getParent());
                         }
                     }
                     if (data != null && data.getTagalbumlist() != null) {
@@ -192,12 +191,13 @@ public class TagFragment extends LazyFragment implements SwipeRefreshLayout.OnRe
             return;
         }
         mRefreshLayout.setRefreshing(true);
-        requestData(Constant.FRIST, Constant.FRIST_ID, true);
+        onRefresh();
     }
 
     @Override
     public void onRefresh() {
 
+        mQuickAdapter.setEmptyView(R.layout.loading_view, (ViewGroup) mRecyclerView.getParent());
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -209,7 +209,6 @@ public class TagFragment extends LazyFragment implements SwipeRefreshLayout.OnRe
                 } else {
                     requestData(Constant.FRIST, Constant.FRIST_ID, false);
                 }
-                mQuickAdapter.removeAllFooterView();
                 mRefreshLayout.setRefreshing(false);
                 isErr = false;
             }
@@ -245,24 +244,6 @@ public class TagFragment extends LazyFragment implements SwipeRefreshLayout.OnRe
                 }
             }
         }, Constant.DELAY_MILLIS);
-    }
-
-    public void setEmptyView(boolean isLoading) {
-        View emptyView;
-        if (isLoading) {
-            emptyView = mInflater.inflate(R.layout.layout_loading2, (ViewGroup) mRecyclerView.getParent(), false);
-        } else {
-            emptyView = mInflater.inflate(R.layout.layout_empty, (ViewGroup) mRecyclerView.getParent(), false);
-        }
-        changedView(emptyView);
-    }
-
-
-    private void changedView(View view) {
-        if (mQuickAdapter.getEmptyView() != view) {
-            mQuickAdapter.setEmptyView(view);
-            mQuickAdapter.notifyItemChanged(0);
-        }
     }
 
     //http://stackoverflow.com/questions/28531996/android-recyclerview-gridlayoutmanager-column-spacing

@@ -28,7 +28,6 @@ import com.xiaoningmeng.bean.AlbumRecommend;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
-import com.xiaoningmeng.manager.EmptyHelper;
 import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.ArrayList;
@@ -53,11 +52,9 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
     private AblumRecommendAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private EmptyHelper mEmptyHelper;
     private int mCurrentPage = 1;
     private int pageSize = 20;
     private boolean isErr;
-    private View notLoadingView;
     private List<AlbumInfo> mAlbumItems;
     private String recommendUrl = "";
     private int minAge = Constant.MIN_AGE;
@@ -102,8 +99,8 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
         isPrepared = true;
         //TODO: 2(3)次往返左右滑动到该fragment时isVisible会为false. bug!!!
         isVisible = true;
-        lazyLoad();
         initAdapter();
+        lazyLoad();
         return contentView;
     }
 
@@ -133,10 +130,8 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
         mAlbumItems = new ArrayList<>();
         mAdapter = new AblumRecommendAdapter(mAlbumItems);
         mRecyclerView.setAdapter(mAdapter);
-        mEmptyHelper = new EmptyHelper(getActivity(), mRecyclerView, mAdapter);
-        mEmptyHelper.setEmptyView(EmptyHelper.LOADING, true, getString(R.string.loading_tip));
         mAdapter.setOnLoadMoreListener(this);
-        //mAdapter.openLoadMore(pageSize);
+        mAdapter.setAutoLoadMoreSize(pageSize);
         isErr = false;
         AlbumRecommendFragment.ItemOffsetDecoration itemDecoration = new AlbumRecommendFragment.ItemOffsetDecoration(mContext, R.dimen.page_offset, R.dimen.item_offset);
         mRecyclerView.addItemDecoration(itemDecoration);
@@ -184,6 +179,7 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
     @Override
     public void onRefresh() {
 
+        mAdapter.setEmptyView(R.layout.loading_view, (ViewGroup) mRecyclerView.getParent());
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -220,16 +216,7 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
                         mSwipeRefreshLayout.setRefreshing(false);
 
                         if (1 == page && mAlbumItems.size() < pageSize) {
-                            mAdapter.loadMoreComplete();
-                            if (notLoadingView == null) {
-                                notLoadingView = getActivity().getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);
-                            }
-                            if (notLoadingView != null && notLoadingView.getParent() != null) {
-                                {
-                                    ((ViewGroup) notLoadingView.getParent()).removeView(notLoadingView);
-                                }
-                            }
-                            mAdapter.addFooterView(notLoadingView);
+                            mAdapter.loadMoreEnd();
                         }
                     } else {
                         DebugUtils.e(response.toString());
@@ -258,18 +245,6 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
             @Override
             public void run() {
 
-                if (mAlbumItems.size() < pageSize) {
-                    mAdapter.loadMoreComplete();
-                    if (notLoadingView == null) {
-                        notLoadingView = getActivity().getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);
-                    }
-                    if (notLoadingView != null && notLoadingView.getParent() != null) {
-                        {
-                            ((ViewGroup) notLoadingView.getParent()).removeView(notLoadingView);
-                        }
-                    }
-                    mAdapter.addFooterView(notLoadingView);
-                } else {
                     if (!isErr) {
                         new Handler().postDelayed(new Runnable() {
                             @Override
@@ -283,7 +258,7 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
                         Toast.makeText(getActivity(), R.string.network_err, Toast.LENGTH_LONG).show();
                         mAdapter.loadMoreFail();
                     }
-                }
+
             }
         });
     }

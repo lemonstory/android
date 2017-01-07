@@ -11,7 +11,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -24,7 +26,6 @@ import com.xiaoningmeng.bean.IRecyclerItem;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
-import com.xiaoningmeng.manager.EmptyHelper;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
@@ -45,9 +46,9 @@ public class CategoryActivity extends BaseActivity implements PlayObserver {
     private Context mContext;
     private RecyclerView mRecyclerView;
     private CategoryAdapter mAdapter;
-    private EmptyHelper mEmptyHelper;
     private List<IRecyclerItem> mCategoryDatas;
     private ImageView mWaveImg;
+    private View notDataView;
 
 
     @Override
@@ -64,18 +65,15 @@ public class CategoryActivity extends BaseActivity implements PlayObserver {
         PlayerManager.getInstance().register(this);
         setRightHeadIcon(R.drawable.ic_player_flag_wave_01);
         initAdapter();
+        mAdapter.setEmptyView(R.layout.loading_view, (ViewGroup) mRecyclerView.getParent());
         requestCategoryData();
     }
 
 
     public void initAdapter() {
 
+        notDataView = getLayoutInflater().inflate(R.layout.empty_view, (ViewGroup) mRecyclerView.getParent(), false);
         mAdapter = new CategoryAdapter(this, mCategoryDatas);
-        //mAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
-        mEmptyHelper = new EmptyHelper(this, mRecyclerView, mAdapter);
-        mEmptyHelper.setEmptyView(EmptyHelper.LOADING, false, getString(R.string.loading_tip));
-        View footerView = this.getFooterView();
-        mAdapter.addFooterView(footerView, 0);
         int spanCount = 4;
         GridLayoutManager manager = new GridLayoutManager(this, spanCount);
         mRecyclerView.setLayoutManager(manager);
@@ -192,9 +190,12 @@ public class CategoryActivity extends BaseActivity implements PlayObserver {
                             }
                         }
                         mAdapter.setNewData(mCategoryDatas);
+                        mAdapter.loadMoreEnd();
 
                     } else {
-                        mEmptyHelper.setEmptyView(EmptyHelper.EMPTY, true, getString(R.string.empty_tip));
+                        TextView emptyTip = (TextView) notDataView.findViewById(R.id.tv_empty_tip);
+                        emptyTip.setText(getString(R.string.empty_tip));
+                        mAdapter.setEmptyView(notDataView);
                     }
                 } else {
 
