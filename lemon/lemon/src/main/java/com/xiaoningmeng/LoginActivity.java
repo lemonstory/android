@@ -328,7 +328,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                         }
                         enterHomeActivity();
                     } catch (Exception e) {
-                        Toast.makeText(LoginActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(LoginActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
                         e.printStackTrace();
                     }
                 }

@@ -23,6 +23,7 @@ import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.Province;
 import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.bean.Zone;
+import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
@@ -99,7 +100,7 @@ public class AccountActivity extends BasePohotoActivity implements
                 setLoadingTip("修改中");
 
             }
-        }, 500);
+        }, Constant.DELAY_MILLIS);
     }
 
     private void setUserView() {

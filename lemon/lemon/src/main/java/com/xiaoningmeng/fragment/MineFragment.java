@@ -14,6 +14,7 @@ import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.AlbumDetailActivity;
 import com.xiaoningmeng.DownloadActivity;
 import com.xiaoningmeng.FavActivity;
+import com.xiaoningmeng.LoginActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.adapter.MineHistoryAdapter;
 import com.xiaoningmeng.auth.UserAuth;
@@ -245,6 +246,8 @@ public class MineFragment extends BaseFragment implements OnClickListener,XListV
 		case R.id.rl_mine_fav:
 			if (UserAuth.getInstance().isLogin(mContext)) {
 				((BaseActivity) getActivity()).startActivityForNew(new Intent(getActivity(),FavActivity.class));
+			} else {
+				((BaseActivity) getActivity()).startActivityForNew(new Intent(getActivity(), LoginActivity.class));
 			}
 			break;
 		default:
