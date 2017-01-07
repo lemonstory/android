@@ -42,7 +42,6 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
     private String mStartCommentId = "0";
     private int pageSize = 20;
     private boolean isErr;
-    private int delayMillis = 1000;
     private int mCurrentCounter = 0;
     private int mTotalCounter = 0;
     private int singleScreenItemNum = 6;
@@ -206,7 +205,7 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
                 mSwipeRefreshLayout.setRefreshing(false);
                 isErr = false;
             }
-        }, delayMillis);
+        }, Constant.DELAY_MILLIS);
     }
 
     @Override
@@ -229,6 +228,6 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
                     }
                 }
             }
-        }, delayMillis);
+        }, Constant.DELAY_MILLIS);
     }
 }

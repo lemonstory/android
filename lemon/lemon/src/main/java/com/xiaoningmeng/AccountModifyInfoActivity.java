@@ -35,6 +35,7 @@ import com.xiaoningmeng.bean.City;
 import com.xiaoningmeng.bean.Province;
 import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.bean.Zone;
+import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.db.AreaDao;
 import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
@@ -98,7 +99,7 @@ public class AccountModifyInfoActivity extends BaseActivity implements
                 setLoadingTip("修改中");
 
             }
-        }, 500);
+        }, Constant.DELAY_MILLIS);
         //Slidr.attach(this);
         switch (type) {
             case MODIFY_NAME:

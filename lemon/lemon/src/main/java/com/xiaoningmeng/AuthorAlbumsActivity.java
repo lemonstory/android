@@ -60,7 +60,6 @@ public class AuthorAlbumsActivity extends BaseActivity implements BaseQuickAdapt
     private int pageSize = 50;
     //单屏显示的数据量
     private int singleScreenItemNum = 3;
-    private int delayMillis = 1000;
     private int mAuthorId = 0;
     private Author mAuthorObj = null;
     private int mStartAlbumId = 0;
@@ -258,7 +257,7 @@ public class AuthorAlbumsActivity extends BaseActivity implements BaseQuickAdapt
                             public void run() {
                                 AuthorAlbumsActivity.this.requestAuthorAlbumsData(mAuthorId, mStartAlbumId, pageSize, false);
                             }
-                        }, delayMillis);
+                        }, Constant.DELAY_MILLIS);
                     } else {
                         isErr = true;
                         Toast.makeText(AuthorAlbumsActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
@@ -281,7 +280,7 @@ public class AuthorAlbumsActivity extends BaseActivity implements BaseQuickAdapt
                 mSwipeRefreshLayout.setRefreshing(false);
                 isErr = false;
             }
-        }, delayMillis);
+        }, Constant.DELAY_MILLIS);
     }
 
     public void startAlbumInfoActivity(View view, AlbumInfo albumInfo) {

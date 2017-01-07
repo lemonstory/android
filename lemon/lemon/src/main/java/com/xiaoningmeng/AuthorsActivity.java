@@ -20,6 +20,7 @@ import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.Author;
 import com.xiaoningmeng.bean.AuthorList;
 import com.xiaoningmeng.bean.PlayingStory;
+import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.EmptyHelper;
@@ -49,7 +50,6 @@ public class AuthorsActivity extends BaseActivity implements RequestLoadMoreList
     private int mCurrentCounter = 0;
 
     private View notLoadingView;
-    private int delayMillis = 1000;
     private int mPage = 1;
     private int pageSize = 50;
     private boolean isErr;
@@ -227,7 +227,7 @@ public class AuthorsActivity extends BaseActivity implements RequestLoadMoreList
                             public void run() {
                                 AuthorsActivity.this.requestAuthorsData(mPage, pageSize, false);
                             }
-                        }, delayMillis);
+                        }, Constant.DELAY_MILLIS);
                     } else {
                         isErr = true;
                         Toast.makeText(AuthorsActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
@@ -250,7 +250,7 @@ public class AuthorsActivity extends BaseActivity implements RequestLoadMoreList
                 mSwipeRefreshLayout.setRefreshing(false);
                 isErr = false;
             }
-        }, delayMillis);
+        }, Constant.DELAY_MILLIS);
     }
 
     @Override

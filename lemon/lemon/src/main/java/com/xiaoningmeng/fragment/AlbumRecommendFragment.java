@@ -58,7 +58,6 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
     private int pageSize = 20;
     private boolean isErr;
     private View notLoadingView;
-    private int delayMillis = 1000;
     private List<AlbumInfo> mAlbumItems;
     private String recommendUrl = "";
     private int minAge = Constant.MIN_AGE;
@@ -194,7 +193,7 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
                 mSwipeRefreshLayout.setRefreshing(false);
                 isErr = false;
             }
-        }, delayMillis);
+        }, Constant.DELAY_MILLIS);
     }
 
     private void requestAlbumRecommendData(String url, int minAge, int maxAge, final int page, final int pageSize) {
@@ -278,7 +277,7 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
                                 mCurrentPage = mCurrentPage + 1;
                                 requestAlbumRecommendData(recommendUrl, minAge, maxAge, mCurrentPage, pageSize);
                             }
-                        }, delayMillis);
+                        }, Constant.DELAY_MILLIS);
                     } else {
                         isErr = true;
                         Toast.makeText(getActivity(), R.string.network_err, Toast.LENGTH_LONG).show();

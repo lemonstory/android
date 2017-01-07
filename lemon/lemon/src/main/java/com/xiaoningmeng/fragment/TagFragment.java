@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.DimenRes;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
@@ -47,13 +49,15 @@ public class TagFragment extends LazyFragment implements SwipeRefreshLayout.OnRe
     private SwipeRefreshLayout mRefreshLayout;
     private List<AlbumInfo> mAlbumInfos;
     private List<TagAlbum> mTagAlbums;
+    private List<TagAlbum> mCurrentTagAlbums;
     private TagActivity.TagParam mTagParam;
     private boolean isAttach;
     private boolean isPrepared;
     private LayoutInflater mInflater;
-    private View mFooterView;
     private Boolean albumClickable;
-    private int PageSize = 20;
+    private int PageSize = Constant.GRID_REQ_LEN;
+    private int singleScreenItemNum = 6;
+    private boolean isErr;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,6 +78,7 @@ public class TagFragment extends LazyFragment implements SwipeRefreshLayout.OnRe
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), spanCount));
         mAlbumInfos = new ArrayList<>();
         mTagAlbums = new ArrayList<>();
+        mCurrentTagAlbums = new ArrayList<>();
         mInflater = inflater;
         initAdapter();
         isPrepared = true;
@@ -94,7 +99,8 @@ public class TagFragment extends LazyFragment implements SwipeRefreshLayout.OnRe
 
         mQuickAdapter = new AlbumAdapter(mAlbumInfos);
         mQuickAdapter.setOnLoadMoreListener(this);
-        //mQuickAdapter.openLoadMore(PageSize);
+        mQuickAdapter.setAutoLoadMoreSize(PageSize);
+        isErr = false;
         setEmptyView(true);
         mQuickAdapter.isFirstOnly(true);
         TagFragment.ItemOffsetDecoration itemDecoration = new TagFragment.ItemOffsetDecoration(mContext, R.dimen.page_offset, R.dimen.item_offset);
@@ -129,7 +135,7 @@ public class TagFragment extends LazyFragment implements SwipeRefreshLayout.OnRe
             isSpecialtTag = 1;
         }
         LHttpRequest.GetTagAblumListRequest getTagAblumListRequest = mRetrofit.create(LHttpRequest.GetTagAblumListRequest.class);
-        Call<JsonResponse<TagAblumList>> call = getTagAblumListRequest.getResult(mTagParam.tag, 0, direction, relationId, isSpecialtTag, Constant.GRID_REQ_LEN);
+        Call<JsonResponse<TagAblumList>> call = getTagAblumListRequest.getResult(mTagParam.tag, 0, direction, relationId, isSpecialtTag, PageSize);
         call.enqueue(new Callback<JsonResponse<TagAblumList>>() {
 
             @Override
@@ -150,32 +156,13 @@ public class TagFragment extends LazyFragment implements SwipeRefreshLayout.OnRe
                         }
                     }
                     if (data != null && data.getTagalbumlist() != null) {
-                        List<TagAlbum> tagAlbumList = data.getTagalbumlist();
+                        mCurrentTagAlbums = data.getTagalbumlist();
                         List<AlbumInfo> albumInfos = new ArrayList<>();
-                        for (TagAlbum tagAlbum : tagAlbumList) {
+                        for (TagAlbum tagAlbum : mCurrentTagAlbums) {
                             albumInfos.add(tagAlbum.getAlbuminfo());
                         }
-                        mTagAlbums.addAll(tagAlbumList);
+                        mTagAlbums.addAll(mCurrentTagAlbums);
                         mQuickAdapter.addData(albumInfos);
-
-                        if (tagAlbumList.size() < Constant.GRID_REQ_LEN) {
-
-                            if (mFooterView != null && mFooterView.getParent() != null) {
-                                {
-                                    ((ViewGroup) mFooterView.getParent()).removeView(mFooterView);
-                                }
-                            }
-
-                            mQuickAdapter.loadMoreComplete();
-                            //http://stackoverflow.com/questions/11631408/android-fragment-getactivity-sometime-returns-null
-                            if (null != TagFragment.this.getActivity() && TagFragment.this.isAdded()) {
-                                if (mFooterView == null) {
-                                    mFooterView = TagFragment.this.getActivity().getLayoutInflater().inflate(R.layout.list_footer_view, (ViewGroup) mRecyclerView.getParent(), false);
-                                }
-                                mQuickAdapter.addFooterView(mFooterView);
-                            }
-
-                        }
                     }
                 } else {
 
@@ -186,8 +173,9 @@ public class TagFragment extends LazyFragment implements SwipeRefreshLayout.OnRe
 
             @Override
             public void onFailure(Call<JsonResponse<TagAblumList>> call, Throwable t) {
-
-                DebugUtils.e(t.toString());
+                isErr = true;
+                Toast.makeText(getActivity(), R.string.network_err, Toast.LENGTH_LONG).show();
+                mQuickAdapter.loadMoreFail();
             }
         });
     }
@@ -210,27 +198,53 @@ public class TagFragment extends LazyFragment implements SwipeRefreshLayout.OnRe
     @Override
     public void onRefresh() {
 
-        if (mTagAlbums.size() > 0) {
-            String relationId = mTagAlbums.get(0).getId();
-            if (relationId != null) {
-                requestData(Constant.UP, relationId, false);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mTagAlbums.size() > 0) {
+                    String relationId = mTagAlbums.get(0).getId();
+                    if (relationId != null) {
+                        requestData(Constant.UP, relationId, false);
+                    }
+                } else {
+                    requestData(Constant.FRIST, Constant.FRIST_ID, false);
+                }
+                mQuickAdapter.removeAllFooterView();
+                mRefreshLayout.setRefreshing(false);
+                isErr = false;
             }
-        } else {
-            requestData(Constant.FRIST, Constant.FRIST_ID, false);
-        }
+        }, Constant.DELAY_MILLIS);
     }
 
     @Override
     public void onLoadMoreRequested() {
-        int size = mTagAlbums.size();
-        if (size > 0) {
-            String relationId = mTagAlbums.get(size - 1).getId();
-            if (relationId != null) {
-                requestData(Constant.DOWN, relationId, false);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                if (!isErr) {
+                    if (mCurrentTagAlbums.size() < PageSize) {
+                        //http://stackoverflow.com/questions/11631408/android-fragment-getactivity-sometime-returns-null
+                        mQuickAdapter.loadMoreEnd(singleScreenItemNum >= mTagAlbums.size());
+                    } else {
+
+                        int size = mTagAlbums.size();
+                        if (size > 0) {
+                            String relationId = mTagAlbums.get(size - 1).getId();
+                            if (relationId != null) {
+                                requestData(Constant.DOWN, relationId, false);
+                            }
+                        }
+                        mQuickAdapter.loadMoreComplete();
+                    }
+                } else {
+                    isErr = true;
+                    Toast.makeText(getActivity(), R.string.network_err, Toast.LENGTH_LONG).show();
+                    mQuickAdapter.loadMoreFail();
+                }
             }
-        } else {
-            requestData(Constant.FRIST, Constant.FRIST_ID, false);
-        }
+        }, Constant.DELAY_MILLIS);
     }
 
     public void setEmptyView(boolean isLoading) {
