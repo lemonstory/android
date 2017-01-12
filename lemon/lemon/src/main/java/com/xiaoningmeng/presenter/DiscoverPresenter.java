@@ -78,7 +78,6 @@ public class DiscoverPresenter implements DiscoverConstract.Presenter {
                 if (response.isSuccessful()) {
                     Index data = response.body().getData();
                     if (response.body().isSuccessful() && null != data) {
-
                         discoverView.requestBannderSuccess(data.getFocus());
                         Observable.just(data).map(new Func1<Index, List<IRecyclerItem>>() {
 

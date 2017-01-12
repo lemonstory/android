@@ -472,7 +472,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
     private void showPlayingList() {
 
         AlbumInfo albumInfo = mPlayerManager.getPlayingStory().albumInfo;
-        if (mPlayerManager.getPlayingStory().albumSource == PlayerManager.AlbumSource.ALBUM_DETAIL) {
+        if (mPlayerManager.getPlayingStory().albumSource == PlayerManager.AlbumSource.ALBUM_DETAIL && null != albumInfo) {
             Intent intent = new Intent(this, AlbumDetailActivity.class);
             intent.putExtra("albumId", albumInfo.getId());
             startActivityForNew(intent);

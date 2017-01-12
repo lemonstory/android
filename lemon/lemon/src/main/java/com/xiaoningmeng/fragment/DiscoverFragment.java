@@ -222,7 +222,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
 
     @Override
     public void requestBannderSuccess(Index.FocusBean focusBean) {
-        if (focusBean != null && focusBean.getItems().size() != 0) {
+        if (focusBean != null && focusBean.getItems().size() > 0) {
             convenientBanner = new ConvenientBanner<>(getActivity());
 
             RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.home_banner_height));

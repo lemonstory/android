@@ -82,8 +82,13 @@ public class MineFragment extends BaseFragment implements OnClickListener,XListV
 		headView.findViewById(R.id.rl_mine_download).setOnClickListener(this);
 		mDownloadCountTv = (TextView) headView.findViewById(R.id.tv_mine_download_count);
 		mFavCountTv = (TextView)headView.findViewById(R.id.tv_mine_fav_count);
-		if (null != mLoginUserInfo && Integer.parseInt(mLoginUserInfo.getFavcount()) > 0) {
-			mFavCountTv.setText(mLoginUserInfo.getFavcount());
+		if (null != mLoginUserInfo) {
+			if (mLoginUserInfo.getFavcount().matches("-?\\d+")) {
+				int loginUserFavCount = Integer.parseInt(mLoginUserInfo.getFavcount());
+				if (loginUserFavCount > 0) {
+					mFavCountTv.setText(loginUserFavCount);
+				}
+			}
 		}
 		int downloadSize = DownLoadClientImpl.getInstance().getDownloadCount();
 		if (downloadSize > 0) {

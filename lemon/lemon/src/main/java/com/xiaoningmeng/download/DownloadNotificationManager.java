@@ -120,7 +120,7 @@ public class DownloadNotificationManager implements DownLoadObserver<AudioDownLo
             }
             int progress = allLength != 0 ? currentLength * 100 / allLength : 0;
             String notifyStr = "正在下载";
-            if (null != albumInfo) {
+            if (null != albumInfo && null != albumInfo.getTitle()) {
                 notifyStr = notifyStr + " : " + albumInfo.getTitle();
             }
             notifyView.setTextViewText(R.id.notify_download_title, notifyStr);
