@@ -50,12 +50,6 @@
             android:drawableTop="@drawable/tab_mine_selector"
             android:text="我的故事" />
 
-        <TextView
-            android:id="@+id/tv_home_forum"
-            style="@style/home_tab_style"
-            android:drawableTop="@drawable/selector_tab_forum"
-            android:text="伙伴" />
-
         <!--<TextView
             android:id="@+id/tv_home_shop"
             style="@style/home_tab_style"

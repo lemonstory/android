@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.AccountActivity;
 import com.xiaoningmeng.LoginActivity;
-import com.xiaoningmeng.MyThreadActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.RankActivity;
 import com.xiaoningmeng.SettingActivity;
@@ -148,13 +147,6 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
             //case R.id.rl_account_Recommend:
             //((BaseFragmentActivity) getActivity()).startActivityForNew(new Intent(getActivity(),RecommendAdActivity.class));
             //	break;
-            case R.id.rl_account_Post:
-                Intent accountPostIntent = new Intent(getActivity(), MyThreadActivity.class);
-                accountPostIntent.putExtra("uid", mUserInfo.getUid());
-                accountPostIntent.putExtra("nickname", mUserInfo.getNickname());
-                accountPostIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                ((BaseActivity) getActivity()).startActivityForNew(accountPostIntent);
-                break;
 
             default:
                 break;

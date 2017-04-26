@@ -83,11 +83,6 @@
     <color name="psts_background_tab_pressed">#1AFFFFFF</color>
     <color name="psts_background_tab_pressed_ripple">#AAFFFFFF</color>
 
-    <!--forum-->
-    <color name="forum_todayposts_text_color">#FDC772</color>
-    <color name="view_thread_image_background_color">#efefef</color>
-    <color name="forum_icon_background_color">#f5f8fc</color>
-
     <!--首页 广告背景-->
     <color name="ad_background_color">#e2e7ed</color>
 

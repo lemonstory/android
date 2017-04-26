@@ -21,7 +21,7 @@ import com.xiaoningmeng.utils.PreferenceUtil;
 public class SplashActivity extends BaseActivity {
 
     private Handler mHandler = new Handler();
-    public static final int LOGIN_TIME = 2100;
+    public static final int LOGIN_TIME = 1600;
     private TextView mAdCountDownTv;
     private int countDown = 5;
     private boolean isLoadAd = true;

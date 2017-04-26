@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           package="com.xiaoningmeng"
-          android:versionCode="26"
-          android:versionName="2.7.0">
+          android:versionCode="28"
+          android:versionName="2.7.2">
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -64,10 +64,10 @@
 
         <meta-data
             android:name="BUGLY_APP_VERSION"
-            android:value="2.6" />
+            android:value="2.7.2"/>
         <meta-data
             android:name="BUGLY_APP_CHANNEL"
-            android:value="official" />
+            android:value="${UMENG_CHANNEL_VALUE}"/>
         <meta-data
             android:name="BUGLY_ENABLE_DEBUG"
             android:value="true" />
@@ -122,10 +122,6 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LemonTheme" />
-        <activity
-            android:name=".NewThreadActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".PlayActivity"
             android:exported="false"
@@ -385,27 +381,6 @@
         </receiver>
 
 
-
-        <activity
-            android:name=".ForumDisplayActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ViewThreadActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="com.xiaoningmeng.intent.category.forum" />
-
-                <data android:scheme="xnm" />
-                <data android:host="bbs.xiaoningmeng.net" />
-                <data android:path="/forum.php" />
-                <data android:sspPattern=".*mod=viewthread.*" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".AddedImageViewPager"
             android:exported="false"
@@ -414,15 +389,6 @@
             android:name=".ImageViewerPagerActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".MyThreadActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".MyNotelistActivity"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
         <!-- TODO:后面使用android:pathPattern -->
         <activity
             android:name=".CategoryActivity"

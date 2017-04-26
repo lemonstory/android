@@ -9,16 +9,12 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.baoyz.swipemenu.xlistview.XListView;
 import com.baoyz.swipemenu.xlistview.XListView.IXListViewListener;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
 import com.xiaoningmeng.adapter.PerasonalAdapter;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.base.BaseActivity;
@@ -28,8 +24,6 @@ import com.xiaoningmeng.bean.PerasonalInfo;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.event.HistoryEvent;
-import com.xiaoningmeng.http.ConstantURL;
-import com.xiaoningmeng.http.JsonForumResponse;
 import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
@@ -54,8 +48,6 @@ public class PerasonalActivity extends BaseActivity implements PlayObserver, OnC
   private ImageView mCoverImg;
   private TextView mAccountNameTv;
   private TextView mAccountContentTv;
-  private TextView mAccountPostTv;
-  private LinearLayout mAccountPostContainer;
   private SimpleDraweeView mAvatarView;
   private List<ListenerAlbum> mAlbumList;
   private BaseAdapter mAdapter;
@@ -72,7 +64,6 @@ public class PerasonalActivity extends BaseActivity implements PlayObserver, OnC
     initView();
     uid = getIntent().getStringExtra("uid");
     requestHomeInfo(Constant.FRIST, Constant.FRIST_ID);
-    getUserProfileData(uid);
     PlayerManager.getInstance().register(this);
     EventBus.getDefault().register(this);
   }
@@ -105,8 +96,6 @@ public class PerasonalActivity extends BaseActivity implements PlayObserver, OnC
     mAccountNameTv = (TextView) headerView.findViewById(R.id.tv_account_name);
     mAccountContentTv = (TextView) headerView.findViewById(R.id.tv_account_content);
     mAvatarView = (SimpleDraweeView) headerView.findViewById(R.id.img_perasonal_icon);
-    mAccountPostTv = (TextView) headerView.findViewById(R.id.tv_account_post);
-    mAccountPostContainer = (LinearLayout) headerView.findViewById(R.id.ll_account_post_container);
     mAlbumList = new ArrayList<>();
     mAdapter = new PerasonalAdapter(this, mAlbumList);
     mListView.setAdapter(mAdapter);
@@ -200,13 +189,6 @@ public class PerasonalActivity extends BaseActivity implements PlayObserver, OnC
       case R.id.ll_perasonal_head:
         break;
 
-      case R.id.ll_account_post_container:
-        Intent intent = new Intent(this, MyThreadActivity.class);
-        intent.putExtra("uid", uid);
-        intent.putExtra("nickname", nickname);
-        this.startActivityForNew(intent);
-        break;
-
       default:
         break;
     }
@@ -280,54 +262,5 @@ public class PerasonalActivity extends BaseActivity implements PlayObserver, OnC
       mListView.removeHeaderView(emptyView);
     }
     mListView.setPullLoadEnable(true);
-  }
-
-  public void getUserProfileData(final String uid) {
-    LHttpRequest.ForumUserProfileRequest forumUserProfileRequest = mRetrofit.create(LHttpRequest.ForumUserProfileRequest.class);
-    Call<JsonForumResponse<JsonObject>> call = forumUserProfileRequest.getResult(ConstantURL.FORUM_USER_PROFILE, uid);
-    call.enqueue(new Callback<JsonForumResponse<JsonObject>>() {
-
-      @Override
-      public void onResponse(Call<JsonForumResponse<JsonObject>> call, Response<JsonForumResponse<JsonObject>> response) {
-        try {
-
-          JsonObject variablesObject = response.body().getVariables();
-
-          Gson gson = new Gson();
-          if (variablesObject.has("space")) {
-
-            //设置帖子数
-            JsonObject spaceObject = variablesObject.getAsJsonObject("space");
-
-            if (spaceObject.has("uid") && spaceObject.has("threads")) {
-              if (uid.equals(spaceObject.get("uid").getAsString())) {
-                mAccountPostContainer.setVisibility(View.VISIBLE);
-                mAccountPostTv.setText(spaceObject.get("threads").getAsString());
-                int postCount = Integer.parseInt(spaceObject.get("threads").getAsString());
-                if (postCount > 0) {
-                  mAccountPostContainer.setEnabled(true);
-                } else {
-                  mAccountPostContainer.setEnabled(false);
-                }
-              } else {
-                //到这来就是系统出错了
-              }
-            } else {
-              mAccountPostContainer.setEnabled(false);
-              mAccountPostTv.setText("0");
-            }
-          }
-        } catch (JsonSyntaxException e) {
-
-          e.printStackTrace();
-        }
-      }
-
-      @Override
-      public void onFailure(Call<JsonForumResponse<JsonObject>> call, Throwable t) {
-
-        DebugUtils.e(t.toString());
-      }
-    });
   }
 }

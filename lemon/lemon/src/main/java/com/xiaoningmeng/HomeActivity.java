@@ -16,30 +16,21 @@ import com.orhanobut.dialogplus.DialogPlus;
 import com.umeng.onlineconfig.OnlineConfigAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
-import com.xiaoningmeng.application.MyApplication;
-import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
-import com.xiaoningmeng.bean.ForumLoginVar;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.ShareBean;
 import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.event.ForumLoginEvent;
 import com.xiaoningmeng.fragment.AccountFragment;
 import com.xiaoningmeng.fragment.DiscoverFragment;
-import com.xiaoningmeng.fragment.ForumIndexFragment;
 import com.xiaoningmeng.fragment.MineFragment;
-import com.xiaoningmeng.fragment.ShopFragment;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.MusicService;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.utils.PreferenceUtil;
-import com.xiaoningmeng.view.BadgeView;
 import com.xiaoningmeng.view.SearchView;
 import com.xiaoningmeng.view.ShareDialog;
 import com.xiaoningmeng.view.dialog.TipDialog;
-
-import de.greenrobot.event.EventBus;
 
 public class HomeActivity extends BaseActivity implements
         OnClickListener, PlayObserver {
@@ -48,12 +39,8 @@ public class HomeActivity extends BaseActivity implements
     private DiscoverFragment mDiscoverFragment;
     private MineFragment mMineFragment;
     private AccountFragment mAccountFragment;
-    private ForumIndexFragment mForumIndexFragment;
-    private ShopFragment mShopFragment;
     private TextView mDisCoverTabTv;
     private TextView mMineTabTv;
-    private TextView mForumTabTv;
-    //private TextView mShopTabTv;
     public String mShopTitle;
     private TextView mPerasonTabTv;
     private ImageView mCoverImg;
@@ -62,15 +49,10 @@ public class HomeActivity extends BaseActivity implements
     private ImageView mTitleImg;
     public SearchView mSearchBarView;
     private View mActionBarView;
-    public BadgeView forumBadge;
-    public BadgeView messageBadge;
-    private String newMyPost;
     private Handler mHanler = new Handler();
 
     public static final String FRAG_DISCOVER = "FRAG_DISCOVER";
     public static final String FRAG_MINE = "FRAG_MINE";
-    public static final String FRAG_FORUM = "FRAG_FORUM";
-    //public static final String FRAG_SHOP = "FRAG_SHOP";
     public static final String FRAG_ACCOUNT = "FRAG_ACCOUNT";
 
     @Override
@@ -83,7 +65,6 @@ public class HomeActivity extends BaseActivity implements
         OnlineConfigAgent.getInstance().updateOnlineConfig(this);
         initView();
         PlayerManager.getInstance().register(this);
-        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -105,7 +86,6 @@ public class HomeActivity extends BaseActivity implements
     protected void onResume() {
 
         super.onResume();
-        showMessageBadge();
         if (mDisCoverTabTv.isSelected() || mMineTabTv.isSelected() || mPerasonTabTv.isSelected()) {
 
             PlayWaveManager.getInstance().loadWaveAnim(this, mCoverImg);
@@ -116,8 +96,6 @@ public class HomeActivity extends BaseActivity implements
         mDiscoverFragment = new DiscoverFragment();
         mDisCoverTabTv = (TextView) this.findViewById(R.id.tv_home_discover);
         mMineTabTv = (TextView) this.findViewById(R.id.tv_home_mine);
-        mForumTabTv = (TextView) this.findViewById(R.id.tv_home_forum);
-        //mShopTabTv = (TextView) this.findViewById(R.id.tv_home_shop);
         mPerasonTabTv = (TextView) this.findViewById(R.id.tv_home_account);
         mCoverImg = (ImageView) findViewById(R.id.img_home_cover);
         mSearchImg = (ImageView) findViewById(R.id.img_head_search);
@@ -125,8 +103,6 @@ public class HomeActivity extends BaseActivity implements
         mTitleImg = (ImageView) findViewById(R.id.img_head_title);
         mSearchBarView = (SearchView) findViewById(R.id.search_bar);
         mActionBarView = findViewById(R.id.action_bar);
-        forumBadge = new BadgeView(this, mForumTabTv);
-        messageBadge = new BadgeView(this, mCoverImg);
         setTabSelect(0);
         mHanler.postDelayed(new Runnable() {
             @Override
@@ -232,7 +208,6 @@ public class HomeActivity extends BaseActivity implements
                 mSearchImg.setVisibility(View.VISIBLE);
                 mCoverImg.setVisibility(View.VISIBLE);
                 mCoverImg.setImageResource(R.drawable.ic_player_flag_wave_01);
-                messageBadge.hide();
                 PlayWaveManager.getInstance().loadWaveAnim(this, mCoverImg);
                 mDiscoverFragment = (DiscoverFragment) manager.findFragmentByTag(FRAG_DISCOVER);
                 hideTab(transaction);
@@ -251,7 +226,6 @@ public class HomeActivity extends BaseActivity implements
                 mSearchImg.setVisibility(View.VISIBLE);
                 mCoverImg.setVisibility(View.VISIBLE);
                 mCoverImg.setImageResource(R.drawable.ic_player_flag_wave_01);
-                messageBadge.hide();
                 PlayWaveManager.getInstance().loadWaveAnim(this, mCoverImg);
                 mSearchBarView.setVisibility(View.INVISIBLE);
                 mTitleTv.setText("我的故事");
@@ -268,58 +242,13 @@ public class HomeActivity extends BaseActivity implements
                 mMineTabTv.setSelected(true);
                 transaction.commitAllowingStateLoss();
                 break;
+
             case 2:
-                mActionBarView.setVisibility(View.VISIBLE);
-                mSearchBarView.setVisibility(View.INVISIBLE);
-                mTitleTv.setText("伙伴");
-                mTitleTv.setVisibility(View.VISIBLE);
-                mTitleImg.setVisibility(View.INVISIBLE);
-                mSearchImg.setVisibility(View.INVISIBLE);
-                mCoverImg.setVisibility(View.INVISIBLE);
-                mForumIndexFragment = (ForumIndexFragment) manager.findFragmentByTag(FRAG_FORUM);
-                hideTab(transaction);
-                if (mForumIndexFragment == null) {
-                    mForumIndexFragment = new ForumIndexFragment();
-                    transaction.add(R.id.fl_fragment, mForumIndexFragment, FRAG_FORUM);
-                } else {
-                    transaction.show(mForumIndexFragment);
-                }
-                forumBadge.hide();
-                mForumTabTv.setSelected(true);
-                showMessageBadge();
-                transaction.commitAllowingStateLoss();
-                break;
-
-			/*case 3:
-                mActionBarView.setVisibility(View.VISIBLE);
-				mSearchBarView.setVisibility(View.INVISIBLE);
-				if (mShopTitle == null || mShopTitle.equals("")) {
-					mShopTitle = "商城";
-				}
-				mTitleTv.setText(mShopTitle);
-				mTitleTv.setVisibility(View.VISIBLE);
-				mTitleImg.setVisibility(View.INVISIBLE);
-				mSearchImg.setVisibility(View.INVISIBLE);
-				mCoverImg.setVisibility(View.INVISIBLE);
-				mShopFragment = (ShopFragment) manager.findFragmentByTag(FRAG_SHOP);
-				hideTab(transaction);
-				if (mShopFragment == null) {
-					mShopFragment = new ShopFragment();
-					transaction.add(R.id.fl_fragment, mShopFragment, FRAG_SHOP);
-				} else {
-					transaction.show(mShopFragment);
-				}
-				mShopTabTv.setSelected(true);
-				transaction.commitAllowingStateLoss();
-				break;*/
-
-            case 4:
                 mActionBarView.setVisibility(View.VISIBLE);
                 mSearchBarView.setVisibility(View.INVISIBLE);
                 mSearchImg.setVisibility(View.VISIBLE);
                 mCoverImg.setVisibility(View.VISIBLE);
                 mCoverImg.setImageResource(R.drawable.ic_player_flag_wave_01);
-                messageBadge.hide();
                 PlayWaveManager.getInstance().loadWaveAnim(this, mCoverImg);
                 mTitleImg.setVisibility(View.INVISIBLE);
                 mTitleTv.setVisibility(View.VISIBLE);
@@ -344,8 +273,6 @@ public class HomeActivity extends BaseActivity implements
 
         mDisCoverTabTv.setSelected(false);
         mMineTabTv.setSelected(false);
-        mForumTabTv.setSelected(false);
-        //mShopTabTv.setSelected(false);
         mPerasonTabTv.setSelected(false);
     }
 
@@ -356,33 +283,8 @@ public class HomeActivity extends BaseActivity implements
         if (mMineFragment != null) {
             transaction.hide(mMineFragment);
         }
-        if (mForumIndexFragment != null) {
-            transaction.hide(mForumIndexFragment);
-        }
-        if (mShopFragment != null) {
-            transaction.hide(mShopFragment);
-        }
         if (mAccountFragment != null) {
             transaction.hide(mAccountFragment);
-        }
-    }
-
-    private void showMessageBadge() {
-
-        if (UserAuth.getInstance().isLogin(this) && MyApplication.getInstance().userInfo != null && mForumTabTv.isSelected()) {
-            mCoverImg.setVisibility(View.VISIBLE);
-            mCoverImg.setImageResource(R.drawable.ic_message);
-            mCoverImg.setOnClickListener(messageImgClick);
-
-            if (null != newMyPost && !newMyPost.equals("")) {
-                int newMyPostInt = Integer.parseInt(newMyPost);
-                if (newMyPostInt > 0) {
-                    messageBadge.setText(newMyPost);
-                    messageBadge.show();
-                } else {
-                    messageBadge.hide();
-                }
-            }
         }
     }
 
@@ -395,14 +297,8 @@ public class HomeActivity extends BaseActivity implements
             case R.id.tv_home_mine:
                 setTabSelect(1);
                 break;
-            case R.id.tv_home_forum:
-                setTabSelect(2);
-                break;
-            /*case R.id.tv_home_shop:
-                setTabSelect(3);
-				break;*/
             case R.id.tv_home_account:
-                setTabSelect(4);
+                setTabSelect(2);
                 break;
             case R.id.img_head_search:
                 //new SimpleDialogFragment ().show(getSupportFragmentManager().beginTransaction(), "simpleDialog");
@@ -414,18 +310,6 @@ public class HomeActivity extends BaseActivity implements
                 break;
         }
     }
-
-    View.OnClickListener messageImgClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (messageBadge.isShown()) {
-                HomeActivity.this.newMyPost = mForumIndexFragment.newMyPost = "0";
-                messageBadge.hide();
-            }
-            Intent i = new Intent(HomeActivity.this, MyNotelistActivity.class);
-            startActivityForNew(i);
-        }
-    };
 
     //TODO:第一次运行正常,重复点击back键dialog会自动消失.原因待查
 //    @Override
@@ -487,7 +371,6 @@ public class HomeActivity extends BaseActivity implements
     public void onDestroy() {
 
         PlayerManager.getInstance().unRegister(this);
-        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 
@@ -502,18 +385,5 @@ public class HomeActivity extends BaseActivity implements
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
-    }
-
-    public void onEventMainThread(ForumLoginEvent event) {
-
-        ForumLoginVar forumLoginVar = event.forumLoginVar;
-        newMyPost = forumLoginVar.getNotice().getNewmypost();
-        int newMyPostInt = Integer.parseInt(forumLoginVar.getNotice().getNewmypost());
-        if (newMyPostInt > 0 && !mForumTabTv.isSelected()) {
-            forumBadge.setText(newMyPost);
-            forumBadge.show();
-        } else {
-            forumBadge.hide();
-        }
     }
 }

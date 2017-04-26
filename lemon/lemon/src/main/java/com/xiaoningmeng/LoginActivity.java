@@ -14,13 +14,8 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.xiaoningmeng.application.ActivityManager;
 import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
-import com.xiaoningmeng.bean.ForumLoginVar;
 import com.xiaoningmeng.bean.UserInfo;
-import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.event.ForumLoginEvent;
-import com.xiaoningmeng.event.LoginEvent;
 import com.xiaoningmeng.http.ConstantURL;
-import com.xiaoningmeng.http.JsonForumResponse;
 import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.utils.DebugUtils;
@@ -301,44 +296,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
             startActivityForNew(new Intent(LoginActivity.this, HomeActivity.class));
         }
         finish();
-    }
-
-    //向uc同步用户登录信息
-    public void onEventMainThread(LoginEvent event) {
-
-        UserInfo userinfo = event.userInfo;
-        String uc_callback = userinfo.getUcCallback();
-        if (uc_callback != null && !uc_callback.equals("")) {
-
-            LHttpRequest.UCSyncLoginRequest ucSyncLoginRequest = LHttpRequest.mRetrofit.create(LHttpRequest.UCSyncLoginRequest.class);
-            Call<JsonForumResponse<ForumLoginVar>> call = ucSyncLoginRequest.getResult(uc_callback);
-            call.enqueue(new Callback<JsonForumResponse<ForumLoginVar>>() {
-
-                @Override
-                public void onResponse(Call<JsonForumResponse<ForumLoginVar>> call, Response<JsonForumResponse<ForumLoginVar>> response) {
-                    try {
-
-                        String messageval = response.body().getMessage().getMessageval();
-                        if (messageval != null && messageval.equals(Constant.FORUM_LOGIN_SUCCEED)) {
-
-                            ForumLoginVar forumLoginVar = response.body().getVariables();
-                            if (forumLoginVar != null) {
-                                EventBus.getDefault().post(new ForumLoginEvent(forumLoginVar));
-                            }
-                        }
-                        enterHomeActivity();
-                    } catch (Exception e) {
-                        //Toast.makeText(LoginActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<JsonForumResponse<ForumLoginVar>> call, Throwable t) {
-                    DebugUtils.e("UCSyncLoginRequest onFailure callback is run : message " + t.toString());
-                }
-            });
-        }
     }
 
     @Override

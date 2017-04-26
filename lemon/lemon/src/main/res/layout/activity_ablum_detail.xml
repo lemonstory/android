@@ -13,12 +13,30 @@
         android:id="@+id/action_bar"
         layout="@layout/layout_album_header" />
 
+    <FrameLayout
+        android:id="@+id/fl_buy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="30dp"
+        android:onClick="onClick"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_buy_book"/>
+    </FrameLayout>
+
     <com.xiaoningmeng.view.StickyNavLayout
         android:id="@+id/StickyNavLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/action_bar"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <RelativeLayout
             android:id="@id/id_stickynavlayout_topview"
@@ -261,19 +279,5 @@
             android:layout_height="match_parent"
             android:background="#FFFFFF"/>
     </com.xiaoningmeng.view.StickyNavLayout>
-    <FrameLayout
-        android:id="@+id/fl_buy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginBottom="30dp"
-        android:onClick="onClick"
-        android:layout_alignParentBottom="true"
-        android:visibility="gone">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/btn_buy_book"/>
-    </FrameLayout>
 
 </RelativeLayout>

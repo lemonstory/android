@@ -5,7 +5,6 @@ import android.content.Context;
 import com.alibaba.sdk.android.oss.callback.SaveCallback;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.bean.Address;
 import com.xiaoningmeng.bean.Album;
@@ -15,7 +14,6 @@ import com.xiaoningmeng.bean.AuthorAlbums;
 import com.xiaoningmeng.bean.AuthorList;
 import com.xiaoningmeng.bean.Category;
 import com.xiaoningmeng.bean.CommentList;
-import com.xiaoningmeng.bean.ForumLoginVar;
 import com.xiaoningmeng.bean.Index;
 import com.xiaoningmeng.bean.Mine;
 import com.xiaoningmeng.bean.PerasonalInfo;
@@ -26,7 +24,6 @@ import com.xiaoningmeng.bean.StoryList;
 import com.xiaoningmeng.bean.TagAblumList;
 import com.xiaoningmeng.bean.UserInfo;
 
-import java.io.File;
 import java.util.List;
 
 import retrofit2.Call;
@@ -89,13 +86,6 @@ public class LHttpRequest {
         //                .addParams("openId", openId)
         //                .addParams("visituid", MyApplication.getInstance().getUid())
         //                .build().execute(handler);
-    }
-
-    //UC登录同步
-    public interface UCSyncLoginRequest {
-
-        @GET
-        Call<JsonForumResponse<ForumLoginVar>> getResult(@Url String url);
     }
 
     // weChat联合注册
@@ -336,113 +326,6 @@ public class LHttpRequest {
                                                    @Query("startrelationid") String relationId,
                                                    @Query("specialtag") int specialtag,
                                                    @Query("len") int len);
-    }
-
-    //论坛首页
-    //http://bbs.xiaoningmeng.net/api/mobile/index.php?version=4&module=forumindex
-    public interface GetForumIndexRequest {
-
-        @GET
-        Call<JsonForumResponse<JsonObject>> getResult(@Url String url,
-                                                      @Query("module") String module);
-    }
-
-    //论坛帖子列表
-    //http://bbs.xiaoningmeng.net/api/mobile/index.php?version=4&module=forumdisplay&fid=39&page=1
-    public interface GetForumThreadsRequest {
-
-        @GET
-        Call<JsonForumResponse<JsonObject>> getResult(@Url String url,
-                                                      @Query("module") String module,
-                                                      @Query("fid") int fid,
-                                                      @Query("page") int page);
-    }
-
-    //论坛帖子详情
-    public interface GetViewThreadRequest {
-
-        @GET
-        Call<JsonForumResponse<JsonObject>> getResult(@Url String url,
-                                                      @Query("tid") int tid,
-                                                      @Query("page") int page);
-    }
-
-    //论坛帖子评论
-    //回帖
-    //  replysubmit->yes
-    //  subject->""
-    //  usesig->2
-    //  formhash->formHash
-    //  message->message
-    //  visituid->MyApplication.getInstance().getUid()
-    //
-    //回复某楼
-    //  reppid->reppid
-    //  reppost->reppost
-    //  noticetrimstr->noticetrimstr
-    public interface SendReplyRequest {
-
-        @FormUrlEncoded
-        @POST
-        Call<JsonForumResponse<JsonObject>> getResult(@Url String url,
-                                                      @Field("tid") int tid,
-                                                      @Field("formHash") String formHash,
-                                                      @Field("message") String message,
-                                                      @Field("reppid") int reppid,
-                                                      @Field("reppost") int reppost,
-                                                      @Field("noticetrimstr") String noticetrimstr);
-    }
-
-    //论坛帖子上传图片
-    //public interface ForumUploadImgRequest {
-    //
-    //  @GET Call<JsonForumResponse<JsonObject>> getResult(@Url String url, @Query("uid") String uid, @Query() @Query("hash") String formHash);
-    //}
-
-    public void forumUpload(Context context, JsonCallback<String> handler, File file, String formhash) {
-        //        String url = FORUM_INDEX + "?version=3&module=forumupload&operation=upload&uid=" + MyApplication.getInstance().getUid();
-        //        get(url).tag(context)
-        //                .addParams("uid", MyApplication.getInstance().getUid())
-        //                .addParams("hash", formhash)
-        //                .build().execute(handler);
-
-    }
-
-    //论坛发布帖子
-    public interface ForumNewThreadRequest {
-
-        @FormUrlEncoded
-        @POST
-        Call<JsonForumResponse<JsonObject>> getResult(@Url String url,
-                                                      @Field("formhash") String formhash,
-                                                      @Field("fid") int fid,
-                                                      @Field("subject") String subject,
-                                                      @Field("message") String message);
-    }
-
-    //我的帖子列表
-    public interface ForumGetMyThreadRequest {
-
-        @GET
-        Call<JsonForumResponse<JsonObject>> getResult(@Url String url,
-                                                      @Query("uid") String uid,
-                                                      @Query("page") int page);
-    }
-
-    //我的消息->评论
-    public interface ForumMyNoteListRequest {
-
-        @GET
-        Call<JsonForumResponse<JsonObject>> getResult(@Url String url,
-                                                      @Query("page") int page);
-    }
-
-    //社区->个人信息
-    public interface ForumUserProfileRequest {
-
-        @GET
-        Call<JsonForumResponse<JsonObject>> getResult(@Url String url,
-                                                      @Query("uid") String uid);
     }
 
     //商城

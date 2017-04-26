@@ -28,7 +28,7 @@
     <string name="sd_disable">SD卡不可用</string>
     <string name="pic_count_on_add">选择图片数量已达到上限</string>
     <string name="please_select_one_pic">请选择一张图片...</string>
-    <string name="search_hint">名称、作者</string>
+    <string name="search_hint">搜索故事、儿歌、音乐、国学、绘本、作者</string>
 
     <string name="remider_tip">建立提醒和宝宝一起养成规律学习的好习惯.</string>
     <string name="account_login">立即登录</string>
