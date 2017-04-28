@@ -23,7 +23,7 @@ import com.xiaoningmeng.view.FlowLayout;
 
 import java.util.List;
 
-public class SearchDefaultAdapter2 extends BaseAdapter implements OnClickListener{
+public class SearchDefaultAdapter extends BaseAdapter implements OnClickListener {
 
 	private LayoutInflater mInflater;
 	private Context mContext;
@@ -32,9 +32,9 @@ public class SearchDefaultAdapter2 extends BaseAdapter implements OnClickListene
 	private List<SearchContent> hostSearch;
 	private List<SearchContent> lastSearch;
 	private MarginLayoutParams lp;
-	
 
-	public SearchDefaultAdapter2(Context context,List<SearchContent> hostSearch,List<SearchContent> lastSearch) {
+
+	public SearchDefaultAdapter(Context context, List<SearchContent> hostSearch, List<SearchContent> lastSearch) {
 
 		mContext = context;
 		mInflater = (LayoutInflater) context

@@ -81,6 +81,19 @@ public class TagActivity extends BaseActivity implements View.OnClickListener, P
         requestData(tagId);
     }
 
+    @Override
+    protected void onResume() {
+        PlayWaveManager.getInstance().loadWaveAnim(this, mWaveImg);
+        super.onResume();
+
+    }
+
+    @Override
+    public void onDestroy() {
+        PlayerManager.getInstance().unRegister(this);
+        super.onDestroy();
+    }
+
     private void requestData(String selectTagId) {
 
         LHttpRequest.GetTagAblumListRequest getTagAblumListRequest = mRetrofit.create(LHttpRequest.GetTagAblumListRequest.class);
@@ -223,23 +236,9 @@ public class TagActivity extends BaseActivity implements View.OnClickListener, P
 
 
     @Override
-    protected void onResume() {
-        PlayWaveManager.getInstance().loadWaveAnim(this, mWaveImg);
-        super.onResume();
-
-    }
-
-    @Override
     public void notify(PlayingStory music) {
         PlayWaveManager.getInstance().notify(music);
 
-    }
-
-
-    @Override
-    public void onDestroy() {
-        PlayerManager.getInstance().unRegister(this);
-        super.onDestroy();
     }
 
 

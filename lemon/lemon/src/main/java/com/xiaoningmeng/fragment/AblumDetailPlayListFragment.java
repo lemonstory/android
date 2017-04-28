@@ -174,11 +174,11 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
         this.mCurrentPlayTime = currentPlayTime;
         if (null != mRecyclerView) {
             this.mAdapter.setNewData(this.mCurrentStories);
+            if (this.mStories.size() < pageSize) {
+                this.mAdapter.loadMoreEnd(singleScreenItemNum >= this.mStories.size());
+            }
         }
         isErr = false;
-        if (this.mStories.size() < pageSize) {
-            mAdapter.loadMoreEnd(singleScreenItemNum >= this.mStories.size());
-        }
     }
 
     private void requestAlbumStorysData(int albumId, int pageSize, int page) {
@@ -192,23 +192,23 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
                 @Override
                 public void onResponse(Call<JsonResponse<StoryList>> call, Response<JsonResponse<StoryList>> response) {
 
-                    if (response.isSuccessful() && response.body().isSuccessful()) {
+                    if (response.isSuccessful()) {
+                        if (response.body().isSuccessful()) {
+                            StoryList data = response.body().getData();
+                            storysTotal = Integer.parseInt(data.getTotal());
+                            mCurrentStories = data.getItems();
+                            if (storysTotal > 0 && mCurrentStories.size() > 0) {
 
-                        StoryList data = response.body().getData();
-                        storysTotal = Integer.parseInt(data.getTotal());
-                        mCurrentStories = data.getItems();
-                        if (storysTotal > 0 && mCurrentStories.size() > 0) {
-
-                            mAdapter.addData(mCurrentStories);
-                            mStories = mAdapter.getData();
+                                mAdapter.addData(mCurrentStories);
+                                mStories = mAdapter.getData();
+                            }
+                        } else {
+                            isErr = true;
+                            if (null != getActivity() && AblumDetailPlayListFragment.this.isAdded()) {
+                                Toast.makeText(getActivity(), response.body().getDesc(), Toast.LENGTH_SHORT).show();
+                            }
+                            mAdapter.loadMoreFail();
                         }
-                    } else if (!response.body().isSuccessful()) {
-
-                        isErr = true;
-                        if (null != getActivity() && AblumDetailPlayListFragment.this.isAdded()) {
-                            Toast.makeText(getActivity(), response.body().getDesc(), Toast.LENGTH_SHORT).show();
-                        }
-                        mAdapter.loadMoreFail();
                     } else {
                         DebugUtils.e(response.toString());
                     }

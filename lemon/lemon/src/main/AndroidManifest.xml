@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           package="com.xiaoningmeng"
-          android:versionCode="28"
-          android:versionName="2.7.2">
+          android:versionCode="29"
+          android:versionName="2.7.3">
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -64,7 +64,7 @@
 
         <meta-data
             android:name="BUGLY_APP_VERSION"
-            android:value="2.7.2"/>
+            android:value="2.7.3"/>
         <meta-data
             android:name="BUGLY_APP_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}"/>

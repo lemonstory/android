@@ -17,7 +17,7 @@ import com.baoyz.swipemenu.xlistview.XListView;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.adapter.SearchAdapter;
-import com.xiaoningmeng.adapter.SearchDefaultAdapter2;
+import com.xiaoningmeng.adapter.SearchDefaultAdapter;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.bean.AlbumInfo;
@@ -46,7 +46,7 @@ public class SearchFragment extends BaseFragment implements SearchView.OnSearchV
     private XListView mListView;
     private BaseActivity mContext;
     private SearchAdapter mSearchAdapter;
-    private SearchDefaultAdapter2 mDefaultAdapter;
+    private SearchDefaultAdapter mDefaultAdapter;
     private List<AlbumInfo> mAlbumInfos;
     private TabIndicatorView mIndicator;
     private ViewPager mViewPager;
@@ -74,7 +74,7 @@ public class SearchFragment extends BaseFragment implements SearchView.OnSearchV
         mHotContents = new ArrayList<>();
         mLastContents = new ArrayList<>();
         mLastContents.addAll(SearchDao.getInstance().getSearchContentList(20));
-        mDefaultAdapter = new SearchDefaultAdapter2(getActivity(), mHotContents, mLastContents);
+        mDefaultAdapter = new SearchDefaultAdapter(getActivity(), mHotContents, mLastContents);
         mSearchAdapter = new SearchAdapter(getActivity(), mAlbumInfos);
         mListView.setAdapter(mDefaultAdapter);
         requestHotSearchReq();

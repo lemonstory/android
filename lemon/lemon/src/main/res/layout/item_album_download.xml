@@ -8,7 +8,7 @@
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="@dimen/download_item_height"
-    android:background="@color/list_view_item_bg" >
+    android:background="@drawable/base_item_bg_selector">
 
 
     <com.facebook.drawee.view.SimpleDraweeView

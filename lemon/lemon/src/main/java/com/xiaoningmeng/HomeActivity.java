@@ -73,8 +73,13 @@ public class HomeActivity extends BaseActivity implements
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onResume() {
+
+        super.onResume();
+        if (mDisCoverTabTv.isSelected() || mMineTabTv.isSelected() || mPerasonTabTv.isSelected()) {
+
+            PlayWaveManager.getInstance().loadWaveAnim(this, mCoverImg);
+        }
     }
 
     @Override
@@ -83,13 +88,15 @@ public class HomeActivity extends BaseActivity implements
     }
 
     @Override
-    protected void onResume() {
+    protected void onStop() {
+        super.onStop();
+    }
 
-        super.onResume();
-        if (mDisCoverTabTv.isSelected() || mMineTabTv.isSelected() || mPerasonTabTv.isSelected()) {
+    @Override
+    public void onDestroy() {
 
-            PlayWaveManager.getInstance().loadWaveAnim(this, mCoverImg);
-        }
+        PlayerManager.getInstance().unRegister(this);
+        super.onDestroy();
     }
 
     private void initView() {
@@ -303,8 +310,7 @@ public class HomeActivity extends BaseActivity implements
             case R.id.img_head_search:
                 //new SimpleDialogFragment ().show(getSupportFragmentManager().beginTransaction(), "simpleDialog");
                 startActivity(new Intent(this, SearchActivity.class));
-                overridePendingTransition(R.anim.search_translatey100to0,
-                        R.anim.search_translatey0tof100);
+                //overridePendingTransition(R.anim.search_translatey100to0, R.anim.search_translatey0tof100);
                 break;
             default:
                 break;
@@ -365,13 +371,6 @@ public class HomeActivity extends BaseActivity implements
     public void notify(PlayingStory music) {
 
         PlayWaveManager.getInstance().notify(music);
-    }
-
-    @Override
-    public void onDestroy() {
-
-        PlayerManager.getInstance().unRegister(this);
-        super.onDestroy();
     }
 
 

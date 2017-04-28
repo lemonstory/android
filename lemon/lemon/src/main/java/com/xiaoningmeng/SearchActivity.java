@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.baoyz.swipemenu.xlistview.XListView;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.xiaoningmeng.adapter.SearchAdapter;
-import com.xiaoningmeng.adapter.SearchDefaultAdapter2;
+import com.xiaoningmeng.adapter.SearchDefaultAdapter;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.bean.AlbumInfo;
@@ -45,7 +45,7 @@ import static com.xiaoningmeng.http.LHttpRequest.mRetrofit;
 public class SearchActivity extends BaseActivity implements SearchView.OnSearchViewListener, View.OnClickListener {
     private XListView mListView;
     private SearchAdapter mSearchAdapter;
-    private SearchDefaultAdapter2 mDefaultAdapter;
+    private SearchDefaultAdapter mDefaultAdapter;
     private List<AlbumInfo> mAlbumInfos;
     private TabIndicatorView mIndicator;
     private ViewPager mViewPager;
@@ -75,7 +75,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnSearchV
         mHotContents = new ArrayList<>();
         mLastContents = new ArrayList<>();
         mLastContents.addAll(SearchDao.getInstance().getSearchContentList(20));
-        mDefaultAdapter = new SearchDefaultAdapter2(this, mHotContents, mLastContents);
+        mDefaultAdapter = new SearchDefaultAdapter(this, mHotContents, mLastContents);
         mSearchAdapter = new SearchAdapter(this, mAlbumInfos);
         mListView.setAdapter(mDefaultAdapter);
         requestDefaultSearchReq();

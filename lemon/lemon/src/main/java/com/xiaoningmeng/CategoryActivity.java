@@ -69,6 +69,20 @@ public class CategoryActivity extends BaseActivity implements PlayObserver {
         requestCategoryData();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        PlayWaveManager.getInstance().loadWaveAnim(this, mWaveImg);
+        MobclickAgent.onEvent(this, "event_category");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PlayerManager.getInstance().unRegister(this);
+        PlayWaveManager.getInstance().mContext = null;
+    }
+
 
     public void initAdapter() {
 
@@ -141,20 +155,6 @@ public class CategoryActivity extends BaseActivity implements PlayObserver {
                     }
                 }
         );
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        PlayWaveManager.getInstance().loadWaveAnim(this, mWaveImg);
-        MobclickAgent.onEvent(this, "event_category");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        PlayerManager.getInstance().unRegister(this);
-        PlayWaveManager.getInstance().mContext = null;
     }
 
     private void requestCategoryData() {

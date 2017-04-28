@@ -207,24 +207,13 @@ public class AlbumDetailActivity extends BaseActivity implements
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onRestart() {
+        super.onRestart();
     }
 
     @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        overridePendingTransition(R.anim.slide_left_in, R.anim.slide_right_out);
-
-        setIntent(intent);
-        mAlbumId = getAlbumIdWithIntent();
-        AlbumInfo albumInfo = getIntent().getParcelableExtra(this.ARG_ALBUM_INFO);
-        if (albumInfo != null) {
-            mAlbumId = albumInfo.getId();
-            fillAlbumInfoView(albumInfo);
-        }
-        requestAlbumDetailData();
-        mViewPager.setCurrentItem(1);
+    protected void onStart() {
+        super.onStart();
     }
 
     @Override
@@ -246,17 +235,28 @@ public class AlbumDetailActivity extends BaseActivity implements
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-    }
-
-    @Override
     protected void onDestroy() {
 
         super.onDestroy();
         PlayerManager.getInstance().unRegister(this);
         DownLoadClientImpl.getInstance().unregisterObserver(this);
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        overridePendingTransition(R.anim.slide_left_in, R.anim.slide_right_out);
+
+        setIntent(intent);
+        mAlbumId = getAlbumIdWithIntent();
+        AlbumInfo albumInfo = getIntent().getParcelableExtra(this.ARG_ALBUM_INFO);
+        if (albumInfo != null) {
+            mAlbumId = albumInfo.getId();
+            fillAlbumInfoView(albumInfo);
+        }
+        requestAlbumDetailData();
+        mViewPager.setCurrentItem(1);
     }
 
     private void initShareSharedElementTransition() {
@@ -277,7 +277,9 @@ public class AlbumDetailActivity extends BaseActivity implements
 
         Intent intent = this.getIntent();
         Uri data = intent.getData();
-        albumIdWithExtar = intent.getStringExtra(this.ARG_ALBUM_ID);
+        if (intent.hasExtra(this.ARG_ALBUM_ID)) {
+            albumIdWithExtar = intent.getStringExtra(this.ARG_ALBUM_ID);
+        }
         if (null != data) {
             albumIdWithData = data.getQueryParameter("albumid");
         }

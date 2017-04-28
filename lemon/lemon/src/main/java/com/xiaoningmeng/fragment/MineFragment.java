@@ -72,6 +72,27 @@ public class MineFragment extends BaseFragment implements OnClickListener,XListV
 		return contentView;
 	}
 
+	public void onResume() {
+
+		super.onResume();
+		if (mHistoryEvents.size() > 0) {
+			hideEmptyTip();
+			for (HistoryEvent historyEvent : mHistoryEvents) {
+				if (historyEvent.listenerAlbum != null)
+					update(historyEvent);
+			}
+			mHistoryEvents.clear();
+			mAdapter.notifyDataSetChanged();
+		}
+		MobclickAgent.onEvent(mContext, "event_show_mystory");
+	}
+
+	@Override
+	public void onDestroy() {
+		EventBus.getDefault().unregister(this);
+		super.onDestroy();
+	}
+
 	private void initView(View contentView) {
 
 		mListView = (XListView) contentView.findViewById(R.id.lv_home_discover);
@@ -260,13 +281,7 @@ public class MineFragment extends BaseFragment implements OnClickListener,XListV
 		}
 	}
 
-	@Override
-	public void onDestroy() {
-		EventBus.getDefault().unregister(this);
-		super.onDestroy();
-	}
 
-	
 	public void onEventMainThread(HistoryEvent historyEvent){
 		mHistoryEvents.add(historyEvent);
 	}
@@ -288,21 +303,6 @@ public class MineFragment extends BaseFragment implements OnClickListener,XListV
 		}
 		fav = favEvent.fav == 1? fav+1 : fav-1;
 		mFavCountTv.setText(fav+"");
-	}
-	
-	public void onResume() {
-		
-		super.onResume();
-		if(mHistoryEvents.size() >0){
-			hideEmptyTip();
-			for(HistoryEvent historyEvent :mHistoryEvents){
-				if(historyEvent.listenerAlbum !=null)
-					update(historyEvent);
-			}
-			mHistoryEvents.clear();
-			mAdapter.notifyDataSetChanged();
-		}
-		MobclickAgent.onEvent(mContext, "event_show_mystory");
 	}
 
 	private void update(HistoryEvent historyEvent) {

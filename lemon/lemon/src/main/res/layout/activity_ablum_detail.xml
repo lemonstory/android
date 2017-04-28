@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/progress"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/home_bg"
@@ -12,6 +11,7 @@
     <include
         android:id="@+id/action_bar"
         layout="@layout/layout_album_header" />
+
 
     <FrameLayout
         android:id="@+id/fl_buy"
@@ -36,7 +36,8 @@
         android:orientation="vertical"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/action_bar">
 
         <RelativeLayout
             android:id="@id/id_stickynavlayout_topview"

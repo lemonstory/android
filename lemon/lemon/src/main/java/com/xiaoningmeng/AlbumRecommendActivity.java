@@ -92,13 +92,15 @@ public class AlbumRecommendActivity extends BaseActivity implements AlbumRecomme
         pageTitle = intent.getStringExtra("pageTitle");
         String dataUrl = String.valueOf(intent.getData());
         Uri uri = Uri.parse(dataUrl);
-        if (uri.getQueryParameter("min_age") != null && uri.getQueryParameter("min_age").equals("")) {
+        if (uri.getQueryParameter("min_age") != null && !uri.getQueryParameter("min_age").equals("")) {
             minAge = Integer.parseInt(uri.getQueryParameter("min_age"));
         }
         if (uri.getQueryParameter("max_age") != null && !uri.getQueryParameter("max_age").equals("")) {
             maxAge = Integer.parseInt(uri.getQueryParameter("max_age"));
         }
-        recommendUrl = dataUrl.replace("xnm://", "http://");
+        String urlPath = dataUrl.replace("xnm://", "http://");
+        recommendUrl = urlPath.substring(0, urlPath.indexOf("?"));
+        DebugUtils.d("recommendUrl = " + recommendUrl);
     }
 
     private void setPageTitle() {

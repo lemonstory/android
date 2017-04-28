@@ -74,6 +74,7 @@ public class DownloadNotificationManager implements DownLoadObserver<AudioDownLo
         int notifyId = 0;
         AlbumInfo albumInfo;
         String albumId = download.getAlbumid();
+        String albumTitle = "";
         DownloadNotification downloadNotification;
         if (notificationMap.containsKey(download.getAlbumid())) {
             downloadNotification = notificationMap.get(albumId);
@@ -93,9 +94,12 @@ public class DownloadNotificationManager implements DownLoadObserver<AudioDownLo
             notificationMap.put(albumId, downloadNotification);
         }
         int type = 0;
+        if (null != albumInfo && null != albumInfo.getTitle()) {
+            albumTitle = albumInfo.getTitle();
+        }
 
         if (download.getStatus() == DownLoadState.DOWN_SUC && !DownLoadClientImpl.getInstance().mDownloadMap.containsKey(albumId)) {
-            notifyView.setTextViewText(R.id.notify_download_title, "下载完成：" + albumInfo.getTitle());
+            notifyView.setTextViewText(R.id.notify_download_title, "下载完成：" + albumTitle);
             List<AudioDownLoad> downLoads = DownLoadClientImpl.getInstance().mHistoryMap.get(albumId);
             notifyView.setTextViewText(R.id.notify_download_tip, "本次累计下载故事" + downLoads.size() + "个");
             notifyView.setViewVisibility(R.id.rpb_notify_progress, View.GONE);
@@ -120,9 +124,7 @@ public class DownloadNotificationManager implements DownLoadObserver<AudioDownLo
             }
             int progress = allLength != 0 ? currentLength * 100 / allLength : 0;
             String notifyStr = "正在下载";
-            if (null != albumInfo && null != albumInfo.getTitle()) {
-                notifyStr = notifyStr + " : " + albumInfo.getTitle();
-            }
+            notifyStr = notifyStr + " : " + albumTitle;
             notifyView.setTextViewText(R.id.notify_download_title, notifyStr);
             notifyView.setProgressBar(R.id.rpb_notify_progress, 100, progress, false);
             notifyView.setImageViewResource(R.id.notify_logo, R.drawable.ic_notice_download);
@@ -152,5 +154,4 @@ public class DownloadNotificationManager implements DownLoadObserver<AudioDownLo
 
 
     }
-
 }

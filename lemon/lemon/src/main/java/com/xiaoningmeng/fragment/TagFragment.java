@@ -173,7 +173,9 @@ public class TagFragment extends LazyFragment implements SwipeRefreshLayout.OnRe
             @Override
             public void onFailure(Call<JsonResponse<TagAblumList>> call, Throwable t) {
                 isErr = true;
-                Toast.makeText(getActivity(), R.string.network_err, Toast.LENGTH_LONG).show();
+                if (null != getActivity() && TagFragment.this.isAdded()) {
+                    Toast.makeText(getActivity(), R.string.network_err, Toast.LENGTH_LONG).show();
+                }
                 mQuickAdapter.loadMoreFail();
             }
         });
