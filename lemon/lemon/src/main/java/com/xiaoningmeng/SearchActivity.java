@@ -43,6 +43,7 @@ import static com.xiaoningmeng.http.LHttpRequest.mRetrofit;
 
 
 public class SearchActivity extends BaseActivity implements SearchView.OnSearchViewListener, View.OnClickListener {
+
     private XListView mListView;
     private SearchAdapter mSearchAdapter;
     private SearchDefaultAdapter mDefaultAdapter;
@@ -64,6 +65,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnSearchV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Fresco.initialize(this);
         setContentView(R.layout.activity_search);
         mListView = (XListView) findViewById(R.id.id_stickynavlayout_innerscrollview);

@@ -1,3 +1,2 @@
-include ':emojicon'
 include ':swpeListView'
 include ':lemon'

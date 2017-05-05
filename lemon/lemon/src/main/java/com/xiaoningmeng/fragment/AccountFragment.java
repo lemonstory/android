@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.facebook.common.util.UriUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.AccountActivity;
 import com.xiaoningmeng.LoginActivity;
@@ -24,7 +25,9 @@ import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.event.LoginEvent;
+import com.xiaoningmeng.event.LogoutEvent;
 import com.xiaoningmeng.utils.AvatarUtils;
+import com.xiaoningmeng.utils.DebugUtils;
 
 import de.greenrobot.event.EventBus;
 
@@ -48,7 +51,6 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
         View contentView = inflater.inflate(R.layout.fragment_account, null);
         contentView.findViewById(R.id.rl_account_setting).setOnClickListener(this);
         contentView.findViewById(R.id.rl_account_perasonal).setOnClickListener(this);
-        contentView.findViewById(R.id.rl_account_Post).setOnClickListener(this);
         contentView.findViewById(R.id.rl_account_Ranking).setOnClickListener(this);
 //		contentView.findViewById(R.id.rl_account_shop).setOnClickListener(this);
         //recommendView =  contentView.findViewById(R.id.rl_account_Recommend);
@@ -58,13 +60,26 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
         mAccountNameTv = (TextView) contentView.findViewById(R.id.tv_account_name);
         mAccountContentTv = (TextView) contentView.findViewById(R.id.tv_account_content);
         mAccountUnloginTv = (TextView) contentView.findViewById(R.id.tv_account_unlogin);
-        mAccountPostView = (RelativeLayout) contentView.findViewById(R.id.rl_account_Post);
         mAccountRankingDivider = contentView.findViewById(R.id.account_ranking_divider);
         mAccountRankingView = (RelativeLayout) contentView.findViewById(R.id.rl_account_Ranking);
         mUserInfo = MyApplication.getInstance().userInfo;
         setUserInfo();
         EventBus.getDefault().register(this);
         return contentView;
+    }
+
+    public void onResume() {
+
+        super.onResume();
+        if (getActivity() != null) {
+            MobclickAgent.onEvent(getActivity(), "event_show_account");
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 
 	/*private void loadRemmend() {
@@ -96,10 +111,8 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
         if (UserAuth.getInstance().isLogin(this.getActivity()) && mUserInfo != null) {
             mAccountHeadView.setVisibility(View.VISIBLE);
             mAccountUnloginTv.setVisibility(View.INVISIBLE);
-            mAccountPostView.setVisibility(View.VISIBLE);
-            linearParams.setMargins(0, 0, 0, 0);
+            linearParams.setMargins(0, (int) getActivity().getResources().getDimension(R.dimen.account_item_inv), 0, 0);
             mAccountRankingView.setLayoutParams(linearParams);
-            mAccountRankingDivider.setVisibility(View.INVISIBLE);
             mAccountNameTv.setText(mUserInfo.getNickname());
             String age = mUserInfo.getAge() == null ? "" : (mUserInfo.getAge() + "岁");
             String province = mUserInfo.getProvince() == null ? " " : (" " + mUserInfo.getProvince() + " ");
@@ -108,14 +121,15 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
             String avatarUrl = AvatarUtils.getAvatarUrl(mUserInfo.getUid(), mUserInfo.getAvatartime(), -1);
             Uri avatarUri = Uri.parse(avatarUrl);
             mAccountAvatarView.setImageURI(avatarUri);
+
         } else {
 
-            mAccountPostView.setVisibility(View.GONE);
             mAccountHeadView.setVisibility(View.INVISIBLE);
             mAccountUnloginTv.setVisibility(View.VISIBLE);
             linearParams.setMargins(0, (int) getActivity().getResources().getDimension(R.dimen.account_item_inv), 0, 0);
             mAccountRankingView.setLayoutParams(linearParams);
-            mAccountRankingDivider.setVisibility(View.VISIBLE);
+            Uri avatarUri = new Uri.Builder().scheme(UriUtil.LOCAL_RESOURCE_SCHEME).path(String.valueOf(R.drawable.bg_avatar_default)).build();
+            mAccountAvatarView.setImageURI(avatarUri);
         }
     }
 
@@ -153,18 +167,17 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
         }
     }
 
-    public void onResume() {
-
-        super.onResume();
-        if (getActivity() != null) {
-            MobclickAgent.onEvent(getActivity(), "event_show_account");
-        }
-    }
-
     public void onEventMainThread(LoginEvent event) {
+
         this.mUserInfo = event.userInfo;
         setUserInfo();
 //		getUserProfileData(this.mUserInfo.getUid());
+    }
+
+    public void onEventMainThread(LogoutEvent event) {
+
+        DebugUtils.d("------- onEventMainThread : LogoutEvent -------");
+        setUserInfo();
     }
 
 //	public void getUserProfileData(String uid) {
@@ -200,9 +213,4 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
 //				},uid);
 //	}
 
-    @Override
-    public void onDestroy() {
-        EventBus.getDefault().unregister(this);
-        super.onDestroy();
-    }
 }

@@ -17,6 +17,7 @@ import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.ShareBean;
 import com.xiaoningmeng.constant.Constant;
+import com.xiaoningmeng.event.LogoutEvent;
 import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
@@ -26,8 +27,8 @@ import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.utils.PreferenceUtil;
 import com.xiaoningmeng.view.ShareDialog;
-import com.xiaoningmeng.view.dialog.TextDialogLoading;
 
+import de.greenrobot.event.EventBus;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -49,7 +50,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener,
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-        setTitleName("设置");
+        setTitleName(getString(R.string.page_title_setting));
         mAlarmTv = (TextView) findViewById(R.id.tv_setting_alarm);
         PlayerManager.getInstance().register(this);
         mCoverImg = (ImageView) findViewById(R.id.img_head_right);
@@ -58,6 +59,19 @@ public class SettingActivity extends BaseActivity implements OnClickListener,
         setRightHeadIcon(R.drawable.ic_player_flag_wave_01);
         findViewById(R.id.tv_setting_logout).setVisibility(UserAuth.getInstance().isLogin(this) ? View.VISIBLE : View.INVISIBLE);
         setNewVersionName(mNewVersionName);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        PlayWaveManager.getInstance().loadWaveAnim(this, mCoverImg);
+        setAlarmTime();
+    }
+
+    @Override
+    public void onDestroy() {
+        PlayerManager.getInstance().unRegister(this);
+        super.onDestroy();
     }
 
     private void setAlarmTime() {
@@ -114,9 +128,6 @@ public class SettingActivity extends BaseActivity implements OnClickListener,
 
     private void Logout() {
 
-
-        TextDialogLoading loading = new TextDialogLoading(this);
-        loading.setLoadingTip("正在退出登录");
         UserAuth.getInstance().clearLoginUserInfo(SettingActivity.this);
         LHttpRequest.LogoutRequest logoutRequest = mRetrofit.create(LHttpRequest.LogoutRequest.class);
         Call<JsonResponse<String>> call = logoutRequest.getResult();
@@ -140,15 +151,9 @@ public class SettingActivity extends BaseActivity implements OnClickListener,
                 DebugUtils.e(t.toString());
             }
         });
+        EventBus.getDefault().post(new LogoutEvent());
     }
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        PlayWaveManager.getInstance().loadWaveAnim(this, mCoverImg);
-        setAlarmTime();
-    }
 
     @Override
     public void notify(PlayingStory music) {
@@ -162,12 +167,6 @@ public class SettingActivity extends BaseActivity implements OnClickListener,
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void onDestroy() {
-        PlayerManager.getInstance().unRegister(this);
-        super.onDestroy();
     }
 
 

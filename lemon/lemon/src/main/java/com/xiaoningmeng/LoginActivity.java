@@ -22,7 +22,6 @@ import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.Map;
 
-import de.greenrobot.event.EventBus;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,6 +45,23 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         setContentView(R.layout.activity_login);
         mShareAPI = UMShareAPI.get(this);
         mDialog = new ProgressDialog(mContext);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mDialog.dismiss();
+    }
+
+    @Override
+    protected void onDestroy() {
+        // TODO Auto-generated method stub
+        super.onDestroy();
     }
 
     /**
@@ -98,19 +114,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
             Toast.makeText(mContext, "授权取消", Toast.LENGTH_SHORT).show();
         }
     };
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        mDialog.dismiss();
-        EventBus.getDefault().unregister(this);
-    }
 
     @Override
     public void onClick(View v) {
@@ -302,13 +305,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     public void finish() {
         oldFinish();
         animationForOTop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        // TODO Auto-generated method stub
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 
     @Override

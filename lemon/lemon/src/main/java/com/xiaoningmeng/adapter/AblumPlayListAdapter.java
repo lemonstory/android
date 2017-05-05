@@ -7,12 +7,12 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.xiaoningmeng.bean.PlayingStory;
-import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.bean.AudioDownLoad;
+import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.Story;
 import com.xiaoningmeng.download.DownLoadClientImpl;
+import com.xiaoningmeng.player.PlayerManager;
 
 import java.util.List;
 

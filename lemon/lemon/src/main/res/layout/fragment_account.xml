@@ -87,51 +87,10 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/rl_account_Post"
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/account_item_height"
-            android:layout_marginTop="@dimen/account_item_inv"
-            android:background="@drawable/base_item_bg_selector">
-
-            <View style="@style/dividerStyle" />
-
-            <ImageView
-                android:id="@+id/img_account_Post"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/account_item_margin_left"
-                android:layout_marginRight="@dimen/account_item_padding"
-                android:src="@drawable/ic_account_post" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/img_account_Post"
-                android:text="@string/account_post"
-                android:textColor="@color/base_black_title_color"
-                android:textSize="@dimen/title_content_text_size" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/account_item_margin_right"
-                android:src="@drawable/ic_item_right_arrow" />
-
-            <View
-                style="@style/dividerStyle"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="@dimen/account_item_margin_left" />
-        </RelativeLayout>
-
-        <RelativeLayout
             android:id="@+id/rl_account_Ranking"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/account_item_height"
+            android:layout_marginTop="@dimen/account_item_inv"
             android:background="@drawable/base_item_bg_selector">
 
             <View style="@style/dividerStyle" android:id="@+id/account_ranking_divider" />

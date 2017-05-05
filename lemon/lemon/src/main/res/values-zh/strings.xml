@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
-    <!--<string name="app_name">小柠檬儿歌故事精选</string>-->
     <string name="app_name">小柠檬听儿歌故事</string>
     <string name="app_desc">听儿歌、故事、 育儿、早教、启蒙教育、母婴、教育、辣妈必备！</string>
 
@@ -15,27 +14,20 @@
     <!-- tip -->
     <string name="unkown">未知</string>
     <string name="end_app_tip">再按一次退出柠檬故事</string>
-    <!--
-    <string name="xlistview_header_hint_normal">下拉刷新...</string>
-    <string name="xlistview_header_hint_ready">松开刷新数据</string>
-    <string name="xlistview_header_hint_loading">正在加载...</string>
-    <string name="xlistview_footer_hint_normal">查看更多</string>
-    <string name="xlistview_footer_hint_ready">松开载入更多</string>
-    <string name="xlistview_footer_hint_no_more">没有更多了</string> -->
+    <string name="load_end">┅ 更多内容,敬请期待 ┅</string>
 
     <string name="sd_disable">SD卡不可用</string>
     <string name="pic_count_on_add">选择图片数量已达到上限</string>
     <string name="please_select_one_pic">请选择一张图片...</string>
     <string name="search_hint">搜索故事、儿歌、音乐、国学、绘本、作者</string>
 
-    <string name="remider_tip">建一个提醒吧，和宝宝一起养成规律学习的好习惯哟.</string>
+    <string name="remider_tip">建立提醒和宝宝一起养成规律学习的好习惯.</string>
     <string name="account_login">立即登录</string>
     <string name="account_rank">学霸排行榜</string>
     <string name="account_shop">商城</string>
     <string name="account_recommend">应用推荐</string>
     <string name="account_setting">设置</string>
-    <string name="album_comment">发表评论</string>
-    <string name="share_other_str">喜欢小柠檬，把Ta分享给你的好朋友们，就是对我们最大的支持，么么哒~</string>
+    <string name="share_other_str">喜欢小柠檬,把Ta分享给你的小伙伴们(朋友圈).就是对小柠檬最大的支持，么么哒~</string>
 
     <string-array name="reminder">
         <item>一直放，不限时</item>
@@ -91,7 +83,12 @@
     <string name="connect_time_out">超时</string>
     <string name="download_file_tip">正在下载文件，请稍后.</string>
     <string name="hello_blank_fragment">hello_blank_fragment</string>
-    <string name="account_post">我的帖子</string>
+    <string name="loading_tip">正在努力加载中...</string>
+    <string name="empty_tip">数据正在快递途中,请稍后再试.</string>
+    <string name="empty_album_comment">哇,没有评论，快来占领一楼吧.</string>
+    <string name="empty_history_albums">收听的故事会出现在这里喔</string>
+    <string name="failure_tip">请连接网络后点击屏幕重试</string>
+    <string name="network_err">啊！网络错误,请检查网络设置.</string>
 
     <item name="add_image_0" type="id"></item>
     <item name="add_image_1" type="id"></item>
@@ -99,4 +96,30 @@
 
     <string name="menu_lock">Lock</string>
     <string name="menu_unlock">Unlock</string>
+    <string name="mp.list.layoutManager.linear">LinearLayoutManager</string>
+    <string name="mp.play_list.dialog.add_to">Add to play list</string>
+    <string name="mp.cancel">Cancel</string>
+    <string name="mp.Confirm">Confirm</string>
+
+    <!--导航栏-->
+    <string name="nav_back">返回</string>
+    <string name="nav_share">分享</string>
+
+    <!--播放-->
+    <string name="player_reminder">睡眠定时</string>
+    <string name="player_playlist">播放列表</string>
+    <string name="player_pre">上一首</string>
+    <string name="player_next">下一首</string>
+    <string name="player_pause">暂停</string>
+    <string name="player_mode">播放模式</string>
+
+
+    <!--专辑-->
+    <string name="album_fav">收藏</string>
+    <string name="album_download">下载</string>
+    <string name="album_comment">评论</string>
+
+    <!--页面名称-->
+    <string name="page_title_setting">设置</string>
+
 </resources>
