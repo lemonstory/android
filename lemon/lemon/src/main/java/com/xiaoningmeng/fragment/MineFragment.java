@@ -89,6 +89,7 @@ public class MineFragment extends BaseFragment implements OnClickListener, OnDow
             for (HistoryEvent historyEvent : mHistoryEvents) {
                 if (historyEvent.listenerAlbum != null) addCurrentListenAlbum(historyEvent);
                 mAdapter.setNewData(mAlbumList);
+                mAdapter.disableLoadMoreIfNotFullPage();
             }
             mHistoryEvents.clear();
         }
@@ -111,9 +112,6 @@ public class MineFragment extends BaseFragment implements OnClickListener, OnDow
 
         mAdapter = new MineHistoryAdapter(R.layout.item_mine_history, mAlbumList);
         mRecyclerView.setAdapter(mAdapter);
-
-        //列表为空处理
-        emptyView = getEmptyView(getString(R.string.empty_history_albums), null);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
@@ -128,6 +126,9 @@ public class MineFragment extends BaseFragment implements OnClickListener, OnDow
                 }, Constant.DELAY_MILLIS);
             }
         }, mRecyclerView);
+
+        //列表为空处理
+        emptyView = getEmptyView(getString(R.string.empty_history_albums), null);
 
         //下载,收藏处理
         setHeaderView();
@@ -247,6 +248,7 @@ public class MineFragment extends BaseFragment implements OnClickListener, OnDow
                         }
                         addHistoryAlbums(albums);
                         mAdapter.setNewData(mAlbumList);
+                        mAdapter.disableLoadMoreIfNotFullPage();
                     } else {
 
                         DebugUtils.e(response.toString());
@@ -279,6 +281,7 @@ public class MineFragment extends BaseFragment implements OnClickListener, OnDow
                 addHistoryAlbums(dbHistoryAlbums);
             }
             mAdapter.setNewData(mAlbumList);
+            mAdapter.disableLoadMoreIfNotFullPage();
         }
 
         //用户没有播放记录
