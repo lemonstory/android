@@ -6,12 +6,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
+import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.WeekDay;
 import com.xiaoningmeng.reminder.Reminder;
 import com.xiaoningmeng.utils.PreferenceUtil;
 import com.xiaoningmeng.view.SwitchButton;
 import com.xiaoningmeng.view.picker.TimePicker;
-import com.xiaoningmeng.base.BaseActivity;
 
 import java.io.Serializable;
 import java.util.List;
@@ -34,9 +34,9 @@ public class AlarmClockActivity extends BaseActivity implements
 		setTheme(R.style.PickTheme);
 		setContentView(R.layout.activity_alarm_clock);
 		setRightHeadIcon(R.drawable.ic_player_flag_wave_01);
-		setTitleName("定时提醒");
-		setRightHeadText("保存");
-		timePicker = (TimePicker) findViewById(R.id.timePicker);
+        setTitleName(getString(R.string.page_title_alarm));
+        setRightHeadText(getString(R.string.save));
+        timePicker = (TimePicker) findViewById(R.id.timePicker);
 		mRepatTv = (TextView) findViewById(R.id.tv_alarm_repeat);
 		mRingTv = (TextView) findViewById(R.id.tv_alarm_ring);
 		mSwitchButton = (SwitchButton)findViewById(R.id.sb_alarm_switch);
@@ -44,7 +44,8 @@ public class AlarmClockActivity extends BaseActivity implements
 	}
 
 	private void initAlarmData() {
-		int hour = PreferenceUtil.getInt("alarmHour",20);
+
+        int hour = PreferenceUtil.getInt("alarmHour",20);
 		int minute = PreferenceUtil.getInt("alarmMinute");
 		timePicker.update(hour, minute);
 		boolean isOpenAlarm = getIntent().getBooleanExtra("isOpenAlarm", false);
@@ -59,7 +60,8 @@ public class AlarmClockActivity extends BaseActivity implements
 	}
 
 	private void initAlarmSound() {
-		if(soundArray == null)
+
+        if(soundArray == null)
 			soundArray = getResources().getStringArray(R.array.music_cover_name);
 		mRingTv.setText(soundArray[selectRingPos]);
 	}
@@ -124,7 +126,8 @@ public class AlarmClockActivity extends BaseActivity implements
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if(resultCode == 3){
+
+        if(resultCode == 3){
 			weekDays  = (List<WeekDay>) data.getSerializableExtra("weekDays");
 			initAlarmRepat();
 		}else if(resultCode == 4){

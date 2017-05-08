@@ -83,7 +83,9 @@
         <View
             android:id="@+id/v_history_bottom_divider"
             style="@style/dividerStyle"
-            android:layout_alignParentBottom="true"/>
+            android:layout_alignParentBottom="true"
+            android:layout_alignLeft="@+id/v_mine_header"
+            android:layout_alignStart="@+id/v_mine_header"/>
     </RelativeLayout>
 
 </LinearLayout>

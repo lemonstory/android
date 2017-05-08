@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
-    <string name="app_name">小柠檬听儿歌故事</string>
+    <string name="app_name">小柠檬-听儿歌故事</string>
     <string name="app_desc">听儿歌、故事、 育儿、早教、启蒙教育、母婴、教育、辣妈必备！</string>
 
     <!-- time -->
@@ -113,6 +113,8 @@
     <string name="player_pause">暂停</string>
     <string name="player_mode">播放模式</string>
 
+    <!--定时提醒-->
+    <string name="save">保存</string>
 
     <!--专辑-->
     <string name="album_fav">收藏</string>
@@ -121,5 +123,6 @@
 
     <!--页面名称-->
     <string name="page_title_setting">设置</string>
+    <string name="page_title_alarm">定时提醒</string>
 
 </resources>

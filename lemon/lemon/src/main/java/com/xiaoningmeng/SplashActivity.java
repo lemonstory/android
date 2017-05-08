@@ -24,7 +24,7 @@ public class SplashActivity extends BaseActivity {
     public static final int LOGIN_TIME = 1600;
     private TextView mAdCountDownTv;
     private int countDown = 5;
-    private boolean isLoadAd = true;
+    private boolean isLoadAd = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +52,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void loadAd() {
+
         RelativeLayout adsParent = (RelativeLayout) this.findViewById(R.id.adsRl);
         SplashAdListener listener = new SplashAdListener() {
             @Override

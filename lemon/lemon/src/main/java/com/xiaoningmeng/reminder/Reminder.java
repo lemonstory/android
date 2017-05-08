@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 
 import java.util.Calendar;
 
@@ -11,26 +12,23 @@ public class Reminder {
 
 	private static void remind(Context context, boolean cancel, int seconds) {
 
-		AlarmManager am = (AlarmManager) context
-				.getSystemService(Context.ALARM_SERVICE);
-		Intent i = new Intent(context, RemindBroadcastReceiver.class);
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent i = new Intent(context, RemindBroadcastReceiver.class);
 		i.setAction(RemindBroadcastReceiver.REMINDER_CLOSE);
 		PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
 		if (cancel) {
 			am.cancel(pi);
 		} else {
 			Calendar c = Calendar.getInstance();
-			am.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis() + seconds
-					* 1000, pi);
+            am.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis() + seconds * 1000, pi);
 
 		}
 	}
 
 	private static void remindAlarm(Context context, boolean cancel, int hour,int minute) {
 
-		AlarmManager am = (AlarmManager) context
-				.getSystemService(Context.ALARM_SERVICE);
-		Intent i = new Intent(context, RemindBroadcastReceiver.class);
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent i = new Intent(context, RemindBroadcastReceiver.class);
 		i.setAction(RemindBroadcastReceiver.REMINDER);
 		PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
 		if (cancel) {
@@ -52,20 +50,20 @@ public class Reminder {
 	
 	private static void remindDelayAlarm(Context context, boolean cancel, int seconds) {
 
-
-		AlarmManager am = (AlarmManager) context
-				.getSystemService(Context.ALARM_SERVICE);
-		Intent i = new Intent(context, RemindBroadcastReceiver.class);
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent i = new Intent(context, RemindBroadcastReceiver.class);
 		i.setAction(RemindBroadcastReceiver.REMINDER_DELAY);
 		PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
 		if (cancel) {
 			am.cancel(pi);
 		} else {
 			Calendar c = Calendar.getInstance();
-			am.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis() + seconds
-					* 1000, pi);
-
-		}
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                am.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis() + seconds * 1000, pi);
+            } else {
+                am.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis() + seconds * 1000, pi);
+            }
+        }
 	}
 
 	public static void cancelAlarmReminder(Context context) {

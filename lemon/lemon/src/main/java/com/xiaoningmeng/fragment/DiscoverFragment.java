@@ -35,6 +35,7 @@ import com.xiaoningmeng.bean.Index;
 import com.xiaoningmeng.presenter.DiscoverPresenter;
 import com.xiaoningmeng.presenter.contract.DiscoverConstract;
 import com.xiaoningmeng.utils.AppUtils;
+import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,7 +51,6 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
     private List<IRecyclerItem> mIndexDatas;
     private DiscoverPresenter mPresenter;
     private IndexAdapter mAdapter;
-    private Boolean albumClickable;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -83,12 +83,8 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
                 switch (iRecyclerItem.getItemType()) {
 
                     case Index.ALBUM_TYPE:
-                        //增加开关，避免连续点击，Activity跳转动画出现错误
-                        if (albumClickable) {
                             AlbumInfo albumInfo = (AlbumInfo) iRecyclerItem;
                             startAlbumInfoActivity(view, albumInfo);
-                            albumClickable = false;
-                        }
                         break;
 
                     case Index.ALBUM_MORE_TYPE:
@@ -127,6 +123,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
                 switch (iRecyclerItem.getItemType()) {
                     case Index.ALBUM_MORE_TYPE:
                         Index.SectionItemBean albumSectionItem = (Index.SectionItemBean) iRecyclerItem;
+                        DebugUtils.d("albumSectionItem.getLinkurl = " + albumSectionItem.getLinkurl());
                         Uri albumSectionItemLinkUri = Uri.parse(albumSectionItem.getLinkurl());
                         Intent moreIntent = new Intent();
                         moreIntent.putExtra("pageTitle", albumSectionItem.getTitle());
@@ -183,7 +180,6 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    albumClickable = true;
                     String linkUrl = data.getLinkurl();
                     AppUtils.openLinkUrl(null, DiscoverFragment.this, linkUrl);
                 }
@@ -206,7 +202,6 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
         if (getActivity() != null) {
             MobclickAgent.onEvent(getActivity(), "event_show_discover");
         }
-        albumClickable = true;
     }
 
     @Override

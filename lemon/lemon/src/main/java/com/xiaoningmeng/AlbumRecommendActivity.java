@@ -99,8 +99,14 @@ public class AlbumRecommendActivity extends BaseActivity implements AlbumRecomme
             maxAge = Integer.parseInt(uri.getQueryParameter("max_age"));
         }
         String urlPath = dataUrl.replace("xnm://", "http://");
-        recommendUrl = urlPath.substring(0, urlPath.indexOf("?"));
+        int endIndex = urlPath.indexOf("?");
+        if (-1 != endIndex) {
+            recommendUrl = urlPath.substring(0, urlPath.indexOf("?"));
+        } else {
+            recommendUrl = urlPath;
+        }
         DebugUtils.d("recommendUrl = " + recommendUrl);
+
     }
 
     private void setPageTitle() {

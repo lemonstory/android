@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" 
-    android:fitsSystemWindows="true"
-    android:clipToPadding="false"
-   	android:background="@color/black_dialog_bg" >
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@color/home_bg"
+             android:clipToPadding="false"
+             android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="@dimen/alarm_width"
@@ -12,13 +12,13 @@
         android:layout_gravity="center"
         android:background="@drawable/dialog_white_bg"
         android:gravity="center_horizontal"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/login_bottom_text_margin"
-            android:src="@drawable/ic_notice_clock" />
+            android:src="@drawable/ic_notice_clock"/>
 
         <TextView
             android:id="@+id/tv_dialog_tip"
@@ -33,15 +33,15 @@
             android:paddingRight="@dimen/dialog_padding"
             android:text="收听故事的时间到啦~！"
             android:textColor="@color/base_title_color"
-            android:textSize="@dimen/title_content_text_size" />
+            android:textSize="@dimen/title_content_text_size"/>
 
-        <View style="@style/dividerStyle" />
+        <View style="@style/dividerStyle"/>
 
         <LinearLayout
             android:id="@+id/ll_dialog_btn"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dialog_btn_height"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tv_dialog_cancel"
@@ -50,13 +50,13 @@
                 android:layout_weight="1"
                 android:background="@drawable/base_listview_item_bg_selector"
                 android:clickable="true"
-                android:onClick="onClick"
                 android:gravity="center"
+                android:onClick="onClick"
                 android:text="稍后提醒"
                 android:textColor="@color/base_date_color"
-                android:textSize="@dimen/title_content_text_size" />
+                android:textSize="@dimen/title_content_text_size"/>
 
-            <View style="@style/verticalDividerStyle" />
+            <View style="@style/verticalDividerStyle"/>
 
             <TextView
                 android:id="@+id/tv_dialog_enter"
@@ -65,11 +65,11 @@
                 android:layout_weight="1"
                 android:background="@drawable/base_listview_item_bg_selector"
                 android:clickable="true"
-                android:onClick="onClick"
                 android:gravity="center"
+                android:onClick="onClick"
                 android:text="知道了"
                 android:textColor="#FDC772"
-                android:textSize="@dimen/title_content_text_size" />
+                android:textSize="@dimen/title_content_text_size"/>
         </LinearLayout>
     </LinearLayout>
 
