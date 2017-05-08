@@ -26,6 +26,7 @@ import com.facebook.drawee.drawable.ScalingUtils;
 import com.facebook.drawee.view.DraweeTransition;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
@@ -53,7 +54,6 @@ import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.utils.AppUtils;
-import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.utils.ImageUtils;
 import com.xiaoningmeng.view.CircleProgressBar;
 import com.xiaoningmeng.view.RatingBar;
@@ -322,14 +322,14 @@ public class AlbumDetailActivity extends BaseActivity implements
                         AlbumDetailActivity.this.notify(PlayerManager.getInstance().getPlayingStory());
 
                     } else {
-                        DebugUtils.e(response.toString());
+                        Logger.e(response.toString());
                     }
                 }
 
                 @Override
                 public void onFailure(Call<JsonResponse<Album>> call, Throwable t) {
 
-                    DebugUtils.e(t.toString());
+                    Logger.e(t.toString());
                 }
             });
         }
@@ -564,14 +564,14 @@ public class AlbumDetailActivity extends BaseActivity implements
                         albumInfo.updateAll("albumid =?", albumInfo.getId());
                         EventBus.getDefault().post(new FavEvent(albumInfo, 1));
                     } else {
-                        DebugUtils.e(response.toString());
+                        Logger.e(response.toString());
                     }
 
                 }
 
                 @Override
                 public void onFailure(Call<JsonResponse<String>> call, Throwable t) {
-                    DebugUtils.e(t.toString());
+                    Logger.e(t.toString());
                 }
             });
 
@@ -596,14 +596,14 @@ public class AlbumDetailActivity extends BaseActivity implements
                         EventBus.getDefault().post(new FavEvent(albumInfo, 0));
 
                     } else {
-                        DebugUtils.e(response.toString());
+                        Logger.e(response.toString());
                     }
 
                 }
 
                 @Override
                 public void onFailure(Call<JsonResponse<String>> call, Throwable t) {
-                    DebugUtils.e(t.toString());
+                    Logger.e(t.toString());
                 }
             });
         }

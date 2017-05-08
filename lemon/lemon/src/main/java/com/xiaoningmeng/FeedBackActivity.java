@@ -7,10 +7,10 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.orhanobut.logger.Logger;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
-import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.utils.TelUtil;
 import com.xiaoningmeng.view.dialog.TipDialog;
 
@@ -66,14 +66,14 @@ public class FeedBackActivity extends BaseActivity implements OnClickListener {
 							Toast.makeText(FeedBackActivity.this, "感谢您反馈的宝贵意见", Toast.LENGTH_SHORT).show();
 							finish();
 						} else {
-							DebugUtils.e(response.toString());
-						}
+                            Logger.e(response.toString());
+                        }
 					}
 
 					@Override
 					public void onFailure(Call<JsonResponse<String>> call, Throwable t) {
-						DebugUtils.e(t.toString());
-					}
+                        Logger.e(t.toString());
+                    }
 				});
 
 			} else {

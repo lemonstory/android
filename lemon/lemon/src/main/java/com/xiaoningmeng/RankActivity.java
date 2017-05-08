@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.baoyz.swipemenu.xlistview.XListView;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.orhanobut.logger.Logger;
 import com.xiaoningmeng.adapter.RatingAdapter;
 import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
@@ -23,7 +24,6 @@ import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
-import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.view.dialog.DrawableDialogLoading;
 
 import java.util.ArrayList;
@@ -104,13 +104,13 @@ public class RankActivity extends BaseActivity implements PlayObserver {
                         mPositionTv.setText("您还未登录 ");
                     }
                 } else {
-                    DebugUtils.e(response.toString());
+                    Logger.e(response.toString());
                 }
             }
 
             @Override
             public void onFailure(Call<JsonResponse<Rank>> call, Throwable t) {
-                DebugUtils.e(t.toString());
+                Logger.e(t.toString());
             }
         });
     }

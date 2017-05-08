@@ -1,13 +1,14 @@
 package com.xiaoningmeng.db;
 
-import java.util.ArrayList;
-import java.util.List;
-import com.xiaoningmeng.application.MyApplication;
-import com.xiaoningmeng.bean.SearchContent;
-import com.xiaoningmeng.utils.DebugUtils;
-
 import android.content.ContentValues;
 import android.database.Cursor;
+
+import com.orhanobut.logger.Logger;
+import com.xiaoningmeng.application.MyApplication;
+import com.xiaoningmeng.bean.SearchContent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SearchDao {
 
@@ -50,7 +51,7 @@ public class SearchDao {
 				return count > 0;
 			}
 		} catch (Exception e) {
-			DebugUtils.exception(e);
+			Logger.e(e.getMessage());
 		} finally {
 			dbhelper.close();
 		}
@@ -66,7 +67,7 @@ public class SearchDao {
 				dbhelper.sdb.update(DBHelper.TAB_SEARCH, values, "content=?", new String[]{content});
 			}
 		} catch (Exception e) {
-			DebugUtils.exception(e);
+			Logger.e(e.getMessage());
 		} finally {
 			dbhelper.close();
 		}
@@ -82,7 +83,7 @@ public class SearchDao {
 						new Object[] {content,System.currentTimeMillis()/1000});
 			}
 		} catch (Exception e) {
-			DebugUtils.exception(e);
+			Logger.e(e.getMessage());
 		} finally {
 			dbhelper.close();
 		}
@@ -106,7 +107,7 @@ public class SearchDao {
 				}
 			}
 		}catch (Exception e) {
-			DebugUtils.exception(e);
+			Logger.e(e.getMessage());
 		} finally {
 			if (cursor != null && !cursor.isClosed()) {
 				cursor.close();
@@ -136,7 +137,7 @@ public class SearchDao {
 				dbhelper.sdb.execSQL("delete from " + DBHelper.TAB_SEARCH,new Object[] {});
 			}
 		} catch (Exception e) {
-			DebugUtils.exception(e);
+			Logger.e(e.getMessage());
 		} finally {
 			dbhelper.close();
 		}

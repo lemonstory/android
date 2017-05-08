@@ -16,9 +16,9 @@ import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipeline;
+import com.orhanobut.logger.Logger;
 import com.tencent.bugly.crashreport.BuglyLog;
 import com.umeng.analytics.MobclickAgent;
-import com.xiaoningmeng.db.HistoryDao;
 import com.xiaoningmeng.ReminderActivity;
 import com.xiaoningmeng.application.ActivityManager;
 import com.xiaoningmeng.application.MyApplication;
@@ -27,11 +27,11 @@ import com.xiaoningmeng.bean.AudioDownLoad;
 import com.xiaoningmeng.bean.PlayStory;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.Story;
+import com.xiaoningmeng.db.HistoryDao;
 import com.xiaoningmeng.download.DownLoadClientImpl;
 import com.xiaoningmeng.download.DownLoadObserver;
 import com.xiaoningmeng.download.DownLoadState;
 import com.xiaoningmeng.utils.AudioUtils;
-import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.utils.PreferenceUtil;
 
 import org.litepal.crud.DataSupport;
@@ -625,7 +625,7 @@ public class PlayerManager extends PlayerObservable implements
 
     // 申请设备电源锁
     private void acquireWakeLock() {
-        DebugUtils.d("正在申请电源锁");
+        Logger.d("正在申请电源锁");
         if (null == mWakeLock) {
             PowerManager pm = (PowerManager) MyApplication.getInstance()
                     .getApplicationContext().getSystemService(Context.POWER_SERVICE);
@@ -633,18 +633,18 @@ public class PlayerManager extends PlayerObservable implements
                     | PowerManager.ON_AFTER_RELEASE, "");
             if (null != mWakeLock) {
                 mWakeLock.acquire();
-                DebugUtils.d("电源锁申请成功");
+                Logger.d("电源锁申请成功");
             }
         }
     }
 
     // 释放设备电源锁
     private void releaseWakeLock() {
-        DebugUtils.d("正在释放电源锁");
+        Logger.d("正在释放电源锁");
         if (null != mWakeLock) {
             mWakeLock.release();
             mWakeLock = null;
-            DebugUtils.d("电源锁释放成功");
+            Logger.d("电源锁释放成功");
         }
     }
 }

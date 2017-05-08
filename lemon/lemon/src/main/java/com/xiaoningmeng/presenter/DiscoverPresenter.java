@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.orhanobut.logger.Logger;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.bean.IRecyclerItem;
 import com.xiaoningmeng.bean.Index;
@@ -12,7 +13,6 @@ import com.xiaoningmeng.http.ConstantURL;
 import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.presenter.contract.DiscoverConstract;
-import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,17 +124,17 @@ public class DiscoverPresenter implements DiscoverConstract.Presenter {
 
                                 });
                     } else {
-                        DebugUtils.e("response.body().toString = " + response.body().toString());
+                        Logger.e("response.body().toString = " + response.body().toString());
                     }
 
                 } else {
-                    DebugUtils.e("response.toString = " + response.toString());
+                    Logger.e("response.toString = " + response.toString());
                 }
             }
 
             @Override
             public void onFailure(Call<JsonResponse<Index>> call, Throwable t) {
-                DebugUtils.e("Fail : " + t.toString());
+                Logger.e("Fail : " + t.toString());
             }
         });
     }

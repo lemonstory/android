@@ -19,6 +19,7 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.baoyz.swipemenulistview.SwipeMenuListView.OnMenuItemClickListener;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.logger.Logger;
 import com.xiaoningmeng.adapter.MoreAdapter;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.AlbumInfo;
@@ -27,7 +28,6 @@ import com.xiaoningmeng.event.FavEvent;
 import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
-import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.utils.UiUtils;
 import com.xiaoningmeng.view.dialog.TipDialog;
 
@@ -159,14 +159,14 @@ public class FavActivity extends BaseActivity implements IXListViewListener {
                     showEmptyTip("收藏的故事会出现在这里喔.");
 
                 } else {
-                    DebugUtils.e(response.toString());
+                    Logger.e(response.toString());
                 }
 
             }
 
             @Override
             public void onFailure(Call<JsonResponse<String>> call, Throwable t) {
-                DebugUtils.e(t.toString());
+                Logger.e(t.toString());
             }
         });
     }
@@ -206,7 +206,7 @@ public class FavActivity extends BaseActivity implements IXListViewListener {
                     }
                     showEmptyTip("收藏的故事会出现在这里喔.");
                 } else {
-                    DebugUtils.e(response.toString());
+                    Logger.e(response.toString());
                 }
 
             }
@@ -216,7 +216,7 @@ public class FavActivity extends BaseActivity implements IXListViewListener {
 
                 onLoad();
                 hideLoadingTip();
-                DebugUtils.e(t.toString());
+                Logger.e(t.toString());
             }
         });
     }

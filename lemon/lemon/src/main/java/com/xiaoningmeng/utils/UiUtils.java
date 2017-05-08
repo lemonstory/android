@@ -15,6 +15,8 @@ import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.orhanobut.logger.Logger;
+
 public class UiUtils {
 
 	private static DisplayMetrics mDisplayMetrics;
@@ -32,7 +34,7 @@ public class UiUtils {
 					.getSystemService(Context.WINDOW_SERVICE));
 			mWindowManager.getDefaultDisplay().getMetrics(mDisplayMetrics);
 		}else {
-			DebugUtils.e("mContext is null");
+			Logger.e("mContext is null");
 		}
 		return utils;
 	}

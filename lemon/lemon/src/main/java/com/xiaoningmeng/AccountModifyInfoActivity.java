@@ -26,6 +26,7 @@ import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.baoyz.swipemenulistview.SwipeMenuListView.OnMenuItemClickListener;
+import com.orhanobut.logger.Logger;
 import com.xiaoningmeng.adapter.AddressAdapter;
 import com.xiaoningmeng.adapter.AreaAdapter;
 import com.xiaoningmeng.application.MyApplication;
@@ -39,7 +40,6 @@ import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.db.AreaDao;
 import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
-import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.utils.TelUtil;
 import com.xiaoningmeng.utils.UiUtils;
 import com.xiaoningmeng.view.dialog.BaseDialog;
@@ -281,14 +281,14 @@ public class AccountModifyInfoActivity extends BaseActivity implements
                     mAddressAdapter.notifyDataSetChanged();
                     mAddressDividerV.setVisibility(mAddresses.size() == 0 ? View.GONE : View.VISIBLE);
                 } else {
-                    DebugUtils.e(response.toString());
+                    Logger.e(response.toString());
                 }
 
             }
 
             @Override
             public void onFailure(Call<JsonResponse<Address>> call, Throwable t) {
-                DebugUtils.e(t.toString());
+                Logger.e(t.toString());
             }
         });
     }
@@ -311,14 +311,14 @@ public class AccountModifyInfoActivity extends BaseActivity implements
                         mAddressDividerV.setVisibility(mAddresses.size() == 0 ? View.GONE : View.VISIBLE);
                     }
                 } else {
-                    DebugUtils.e(response.toString());
+                    Logger.e(response.toString());
                 }
 
             }
 
             @Override
             public void onFailure(Call<JsonResponse<List<Address>>> call, Throwable t) {
-                DebugUtils.e(t.toString());
+                Logger.e(t.toString());
             }
         });
     }
@@ -611,14 +611,14 @@ public class AccountModifyInfoActivity extends BaseActivity implements
                         finish();
 
                     } else {
-                        DebugUtils.e(response.toString());
+                        Logger.e(response.toString());
                     }
                 }
 
                 @Override
                 public void onFailure(Call<JsonResponse<Address>> call, Throwable t) {
 
-                    DebugUtils.e(t.toString());
+                    Logger.e(t.toString());
                 }
             });
 
@@ -648,14 +648,14 @@ public class AccountModifyInfoActivity extends BaseActivity implements
                         finish();
 
                     } else {
-                        DebugUtils.e(response.toString());
+                        Logger.e(response.toString());
                     }
                 }
 
                 @Override
                 public void onFailure(Call<JsonResponse<Address>> call, Throwable t) {
 
-                    DebugUtils.e(t.toString());
+                    Logger.e(t.toString());
                 }
             });
         }
@@ -704,7 +704,7 @@ public class AccountModifyInfoActivity extends BaseActivity implements
                         MyApplication.getInstance().userInfo.setAddressinfo(address);
                     }
                 } else {
-                    DebugUtils.e(response.toString());
+                    Logger.e(response.toString());
                 }
 
                 if (province != null) {
@@ -726,7 +726,7 @@ public class AccountModifyInfoActivity extends BaseActivity implements
             @Override
             public void onFailure(Call<JsonResponse<String>> call, Throwable t) {
 
-                DebugUtils.e(t.toString());
+                Logger.e(t.toString());
                 if (province != null) {
                     Intent i = new Intent(AccountModifyInfoActivity.this, AccountActivity.class);
                     i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

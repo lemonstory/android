@@ -8,6 +8,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.beta.UpgradeInfo;
 import com.umeng.socialize.ShareAction;
@@ -24,7 +25,6 @@ import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayNotificationManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
-import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.utils.PreferenceUtil;
 import com.xiaoningmeng.view.ShareDialog;
 
@@ -141,14 +141,14 @@ public class SettingActivity extends BaseActivity implements OnClickListener,
                     PlayNotificationManager.getInstance().cancel();
                     startActivityForNew(new Intent(SettingActivity.this, LoginActivity.class));
                 } else {
-                    DebugUtils.e(response.toString());
+                    Logger.e(response.toString());
                 }
             }
 
             @Override
             public void onFailure(Call<JsonResponse<String>> call, Throwable t) {
 
-                DebugUtils.e(t.toString());
+                Logger.e(t.toString());
             }
         });
         EventBus.getDefault().post(new LogoutEvent());

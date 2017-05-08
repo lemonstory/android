@@ -1,13 +1,5 @@
 package com.xiaoningmeng.bean;
 
-import java.util.Locale;
-
-import com.xiaoningmeng.application.MyApplication;
-import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.utils.AppUtils;
-import com.xiaoningmeng.utils.DebugUtils;
-import com.xiaoningmeng.utils.NetUtils;
-
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -16,6 +8,14 @@ import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
+
+import com.orhanobut.logger.Logger;
+import com.xiaoningmeng.application.MyApplication;
+import com.xiaoningmeng.constant.Constant;
+import com.xiaoningmeng.utils.AppUtils;
+import com.xiaoningmeng.utils.NetUtils;
+
+import java.util.Locale;
 
 public class AppInfo {
 	
@@ -125,8 +125,8 @@ public class AppInfo {
 			buffer.append(LANGUAGE);
 			buffer.append(")");
 			UAStr = buffer.toString();
-			DebugUtils.e(UAStr);
-		}
+            Logger.e(UAStr);
+        }
 		return UAStr;
 	}
 }

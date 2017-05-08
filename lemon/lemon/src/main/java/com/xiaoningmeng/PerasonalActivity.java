@@ -15,6 +15,7 @@ import com.baoyz.swipemenu.xlistview.XListView;
 import com.baoyz.swipemenu.xlistview.XListView.IXListViewListener;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.orhanobut.logger.Logger;
 import com.xiaoningmeng.adapter.PerasonalAdapter;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.base.BaseActivity;
@@ -30,7 +31,6 @@ import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.utils.AvatarUtils;
-import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -151,7 +151,7 @@ public class PerasonalActivity extends BaseActivity implements PlayObserver, OnC
             showEmptyTip("Ta还没收听的故事喔");
           }
         } else {
-          DebugUtils.e(response.toString());
+            Logger.e(response.toString());
         }
         onLoad();
       }
@@ -159,7 +159,7 @@ public class PerasonalActivity extends BaseActivity implements PlayObserver, OnC
       @Override
       public void onFailure(Call<JsonResponse<PerasonalInfo>> call, Throwable t) {
 
-        DebugUtils.e(t.toString());
+          Logger.e(t.toString());
       }
     });
   }

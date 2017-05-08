@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
 import com.wang.avi.AVLoadingIndicatorView;
 import com.xiaoningmeng.AlbumDetailActivity;
@@ -37,7 +38,6 @@ import com.xiaoningmeng.event.HistoryEvent;
 import com.xiaoningmeng.event.LoginEvent;
 import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
-import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -251,7 +251,7 @@ public class MineFragment extends BaseFragment implements OnClickListener, OnDow
                         mAdapter.disableLoadMoreIfNotFullPage();
                     } else {
 
-                        DebugUtils.e(response.toString());
+                        Logger.e(response.toString());
                         addHistoryAlbums(mDBHistoryAlbum);
                         isErr = true;
                         mAdapter.loadMoreFail();

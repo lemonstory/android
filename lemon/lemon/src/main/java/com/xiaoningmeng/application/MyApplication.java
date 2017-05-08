@@ -17,6 +17,8 @@ import com.franmontiel.persistentcookiejar.ClearableCookieJar;
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
+import com.orhanobut.logger.LogLevel;
+import com.orhanobut.logger.Logger;
 import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.Bugly;
 import com.tencent.smtt.sdk.QbSdk;
@@ -36,7 +38,6 @@ import com.xiaoningmeng.http.OSSAuth;
 import com.xiaoningmeng.http.UserAgentInterceptor;
 import com.xiaoningmeng.player.MusicService;
 import com.xiaoningmeng.utils.AppUtils;
-import com.xiaoningmeng.utils.DebugUtils;
 
 import org.litepal.LitePalApplication;
 
@@ -86,6 +87,7 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
         // Normal app init code...
         mApplication = this;
         if (shouldInit()) {
+            loggerInit();
             MiPushClient.registerPush(this, Constant.MI_APP_ID, Constant.MI_APP_KEY);
             AppInfo.getInstance();
             Fresco.initialize(this);
@@ -132,30 +134,30 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
             @Override
             public void onViewInitFinished(boolean arg0) {
                 // TODO Auto-generated method stub
-//                DebugUtils.e( "onViewInitFinished is " + arg0);
+//                Logger.e( "onViewInitFinished is " + arg0);
             }
 
             @Override
             public void onCoreInitFinished() {
                 // TODO Auto-generated method stub
-//                DebugUtils.e( "onCoreInitFinished ");
+//                Logger.e( "onCoreInitFinished ");
 
             }
         };
         QbSdk.setTbsListener(new TbsListener() {
             @Override
             public void onDownloadFinish(int i) {
-//                DebugUtils.d("onDownloadFinish");
+//                Logger.d("onDownloadFinish");
             }
 
             @Override
             public void onInstallFinish(int i) {
-//                DebugUtils.d("onInstallFinish");
+//                Logger.d("onInstallFinish");
             }
 
             @Override
             public void onDownloadProgress(int i) {
-//                DebugUtils.d("onDownloadProgress:"+i);
+//                Logger.d("onDownloadProgress:"+i);
             }
         });
         QbSdk.initX5Environment(this, cb);
@@ -169,7 +171,7 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
         try {
             startMusicService();
         } catch (RuntimeException e) {
-            DebugUtils.e(e.toString());
+            Logger.e(e.toString());
         }
 
         UserInfo loginUserInfo = UserAuth.getInstance().getLoginUserInfo(this);
@@ -280,5 +282,15 @@ public class MyApplication extends LitePalApplication implements ServiceConnecti
     public void unbindMusicService() {
         this.unbindService(this);
 //		stopMusicService();
+    }
+
+    public void loggerInit() {
+
+        Logger
+                .init(Constant.APP_TAG)         // default PRETTYLOGGER or use just init()
+                .methodCount(3)                 // default 2
+                .hideThreadInfo()               // default shown
+                .logLevel(LogLevel.NONE)        // default LogLevel.FULL
+                .methodOffset(2);               // default 0
     }
 }

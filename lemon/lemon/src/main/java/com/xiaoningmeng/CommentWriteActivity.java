@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
@@ -20,7 +21,6 @@ import com.xiaoningmeng.bean.Comment;
 import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
-import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.view.RatingBar;
 import com.xiaoningmeng.view.RatingBar.OnRatingChangeListener;
 
@@ -167,16 +167,16 @@ public class CommentWriteActivity extends BaseActivity {
 					finish();
 				} else {
 
-					DebugUtils.e(response.toString());
-				}
+                    Logger.e(response.toString());
+                }
 				isReq.set(false);
 			}
 
 			@Override
 			public void onFailure(Call<JsonResponse<String>> call, Throwable t) {
 
-				DebugUtils.e(t.toString());
-				isReq.set(false);
+                Logger.e(t.toString());
+                isReq.set(false);
 			}
 		});
 	}

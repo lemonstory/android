@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.orhanobut.logger.Logger;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.AlbumRecommend;
 import com.xiaoningmeng.bean.PlayingStory;
@@ -21,7 +22,6 @@ import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
-import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.List;
 
@@ -105,7 +105,7 @@ public class AlbumRecommendActivity extends BaseActivity implements AlbumRecomme
         } else {
             recommendUrl = urlPath;
         }
-        DebugUtils.d("recommendUrl = " + recommendUrl);
+        Logger.d("recommendUrl = " + recommendUrl);
 
     }
 
@@ -201,6 +201,6 @@ public class AlbumRecommendActivity extends BaseActivity implements AlbumRecomme
     @Override
     public void onFragmentInteraction(Uri uri) {
 
-        DebugUtils.d("onFragmentInteraction RUN!!!!!!!!");
+        Logger.d("onFragmentInteraction RUN!!!!!!!!");
     }
 }

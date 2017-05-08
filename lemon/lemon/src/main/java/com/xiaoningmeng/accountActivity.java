@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.alibaba.sdk.android.oss.callback.SaveCallback;
 import com.alibaba.sdk.android.oss.model.OSSException;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.orhanobut.logger.Logger;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.base.BasePohotoActivity;
 import com.xiaoningmeng.bean.Address;
@@ -30,7 +31,6 @@ import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
 import com.xiaoningmeng.utils.AvatarUtils;
-import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.view.dialog.BaseDialog;
 import com.xiaoningmeng.view.picker.DatePicker;
 
@@ -146,13 +146,13 @@ public class AccountActivity extends BasePohotoActivity implements
                         setUserView();
                     }
                 } else {
-                    DebugUtils.e(response.toString());
+                    Logger.e(response.toString());
                 }
             }
 
             @Override
             public void onFailure(Call<JsonResponse<UserInfo>> call, Throwable t) {
-                DebugUtils.e(t.toString());
+                Logger.e(t.toString());
             }
         });
     }
@@ -242,7 +242,7 @@ public class AccountActivity extends BasePohotoActivity implements
                                         MyApplication.getInstance().userInfo.setAge(age + "");
                                         EventBus.getDefault().post(mUserInfo);
                                     } else {
-                                        DebugUtils.e(response.toString());
+                                        Logger.e(response.toString());
                                     }
 
                                 }
@@ -250,7 +250,7 @@ public class AccountActivity extends BasePohotoActivity implements
                                 @Override
                                 public void onFailure(Call<JsonResponse<String>> call, Throwable t) {
 
-                                    DebugUtils.e(t.toString());
+                                    Logger.e(t.toString());
                                 }
                             });
                         }
@@ -365,7 +365,7 @@ public class AccountActivity extends BasePohotoActivity implements
                     EventBus.getDefault().post(mUserInfo);
                     mUploadingProgress.setVisibility(View.INVISIBLE);
                 } else {
-                    DebugUtils.e(response.toString());
+                    Logger.e(response.toString());
                     String avatarUrl = AvatarUtils.getAvatarUrl(mUserInfo.getUid(), mUserInfo.getAvatartime(), -1);
                     mAvatarImg.setImageURI(Uri.parse(avatarUrl));
                     Toast.makeText(AccountActivity.this, "修改头像失败", Toast.LENGTH_SHORT).show();
@@ -376,7 +376,7 @@ public class AccountActivity extends BasePohotoActivity implements
             @Override
             public void onFailure(Call<JsonResponse<String>> call, Throwable t) {
 
-                DebugUtils.e(t.toString());
+                Logger.e(t.toString());
             }
         });
     }

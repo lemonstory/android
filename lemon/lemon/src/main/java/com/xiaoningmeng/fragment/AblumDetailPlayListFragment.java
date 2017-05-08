@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
 import com.wang.avi.AVLoadingIndicatorView;
 import com.xiaoningmeng.R;
@@ -27,7 +28,6 @@ import com.xiaoningmeng.download.DownLoadClientImpl;
 import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.player.PlayerManager;
-import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -210,14 +210,14 @@ public class AblumDetailPlayListFragment extends BaseFragment implements BaseQui
                             mAdapter.loadMoreFail();
                         }
                     } else {
-                        DebugUtils.e(response.toString());
+                        Logger.e(response.toString());
                     }
                 }
 
                 @Override
                 public void onFailure(Call<JsonResponse<StoryList>> call, Throwable t) {
 
-                    DebugUtils.e(t.toString());
+                    Logger.e(t.toString());
                 }
             });
         }

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.baoyz.swipemenu.xlistview.XListView;
+import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.adapter.SearchAdapter;
@@ -27,7 +28,6 @@ import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.db.SearchDao;
 import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
-import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.view.SearchView;
 import com.xiaoningmeng.view.TabIndicatorView;
 
@@ -100,13 +100,13 @@ public class SearchFragment extends BaseFragment implements SearchView.OnSearchV
                         mDefaultAdapter.notifyDataSetChanged();
                     }
                 } else {
-                    DebugUtils.e(response.toString());
+                    Logger.e(response.toString());
                 }
             }
 
             @Override
             public void onFailure(Call<JsonResponse<List<SearchContent>>> call, Throwable t) {
-                DebugUtils.e(t.toString());
+                Logger.e(t.toString());
             }
         });
     }
@@ -143,7 +143,7 @@ public class SearchFragment extends BaseFragment implements SearchView.OnSearchV
                         showEmptyTip();
                     }
                 } else {
-                    DebugUtils.e(response.toString());
+                    Logger.e(response.toString());
                     mSearchContentView.setVisibility(View.VISIBLE);
                     showEmptyTip();
                 }
@@ -158,7 +158,7 @@ public class SearchFragment extends BaseFragment implements SearchView.OnSearchV
             @Override
             public void onFailure(Call<JsonResponse<SearchData>> call, Throwable t) {
 
-                DebugUtils.e(t.toString());
+                Logger.e(t.toString());
                 isReq.set(false);
                 if (SearchDao.getInstance().addSearch(searchContent)) {
                     mLastContents.add(0, new SearchContent(searchContent));

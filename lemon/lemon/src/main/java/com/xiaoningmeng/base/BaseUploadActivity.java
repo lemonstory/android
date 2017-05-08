@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.ViewHolder;
-import com.xiaoningmeng.utils.DebugUtils;
+import com.orhanobut.logger.Logger;
 import com.xiaoningmeng.ChooImagePathActivity;
 import com.xiaoningmeng.R;
 
@@ -124,8 +124,8 @@ public abstract class BaseUploadActivity extends BaseActivity {
 			if (capturePath != null) {
 				File picFile = new File(capturePath);
 				if (picFile.exists()) {
-					DebugUtils.d("photo getPicture path----"
-							+ picFile.getAbsolutePath());
+                    Logger.d("photo getPicture path----"
+                            + picFile.getAbsolutePath());
 					getPhoto(picFile.getAbsolutePath());
 				} else {
 					error();
@@ -142,8 +142,8 @@ public abstract class BaseUploadActivity extends BaseActivity {
 							saveImage(photo, capturePath);
 							File picFile = new File(capturePath);
 							if (picFile.exists()) {
-								DebugUtils.d("photo getPicture path----"
-										+ picFile.getAbsolutePath());
+                                Logger.d("photo getPicture path----"
+                                        + picFile.getAbsolutePath());
 								getPhoto(picFile.getAbsolutePath());
 							} else {
 								error();
@@ -188,8 +188,8 @@ public abstract class BaseUploadActivity extends BaseActivity {
 	protected void onNewIntent(Intent intent) {
 
 		List<String> imgPaths = intent.getStringArrayListExtra("filePaths");
-		DebugUtils.d("photo getPicture imgPaths----");
-		if(imgPaths != null)
+        Logger.d("photo getPicture imgPaths----");
+        if(imgPaths != null)
 			getImages(imgPaths);
 		super.onNewIntent(intent);
 	}

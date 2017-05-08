@@ -26,6 +26,7 @@ import com.alibaba.baichuan.android.trade.model.OpenType;
 import com.alibaba.baichuan.android.trade.model.TradeResult;
 import com.alibaba.baichuan.android.trade.page.AlibcBasePage;
 import com.alibaba.baichuan.android.trade.page.AlibcPage;
+import com.orhanobut.logger.Logger;
 import com.xiaoningmeng.BuildConfig;
 import com.xiaoningmeng.WebViewActivity;
 import com.xiaoningmeng.base.BaseActivity;
@@ -288,7 +289,7 @@ public class AppUtils {
     public static void enableStrictMode() {
         // return if the build is not a debug build
         if (!BuildConfig.DEBUG) {
-            DebugUtils.e("You should not call enableStrictMode() on a non debug build");
+            Logger.e("You should not call enableStrictMode() on a non debug build");
             return;
         }
 
@@ -308,7 +309,7 @@ public class AppUtils {
                 .penaltyLog()
                 .build());
 
-        DebugUtils.d("Strict mode enabled");
+        Logger.d("Strict mode enabled");
     }
 
     public static boolean isCookieExpired(Cookie cookie) {

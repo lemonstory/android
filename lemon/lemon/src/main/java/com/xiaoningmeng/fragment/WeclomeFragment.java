@@ -7,6 +7,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
 import com.xiaoningmeng.AccountActivity;
 import com.xiaoningmeng.GuideActivity;
 import com.xiaoningmeng.R;
@@ -15,7 +16,6 @@ import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.base.BaseFragment;
 import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
-import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.view.dialog.BaseDialog;
 import com.xiaoningmeng.view.picker.DatePicker;
 
@@ -119,15 +119,15 @@ public class WeclomeFragment extends BaseFragment implements OnClickListener {
 										//goHomeActivity();
 
 									} else {
-										DebugUtils.e(response.toString());
-									}
+                                        Logger.e(response.toString());
+                                    }
 								}
 
 								@Override
 								public void onFailure(Call<JsonResponse<String>> call, Throwable t) {
 
-									DebugUtils.e(t.toString());
-								}
+                                    Logger.e(t.toString());
+                                }
 							});
 						}
 					});
@@ -160,15 +160,15 @@ public class WeclomeFragment extends BaseFragment implements OnClickListener {
 					//goHomeActivity();
 
 				} else {
-					DebugUtils.e(response.toString());
-				}
+                    Logger.e(response.toString());
+                }
 			}
 
 			@Override
 			public void onFailure(Call<JsonResponse<String>> call, Throwable t) {
 
-				DebugUtils.e(t.toString());
-			}
+                Logger.e(t.toString());
+            }
 		});
 	}
 }

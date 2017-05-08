@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.adapter.CategoryAdapter;
 import com.xiaoningmeng.base.BaseActivity;
@@ -29,7 +30,6 @@ import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
-import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -124,7 +124,7 @@ public class CategoryActivity extends BaseActivity implements PlayObserver {
                             case Category.TYPE_AGE_LEVEL:
                                 Category.AgeLevelBean.AgeItemsBean ageItem = (Category.AgeLevelBean.AgeItemsBean) mAdapter.getItem(position);
                                 String ageItemLinkurl = ageItem.getLinkurl();
-                                DebugUtils.d("ageItemLinkurl = " + ageItemLinkurl);
+                                Logger.d("ageItemLinkurl = " + ageItemLinkurl);
                                 Intent ageLevelIntent = new Intent();
                                 ageLevelIntent.putExtra("pageTitle", "最新上架");
                                 Uri uri = Uri.parse(ageItemLinkurl);
@@ -199,7 +199,7 @@ public class CategoryActivity extends BaseActivity implements PlayObserver {
                     }
                 } else {
 
-                    DebugUtils.e(response.toString());
+                    Logger.e(response.toString());
                     Toast.makeText(CategoryActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
                     mAdapter.loadMoreFail();
                 }
@@ -208,7 +208,7 @@ public class CategoryActivity extends BaseActivity implements PlayObserver {
             @Override
             public void onFailure(Call<JsonResponse<Category>> call, Throwable t) {
 
-                DebugUtils.e(t.toString());
+                Logger.e(t.toString());
                 Toast.makeText(CategoryActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
                 mAdapter.loadMoreFail();
             }

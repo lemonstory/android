@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.orhanobut.logger.Logger;
 import com.xiaoningmeng.adapter.AblumCommentAdapter;
 import com.xiaoningmeng.auth.UserAuth;
 import com.xiaoningmeng.base.BaseActivity;
@@ -21,7 +22,6 @@ import com.xiaoningmeng.bean.CommentList;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
-import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -171,13 +171,14 @@ public class AlbumCommentActivity extends BaseActivity implements BaseQuickAdapt
                     isErr = true;
                     Toast.makeText(AlbumCommentActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
                     mAdapter.loadMoreFail();
-                    DebugUtils.e(response.toString());
+                    Logger.e(response.toString());
                 }
             }
 
             @Override
             public void onFailure(Call<JsonResponse<CommentList>> call, Throwable t) {
-                DebugUtils.e(t.toString());
+
+                Logger.e(t.toString());
                 isErr = true;
                 Toast.makeText(AlbumCommentActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
                 mAdapter.loadMoreFail();

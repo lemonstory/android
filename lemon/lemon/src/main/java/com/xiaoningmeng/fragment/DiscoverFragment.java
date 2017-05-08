@@ -22,6 +22,7 @@ import com.bigkoo.convenientbanner.holder.Holder;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.AlbumDetailActivity;
 import com.xiaoningmeng.AuthorAlbumsActivity;
@@ -35,7 +36,6 @@ import com.xiaoningmeng.bean.Index;
 import com.xiaoningmeng.presenter.DiscoverPresenter;
 import com.xiaoningmeng.presenter.contract.DiscoverConstract;
 import com.xiaoningmeng.utils.AppUtils;
-import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -123,7 +123,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverConstract.
                 switch (iRecyclerItem.getItemType()) {
                     case Index.ALBUM_MORE_TYPE:
                         Index.SectionItemBean albumSectionItem = (Index.SectionItemBean) iRecyclerItem;
-                        DebugUtils.d("albumSectionItem.getLinkurl = " + albumSectionItem.getLinkurl());
+                        Logger.d("albumSectionItem.getLinkurl = " + albumSectionItem.getLinkurl());
                         Uri albumSectionItemLinkUri = Uri.parse(albumSectionItem.getLinkurl());
                         Intent moreIntent = new Intent();
                         moreIntent.putExtra("pageTitle", albumSectionItem.getTitle());

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter.RequestLoadMoreListener;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.adapter.AuthorAdapter;
 import com.xiaoningmeng.base.BaseActivity;
@@ -27,7 +28,6 @@ import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
-import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -188,7 +188,7 @@ public class AuthorsActivity extends BaseActivity implements RequestLoadMoreList
                     }
 
                 } else {
-                    DebugUtils.e(response.toString());
+                    Logger.e(response.toString());
                     isErr = true;
                     Toast.makeText(AuthorsActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
                     if (mCurrentCounter > 0) {
@@ -199,7 +199,7 @@ public class AuthorsActivity extends BaseActivity implements RequestLoadMoreList
 
             @Override
             public void onFailure(Call<JsonResponse<AuthorList>> call, Throwable t) {
-                DebugUtils.e(t.toString());
+                Logger.e(t.toString());
                 isErr = true;
                 Toast.makeText(AuthorsActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
                 if (mCurrentCounter > 0) {

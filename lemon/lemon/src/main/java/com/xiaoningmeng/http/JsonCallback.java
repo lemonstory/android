@@ -3,8 +3,8 @@ package com.xiaoningmeng.http;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.orhanobut.logger.Logger;
 import com.xiaoningmeng.constant.Constant;
-import com.xiaoningmeng.utils.DebugUtils;
 
 import org.json.JSONObject;
 
@@ -97,7 +97,7 @@ public abstract class JsonCallback<T> {
                 String content = "";
                 T t = null;
                 try {
-                    DebugUtils.e(response);
+                    Logger.e(response);
                     //Gson gson = new Gson();
                     //GsonBuilder builder = new GsonBuilder();
                     //builder.registerTypeAdapter(FavoriteRecordPo.class, new FavoriteRecordJsonType());
@@ -105,7 +105,7 @@ public abstract class JsonCallback<T> {
                     JSONObject jsonObject = new JSONObject(response);
                     Type type = getType();
                     code = jsonObject.has("code") ? jsonObject.getInt("code") : code;
-                    DebugUtils.e("code = " + code);
+                    Logger.e("code = " + code);
                     //兼容DZ
                     if (Constant.REQ_SUCCESS_STATUS == code || jsonObject.has("Variables")) {
                         if (jsonObject.has("data")) {

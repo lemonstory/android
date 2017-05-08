@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
+import com.orhanobut.logger.Logger;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -18,7 +19,6 @@ import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.http.ConstantURL;
 import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
-import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.Map;
 
@@ -77,7 +77,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                 //授权回调
                 case 0:
                     if (data != null) {
-                        DebugUtils.d("data = " + data.toString());
+                        Logger.d("data = " + data.toString());
                         accessToken = data.get("access_token");
                         openId = data.get("openid");
                     }
@@ -104,7 +104,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         public void onError(SHARE_MEDIA platform, int action, Throwable t) {
 
             mDialog.dismiss();
-            DebugUtils.e(t.toString());
+            Logger.e(t.toString());
             Toast.makeText(mContext, "无法授权", Toast.LENGTH_SHORT).show();
         }
 
@@ -198,7 +198,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
             @Override
             public void onFailure(Call<JsonResponse<UserInfo>> call, Throwable t) {
                 mDialog.dismiss();
-                DebugUtils.e("loginRegQQ onFailure callback is run : message " + t.toString());
+                Logger.e("loginRegQQ onFailure callback is run : message " + t.toString());
             }
         });
     }
@@ -281,7 +281,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     //    }
     //
     //    private void loginRegWechat(String accessToken, String openId, String nickName) {
-    //        DebugUtils.e("QQ accessToken:" + accessToken + " openId" + openId
+    //        Logger.e("QQ accessToken:" + accessToken + " openId" + openId
     //                + " nickName" + nickName);
     //        LHttpRequest.getInstance().WechatLoginRegRequest(this, accessToken, openId,
     //                nickName, new LHttpHandler<UserInfo>(this, this) {

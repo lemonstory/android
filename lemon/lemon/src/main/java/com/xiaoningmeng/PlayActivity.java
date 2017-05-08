@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.ShareAction;
@@ -37,7 +38,6 @@ import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
-import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.utils.TimeUtils;
 import com.xiaoningmeng.view.ShareDialog;
 import com.xiaoningmeng.view.dialog.TipDialog;
@@ -184,7 +184,7 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
     //TODO:这里PlayingStory构造垃圾，播放的数据逻辑实现垃圾
     private void shareStory(View v) {
 
-        DebugUtils.d("shareStory Click!!!!");
+        Logger.d("shareStory Click!!!!");
         Animation shareAnim = AnimationUtils.loadAnimation(PlayActivity.this, R.anim.fav_anim_in);
         v.startAnimation(shareAnim);
         PlayingStory playingStory = mPlayerManager.getPlayingStory();
@@ -244,13 +244,13 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
                         DownLoadClientImpl.getInstance().addAlbum(data.getAlbumInfo());
                         download();
                     } else {
-                        DebugUtils.e(response.toString());
+                        Logger.e(response.toString());
                     }
                 }
 
                 @Override
                 public void onFailure(Call<JsonResponse<Album>> call, Throwable t) {
-                    DebugUtils.e(t.toString());
+                    Logger.e(t.toString());
                 }
             });
         } else {
@@ -288,13 +288,13 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
                         DownLoadClientImpl.getInstance().addAlbum(data.getAlbumInfo());
                         fav(view, data.getAlbumInfo());
                     } else {
-                        DebugUtils.e(response.toString());
+                        Logger.e(response.toString());
                     }
                 }
 
                 @Override
                 public void onFailure(Call<JsonResponse<Album>> call, Throwable t) {
-                    DebugUtils.e(t.toString());
+                    Logger.e(t.toString());
                 }
             });
         } else {
@@ -324,14 +324,14 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
                         albumInfo.updateAll("albumid =?",
                                 albumInfo.getId());
                     } else {
-                        DebugUtils.e(response.toString());
+                        Logger.e(response.toString());
                     }
 
                 }
 
                 @Override
                 public void onFailure(Call<JsonResponse<String>> call, Throwable t) {
-                    DebugUtils.e(t.toString());
+                    Logger.e(t.toString());
                 }
             });
 
@@ -357,14 +357,14 @@ public class PlayActivity extends BaseActivity implements OnClickListener,
                                 albumInfo.getId());
 
                     } else {
-                        DebugUtils.e(response.toString());
+                        Logger.e(response.toString());
                     }
 
                 }
 
                 @Override
                 public void onFailure(Call<JsonResponse<String>> call, Throwable t) {
-                    DebugUtils.e(t.toString());
+                    Logger.e(t.toString());
                 }
             });
         }

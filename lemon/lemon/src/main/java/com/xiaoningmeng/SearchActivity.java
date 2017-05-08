@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.baoyz.swipemenu.xlistview.XListView;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.orhanobut.logger.Logger;
 import com.xiaoningmeng.adapter.SearchAdapter;
 import com.xiaoningmeng.adapter.SearchDefaultAdapter;
 import com.xiaoningmeng.base.BaseActivity;
@@ -27,7 +28,6 @@ import com.xiaoningmeng.fragment.SearchAlbumChildFragment;
 import com.xiaoningmeng.fragment.SearchStoryChildFragment;
 import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
-import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.view.SearchView;
 import com.xiaoningmeng.view.TabIndicatorView;
 
@@ -102,13 +102,13 @@ public class SearchActivity extends BaseActivity implements SearchView.OnSearchV
                         mDefaultAdapter.notifyDataSetChanged();
                     }
                 } else {
-                    DebugUtils.e(response.toString());
+                    Logger.e(response.toString());
                 }
             }
 
             @Override
             public void onFailure(Call<JsonResponse<List<SearchContent>>> call, Throwable t) {
-                DebugUtils.e(t.toString());
+                Logger.e(t.toString());
             }
         });
     }
@@ -150,7 +150,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnSearchV
                         showEmptyTip();
                     }
                 } else {
-                    DebugUtils.e(response.toString());
+                    Logger.e(response.toString());
                     mSearchContentView.setVisibility(View.VISIBLE);
                     showEmptyTip();
                 }
@@ -164,7 +164,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnSearchV
             @Override
             public void onFailure(Call<JsonResponse<SearchData>> call, Throwable t) {
 
-                DebugUtils.e(t.toString());
+                Logger.e(t.toString());
                 isReq.set(false);
                 if (SearchDao.getInstance().addSearch(searchContent)) {
                     mLastContents.add(0, new SearchContent(searchContent));
@@ -197,7 +197,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnSearchV
                     ((SearchAlbumChildFragment) mSearchFragments[0]).addAlbumList(data.getAlbumlist());
                     ((SearchStoryChildFragment) mSearchFragments[1]).addStoryList(data.getStorylist());
                 } else {
-                    DebugUtils.e(response.toString());
+                    Logger.e(response.toString());
                 }
                 isReq.set(false);
                 ((SearchAlbumChildFragment) mSearchFragments[0]).stopLoadMore();
@@ -207,7 +207,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnSearchV
             @Override
             public void onFailure(Call<JsonResponse<SearchData>> call, Throwable t) {
 
-                DebugUtils.e(t.toString());
+                Logger.e(t.toString());
                 isReq.set(false);
                 ((SearchAlbumChildFragment) mSearchFragments[0]).stopLoadMore();
                 ((SearchStoryChildFragment) mSearchFragments[1]).stopLoadMore();

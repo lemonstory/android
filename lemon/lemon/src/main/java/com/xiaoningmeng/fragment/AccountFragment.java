@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.common.util.UriUtil;
+import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.AccountActivity;
 import com.xiaoningmeng.LoginActivity;
@@ -27,7 +28,6 @@ import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.event.LoginEvent;
 import com.xiaoningmeng.event.LogoutEvent;
 import com.xiaoningmeng.utils.AvatarUtils;
-import com.xiaoningmeng.utils.DebugUtils;
 
 import de.greenrobot.event.EventBus;
 
@@ -176,7 +176,7 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
 
     public void onEventMainThread(LogoutEvent event) {
 
-        DebugUtils.d("------- onEventMainThread : LogoutEvent -------");
+        Logger.d("------- onEventMainThread : LogoutEvent -------");
         setUserInfo();
     }
 

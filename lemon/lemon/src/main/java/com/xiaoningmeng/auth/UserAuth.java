@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
+import com.orhanobut.logger.Logger;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaomi.mipush.sdk.MiPushClient;
@@ -15,7 +16,6 @@ import com.xiaoningmeng.bean.UserInfo;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.event.LoginEvent;
 import com.xiaoningmeng.utils.AppUtils;
-import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.utils.PreferenceUtil;
 
 import org.litepal.crud.DataSupport;
@@ -80,7 +80,7 @@ public class UserAuth {
 		for (Cookie cookie : cookieList) {
 
 			boolean isCookieExpired = AppUtils.isCookieExpired(cookie);
-			DebugUtils.d("cookie.name = " + cookie.name() + ", cookie.value = " + cookie.value() + ", isCookieExpired = " + isCookieExpired);
+            Logger.d("cookie.name = " + cookie.name() + ", cookie.value = " + cookie.value() + ", isCookieExpired = " + isCookieExpired);
 
 			if (cookie.name().equals(cookieAl) && !isCookieExpired) {
 
@@ -156,8 +156,8 @@ public class UserAuth {
 				if (userList != null && userList.size() > 0) {
 					userInfo = userList.get(0);
 				} else {
-//					DebugUtils.d("getLoginUserInfo -------> userInfo = null");
-				}
+//					Logger.d("getLoginUserInfo -------> userInfo = null");
+                }
 			}
 		}
 		return userInfo;

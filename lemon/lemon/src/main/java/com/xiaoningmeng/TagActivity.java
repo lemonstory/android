@@ -15,6 +15,7 @@ import android.widget.ImageView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.orhanobut.logger.Logger;
 import com.xiaoningmeng.base.BaseActivity;
 import com.xiaoningmeng.bean.PlayingStory;
 import com.xiaoningmeng.bean.Special;
@@ -27,7 +28,6 @@ import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
-import com.xiaoningmeng.utils.DebugUtils;
 import com.xiaoningmeng.view.dialog.DrawableDialogLoading;
 
 import java.util.ArrayList;
@@ -151,7 +151,7 @@ public class TagActivity extends BaseActivity implements View.OnClickListener, P
                         isFirst = false;
                     }
                 } else {
-                    DebugUtils.e(response.toString());
+                    Logger.e(response.toString());
                 }
 
             }
@@ -159,7 +159,7 @@ public class TagActivity extends BaseActivity implements View.OnClickListener, P
             @Override
             public void onFailure(Call<JsonResponse<TagAblumList>> call, Throwable t) {
 
-                DebugUtils.e(t.toString());
+                Logger.e(t.toString());
             }
         });
     }

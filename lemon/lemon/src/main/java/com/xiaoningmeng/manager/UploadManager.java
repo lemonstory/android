@@ -3,6 +3,7 @@ package com.xiaoningmeng.manager;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 
+import com.orhanobut.logger.Logger;
 import com.xiaoningmeng.bean.AppInfo;
 import com.xiaoningmeng.bean.AudioDownLoad;
 import com.xiaoningmeng.bean.ListenerAlbum;
@@ -10,7 +11,6 @@ import com.xiaoningmeng.db.HistoryDao;
 import com.xiaoningmeng.download.DownLoadClientImpl;
 import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
-import com.xiaoningmeng.utils.DebugUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -96,13 +96,13 @@ public class UploadManager {
                         }
                         ).start();
                     } else {
-                        DebugUtils.e(response.toString());
+                        Logger.e(response.toString());
                     }
                 }
 
                 @Override
                 public void onFailure(Call<JsonResponse<String>> call, Throwable t) {
-                    DebugUtils.e(t.toString());
+                    Logger.e(t.toString());
                 }
             });
         }
@@ -152,14 +152,14 @@ public class UploadManager {
                         updateLocalDownloadRecrod(downloadArray);
                         updateLocalDownloadRecrod(historyArray);
                     } else {
-                        DebugUtils.e(response.toString());
+                        Logger.e(response.toString());
                     }
                 }
 
                 @Override
                 public void onFailure(Call<JsonResponse<String>> call, Throwable t) {
 
-                    DebugUtils.e(t.toString());
+                    Logger.e(t.toString());
                 }
             });
         }

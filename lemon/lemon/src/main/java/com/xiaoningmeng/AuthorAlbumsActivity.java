@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaoningmeng.adapter.AuthorAlbumsAdapter;
 import com.xiaoningmeng.base.BaseActivity;
@@ -35,7 +36,6 @@ import com.xiaoningmeng.http.LHttpRequest;
 import com.xiaoningmeng.manager.PlayWaveManager;
 import com.xiaoningmeng.player.PlayObserver;
 import com.xiaoningmeng.player.PlayerManager;
-import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.List;
 
@@ -214,7 +214,7 @@ public class AuthorAlbumsActivity extends BaseActivity implements BaseQuickAdapt
                     }
                 } else {
 
-                    DebugUtils.e(response.toString());
+                    Logger.e(response.toString());
                     isErr = true;
                     Toast.makeText(AuthorAlbumsActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
                     if (mCurrentCounter > 0) {
@@ -226,7 +226,7 @@ public class AuthorAlbumsActivity extends BaseActivity implements BaseQuickAdapt
             @Override
             public void onFailure(Call<JsonResponse<AuthorAlbums>> call, Throwable t) {
 
-                DebugUtils.e(t.toString());
+                Logger.e(t.toString());
                 isErr = true;
                 Toast.makeText(AuthorAlbumsActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
                 if (mCurrentCounter > 0) {
@@ -342,7 +342,7 @@ public class AuthorAlbumsActivity extends BaseActivity implements BaseQuickAdapt
                     @Override
                     public void onClick(View view) {
 
-                        DebugUtils.d("authorWikiUrl = " + authorWikiUrl);
+                        Logger.d("authorWikiUrl = " + authorWikiUrl);
                         Uri authorWikiUri = Uri.parse(authorWikiUrl);
                         Intent adIntent = new Intent();
                         adIntent.setData(authorWikiUri);

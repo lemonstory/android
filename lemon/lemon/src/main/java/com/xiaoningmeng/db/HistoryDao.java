@@ -3,12 +3,12 @@ package com.xiaoningmeng.db;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import com.orhanobut.logger.Logger;
 import com.xiaoningmeng.application.MyApplication;
 import com.xiaoningmeng.bean.AlbumInfo;
 import com.xiaoningmeng.bean.ListenerAlbum;
 import com.xiaoningmeng.bean.Story;
 import com.xiaoningmeng.event.HistoryEvent;
-import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +61,7 @@ public class HistoryDao {
 				return count > 0;
 			}
 		} catch (Exception e) {
-			DebugUtils.exception(e);
+			Logger.e(e.getMessage());
 		} finally {
 			dbhelper.close();
 		}
@@ -75,7 +75,7 @@ public class HistoryDao {
 				dbhelper.sdb.rawQuery("delete from " + DBHelper.TAB_STORY + " where albumid=?", new String[] {albumId});
 			}
 		} catch (Exception e) {
-			DebugUtils.exception(e);
+			Logger.e(e.getMessage());
 		} finally {
 			dbhelper.close();
 		}
@@ -94,7 +94,7 @@ public class HistoryDao {
 				dbhelper.sdb.update(DBHelper.TAB_HISTORY, values, "albumid=?", new String[]{listenerAlbum.getAlbumid()});
 			}
 		} catch (Exception e) {
-			DebugUtils.exception(e);
+			Logger.e(e.getMessage());
 		} finally {
 			dbhelper.close();
 		}
@@ -110,7 +110,7 @@ public class HistoryDao {
 				dbhelper.sdb.update(DBHelper.TAB_HISTORY, values, "albumid=?", new String[]{albumId});
 			}
 		} catch (Exception e) {
-			DebugUtils.exception(e);
+			Logger.e(e.getMessage());
 		} finally {
 			dbhelper.close();
 		}
@@ -125,7 +125,7 @@ public class HistoryDao {
 						albumInfo.getCover(),albumInfo.getFav(),albumInfo.getListennum(),albumInfo.getFavnum(),albumInfo.getCommentnum(),0});
 			}
 		} catch (Exception e) {
-			DebugUtils.exception(e);
+			Logger.e(e.getMessage());
 		} finally {
 			dbhelper.close();
 		}
@@ -139,7 +139,7 @@ public class HistoryDao {
 							new Object[] {story.getId(),ablumId,story.getTitle(),story.getIntro(),story.getTimes(),story.getFile_size(),story.getMediapath(),story.getPlaycover()});
 			}
 		} catch (Exception e) {
-			DebugUtils.exception(e);
+			Logger.e(e.getMessage());
 		} finally {
 			dbhelper.close();
 		}
@@ -160,7 +160,7 @@ public class HistoryDao {
 				}
 			}
 		}catch (Exception e) {
-			DebugUtils.exception(e);
+			Logger.e(e.getMessage());
 		} finally {
 			if (cursor != null && !cursor.isClosed()) {
 				cursor.close();
@@ -187,7 +187,7 @@ public class HistoryDao {
 				}
 			}
 		}catch (Exception e) {
-			DebugUtils.exception(e);
+			Logger.e(e.getMessage());
 		} finally {
 			if (cursor != null && !cursor.isClosed()) {
 				cursor.close();
@@ -210,7 +210,7 @@ public class HistoryDao {
 				}
 			}
 		}catch (Exception e) {
-			DebugUtils.exception(e);
+			Logger.e(e.getMessage());
 		} finally {
 			if (cursor != null && !cursor.isClosed()) {
 				cursor.close();

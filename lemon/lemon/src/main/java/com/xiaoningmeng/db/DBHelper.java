@@ -1,11 +1,11 @@
 package com.xiaoningmeng.db;
 
 
-import com.xiaoningmeng.utils.DebugUtils;
-
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.orhanobut.logger.Logger;
 
 public class DBHelper {
 
@@ -81,7 +81,7 @@ public class DBHelper {
 		} catch (Exception e) {
 			if (sdb != null)
 				sdb.close();
-			DebugUtils.exception(e);
+			Logger.e(e.getMessage());
 		}
 	}
 

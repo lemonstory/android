@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.orhanobut.logger.Logger;
 import com.xiaoningmeng.AlbumDetailActivity;
 import com.xiaoningmeng.R;
 import com.xiaoningmeng.adapter.AblumRecommendAdapter;
@@ -28,7 +29,6 @@ import com.xiaoningmeng.bean.AlbumRecommend;
 import com.xiaoningmeng.constant.Constant;
 import com.xiaoningmeng.http.JsonResponse;
 import com.xiaoningmeng.http.LHttpRequest;
-import com.xiaoningmeng.utils.DebugUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +74,7 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
-//        DebugUtils.d("AlbumRecommendFragment -- onCreate -- RUN!!!");
+//        Logger.d("AlbumRecommendFragment -- onCreate -- RUN!!!");
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             recommendUrl = getArguments().getString(ARG_RECOMMEND_URL);
@@ -86,8 +86,8 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-//        DebugUtils.d("AlbumRecommendFragment -- onCreateView -- RUN!!!");
-//        DebugUtils.d("AlbumRecommendFragment -- onCreateView -- isPrepared:" + isPrepared + " -- isVisible:" + getUserVisibleHint());
+//        Logger.d("AlbumRecommendFragment -- onCreateView -- RUN!!!");
+//        Logger.d("AlbumRecommendFragment -- onCreateView -- isPrepared:" + isPrepared + " -- isVisible:" + getUserVisibleHint());
         View contentView = View.inflate(getActivity(), R.layout.fragment_album_recommend, null);
         mContext = this.getActivity();
         mRecyclerView = (RecyclerView) contentView.findViewById(R.id.id_stickynavlayout_innerscrollview);
@@ -107,7 +107,7 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
     @Override
     public void onAttach(Context context) {
 
-//        DebugUtils.d("AlbumRecommendFragment -- onAttach -- RUN!!!");
+//        Logger.d("AlbumRecommendFragment -- onAttach -- RUN!!!");
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
@@ -120,7 +120,7 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
     @Override
     public void onDetach() {
 
-//        DebugUtils.d("AlbumRecommendFragment -- onDetach -- RUN!!!");
+//        Logger.d("AlbumRecommendFragment -- onDetach -- RUN!!!");
         super.onDetach();
         mListener = null;
     }
@@ -140,7 +140,7 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
                     @Override
                     public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 
-//                        DebugUtils.d("AlbumRecommendFragment -- SimpleOnItemChildClick -- RUN!");
+//                        Logger.d("AlbumRecommendFragment -- SimpleOnItemChildClick -- RUN!");
                     }
 
                     @Override
@@ -153,7 +153,7 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
                     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
                         super.onItemClick(adapter, view, position);
-//                        DebugUtils.d("AlbumRecommendFragment -- onItemClick -- RUN!");
+//                        Logger.d("AlbumRecommendFragment -- onItemClick -- RUN!");
                         AlbumInfo item = (AlbumInfo) adapter.getData().get(position);
                         Intent i = new Intent(getActivity(), AlbumDetailActivity.class);
                         AlbumInfo albumInfo = new AlbumInfo(
@@ -219,7 +219,7 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
                             mAdapter.loadMoreEnd();
                         }
                     } else {
-                        DebugUtils.e(response.toString());
+                        Logger.e(response.toString());
                     }
                 }
 
@@ -227,7 +227,7 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
                 @Override
                 public void onFailure(Call<JsonResponse<AlbumRecommend>> call, Throwable t) {
 
-                    DebugUtils.e(t.toString());
+                    Logger.e(t.toString());
                     isLoadData = true;
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
@@ -240,7 +240,7 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
     @Override
     public void onLoadMoreRequested() {
 
-//        DebugUtils.d("AlbumRecommendFragment -- onLoadMoreRequested -- RUN!!!");
+//        Logger.d("AlbumRecommendFragment -- onLoadMoreRequested -- RUN!!!");
         mRecyclerView.post(new Runnable() {
             @Override
             public void run() {
@@ -266,8 +266,8 @@ public class AlbumRecommendFragment extends LazyFragment implements SwipeRefresh
     @Override
     protected void lazyLoad() {
 
-        DebugUtils.d("AlbumRecommendFragment -- lazyLoad -- RUN!!!");
-//        DebugUtils.d("AlbumRecommendFragment -- lazyLoad -- isPrepared:" + isPrepared + " -- isVisible:" + isVisible);
+        Logger.d("AlbumRecommendFragment -- lazyLoad -- RUN!!!");
+//        Logger.d("AlbumRecommendFragment -- lazyLoad -- isPrepared:" + isPrepared + " -- isVisible:" + isVisible);
         if (!isPrepared || !isVisible) {
             return;
         }
